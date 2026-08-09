@@ -67,13 +67,16 @@
 
 实际执行先从许可清楚的 MIT 项目建立安全基线，再进入 P0 架构研究，详见 [学习路线](LEARNING-ROADMAP.md)。
 
+全部 12 个上游的本地固定版本、原始能力样例画廊和运行流程位于 [研究实验室](lab/README.md)。
+
 ## 研究文档
 
 - [UPSTREAM.md](UPSTREAM.md)：主上游快照、12 个目标仓库许可与使用边界；
 - [INVENTORY.md](INVENTORY.md)：原始 14 条到 12 个真实仓库的映射和逐库技术卡；
 - [TECHNICAL-MAP.md](TECHNICAL-MAP.md)：统一技术分层、中间表示、后端选择和 QA 指标；
 - [LEARNING-ROADMAP.md](LEARNING-ROADMAP.md)：分阶段最小实验、产出和验收标准；
-- [RESEARCH.md](RESEARCH.md)：研究问题、证据、决定、开放问题与后续实验日志。
+- [RESEARCH.md](RESEARCH.md)：研究问题、证据、决定、开放问题与后续实验日志；
+- [lab/README.md](lab/README.md)：12 个上游的本地固定检出、原始样例画廊、运行手册与实验记录模板。
 
 ## 当前进度
 
@@ -82,6 +85,8 @@
 - [x] 核对许可证、主要文件树和渲染后端；
 - [x] 发现并记录 `gathered-scenes-zine-skill` 当前安装说明失效；
 - [x] 建立技术分层、优先级与分阶段学习路线；
+- [x] 建立研究实验室并验证 12/12 个上游固定检出；
+- [x] 建立固定提交上的原始样例能力画廊；
 - [ ] 补录你此前已经研究过的子库及已有产出；
 - [ ] 建立同源照片受控评测集；
 - [ ] 执行第一阶段 MIT 项目基线实验；

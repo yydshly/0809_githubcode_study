@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "retrievedDate": "2026-08-09",
+  "catalog": {
+    "repository": "tluy/skill-zine-summary",
+    "url": "https://github.com/tluy/skill-zine-summary.git",
+    "commit": "2c65c251bc6909f077ae9974e3251d164a07c924"
+  },
+  "sources": [
+    {
+      "slug": "daily-photo-playground",
+      "repository": "luji12/daily-photo-playground",
+      "url": "https://github.com/luji12/daily-photo-playground.git",
+      "currentCommit": "b987bbb205626f2f5fca47c72a8a05c5863f8c6b",
+      "researchCommit": "b987bbb205626f2f5fca47c72a8a05c5863f8c6b",
+      "licenseClass": "none",
+      "executionPolicy": "read-only"
+    },
+    {
+      "slug": "dyy-photo-deconstruct",
+      "repository": "121dyy/dyy_photo_deconstruct",
+      "url": "https://github.com/121dyy/dyy_photo_deconstruct.git",
+      "currentCommit": "42e637e8875dafeb4ccf2ab5a738e4dca41c8f30",
+      "researchCommit": "42e637e8875dafeb4ccf2ab5a738e4dca41c8f30",
+      "licenseClass": "none",
+      "executionPolicy": "read-only"
+    },
+    {
+      "slug": "travel-photo-abstraction",
+      "repository": "Evianis/travel-photo-abstraction",
+      "url": "https://github.com/Evianis/travel-photo-abstraction.git",
+      "currentCommit": "96e387635edf05bc7e798428a5db11dbf48f46c1",
+      "researchCommit": "96e387635edf05bc7e798428a5db11dbf48f46c1",
+      "licenseClass": "custom-source-available",
+      "executionPolicy": "original-unmodified-use-only"
+    },
+    {
+      "slug": "gathered-scenes-zine-skill",
+      "repository": "Zeejay0/gathered-scenes-zine-skill",
+      "url": "https://github.com/Zeejay0/gathered-scenes-zine-skill.git",
+      "currentCommit": "598ce3c1173944f64b96ede323809ed6905ab345",
+      "researchCommit": "b14cabcd0e6ff5aba503d837fcfdb0c9a6970e2e",
+      "licenseClass": "MIT-at-research-commit",
+      "executionPolicy": "historical-read-and-test"
+    },
+    {
+      "slug": "gc-minimal-zine-poster",
+      "repository": "LiamGvchi/gc-minimal-zine-poster",
+      "url": "https://github.com/LiamGvchi/gc-minimal-zine-poster.git",
+      "currentCommit": "4cb0396ad4e834019f753b37e1c4f415f5e02026",
+      "researchCommit": "4cb0396ad4e834019f753b37e1c4f415f5e02026",
+      "licenseClass": "MIT",
+      "executionPolicy": "baseline-test-allowed"
+    },
+    {
+      "slug": "photo-revival",
+      "repository": "dacnay816y62-hub/photo-revival",
+      "url": "https://github.com/dacnay816y62-hub/photo-revival.git",
+      "currentCommit": "ca4c3c6c0f812355bd6d815d8a78652db801b7f1",
+      "researchCommit": "ca4c3c6c0f812355bd6d815d8a78652db801b7f1",
+      "licenseClass": "MIT",
+      "executionPolicy": "baseline-test-allowed"
+    },
+    {
+      "slug": "pixel-style-poster-skill",
+      "repository": "v92388375-gif/pixel-style-poster-skill",
+      "url": "https://github.com/v92388375-gif/pixel-style-poster-skill.git",
+      "currentCommit": "b93066b52fc2f32bf9ec3a9a6d379b4088d6fd7b",
+      "researchCommit": "b93066b52fc2f32bf9ec3a9a6d379b4088d6fd7b",
+      "licenseClass": "MIT",
+      "executionPolicy": "baseline-test-allowed"
+    },
+    {
+      "slug": "photo-relic-editorial",
+      "repository": "wnby/photo-relic-editorial",
+      "url": "https://github.com/wnby/photo-relic-editorial.git",
+      "currentCommit": "2232da16afddc7940e2e2f280bfb85aa62da1bae",
+      "researchCommit": "2232da16afddc7940e2e2f280bfb85aa62da1bae",
+      "licenseClass": "MIT",
+      "executionPolicy": "baseline-test-allowed"
+    },
+    {
+      "slug": "photo-distill",
+      "repository": "yangcodingmaster/photo-distill",
+      "url": "https://github.com/yangcodingmaster/photo-distill.git",
+      "currentCommit": "e2708aeb7db4344dfb5577b5f12bcf57ded541ec",
+      "researchCommit": "e2708aeb7db4344dfb5577b5f12bcf57ded541ec",
+      "licenseClass": "none",
+      "executionPolicy": "read-only"
+    },
+    {
+      "slug": "poetic-line-zine-poster",
+      "repository": "zhu930824/poetic-line-zine-poster",
+      "url": "https://github.com/zhu930824/poetic-line-zine-poster.git",
+      "currentCommit": "61514e0652de45f30c74b01bc9a11cfbf25b5c52",
+      "researchCommit": "61514e0652de45f30c74b01bc9a11cfbf25b5c52",
+      "licenseClass": "none",
+      "executionPolicy": "read-only"
+    },
+    {
+      "slug": "photo-abstract-editorial",
+      "repository": "ZzzLc0405/photo-abstract-editorial",
+      "url": "https://github.com/ZzzLc0405/photo-abstract-editorial.git",
+      "currentCommit": "dada5237450d882168c22bae75119e8d24e784b5",
+      "researchCommit": "dada5237450d882168c22bae75119e8d24e784b5",
+      "licenseClass": "none",
+      "executionPolicy": "read-only"
+    },
+    {
+      "slug": "photo-to-zine-postcard",
+      "repository": "Whiplashzeb/photo-to-zine-postcard",
+      "url": "https://github.com/Whiplashzeb/photo-to-zine-postcard.git",
+      "currentCommit": "0091403bccb219d1be78c5be8552de29a6446f0a",
+      "researchCommit": "0091403bccb219d1be78c5be8552de29a6446f0a",
+      "licenseClass": "MIT",
+      "executionPolicy": "baseline-test-allowed"
+    }
+  ]
+}

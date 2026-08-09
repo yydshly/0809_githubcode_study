@@ -1,0 +1,51 @@
+experiment_id: zine-YYYYMMDD-NN
+status: planned
+
+source:
+  repository: owner/name
+  commit: full-sha
+  license_class: MIT | custom | none
+  execution_policy: baseline-test-allowed | original-unmodified-use-only | historical-read-and-test | read-only
+
+input:
+  artifact: repo-path-or-access-controlled-uri
+  sha256: required
+  rights: owned | synthetic | explicitly-authorized
+  sensitive_metadata_removed: true
+
+runtime:
+  codex: version
+  image_model: name-or-na
+  python: version-or-na
+  pillow: version-or-na
+  browser: version-or-na
+  fonts: []
+
+execution:
+  command_or_workflow: exact-command-or-steps
+  prompt_artifact: repo-path-or-access-controlled-uri
+  parameters: {}
+  generation_budget: 2
+  native_canvas: width-x-height
+
+validation:
+  profile: versioned-profile-path
+  measurements: {}
+  result: pass | fail | blocked
+  failure_reason: null
+
+rights:
+  upstream_assets_license: unknown
+  model_terms_checked_at: YYYY-MM-DD
+  output_rights_status: unknown
+  redistribution_allowed: unknown
+  commercial_use_allowed: unknown
+  attribution_requirements: []
+
+artifacts:
+  candidates: []
+  selected_output: null
+  selected_output_sha256: null
+  retention: location-and-period
+
+notes: null

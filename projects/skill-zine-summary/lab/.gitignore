@@ -1,0 +1,8 @@
+# Local upstream checkouts. These may contain nested .git directories and
+# third-party material that must not be committed into this study repository.
+sources/
+
+# Generated or rights-sensitive experiment artifacts.
+outputs/
+cache/
+inputs/private/
