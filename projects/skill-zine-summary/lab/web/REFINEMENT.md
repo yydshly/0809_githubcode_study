@@ -19,7 +19,13 @@
 | 网页关联 | 每份文档保留至少一个对应研究网页入口 | pass |
 | 内容边界 | 不新增图片、实验、安装或生产验证 | pass |
 | GitHub 导出 | 36 份 HTML，包含 `/documents/index.html` | pass |
-| 线上发布 | GitHub Pages 与 Sites 更新后核验 | pending |
+| 线上发布 | GitHub Pages 与 Sites 均完成更新 | pass |
+
+### Revision 17 completion evidence
+
+- GitHub Pages workflow `31479472261` 已成功发布 36 份 HTML；`/documents/` 包含 20 张在线文档卡与 20 条 GitHub 全文入口。
+- Sites Version 5 已成功部署相同 `/documents` 路由；本轮复用原有研究图片发布副本，没有新增、替换或重新生成任何研究图。
+- 25/25 页面与数据回归、lint、GitHub 静态导出及文档数量/链接检查均通过。
 
 ## Revision 16：GitHub Pages 完整研究站与子链接修复
 
