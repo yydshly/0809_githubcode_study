@@ -31,6 +31,12 @@ test("catalog renders all 13 independent research targets", async () => {
   assert.match(html, /property="og:image" content="http:\/\/localhost:4317\/og\.png"/);
   assert.match(html, /研究站封面/);
   assert.match(html, /src="\/og\.png"/);
+  assert.match(html, /COMPLETE RESEARCH ARCHIVE/);
+  assert.match(html, /以前的研究都还在/);
+  assert.match(html, /13(?:<!-- -->)?<\/dt><dd>个独立 Skill 深度页/);
+  assert.match(html, /127(?:<!-- -->)?<\/dt><dd>组完整图片 SOURCE/);
+  assert.match(html, /131(?:<!-- -->)?<\/dt><dd>项效果证据/);
+  assert.match(html, /href="\/labs\/multi-source#skill-selector"/);
   const cards = (html.match(/<article class="skill-card"/g) ?? []).length;
   assert.equal(cards, 13);
 });
@@ -448,6 +454,12 @@ test("research atlas connects every core web surface, Skill, and first-party doc
   assert.match(html, /projects\/skill-zine-summary\/lab\/web\/REVISION12-PRODUCT-SYSTEMS\.md/);
   assert.match(html, /href="\/comparison#photo-distill"/);
   assert.match(html, /href="\/labs\/multi-source\?skill=photo-relic-editorial#selected-skill"/);
+  assert.match(html, /COMPLETE EVIDENCE LEDGER/);
+  assert.match(html, /以前的研究没有删除/);
+  assert.match(html, /<strong>127<\/strong> 组完整图片配对/);
+  assert.match(html, /<strong>57<\/strong> 个来源路径/);
+  assert.match(html, /<strong>129<\/strong> 个静态效果/);
+  assert.match(html, /<strong>131<\/strong> 项总效果证据/);
   assert.equal((html.match(/href="https:\/\/yydshly\.github\.io\/0809_githubcode_study\/start\/"/g) ?? []).length, 1);
   assert.equal((html.match(/<h1(?:\s[^>]*)?>/g) ?? []).length, 1);
 });
@@ -479,6 +491,9 @@ test("multi-source lab reports honest totals and only expands the selected Skill
   assert.match(html, /13(?:<!-- -->)? 组独立原图扩样/);
   assert.match(html, /没有成对原图的 68 张上游参考图不计入 (?:<!-- -->)?127(?:<!-- -->)? 组/);
   assert.equal((html.match(/<a[^>]+data-lab-skill-selector=/g) ?? []).length, 13);
+  assert.match(html, /id="skill-selector"/);
+  assert.match(html, /当前默认只展开第一个 Skill/);
+  assert.match(html, /其他 12 个 Skill 和以前的研究都在下方选择器中/);
   assert.match(html, /data-selected-skill="daily-photo-playground"[^>]+data-pair-count="10"[^>]+data-unique-source-count="8"/);
   assert.equal((html.match(/<article[^>]+data-lab-case=/g) ?? []).length, 10);
   assert.equal((html.match(/<article[^>]+data-lab-case=[^>]+data-cohort="product-system"/g) ?? []).length, 1);

@@ -1,5 +1,32 @@
 # Immersive research refinement
 
+## Revision 14：公开站完整研究入口修复
+
+- Entry mode: repair-led.
+- Request revision: 2026-08-11；公开站已部署，但用户反馈“以前很多研究看不到了”。
+- Target user and context: 已经参与过多轮研究，希望在公开站快速确认旧研究没有被替换，并能直接进入 13 个 Skill、127 组 SOURCE→EFFECT、131 项效果证据和研究文档的使用者。
+- Desired first impression: 第一屏明确告诉读者“完整研究仍在”，并把总档案、批量实验和 13 个 Skill 入口作为主路径，而不是让内容分散在多个路由后看似消失。
+- Visual ambition: Functional editorial repair；保留现有纸面、墨色、信号红和酸黄色系统。
+- Experience architecture: Editorial Flow；不新建第二套研究内容，只修复首页、研究索引和多原图实验室的入口说明。
+- Information constraints: 不夸大计数；使用现有数据源显示 13 个研究目标、127 组图片配对、57 个来源路径、129 个静态效果、131 项总效果证据和 20 份文档。明确多原图实验室一次只展开一个 Skill 是性能策略，不代表其他研究缺失。
+- Operation constraints: 入口必须直达 `/research`、`/labs/multi-source#skill-selector` 与 13 个现有详情页；不复制图片、不删除旧页面、不改变实验数据。
+- Environment constraints: 本地 `http://localhost:4317` 与公开站 `https://skill-zine-private-lab.yydshly.chatgpt.site/`；公开站图片继续懒加载，上游样例保留固定提交与来源链接。
+- Primary journey: 打开首页 → 看到完整研究档案数量 → 进入全部研究索引或批量实验室 → 选择任一 Skill → 查看旧有上游、扩展、跨题材、产品应用和技术边界。
+- Autonomy authorization: 用户明确指出公开站研究不可见；本轮仅修复现有站点的可发现性与说明，不扩大研究范围。
+- Observable completion criteria: 首页首屏附近出现完整研究总账与直达入口；研究索引明确显示完整档案口径；多原图实验室明确说明默认只展开一个 Skill 并提供跳转到 13 项选择器；本地与公开代表路由内容数量一致；构建、测试、lint 与桌面/移动浏览器检查通过。
+
+### Revision 14 baseline and coverage
+
+| Coverage item | Baseline evidence | Target | Status | Next action |
+| --- | --- | --- | --- | --- |
+| Public/local parity | `/research` 与 `/labs/multi-source` 的 Skill 链接、正文长度、图片数和 Revision 10–12 标记一致 | 保持数据与路由不变 | pass | — |
+| Deep-page assets | `photo-relic-editorial#upstream` 的 6 张固定提交样例滚动后全部加载；详情页章节完整 | 保持懒加载与全图显示 | pass | — |
+| Homepage discoverability | 首页有 13 个详情卡，但首要按钮未指向完整总索引，未显示 127／57／129／131 总账 | 增加完整档案摘要与入口 | continue | 修改首页 |
+| Research-index clarity | `/research` 有 13 Skill、7 类网页和 20 文档，但首屏只显示 12／13／7／20 | 增加批量证据总账与“旧研究仍保留”说明 | continue | 修改研究索引 |
+| Lab selection clarity | `/labs/multi-source` 默认展开第一个 Skill；一次只展开一个的说明位于首屏以下 | 首屏说明性能策略并直达 13 项选择器 | continue | 修改实验室 |
+| Cross-surface | 当前桌面首屏无溢出；新入口将进入共享响应式布局 | 桌面与窄屏入口可读、可点击 | continue | 浏览器复核 |
+| Delivery | 当前公开版本可访问但入口语义不足 | build/test/lint、重新部署、公开站复核 | continue | 完成实现后执行 |
+
 ## Revision 13：从样例库到 Skill 选择工作台
 
 - Entry mode: revision-led implementation.

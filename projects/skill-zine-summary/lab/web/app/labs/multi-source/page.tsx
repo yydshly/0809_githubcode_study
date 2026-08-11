@@ -38,7 +38,11 @@ export default async function MultiSourceLabPage({ searchParams }: MultiSourcePa
         <div className="multi-source-hero__intro">
           <p>这里不是再做一次“同一张图横评”。它把此前分散在 13 个页面中的证据统一起来，并连续三轮为每个 Skill 增加不复用的独立输入。</p>
           <p>Revision 12 不停在一张漂亮 EFFECT：每个 Skill 都新增一个题材，并把同一效果继续处理成不少于三种产品表面、一个使用环境和四步真实生产路径。</p>
-          <Link className="button" href="/research">先看研究总索引</Link>
+          <p className="multi-source-hero__visibility"><strong>当前默认只展开第一个 Skill。</strong>其他 12 个 Skill 和以前的研究都在下方选择器中；这是为了控制图片加载量，不是内容被删除。</p>
+          <div className="hero-actions">
+            <a className="button button--dark" href="#skill-selector">选择全部 13 个 Skill</a>
+            <Link className="button" href="/research">先看完整研究总索引</Link>
+          </div>
         </div>
       </section>
 
@@ -66,7 +70,7 @@ export default async function MultiSourceLabPage({ searchParams }: MultiSourcePa
         <p className="multi-source-accounting__note">没有成对原图的 68 张上游参考图不计入 {multiSourceStats.imagePairCount} 组；{multiSourceStats.productSystemPreviewCount} 个产品系统数字预演复用既有 EFFECT，也不重复计为新效果。2 个文字输入与 2 个实时交互没有被包装成图片前后对照。</p>
       </section>
 
-      <section className="multi-source-selector" aria-labelledby="skill-selector-title">
+      <section className="multi-source-selector" aria-labelledby="skill-selector-title" id="skill-selector">
         <header>
           <div><p className="eyebrow">CHOOSE ONE SKILL · LOAD ONE EVIDENCE SET</p><h2 id="skill-selector-title">按 Skill 选择批量证据</h2></div>
           <p>为了避免一次加载约 400 MB 的研究资产，页面一次只展开一个 Skill。数量是效果对数量；“来源”按图片路径去重。</p>

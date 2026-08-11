@@ -1094,6 +1094,26 @@ main { min-height: 100vh; }
   .case-context__products { width: 88%; gap: 8px; }
 }
 
+/* Revision 14: make the complete archive visible before users enter a single route. */
+.archive-visibility { display: grid; grid-template-columns: 1.15fr .85fr; border-bottom: 1px solid var(--ink); background: #e8e1d4; }
+.archive-visibility__copy { padding: 62px 34px 68px; }
+.archive-visibility__copy h2,
+.research-archive-notice h2 { max-width: 820px; margin: 16px 0 24px; font: 400 clamp(38px, 5vw, 72px)/.98 Georgia, "Songti SC", serif; letter-spacing: -.04em; }
+.archive-visibility__copy > p:last-of-type,
+.research-archive-notice__body > p { max-width: 780px; margin: 0 0 28px; font-size: 14px; line-height: 1.78; }
+.archive-visibility__stats { margin: 0; display: grid; grid-template-columns: 1fr 1fr; border-left: 1px solid var(--ink); }
+.archive-visibility__stats > div { min-height: 210px; padding: 26px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.archive-visibility__stats > div:nth-child(2n) { border-right: 0; }
+.archive-visibility__stats > div:nth-last-child(-n+2) { border-bottom: 0; }
+.archive-visibility__stats dt { color: var(--signal); font: 400 58px/1 Georgia, serif; }
+.archive-visibility__stats dd { max-width: 210px; margin: 0; font-size: 12px; line-height: 1.5; }
+
+.research-archive-notice { padding: 58px 34px 64px; display: grid; grid-template-columns: .95fr 1.05fr; gap: 56px; align-items: end; border-bottom: 1px solid var(--ink); background: var(--acid); }
+.research-archive-notice__body { max-width: 700px; justify-self: end; }
+.research-archive-notice__body strong { font-family: Georgia, "Songti SC", serif; font-size: 1.12em; }
+.multi-source-hero__visibility { padding: 14px 16px; border: 1px solid var(--ink); background: var(--acid); }
+#skill-selector { scroll-margin-top: 16px; }
+
 /* Revision 9: research atlas and multi-source evidence lab. */
 .research-atlas-hero,
 .multi-source-hero { min-height: 560px; padding: 64px 34px 48px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 56px; align-items: end; border-bottom: 1px solid var(--ink); }
@@ -1266,6 +1286,10 @@ main { min-height: 100vh; }
 }
 
 @media (max-width: 800px) {
+  .archive-visibility,
+  .research-archive-notice { grid-template-columns: 1fr; }
+  .archive-visibility__stats { border-top: 1px solid var(--ink); border-left: 0; }
+  .research-archive-notice__body { justify-self: start; }
   .research-atlas-hero,
   .multi-source-hero { min-height: 0; grid-template-columns: 1fr; align-items: start; }
   .research-atlas-hero__intro,
@@ -1298,6 +1322,10 @@ main { min-height: 100vh; }
 }
 
 @media (max-width: 720px) {
+  .archive-visibility__copy,
+  .research-archive-notice { padding: 48px 14px 54px; }
+  .archive-visibility__stats > div { min-height: 150px; padding: 18px 14px; }
+  .archive-visibility__stats dt { font-size: 46px; }
   .research-atlas-hero,
   .multi-source-hero,
   .research-atlas-section,

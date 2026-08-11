@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader } from "@/app/components/SiteHeader";
+import { multiSourceStats } from "@/app/data/multi-source-experiments";
 import {
   researchCatalogStats,
   researchDocuments,
@@ -25,7 +26,7 @@ export default function ResearchIndexPage() {
           <h1>先找到证据，<br />再选择研究深度。</h1>
         </div>
         <div className="research-atlas-hero__intro">
-          <p>这是整个子项目的统一入口。它把视觉目录、Skill 选择工作台、13 个独立页面、统一原图横评、多原图批量实验、Revision 7 报告，以及 Revision 10–13 的扩样、产品系统与选择文档连接起来。</p>
+          <p><strong>以前的研究没有删除。</strong>这是整个子项目的统一入口，把视觉目录、Skill 选择工作台、13 个独立页面、统一原图横评、多原图批量实验、Revision 7 报告，以及 Revision 10–13 的扩样、产品系统与选择文档连接起来。</p>
           <p><strong>数字口径：</strong>汇总表最终对应 12 个唯一上游仓库；其中一个历史仓库包含两种不同的 Skill 契约，所以网页按 13 个研究目标展开。</p>
           <a className="button button--dark" href="https://yydshly.github.io/0809_githubcode_study/start/" rel="noreferrer" target="_blank">新人从这里开始 ↗</a>
         </div>
@@ -36,6 +37,20 @@ export default function ResearchIndexPage() {
         <div><strong>{researchCatalogStats.skillTargets}</strong><span>个独立 Skill 研究目标</span></div>
         <div><strong>{researchCatalogStats.webSurfaces}</strong><span>类核心网页入口</span></div>
         <div><strong>{researchCatalogStats.documents}</strong><span>份核心研究文档</span></div>
+      </section>
+
+      <section className="research-archive-notice" aria-labelledby="research-archive-notice-title">
+        <div>
+          <p className="eyebrow">COMPLETE EVIDENCE LEDGER</p>
+          <h2 id="research-archive-notice-title">完整研究不是一张页面，<br />而是一组相互关联的证据入口。</h2>
+        </div>
+        <div className="research-archive-notice__body">
+          <p>批量实验现有 <strong>{multiSourceStats.imagePairCount}</strong> 组完整图片配对、<strong>{multiSourceStats.uniqueSourcePathCount}</strong> 个来源路径、<strong>{multiSourceStats.staticEffectCount}</strong> 个静态效果和 <strong>{multiSourceStats.allEffectEvidenceCount}</strong> 项总效果证据。下方 13 张 Skill 卡分别直达详情、横评、批量实验、结论和上游仓库。</p>
+          <div className="hero-actions">
+            <Link className="button button--dark" href="/labs/multi-source#skill-selector">查看全部批量实验入口</Link>
+            <Link className="button" href="/#research-index">查看 13 个视觉目录</Link>
+          </div>
+        </div>
       </section>
 
       <section className="research-atlas-section" aria-labelledby="route-by-question-title">
