@@ -67,6 +67,7 @@ const coreRoutes = [
   ["/", ""],
   ["/skills", "skills"],
   ["/research", "research"],
+  ["/documents", "documents"],
   ["/choose", "choose"],
   ["/comparison", "comparison"],
   ["/labs/multi-source", "labs/multi-source"],

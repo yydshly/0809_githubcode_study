@@ -16,7 +16,7 @@ function getActiveNavigationKey(pathname: string) {
   const normalizedPathname = pathname.replace(/^\/0809_githubcode_study(?=\/|$)/, "") || "/";
   if (normalizedPathname === "/") return "home";
   if (normalizedPathname === "/skills" || normalizedPathname.startsWith("/skills/")) return "skills";
-  if (normalizedPathname === "/research" || normalizedPathname.startsWith("/reports/")) return "research";
+  if (normalizedPathname === "/research" || normalizedPathname.startsWith("/reports/") || normalizedPathname.startsWith("/documents")) return "research";
   if (normalizedPathname === "/choose" || normalizedPathname.startsWith("/choose/")) return "choose";
   if (normalizedPathname === "/comparison" || normalizedPathname.startsWith("/comparison/")) return "comparison";
   if (normalizedPathname === "/labs/multi-source" || normalizedPathname.startsWith("/labs/multi-source/")) return "multi-source";

@@ -20,13 +20,14 @@ const slugs = [...skillsSource.matchAll(/^\s+slug: "([^"]+)",$/gm)].map((match) 
 if (slugs.length !== 13 || new Set(slugs).size !== 13) throw new Error("Skill slug contract failed");
 
 const htmlFiles = await collectHtml(outputRoot);
-if (htmlFiles.length !== 35) throw new Error(`Expected 35 HTML files, received ${htmlFiles.length}`);
+if (htmlFiles.length !== 36) throw new Error(`Expected 36 HTML files, received ${htmlFiles.length}`);
 
 for (const slug of slugs) {
   await access(path.join(outputRoot, "skills", slug, "index.html"));
   await access(path.join(outputRoot, "labs", "multi-source", slug, "index.html"));
 }
 await access(path.join(outputRoot, "start", "index.html"));
+await access(path.join(outputRoot, "documents", "index.html"));
 await access(path.join(outputRoot, ".nojekyll"));
 
 for (const file of htmlFiles) {
@@ -40,6 +41,14 @@ for (const file of htmlFiles) {
 const directoryHtml = await readFile(path.join(outputRoot, "skills", "index.html"), "utf8");
 if ((directoryHtml.match(/<article[^>]+data-skill-directory=/g) ?? []).length !== 13) {
   throw new Error("GitHub Pages directory does not expose 13 Skill cards");
+}
+
+const documentsHtml = await readFile(path.join(outputRoot, "documents", "index.html"), "utf8");
+if ((documentsHtml.match(/data-online-document=/g) ?? []).length !== 20) {
+  throw new Error("GitHub Pages document center does not expose 20 documents");
+}
+if ((documentsHtml.match(/<a href="https:\/\/github\.com\/yydshly\/0809_githubcode_study\/blob\/main\/[^"]+"[^>]*>在线阅读全文 ↗<\/a>/g) ?? []).length !== 20) {
+  throw new Error("GitHub Pages document center does not link all documents to GitHub");
 }
 if (!directoryHtml.includes(`href="${basePath}/skills/daily-photo-playground"`)) {
   throw new Error("GitHub Pages Skill child link was not prefixed");

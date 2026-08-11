@@ -1,5 +1,26 @@
 # Immersive research refinement
 
+## Revision 17：在线文档中心
+
+- Entry mode: scope-reduction-led.
+- Request revision: 2026-08-11；用户明确不需要继续补上游安装、真实运行或生产验证，只要求把现有研究文档在线梳理和关联。
+- Scope: 不新增 Skill、SOURCE、EFFECT、产品预演或实验结论；只新增 `/documents`，整理现有 20 份一方 Markdown，并为每份文档提供 GitHub 在线全文与对应研究网页入口。
+- Information architecture: 文档按“入口与范围 / 来源与方法 / 实验运行 / 结果与维护”四组展示，并提供“第一次理解项目 / 核对来源与许可 / 继续一次实验 / 复盘各轮结果”四条阅读路径。
+- Navigation: 不扩大六项主导航；`/documents` 归入“研究总索引”状态，只从 `/research` 与文档说明进入。
+- Publishing: GitHub Pages 静态导出新增 `/documents/`；Sites 使用同一路由与数据。文档全文继续由 GitHub 原生 Markdown 页面呈现，研究站负责梳理和关联。
+
+### Revision 17 coverage
+
+| Coverage item | Target | Status |
+| --- | --- | --- |
+| 文档数量 | 恰好 20 份一方研究文档 | pass |
+| 在线全文 | 每份文档有唯一 GitHub `blob/main` 阅读入口 | pass |
+| 阅读结构 | 4 个分组与 4 条任务导向阅读路径 | pass |
+| 网页关联 | 每份文档保留至少一个对应研究网页入口 | pass |
+| 内容边界 | 不新增图片、实验、安装或生产验证 | pass |
+| GitHub 导出 | 36 份 HTML，包含 `/documents/index.html` | pass |
+| 线上发布 | GitHub Pages 与 Sites 更新后核验 | pending |
+
 ## Revision 16：GitHub Pages 完整研究站与子链接修复
 
 - Entry mode: deployment-repair-led.

@@ -9,6 +9,7 @@
 - [完整公开研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/)：13 个 Skill 详情、统一横评、多原图实验、选型器、报告与完整本地研究效果；
 - [本地 Web 研究入口 `/research`](http://localhost:4317/research)：从浏览器进入 Skill 选择器、单 Skill、统一原图横评、多原图实验室和 Revision 7 报告；
 - [13 个 Skill 直接目录 `/skills`](http://localhost:4317/skills)：直接查看全部独立研究页，不需要从首页长页面向下寻找；
+- [在线文档中心](https://yydshly.github.io/0809_githubcode_study/documents/)：按入口、来源、实验和结果整理 20 份核心 Markdown，并与网页证据互相跳转；
 - [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/)：不加载样例图库，先理解 13 个 Skill 的路线、输入、失败与证据边界；
 - [Skill 选择器 `/choose`](http://localhost:4317/choose)：从用途、真实性、技术路径和产品化形态反选 13 个 Skill，再直达对应 SOURCE → EFFECT 证据；
 - [多原图实验室 `/labs/multi-source`](http://localhost:4317/labs/multi-source)：按 Skill 汇集现有完整 SOURCE → EFFECT 证据，理解换题材后的能力、场景与边界；

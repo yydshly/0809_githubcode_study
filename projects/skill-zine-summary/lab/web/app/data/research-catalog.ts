@@ -21,6 +21,12 @@ export type ResearchDocument = {
   relatedRoutes: readonly { label: string; href: string }[];
 };
 
+const githubRepositoryBlobBase = "https://github.com/yydshly/0809_githubcode_study/blob/main/";
+
+export function onlineDocumentHref(repositoryPath: string) {
+  return `${githubRepositoryBlobBase}${repositoryPath.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 export const researchSurfaces: readonly ResearchSurface[] = [
   {
     id: "research-atlas",

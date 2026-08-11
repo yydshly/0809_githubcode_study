@@ -7,6 +7,7 @@ import {
   researchDocuments,
   researchSurfaces,
   skillResearchLinks,
+  onlineDocumentHref,
 } from "@/app/data/research-catalog";
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default function ResearchIndexPage() {
           <div className="hero-actions">
             <Link className="button button--dark" href="/labs/multi-source#skill-selector">查看全部批量实验入口</Link>
             <Link className="button" href="/skills">打开 13 个独立研究页</Link>
+            <Link className="button" href="/documents">在线阅读研究文档</Link>
           </div>
         </div>
       </section>
@@ -115,7 +117,7 @@ export default function ResearchIndexPage() {
       <section className="research-atlas-section research-atlas-documents" aria-labelledby="document-map-title" id="documents">
         <header className="research-atlas-section__head">
           <div><p className="eyebrow">DOCUMENT MAP · REPOSITORY EVIDENCE</p><h2 id="document-map-title">Markdown 文档地图</h2></div>
-          <p>网页用于浏览，Markdown 用于长期审查和维护。路径以仓库根目录为基准显示；网页不制造本地文件的不可达链接。</p>
+          <p>网页用于浏览，Markdown 用于长期审查和维护。现在每份文档都可以在 GitHub 在线阅读全文，并继续关联对应研究页面。</p>
         </header>
         {documentGroups.map((group) => (
           <section className="research-document-group" key={group}>
@@ -128,6 +130,7 @@ export default function ResearchIndexPage() {
                   <p>{document.role}</p>
                   <dl><dt>何时阅读</dt><dd>{document.readWhen}</dd></dl>
                   <nav aria-label={`${document.title}关联网页`}>
+                    <a href={onlineDocumentHref(document.repositoryPath)} rel="noreferrer" target="_blank">在线阅读全文 ↗</a>
                     {document.relatedRoutes.map((route) => <Link href={route.href} key={route.href}>{route.label} →</Link>)}
                   </nav>
                 </article>

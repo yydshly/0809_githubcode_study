@@ -491,6 +491,8 @@ test("research atlas connects every core web surface, Skill, and first-party doc
   assert.equal((html.match(/<article[^>]+data-research-surface=/g) ?? []).length, 7);
   assert.equal((html.match(/<article[^>]+data-index-skill=/g) ?? []).length, 13);
   assert.equal((html.match(/<article[^>]+data-research-document=/g) ?? []).length, 20);
+  assert.equal((html.match(/>在线阅读全文 ↗<\/a>/g) ?? []).length, 20);
+  assert.match(html, /href="\/documents"/);
   assert.match(html, /projects\/skill-zine-summary\/RESEARCH-INDEX\.md/);
   assert.match(html, /projects\/skill-zine-summary\/UPSTREAM\.md/);
   assert.match(html, /projects\/skill-zine-summary\/lab\/web\/REVISION7-RESEARCH\.md/);
@@ -510,6 +512,22 @@ test("research atlas connects every core web surface, Skill, and first-party doc
   assert.match(html, /<strong>131<\/strong> 项总效果证据/);
   assert.equal((html.match(/href="https:\/\/yydshly\.github\.io\/0809_githubcode_study\/start\/"/g) ?? []).length, 1);
   assert.equal((html.match(/<h1(?:\s[^>]*)?>/g) ?? []).length, 1);
+});
+
+test("online document center organizes and links all first-party research documents", async () => {
+  const response = await render("/documents");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.equal((html.match(/<h1(?:\s[^>]*)?>/g) ?? []).length, 1);
+  assert.equal((html.match(/data-online-document=/g) ?? []).length, 20);
+  assert.equal((html.match(/>在线阅读全文 ↗<\/a>/g) ?? []).length, 20);
+  assert.equal((html.match(/<a href="https:\/\/github\.com\/yydshly\/0809_githubcode_study\/blob\/main\/[^"]+"[^>]*>在线阅读全文 ↗<\/a>/g) ?? []).length, 20);
+  assert.equal((html.match(/<section class="research-document-group" id="(?:入口与范围|来源与方法|实验运行|结果与维护)"/g) ?? []).length, 4);
+  assert.match(html, /href="\/skills"/);
+  assert.match(html, /href="\/research"/);
+  assert.match(html, /href="\/comparison"/);
+  assert.match(html, /href="\/labs\/multi-source"/);
+  assert.doesNotMatch(html, /<img\b|\/generated\//i);
 });
 
 test("public beginner guide stays separate from the image evidence gallery", async () => {
