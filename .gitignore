@@ -50,6 +50,8 @@ htmlcov/
 # Java / Kotlin / Gradle
 .gradle/
 build/
+!projects/skill-zine-summary/lab/web/build/
+!projects/skill-zine-summary/lab/web/build/sites-vite-plugin.ts
 target/
 
 # .NET
