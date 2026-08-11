@@ -124,7 +124,7 @@ export default function ResearchIndexPage() {
 
       <footer className="site-foot">
         <p>RESEARCH ATLAS · 12 REPOSITORIES / 13 TARGETS</p>
-        <p>公开发布前仍需完成逐项权利清单与资产 allowlist；当前入口服务于本地研究。</p>
+        <p>当前站点按研究目的公开展示，并保留上游仓库、固定提交、许可判断和本地改动边界；访问者后续复用素材时仍需自行核对原项目许可。</p>
       </footer>
     </main>
   );

@@ -328,7 +328,7 @@ export type EnrichedSkillSelectionEntry = SkillSelectionBlueprint & {
   upstreamExecution: { state: "not-recorded"; label: string };
   productEvidence: { state: "digital-product-preview"; label: string };
   physicalEvidence: { state: "not-tested"; label: string };
-  publicHosting: { state: "blocked"; label: string };
+  publicHosting: { state: "public-research-disclosure"; label: string };
   representativeEvidence: readonly [RepresentativeEvidence, RepresentativeEvidence, RepresentativeEvidence];
   skill: (typeof skills)[number];
   revision12: (typeof revision12ProductSystemExperiments)[number];
@@ -431,7 +431,7 @@ export const enrichedSkillSelectionEntries: readonly EnrichedSkillSelectionEntry
     upstreamExecution: { state: "not-recorded", label: "上游运行：本研究无记录" },
     productEvidence: { state: "digital-product-preview", label: "产品阶段：数字环境预演" },
     physicalEvidence: { state: "not-tested", label: "实体生产：未测试" },
-    publicHosting: { state: "blocked", label: "公开托管：权利清单完成前阻塞" },
+    publicHosting: { state: "public-research-disclosure", label: "公开托管：研究展示并保留来源说明" },
     representativeEvidence: [
       toRepresentativeEvidence(independentEntry),
       toRepresentativeEvidence(stressEntry),

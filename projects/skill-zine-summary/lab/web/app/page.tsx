@@ -75,7 +75,7 @@ export default function Home() {
 
       <footer className="site-foot">
         <p>RESEARCH ATLAS · 2026.08.10</p>
-        <p>上游样例与受限资产仅用于本地研究展示；公开部署前逐项复核授权。</p>
+        <p>公开研究展示保留来源、固定提交与许可边界；上游样例版权归原作者，本地效果不冒充上游官方输出。</p>
       </footer>
     </main>
   );

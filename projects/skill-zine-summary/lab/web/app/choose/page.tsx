@@ -315,13 +315,13 @@ export default async function ChoosePage({ searchParams }: ChoosePageProps) {
       <section className="choose-boundaries" aria-labelledby="choose-boundaries-title">
         <header>
           <div><p className="eyebrow">COMMON BOUNDARIES</p><h2 id="choose-boundaries-title">所有候选共同服从的边界</h2></div>
-          <p>选中某条路线只说明下一步证据更相关，不表示它已经稳定运行、完成生产或能够公开托管。</p>
+          <p>选中某条路线只说明下一步证据更相关，不表示它已经稳定运行、完成生产或取得超出当前研究展示范围的授权。</p>
         </header>
         <div className="choose-boundaries__grid">
           <article><span>01</span><h3>没有上游运行记录</h3><p>本地效果是研究性重构、确定性补证或代码实验，不冒充 13 个上游 Skill 的原生输出。</p></article>
           <article><span>02</span><h3>产品仍是数字预演</h3><p>R12 产品表面复用同一 EFFECT；它们不重复计为新效果，也不是客户项目或业务结果。</p></article>
           <article><span>03</span><h3>实体生产尚未测试</h3><p>纸张、出血、裁切、网点、安装、扫码、书写和邮寄必须分别形成真实证据后才能升级结论。</p></article>
-          <article><span>04</span><h3>公开托管仍然阻塞</h3><p>上游样例和本地生成资产尚未完成逐项权利清单与公开 allowlist，当前站点继续用于本地研究。</p></article>
+          <article><span>04</span><h3>公开展示不扩大许可</h3><p>页面公开展示上游样例与本地研究结果，并逐项保留仓库、提交和许可说明；公开访问不改变原作者权利，也不自动允许再利用。</p></article>
         </div>
         <nav className="choose-boundaries__links" aria-label="继续阅读研究材料">
           <Link className="button button--dark" href="/research">回到研究总索引</Link>

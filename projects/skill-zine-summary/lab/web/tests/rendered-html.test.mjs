@@ -721,7 +721,8 @@ test("Skill chooser routes four explicit contracts to all, exact, and disclosed-
   assert.doesNotMatch(initialHtml, /<img\b|src="\/generated\//i);
   assert.match(initialHtml, /默认不重复铺开 13 张长卡/);
   assert.match(initialHtml, /不按效果质量、图片数量或产品成熟度排名/);
-  assert.match(initialHtml, /公开托管仍然阻塞/);
+  assert.match(initialHtml, /公开展示不扩大许可/);
+  assert.match(initialHtml, /公开研究展示/);
 
   const commonTaskHrefs = [...initialHtml.matchAll(/<a href="([^"]+)" data-common-selection-task=/g)]
     .map((match) => match[1].replaceAll("&amp;", "&").split("#")[0]);
