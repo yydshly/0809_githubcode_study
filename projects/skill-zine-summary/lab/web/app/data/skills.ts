@@ -118,9 +118,9 @@ export const skills: SkillStudy[] = [
       { title: "极简封面", description: "用一个小型视觉簇建立识别点。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/dyy-photo-deconstruct/01.jpg", alt: "上游极简样例一", caption: "上游样例：主体被压缩为轮廓和少量线条。" },
-      { src: "/generated/upstream/dyy-photo-deconstruct/02.jpg", alt: "上游极简样例二", caption: "上游样例：用极大空纸控制观看距离。" },
-      { src: "/generated/upstream/dyy-photo-deconstruct/03.jpg", alt: "上游极简样例三", caption: "上游样例：少量色块只服务于识别。" },
+      { src: "https://raw.githubusercontent.com/121dyy/dyy_photo_deconstruct/42e637e8875dafeb4ccf2ab5a738e4dca41c8f30/examples/1.jpg", alt: "上游极简样例一", caption: "上游样例：主体被压缩为轮廓和少量线条。" },
+      { src: "https://raw.githubusercontent.com/121dyy/dyy_photo_deconstruct/42e637e8875dafeb4ccf2ab5a738e4dca41c8f30/examples/4.jpg", alt: "上游极简样例二", caption: "上游样例：用极大空纸控制观看距离。" },
+      { src: "https://raw.githubusercontent.com/121dyy/dyy_photo_deconstruct/42e637e8875dafeb4ccf2ab5a738e4dca41c8f30/examples/9.jpg", alt: "上游极简样例三", caption: "上游样例：少量色块只服务于识别。" },
     ],
     resultImages: [
       { src: "/generated/results/dyy-photo-deconstruct.png", alt: "我们的无字极简扩展实验", caption: "扩展实验 1：用舟形、岸线、竖柱、树影和三个黄点重建场景。" },
@@ -160,9 +160,9 @@ export const skills: SkillStudy[] = [
       { title: "批量视觉生产", description: "需要统一尺寸、标题和验证门槛的系列化输出。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/travel-photo-abstraction/01.png", alt: "上游热气球样例", caption: "上游样例：真实天空照片与关系抽象面板分工明确。" },
-      { src: "/generated/upstream/travel-photo-abstraction/02.png", alt: "上游港湾样例", caption: "上游样例：轴线、间隔和负空间被重新编码。" },
-      { src: "/generated/upstream/travel-photo-abstraction/03.png", alt: "上游冬塔样例", caption: "上游样例：场景身份保留在照片，抽象只解释关系。" },
+      { src: "https://raw.githubusercontent.com/Evianis/travel-photo-abstraction/96e387635edf05bc7e798428a5db11dbf48f46c1/showcase/sky-balloon.png", alt: "上游热气球样例", caption: "上游样例：真实天空照片与关系抽象面板分工明确。" },
+      { src: "https://raw.githubusercontent.com/Evianis/travel-photo-abstraction/96e387635edf05bc7e798428a5db11dbf48f46c1/showcase/harbour-silhouette.png", alt: "上游港湾样例", caption: "上游样例：轴线、间隔和负空间被重新编码。" },
+      { src: "https://raw.githubusercontent.com/Evianis/travel-photo-abstraction/96e387635edf05bc7e798428a5db11dbf48f46c1/showcase/winter-tower.png", alt: "上游冬塔样例", caption: "上游样例：场景身份保留在照片，抽象只解释关系。" },
     ],
     resultImages: [
       { src: "/generated/results/travel-photo-abstraction.png", alt: "我们的 travel-photo-abstraction 扩展实验", caption: "研究基线：原照锁定后，抽象面板重述舟、岸线、松树与花的关系。" },
@@ -202,8 +202,8 @@ export const skills: SkillStudy[] = [
       { title: "记忆档案", description: "为家庭或地点照片增加非线性的情绪层。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/scenes-gathered-zine/source.jpg", alt: "上游拼贴输入", caption: "上游输入：先识别照片中的真实空间和情绪锚点。" },
-      { src: "/generated/upstream/scenes-gathered-zine/result.jpg", alt: "上游拼贴结果", caption: "上游结果：照片证据与抽象画面通过撕纸结构相遇。" },
+      { src: "https://raw.githubusercontent.com/Zeejay0/gathered-scenes-zine-skill/b14cabcd0e6ff5aba503d837fcfdb0c9a6970e2e/examples/real-scene-collage/01-where-stone-meets-sky/source.jpg", alt: "上游拼贴输入", caption: "上游输入：先识别照片中的真实空间和情绪锚点。" },
+      { src: "https://raw.githubusercontent.com/Zeejay0/gathered-scenes-zine-skill/b14cabcd0e6ff5aba503d837fcfdb0c9a6970e2e/examples/real-scene-collage/01-where-stone-meets-sky/result.jpg", alt: "上游拼贴结果", caption: "上游结果：照片证据与抽象画面通过撕纸结构相遇。" },
     ],
     resultImages: [
       { src: "/generated/results/scenes-gathered-zine.png", alt: "我们的 scenes-gathered 扩展实验", caption: "扩展实验 1：真实湖岸小景与关系插画并置。" },
@@ -243,8 +243,8 @@ export const skills: SkillStudy[] = [
       { title: "品牌情绪板", description: "从真实场景提炼非具象的视觉语言。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/scene-distillation-zine/source.jpg", alt: "上游蒸馏输入", caption: "上游输入：用于提炼情绪命题，不会直接出现在结果中。" },
-      { src: "/generated/upstream/scene-distillation-zine/result.jpg", alt: "上游蒸馏结果", caption: "上游结果：以新的形式重建节奏和中心张力。" },
+      { src: "https://raw.githubusercontent.com/Zeejay0/gathered-scenes-zine-skill/b14cabcd0e6ff5aba503d837fcfdb0c9a6970e2e/examples/image-distillation/01-time-waves-back/source.jpg", alt: "上游蒸馏输入", caption: "上游输入：用于提炼情绪命题，不会直接出现在结果中。" },
+      { src: "https://raw.githubusercontent.com/Zeejay0/gathered-scenes-zine-skill/b14cabcd0e6ff5aba503d837fcfdb0c9a6970e2e/examples/image-distillation/01-time-waves-back/result.jpg", alt: "上游蒸馏结果", caption: "上游结果：以新的形式重建节奏和中心张力。" },
     ],
     resultImages: [
       { src: "/generated/results/scene-distillation-zine.png", alt: "我们的 scene-distillation 扩展实验", caption: "扩展实验 1：把安静湖岸蒸馏成停顿、水平延伸和右侧重量。" },
@@ -284,9 +284,9 @@ export const skills: SkillStudy[] = [
       { title: "概念卡片", description: "快速探索同一内容的版式、颜色与纹理变体。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/gc-minimal-zine-poster/01.jpeg", alt: "上游 night door 样例", caption: "上游样例：暗色主题仍保持小型视觉事件。" },
-      { src: "/generated/upstream/gc-minimal-zine-poster/02.jpeg", alt: "上游 yellow step 样例", caption: "上游样例：单一高彩锚点组织全部视线。" },
-      { src: "/generated/upstream/gc-minimal-zine-poster/03.jpeg", alt: "上游 moon tide 样例", caption: "上游样例：隐喻、微字和纸面纹理共同成立。" },
+      { src: "https://raw.githubusercontent.com/LiamGvchi/gc-minimal-zine-poster/4cb0396ad4e834019f753b37e1c4f415f5e02026/examples/night-door.jpeg", alt: "上游 night door 样例", caption: "上游样例：暗色主题仍保持小型视觉事件。" },
+      { src: "https://raw.githubusercontent.com/LiamGvchi/gc-minimal-zine-poster/4cb0396ad4e834019f753b37e1c4f415f5e02026/examples/yellow-step.jpeg", alt: "上游 yellow step 样例", caption: "上游样例：单一高彩锚点组织全部视线。" },
+      { src: "https://raw.githubusercontent.com/LiamGvchi/gc-minimal-zine-poster/4cb0396ad4e834019f753b37e1c4f415f5e02026/examples/moon-tide.jpeg", alt: "上游 moon tide 样例", caption: "上游样例：隐喻、微字和纸面纹理共同成立。" },
     ],
     resultImages: [
       { src: "/generated/results/gc-minimal-zine-poster.png", alt: "我们的极简海报扩展实验", caption: "扩展实验 1：将红舟编译为水面句子中的一个标点。" },
@@ -326,9 +326,9 @@ export const skills: SkillStudy[] = [
       { title: "故事配图", description: "为短篇文字建立非写实的场景入口。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/photo-revival/01.png", alt: "上游月门重绘", caption: "上游样例：建筑入口被压缩为小型手绘记忆。" },
-      { src: "/generated/upstream/photo-revival/02.png", alt: "上游道路重绘", caption: "上游样例：道路关系和局部细节得到保留。" },
-      { src: "/generated/upstream/photo-revival/03.png", alt: "上游山地牦牛重绘", caption: "上游样例：主体可辨认，但不承诺像素真实性。" },
+      { src: "https://raw.githubusercontent.com/dacnay816y62-hub/photo-revival/ca4c3c6c0f812355bd6d815d8a78652db801b7f1/examples/01_moon_gate.png", alt: "上游月门重绘", caption: "上游样例：建筑入口被压缩为小型手绘记忆。" },
+      { src: "https://raw.githubusercontent.com/dacnay816y62-hub/photo-revival/ca4c3c6c0f812355bd6d815d8a78652db801b7f1/examples/05_japan_road_page.png", alt: "上游道路重绘", caption: "上游样例：道路关系和局部细节得到保留。" },
+      { src: "https://raw.githubusercontent.com/dacnay816y62-hub/photo-revival/ca4c3c6c0f812355bd6d815d8a78652db801b7f1/examples/07_mountain_yaks.png", alt: "上游山地牦牛重绘", caption: "上游样例：主体可辨认，但不承诺像素真实性。" },
     ],
     resultImages: [
       { src: "/generated/results/photo-revival.png", alt: "我们的 photo-revival 扩展实验", caption: "扩展实验 1：以水彩与铅笔重新讲述湖岸片段。" },
@@ -368,9 +368,9 @@ export const skills: SkillStudy[] = [
       { title: "数字印刷实验", description: "模拟网点、套色和反向半调的材料效果。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/pixel-style-poster/01.png", alt: "上游薄荷夜百合样例", caption: "上游样例：细密点阵形成光影，而非大块游戏像素。" },
-      { src: "/generated/upstream/pixel-style-poster/02.png", alt: "上游洛可可葡萄样例", caption: "上游样例：多主体仍由密度建立层级。" },
-      { src: "/generated/upstream/pixel-style-poster/03.png", alt: "上游深青蝴蝶样例", caption: "上游样例：反向半调和标题共同组织画面。" },
+      { src: "https://raw.githubusercontent.com/v92388375-gif/pixel-style-poster-skill/b93066b52fc2f32bf9ec3a9a6d379b4088d6fd7b/examples/mint-night-lily.png", alt: "上游薄荷夜百合样例", caption: "上游样例：细密点阵形成光影，而非大块游戏像素。" },
+      { src: "https://raw.githubusercontent.com/v92388375-gif/pixel-style-poster-skill/b93066b52fc2f32bf9ec3a9a6d379b4088d6fd7b/examples/rococo-velvet-grapes.png", alt: "上游洛可可葡萄样例", caption: "上游样例：多主体仍由密度建立层级。" },
+      { src: "https://raw.githubusercontent.com/v92388375-gif/pixel-style-poster-skill/b93066b52fc2f32bf9ec3a9a6d379b4088d6fd7b/examples/deep-teal-butterfly.png", alt: "上游深青蝴蝶样例", caption: "上游样例：反向半调和标题共同组织画面。" },
     ],
     resultImages: [
       { src: "/generated/results/pixel-style-poster.png", alt: "我们的点阵海报扩展实验", caption: "扩展实验 1：以点阵密度重构红舟和湖岸空间。" },
@@ -410,9 +410,9 @@ export const skills: SkillStudy[] = [
       { title: "摄影书章节", description: "用 relic 面板为不同照片建立系列视觉语法。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/photo-relic-editorial/01.png", alt: "上游飞雁序列样例", caption: "上游样例：动作序列被压成单一版画遗迹。" },
-      { src: "/generated/upstream/photo-relic-editorial/02.png", alt: "上游天坛样例", caption: "上游样例：建筑结构转译为克制的关系印记。" },
-      { src: "/generated/upstream/photo-relic-editorial/03.png", alt: "上游长城山脊样例", caption: "上游样例：山脊节奏跨越照片和面板。" },
+      { src: "https://raw.githubusercontent.com/wnby/photo-relic-editorial/2232da16afddc7940e2e2f280bfb85aa62da1bae/examples/paper-beijing/geese-procession.png", alt: "上游飞雁序列样例", caption: "上游样例：动作序列被压成单一版画遗迹。" },
+      { src: "https://raw.githubusercontent.com/wnby/photo-relic-editorial/2232da16afddc7940e2e2f280bfb85aa62da1bae/examples/paper-beijing/temple-of-heaven.png", alt: "上游天坛样例", caption: "上游样例：建筑结构转译为克制的关系印记。" },
+      { src: "https://raw.githubusercontent.com/wnby/photo-relic-editorial/2232da16afddc7940e2e2f280bfb85aa62da1bae/examples/paper-beijing/great-wall-ridge.png", alt: "上游长城山脊样例", caption: "上游样例：山脊节奏跨越照片和面板。" },
     ],
     resultImages: [{ src: "/generated/results/photo-relic-editorial.png", alt: "我们的 photo-relic 扩展实验", caption: "统一场景基线：让红舟成为记忆版画中的主遗迹。" }],
     extensionExperiments: [
@@ -527,9 +527,9 @@ export const skills: SkillStudy[] = [
       { title: "视觉回归研究", description: "适合建立像素差、布局指标和跨版本基线。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/photo-distill/01-original.jpg", alt: "上游台灯原图", caption: "上游输入：先读取关系量，而不是追踪物体轮廓。" },
-      { src: "/generated/upstream/photo-distill/02-poster.jpg", alt: "上游台灯代码海报", caption: "上游结果：同一关系由 HTML/CSS/SVG 确定性表达。" },
-      { src: "/generated/upstream/photo-distill/03-original.jpg", alt: "上游七姐妹海岸原图", caption: "第二组输入：海岸、人物和天空先被读取为关系量。" },
+      { src: "https://raw.githubusercontent.com/yangcodingmaster/photo-distill/e2708aeb7db4344dfb5577b5f12bcf57ded541ec/examples/09-lamp-original.jpg", alt: "上游台灯原图", caption: "上游输入：先读取关系量，而不是追踪物体轮廓。" },
+      { src: "https://raw.githubusercontent.com/yangcodingmaster/photo-distill/e2708aeb7db4344dfb5577b5f12bcf57ded541ec/examples/09-lamp-poster.jpg", alt: "上游台灯代码海报", caption: "上游结果：同一关系由 HTML/CSS/SVG 确定性表达。" },
+      { src: "https://raw.githubusercontent.com/yangcodingmaster/photo-distill/e2708aeb7db4344dfb5577b5f12bcf57ded541ec/examples/23-sevensisters-original.jpg", alt: "上游七姐妹海岸原图", caption: "第二组输入：海岸、人物和天空先被读取为关系量。" },
     ],
     resultImages: [
       { src: "/generated/results/photo-distill.png", alt: "我们的 clean-room photo-distill 扩展实验", caption: "扩展实验 1：独立实现纸面、密度场、几何事件和单色锚。" },
@@ -569,9 +569,9 @@ export const skills: SkillStudy[] = [
       { title: "混合生成管线", description: "适合作为模型创意 + 脚本交付的架构基线。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/poetic-line-zine-poster/01.png", alt: "上游武汉落日样例", caption: "上游样例：照片与炭笔扫线共享水平节奏。" },
-      { src: "/generated/upstream/poetic-line-zine-poster/02.png", alt: "上游黄鹤桥样例", caption: "上游样例：建筑题材以 mass 与 path 组织。" },
-      { src: "/generated/upstream/poetic-line-zine-poster/03.png", alt: "上游伸展猫样例", caption: "上游样例：动物动作被路由为 gesture。" },
+      { src: "https://raw.githubusercontent.com/zhu930824/poetic-line-zine-poster/61514e0652de45f30c74b01bc9a11cfbf25b5c52/docs/examples/wuhan-sunset-river.png", alt: "上游武汉落日样例", caption: "上游样例：照片与炭笔扫线共享水平节奏。" },
+      { src: "https://raw.githubusercontent.com/zhu930824/poetic-line-zine-poster/61514e0652de45f30c74b01bc9a11cfbf25b5c52/docs/examples/yellow-crane-bridge.png", alt: "上游黄鹤桥样例", caption: "上游样例：建筑题材以 mass 与 path 组织。" },
+      { src: "https://raw.githubusercontent.com/zhu930824/poetic-line-zine-poster/61514e0652de45f30c74b01bc9a11cfbf25b5c52/docs/examples/cat-stretch.png", alt: "上游伸展猫样例", caption: "上游样例：动物动作被路由为 gesture。" },
     ],
     resultImages: [
       { src: "/generated/results/poetic-line-zine-poster.png", alt: "我们的 poetic-line 概念扩展实验", caption: "概念研究 1：用一条炭笔扫线和红色手势回应湖岸照片；不宣称照片区域像素保真。" },
@@ -611,9 +611,9 @@ export const skills: SkillStudy[] = [
       { title: "视觉研究卡", description: "快速记录来源事实到抽象标记的映射。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/photo-abstract-editorial/01.jpg", alt: "上游抽象编辑样例一", caption: "上游样例：照片与象牙色关系面板形成清晰分区。" },
-      { src: "/generated/upstream/photo-abstract-editorial/02.jpg", alt: "上游抽象编辑样例二", caption: "上游样例：少数形状对应来源空间事实。" },
-      { src: "/generated/upstream/photo-abstract-editorial/03.jpg", alt: "上游抽象编辑样例三", caption: "上游样例：微型标题提供解释但不主导画面。" },
+      { src: "https://raw.githubusercontent.com/ZzzLc0405/photo-abstract-editorial/dada5237450d882168c22bae75119e8d24e784b5/assets/examples/case-3.jpg", alt: "上游抽象编辑样例一", caption: "上游样例：照片与象牙色关系面板形成清晰分区。" },
+      { src: "https://raw.githubusercontent.com/ZzzLc0405/photo-abstract-editorial/dada5237450d882168c22bae75119e8d24e784b5/assets/examples/case-1.jpg", alt: "上游抽象编辑样例二", caption: "上游样例：少数形状对应来源空间事实。" },
+      { src: "https://raw.githubusercontent.com/ZzzLc0405/photo-abstract-editorial/dada5237450d882168c22bae75119e8d24e784b5/assets/examples/case-7.jpg", alt: "上游抽象编辑样例三", caption: "上游样例：微型标题提供解释但不主导画面。" },
     ],
     resultImages: [
       { src: "/generated/results/photo-abstract-editorial.png", alt: "我们的 photo-abstract-editorial 扩展实验", caption: "扩展实验 1：以六个关系标记重述湖岸空间。" },
@@ -653,9 +653,9 @@ export const skills: SkillStudy[] = [
       { title: "品牌赠品", description: "在明确印刷规格内承载照片、元数据和识别色。" },
     ],
     upstreamDemos: [
-      { src: "/generated/upstream/photo-to-zine-postcard/01.png", alt: "上游森林住宅明信片", caption: "上游样例：原照、主手绘元素和三色卡共同组成正面。" },
-      { src: "/generated/upstream/photo-to-zine-postcard/02.png", alt: "上游高山霞光明信片", caption: "上游样例：来源色板控制产品系列感。" },
-      { src: "/generated/upstream/photo-to-zine-postcard/03.png", alt: "上游绿色门明信片", caption: "上游样例：小型元数据不干扰主图。" },
+      { src: "https://raw.githubusercontent.com/Whiplashzeb/photo-to-zine-postcard/0091403bccb219d1be78c5be8552de29a6446f0a/assets/forest-homestead.png", alt: "上游森林住宅明信片", caption: "上游样例：原照、主手绘元素和三色卡共同组成正面。" },
+      { src: "https://raw.githubusercontent.com/Whiplashzeb/photo-to-zine-postcard/0091403bccb219d1be78c5be8552de29a6446f0a/assets/alpine-glow.png", alt: "上游高山霞光明信片", caption: "上游样例：来源色板控制产品系列感。" },
+      { src: "https://raw.githubusercontent.com/Whiplashzeb/photo-to-zine-postcard/0091403bccb219d1be78c5be8552de29a6446f0a/assets/green-door.png", alt: "上游绿色门明信片", caption: "上游样例：小型元数据不干扰主图。" },
     ],
     resultImages: [
       { src: "/generated/results/photo-to-zine-postcard-front.png", alt: "我们的明信片正面扩展实验", caption: "扩展实验正面：原照、红舟手绘元素、一个辅形与三枚来源色卡。" },
