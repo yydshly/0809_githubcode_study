@@ -17,7 +17,7 @@
 
 | 项目 | 研究主题 | 技术栈 | 状态 | 本地研究 | 上游来源 | 独立仓库 | 在线演示 | 许可证 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Skill Zine Summary | Codex 照片/Zine 技能的技术谱系、渲染后端与验证方法 | Codex Skills、ImageGen、Python、HTML/CSS/SVG | 研究中 | [研究目录](projects/skill-zine-summary) | [tluy/skill-zine-summary](https://github.com/tluy/skill-zine-summary) | 暂无 | [公开研究入口](https://yydshly.github.io/0809_githubcode_study/) · [本地完整实验室](projects/skill-zine-summary/lab/web/README.md) | 汇总库未声明；子库见[来源审计](projects/skill-zine-summary/UPSTREAM.md) |
+| Skill Zine Summary | Codex 照片/Zine 技能的技术谱系、渲染后端与验证方法 | Codex Skills、ImageGen、Python、HTML/CSS/SVG | 研究中 | [研究目录](projects/skill-zine-summary) | [tluy/skill-zine-summary](https://github.com/tluy/skill-zine-summary) | 暂无 | [完整公开研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/) · [轻量新人入口](https://yydshly.github.io/0809_githubcode_study/) | 汇总库未声明；子库见[来源审计](projects/skill-zine-summary/UPSTREAM.md) |
 
 状态统一使用：`计划中`、`研究中`、`可运行`、`已归档`。
 
