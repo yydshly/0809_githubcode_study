@@ -9,6 +9,7 @@
     "dev": "vinext dev",
     "build": "vinext build",
     "start": "vinext start",
+    "optimize:sites-assets": "node scripts/optimize-sites-images.mjs",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint app tests worker drizzle.config.ts next.config.ts vite.config.ts eslint.config.mjs postcss.config.mjs",
     "db:generate": "drizzle-kit generate"
