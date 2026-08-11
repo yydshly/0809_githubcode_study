@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/app/components/Link";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { multiSourceStats } from "@/app/data/multi-source-experiments";
 import {

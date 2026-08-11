@@ -1,4 +1,4 @@
-name: Deploy Skill Zine public guide
+name: Deploy full Skill Zine research site
 
 on:
   push:
@@ -6,6 +6,12 @@ on:
     paths:
       - ".github/workflows/deploy-skill-zine-pages.yml"
       - "projects/skill-zine-summary/public-site/**"
+      - "projects/skill-zine-summary/lab/web/app/**"
+      - "projects/skill-zine-summary/lab/web/build/**"
+      - "projects/skill-zine-summary/lab/web/scripts/export-github-pages.mjs"
+      - "projects/skill-zine-summary/lab/web/package.json"
+      - "projects/skill-zine-summary/lab/web/package-lock.json"
+      - "projects/skill-zine-summary/lab/web/vite.config.ts"
   workflow_dispatch:
 
 permissions:
@@ -27,15 +33,40 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: projects/skill-zine-summary/lab/web/package-lock.json
+
+      - name: Install website dependencies
+        run: npm ci
+        working-directory: projects/skill-zine-summary/lab/web
+
+      - name: Build research website
+        run: npm run build
+        working-directory: projects/skill-zine-summary/lab/web
+        env:
+          NEXT_PUBLIC_SITE_URL: https://yydshly.github.io/0809_githubcode_study
+
+      - name: Export GitHub Pages snapshot
+        run: npm run export:github-pages
+        working-directory: projects/skill-zine-summary/lab/web
+
+      - name: Verify exported routes and links
+        run: npm run verify:github-pages
+        working-directory: projects/skill-zine-summary/lab/web
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
-      - name: Upload public-safe site
+      - name: Upload complete static research site
         uses: actions/upload-pages-artifact@v4
         with:
-          path: projects/skill-zine-summary/public-site
+          path: projects/skill-zine-summary/lab/web/github-pages-dist
 
       - name: Deploy to GitHub Pages
         id: deployment

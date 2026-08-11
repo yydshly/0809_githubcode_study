@@ -5,6 +5,7 @@
 ## 研究导航
 
 - [研究总索引](RESEARCH-INDEX.md)：统一关联 Web 入口、13 个 Skill 页面、研究文档、证据等级与推荐阅读路径；
+- [GitHub Pages 完整研究站](https://yydshly.github.io/0809_githubcode_study/)：13 个 Skill、横评、报告和按 Skill 展开的多原图实验静态快照；
 - [完整公开研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/)：13 个 Skill 详情、统一横评、多原图实验、选型器、报告与完整本地研究效果；
 - [本地 Web 研究入口 `/research`](http://localhost:4317/research)：从浏览器进入 Skill 选择器、单 Skill、统一原图横评、多原图实验室和 Revision 7 报告；
 - [13 个 Skill 直接目录 `/skills`](http://localhost:4317/skills)：直接查看全部独立研究页，不需要从首页长页面向下寻找；
@@ -26,7 +27,7 @@
 | 主上游 | [tluy/skill-zine-summary](https://github.com/tluy/skill-zine-summary) |
 | 固定版本 | [`2c65c251bc6909f077ae9974e3251d164a07c924`](https://github.com/tluy/skill-zine-summary/commit/2c65c251bc6909f077ae9974e3251d164a07c924) |
 | 独立仓库 | 暂无 |
-| 在线演示 | [完整公开研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/) · [GitHub Pages 轻量新人入口](https://yydshly.github.io/0809_githubcode_study/) |
+| 在线演示 | [GitHub Pages 完整研究站](https://yydshly.github.io/0809_githubcode_study/) · [OpenAI Sites 动态研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/) |
 | 最后核对 | 2026-08-11 |
 | 上游许可 | 汇总库未声明；12 个目标仓库逐项记录在 [UPSTREAM.md](UPSTREAM.md) |
 

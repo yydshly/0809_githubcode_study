@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/app/components/Link";
 import { DemoFigure } from "@/app/components/DemoFigure";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { skills, sourceImage } from "@/app/data/skills";

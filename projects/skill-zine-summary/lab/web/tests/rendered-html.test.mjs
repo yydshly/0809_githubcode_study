@@ -42,6 +42,35 @@ test("catalog renders all 13 independent research targets", async () => {
   assert.equal(cards, 13);
 });
 
+test("research navigation uses stable document links instead of hosted prefetch", async () => {
+  const sourceUrls = [
+    "../app/page.tsx",
+    "../app/research/page.tsx",
+    "../app/skills/page.tsx",
+    "../app/skills/[slug]/page.tsx",
+    "../app/choose/page.tsx",
+    "../app/comparison/page.tsx",
+    "../app/labs/multi-source/page.tsx",
+    "../app/reports/revision-7/page.tsx",
+    "../app/components/SiteHeader.tsx",
+    "../app/components/CapabilityExplorationSection.tsx",
+  ];
+  const [linkSource, ...routeSources] = await Promise.all([
+    readFile(new URL("../app/components/Link.tsx", import.meta.url), "utf8"),
+    ...sourceUrls.map((sourceUrl) => readFile(new URL(sourceUrl, import.meta.url), "utf8")),
+  ]);
+
+  assert.match(linkSource, /return <a href=\{href\}/);
+  assert.doesNotMatch(linkSource, /next\/link/);
+  for (const routeSource of routeSources) {
+    assert.match(routeSource, /@\/app\/components\/Link/);
+    assert.doesNotMatch(routeSource, /next\/link/);
+  }
+
+  const headerSource = routeSources[8];
+  assert.match(headerSource, /replace\(\/\^\\\/0809_githubcode_study/);
+});
+
 test("direct Skill directory exposes all 13 long-form studies and their existing sections", async () => {
   const response = await render("/skills");
   assert.equal(response.status, 200);

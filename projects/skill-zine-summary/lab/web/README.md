@@ -5,6 +5,8 @@
 ## 研究导航
 
 - [研究总索引](../../RESEARCH-INDEX.md)：统一说明网页与 Markdown 的关系、证据等级、阅读路径和发布边界；
+- [GitHub Pages 完整研究站](https://yydshly.github.io/0809_githubcode_study/)：公开静态快照，包含 13 个 Skill 详情、横评、报告和按 Skill 展开的多原图实验；
+- [OpenAI Sites 动态研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/)：保留动态 GET 选型器与完整公开研究资源；
 - [本地研究入口 `/research`](http://localhost:4317/research)：浏览 Skill 选择器、13 个 Skill、比较页、实验室和报告入口；
 - [13 个 Skill 直接目录 `/skills`](http://localhost:4317/skills)：无需穿过首页长内容，直接进入每个 Skill 的独立研究页及现有章节；
 - [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/)：与样例图库分离，先理解路线、输入、失败、证据等级和第一次实验；
@@ -14,6 +16,8 @@
 - [Revision 11 反向题材与产品预演](REVISION11-STRESS-AND-APPLICATIONS.md)：核对第二轮 13 个相反角度、产品载体、环境语境与生产下一步；
 - [Revision 12 完整产品系统](REVISION12-PRODUCT-SYSTEMS.md)：核对第三轮 13 个新题材如何进入多表面产品、使用环境和四步生产路径；
 - [Revision 13 Skill 选型](REVISION13-SKILL-CHOOSER.md)：核对 `/choose` 的四维筛选、13 Skill 证据映射和不可排名边界。
+
+GitHub Pages 版本由自定义 Actions 工作流生成静态快照。页面、样式和 13 个 Skill 路由位于 GitHub Pages；大体积研究证据图继续由公开 Sites 资源地址提供，避免在两个托管端重复打包。需要按查询实时计算的 `/choose` 会跳转到 Sites；其余主要研究内容可直接在 GitHub Pages 阅读。
 
 ## 页面结构
 

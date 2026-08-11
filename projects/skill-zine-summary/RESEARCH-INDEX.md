@@ -2,15 +2,15 @@
 
 这份文档是本项目网页、研究文档与实验记录的统一入口。它回答四个问题：从哪里开始看、如何从真实任务反选 Skill、网页中的结论由哪些文档支撑，以及下一步应进入单个 Skill、横向比较还是复现实验。
 
-> 当前 Web 入口均为本地地址，需要先按 [Web 研究站说明](lab/web/README.md) 启动服务。公开部署仍受上游许可、样例素材和生成资产再发布权利约束。
+> Web 研究内容同时提供 [GitHub Pages 完整静态快照](https://yydshly.github.io/0809_githubcode_study/) 与 [OpenAI Sites 动态研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/)；下文的本地地址便于开发定位。公开页面是研究展示与来源说明，不扩大任何上游代码、样例素材或生成资产的许可。
 
 ## 从哪里开始
 
 | 你的目标 | 建议入口 | 接着阅读 |
 | --- | --- | --- |
 | 第一次接触这些 Skill，不知道应先理解什么 | [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/) | [新人学习指南](BEGINNER-GUIDE.md) → [技术架构图](TECHNICAL-MAP.md) |
-| 快速了解整个研究 | [研究总索引 `/research`](http://localhost:4317/research) | [项目总览](README.md) → [项目清单](INVENTORY.md) |
-| 直接浏览每个 Skill 的完整研究页 | [13 个 Skill 直接目录 `/skills`](http://localhost:4317/skills) | 选择一张卡后进入上游、扩展、场景、产品和技术边界 |
+| 快速了解整个研究 | [公开研究总索引 `/research`](https://yydshly.github.io/0809_githubcode_study/research/) | [项目总览](README.md) → [项目清单](INVENTORY.md) |
+| 直接浏览每个 Skill 的完整研究页 | [公开 13 个 Skill 目录 `/skills`](https://yydshly.github.io/0809_githubcode_study/skills/) | 选择一张卡后进入上游、扩展、场景、产品和技术边界 |
 | 已有真实任务，但不知道该选哪个 Skill | [Skill 选择器 `/choose`](http://localhost:4317/choose) | [Revision 13 选型说明](lab/web/REVISION13-SKILL-CHOOSER.md) → 对应的 [多原图证据](http://localhost:4317/labs/multi-source) |
 | 逐个理解 Skill | [13 个 Skill 目录 `/`](http://localhost:4317/) | 选择一个 [`/skills/<slug>`](http://localhost:4317/skills/photo-distill) → 对照 [原始样例](lab/ORIGINAL-SAMPLES.md) |
 | 比较同一输入下的路线差异 | [统一原图横评 `/comparison`](http://localhost:4317/comparison) | [技术架构图](TECHNICAL-MAP.md) → [研究日志](RESEARCH.md) |
@@ -44,7 +44,7 @@
 
 Revision 7 报告路由继续保留，并仍由研究总索引、单 Skill 页和文档地图关联；主导航把这个位置交给更常用的 `/choose`，不表示 R7 被删除或降级为无效证据。
 
-公开新人学习页与本地 7 类核心 Web 入口分开部署，不加载上游或本地生成图片；本地研究总索引只保留一个跳转入口，因此不会把学习说明混入现有样例阅读流。
+公开新人学习页保留在 `/start/`，完整研究静态快照从站点根目录进入；两者只通过入口关联，不把新人说明混入现有样例阅读流。GitHub Pages 的研究证据图由公开 Sites 资源地址提供，动态选型查询也继续交给 Sites；静态页面本身、13 个 Skill 路由、横评、报告和按 Skill 实验目录由 GitHub Pages 承载。
 
 多原图实验室当前聚合 **127 组图片 SOURCE → 图片 EFFECT**：13 组 Revision 12 产品系统实验、13 组 Revision 11 反向题材压力测试、13 组 Revision 10 独立原图扩样、37 组统一原图基线、20 组图片计划交付、4 组 Photo Relic 受控配对和 27 组跨题材探索。它们来自 **57 个不同图片来源路径**；另有 2 个文字驱动静态效果与 2 个实时交互，因此总口径为 **129 个静态／131 个效果证据**。Revision 12 的 13 个完整产品系统数字预演复用对应 EFFECT，不重复计数。Revision 13 只把这些既有证据组织成任务选型入口，不新增效果图片、SOURCE、产品预演或证据项，也不是质量排名，因此上述口径保持不变。
 

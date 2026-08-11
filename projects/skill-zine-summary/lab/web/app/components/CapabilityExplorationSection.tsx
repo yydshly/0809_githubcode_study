@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/app/components/Link";
 import { DemoFigure } from "@/app/components/DemoFigure";
 import { DigitalApplicationPreview } from "@/app/components/DigitalApplicationPreview";
 import type { CapabilityExploration } from "@/app/data/capability-explorations";

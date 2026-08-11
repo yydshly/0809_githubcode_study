@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/app/components/Link";
 import { usePathname } from "next/navigation";
 
 const navigationItems = [
@@ -13,12 +13,13 @@ const navigationItems = [
 ] as const;
 
 function getActiveNavigationKey(pathname: string) {
-  if (pathname === "/") return "home";
-  if (pathname === "/skills" || pathname.startsWith("/skills/")) return "skills";
-  if (pathname === "/research" || pathname.startsWith("/reports/")) return "research";
-  if (pathname === "/choose" || pathname.startsWith("/choose/")) return "choose";
-  if (pathname === "/comparison" || pathname.startsWith("/comparison/")) return "comparison";
-  if (pathname === "/labs/multi-source" || pathname.startsWith("/labs/multi-source/")) return "multi-source";
+  const normalizedPathname = pathname.replace(/^\/0809_githubcode_study(?=\/|$)/, "") || "/";
+  if (normalizedPathname === "/") return "home";
+  if (normalizedPathname === "/skills" || normalizedPathname.startsWith("/skills/")) return "skills";
+  if (normalizedPathname === "/research" || normalizedPathname.startsWith("/reports/")) return "research";
+  if (normalizedPathname === "/choose" || normalizedPathname.startsWith("/choose/")) return "choose";
+  if (normalizedPathname === "/comparison" || normalizedPathname.startsWith("/comparison/")) return "comparison";
+  if (normalizedPathname === "/labs/multi-source" || normalizedPathname.startsWith("/labs/multi-source/")) return "multi-source";
   return "home";
 }
 

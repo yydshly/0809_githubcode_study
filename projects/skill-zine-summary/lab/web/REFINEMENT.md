@@ -1,5 +1,32 @@
 # Immersive research refinement
 
+## Revision 16：GitHub Pages 完整研究站与子链接修复
+
+- Entry mode: deployment-repair-led.
+- Request revision: 2026-08-11；用户要求把完整研究站部署到 GitHub，并反馈现有 Sites 公开站的子链接点击后无法打开。
+- Baseline evidence: Sites 的 `/skills` 正常展示 13 张卡，详情 URL 直接访问也返回完整页面；但点击卡片时，Vinext 的客户端 `next/link` 预取脚本报 `TypeError` 并吞掉导航，因此问题不是页面或研究内容丢失，而是托管运行时的客户端跳转故障。
+- Repair: 全站内部导航统一改为普通 `<a>` 文档跳转，保留相同 URL、键盘语义与页面内容；GitHub Pages 通过自定义 Actions 工作流构建并导出完整静态快照。
+- GitHub snapshot: 导出 33 条应用路由（核心入口、13 个 Skill 详情、13 个按 Skill 固定的多原图实验页），再加 `/start` 与 `404.html`，共 35 份 HTML；仓库子路径统一为 `/0809_githubcode_study/`。
+- Asset boundary: GitHub Pages 承载完整页面、样式和脚本；体积较大的研究证据图继续从公开 Sites 资源地址读取，不在 GitHub 构建产物中复制第二份。`/choose` 的动态 GET 筛选继续跳转到 Sites，静态 GitHub 快照保留说明与稳定入口。
+
+### Revision 16 coverage
+
+| Coverage item | Target | Status |
+| --- | --- | --- |
+| 子链接修复 | Sites 与静态预览中的普通页面跳转不再依赖故障预取脚本 | pass |
+| 13 个独立页 | GitHub 导出恰好包含 13 条 `/skills/<slug>/` | pass |
+| 多原图实验 | 每个 Skill 有独立静态实验页，查询入口被改写为目录路由 | pass |
+| 仓库子路径 | 所有内部链接与静态资源带 `/0809_githubcode_study/` 前缀 | pass |
+| 本地导出 | 35 份 HTML、13 个 Skill、13 个实验变体与无 Jekyll 标记通过验证 | pass |
+| GitHub Actions | 自定义 Pages workflow 构建、验证并上传静态 artifact | pending |
+| 线上核验 | GitHub Pages 与重新部署后的 Sites 均需点击代表子链接复核 | pending |
+
+### Revision 16 completion evidence
+
+- 本地 GitHub Pages 预览已从 `/0809_githubcode_study/skills/` 点击进入 `daily-photo-playground` 详情，再返回 13 Skill 目录；浏览器控制台无导航报错。
+- GitHub 导出不把 `public/generated/` 复制进仓库或 Pages artifact；页面中的研究证据仍明确来自公开研究站资源，避免把未完成逐项发布清单的素材伪装为 GitHub 自有资产。
+- GitHub Pages 是静态快照：单 Skill、横评、报告与按 Skill 展开的实验可以直接阅读；需要服务器按查询计算的 Skill 选择器继续使用 Sites 动态入口。
+
 ## Revision 15：13 个独立研究页直接目录
 
 - Entry mode: repair-led.

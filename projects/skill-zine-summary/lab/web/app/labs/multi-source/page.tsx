@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/app/components/Link";
 import { DemoFigure } from "@/app/components/DemoFigure";
 import { DigitalApplicationPreview } from "@/app/components/DigitalApplicationPreview";
 import { ProductApplicationCaseStudy } from "@/app/components/ProductApplicationStudio";
