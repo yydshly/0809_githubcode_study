@@ -17,7 +17,14 @@
 | 章节直达 | 每张卡关联上游、扩展、使用场景、产品应用和多原图实验 | pass |
 | 全局入口 | 首页首要按钮、6 项主导航、研究索引和详情页返回链指向 `/skills` | pass |
 | 响应式 | 桌面与移动端无横向溢出；6 项导航在窄屏按 2×3 排列 | pass |
-| Delivery | build、test、lint、公开部署和线上代表页检查通过 | in progress |
+| Delivery | build、test、lint、公开部署和线上代表页检查通过 | pass |
+
+### Revision 15 completion evidence
+
+- 新增 `/skills` 独立目录：公开 SSR 与浏览器均确认恰好 13 张 `data-skill-directory` 卡、78 个现有章节入口和 6 项稳定主导航；详情页仍保留上游 Demo、扩展实验、跨题材、场景库与产品系统。
+- 公开站 `/skills/photo-relic-editorial#capability-explorations` 仍有 6 个上游样例、4 个交付实验、2 个跨题材案例、5 个应用场景和 2 个产品案例；代表 SOURCE／EFFECT 公开加载为 900×1350 等比例部署副本，完整画幅未裁切。本地源图保持原始分辨率。
+- 1280×720 与 430×900 浏览器复核均为 13 张卡、零水平溢出；移动主导航修正为正常的 2×3、146px 高布局，不再继承平板断点的 540px flex basis。
+- Vinext build、ESLint 与 23／23 项 SSR／数据／资产测试通过；源代码已推送 GitHub `main`，Sites version 3 已更新到原公开地址。
 
 ## Revision 14：公开站完整研究入口修复
 
