@@ -4,6 +4,8 @@
 
 完整的本地研究站位于 `../lab/web/`，其中包含上游样例和本地生成实验。由于部分素材尚未完成逐项公开授权确认，它们不会进入 GitHub Pages 发布包。
 
+新人学习页位于 `start/`，对应长期文档 [`../BEGINNER-GUIDE.md`](../BEGINNER-GUIDE.md)。它与现有样例图库分离，只讲心智模型、技术路线、输入预检、失败类型、证据等级和第一次实验。
+
 ## 发布
 
 `.github/workflows/deploy-skill-zine-pages.yml` 在 `main` 更新本目录时，将本目录作为静态 GitHub Pages 站点发布。

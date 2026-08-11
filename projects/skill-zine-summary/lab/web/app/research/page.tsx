@@ -27,6 +27,7 @@ export default function ResearchIndexPage() {
         <div className="research-atlas-hero__intro">
           <p>这是整个子项目的统一入口。它把视觉目录、Skill 选择工作台、13 个独立页面、统一原图横评、多原图批量实验、Revision 7 报告，以及 Revision 10–13 的扩样、产品系统与选择文档连接起来。</p>
           <p><strong>数字口径：</strong>汇总表最终对应 12 个唯一上游仓库；其中一个历史仓库包含两种不同的 Skill 契约，所以网页按 13 个研究目标展开。</p>
+          <a className="button button--dark" href="https://yydshly.github.io/0809_githubcode_study/start/" rel="noreferrer" target="_blank">新人从这里开始 ↗</a>
         </div>
       </section>
 

@@ -1,0 +1,138 @@
+.guide-hero {
+  padding: 82px 0 58px;
+  border-bottom: 1px solid var(--line);
+}
+.guide-hero h1 { max-width: 1050px; }
+.guide-hero .lead { max-width: 900px; }
+
+.guide-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+.guide-jumps a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.track-grid,
+.model-grid,
+.failure-grid,
+.skill-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.track-grid { grid-template-columns: repeat(3, 1fr); }
+.model-grid { grid-template-columns: repeat(4, 1fr); }
+.failure-grid { grid-template-columns: repeat(2, 1fr); }
+.skill-grid { grid-template-columns: repeat(2, 1fr); }
+
+.track-card,
+.model-card,
+.failure-card,
+.skill-card,
+.check-panel,
+.exercise-panel {
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.27);
+}
+
+.track-card,
+.model-card,
+.failure-card { padding: 24px; }
+.track-card:nth-child(1) { border-top: 7px solid var(--yellow); }
+.track-card:nth-child(2) { border-top: 7px solid var(--red); }
+.track-card:nth-child(3) { border-top: 7px solid var(--blue); }
+.track-card h3, .model-card h3, .failure-card h3 { margin: 22px 0 10px; }
+.track-card p, .model-card p, .failure-card p { color: var(--muted); line-height: 1.65; }
+
+.skill-card summary {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 86px;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.skill-card summary::-webkit-details-marker { display: none; }
+.skill-card summary span:first-child {
+  font: 700 0.8rem/1 ui-monospace, Consolas, monospace;
+  color: var(--red);
+}
+.skill-card summary strong { font-size: 1.08rem; }
+.skill-card summary b { color: var(--muted); font-size: 1.2rem; }
+.skill-card[open] summary { border-bottom: 1px solid var(--line); }
+.skill-card[open] summary b { transform: rotate(45deg); }
+
+.skill-card__body { padding: 20px; }
+.skill-card__body p { margin: 0 0 16px; color: var(--muted); line-height: 1.65; }
+.skill-card__body dl { display: grid; gap: 12px; margin: 0; }
+.skill-card__body dl div { padding-top: 12px; border-top: 1px solid var(--line); }
+.skill-card__body dt { font-weight: 800; }
+.skill-card__body dd { margin: 5px 0 0; color: var(--muted); line-height: 1.55; }
+
+.route-table-wrap { overflow-x: auto; border: 1px solid var(--line); }
+.route-table { width: 100%; min-width: 760px; border-collapse: collapse; }
+.route-table th, .route-table td { padding: 18px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.route-table th { font: 700 0.75rem/1.3 ui-monospace, Consolas, monospace; letter-spacing: .1em; text-transform: uppercase; }
+.route-table td { color: var(--muted); line-height: 1.55; }
+.route-table td:first-child { color: var(--ink); font-weight: 800; }
+
+.check-panel, .exercise-panel { padding: 30px; }
+.check-list, .exercise-list { margin: 0; padding: 0; list-style: none; counter-reset: steps; }
+.check-list li, .exercise-list li {
+  position: relative;
+  min-height: 50px;
+  padding: 12px 12px 12px 56px;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.6;
+}
+.check-list li::before, .exercise-list li::before {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--ink);
+  font: 700 .78rem/1 ui-monospace, Consolas, monospace;
+}
+.check-list li::before { content: "?"; }
+.exercise-list li { counter-increment: steps; }
+.exercise-list li::before { content: counter(steps, decimal-leading-zero); color: var(--paper); background: var(--ink); }
+
+.evidence-scale { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--line); }
+.evidence-scale article { min-height: 180px; padding: 18px; border-right: 1px solid var(--line); }
+.evidence-scale article:last-child { border-right: 0; }
+.evidence-scale strong { display: block; margin-bottom: 22px; color: var(--red); font: 800 1.3rem/1 ui-monospace, Consolas, monospace; }
+.evidence-scale p { margin: 0; color: var(--muted); line-height: 1.55; font-size: .92rem; }
+
+.guide-footer-action { margin-top: 30px; }
+
+@media (max-width: 980px) {
+  .model-grid, .evidence-scale { grid-template-columns: repeat(2, 1fr); }
+  .evidence-scale article { border-bottom: 1px solid var(--line); }
+}
+
+@media (max-width: 720px) {
+  .track-grid, .failure-grid, .skill-grid { grid-template-columns: 1fr; }
+  .guide-hero { padding-top: 56px; }
+  .skill-card summary { grid-template-columns: 42px 1fr auto; }
+}
+
+@media (max-width: 480px) {
+  .model-grid, .evidence-scale { grid-template-columns: 1fr; }
+  .check-panel, .exercise-panel { padding: 20px; }
+}

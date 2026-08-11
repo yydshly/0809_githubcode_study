@@ -448,7 +448,22 @@ test("research atlas connects every core web surface, Skill, and first-party doc
   assert.match(html, /projects\/skill-zine-summary\/lab\/web\/REVISION12-PRODUCT-SYSTEMS\.md/);
   assert.match(html, /href="\/comparison#photo-distill"/);
   assert.match(html, /href="\/labs\/multi-source\?skill=photo-relic-editorial#selected-skill"/);
+  assert.equal((html.match(/href="https:\/\/yydshly\.github\.io\/0809_githubcode_study\/start\/"/g) ?? []).length, 1);
   assert.equal((html.match(/<h1(?:\s[^>]*)?>/g) ?? []).length, 1);
+});
+
+test("public beginner guide stays separate from the image evidence gallery", async () => {
+  const [landingHtml, beginnerHtml] = await Promise.all([
+    readFile(new URL("../../../public-site/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../../../public-site/start/index.html", import.meta.url), "utf8"),
+  ]);
+
+  assert.ok((landingHtml.match(/href="\.\/start\/"/g) ?? []).length >= 2);
+  assert.equal((beginnerHtml.match(/<details class="skill-card">/g) ?? []).length, 13);
+  assert.match(beginnerHtml, /先学会判断/);
+  assert.match(beginnerHtml, /第一次可信实验/);
+  assert.match(beginnerHtml, /证据从 E0 到 E5/);
+  assert.doesNotMatch(beginnerHtml, /<img\b|\/generated\//i);
 });
 
 test("multi-source lab reports honest totals and only expands the selected Skill", async () => {

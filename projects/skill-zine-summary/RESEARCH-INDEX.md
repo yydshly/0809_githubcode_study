@@ -8,6 +8,7 @@
 
 | 你的目标 | 建议入口 | 接着阅读 |
 | --- | --- | --- |
+| 第一次接触这些 Skill，不知道应先理解什么 | [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/) | [新人学习指南](BEGINNER-GUIDE.md) → [技术架构图](TECHNICAL-MAP.md) |
 | 快速了解整个研究 | [研究总索引 `/research`](http://localhost:4317/research) | [项目总览](README.md) → [项目清单](INVENTORY.md) |
 | 已有真实任务，但不知道该选哪个 Skill | [Skill 选择器 `/choose`](http://localhost:4317/choose) | [Revision 13 选型说明](lab/web/REVISION13-SKILL-CHOOSER.md) → 对应的 [多原图证据](http://localhost:4317/labs/multi-source) |
 | 逐个理解 Skill | [13 个 Skill 目录 `/`](http://localhost:4317/) | 选择一个 [`/skills/<slug>`](http://localhost:4317/skills/photo-distill) → 对照 [原始样例](lab/ORIGINAL-SAMPLES.md) |
@@ -40,6 +41,8 @@
 | [`/reports/revision-7`](http://localhost:4317/reports/revision-7) | 7 张来源、12 个目标 Skill、24 组实验的文字型报告 | “这轮具体做了什么，成立与部分成立的结论是什么？” | [REVISION7-RESEARCH.md](lab/web/REVISION7-RESEARCH.md)、[REVISION7-ASSETS.md](lab/web/REVISION7-ASSETS.md) |
 
 Revision 7 报告路由继续保留，并仍由研究总索引、单 Skill 页和文档地图关联；主导航把这个位置交给更常用的 `/choose`，不表示 R7 被删除或降级为无效证据。
+
+公开新人学习页与本地 7 类核心 Web 入口分开部署，不加载上游或本地生成图片；本地研究总索引只保留一个跳转入口，因此不会把学习说明混入现有样例阅读流。
 
 多原图实验室当前聚合 **127 组图片 SOURCE → 图片 EFFECT**：13 组 Revision 12 产品系统实验、13 组 Revision 11 反向题材压力测试、13 组 Revision 10 独立原图扩样、37 组统一原图基线、20 组图片计划交付、4 组 Photo Relic 受控配对和 27 组跨题材探索。它们来自 **57 个不同图片来源路径**；另有 2 个文字驱动静态效果与 2 个实时交互，因此总口径为 **129 个静态／131 个效果证据**。Revision 12 的 13 个完整产品系统数字预演复用对应 EFFECT，不重复计数。Revision 13 只把这些既有证据组织成任务选型入口，不新增效果图片、SOURCE、产品预演或证据项，也不是质量排名，因此上述口径保持不变。
 
@@ -80,6 +83,8 @@ Revision 7 报告路由继续保留，并仍由研究总索引、单 Skill 页�
 | [TECHNICAL-MAP.md](TECHNICAL-MAP.md) | 统一技术分层、中间表示、渲染后端、真实性策略与 QA | 想跨 Skill 提炼可复用能力时 | `/comparison`、`/skills/<slug>` |
 | [LEARNING-ROADMAP.md](LEARNING-ROADMAP.md) | 分阶段实验、产出和验收标准 | 准备制定下一轮实现顺序时 | `/research`、`/labs/multi-source` |
 | [RESEARCH.md](RESEARCH.md) | 研究问题、证据、决定、开放问题与后续日志 | 想知道结论如何形成、还有什么没回答时 | `/comparison`、`/labs/multi-source` |
+
+补充学习文档：[BEGINNER-GUIDE.md](BEGINNER-GUIDE.md) 负责新人心智模型、13 个 Skill 快速卡、输入预检、失败类型与第一次实验。它不纳入上述 20 份核心审计文档计数，避免改变现有 Web 文档地图口径。
 
 ### 3. 上游获取、原始证据与复现
 

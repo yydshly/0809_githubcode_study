@@ -6,6 +6,7 @@
 
 - [研究总索引](../../RESEARCH-INDEX.md)：统一说明网页与 Markdown 的关系、证据等级、阅读路径和发布边界；
 - [本地研究入口 `/research`](http://localhost:4317/research)：浏览 Skill 选择器、13 个 Skill、比较页、实验室和报告入口；
+- [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/)：与样例图库分离，先理解路线、输入、失败、证据等级和第一次实验；
 - [Skill 选择器 `/choose`](http://localhost:4317/choose)：从任务用途、真实性、技术路径和产品化形态反选 Skill，并直达对应证据；
 - [多原图实验室 `/labs/multi-source`](http://localhost:4317/labs/multi-source)：集中查看不同原图在各 Skill 下的完整 SOURCE → EFFECT 证据；
 - [Revision 10 独立原图扩样](REVISION10-INDEPENDENT-SOURCES.md)：核对第一轮 13 张独立 SOURCE、对应 EFFECT、用途与生产边界；

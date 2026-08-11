@@ -6,6 +6,7 @@
 
 - [研究总索引](RESEARCH-INDEX.md)：统一关联 Web 入口、13 个 Skill 页面、研究文档、证据等级与推荐阅读路径；
 - [本地 Web 研究入口 `/research`](http://localhost:4317/research)：从浏览器进入 Skill 选择器、单 Skill、统一原图横评、多原图实验室和 Revision 7 报告；
+- [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/)：不加载样例图库，先理解 13 个 Skill 的路线、输入、失败与证据边界；
 - [Skill 选择器 `/choose`](http://localhost:4317/choose)：从用途、真实性、技术路径和产品化形态反选 13 个 Skill，再直达对应 SOURCE → EFFECT 证据；
 - [多原图实验室 `/labs/multi-source`](http://localhost:4317/labs/multi-source)：按 Skill 汇集现有完整 SOURCE → EFFECT 证据，理解换题材后的能力、场景与边界；
 - [Revision 10 独立原图扩样](lab/web/REVISION10-INDEPENDENT-SOURCES.md)：记录第一轮 13 个独立 SOURCE、效果与边界；
