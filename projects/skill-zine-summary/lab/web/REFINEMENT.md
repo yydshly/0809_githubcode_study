@@ -18,12 +18,14 @@
 | 多原图实验 | 每个 Skill 有独立静态实验页，查询入口被改写为目录路由 | pass |
 | 仓库子路径 | 所有内部链接与静态资源带 `/0809_githubcode_study/` 前缀 | pass |
 | 本地导出 | 35 份 HTML、13 个 Skill、13 个实验变体与无 Jekyll 标记通过验证 | pass |
-| GitHub Actions | 自定义 Pages workflow 构建、验证并上传静态 artifact | pending |
-| 线上核验 | GitHub Pages 与重新部署后的 Sites 均需点击代表子链接复核 | pending |
+| GitHub Actions | 自定义 Pages workflow 构建、验证并上传静态 artifact | pass |
+| 线上核验 | GitHub Pages 与重新部署后的 Sites 均点击代表子链接复核 | pass |
 
 ### Revision 16 completion evidence
 
 - 本地 GitHub Pages 预览已从 `/0809_githubcode_study/skills/` 点击进入 `daily-photo-playground` 详情，再返回 13 Skill 目录；浏览器控制台无导航报错。
+- GitHub Actions run `31476465349` 已完成构建、导出、路由验证、artifact 上传与 Pages 发布；公开 `/skills/` 显示 13 张卡，点击后进入 `daily-photo-playground`，并确认 20 份可沉浸查看证据。
+- Sites Version 4 已重新部署；公开 `/skills` 同样显示 13 张卡，点击普通链接后进入相同详情页，不再停留在目录页。
 - GitHub 导出不把 `public/generated/` 复制进仓库或 Pages artifact；页面中的研究证据仍明确来自公开研究站资源，避免把未完成逐项发布清单的素材伪装为 GitHub 自有资产。
 - GitHub Pages 是静态快照：单 Skill、横评、报告与按 Skill 展开的实验可以直接阅读；需要服务器按查询计算的 Skill 选择器继续使用 Sites 动态入口。
 
