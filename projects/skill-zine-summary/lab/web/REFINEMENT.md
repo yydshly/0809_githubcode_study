@@ -21,11 +21,18 @@
 | --- | --- | --- | --- | --- |
 | Public/local parity | `/research` 与 `/labs/multi-source` 的 Skill 链接、正文长度、图片数和 Revision 10–12 标记一致 | 保持数据与路由不变 | pass | — |
 | Deep-page assets | `photo-relic-editorial#upstream` 的 6 张固定提交样例滚动后全部加载；详情页章节完整 | 保持懒加载与全图显示 | pass | — |
-| Homepage discoverability | 首页有 13 个详情卡，但首要按钮未指向完整总索引，未显示 127／57／129／131 总账 | 增加完整档案摘要与入口 | continue | 修改首页 |
-| Research-index clarity | `/research` 有 13 Skill、7 类网页和 20 文档，但首屏只显示 12／13／7／20 | 增加批量证据总账与“旧研究仍保留”说明 | continue | 修改研究索引 |
-| Lab selection clarity | `/labs/multi-source` 默认展开第一个 Skill；一次只展开一个的说明位于首屏以下 | 首屏说明性能策略并直达 13 项选择器 | continue | 修改实验室 |
-| Cross-surface | 当前桌面首屏无溢出；新入口将进入共享响应式布局 | 桌面与窄屏入口可读、可点击 | continue | 浏览器复核 |
-| Delivery | 当前公开版本可访问但入口语义不足 | build/test/lint、重新部署、公开站复核 | continue | 完成实现后执行 |
+| Homepage discoverability | 首页有 13 个详情卡，但首要按钮未指向完整总索引，未显示 127／57／129／131 总账 | 增加完整档案摘要与入口 | pass | 首页现显示 13／127／131／20 总账与三个直达入口 |
+| Research-index clarity | `/research` 有 13 Skill、7 类网页和 20 文档，但首屏只显示 12／13／7／20 | 增加批量证据总账与“旧研究仍保留”说明 | pass | 索引现明确列出 127／57／129／131 并保留 13 张关联卡 |
+| Lab selection clarity | `/labs/multi-source` 默认展开第一个 Skill；一次只展开一个的说明位于首屏以下 | 首屏说明性能策略并直达 13 项选择器 | pass | 首屏解释单 Skill 加载策略并直达 13 项选择器 |
+| Cross-surface | 当前桌面首屏无溢出；新入口将进入共享响应式布局 | 桌面与窄屏入口可读、可点击 | pass | 默认桌面与 430×900 均无水平溢出，移动按钮高度 44px |
+| Delivery | 当前公开版本可访问但入口语义不足 | build/test/lint、重新部署、公开站复核 | pass | 22／22 测试、lint、公开首页／索引／实验室／深度页浏览器复核通过 |
+
+### Revision 14 completion evidence
+
+- 公开首页现在首先提供“查看全部研究档案”，并在首屏之后明确显示 **13 个深度页／127 组图片配对／131 项总效果证据／20 份核心文档**；旧有 13 张 Skill 视觉卡、横评、报告和图片资产没有被删除或重新计数。
+- `/research` 继续保留 13 张 Skill 关联卡、7 类网页入口和 20 份文档，同时增加 127／57／129／131 批量证据总账；`/labs/multi-source` 明确说明默认只展开第一个 Skill 是图片性能策略，并提供 13 项选择器锚点。
+- 公开站浏览器复核：首页 13 张 Skill 卡与新增总账存在；研究索引为 13 Skill／20 文档；实验室为 13 个选择项、默认 Daily 10 个案例；`photo-relic-editorial#capability-explorations` 的首组 SOURCE／EFFECT 均从公开地址加载为 1024×1536。所有代表页面水平溢出为 0。
+- 本地与公开 430×900 移动视口均保持单列入口布局、两列数字总账、44px 操作按钮和零水平溢出。Vinext build、ESLint 与 **22／22** 项 SSR／数据／资产测试通过；修复版本已发布到原公开站地址。
 
 ## Revision 13：从样例库到 Skill 选择工作台
 
