@@ -2,6 +2,17 @@
 
 > 把一个艺术杂志 Skill 样图目录，整理为可复现、可比较、许可边界清楚的 Codex 视觉技能技术储备地图。
 
+## 研究导航
+
+- [研究总索引](RESEARCH-INDEX.md)：统一关联 Web 入口、13 个 Skill 页面、研究文档、证据等级与推荐阅读路径；
+- [本地 Web 研究入口 `/research`](http://localhost:4317/research)：从浏览器进入 Skill 选择器、单 Skill、统一原图横评、多原图实验室和 Revision 7 报告；
+- [Skill 选择器 `/choose`](http://localhost:4317/choose)：从用途、真实性、技术路径和产品化形态反选 13 个 Skill，再直达对应 SOURCE → EFFECT 证据；
+- [多原图实验室 `/labs/multi-source`](http://localhost:4317/labs/multi-source)：按 Skill 汇集现有完整 SOURCE → EFFECT 证据，理解换题材后的能力、场景与边界；
+- [Revision 10 独立原图扩样](lab/web/REVISION10-INDEPENDENT-SOURCES.md)：记录第一轮 13 个独立 SOURCE、效果与边界；
+- [Revision 11 反向题材与产品预演](lab/web/REVISION11-STRESS-AND-APPLICATIONS.md)：记录第二轮 13 个相反角度、产品载体和生产下一步；
+- [Revision 12 完整产品系统](lab/web/REVISION12-PRODUCT-SYSTEMS.md)：记录第三轮 13 个新题材、完整产品表面、使用环境和生产路径；
+- [Revision 13 Skill 选型](lab/web/REVISION13-SKILL-CHOOSER.md)：说明 `/choose` 如何从任务约束路由到现有证据，以及为什么它不是质量排名。
+
 ## 项目卡
 
 | 字段 | 内容 |
@@ -12,8 +23,8 @@
 | 主上游 | [tluy/skill-zine-summary](https://github.com/tluy/skill-zine-summary) |
 | 固定版本 | [`2c65c251bc6909f077ae9974e3251d164a07c924`](https://github.com/tluy/skill-zine-summary/commit/2c65c251bc6909f077ae9974e3251d164a07c924) |
 | 独立仓库 | 暂无 |
-| 在线演示 | 暂无 |
-| 最后核对 | 2026-08-09 |
+| 在线演示 | [GitHub Pages 公开研究入口](https://yydshly.github.io/0809_githubcode_study/) · [本地 13 Skill 完整实验室](lab/web/README.md) |
+| 最后核对 | 2026-08-10 |
 | 上游许可 | 汇总库未声明；12 个目标仓库逐项记录在 [UPSTREAM.md](UPSTREAM.md) |
 
 ## 先给结论
@@ -69,14 +80,27 @@
 
 全部 12 个上游的本地固定版本、原始能力样例画廊和运行流程位于 [研究实验室](lab/README.md)。
 
+13 个 Skill 的独立能力页面位于 [本地 Web 研究站](lab/web/README.md)：每页包含上游 Demo 证据、能力与场景说明、至少五项本地效果、每项效果对应的真实使用场景与完整交付展示、技术路径、边界和下一轮扩展方向。Revision 6 为每页提供 2 个完整产品应用，共 26 个场景，把效果继续放进产品版面、现实环境数字预演和四步落地流程。
+
+Revision 7 复用 7 张项目内合成来源，为除 Photo Distill 外的 12 个 Skill 各增加 2 个能力问题，共形成 24 组实验、24 张新效果、24 张网页研究卡和 24 个轻量 HTML/CSS 产品语境预演。Photo Distill 的 3 组跨题材探索来自 Revision 6，不计入本轮 24 组；两部分合计为全站 27 组跨题材探索。Revision 10、11、12 随后分别给全部 13 个 Skill 各补一张不复用的新 SOURCE 与对应 EFFECT；第三轮进一步为同一 EFFECT 建立多表面产品系统、使用环境与四步生产路径。当前全站为 129 张完整静态效果和 2 个实时效果实验；见 [Revision 10](lab/web/REVISION10-INDEPENDENT-SOURCES.md)、[Revision 11](lab/web/REVISION11-STRESS-AND-APPLICATIONS.md) 与 [Revision 12](lab/web/REVISION12-PRODUCT-SYSTEMS.md)。
+
+Revision 13 不再机械增加图片，而是建立 `/choose`，把现有 13 个 Skill 按用途、真实性、技术路径和产品化形态组织为任务选型入口。它不新增 SOURCE、EFFECT、产品系统或效果证据，**127 组图片配对／57 个来源路径／129 个静态效果／131 个总效果证据／13 个 R12 产品系统**的口径保持不变；选择结果也不是作品质量排名。Revision 7 报告继续完整保留，但主导航把入口位置交给 `/choose`，R7 仍可从研究总索引、单 Skill 页和文档地图进入。
+
 ## 研究文档
 
+- [RESEARCH-INDEX.md](RESEARCH-INDEX.md)：Web 入口、13 个 Skill、全部研究文档、证据等级与推荐阅读路径的总索引；
 - [UPSTREAM.md](UPSTREAM.md)：主上游快照、12 个目标仓库许可与使用边界；
 - [INVENTORY.md](INVENTORY.md)：原始 14 条到 12 个真实仓库的映射和逐库技术卡；
 - [TECHNICAL-MAP.md](TECHNICAL-MAP.md)：统一技术分层、中间表示、后端选择和 QA 指标；
 - [LEARNING-ROADMAP.md](LEARNING-ROADMAP.md)：分阶段最小实验、产出和验收标准；
 - [RESEARCH.md](RESEARCH.md)：研究问题、证据、决定、开放问题与后续实验日志；
 - [lab/README.md](lab/README.md)：12 个上游的本地固定检出、原始样例画廊、运行手册与实验记录模板。
+- [lab/web/REVISION7-RESEARCH.md](lab/web/REVISION7-RESEARCH.md)：Revision 7 的准确数量口径、逐 Skill 研究说明、跨路线结论和真实性边界；
+- [lab/web/REVISION7-ASSETS.md](lab/web/REVISION7-ASSETS.md)：7 张来源的复用关系、24 张效果路径、提示摘要与 SHA-256。
+- [lab/web/REVISION10-INDEPENDENT-SOURCES.md](lab/web/REVISION10-INDEPENDENT-SOURCES.md)：第一轮 13 个独立输入、效果、用途和生产边界；
+- [lab/web/REVISION11-STRESS-AND-APPLICATIONS.md](lab/web/REVISION11-STRESS-AND-APPLICATIONS.md)：第二轮 13 个反向题材、产品数字预演和真实生产下一步。
+- [lab/web/REVISION12-PRODUCT-SYSTEMS.md](lab/web/REVISION12-PRODUCT-SYSTEMS.md)：第三轮 13 个新题材、完整产品系统、使用环境、输出规格与诚实边界。
+- [lab/web/REVISION13-SKILL-CHOOSER.md](lab/web/REVISION13-SKILL-CHOOSER.md)：从任务反选 13 个 Skill 的四维契约、R12 证据映射与不可排名边界。
 
 ## 当前进度
 
@@ -88,8 +112,13 @@
 - [x] 建立研究实验室并验证 12/12 个上游固定检出；
 - [x] 建立固定提交上的原始样例能力画廊；
 - [ ] 补录你此前已经研究过的子库及已有产出；
-- [ ] 建立同源照片受控评测集；
-- [ ] 执行第一阶段 MIT 项目基线实验；
+- [x] 建立同一张合成照片驱动的 13 Skill 视觉对照集；
+- [x] 建立 13 个独立 Skill 页面和统一原图横评页；
+- [x] 为全部本地效果补齐受众、任务、交付物、适配原因、边界和扩展方向；
+- [x] 完成第一轮视觉能力基线实验；
+- [x] 完成 Revision 7 的 24 组跨题材实验，并沉淀人类可读研究报告与资产账本；
+- [x] 完成 Revision 10–12 的三轮全 Skill 独立扩样，并把最新 13 组效果推进为完整产品系统数字预演；
+- [x] 建立 Revision 13 `/choose` 任务选型入口，并关联全部 13 个 Skill 的现有证据；
 - [ ] 沉淀自己的中间表示和原创 validator。
 
 ## 与此前研究衔接

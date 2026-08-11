@@ -1,5 +1,7 @@
 # 技术架构图
 
+> 研究导航：[总索引](RESEARCH-INDEX.md) · [统一原图横评](http://localhost:4317/comparison) · [多原图实验室](http://localhost:4317/labs/multi-source)
+
 ## 从输入到交付的路线选择
 
 ```mermaid

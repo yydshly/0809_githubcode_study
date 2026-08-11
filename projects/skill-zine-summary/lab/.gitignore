@@ -6,3 +6,8 @@ sources/
 outputs/
 cache/
 inputs/private/
+
+# Local image-generation outputs used by the comparison site. The gallery code
+# is tracked, but generated images stay local until every upstream license and
+# publication right is cleared.
+web/public/generated/

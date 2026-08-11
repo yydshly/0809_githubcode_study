@@ -1,5 +1,7 @@
 # 实验室运行手册
 
+> 研究导航：[总索引](../RESEARCH-INDEX.md) · [多原图实验室](http://localhost:4317/labs/multi-source) · [实验记录](records/README.md)
+
 ## 1. 获取与验证
 
 ```powershell

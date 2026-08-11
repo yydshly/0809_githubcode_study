@@ -1,0 +1,468 @@
+import type { CapabilityApplication, CapabilityExploration } from "@/app/data/capability-explorations";
+import { revision7Conclusions } from "@/app/data/revision7-conclusions";
+import type { DemoImage } from "@/app/data/skills";
+
+const source = {
+  vocalist: {
+    src: "/generated/source/next/pixel-closeup-vocalist-source.png",
+    alt: "虚构成年女爵士歌手在深夜演出结束后的完整头肩近景",
+    caption: "完整输入：祖母绿外套、梅子色高领、金色耳环、麦克风与深青酒红俱乐部共同构成情绪和材料层级。",
+  },
+  cameraShop: {
+    src: "/generated/source/next/night-camera-shop-source.png",
+    alt: "雨夜仍亮着暖灯的旧照相馆完整街景",
+    caption: "完整输入：店门、橱窗、暖灯、蓝黑街面与湿地反射组成清楚的建筑轴线和夜间色彩角色。",
+  },
+  florist: {
+    src: "/generated/source/next/florist-crosswalk-source.png",
+    alt: "虚构成年女花艺师抱着花束站在雨夜轨道旁的完整场景",
+    caption: "完整输入：蓝色外套、暖橙围巾、彩色花束、轨道路径、湿地与远处电车形成连贯的人物故事。",
+  },
+  reunion: {
+    src: "/generated/source/next/adult-reunion-source.png",
+    alt: "五位虚构成年女性在彩色公寓餐桌旁重聚的完整场景",
+    caption: "完整输入：五位成年女性、围桌关系、手势、食物、酒红与蓝绿色服装共同构成多人叙事层级。",
+  },
+  musicBox: {
+    src: "/generated/source/next/photo-revival-music-box-source.png",
+    alt: "孔雀蓝旧音乐盒、黄铜摇柄和缺失星形嵌件的完整静物",
+    caption: "完整输入：孔雀蓝漆面、酒红接缝、磨旧黄铜摇柄和缺星空位提供清楚的材料与记忆线索。",
+  },
+  interchange: {
+    src: "/generated/source/next/north-harbor-interchange-source.png",
+    alt: "雨夜北港换乘枢纽中顶棚、列车、楼梯和密集人群的完整场景",
+    caption: "完整输入：玻璃顶棚、交汇轨道、楼梯、行人密度、湿地反射与黄色注意点形成复杂城市关系。",
+  },
+  seasons: {
+    src: "/generated/source/next/season-seed-library-source.png",
+    alt: "同一海边温室在春夏秋冬四个季节中的完整来源板",
+    caption: "完整输入：四个成员共享温室结构与视角，只改变植物密度、天气、地面状态和季节色彩。",
+  },
+} satisfies Record<string, DemoImage>;
+
+const applications: Record<string, CapabilityApplication> = {
+  "vocalist-afterglow-editorial": { kind: "editorial", title: "爵士演出季人物特刊跨页", context: "独立俱乐部入口与演出季刊物", specification: "A4 跨页 + 1080×1350 社交首图" },
+  "night-camera-shop-editorial": { kind: "poster", title: "街区夜游店铺观察海报", context: "旧街区导览入口与店铺橱窗", specification: "A2 竖版海报，完整照片窗保持 contain" },
+  "florist-crosswalk-five-mark": { kind: "card", title: "动作观察五记号练习卡", context: "舞蹈与视觉观察工作坊桌面", specification: "A5 双面练习卡 + 投影讲义" },
+  "music-box-minimal-mark": { kind: "card", title: "旧物最少关系观察卡", context: "博物馆物件观察与课堂练习", specification: "A6 物件卡，五个 mark 逐项编号" },
+  "camera-shop-night-balance": { kind: "editorial", title: "夜游城市摄影册章节", context: "精品酒店大堂阅读台", specification: "170×240 mm 摄影册跨页" },
+  "florist-rain-balance": { kind: "poster", title: "电车沿线人物故事海报", context: "城市摄影展入口墙", specification: "700×1050 mm 展览海报" },
+  "reunion-table-collage": { kind: "editorial", title: "女性友谊口述史折页", context: "社区口述史共读桌", specification: "八折册 140×210 mm 成品尺寸" },
+  "night-camera-shop-gathered": { kind: "exhibition", title: "独立店铺夜游展墙", context: "地方史展览与街区夜游节点", specification: "三联灯箱中的地点主画面" },
+  "vocalist-after-note-distillation": { kind: "screen", title: "实验音乐节舞台过场", context: "无字舞台 LED 与节目间转场", specification: "3840×2160 舞台屏，静态 fallback" },
+  "camera-shop-night-distillation": { kind: "cover", title: "城市夜间文学封面", context: "独立书店新书台", specification: "130×198 mm 书封 + 书脊延展" },
+  "music-box-missing-star": { kind: "cover", title: "记忆散文《缺失仍在发声》封面", context: "博物馆书店与声音作品发布页", specification: "130×198 mm 书封 + 3000 px 数字封面" },
+  "reunion-last-toast": { kind: "poster", title: "社区重聚活动主海报", context: "社区中心入口和活动报名页", specification: "A2 海报 + 1080×1350 社交图" },
+  "night-camera-shop-memory": { kind: "postcard", title: "街区旧店记忆明信片", context: "地方博物馆商店与城市散步路线", specification: "100×150 mm 可书写纪念卡" },
+  "florist-rain-memory": { kind: "card", title: "花店人物故事赠卡", context: "花店柜台与雨季赠礼包装", specification: "105×148 mm 故事卡 + 小型折页" },
+  "reunion-multi-subject-halftone": { kind: "poster", title: "女性友谊主题活动海报", context: "社区文化活动入口与主题发布页", specification: "A1 两至三色网点海报；不用于身份档案" },
+  "music-box-material-halftone": { kind: "packaging", title: "声音作品实体封套", context: "独立唱片台与器物展商店", specification: "方形封套 + 两色内页 + 贴纸" },
+  "music-box-relic": { kind: "card", title: "博物馆捐赠物故事标签", context: "音乐盒展柜与数字藏品页", specification: "A5 故事卡 + 90×140 mm 标签" },
+  "interchange-crowd-relic": { kind: "editorial", title: "通勤口述史杂志跨页", context: "城市交通专题展与公共议题刊物", specification: "A4 跨页，照片区和 relic 区各半" },
+  "florist-crosswalk-poetic": { kind: "poster", title: "城市人物音乐会海报", context: "小型音乐厅入口与电车站灯箱", specification: "2:3 海报 + 1080×1920 竖屏" },
+  "camera-shop-poetic": { kind: "screen", title: "街区声音散步舞台图", context: "夜游集合点与朗读会背景屏", specification: "3840×2160 静态舞台画面" },
+  "reunion-relations-editorial": { kind: "editorial", title: "社会关系摄影专题跨页", context: "口述史研究刊物与编辑展板", specification: "A3 跨页，完整照片区 + 关系面板" },
+  "greenhouse-season-relations": { kind: "exhibition", title: "种子图书馆四季关系展板", context: "植物园教育墙与年度报告发布区", specification: "四联 700×1050 mm 展板" },
+  "camera-shop-night-postcard": { kind: "postcard", title: "雨夜照相馆双面纪念卡", context: "街区夜游礼宾台与博物馆商店", specification: "100×150 mm 正反面，3 mm 出血" },
+  "florist-rain-postcard": { kind: "postcard", title: "雨季花店人物故事卡", context: "花店赠卡架与电车沿线旅行套系", specification: "100×150 mm 正反面，可书写背面" },
+};
+
+const study = (entry: Omit<CapabilityExploration, "application" | "conclusion">): CapabilityExploration => {
+  const application = applications[entry.id];
+  const conclusion = revision7Conclusions[entry.id];
+  if (!application) {
+    throw new Error(`Missing product application for Revision 7 study: ${entry.id}`);
+  }
+  if (!conclusion) {
+    throw new Error(`Missing conclusion for Revision 7 study: ${entry.id}`);
+  }
+
+  return { ...entry, application, conclusion };
+};
+
+export const revision7CapabilityExplorationsBySlug: Record<string, readonly CapabilityExploration[]> = {
+  "daily-photo-playground": [
+    study({
+      id: "vocalist-afterglow-editorial",
+      title: "最后一个音符：大近景能否进入高饱和编辑版心",
+      question: "当输入几乎全部由脸部、肩部和舞台情绪构成时，这条路线能否建立色场、越界主体和照片证据窗，而不退化成普通的人像滤镜？",
+      source: source.vocalist,
+      effect: {
+        src: "/generated/studies/daily-photo-playground/vocalist-afterglow-editorial-effect.png",
+        alt: "将爵士歌手近景组织为高饱和色场、越界人物和完整照片窗的编辑海报",
+        caption: "本地新效果：深青、酒红与铜金承担背景和锚点，完整原照窗负责证据，人物切出负责近景张力；不是上游官方输出。",
+      },
+      retained: ["头肩近景、视线和演出结束后的复杂情绪", "祖母绿、梅子色与金色三层来源色", "麦克风和俱乐部暗场提供的空间证据"],
+      discarded: ["写实皮肤和发丝的全部微观细节", "酒吧中不影响叙事的零散物件", "自然摄影中的连续景深和光斑"],
+      productDirections: ["爵士 EP 人物特刊", "夜间演出季主视觉", "移动端人物故事连载"],
+      process: ["先提取情绪、近景比例和三层来源色。", "再建立色场、越界主体、几何块和完整证据窗。", "最后分别适配封面、竖屏和活动海报的安全区。"],
+    }),
+    study({
+      id: "night-camera-shop-editorial",
+      title: "雨夜店面：没有人物时能否只靠建筑关系建立节奏",
+      question: "面对正立面的旧店铺，能否用门窗轴、暖灯、湿地反射和留白形成编辑重构，同时保留地点可识别性？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/daily-photo-playground/night-camera-shop-editorial-effect.png",
+        alt: "用高饱和色场和完整照片窗重构雨夜照相馆的编辑海报",
+        caption: "本地新效果：建筑轴线替代人物姿态，暖灯成为唯一高彩锚，原照窗保留地点证据；不是上游官方输出。",
+      },
+      retained: ["店门、橱窗和招牌形成的正立面秩序", "暖灯与蓝黑雨夜的主色冲突", "湿地反射延伸出的垂直节奏"],
+      discarded: ["砖缝、商品和室内陈设的小细节", "所有可读店铺文字", "写实雨滴和车辆反光"],
+      productDirections: ["城市店铺观察特刊", "街区夜游导览封面", "独立店铺社交故事"],
+      process: ["先把门窗、灯光和反射读成几何与色彩角色。", "再用大色场、建筑切出和完整照片窗建立层级。", "最后按地图折页、网页章节或橱窗海报调整信息区。"],
+    }),
+  ],
+  "dyy-photo-deconstruct": [
+    study({
+      id: "florist-crosswalk-five-mark",
+      title: "花艺师过街：人物故事能否压缩为五种必要记号",
+      question: "不保留脸、衣服轮廓和花瓣时，仅靠动作弧、花束质量、轨道路由、围巾方向和落点，是否仍能读出人物正在雨中等待？",
+      source: source.florist,
+      effect: {
+        src: "/generated/studies/dyy-photo-deconstruct/florist-crosswalk-five-mark-effect.png",
+        alt: "以五类最少记号和大片旧纸留白表达雨夜花艺师动作的抽象画面",
+        caption: "本地新效果：完全移除照片，只保留动作、质量、路径、方向和接触点；不是上游官方输出。",
+      },
+      retained: ["身体微微前倾的动作弧", "花束集中质量与围巾方向", "轨道接近路径和脚下落点"],
+      discarded: ["脸部、发型与服装款式", "具体花材、建筑和车辆", "照片灯光与雨滴质感"],
+      productDirections: ["动作观察练习卡", "舞蹈或戏剧节目册插页", "极简人物章节页"],
+      process: ["先把可读性拆成五个不可再减的关系。", "再为每个关系分配一种 mark，禁止增加装饰。", "最后在缩略尺寸检查动作方向是否仍可读。"],
+    }),
+    study({
+      id: "music-box-minimal-mark",
+      title: "缺星音乐盒：静物能否只靠空位和材料关系成立",
+      question: "当物件没有人物动作时，盒体质量、黄铜摇柄、酒红接缝与缺星空位是否足以形成一个可识别但不描轮廓的静物记忆？",
+      source: source.musicBox,
+      effect: {
+        src: "/generated/studies/dyy-photo-deconstruct/music-box-minimal-mark-effect.png",
+        alt: "用盒体质量、摇柄线、接缝和缺星空位表达音乐盒的极简旧纸画面",
+        caption: "本地新效果：静物被压缩为质量、线、空位和两个微小接触点，绝大部分画面保持空纸。",
+      },
+      retained: ["低矮盒体的重心和比例", "摇柄伸出方向与接缝位置", "缺失星形留下的关键负空间"],
+      discarded: ["漆面反光、划痕和木纹", "盒盖上的全部装饰", "写实透视和摄影阴影"],
+      productDirections: ["博物馆物件观察卡", "记忆主题书籍插图", "产品设计形态练习"],
+      process: ["先找出使物件仍被认出的三个关系。", "再用一个质量、两条线、一个空位和两个点重建。", "最后检查是否因增加细节而破坏大留白。"],
+    }),
+  ],
+  "travel-photo-abstraction": [
+    study({
+      id: "camera-shop-night-balance",
+      title: "暗店与浅纸：夜景照片能否和抽象面板保持平衡",
+      question: "完整暗色照片与浅色下方面板并置时，能否只提取门窗轴、暖灯质量和湿地间隔，同时避免上重下轻？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/travel-photo-abstraction/camera-shop-night-balance-effect.png",
+        alt: "完整雨夜店面证据窗与门窗轴、暖灯质量、湿地间隔抽象面板的组合",
+        caption: "本地概念研究：照片窗视觉上完整，面板只转译关系；未声称通过上游脚本的像素忠实度验证。",
+      },
+      retained: ["完整店面证据与正立面门窗轴", "暖灯在暗场中的质量角色", "湿地反射形成的间隔与深度"],
+      discarded: ["可读店铺文字与室内商品", "砖墙和雨滴的表面纹理", "面板中的具象店面轮廓"],
+      productDirections: ["夜游城市摄影册", "酒店街区指南", "地方店铺档案展板"],
+      process: ["先锁定完整 source 的显示角色。", "再把轴线、质量和间隔交给下方面板表达。", "正式交付时用确定性合成重新嵌入原图并验证。"],
+    }),
+    study({
+      id: "florist-rain-balance",
+      title: "人物与轨道：多种关系能否收束为一个下方面板",
+      question: "人物质量、花束色锚、轨道路由和雨面节奏同时存在时，面板能否建立明确主次，而不把每个事实都画成图标？",
+      source: source.florist,
+      effect: {
+        src: "/generated/studies/travel-photo-abstraction/florist-rain-balance-effect.png",
+        alt: "完整花艺师雨夜照片窗与人物质量、花束色锚、轨道路由抽象面板的组合",
+        caption: "本地概念研究：完整输入负责人物证据，下方面板负责关系抽象；照片窗不作像素保真承诺。",
+      },
+      retained: ["人物在画面中的重量与等待姿态", "花束作为唯一多彩注意锚", "轨道接近方向和雨面短节奏"],
+      discarded: ["脸部身份和具体服装剪裁", "花瓣数量、车站设施与背景文字", "面板中的人物剪影复刻"],
+      productDirections: ["城市女性旅行故事", "电车沿线摄影展章节", "雨季酒店文化指南"],
+      process: ["先按人物、色锚、路径和天气给来源分层。", "再选一个主质量与一条主路径，其他信息降为节奏。", "最终用脚本完成原图锁定、标题和输出检查。"],
+    }),
+  ],
+  "scenes-gathered-zine": [
+    study({
+      id: "reunion-table-collage",
+      title: "五人重聚：实景拼贴能否保持人物关系而不变成剪贴簿",
+      question: "面对五位成人、桌面和密集生活细节，能否用一个完整照片窗、撕纸边、抽象场和单一结构色维持清楚的关系层级？",
+      source: source.reunion,
+      effect: {
+        src: "/generated/studies/scenes-gathered-zine/reunion-table-collage-effect.png",
+        alt: "保留完整五人重聚照片窗并用撕纸和单一结构色连接人物关系的拼贴海报",
+        caption: "本地新效果：照片承担真实场景，抽象场只连接人物和桌面关系；不是已删除历史 Skill 的官方输出。",
+      },
+      retained: ["五位成人的左右次序和围桌关系", "手势、餐桌和视线构成的交流中心", "酒红、蓝绿与暖灯的来源色角色"],
+      discarded: ["背景摆件与食物的逐件复刻", "过多撕纸层和装饰贴纸", "任何虚构的新人物或文字"],
+      productDirections: ["女性友谊口述史折页", "社区家庭故事展墙", "纪念册人物关系开篇"],
+      process: ["先确定完整照片窗和五人关系中心。", "再用一块抽象场和单一结构色跨越人物与桌面。", "最后限制拼贴层数，保证真实照片仍是第一证据。"],
+    }),
+    study({
+      id: "night-camera-shop-gathered",
+      title: "独店夜景：没有人物时拼贴靠什么维持现场感",
+      question: "当输入只有建筑、暖灯和雨地时，撕纸边与抽象场能否连接门窗和反射，而不凭空制造人物故事？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/scenes-gathered-zine/night-camera-shop-gathered-effect.png",
+        alt: "完整夜间照相馆照片窗与撕纸、抽象场和结构色组成的实景拼贴",
+        caption: "本地新效果：地点、灯光和雨地是全部事实来源；拼贴不新增人物，也不是上游历史实现的直接复制。",
+      },
+      retained: ["完整店面和门窗注册关系", "暖灯与蓝黑街面的色彩对抗", "湿地反射把画面向下延伸的方向"],
+      discarded: ["所有不可验证的人物叙事", "店内细碎商品与可读招牌", "多色装饰和重复照片碎片"],
+      productDirections: ["独立店铺夜游地图", "地方史摄影展章节", "城市保存计划海报"],
+      process: ["先把照片视为不可替代的实景锚。", "再用撕纸边和单一结构色连接门窗与反射。", "最后删除不能从来源得到的装饰和故事线索。"],
+    }),
+  ],
+  "scene-distillation-zine": [
+    study({
+      id: "vocalist-after-note-distillation",
+      title: "最后一音之后：情绪能否脱离脸部继续存在",
+      question: "完全移除歌手照片后，声音弧、舞台空位和三种色彩角色能否表达释然、坚定与轻微惆怅，而不画出具象人脸？",
+      source: source.vocalist,
+      effect: {
+        src: "/generated/studies/scene-distillation-zine/vocalist-after-note-distillation-effect.png",
+        alt: "用声音弧、舞台空位和莓红深青金色角色蒸馏演出结束情绪的抽象画面",
+        caption: "本地新效果：照片像素完全不进入成品，只保留情绪命题、中心张力与形式化隐喻。",
+      },
+      retained: ["最后一个音符结束后的情绪命题", "声音离开主体后留下的弧线与空位", "深青、莓红和金色的稳定角色"],
+      discarded: ["脸部、发型、服装和麦克风轮廓", "具体俱乐部空间与观众", "说明性图标和文字标题"],
+      productDirections: ["实验音乐节章节视觉", "文学播客情绪封面", "舞台过场抽象投影"],
+      process: ["先用一句话确定情绪命题和中心张力。", "再把声音、空位和余韵分配为三种形式角色。", "最后检查画面是否仍依赖具象歌手才能成立。"],
+    }),
+    study({
+      id: "camera-shop-night-distillation",
+      title: "仍亮着的店门：建筑能否变成情绪命题",
+      question: "完全不显示店铺照片时，一扇门形负空间、雨面回声和一个暖光锚，是否足以表达城市深夜仍有人守候？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/scene-distillation-zine/camera-shop-night-distillation-effect.png",
+        alt: "以门形负空间、雨面回声和单一暖光锚蒸馏深夜店铺情绪的抽象画面",
+        caption: "本地新效果：不复制建筑轮廓，只把“仍亮着的一扇门”转译为负空间和一个暖色张力点。",
+      },
+      retained: ["深夜街区中仍亮着灯的情绪命题", "门形负空间与向下延伸的雨面回声", "唯一暖光锚和大面积暗色停顿"],
+      discarded: ["店铺立面、招牌、橱窗和商品", "摄影透视与砖墙纹理", "具象门把、相机或人物符号"],
+      productDirections: ["城市夜间文学封面", "独立电影章节卡", "空间声音装置视觉"],
+      process: ["先把地点事实改写为一句情绪命题。", "再选择负空间、回声线和暖光锚作为隐喻。", "最后删除任何重新描摹店面的形式。"],
+    }),
+  ],
+  "gc-minimal-zine-poster": [
+    study({
+      id: "music-box-missing-star",
+      title: "缺失的星：高彩隐喻成立后，物件是否仍然过度具象",
+      question: "输入是一只旧音乐盒时，通用 prompt compiler 能否用大留白和单一红色缺星锚建立主题；当前效果保留完整物件轮廓与多枚星饰，又暴露了怎样的压缩不足？",
+      source: source.musicBox,
+      effect: {
+        src: "/generated/studies/gc-minimal-zine-poster/music-box-missing-star-effect.png",
+        alt: "以缺星空位为高彩锚、大面积留白和纸张瑕疵构成的极简 zine 海报",
+        caption: "本地新效果：大留白与红色缺星锚成立，但完整音乐盒轮廓、摇柄和多枚星饰仍被保留；这是隐喻选择成功、形态压缩不足的阶段结果。",
+      },
+      retained: ["红色缺星作为唯一高彩主题锚", "完整音乐盒、黄铜摇柄和多枚浅色星饰", "大面积暖纸留白与旧物时间感"],
+      discarded: ["摄影背景、桌面与写实反射", "多种互相竞争的高彩颜色", "可读标题与说明文字"],
+      productDirections: ["以物件插画为主的记忆散文封面", "博物馆捐赠物海报", "声音作品单曲视觉"],
+      process: ["先确认本轮已由红色缺星建立主题注意点。", "再把完整轮廓和多枚星饰记录为压缩不足，而不是把它们描述成已删除。", "下一版若追求更纯粹隐喻，应移除盒体描绘，只保留缺口、摇柄方向和一个色锚。"],
+    }),
+    study({
+      id: "reunion-last-toast",
+      title: "五人原图到四人隐喻：压缩何时开始损失关系",
+      question: "五位人物和一张餐桌信息量很大时，极简编译能否表达共享时刻；如果效果只重建四个角色，这种遗漏会限制哪些使用场景？",
+      source: source.reunion,
+      effect: {
+        src: "/generated/studies/gc-minimal-zine-poster/reunion-last-toast-effect.png",
+        alt: "以共享圆桌、四位人物和单一暖色锚表达成年女性重聚的极简 zine 海报",
+        caption: "本地新效果：共享隐喻成立，但只重建了来源五人中的四人；它可用于非身份化主题视觉，不能用于成员档案。",
+      },
+      retained: ["多人向同一中心靠近的关系", "圆桌与余光形成的共享时刻", "一个来自室内暖灯的高彩锚"],
+      discarded: ["五官、具体服装与室内陈设", "食物、餐具和照片背景", "来源中的第五位参与者被遗漏，不能用于要求成员完整的档案任务"],
+      productDirections: ["不对应具体成员的重聚主题海报", "女性友谊主题出版物", "多人叙事的极简章节页"],
+      process: ["先从多人照片中选出唯一共享命题。", "再把中心、路径和色锚编译成最少视觉字段。", "最后用大留白和一个版式轴抑制信息回流。"],
+    }),
+  ],
+  "photo-revival": [
+    study({
+      id: "night-camera-shop-memory",
+      title: "仍亮着的照相馆：建筑能否被重画成一段小记忆",
+      question: "没有人物作为情感捷径时，完整重绘能否靠店门、暖灯和湿地反射的两处记忆细节，让建筑场景仍然亲密？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/photo-revival/night-camera-shop-memory-effect.png",
+        alt: "将雨夜照相馆完整重绘为暖纸上的小型石墨与薄水彩记忆插画",
+        caption: "本地新效果：建筑被完整重绘，店门暖灯与湿地反射成为最强记忆点；不承诺照片像素保真。",
+      },
+      retained: ["店铺正立面和夜间地点关系", "仍亮着的暖灯与门口尺度", "湿地反射和一小段蓝黑街面"],
+      discarded: ["招牌文字与橱窗商品", "砖墙、雨滴和车辆的照片细节", "写实摄影光晕和景深"],
+      productDirections: ["地方店铺记忆档案", "街区故事明信片", "独立书店城市插页"],
+      process: ["先选出店门与反射两处最有记忆性的细节。", "再用石墨结构和薄水彩重画全部场景。", "最后控制插画尺寸，让暖纸留白继续承担时间感。"],
+    }),
+    study({
+      id: "florist-rain-memory",
+      title: "雨夜花束：当代人物能否被重画成温和而不甜腻的记忆",
+      question: "人物、花束、电车轨道和雨夜色彩同时存在时，能否保留故事关系，只选择围巾与花束两处记忆细节？",
+      source: source.florist,
+      effect: {
+        src: "/generated/studies/photo-revival/florist-rain-memory-effect.png",
+        alt: "将雨夜花艺师完整重绘为暖纸上的小型石墨、薄水彩和干彩铅记忆插画",
+        caption: "本地新效果：虚构成年人物和环境被完整重绘，围巾与花束是两处最强记忆点。",
+      },
+      retained: ["人物抱花等待的主动作", "蓝衣、暖围巾和彩色花束", "轨道接近方向与雨夜空气"],
+      discarded: ["身份级脸部相似度", "车站设施与远处车辆细节", "照片级湿地反光和景深"],
+      productDirections: ["花店人物故事卡", "城市慢行绘本章节", "雨季纪念赠礼插画"],
+      process: ["先锁定人物动作、场景和两处记忆细节。", "再以石墨、薄水彩和干彩铅完整重绘。", "最后检查人物不是孤立肖像，环境关系仍然可读。"],
+    }),
+  ],
+  "pixel-style-poster": [
+    study({
+      id: "reunion-multi-subject-halftone",
+      title: "五人输入：精细点阵会不会错误压缩成员数量",
+      question: "同一画面里有五位人物、不同服装、餐桌和雨窗时，点阵系统能否建立材料层级并保持成员数量；当前四人效果暴露了怎样的使用边界？",
+      source: source.reunion,
+      effect: {
+        src: "/generated/studies/pixel-style-poster/reunion-multi-subject-halftone-effect.png",
+        alt: "以不同精细点阵网频和套色重构四位成年女性围桌关系的编辑海报",
+        caption: "本地新效果：脸部、衣料和背景使用分层网频，但只重构了来源五人中的四人；它证明材料语言，不证明成员数量保真。",
+      },
+      retained: ["四个被重构角色的视线和围桌关系", "酒红、松绿、芥黄和深蓝服装层级", "手部靠近与餐桌形成的共同中心"],
+      discarded: ["来源中的第五位参与者与精确成员数量", "皮肤、头发和身份相似度", "餐桌小物件、背景摆设和游戏像素语言"],
+      productDirections: ["女性友谊主题活动海报", "多人音乐或戏剧节目册", "不承担人物档案职责的文化封面"],
+      process: ["先按人物重要性和材料划分网频层级。", "再为脸、衣料、背景配置不同点径和套色。", "最后在缩略图检查人物次序和共同中心。"],
+    }),
+    study({
+      id: "music-box-material-halftone",
+      title: "黄铜与旧漆：点阵能否区分静物材料",
+      question: "没有人脸作为细节焦点时，微点、方向性线网和套色错版能否分别表达黄铜、漆面、接缝和缺星空位？",
+      source: source.musicBox,
+      effect: {
+        src: "/generated/studies/pixel-style-poster/music-box-material-halftone-effect.png",
+        alt: "以不同微点和线网频率表现黄铜、孔雀蓝旧漆和酒红接缝的音乐盒海报",
+        caption: "本地新效果：材料通过精细网频而不是大像素区分，完整物件和缺星空位保持可见。",
+      },
+      retained: ["音乐盒完整比例和缺星空位", "黄铜摇柄、孔雀蓝漆面和酒红接缝", "磨损方向与材料反光差异"],
+      discarded: ["摄影级反射和划痕", "背景桌面与软阴影", "8-bit、voxel 和大块马赛克"],
+      productDirections: ["复古器物展海报", "声音作品实体封套", "材料语言教学卡"],
+      process: ["先把静物拆成黄铜、漆面、接缝和空位。", "再为每种材料指定点径、线向和套色方式。", "最后检查物件完整性与细网点在小尺寸的可见性。"],
+    }),
+  ],
+  "photo-relic-editorial": [
+    study({
+      id: "music-box-relic",
+      title: "缺星音乐盒：一件物品能否只留下一个主遗迹",
+      question: "上区保留完整物件证据后，下区能否把盒体、摇柄和缺星收束为一个 relic，而不是拆成三个说明图标？",
+      source: source.musicBox,
+      effect: {
+        src: "/generated/studies/photo-relic-editorial/music-box-relic-effect.png",
+        alt: "上半完整音乐盒证据窗与下半单一缺星主遗迹组成的编辑画面",
+        caption: "本地新效果：上区负责物件真实性，下区用单一 relic 和两处跨区呼应组织记忆。",
+      },
+      retained: ["完整音乐盒、摇柄与缺星空位", "孔雀蓝、黄铜和酒红的来源角色", "缺失与仍可转动之间的记忆张力"],
+      discarded: ["多个并列物件图标", "漆面划痕和背景桌面", "大标题和解释性段落"],
+      productDirections: ["博物馆捐赠物故事卡", "家庭旧物档案页", "声音记忆展览标签"],
+      process: ["先让上区完整 source 承担事实证据。", "再把缺星和摇柄合并为一个主 relic。", "最后只保留一个来源暖色点和克制小标题区。"],
+    }),
+    study({
+      id: "interchange-crowd-relic",
+      title: "换乘人潮：复杂城市能否压缩成一个群体遗迹",
+      question: "面对顶棚、轨道、楼梯和大量行人，下区能否用一个汇聚 relic 表达集体移动，而不是复制车站地图？",
+      source: source.interchange,
+      effect: {
+        src: "/generated/studies/photo-relic-editorial/interchange-crowd-relic-effect.png",
+        alt: "上半完整换乘站证据窗与下半单一汇聚人流主遗迹组成的编辑画面",
+        caption: "本地新效果：复杂现场被收束为汇聚轴、间隔和一个黄色来源锚；不把人群逐个图标化。",
+      },
+      retained: ["完整换乘现场和顶棚透视", "人流向中心汇聚的主方向", "三段密度间隔与黄色注意锚"],
+      discarded: ["单个行人身份和动作", "列车标识、建筑表皮和站内文字", "多枚交通图标与路线说明"],
+      productDirections: ["城市交通口述史展板", "通勤议题杂志跨页", "换乘空间研究封面"],
+      process: ["先在上区保留完整复杂现场。", "再只选择一个能代表集体移动的主 relic。", "最后用间隔和一个色锚控制下区，不补充地图信息。"],
+    }),
+  ],
+  "poetic-line-zine-poster": [
+    study({
+      id: "florist-crosswalk-poetic",
+      title: "抱花候车：一条彩色线能否连接人物与城市",
+      question: "在完整照片证据之外，下方面板能否用炭笔质量、轨道路由和一条花束色涂鸦表达等待，而不重复画人物？",
+      source: source.florist,
+      effect: {
+        src: "/generated/studies/poetic-line-zine-poster/florist-crosswalk-poetic-effect.png",
+        alt: "完整花艺师照片窗与炭笔质量、轨道路由和单条彩色涂鸦组成的诗性海报",
+        caption: "本地概念研究：原图窗视觉上完整，下方面板无字；正式照片忠实交付仍需确定性脚本。",
+      },
+      retained: ["人物抱花等待的 gesture", "轨道向远处接近的 path", "花束与围巾形成的一条彩色 rhythm"],
+      discarded: ["下方面板中的脸、身体和花束轮廓", "车站设施与所有文字", "多条互相竞争的彩色涂鸦"],
+      productDirections: ["青年人物专栏海报", "城市音乐会视觉", "雨季服装故事章节"],
+      process: ["先锁定照片窗和 gesture／mass／rhythm／path 路由。", "再让图像模型只画无字下方面板。", "正式版由脚本拼回源图并确定性排字、验证。"],
+    }),
+    study({
+      id: "camera-shop-poetic",
+      title: "店门未关：建筑场景能否只剩一条诗性路径",
+      question: "没有人物姿态时，门窗质量、湿地回声和一条暖光线能否形成诗性节奏，同时让完整店面证据保持主导？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/poetic-line-zine-poster/camera-shop-poetic-effect.png",
+        alt: "完整雨夜店面照片窗与门窗炭笔质量、湿地回声和单条暖光线组成的诗性海报",
+        caption: "本地概念研究：建筑关系替代人物 gesture；不声称当前生成照片窗已经通过像素差验证。",
+      },
+      retained: ["完整店面证据和门窗 mass", "湿地反射形成的向下 rhythm", "一条代表仍亮着灯的暖色 path"],
+      discarded: ["面板中的建筑轮廓复刻", "招牌文字、商品和砖墙纹理", "第二条彩色线与装饰符号"],
+      productDirections: ["独立电影夜景海报", "街区声音散步章节", "城市诗歌朗读会舞台图"],
+      process: ["先把建筑事实路由到 mass、rhythm 和 path。", "再生成没有文字和照片的下方面板。", "正式交付用确定性合成嵌入源图、标题和检查结果。"],
+    }),
+  ],
+  "photo-abstract-editorial": [
+    study({
+      id: "reunion-relations-editorial",
+      title: "五人餐桌：关系面板能否避免把人物变成图标",
+      question: "完整照片区已经承担身份与环境后，抽象面板能否只表达五人重心、桌面遮挡、手势方向和一个暖色锚？",
+      source: source.reunion,
+      effect: {
+        src: "/generated/studies/photo-abstract-editorial/reunion-relations-editorial-effect.png",
+        alt: "完整五人重聚照片区与重心、桌面遮挡、手势方向抽象面板组成的编辑画面",
+        caption: "本地新效果：关系面板不画人物轮廓，只转译五个重心和共享关系；不是上游官方输出。",
+      },
+      retained: ["五个重心围绕同一桌面的分布", "桌面形成的前后遮挡和共同中心", "手势向内与单一暖色注意锚"],
+      discarded: ["面板中的脸、身体和服装图标", "食物、家具和公寓细节", "照片中的全部颜色与光斑"],
+      productDirections: ["社会关系摄影专题", "口述史研究图版", "家庭叙事编辑跨页"],
+      process: ["先从来源列出 3–6 个可核对关系事实。", "再把每个事实映射为一种 mark，不沿轮廓描边。", "最后让完整照片区与均匀象牙面板保持清楚分工。"],
+    }),
+    study({
+      id: "greenhouse-season-relations",
+      title: "四季温室：一个关系面板能否解释系列差异",
+      question: "来源板包含四个季节成员时，抽象面板能否同时表达共享结构轴、植物密度变化和单一连接色，而不复制温室轮廓？",
+      source: source.seasons,
+      effect: {
+        src: "/generated/studies/photo-abstract-editorial/greenhouse-season-relations-effect.png",
+        alt: "完整四季温室来源板与共享轴、季节密度和单一连接色抽象面板组成的编辑画面",
+        caption: "本地新效果：完整来源板负责四季事实，面板负责系列关系；不把每季重新画成小插图。",
+      },
+      retained: ["四季共享的温室中心轴和门位", "植物由稀到密再回落的节奏", "四个成员之间的一条结构连接色"],
+      discarded: ["面板中的温室、植物和海岸轮廓", "玻璃反光、天气和道路纹理", "四套互不相关的季节配色"],
+      productDirections: ["植物园年度报告", "种子图书馆教育展板", "气候观察网页章节"],
+      process: ["先把四个成员的共享与变化分开记录。", "再用一个结构轴、密度序列和连接色建立面板。", "最后检查面板是在解释系列，而不是重复照片。"],
+    }),
+  ],
+  "photo-to-zine-postcard": [
+    study({
+      id: "camera-shop-night-postcard",
+      title: "雨夜照相馆：地点照片能否变成可使用的双面卡",
+      question: "完整夜景照片、一个灯门主 motif、三枚来源色块和可书写背面能否形成清楚产品，而不是在照片上叠加装饰边框？",
+      source: source.cameraShop,
+      effect: {
+        src: "/generated/studies/photo-to-zine-postcard/camera-shop-night-postcard-effect.png",
+        alt: "包含完整照相馆照片正面、灯门手绘 motif、三枚色块和完整可书写背面的明信片研究板",
+        caption: "本地新效果：正反两面同时完整展示；这是数字产品研究，不冒充真实打印、裁切或邮寄证据。",
+      },
+      retained: ["完整店面照片和原始宽高关系", "一枚来自暖灯与门形的主手绘 motif", "恰好三枚蓝黑、暖黄和石灰来源色块"],
+      discarded: ["多枚装饰贴纸和复杂标题", "重画或裁切照片主体", "背面不可书写的满版纹理"],
+      productDirections: ["街区夜游纪念卡", "独立酒店房内散步卡", "地方博物馆店铺套系"],
+      process: ["先锁定正面完整照片和一个主 motif。", "再采样三种来源色并建立背面书写网格。", "实物生产前补出血、纸张、邮政规格和打印校样。"],
+    }),
+    study({
+      id: "florist-rain-postcard",
+      title: "雨夜花艺师：人物故事能否兼顾照片和邮寄功能",
+      question: "人物照片保持完整时，花束与轨道能否合并为一个主 motif，并让三枚色块、元数据和背面功能保持克制？",
+      source: source.florist,
+      effect: {
+        src: "/generated/studies/photo-to-zine-postcard/florist-rain-postcard-effect.png",
+        alt: "包含完整花艺师照片正面、花束轨道 motif、三枚色块和完整可书写背面的明信片研究板",
+        caption: "本地新效果：人物与环境完整保留在正面证据区；背面用于真实书写结构，但尚未物理打印。",
+      },
+      retained: ["完整人物、花束、轨道和雨夜环境", "一枚合并花束与轨道路由的主 motif", "恰好三枚蓝、暖橙和彩色花束来源色块"],
+      discarded: ["额外人物插画与多个辅助 motif", "裁切头部、花束或轨道", "背面大面积装饰和不可读伪文字"],
+      productDirections: ["花店季节赠卡", "城市女性故事套卡", "电车沿线旅行纪念品"],
+      process: ["先让正面照片四边和人物故事完整可见。", "再提取一个主 motif 和三枚来源色块。", "最后建立背面地址、邮票与书写区，并在实物阶段校样。"],
+    }),
+  ],
+};

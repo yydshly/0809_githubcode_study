@@ -1,5 +1,7 @@
 # 上游来源与许可审计
 
+> 研究导航：[总索引](RESEARCH-INDEX.md) · [本地研究页](http://localhost:4317/research) · [13 个 Skill](http://localhost:4317/)
+
 ## 主上游
 
 | 字段 | 内容 |

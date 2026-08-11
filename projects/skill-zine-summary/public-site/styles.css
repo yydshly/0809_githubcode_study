@@ -1,0 +1,156 @@
+:root {
+  color-scheme: light;
+  --paper: #f4efe5;
+  --ink: #171713;
+  --muted: #625f56;
+  --line: rgba(23, 23, 19, 0.18);
+  --red: #cf4a34;
+  --blue: #315f79;
+  --yellow: #e6b84d;
+  font-family: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--ink); }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 8% 5%, rgba(230, 184, 77, 0.2), transparent 28rem),
+    var(--paper);
+}
+
+a { color: inherit; }
+
+.shell {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 72px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand,
+.eyebrow,
+.metric span,
+.route-card small {
+  font: 700 0.75rem/1.2 ui-monospace, "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.topbar nav { display: flex; gap: 24px; }
+.topbar a { text-underline-offset: 5px; }
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: 64px;
+  padding: 92px 0 72px;
+}
+
+.eyebrow { color: var(--red); }
+
+h1 {
+  max-width: 850px;
+  margin: 16px 0 24px;
+  font-size: clamp(3.2rem, 8vw, 7.4rem);
+  line-height: 0.88;
+  letter-spacing: -0.075em;
+}
+
+.lead {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.75;
+}
+
+.hero-note {
+  align-self: end;
+  padding: 26px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.25);
+}
+
+.hero-note strong { display: block; margin-bottom: 10px; font-size: 1.1rem; }
+.hero-note p { margin: 0; color: var(--muted); line-height: 1.65; }
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-block: 1px solid var(--line);
+}
+
+.metric { padding: 30px 20px 30px 0; }
+.metric strong { display: block; font-size: clamp(2.4rem, 5vw, 4.8rem); line-height: 1; }
+.metric span { color: var(--muted); }
+
+.section { padding: 76px 0; }
+.section-head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 34px; }
+.section h2 { margin: 0; font-size: clamp(2.2rem, 4vw, 4.6rem); line-height: 1; letter-spacing: -0.05em; }
+.section-head p { margin: 0; color: var(--muted); line-height: 1.7; }
+
+.route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.route-card {
+  min-height: 210px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.3);
+}
+.route-card:nth-child(2) { border-top: 7px solid var(--blue); }
+.route-card:nth-child(3) { border-top: 7px solid var(--yellow); }
+.route-card:first-child { border-top: 7px solid var(--red); }
+.route-card h3 { margin: 32px 0 10px; font-size: 1.35rem; }
+.route-card p { margin: 0; color: var(--muted); line-height: 1.65; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.button--dark { color: var(--paper); background: var(--ink); }
+
+.boundary {
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 48px;
+  padding: 48px;
+  color: var(--paper);
+  background: var(--ink);
+}
+.boundary h2 { font-size: clamp(2rem, 4vw, 4.2rem); }
+.boundary ol { margin: 0; padding-left: 1.4rem; }
+.boundary li { padding: 10px 0; line-height: 1.65; }
+
+footer { padding: 36px 0 54px; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 800px) {
+  .topbar { align-items: flex-start; flex-direction: column; gap: 14px; padding: 20px 0; }
+  .topbar nav { flex-wrap: wrap; gap: 14px 20px; }
+  .hero, .section-head, .boundary { grid-template-columns: 1fr; }
+  .hero { gap: 36px; padding-top: 64px; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .route-grid { grid-template-columns: 1fr; }
+  .boundary { padding: 30px; }
+}
+
+@media (max-width: 480px) {
+  .shell { width: min(100% - 24px, 1180px); }
+  h1 { font-size: 3.45rem; }
+  .metrics { grid-template-columns: 1fr 1fr; }
+  .metric strong { font-size: 2.6rem; }
+}

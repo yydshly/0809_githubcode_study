@@ -1,5 +1,7 @@
 # 分阶段学习路线
 
+> 研究导航：[总索引](RESEARCH-INDEX.md) · [多原图实验室](http://localhost:4317/labs/multi-source) · [实验室运行手册](lab/RUNBOOK.md)
+
 目标不是安装 12 个 Skill 然后逐个“抽卡”，而是用受控实验形成可以迁移到自己项目的技术资产。
 
 ## 总体顺序

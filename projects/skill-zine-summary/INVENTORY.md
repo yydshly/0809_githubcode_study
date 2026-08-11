@@ -1,5 +1,7 @@
 # 项目清单与技术卡
 
+> 研究导航：[总索引](RESEARCH-INDEX.md) · [Skill 视觉目录](http://localhost:4317/) · [多原图实验室](http://localhost:4317/labs/multi-source)
+
 数据快照：2026-08-09。主目录固定在 [`2c65c251`](https://github.com/tluy/skill-zine-summary/commit/2c65c251bc6909f077ae9974e3251d164a07c924)。
 
 ## 14 个展示条目到 12 个仓库
