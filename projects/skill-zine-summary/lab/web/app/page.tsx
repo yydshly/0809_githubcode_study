@@ -21,9 +21,9 @@ export default function Home() {
           <h1>每个 Skill，<br />都是一条独立的<br />视觉技术路线。</h1>
           <p className="catalog-hero__intro">先看上游内部 Demo 证明了什么，再把能力迁移到我们的统一场景。这里研究的不是“谁最好看”，而是每条路线的输入契约、核心机制、适用场景和可扩展空间。</p>
           <div className="hero-actions">
-            <Link className="button button--dark" href="/research">查看全部研究档案</Link>
+            <Link className="button button--dark" href="/skills">打开 13 个 Skill 研究页</Link>
+            <Link className="button" href="/research">查看全部研究档案</Link>
             <Link className="button" href="/choose">按任务选择 Skill</Link>
-            <Link className="button" href="/comparison">查看统一原图横评</Link>
           </div>
         </div>
         <div className="catalog-hero__visual">
@@ -38,7 +38,8 @@ export default function Home() {
           <h2 id="archive-visibility-title">以前的研究都还在，<br />这里只把入口重新汇总。</h2>
           <p>完整档案包含 13 个单 Skill 深度页、上游内部 Demo、统一原图横评、Revision 10–12 多题材扩样、产品系统、选择工作台与 Markdown 研究记录。多原图实验室一次只展开一个 Skill，是为了避免浏览器同时加载数百 MB 图片，并不是只保留了当前看到的那一项。</p>
           <div className="hero-actions">
-            <Link className="button button--dark" href="/research">打开完整研究总索引</Link>
+            <Link className="button button--dark" href="/skills">打开 13 个独立研究页</Link>
+            <Link className="button" href="/research">打开完整研究总索引</Link>
             <Link className="button" href="/labs/multi-source#skill-selector">选择 13 个 Skill 的批量实验</Link>
             <Link className="button" href="/reports/revision-7">阅读研究结论</Link>
           </div>

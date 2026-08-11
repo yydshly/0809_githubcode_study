@@ -1,5 +1,24 @@
 # Immersive research refinement
 
+## Revision 15：13 个独立研究页直接目录
+
+- Entry mode: repair-led.
+- Request revision: 2026-08-11；用户在公开站反馈本地曾经存在的每个 Skill 独立研究页难以找到，并询问当前部署位置及内容是否丢失。
+- Baseline evidence: 公开首页实际仍渲染 13 张 Skill 卡，13 条详情路由均保留；但第一张目录卡位于页面约 3770px 处，主导航没有“13 个 Skill”直达项，`/research` 首先呈现的是网页与文档关系，因此内容存在但可发现性不足。
+- Target: 新增 `/skills` 直接目录，打开后立即列出全部 13 个独立研究页，并为每个 Skill 直达上游 Demo、扩展实验、使用场景、产品应用和多原图实验；首页、研究索引、详情页返回链和主导航统一关联。
+- Content boundary: 不删除、不复制、不重新生成研究内容；新页面只索引现有 13 张长页和已有章节。图片继续使用既有本地效果首图并完整 contain 显示。
+- Deployment clarification: 完整图片研究站部署在 OpenAI Sites 的 `skill-zine-private-lab.yydshly.chatgpt.site`；GitHub Pages 保留轻量新人目录，两者用途不同。
+
+### Revision 15 coverage
+
+| Coverage item | Target | Status |
+| --- | --- | --- |
+| 13 个独立页 | `/skills` 恰好列出 13 张研究卡及 13 条详情路由 | pass |
+| 章节直达 | 每张卡关联上游、扩展、使用场景、产品应用和多原图实验 | pass |
+| 全局入口 | 首页首要按钮、6 项主导航、研究索引和详情页返回链指向 `/skills` | pass |
+| 响应式 | 桌面与移动端无横向溢出；6 项导航在窄屏按 2×3 排列 | pass |
+| Delivery | build、test、lint、公开部署和线上代表页检查通过 | in progress |
+
 ## Revision 14：公开站完整研究入口修复
 
 - Entry mode: repair-led.

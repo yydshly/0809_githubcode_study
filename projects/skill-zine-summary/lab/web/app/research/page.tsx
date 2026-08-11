@@ -48,7 +48,7 @@ export default function ResearchIndexPage() {
           <p>批量实验现有 <strong>{multiSourceStats.imagePairCount}</strong> 组完整图片配对、<strong>{multiSourceStats.uniqueSourcePathCount}</strong> 个来源路径、<strong>{multiSourceStats.staticEffectCount}</strong> 个静态效果和 <strong>{multiSourceStats.allEffectEvidenceCount}</strong> 项总效果证据。下方 13 张 Skill 卡分别直达详情、横评、批量实验、结论和上游仓库。</p>
           <div className="hero-actions">
             <Link className="button button--dark" href="/labs/multi-source#skill-selector">查看全部批量实验入口</Link>
-            <Link className="button" href="/#research-index">查看 13 个视觉目录</Link>
+            <Link className="button" href="/skills">打开 13 个独立研究页</Link>
           </div>
         </div>
       </section>

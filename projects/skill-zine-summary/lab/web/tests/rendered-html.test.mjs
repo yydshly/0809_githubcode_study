@@ -25,6 +25,7 @@ test("catalog renders all 13 independent research targets", async () => {
   assert.match(html, /href="\/skills\/photo-to-zine-postcard"/);
   assert.match(html, /href="\/comparison"/);
   assert.match(html, /href="\/research"/);
+  assert.match(html, /href="\/skills"/);
   assert.match(html, /href="\/choose"/);
   assert.match(html, /href="\/labs\/multi-source"/);
   assert.match(html, /href="\/reports\/revision-7"/);
@@ -39,6 +40,23 @@ test("catalog renders all 13 independent research targets", async () => {
   assert.match(html, /href="\/labs\/multi-source#skill-selector"/);
   const cards = (html.match(/<article class="skill-card"/g) ?? []).length;
   assert.equal(cards, 13);
+});
+
+test("direct Skill directory exposes all 13 long-form studies and their existing sections", async () => {
+  const response = await render("/skills");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /以前的 13 个研究页/);
+  assert.match(html, /没有丢失，也没有被新实验替换/);
+  assert.equal((html.match(/<article[^>]+data-skill-directory=/g) ?? []).length, 13);
+  assert.equal((html.match(/href="\/skills\/[^"]+"[^>]*>完整研究页/g) ?? []).length, 13);
+  assert.equal((html.match(/#upstream">上游 Demo/g) ?? []).length, 13);
+  assert.equal((html.match(/#extension">扩展实验/g) ?? []).length, 13);
+  assert.equal((html.match(/#effect-applications">使用场景/g) ?? []).length, 13);
+  assert.equal((html.match(/#product-studio">产品应用/g) ?? []).length, 13);
+  const labSkillLinks = [...html.matchAll(/\/labs\/multi-source\?skill=([^"&]+)#selected-skill/g)].map((match) => match[1]);
+  assert.equal(new Set(labSkillLinks).size, 13);
+  assert.equal((html.match(/<h1(?:\s[^>]*)?>/g) ?? []).length, 1);
 });
 
 test("revision 7 report explains 7 sources, 24 experiments, conclusions, and production boundaries", async () => {
@@ -451,6 +469,7 @@ test("research atlas connects every core web surface, Skill, and first-party doc
   assert.match(html, /projects\/skill-zine-summary\/lab\/web\/REVISION11-STRESS-AND-APPLICATIONS\.md/);
   assert.match(html, /projects\/skill-zine-summary\/lab\/web\/REVISION13-SKILL-CHOOSER\.md/);
   assert.match(html, /href="\/choose"/);
+  assert.match(html, /href="\/skills"/);
   assert.match(html, /projects\/skill-zine-summary\/lab\/web\/REVISION12-PRODUCT-SYSTEMS\.md/);
   assert.match(html, /href="\/comparison#photo-distill"/);
   assert.match(html, /href="\/labs\/multi-source\?skill=photo-relic-editorial#selected-skill"/);
@@ -523,22 +542,22 @@ test("multi-source lab reports honest totals and only expands the selected Skill
   assert.equal((pixelHtml.match(/<article[^>]+data-lab-case=/g) ?? []).length, 10);
 });
 
-test("global navigation exposes five stable entries with one current page", async () => {
-  const routes = ["/", "/research", "/choose", "/comparison", "/labs/multi-source", "/reports/revision-7", "/skills/photo-distill"];
-  for (const route of routes) {
+test("global navigation exposes six stable entries with one current page", async () => {
+    const routes = ["/", "/skills", "/research", "/choose", "/comparison", "/labs/multi-source", "/reports/revision-7", "/skills/photo-distill"];
+    for (const route of routes) {
     const response = await render(route);
     assert.equal(response.status, 200, route);
     const html = await response.text();
     const navLinks = [...html.matchAll(/<a[^>]+data-nav-key="([^"]+)"[^>]*>/g)];
-    assert.equal(navLinks.length, 5, `${route} nav item count`);
-    assert.equal(new Set(navLinks.map((match) => match[1])).size, 5, `${route} unique nav keys`);
+      assert.equal(navLinks.length, 6, `${route} nav item count`);
+      assert.equal(new Set(navLinks.map((match) => match[1])).size, 6, `${route} unique nav keys`);
     assert.equal(navLinks.filter((match) => /aria-current="page"/.test(match[0])).length, 1, `${route} current nav item`);
   }
 
   const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
   assert.match(css, /@media \(max-width: 980px\)[\s\S]*?\.site-header nav \{[^}]*flex-wrap:\s*wrap/s);
-  assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.site-header nav \{[^}]*display:\s*grid[^}]*grid-template-columns:\s*repeat\(2,/s);
-  assert.match(css, /\.site-header nav a:last-child \{ grid-column: 1 \/ -1; \}/);
+    assert.match(css, /@media \(max-width: 720px\)[\s\S]*?\.site-header nav \{[^}]*flex:\s*none[^}]*display:\s*grid[^}]*grid-template-columns:\s*repeat\(2,/s);
+    assert.match(css, /\.site-header nav a:last-child \{ grid-column: auto; \}/);
 });
 
 test("multi-source lab covers every Skill with the audited pair and source counts", async () => {

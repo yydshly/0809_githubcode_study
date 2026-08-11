@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | 第一次接触这些 Skill，不知道应先理解什么 | [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/) | [新人学习指南](BEGINNER-GUIDE.md) → [技术架构图](TECHNICAL-MAP.md) |
 | 快速了解整个研究 | [研究总索引 `/research`](http://localhost:4317/research) | [项目总览](README.md) → [项目清单](INVENTORY.md) |
+| 直接浏览每个 Skill 的完整研究页 | [13 个 Skill 直接目录 `/skills`](http://localhost:4317/skills) | 选择一张卡后进入上游、扩展、场景、产品和技术边界 |
 | 已有真实任务，但不知道该选哪个 Skill | [Skill 选择器 `/choose`](http://localhost:4317/choose) | [Revision 13 选型说明](lab/web/REVISION13-SKILL-CHOOSER.md) → 对应的 [多原图证据](http://localhost:4317/labs/multi-source) |
 | 逐个理解 Skill | [13 个 Skill 目录 `/`](http://localhost:4317/) | 选择一个 [`/skills/<slug>`](http://localhost:4317/skills/photo-distill) → 对照 [原始样例](lab/ORIGINAL-SAMPLES.md) |
 | 比较同一输入下的路线差异 | [统一原图横评 `/comparison`](http://localhost:4317/comparison) | [技术架构图](TECHNICAL-MAP.md) → [研究日志](RESEARCH.md) |
@@ -33,6 +34,7 @@
 | Web 入口 | 作用 | 适合回答 | 关联文档 |
 | --- | --- | --- | --- |
 | [`/research`](http://localhost:4317/research) | 研究入口与网页／文档关系索引 | “整个项目有哪些材料，我该从哪里看？” | 本文、[README.md](README.md)、[lab/web/README.md](lab/web/README.md) |
+| [`/skills`](http://localhost:4317/skills) | 13 个独立 Skill 长页的直接可视化目录 | “以前每个 Skill 的完整研究页在哪里？” | [README.md](README.md)、[TECHNICAL-MAP.md](TECHNICAL-MAP.md) |
 | [`/choose`](http://localhost:4317/choose) | 从用途、真实性、技术路径和产品化形态反选 13 个 Skill | “面对当前任务，应先研究哪条路线，并到哪里核对证据？” | [REVISION13-SKILL-CHOOSER.md](lab/web/REVISION13-SKILL-CHOOSER.md)、[TECHNICAL-MAP.md](TECHNICAL-MAP.md) |
 | [`/`](http://localhost:4317/) | 13 个独立研究目标目录 | “有哪些 Skill，它们大致解决什么问题？” | [INVENTORY.md](INVENTORY.md)、[TECHNICAL-MAP.md](TECHNICAL-MAP.md) |
 | [`/skills/<slug>`](http://localhost:4317/skills/photo-distill) | 单个 Skill 的上游证据、本地效果、场景、边界与扩展方向 | “这个 Skill 到底能做什么，适合什么，不适合什么？” | [ORIGINAL-SAMPLES.md](lab/ORIGINAL-SAMPLES.md)、[UPSTREAM.md](UPSTREAM.md)、[REVISION7-RESEARCH.md](lab/web/REVISION7-RESEARCH.md) |

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const navigationItems = [
   { key: "home", href: "/", label: "首页" },
+  { key: "skills", href: "/skills", label: "13 个 Skill" },
   { key: "research", href: "/research", label: "研究总索引" },
   { key: "choose", href: "/choose", label: "选 Skill" },
   { key: "comparison", href: "/comparison", label: "统一原图横评" },
@@ -13,7 +14,8 @@ const navigationItems = [
 
 function getActiveNavigationKey(pathname: string) {
   if (pathname === "/") return "home";
-  if (pathname === "/research" || pathname.startsWith("/skills/") || pathname.startsWith("/reports/")) return "research";
+  if (pathname === "/skills" || pathname.startsWith("/skills/")) return "skills";
+  if (pathname === "/research" || pathname.startsWith("/reports/")) return "research";
   if (pathname === "/choose" || pathname.startsWith("/choose/")) return "choose";
   if (pathname === "/comparison" || pathname.startsWith("/comparison/")) return "comparison";
   if (pathname === "/labs/multi-source" || pathname.startsWith("/labs/multi-source/")) return "multi-source";

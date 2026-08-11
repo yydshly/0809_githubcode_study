@@ -6,6 +6,7 @@
 
 - [研究总索引](../../RESEARCH-INDEX.md)：统一说明网页与 Markdown 的关系、证据等级、阅读路径和发布边界；
 - [本地研究入口 `/research`](http://localhost:4317/research)：浏览 Skill 选择器、13 个 Skill、比较页、实验室和报告入口；
+- [13 个 Skill 直接目录 `/skills`](http://localhost:4317/skills)：无需穿过首页长内容，直接进入每个 Skill 的独立研究页及现有章节；
 - [公开新人学习入口](https://yydshly.github.io/0809_githubcode_study/start/)：与样例图库分离，先理解路线、输入、失败、证据等级和第一次实验；
 - [Skill 选择器 `/choose`](http://localhost:4317/choose)：从任务用途、真实性、技术路径和产品化形态反选 Skill，并直达对应证据；
 - [多原图实验室 `/labs/multi-source`](http://localhost:4317/labs/multi-source)：集中查看不同原图在各 Skill 下的完整 SOURCE → EFFECT 证据；
@@ -16,9 +17,10 @@
 
 ## 页面结构
 
-当前共有 7 类核心 Web 入口：
+当前共有 7 类核心研究入口；其中 `/skills` 把原先位于首页下方的视觉目录提升为独立直达页：
 
 - `/research`：网页、Markdown、证据等级和推荐阅读路径的统一研究入口；
+- `/skills`：13 个独立 Skill 长页的直接目录，并关联上游、扩展、场景、产品和多原图证据；
 - `/choose`：按用途、真实性、技术路径和产品化形态从任务反选 Skill，并关联具体 SOURCE → EFFECT；
 - `/`：13 个独立研究目标的目录；
 - `/comparison`：同一张合成原图驱动全部 Skill 的受控横评；

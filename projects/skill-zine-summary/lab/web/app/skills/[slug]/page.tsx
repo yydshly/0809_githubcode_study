@@ -203,7 +203,7 @@ export default async function SkillPage({ params }: { params: Promise<{ slug: st
 
       <nav className="study-nav" aria-label="相邻 Skill 研究页">
         <Link href={`/skills/${previous.slug}`}><span>← 上一个</span><strong>{previous.name}</strong></Link>
-        <Link href="/research"><span>研究总索引</span><strong>全部 13 个 Skill</strong></Link>
+        <Link href="/skills"><span>全部 13 个 Skill</span><strong>独立研究页目录</strong></Link>
         <Link href={`/skills/${next.slug}`}><span>下一个 →</span><strong>{next.name}</strong></Link>
       </nav>
       <footer className="site-foot"><p>{skill.repo}</p><p>固定提交 {skill.commit.slice(0, 12)} · {skill.license}</p></footer>

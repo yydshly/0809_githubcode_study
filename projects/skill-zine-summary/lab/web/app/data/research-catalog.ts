@@ -42,12 +42,12 @@ export const researchSurfaces: readonly ResearchSurface[] = [
   },
   {
     id: "skill-catalog",
-    title: "Skill 视觉目录",
-    href: "/",
-    role: "13 条路线的视觉入口",
-    summary: "用首张本地效果和能力摘要快速选择一个 Skill，再进入它的独立长篇研究页。",
+    title: "13 个 Skill 直接目录",
+    href: "/skills",
+    role: "13 张独立长页的可视化入口",
+    summary: "不经过首页长篇介绍，直接查看 13 个 Skill，并进入各自的上游 Demo、扩展实验、使用场景与产品应用。",
     answers: "我想先知道有哪些 Skill，以及每一条路线大致在做什么。",
-    continuesTo: [{ label: "进入研究总索引", href: "/research" }],
+    continuesTo: [{ label: "进入首页总览", href: "/" }],
   },
   {
     id: "skill-pages",
@@ -56,7 +56,7 @@ export const researchSurfaces: readonly ResearchSurface[] = [
     role: "逐项能力、样例、场景与边界",
     summary: "每页同时解释上游样例、本地统一输入、跨题材实验、用途、限制和下一轮问题。",
     answers: "我想完整理解一个 Skill，而不是只看一张效果图。",
-    continuesTo: [{ label: "选择一个 Skill", href: "/#research-index" }],
+    continuesTo: [{ label: "选择一个 Skill", href: "/skills" }],
   },
   {
     id: "comparison",
