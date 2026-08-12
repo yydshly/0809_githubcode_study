@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="导入一张或多张图片，获得产品推荐并生成结构完整的图片成品。"
+    />
+    <title>Image Product Studio</title>
+    <link rel="stylesheet" href="./styles.css?v=18" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="../README.md" aria-label="返回项目说明">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Image Product Studio</span>
+      </a>
+      <p>新图 → 参考样例 → AI 生成 → 三方对比 → 产品适配</p>
+      <div class="source-chip" id="source-chip" data-tone="loading" role="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="source-status">正在载入演示素材…</span>
+      </div>
+    </header>
+
+    <main class="workspace" id="workspace" data-state="loading">
+      <aside class="controls-panel" aria-labelledby="controls-heading">
+        <div class="panel-heading">
+          <p class="eyebrow">01 · 图片输入</p>
+          <h1 id="controls-heading">从图片开始</h1>
+          <p class="section-intro">导入一张或一组新图，再选择一个结果样例作为视觉参考。</p>
+        </div>
+
+        <div class="source-actions">
+          <button class="upload-button" id="source-picker-button" type="button">选择图片</button>
+          <input id="source-input" type="file" accept="image/*" multiple hidden aria-hidden="true" tabindex="-1" />
+          <button class="text-button" id="clear-source-button" type="button">清空</button>
+        </div>
+        <p class="source-help">支持 1–12 张；图片只在当前浏览器中读取。</p>
+
+        <div class="sample-inputs">
+          <div class="sample-inputs-heading">
+            <span id="sample-options-title">快速体验</span>
+            <small id="sample-options-help">未上传时可直接载入完整样例</small>
+          </div>
+          <div class="sample-options" id="sample-options" aria-label="选择样例输入"></div>
+        </div>
+
+        <div class="source-list" id="source-list" aria-label="当前图片素材"></div>
+
+        <section class="reference-section" id="reference-section" aria-labelledby="reference-heading">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">02 · 参考效果</p>
+              <h2 id="reference-heading">选择一个结果样例</h2>
+            </div>
+            <span class="recommendation-badge" id="reference-count">等待图片</span>
+          </div>
+          <p class="design-note" id="reference-note">样例决定生成的视觉方法，不会把样例中的人物或物件复制到新图。</p>
+          <div class="reference-options" id="reference-options" aria-label="选择 AI 生成参考样例"></div>
+          <button class="more-products-button" id="more-references-button" type="button" disabled>
+            <span>查看全部参考样例</span><small id="more-references-count">8 种结果方法</small>
+          </button>
+        </section>
+
+        <section class="mode-section" aria-labelledby="mode-heading">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">03 · 处理单位</p>
+              <h2 id="mode-heading">这些图片怎样处理</h2>
+            </div>
+          </div>
+          <p class="mode-note" id="mode-note">一张图片默认独立处理；导入多张后可以逐张处理或制作一个合集。</p>
+          <div class="mode-options" id="mode-options" aria-label="选择图片处理单位"></div>
+        </section>
+
+        <section class="design-selection" aria-labelledby="design-heading">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">04 · 图片处理</p>
+              <h2 id="design-heading">选择图片再创造方向</h2>
+            </div>
+            <span class="recommendation-badge" id="direction-count">按模式筛选</span>
+          </div>
+          <p class="design-note" id="design-note">先决定图片本身如何被保留、拆解、重构或重绘；产品尺寸与构图在下一步适配。</p>
+          <div class="design-options" id="design-options" aria-label="可选择的核心图片处理方向"></div>
+          <button class="more-products-button" id="more-directions-button" type="button" disabled>
+            <span>查看全部图片方向</span><small id="more-directions-count">按处理单位筛选</small>
+          </button>
+          <div class="strength-control" id="strength-control">
+            <div class="strength-heading">
+              <span>改造强度</span>
+              <small id="strength-note">平衡保留原图与设计表达</small>
+            </div>
+            <div class="strength-options" id="strength-options" aria-label="选择图片改造强度"></div>
+          </div>
+        </section>
+
+        <section class="recommendation-section" aria-labelledby="recommendation-heading">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">05 · 产品推荐</p>
+              <h2 id="recommendation-heading">选择产品目标</h2>
+            </div>
+            <span class="recommendation-badge" id="product-count">按模式筛选</span>
+          </div>
+          <p class="recommendation-note" id="recommendation-note">正在根据处理单位准备产品建议。</p>
+          <div class="recommendation-signals" id="recommendation-signals" aria-label="本次推荐使用的信号"></div>
+          <div class="recommendation-list" id="recommendation-list"></div>
+          <button class="more-products-button" id="more-products-button" type="button" disabled>
+            <span>查看适用产品</span><small id="more-products-count">按处理单位筛选</small>
+          </button>
+        </section>
+
+        <details class="content-settings">
+          <summary>调整成品文字（可选）</summary>
+          <div class="settings-body">
+            <div class="field-stack">
+              <label for="title-input">标题</label>
+              <input id="title-input" type="text" value="雨停以前" maxlength="24" />
+              <p class="field-help"><span id="title-count">4</span>/24</p>
+            </div>
+            <div class="field-stack">
+              <label for="body-input">一句说明</label>
+              <textarea id="body-input" rows="4" maxlength="96">一组照片，在雨夜里留下进入、停留与离开的顺序。</textarea>
+              <p class="field-help"><span id="body-count">25</span>/96</p>
+            </div>
+            <div class="field-stack">
+              <label for="meta-input">时间、地点或署名</label>
+              <input id="meta-input" type="text" value="雨夜 · 虚构城市旧书店" maxlength="32" />
+            </div>
+          </div>
+        </details>
+
+        <div class="integrity-card">
+          <div>
+            <span>当前推荐依据</span>
+            <strong id="recommendation-basis">读取素材中</strong>
+          </div>
+          <p id="integrity-detail">图片载入后显示素材数量与产品结构依据。</p>
+        </div>
+      </aside>
+
+      <section class="canvas-panel" aria-labelledby="canvas-heading">
+        <div class="panel-heading canvas-heading-row">
+          <div>
+            <p class="eyebrow" id="product-eyebrow">生成工作区</p>
+            <h2 id="canvas-heading">准备图片</h2>
+          </div>
+          <div class="canvas-heading-tools">
+            <div class="preview-toggle" id="preview-toggle" aria-label="切换原图、参考、生成结果和产品适配">
+              <button id="source-preview-button" type="button" aria-pressed="false">原图</button>
+              <button id="reference-preview-button" type="button" aria-pressed="true">参考</button>
+              <button id="result-preview-button" type="button" aria-pressed="false">结果</button>
+              <button id="product-preview-button" type="button" aria-pressed="false">成品</button>
+            </div>
+            <div class="format-label" aria-label="当前输出规格">
+              <span id="format-type">PNG</span>
+              <strong id="format-size">1200 × 1500</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="canvas-stage">
+          <img id="stage-image" class="stage-image" alt="当前生成工作区图片" />
+          <canvas
+            id="product-canvas"
+            width="1200"
+            height="1500"
+            role="img"
+            aria-label="当前产品文件预览"
+          >
+            当前浏览器不支持 Canvas，无法显示产品预览。
+          </canvas>
+          <div class="canvas-state" id="canvas-state" role="status">
+            <span class="loader" aria-hidden="true"></span>
+            <strong id="canvas-state-title">正在读取图片</strong>
+            <p id="canvas-state-copy">图片载入后将自动推荐适合的产品。</p>
+          </div>
+        </div>
+
+        <p class="canvas-description" id="canvas-description">上传新图并选择参考样例后，这里先展示参考；生成完成后自动切换到真实结果。</p>
+
+        <section class="compare-strip" aria-labelledby="compare-heading">
+          <div class="compare-heading-row">
+            <div><span>生成对照</span><strong id="compare-heading">原图 / 参考 / 结果</strong></div>
+            <small id="compare-status">等待生成</small>
+          </div>
+          <div class="compare-grid">
+            <button class="compare-card" id="compare-source-button" type="button">
+              <img id="compare-source-image" alt="生成所用原图" />
+              <span>01 · 你的原图</span>
+            </button>
+            <button class="compare-card" id="compare-reference-button" type="button">
+              <img id="compare-reference-image" alt="生成所用参考样例" />
+              <span>02 · 参考效果</span>
+            </button>
+            <button class="compare-card is-pending" id="compare-result-button" type="button" disabled>
+              <img id="compare-result-image" alt="AI 生成结果" />
+              <span>03 · 等待 AI 结果</span>
+            </button>
+          </div>
+        </section>
+
+        <div class="canvas-actions">
+          <button class="secondary-button" id="download-button" type="button" disabled>下载当前结果</button>
+          <button class="secondary-button" id="download-bundle-button" type="button" disabled>下载产品 ZIP</button>
+          <button class="primary-button" id="generate-button" type="button" disabled>使用参考生成</button>
+        </div>
+        <output class="export-status" id="export-status" aria-live="polite">等待图片载入。</output>
+      </section>
+
+      <nav class="pages-panel" aria-labelledby="pages-heading">
+        <div class="panel-heading pages-heading-row">
+          <div>
+            <p class="eyebrow">06 · 结果与产品</p>
+            <h2 id="pages-heading">生成结果</h2>
+          </div>
+          <span id="file-count">0 项</span>
+        </div>
+
+        <section class="result-library" aria-labelledby="result-library-heading">
+          <div class="result-library-heading">
+            <span>结果展示口</span>
+            <strong id="result-library-heading">本次生成</strong>
+          </div>
+          <div class="result-list" id="result-list">
+            <div class="result-empty" id="result-empty">生成完成后，结果会保留在这里供比较、选择和下载。</div>
+          </div>
+        </section>
+
+        <div class="product-summary" id="product-summary">
+          <span>当前产品</span>
+          <strong id="product-name">等待推荐</strong>
+          <p id="product-description">导入图片后，这里会显示产品包含的完整文件。</p>
+          <div class="coverage-summary" id="coverage-summary" aria-label="图片覆盖与成品页数">
+            <div>
+              <span>输入原图</span>
+              <strong id="coverage-source-count">0 张</strong>
+            </div>
+            <span class="coverage-arrow" aria-hidden="true">→</span>
+            <div>
+              <span>成品文件</span>
+              <strong id="coverage-output-count">0 个</strong>
+            </div>
+            <p id="coverage-status">载入图片后显示覆盖关系</p>
+          </div>
+        </div>
+
+        <section class="visual-route-summary" aria-labelledby="route-name">
+          <span class="visual-route-label">核心图片处理</span>
+          <strong id="route-name">等待推荐</strong>
+          <p id="route-description">选择图片后，这里会说明成品采用的视觉转译方法。</p>
+          <div class="route-skill-tags" id="route-skill-tags" aria-label="当前设计方向的可见效果"></div>
+        </section>
+
+        <div class="page-list" id="file-list"></div>
+
+        <details class="generation-details">
+          <summary>系统如何完成</summary>
+          <p id="generation-detail-copy">根据产品结构组合图片理解、视觉生成、排版与质量检查能力。</p>
+          <div class="capability-tags" id="capability-tags"></div>
+        </details>
+
+        <p class="prototype-note">
+          上传图片的生成只通过本地安全服务调用 AI；未连接服务时不会把 Canvas 预演冒充生成结果。产品适配在真实结果产生后才启用。
+        </p>
+      </nav>
+    </main>
+
+    <dialog class="product-catalog-dialog" id="product-catalog-dialog" aria-labelledby="catalog-heading">
+      <div class="catalog-header">
+        <div>
+          <p class="eyebrow">适用产品目录</p>
+          <h2 id="catalog-heading">预览当前模式可用的产品</h2>
+          <p id="catalog-mode-copy">根据当前处理单位展示适合的产品。</p>
+        </div>
+        <button class="dialog-close" id="catalog-close-button" type="button" aria-label="关闭产品目录">×</button>
+      </div>
+      <div class="catalog-product-list" id="catalog-product-list"></div>
+    </dialog>
+
+    <dialog class="product-catalog-dialog direction-catalog-dialog" id="direction-catalog-dialog" aria-labelledby="direction-catalog-heading">
+      <div class="catalog-header">
+        <div>
+          <p class="eyebrow">图片再创造目录</p>
+          <h2 id="direction-catalog-heading">预览当前模式可用的图片方向</h2>
+          <p id="direction-catalog-mode-copy">根据当前图片、处理单位与产品展示适用方向。</p>
+        </div>
+        <button class="dialog-close" id="direction-catalog-close-button" type="button" aria-label="关闭图片方向目录">×</button>
+      </div>
+      <div class="catalog-direction-list" id="catalog-direction-list"></div>
+    </dialog>
+
+    <dialog class="product-catalog-dialog direction-catalog-dialog" id="reference-catalog-dialog" aria-labelledby="reference-catalog-heading">
+      <div class="catalog-header">
+        <div>
+          <p class="eyebrow">参考效果目录</p>
+          <h2 id="reference-catalog-heading">选择驱动本次生成的样例</h2>
+          <p>每个样例都包含可见效果和生成配方；选择后会同步图片处理方向。</p>
+        </div>
+        <button class="dialog-close" id="reference-catalog-close-button" type="button" aria-label="关闭参考效果目录">×</button>
+      </div>
+      <div class="catalog-direction-list reference-catalog-list" id="reference-catalog-list"></div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="./app.js?v=28"></script>
+  </body>
+</html>

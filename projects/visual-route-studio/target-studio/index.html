@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="从开放产品目标出发，按需组合图片 Skill、本地生成、合成与验证能力。" />
+    <title>Target Studio · Skill 能力编排器</title>
+    <link rel="stylesheet" href="./composer-v4.css" />
+  </head>
+  <body>
+    <div class="desktop-boundary">
+      <div>
+        <h1>请使用电脑浏览器</h1>
+        <p>当前产品探索只针对电脑网页，最小宽度为 1180px。</p>
+      </div>
+    </div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-kicker">Target Studio · Revision 6</div>
+          <h1>目标驱动的 Skill 能力编排器</h1>
+        </div>
+        <div class="flow-line" aria-label="产品流程">
+          <span class="flow-step"><strong>目标</strong></span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">能力组合</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">SOURCE → RESULT</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">产品输出</span>
+        </div>
+        <div class="pool-status">13 Skill + 本地扩展能力池</div>
+      </header>
+
+      <main class="workspace">
+        <aside class="rail rail-left" aria-label="原图、目标与样例">
+          <section class="section">
+            <div class="section-heading">
+              <h2>统一研究原图</h2>
+              <span>SOURCE</span>
+            </div>
+            <figure class="source-card">
+              <div class="source-frame">
+                <img data-source-image src="./assets/skill-composer-source.png" alt="雨夜自行车修理店的统一研究原图" />
+              </div>
+              <figcaption><span>雨夜修车铺</span><span>完整单张照片</span></figcaption>
+            </figure>
+            <div class="fact-list" aria-label="原图事实">
+              <span>钴蓝自行车</span><span>暖灯与蓝时刻</span><span>轮组节奏</span><span>红色凳子</span><span>门口对角线</span><span>单一人物</span>
+            </div>
+            <div class="source-error">原图未能加载。目标文字已保留，更换原图后可以继续。</div>
+          </section>
+
+          <section class="section recommendation-section">
+            <div class="section-heading">
+              <h2>根据原图，为你推荐</h2>
+              <span>无需填写</span>
+            </div>
+            <p class="recommendation-lead">系统已经从原图内容与视觉特征中选出三个可直接开始的产品方向。</p>
+            <div class="recommendation-picks" id="recommendation-picks" aria-label="推荐产品方向"></div>
+            <div class="recommendation-ready">
+              <div>
+                <span>当前推荐</span>
+                <strong id="recommended-title">周年记忆档案</strong>
+                <p id="recommended-reason">最适合保留现场，同时形成可以收藏的纪念产品。</p>
+              </div>
+              <button class="primary-button" id="accept-recommendation" type="button">直接生成推荐</button>
+            </div>
+
+            <details class="custom-goal">
+              <summary>我有明确目标，进一步描述（可选）</summary>
+              <div class="custom-goal-body">
+                <label for="goal-input">描述成品、用途或希望产生的感受</label>
+                <textarea id="goal-input" placeholder="例如：制作招募海报、社交头像和周年感谢卡"></textarea>
+                <label for="output-format">主要输出形式</label>
+                <select id="output-format">
+                  <option>单张主视觉</option>
+                  <option selected>系列产品</option>
+                  <option>编辑页面</option>
+                  <option>电脑网页 / 屏幕</option>
+                  <option>印刷物</option>
+                  <option>动态图形</option>
+                </select>
+                <button class="secondary-button" id="design-composition" type="button" disabled>根据描述推荐产品</button>
+                <p class="hint">不填写也可以直接使用上面的推荐；描述只用于增加个性化要求。</p>
+              </div>
+            </details>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <h2>更多产品方向</h2>
+              <span>继续探索</span>
+            </div>
+            <div class="sample-list" id="sample-list"></div>
+          </section>
+        </aside>
+
+        <section class="stage" aria-labelledby="stage-title">
+          <header class="stage-header">
+            <div>
+              <div class="eyebrow">当前目标</div>
+              <h2 id="stage-title">周年记忆档案</h2>
+              <p id="stage-summary">把现场证据、记忆重绘和可收藏产品结合成一个完整系统。</p>
+            </div>
+            <div class="route-count"><strong id="route-count">3</strong>个研究 Skill 参与</div>
+          </header>
+
+          <div class="open-banner">
+            <strong>目标决定组合</strong>
+            <span>Skill 是后台能力来源；组合和扩展没有固定上限。</span>
+          </div>
+
+          <div class="compare-shell">
+            <figure class="compare-panel source">
+              <div class="panel-label">SOURCE <span>原图证据</span></div>
+              <div class="compare-visual">
+                <img data-source-image src="./assets/skill-composer-source.png" alt="统一研究原图" />
+              </div>
+              <figcaption class="panel-caption">始终完整显示，用它检验组合结果是否仍来自同一张图。</figcaption>
+            </figure>
+
+            <div class="compare-arrow" aria-hidden="true">→</div>
+
+            <figure class="compare-panel result">
+              <div class="panel-label">COMPOSED RESULT <span>完整结果</span></div>
+              <div class="compare-visual">
+                <img id="result-image" src="./assets/composer-memory-archive.png" alt="周年记忆档案的组合结果" />
+              </div>
+              <figcaption class="panel-caption" id="result-caption">研究 Skill 能力组合形成的完整样例结果</figcaption>
+            </figure>
+
+            <div class="generation-cover" id="generation-cover" aria-hidden="true">
+              <div class="generation-message">
+                <strong>正在按目标运行能力组合</strong>
+                <span id="generation-step">准备能力路线</span>
+                <div class="progress-track"><i></i></div>
+              </div>
+            </div>
+          </div>
+
+          <footer class="stage-footer">
+            <div class="product-line"><span>可继续产生：</span><strong id="product-targets">周年小书 · 感谢卡 · 故事墙 · 纪念标签</strong></div>
+            <div class="stage-actions">
+              <button class="secondary-button" id="download-button" type="button" disabled>导出结果</button>
+              <button class="primary-button" id="generate-button" type="button">组合能力并生成</button>
+            </div>
+          </footer>
+        </section>
+
+        <aside class="rail rail-right" aria-label="目标解释与能力组合">
+          <section class="section">
+            <div class="section-heading">
+              <h2>系统如何理解目标</h2>
+              <span>WHY</span>
+            </div>
+            <div class="interpretation-card">
+              <div class="micro-label">Target interpretation</div>
+              <h3 id="intent-title">纪念、收藏，同时保留真实现场</h3>
+              <p id="intent-copy">不是套一种风格，而是把可辨认的原图证据、带情绪的重绘和可书写的实体结构组合起来。</p>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <h2>本次能力组合</h2>
+              <span>按需编排</span>
+            </div>
+            <div class="capability-stack" id="capability-stack"></div>
+            <p class="hint">一个目标可以同时调用多个 Skill；现有 Skill 不足时，增加目标专用能力。</p>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <h2>完整研究 Skill 池</h2>
+              <span>亮色为本次使用</span>
+            </div>
+            <div class="skill-pool" id="skill-pool"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-heading">
+              <h2>生成与导出</h2>
+              <span>STATUS</span>
+            </div>
+            <div class="export-card">
+              <i class="status-dot" id="export-status-dot"></i>
+              <span id="export-status-text">能力组合已设计；生成后可导出结果。</span>
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="./composer-v4.js"></script>
+  </body>
+</html>
