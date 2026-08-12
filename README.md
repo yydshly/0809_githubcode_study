@@ -18,7 +18,8 @@
 | 项目 | 研究主题 | 技术栈 | 状态 | 本地研究 | 上游来源 | 独立仓库 | 在线演示 | 许可证 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Skill Zine Summary | Codex 照片/Zine 技能的技术谱系、渲染后端与验证方法 | Codex Skills、ImageGen、Python、HTML/CSS/SVG | 研究中 | [研究目录](projects/skill-zine-summary) | [tluy/skill-zine-summary](https://github.com/tluy/skill-zine-summary) | 暂无 | [GitHub Pages 完整研究站](https://yydshly.github.io/0809_githubcode_study/) · [OpenAI Sites 动态研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/) | 汇总库未声明；子库见[来源审计](projects/skill-zine-summary/UPSTREAM.md) |
-| Target Studio | 开放产品目标、13 个研究 Skill 按需组合与扩展、完整图片结果生成 | 产品研究、ImageGen、HTML/CSS、SVG | 可运行 | [研究目录](projects/visual-route-studio) | 无单一上游；见[来源边界](projects/visual-route-studio/UPSTREAM.md) | 暂无 | [本地电脑网页探测版](projects/visual-route-studio/target-studio) · [StoryFold 历史合成器](projects/visual-route-studio/compositor) | 本地原创研究；许可证待定 |
+| Image Product Studio R17 | 多 Skill 图片产品、单图/逐张/合集与产品适配的历史探索 | 产品研究、ImageGen、HTML/CSS、Canvas | 已归档 | [研究目录](projects/visual-route-studio) | 无单一上游；见[来源边界](projects/visual-route-studio/UPSTREAM.md) | 暂无 | [归档电脑网页](projects/visual-route-studio/compositor) | 本地原创研究；许可证待定 |
+| Single Image Studio | 先把一张图片处理好：参考效果推荐、真实生成、结果选择与下载 | 产品研究、ImageGen、电脑网页 | 计划中 | [研究目录](projects/single-image-studio) | 无单一上游；见[来源边界](projects/single-image-studio/UPSTREAM.md) | 暂无 | 暂无 | 本地原创研究；许可证待定 |
 
 状态统一使用：`计划中`、`研究中`、`可运行`、`已归档`。
 
