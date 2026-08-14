@@ -8,6 +8,8 @@
 
 截至 2026-08-15，Slice 02 已完成本计划中 WP1 / WP2 的一个窄范围准备切片：四份研究 `CapabilityContract@0.2.0`、无第三方依赖的 fixture reference adapter，以及 `NORMALIZE-DELIVER` / `MATTE-GT` 两套 suite 的五 partition 结构隔离夹具。该结果不满足 WP1 的正式退出条件：仓库可见 holdout 只演练隔离，尚无完整格式 / 真实题材覆盖、质量预注册或真正密封 holdout；因此 WP3 和任何 C1 判定仍未开始。
 
+立即后续以 [Slice 03 范围合同](research/SLICE_03_CONTRACT.md) 为硬边界：只做格式政策、byte-backed technical observer 和仓库外密封仪式准备，不提前进入 Matting 候选、`MATTE-REAL`、真实照片、正式 holdout 或产品 UI。
+
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
 ## 总体实施顺序

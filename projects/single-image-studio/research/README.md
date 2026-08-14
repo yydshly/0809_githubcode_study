@@ -68,6 +68,14 @@ repository, they cannot be reused as a genuinely sealed C1 quality holdout. See
 [SLICE_02_CONTRACT.md](SLICE_02_CONTRACT.md) and
 [SLICE_02_EVIDENCE.md](SLICE_02_EVIDENCE.md).
 
+## Slice 03 scope freeze
+
+[SLICE_03_CONTRACT.md](SLICE_03_CONTRACT.md) freezes the next narrow scope before
+implementation starts: a policy / implementation / evidence format matrix,
+byte-backed technical observation, and an out-of-repository sealing ceremony
+rehearsal. It explicitly forbids Matting candidates, `MATTE-REAL`, real photos,
+model weights, product UI changes, and checked-in future holdout pixels.
+
 ## Commands
 
 Run from `projects/single-image-studio` with Node.js 22 or newer:

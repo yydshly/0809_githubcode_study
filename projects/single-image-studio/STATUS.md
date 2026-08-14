@@ -93,7 +93,7 @@
 1. **已完成文档层**：状态、能力地图、注册表、效果 / 场景目录、证据、数据、安全、用户研究和来源账本已经相互引用；这不等于研究资产或能力证据已建立。
 2. **已完成 Slice 01 方法层**：建立研究目录、schema、rights、严格 manifest validator、3 个原创 `MATTE-GT dev/calibration` fixture、18 个图层资产、catalog allowlist、只读本地资源服务和桌面研究审阅入口；这些只证明研究设施一致性，C1 仍为 0。
 3. **已完成 Slice 02 合同 / 隔离层**：冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0`、`CC-CAP03-SOURCE-CARD-V0@0.2.0` 与 `CC-CAP04-MATTE-SIMPLE@0.2.0`；加入无第三方依赖的本地参考适配器，并为两套 suite 建立 dev、holdout、defect/calibration、defect/holdout、escape 结构夹具。所有合同仍为 C1=0；仓库可见 holdout 只演练隔离，不能复用为质量证据。
-4. **立即下一步（Slice 03）**：只冻结 `NORMALIZE-DELIVER` 格式政策矩阵、normalized bytes 技术 observer 与仓库外密封仪式 schema / mock rehearsal；只建立项目原创 `dev/calibration`、`defect/calibration` 格式夹具，不提交未来正式 holdout 像素，不进入 Matting 候选，不创建 `MATTE-REAL`，也不把 JPEG / WebP 探测写成正式支持。
+4. **立即下一步（Slice 03）**：按 [Slice 03 范围合同](research/SLICE_03_CONTRACT.md) 只冻结 `NORMALIZE-DELIVER` 格式政策矩阵、normalized bytes 技术 observer 与仓库外密封仪式 schema / mock rehearsal；只建立项目原创 `dev/calibration`、`defect/calibration` 格式夹具，不提交未来正式 holdout 像素，不进入 Matting 候选，不创建 `MATTE-REAL`，也不把 JPEG / WebP 探测写成正式支持。
 5. **后续**：冻结完整 suite × partition 质量预注册、候选 / 阈值 / 分母 / 停止规则，再由独立 custodian 建立真正密封 holdout / defect-holdout；之后才扩 `MATTE-GT / MATTE-REAL` 的独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册。
 6. 在共同适用分母上，以至少两个已锁、许可允许研究且真正输出连续 Alpha 的候选、一个登记基线和可用市场基准评测 Matting；simple baseline 只作比较下限，不进入产品 fallback。
 7. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
