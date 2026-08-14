@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="上传一张图，选择适合的处理或创意方向，比较并下载真实结果。" />
+    <title>Single Image Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Single Image Studio 首页">
+        <span class="brand-symbol" aria-hidden="true">S</span>
+        <span><strong>Single Image</strong><small>Studio · 单图工作室</small></span>
+      </a>
+      <div class="service-status" id="service-status" role="status" data-tone="checking">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="service-status-copy">正在检查创意生成服务</span>
+      </div>
+    </header>
+
+    <aside class="mobile-preview-notice" id="mobile-preview-notice" hidden>
+      <strong>同一 Wi‑Fi 手机预览</strong>
+      <span>仅用于可信私人 Wi‑Fi。图片与保真整理留在当前手机；此模式不开放真实 AI。</span>
+    </aside>
+
+    <main id="main" class="app-shell" data-page-state="EMPTY">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="kicker">一张图片，一条完整路径</p>
+        <h1 id="page-title">先看清这张图，<br />再决定它要变成什么。</h1>
+        <p class="intro-copy">上传一张图。我们只给少量适用任务：保真整理、主体与背景、标准头像，或一个真实的创意改造。</p>
+        <ol class="journey" aria-label="产品流程">
+          <li data-step="source" class="is-current"><span>01</span>选择图片</li>
+          <li data-step="task"><span>02</span>选择任务</li>
+          <li data-step="result"><span>03</span>比较结果</li>
+        </ol>
+      </section>
+
+      <section class="studio" aria-live="polite">
+        <div class="source-pane" id="source-pane">
+          <div class="source-empty" id="source-empty">
+            <div class="upload-visual" aria-hidden="true">
+              <span></span><span></span><span></span>
+              <b>＋</b>
+            </div>
+            <h2>从一张图片开始</h2>
+            <p>JPEG、PNG 或 WebP，最大 16 MB / 4000 万像素。一次只处理一张。</p>
+            <div class="source-actions">
+              <button class="button button-primary" id="choose-file-button" type="button">选择图片</button>
+              <button class="button button-quiet" id="use-demo-button" type="button">使用合成演示图</button>
+            </div>
+            <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp" hidden />
+          </div>
+
+          <div class="source-preview" id="source-preview" hidden>
+            <img id="source-image" alt="当前来源图片" />
+            <div class="source-caption">
+              <div><span>当前图片</span><strong id="source-name"></strong><small id="source-meta"></small></div>
+              <button class="text-button" id="replace-file-button" type="button">换一张</button>
+            </div>
+          </div>
+
+          <div class="consent-card" id="consent-card" hidden>
+            <p class="kicker">处理前确认</p>
+            <h2>这张图片可以交给工作室处理吗？</h2>
+            <p>图片会在本机完成基础处理；只有选择创意生成时，才会发送到已连接的图片服务。当前版本不保存图库，也不会把用户图片加入公开样例。</p>
+            <label class="check-row"><input id="rights-checkbox" type="checkbox" /> <span>我有权处理这张图片，并同意上述数据处理方式。</span></label>
+            <div class="inline-actions">
+              <button class="button button-primary" id="confirm-source-button" type="button" disabled>确认并分析</button>
+              <button class="button button-quiet" id="cancel-source-button" type="button">取消</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-panel" id="status-panel" hidden>
+          <span class="spinner" aria-hidden="true"></span>
+          <div><strong id="status-title">正在分析图片</strong><p id="status-copy">先判断哪些任务现在真实可用。</p></div>
+          <button class="button button-quiet status-cancel" id="cancel-wait-button" type="button" hidden>取消等待</button>
+        </div>
+
+        <section class="tasks-section" id="tasks-section" hidden aria-labelledby="tasks-title">
+          <div class="section-heading">
+            <div><p class="kicker">适合这张图</p><h2 id="tasks-title">选择一个结果方向</h2></div>
+            <div class="section-side"><p id="recommendation-copy">根据图片格式、比例和当前已连接能力给出规则建议。</p><button class="text-button" id="tasks-replace-button" type="button">换一张图</button></div>
+          </div>
+          <div class="task-grid" id="task-grid"></div>
+        </section>
+
+        <section class="config-section" id="config-section" hidden aria-labelledby="config-title">
+          <button class="back-button" id="back-to-tasks-button" type="button">← 换一个任务</button>
+          <div class="config-layout">
+            <div>
+              <p class="kicker">当前任务</p>
+              <h2 id="config-title"></h2>
+              <p id="config-description"></p>
+              <div class="contract-list"><p><span>会保留</span><strong id="config-preserve"></strong></p><p><span>会改变</span><strong id="config-change"></strong></p></div>
+            </div>
+            <form class="settings-card" id="settings-form">
+              <div id="settings-fields"></div>
+              <button class="button button-primary button-wide" id="run-button" type="submit">开始处理</button>
+              <p class="run-note" id="run-note"></p>
+            </form>
+          </div>
+        </section>
+
+        <section class="result-section" id="result-section" hidden aria-labelledby="result-title">
+          <div class="result-heading">
+            <div><p class="kicker">真实结果</p><h2 id="result-title">完成</h2><p id="result-summary"></p></div>
+            <div class="result-actions"><button class="button button-quiet" id="result-replace-button" type="button">处理新图片</button><button class="button button-quiet" id="redo-button" type="button">重新处理</button><button class="button button-primary" id="download-button" type="button">下载结果</button></div>
+          </div>
+          <div class="compare-tabs" role="tablist" aria-label="比较原图、参考和结果">
+            <button type="button" role="tab" data-layer="source" aria-selected="false">原图</button>
+            <button type="button" role="tab" data-layer="reference" aria-selected="false">参考</button>
+            <button type="button" role="tab" data-layer="result" aria-selected="true">结果</button>
+          </div>
+          <div class="result-stage">
+            <img id="result-image" alt="当前处理结果" />
+            <div class="reference-explainer" id="reference-explainer" hidden>
+              <span id="reference-mark" aria-hidden="true"></span>
+              <div><strong id="reference-title"></strong><p id="reference-copy"></p></div>
+            </div>
+          </div>
+          <div class="qa-strip"><span class="qa-pass">✓ 已通过结果检查</span><span id="qa-copy"></span><span id="result-size"></span></div>
+        </section>
+
+        <section class="error-panel" id="error-panel" hidden>
+          <span class="error-mark" aria-hidden="true">!</span>
+          <div><p class="kicker">本次没有得到结果</p><h2 id="error-title">处理失败</h2><p id="error-copy"></p><div class="inline-actions"><button class="button button-primary" id="recover-button" type="button" hidden>查询原任务</button><button class="button button-quiet" id="retry-button" type="button">新建任务</button><button class="button button-quiet" id="error-back-button" type="button">返回任务</button></div></div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Single Image Studio · 可运行首版</span>
+      <span>本地保真处理可用 · 抠图与证件能力验证中 · 创意生成按服务状态启用</span>
+    </footer>
+    <canvas id="processing-canvas" hidden></canvas>
+    <output class="toast" id="toast" aria-live="polite"></output>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

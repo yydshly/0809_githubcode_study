@@ -1,0 +1,185 @@
+export const AI_SERVICE_STATUS = Object.freeze({
+  CHECKING: "checking",
+  AVAILABLE: "available",
+  UNAVAILABLE: "unavailable",
+  ERROR: "error",
+});
+
+export const TASK_AVAILABILITY = Object.freeze({
+  AVAILABLE: "available",
+  CHECKING: "checking",
+  UNAVAILABLE: "unavailable",
+  VALIDATING: "validating",
+});
+
+export const TASK_EXECUTOR = Object.freeze({
+  LOCAL: "local",
+  AI: "ai",
+  UNVERIFIED: "unverified",
+});
+
+const BASE_TASKS = Object.freeze([
+  Object.freeze({
+    id: "UT-TUNE",
+    label: "保真整理",
+    description: "在浏览器中确定性整理画布与光色，不重建主体。",
+    family: "utility",
+    executor: TASK_EXECUTOR.LOCAL,
+    contractVersion: "local-fidelity-v1",
+    requiresConfig: false,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
+    id: "CR1",
+    label: "AI 创意改造",
+    description: "使用真实 AI 服务生成创意结果；服务不可用时不生成替代品。",
+    family: "creative",
+    executor: TASK_EXECUTOR.AI,
+    contractVersion: "creative-ai-v1",
+    requiresConfig: false,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
+    id: "UT-CUTOUT",
+    label: "透明抠图",
+    description: "输出带真实 Alpha 的透明 PNG。",
+    family: "utility",
+    executor: TASK_EXECUTOR.UNVERIFIED,
+    contractVersion: "cutout-v1-draft",
+    requiresConfig: true,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
+    id: "UT-SOLID-BG",
+    label: "纯色换底",
+    description: "复用经过验证的 Alpha，并确定性合成指定纯色。",
+    family: "utility",
+    executor: TASK_EXECUTOR.UNVERIFIED,
+    contractVersion: "solid-bg-v1-draft",
+    requiresConfig: true,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
+    id: "UT-PORTRAIT",
+    label: "标准底色头像 / 报名照",
+    description: "通用非官方用途；不承诺任何机构受理。",
+    family: "utility",
+    executor: TASK_EXECUTOR.UNVERIFIED,
+    contractVersion: "portrait-v1-draft",
+    requiresConfig: true,
+    requiresAdultAttestation: true,
+  }),
+]);
+
+export function normalizeAiServiceStatus(value) {
+  if (typeof value === "object" && value !== null) {
+    if (typeof value.status === "string") {
+      return normalizeAiServiceStatus(value.status);
+    }
+    if (value.available === true) return AI_SERVICE_STATUS.AVAILABLE;
+    if (value.available === false || value.configured === false) {
+      return AI_SERVICE_STATUS.UNAVAILABLE;
+    }
+  }
+
+  const status = String(value ?? AI_SERVICE_STATUS.CHECKING).trim().toLowerCase();
+  return Object.values(AI_SERVICE_STATUS).includes(status)
+    ? status
+    : AI_SERVICE_STATUS.ERROR;
+}
+
+function aiAvailability(status) {
+  switch (status) {
+    case AI_SERVICE_STATUS.AVAILABLE:
+      return {
+        availability: TASK_AVAILABILITY.AVAILABLE,
+        runnable: true,
+        statusLabel: "可运行",
+        disabledReason: null,
+      };
+    case AI_SERVICE_STATUS.CHECKING:
+      return {
+        availability: TASK_AVAILABILITY.CHECKING,
+        runnable: false,
+        statusLabel: "正在检查真实 AI 服务",
+        disabledReason: "AI_SERVICE_CHECKING",
+      };
+    case AI_SERVICE_STATUS.UNAVAILABLE:
+      return {
+        availability: TASK_AVAILABILITY.UNAVAILABLE,
+        runnable: false,
+        statusLabel: "真实 AI 服务未配置",
+        disabledReason: "AI_SERVICE_UNAVAILABLE",
+      };
+    default:
+      return {
+        availability: TASK_AVAILABILITY.UNAVAILABLE,
+        runnable: false,
+        statusLabel: "真实 AI 服务暂不可用",
+        disabledReason: "AI_SERVICE_ERROR",
+      };
+  }
+}
+
+function resolveTask(task, aiStatus) {
+  if (task.executor === TASK_EXECUTOR.LOCAL) {
+    return {
+      ...task,
+      availability: TASK_AVAILABILITY.AVAILABLE,
+      runnable: true,
+      statusLabel: "可运行 · 本地处理",
+      disabledReason: null,
+    };
+  }
+  if (task.executor === TASK_EXECUTOR.AI) {
+    return { ...task, ...aiAvailability(aiStatus) };
+  }
+  return {
+    ...task,
+    availability: TASK_AVAILABILITY.VALIDATING,
+    runnable: false,
+    statusLabel: "能力验证中",
+    disabledReason: "CAPABILITY_VALIDATION_PENDING",
+  };
+}
+
+/**
+ * Runtime catalog policy:
+ * - local fidelity is always runnable;
+ * - the real AI task follows the observed service status;
+ * - unverified matting/portrait tasks remain visible but disabled.
+ */
+export function getTaskCatalog({ aiStatus = AI_SERVICE_STATUS.CHECKING } = {}) {
+  const normalizedStatus = normalizeAiServiceStatus(aiStatus);
+  return BASE_TASKS.map((task) => Object.freeze(resolveTask(task, normalizedStatus)));
+}
+
+export function getRunnableTasks(options = {}) {
+  return getTaskCatalog(options).filter((task) => task.runnable);
+}
+
+export function getTaskById(taskId, options = {}) {
+  return getTaskCatalog(options).find((task) => task.id === taskId) ?? null;
+}
+
+export function getRecommendedTasks({ limit = 4, ...options } = {}) {
+  if (!Number.isSafeInteger(limit) || limit < 1) {
+    throw new TypeError("recommendation limit must be a positive safe integer");
+  }
+  const tasks = getTaskCatalog(options);
+  const rank = new Map([
+    [TASK_AVAILABILITY.AVAILABLE, 0],
+    [TASK_AVAILABILITY.CHECKING, 1],
+    [TASK_AVAILABILITY.VALIDATING, 2],
+    [TASK_AVAILABILITY.UNAVAILABLE, 3],
+  ]);
+  return tasks
+    .map((task, index) => ({ task, index }))
+    .sort((left, right) => (
+      rank.get(left.task.availability) - rank.get(right.task.availability)
+      || left.index - right.index
+    ))
+    .slice(0, limit)
+    .map(({ task }) => task);
+}
+

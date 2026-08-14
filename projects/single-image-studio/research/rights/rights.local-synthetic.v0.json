@@ -1,0 +1,38 @@
+{
+  "assetClass": "public-synthetic",
+  "createdAt": "2026-08-15T00:00:00.000Z",
+  "evidenceStatus": {
+    "claimBoundary": "Repository consistency only; not matting capability evidence.",
+    "level": "C1=0",
+    "purpose": "method-rehearsal"
+  },
+  "license": {
+    "id": "project-repository-terms",
+    "terms": "Use is limited to this repository's research, review, test, and demonstration surfaces; no third-party rights are asserted."
+  },
+  "origin": {
+    "externalInputs": [],
+    "generator": "scripts/research-generate-fixtures.mjs",
+    "type": "project-original-procedural"
+  },
+  "permissions": {
+    "commercialMarketingAllowed": false,
+    "processingAllowed": true,
+    "publicDisplayAllowed": true,
+    "redistributionAllowed": false,
+    "researchUseAllowed": true,
+    "restrictions": "Must retain synthetic disclosure and C1=0 method-rehearsal boundary."
+  },
+  "privacy": {
+    "containsPersonalData": false,
+    "containsRealPerson": false,
+    "containsThirdPartyMarks": false
+  },
+  "recordVersion": "0.1.0",
+  "rightsHolder": {
+    "basis": "Generated locally from original geometric equations in this repository.",
+    "name": "Single Image Studio project contributors"
+  },
+  "rightsRecordId": "rights.local-synthetic.v0",
+  "schemaVersion": "rights-record.v0"
+}

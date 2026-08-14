@@ -1,59 +1,155 @@
 # Single Image Studio
 
-> 一个单图优先的图片创造产品：用户上传一张图片，直接看到若干有明显差异的可生成效果，选择一个后获得真实 AI 结果，并进行对比、选择和下载。
+> 一个“单图能力底座”研究项目。目标是先证明可复用的图片能力、效果合同与质量门禁，再设计面向普通用户的单图智能处理产品。
 
-## 项目状态
+## 当前状态
 
-| 字段 | 内容 |
+本目录目前包含一套可运行的 **R0 工程探针**，用于验证单文件输入、来源绑定、任务状态、服务请求、失败恢复、比较与下载等工程约束。它不是产品首版，也不证明图片理解、推荐、抠图、自然增强、创意效果或任务专属 QA 已经成立。
+
+| 维度 | 当前结论 |
 | --- | --- |
-| 状态 | 计划中 |
-| 当前阶段 | 重新定义产品，不开发复杂工作台 |
-| 目标用户 | 希望把一张现有图片变成更有表现力结果，但不想理解 Skill、模型或 Prompt 的电脑网页用户 |
-| 第一版输入 | 一张本地图片；描述为可选，不得成为开始门槛 |
-| 第一版输出 | 3–6 个可预览效果方向、一个或多个真实 AI 结果、原图/参考/结果对比、PNG 下载 |
-| 暂不包含 | 多图合集、批量处理、海报/故事册/档案等产品套件、自由画布、移动端 |
-| 历史基线 | Image Product Studio Revision 17，归档提交 `51a8469` |
+| 研究阶段 | Slice 01 研究基础设施可运行；真实候选对测与 C1 取证尚未开始 |
+| 工程与研究工具 | R0 探针和桌面研究审阅入口可运行；77 项自动测试覆盖原有工程约束及研究清单、资源与交互合同 |
+| 原子能力证据 | `C1 = 0` |
+| 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
+| 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
+| 运维 / 治理证据 | `O1 = 0`、`G1 = 0` |
+| 发布状态 | 未发布；没有正式任务目录或可公开产品样例 |
 
-## 为什么重新开始
+所有状态以 [STATUS.md](STATUS.md) 为唯一事实源。历史材料中的“可运行”“pass”若未特别说明，只代表 R0 工程检查，不代表能力或产品门槛通过。
 
-历史版本同时处理单图、多图逐张、多图合集、图片方向、产品目标、页面结构和导出，结果是用户在看到自己的图片发生有效变化之前，需要先理解过多选择。
+首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 
-本项目把成功标准收回到一个问题：
+## 目标产品
 
-> 用户上传一张图后，能否在很短时间内看到几个真正有吸引力、差异清楚且可以实际生成的方向，并得到满意结果？
+未来产品面向想快速处理或改造一张现有图片、但不想理解模型、Prompt、Skill 或图像管线的普通用户：
 
-只有这个问题被证明后，才扩展批量、多图组合和产品适配。
+1. 上传一张图；
+2. 系统生成只包含可观察事实的 `SourceCard`；
+3. 过滤不适用或未发布的效果；
+4. 展示最多四个有真实参考对和变化合同的结果选项；
+5. 执行确定性处理、视觉模型或生成模型组合；
+6. 通过任务专属 QA 后比较并下载。
 
-## 第一版核心流程
+目标结构不是工具墙，而是：
 
-1. 上传或使用一张演示图片。
-2. 系统分析图片，但不要求用户填写描述。
-3. 页面展示 3 个首选效果与“查看更多”；每个效果必须包含参考样例的来源图和结果图，而不是只有成品图。
-4. 用户选择效果；中央生成前展示该效果的参考对照和预计保留/改变内容。
-5. AI 使用用户图片与所选效果配方生成真实结果。
-6. 页面并列展示原图、参考对照和生成结果；允许再次生成或选择其他效果。
-7. 满意结果进入简洁结果栏，可下载 PNG。
+```text
+工程底座 → 九类原子能力 → 用户效果 → 场景配方
+```
 
-## 产品原则
+完整产品假设见 [PRODUCT.md](PRODUCT.md)，能力依赖见 [CAPABILITY_MAP.md](CAPABILITY_MAP.md)。
 
-- 单图效果是产品核心，产品模板只是未来出口。
-- 先展示结果差异，再解释方法；Skill 名称不进入主流程。
-- 参考样例必须是“来源图 → 结果图”成对展示，用户才能理解这种效果会怎样改变自己的图片。
-- 推荐只减少选择成本，不限制完整效果目录。
-- 没有真实模型结果时不得把 Canvas、滤镜或预置图片称为生成。
-- 上传后立即有默认推荐；描述、目标和高级控制均为可选。
-- 第一版只验收电脑网页。
+## 九类能力研究
 
-## 阶段顺序
+1. 来源与资产；
+2. 归一化与交付；
+3. 图片理解；
+4. 主体与区域；
+5. 几何与确定性合成；
+6. 质量与修复；
+7. 生成式编辑；
+8. QA、证据与来源；
+9. 编排与推荐。
 
-- 阶段 A：单图、单效果、真实生成、对比、下载。
-- 阶段 B：单图多结果、收藏与继续生成。
-- 阶段 C：多张图片分别复用已验证的单图能力。
-- 阶段 D：用户主动选择多个满意结果，再组成合集。
-- 阶段 E：海报、封面、故事册等产品适配。
+九类是研究地图，不是九个要同时开发的页面入口。第一条纵向链仍是：
 
-后续规划见 [PRODUCT.md](PRODUCT.md)、[RESEARCH.md](RESEARCH.md) 与 [ROADMAP.md](ROADMAP.md)。来源与本地原创边界见 [UPSTREAM.md](UPSTREAM.md)。
+```text
+输入归一化 → 主体检测 → Alpha Matting → 边缘净化
+→ 透明主体 → 纯色换底 → 任务 QA
+```
 
-## 项目边界
+自然增强和 CR1 / CR2 创意对测是另外两条独立研究链。首个混合邀请 beta 要求质量、主体 / 背景、创意三个方向各至少一个效果满足完整发布公式；验证壳达标只允许正式页面进入设计与复验。
 
-本目录不得通过相对路径导入 `visual-route-studio` 的代码或资产。若后续确实复用历史成果，必须把所需内容复制进本项目、记录来源提交和本地修改，并保留对应许可边界。
+## 运行 Slice 01 研究设施
+
+Slice 01 已建立 3 个本项目原创的 `MATTE-GT dev/calibration` 合成 fixture、18 个 PNG 图层、rights record、FixtureManifest、严格 catalog allowlist 和只读研究入口。它们只用于验证研究方法、目录、hash、资源隔离和审阅交互，证据状态固定为 `C1=0 / method-rehearsal`。
+
+首次运行或生成器变更后：
+
+```powershell
+cd projects/single-image-studio
+npm.cmd run research:prepare
+```
+
+启动本地服务：
+
+```powershell
+npm.cmd start
+```
+
+打开 `http://127.0.0.1:4177/research/`。该入口只在本机模式读取 catalog 明确列出的 `public-synthetic` PNG；LAN 模式会拒绝研究 catalog 和资源。它支持来源、Alpha、前景、黑 / 白 / 高饱和彩底检查、结构化缺陷初判和提交后解盲，但当前提交不持久保存，也不代表真实 Matting、QA 或产品闭环已成立。
+
+研究目录、生成与验证边界见 [research/README.md](research/README.md)，本次实现和覆盖合同见 [research/SLICE_01_CONTRACT.md](research/SLICE_01_CONTRACT.md)，实际自动化、HTTP 与浏览器结果见 [research/SLICE_01_EVIDENCE.md](research/SLICE_01_EVIDENCE.md)。
+
+## 运行 R0 工程探针
+
+需要 Node.js 22 或更高版本。本项目当前没有运行时第三方依赖，也不依赖兄弟项目。
+
+```powershell
+cd projects/single-image-studio
+npm.cmd start
+```
+
+打开 `http://127.0.0.1:4177/`。未配置密钥时，可用合成演示图验证本地 Canvas 处理和工程状态闭环；这只是确定性画布探针，不是已经验证的“自然增强”。
+
+若服务端环境中设置 `OPENAI_API_KEY`，R0 探针可发送 CR1 图片编辑请求。当前路径没有真实 Source Card、冻结参考对或创意内容 QA，不能升级为 E1 或 R1-product 证据，也不应用敏感真人图测试。
+
+### 手机局域网探针
+
+电脑与手机连接同一个可信私人 Wi-Fi 后，可运行：
+
+```powershell
+npm.cmd run mobile
+```
+
+该模式只用于历史小屏与局域网访问探测，会强制关闭 AI 接口；它不是首轮产品范围、正式移动端验收、HTTPS 部署或产品发布。局域网传输使用明文 HTTP，本轮只允许合成图或确认不含真人、位置、证件、品牌和其他敏感信息的测试图，不应用真实用户照片验证。
+
+工程检查：
+
+```powershell
+npm.cmd run verify
+```
+
+`verify` 会先核对研究资产和 manifest，再运行全量测试及语法检查。R0 的浏览器证据边界见 [BROWSER_VALIDATION.md](BROWSER_VALIDATION.md)。
+
+## 文档权威顺序
+
+| 文档 | 角色 |
+| --- | --- |
+| [STATUS.md](STATUS.md) | 当前研究、工程、能力和发布状态的唯一事实源 |
+| [CAPABILITY_MAP.md](CAPABILITY_MAP.md) | 九类原子能力、产物和依赖 |
+| [CAPABILITY_REGISTRY.md](CAPABILITY_REGISTRY.md) | 候选引擎、精确版本、许可、资源和证据状态 |
+| [EVIDENCE_AND_RELEASE.md](EVIDENCE_AND_RELEASE.md) | C/U/E/R/O/G/V 与发布门禁 |
+| [RESEARCH_RECORD_TEMPLATES.md](RESEARCH_RECORD_TEMPLATES.md) | 夹具、预注册、R1、O1、证据和 Release Gate 的可填写模板 |
+| [TASK_CATALOG.md](TASK_CATALOG.md) | 用户效果、场景配方和旧探针 ID 映射 |
+| [PRODUCT.md](PRODUCT.md) | 目标产品与体验假设 |
+| [V1_FLOW.md](V1_FLOW.md) | 未来最小冻结验证界面与目标产品交互契约；不代表 R0 已实现 |
+| [DATA_FLOW_AND_SECURITY.md](DATA_FLOW_AND_SECURITY.md) | 数据流、最小留存、删除、安全与远程服务前置门槛 |
+| [SYSTEM_ARCHITECTURE.md](SYSTEM_ARCHITECTURE.md) | 桌面首轮的逻辑组件、状态归属、持久化、队列、对象与恢复原则 |
+| [UI_SURFACES_AND_ACCESSIBILITY.md](UI_SURFACES_AND_ACCESSIBILITY.md) | R0、研究审阅、验证、正式桌面与运维支持 surface 的边界 |
+| [OBSERVABILITY_AND_OPERATIONS.md](OBSERVABILITY_AND_OPERATIONS.md) | Run 事件、错误、日志、trace、metrics、性能、告警与问题定位 |
+| [QUALITY_AND_COMPATIBILITY.md](QUALITY_AND_COMPATIBILITY.md) | 桌面浏览器、文件、色彩、测试分层和兼容性 profile |
+| [DEPLOYMENT_RELEASE_AND_RECOVERY.md](DEPLOYMENT_RELEASE_AND_RECOVERY.md) | 部署版本、运行态迁移、灰度、回滚、备份与恢复 |
+| [RESEARCH.md](RESEARCH.md) | 待回答问题、研究设计和用户研究 |
+| [USER_RESEARCH_PROTOCOL.md](USER_RESEARCH_PROTOCOL.md) | 形成性测试和冻结 V1 验证的参与者、任务分配、同意与数据协议 |
+| [ROADMAP.md](ROADMAP.md) | 从文档归一到邀请测试的阶段顺序 |
+| [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | 下一阶段研究工作包与退出条件 |
+| [research/README.md](research/README.md) | 可执行研究目录、合成夹具、生成与校验命令 |
+| [research/SLICE_01_CONTRACT.md](research/SLICE_01_CONTRACT.md) | 第一刀实现授权、范围、桌面研究 UI 与覆盖矩阵 |
+| [research/SLICE_01_EVIDENCE.md](research/SLICE_01_EVIDENCE.md) | Slice 01 自动化、HTTP、浏览器主路径、错误路径与兼容限制 |
+| [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
+| [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
+
+[CAPABILITY_REVIEW.md](CAPABILITY_REVIEW.md)、[EFFECT_SHORTLIST.md](EFFECT_SHORTLIST.md) 与 [PORTRAIT_PARAMETERS.md](PORTRAIT_PARAMETERS.md) 分别是历史 Skill 审计、创意实验附录和报名头像场景草案，不覆盖上述当前规范。[DELIVERY_CONTRACT.md](DELIVERY_CONTRACT.md) 与 [BROWSER_VALIDATION.md](BROWSER_VALIDATION.md) 只记录 R0 工程探针。
+
+## 研究边界
+
+- 当前只增加研究设施、项目原创合成夹具和独立研究审阅 surface；不扩正式产品页面、任务卡，不下载模型 / 权重，也不引入运行时第三方依赖。
+- 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
+- `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
+- GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。
+- 未进入发布 allowlist 的来源、参考、结果和失败图不得作为产品样例。
+- 普通报名头像是场景配方；官方护照、签证或证件 profile 继续独立验证。
+- 多图逐张、多图合集、商品套件和产品模板均后置。
+
+来源和许可边界见 [UPSTREAM.md](UPSTREAM.md)。

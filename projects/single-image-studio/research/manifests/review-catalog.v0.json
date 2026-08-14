@@ -1,0 +1,124 @@
+{
+  "assetAllowlist": [
+    "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/alpha.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-black.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-saturated.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-white.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/foreground.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/source.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/alpha.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-black.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-saturated.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-white.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/foreground.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/source.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/alpha.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-black.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-saturated.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-white.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/foreground.png",
+    "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/source.png"
+  ],
+  "catalogId": "review-catalog.local-synthetic.v0",
+  "catalogVersion": "0.1.0",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "method-rehearsal"
+  },
+  "fixtures": [
+    {
+      "assets": {
+        "alpha": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/alpha.png",
+        "compositeBlack": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-black.png",
+        "compositeSaturated": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-saturated.png",
+        "compositeWhite": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-white.png",
+        "foreground": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/foreground.png",
+        "source": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/source.png"
+      },
+      "candidateAlias": "Candidate A",
+      "evidenceStatus": {
+        "level": "C1=0",
+        "purpose": "method-rehearsal"
+      },
+      "facts": {
+        "category": "hard-edge",
+        "edgeType": "hard",
+        "expectedUse": "Exercise exact opaque/transparent boundary inspection."
+      },
+      "id": "matte-hard-edge-001",
+      "label": "Hard edge geometry",
+      "methodDetails": "Axis-aligned and diagonal opaque geometry rendered from local equations; no model output.",
+      "methodLabel": "Deterministic procedural hard-edge ground truth",
+      "partition": "dev/calibration",
+      "rightsRecordId": "rights.local-synthetic.v0",
+      "sourceRevision": "local-procedural-v0.1.0-seed-20260815",
+      "suite": "MATTE-GT",
+      "visibility": "public-synthetic"
+    },
+    {
+      "assets": {
+        "alpha": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/alpha.png",
+        "compositeBlack": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-black.png",
+        "compositeSaturated": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-saturated.png",
+        "compositeWhite": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-white.png",
+        "foreground": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/foreground.png",
+        "source": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/source.png"
+      },
+      "candidateAlias": "Candidate B",
+      "evidenceStatus": {
+        "level": "C1=0",
+        "purpose": "method-rehearsal"
+      },
+      "facts": {
+        "category": "interior-hole",
+        "edgeType": "hole",
+        "expectedUse": "Exercise preservation of an enclosed transparent region."
+      },
+      "id": "matte-hole-001",
+      "label": "Enclosed hole geometry",
+      "methodDetails": "Opaque elliptical ring with a fully transparent interior rendered from local equations; no model output.",
+      "methodLabel": "Deterministic procedural ring ground truth",
+      "partition": "dev/calibration",
+      "rightsRecordId": "rights.local-synthetic.v0",
+      "sourceRevision": "local-procedural-v0.1.0-seed-20260815",
+      "suite": "MATTE-GT",
+      "visibility": "public-synthetic"
+    },
+    {
+      "assets": {
+        "alpha": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/alpha.png",
+        "compositeBlack": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-black.png",
+        "compositeSaturated": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-saturated.png",
+        "compositeWhite": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-white.png",
+        "foreground": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/foreground.png",
+        "source": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/source.png"
+      },
+      "candidateAlias": "Candidate C",
+      "evidenceStatus": {
+        "level": "C1=0",
+        "purpose": "method-rehearsal"
+      },
+      "facts": {
+        "category": "soft-edge",
+        "edgeType": "soft",
+        "expectedUse": "Exercise partial-alpha inspection against contrasting backgrounds."
+      },
+      "id": "matte-soft-edge-001",
+      "label": "Soft edge geometry",
+      "methodDetails": "Elliptical alpha ramp rendered from local equations with a fixed feather width; no model output.",
+      "methodLabel": "Deterministic procedural soft-edge ground truth",
+      "partition": "dev/calibration",
+      "rightsRecordId": "rights.local-synthetic.v0",
+      "sourceRevision": "local-procedural-v0.1.0-seed-20260815",
+      "suite": "MATTE-GT",
+      "visibility": "public-synthetic"
+    }
+  ],
+  "generatedAt": "2026-08-15T00:00:00.000Z",
+  "schemaVersion": "review-catalog.v0",
+  "visibilityPolicy": {
+    "allowed": [
+      "public-synthetic"
+    ]
+  }
+}

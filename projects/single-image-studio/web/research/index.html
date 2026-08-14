@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>研究审阅台 · Single Image Studio</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#research-main">跳到研究工作区</a>
+
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="title-block">
+          <p class="eyebrow">SURFACE.RESEARCH-REVIEW · SLICE 01</p>
+          <h1>主体与背景 · 研究审阅台</h1>
+        </div>
+        <div class="boundary-strip" aria-label="研究边界">
+          <strong>研究方法演练</strong>
+          <span>C1=0</span>
+          <span>非产品</span>
+        </div>
+        <p class="boundary-note">
+          只读取公开合成夹具；不上传、不调用模型、不持久保存评审；不产生 U1 / E1 / R1 证据。
+        </p>
+      </header>
+
+      <section class="context-bar" aria-labelledby="context-title">
+        <h2 class="visually-hidden" id="context-title">当前研究上下文</h2>
+        <div class="fixture-picker">
+          <label for="fixture-select">匿名候选</label>
+          <select id="fixture-select" disabled>
+            <option>正在读取目录…</option>
+          </select>
+          <span id="catalog-version" class="field-help">目录尚未就绪</span>
+        </div>
+        <dl class="context-facts">
+          <div>
+            <dt>集合 / 分区</dt>
+            <dd id="context-partition">—</dd>
+          </div>
+          <div>
+            <dt>来源 revision（解盲后）</dt>
+            <dd id="context-revision">—</dd>
+          </div>
+          <div>
+            <dt>候选匿名编号</dt>
+            <dd id="context-candidate">—</dd>
+          </div>
+          <div>
+            <dt>证据状态</dt>
+            <dd id="context-evidence">C1=0</dd>
+          </div>
+        </dl>
+      </section>
+
+      <main id="research-main" class="workspace">
+        <section class="visual-workspace" aria-labelledby="workspace-title">
+          <div class="workspace-heading">
+            <div>
+              <p class="section-kicker">像素检查工作区</p>
+              <h2 id="workspace-title">等待候选</h2>
+            </div>
+            <p id="asset-status" class="asset-status" role="status" aria-live="polite">
+              正在读取研究目录
+            </p>
+          </div>
+
+          <div class="view-tabs" role="tablist" aria-label="图像视图">
+            <button type="button" role="tab" id="view-source" data-view="source"
+              aria-controls="image-panel" aria-selected="true" tabindex="0">来源</button>
+            <button type="button" role="tab" id="view-alpha" data-view="alpha"
+              aria-controls="image-panel" aria-selected="false" tabindex="-1">Alpha</button>
+            <button type="button" role="tab" id="view-foreground" data-view="foreground"
+              aria-controls="image-panel" aria-selected="false" tabindex="-1">前景</button>
+            <button type="button" role="tab" id="view-compositeBlack" data-view="compositeBlack"
+              aria-controls="image-panel" aria-selected="false" tabindex="-1">黑底</button>
+            <button type="button" role="tab" id="view-compositeWhite" data-view="compositeWhite"
+              aria-controls="image-panel" aria-selected="false" tabindex="-1">白底</button>
+            <button type="button" role="tab" id="view-compositeSaturated" data-view="compositeSaturated"
+              aria-controls="image-panel" aria-selected="false" tabindex="-1">彩底</button>
+          </div>
+
+          <div id="image-panel" class="image-panel" role="tabpanel" aria-labelledby="view-source"
+            tabindex="0">
+            <div id="stage-loading" class="stage-message">
+              <span class="state-mark" aria-hidden="true">···</span>
+              <strong>正在装载研究夹具</strong>
+              <p>六个图层全部完成校验前不能提交视觉结论。</p>
+            </div>
+
+            <div id="stage-empty" class="stage-message" hidden>
+              <span class="state-mark" aria-hidden="true">○</span>
+              <strong>目录中没有可审阅 fixture</strong>
+              <p>这是明确空态，不会生成替代图片或默认结论。</p>
+              <button id="empty-retry" class="secondary-button" type="button">重新读取目录</button>
+            </div>
+
+            <div id="stage-error" class="stage-message stage-message-error" role="alert" hidden>
+              <span class="state-mark" aria-hidden="true">!</span>
+              <strong id="stage-error-title">研究夹具不可用</strong>
+              <p id="stage-error-detail">目录或图片没有通过校验。</p>
+              <button id="error-retry" class="secondary-button" type="button">重试</button>
+            </div>
+
+            <figure id="image-figure" class="image-figure" hidden>
+              <div id="image-frame" class="image-frame" data-scale="fit">
+                <div id="image-stack" class="image-stack">
+                  <img id="base-image" class="image-layer image-layer-base" alt="" draggable="false" />
+                  <img id="overlay-image" class="image-layer image-layer-overlay" alt=""
+                    draggable="false" hidden />
+                </div>
+              </div>
+              <figcaption id="image-caption">—</figcaption>
+            </figure>
+          </div>
+
+          <div class="view-controls" aria-label="视图控制">
+            <div class="segmented-control" role="group" aria-label="图像倍率">
+              <button type="button" data-scale="fit" aria-pressed="true">适配</button>
+              <button type="button" data-scale="actual" aria-pressed="false">1:1</button>
+            </div>
+            <button id="overlay-toggle" class="overlay-toggle" type="button" aria-pressed="false"
+              disabled>轮廓叠加</button>
+            <p id="view-help" class="view-help">来源视图 · 保持原始像素比例</p>
+          </div>
+        </section>
+
+        <aside class="review-panel" aria-labelledby="review-title">
+          <div class="review-heading">
+            <div>
+              <p class="section-kicker">盲评详情流</p>
+              <h2 id="review-title">结构化初判</h2>
+            </div>
+            <span id="review-state" class="review-state">未开始</span>
+          </div>
+
+          <p class="blind-note">
+            初判前隐藏方法身份、方法说明与夹具事实。提交后原始判断锁定，才可主动解盲。
+          </p>
+
+          <div id="review-error" class="form-error" role="alert" tabindex="-1" hidden>
+            <strong>不能提交初判</strong>
+            <ul id="review-error-list"></ul>
+          </div>
+
+          <form id="review-form" novalidate>
+            <fieldset id="taxonomy-fieldset">
+              <legend>
+                缺陷 taxonomy
+                <span>v0</span>
+              </legend>
+              <p class="field-help">没有观察到缺陷时可不选；自由文本不能替代结构化标签。</p>
+              <div id="taxonomy-groups" class="taxonomy-groups"></div>
+            </fieldset>
+
+            <fieldset class="choice-fieldset">
+              <legend>最高严重度</legend>
+              <div class="choice-grid severity-grid">
+                <label><input type="radio" name="severity" value="none" />无</label>
+                <label><input type="radio" name="severity" value="minor" />轻微</label>
+                <label><input type="radio" name="severity" value="major" />严重</label>
+                <label><input type="radio" name="severity" value="critical" />灾难级</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="choice-fieldset">
+              <legend>结论</legend>
+              <div class="choice-grid conclusion-grid">
+                <label><input type="radio" name="conclusion" value="usable" />可用</label>
+                <label><input type="radio" name="conclusion" value="usable-with-caveat" />有条件可用</label>
+                <label><input type="radio" name="conclusion" value="reject" />拒绝</label>
+              </div>
+            </fieldset>
+
+            <label class="notes-field" for="review-notes">
+              评审备注 <span>选填</span>
+            </label>
+            <textarea id="review-notes" name="notes" rows="4" maxlength="1200"
+              placeholder="只记录可观察事实、位置和判断理由。"></textarea>
+            <div class="notes-meta">
+              <span>不记录身份信息或推测性指标</span>
+              <output id="notes-count" for="review-notes">0 / 1200</output>
+            </div>
+
+            <button id="submit-review" class="primary-button" type="submit" disabled>
+              提交初判并锁定
+            </button>
+            <p id="submit-gate" class="submit-gate">
+              等待目录与六张图片通过校验。
+            </p>
+          </form>
+
+          <section id="locked-review" class="locked-review" aria-labelledby="locked-title" hidden
+            tabindex="-1">
+            <div class="locked-mark" aria-hidden="true">✓</div>
+            <div>
+              <h3 id="locked-title">初判已锁定</h3>
+              <p>锁定只存在于当前标签页；未写入服务器、浏览器存储或研究证据。</p>
+            </div>
+            <dl id="locked-summary" class="locked-summary"></dl>
+            <button id="reveal-method" class="secondary-button reveal-button" type="button">
+              解盲方法信息
+            </button>
+          </section>
+
+          <section id="unblinded-details" class="unblinded-details" aria-labelledby="unblinded-title"
+            hidden tabindex="-1">
+            <div class="evidence-heading">
+              <p class="section-kicker">已解盲</p>
+              <h3 id="unblinded-title">目录方法信息</h3>
+            </div>
+            <p class="evidence-warning">
+              以下仅为冻结目录事实，不是模型指标、QA 结果、成本或时延证据；本页不会补全缺失数据。
+            </p>
+            <dl id="method-details" class="method-details"></dl>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <noscript>此研究审阅台需要 JavaScript 才能读取经过校验的本地合成夹具。</noscript>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
