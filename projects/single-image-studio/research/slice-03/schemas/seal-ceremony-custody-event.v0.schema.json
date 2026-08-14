@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "seal-ceremony-custody-event.v0.schema.json",
+  "title": "Single Image Studio Slice 03 append-only custody event v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "ceremonyRehearsal", "eventId", "bundleId", "requestId", "receiptId", "attemptNumber", "sequence", "actorId", "timestamp", "action", "reason", "previousEventSha256", "eventSha256"],
+  "properties": {
+    "schemaVersion": { "const": "seal-ceremony-custody-event.v0" },
+    "ceremonyRehearsal": { "type": "boolean" },
+    "eventId": { "$ref": "#/$defs/id" },
+    "bundleId": { "$ref": "#/$defs/id" },
+    "requestId": { "$ref": "#/$defs/id" },
+    "receiptId": { "$ref": "#/$defs/id" },
+    "attemptNumber": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "sequence": { "type": "integer", "minimum": 0 },
+    "actorId": { "$ref": "#/$defs/id" },
+    "timestamp": { "$ref": "#/$defs/dateTime" },
+    "action": { "type": "string", "enum": ["sealed", "access-granted", "unsealed", "run-started", "run-completed", "destroyed", "archived"] },
+    "reason": { "$ref": "#/$defs/nonEmpty" },
+    "previousEventSha256": { "type": ["string", "null"] },
+    "eventSha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" }
+  }
+}

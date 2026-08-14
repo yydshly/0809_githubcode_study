@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "seal-ceremony-result-summary.v0.schema.json",
+  "title": "Single Image Studio Slice 03 result summary v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "ceremonyRehearsal", "summaryId", "receiptId", "requestId", "rootRequestId", "bundleId", "attemptNumber", "status", "invalidReason", "metrics", "aggregationRule", "priorReceiptIds", "rawResultSha256", "rawResultPath", "summarySha256"],
+  "properties": {
+    "schemaVersion": { "const": "seal-ceremony-result-summary.v0" },
+    "ceremonyRehearsal": { "type": "boolean" },
+    "summaryId": { "$ref": "#/$defs/id" },
+    "receiptId": { "$ref": "#/$defs/id" },
+    "requestId": { "$ref": "#/$defs/id" },
+    "rootRequestId": { "$ref": "#/$defs/id" },
+    "bundleId": { "$ref": "#/$defs/id" },
+    "attemptNumber": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "status": { "type": "string", "enum": ["valid", "invalid"] },
+    "invalidReason": { "type": ["string", "null"] },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["metricId", "numerator", "denominator", "value", "passed"],
+        "properties": {
+          "metricId": { "$ref": "#/$defs/id" },
+          "numerator": { "type": "integer", "minimum": 0 },
+          "denominator": { "type": "integer", "minimum": 1 },
+          "value": { "type": "number", "minimum": 0, "maximum": 1 },
+          "passed": { "type": "boolean" }
+        }
+      }
+    },
+    "aggregationRule": { "type": "string", "enum": ["first-valid-result-only", "all-invalid-attempts-plus-first-valid"] },
+    "priorReceiptIds": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+    "rawResultSha256": { "$ref": "#/$defs/sha256" },
+    "rawResultPath": { "$ref": "#/$defs/nonEmpty" },
+    "summarySha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

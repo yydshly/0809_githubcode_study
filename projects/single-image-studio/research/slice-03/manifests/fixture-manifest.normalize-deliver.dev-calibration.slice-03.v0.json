@@ -1,0 +1,163 @@
+{
+  "claimBoundary": "Open structural policy fixtures only. They establish neither general format support nor C1, effect, product, operational, governance, value, or release evidence.",
+  "createdAt": "2026-08-15T10:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "open-format-policy-calibration-only"
+  },
+  "fixtureCount": 3,
+  "fixtureManifestId": "fixture-manifest.normalize-deliver.dev-calibration.slice-03.v0",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "format-png-canonical-dev-calibration-s03-001.source",
+          "byteLength": 10510,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/dev/calibration/NORMALIZE-DELIVER/format-png-canonical-dev-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "5edd821ba6f3fbaeb1b75bbd376c39629ffa9d68a5072c6bd6b7b7b4fc0766bf"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-canonical-dev-calibration-s03-001.v0",
+      "caseKind": "canonical-reference",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-canonical-dev-calibration-s03-001",
+        "none-reference-generation:format-png-canonical-dev-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_REFERENCE_PNG_ACCEPTED",
+      "expectedDisposition": "accept-reference-only",
+      "fixtureId": "format-png-canonical-dev-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "none-reference-generation",
+        "steps": [
+          "Render project-original deterministic RGBA equations.",
+          "Encode the exact IHDR, sRGB, IDAT, IEND canonical profile with filter byte 0."
+        ]
+      },
+      "label": "Closed canonical RGBA8 PNG reference",
+      "observedDimensions": {
+        "height": 48,
+        "width": 64
+      },
+      "perceptualHash": "15fee1023ff0810f",
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-canonical-dev-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-jpeg-probe-dev-calibration-s03-001.source",
+          "byteLength": 22,
+          "declaredMime": "image/jpeg",
+          "exposure": "catalog-denied",
+          "path": "fixtures/dev/calibration/NORMALIZE-DELIVER/format-jpeg-probe-dev-calibration-s03-001/source.jpg",
+          "role": "source",
+          "sha256": "d20f6ffd523b78a86cd2f916fa34af5d1918d75f7b142237c752ad6b254213ab"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-jpeg-probe-dev-calibration-s03-001.v0",
+      "caseKind": "header-probe-only",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-jpeg-probe-dev-calibration-s03-001",
+        "none-procedural-header-probe:format-jpeg-probe-dev-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_JPEG_PROBE_ONLY",
+      "expectedDisposition": "probe-only-no-decode",
+      "fixtureId": "format-jpeg-probe-dev-calibration-s03-001",
+      "formatId": "jpeg",
+      "injection": {
+        "kind": "none-procedural-header-probe",
+        "steps": [
+          "Construct a project-original minimal JPEG SOI/JFIF/EOI byte specimen.",
+          "Do not decode pixels or emit a NormalizedImage."
+        ]
+      },
+      "label": "JPEG header-only research probe",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.jpeg-probe.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-jpeg-probe-dev-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-webp-probe-dev-calibration-s03-001.source",
+          "byteLength": 12,
+          "declaredMime": "image/webp",
+          "exposure": "catalog-denied",
+          "path": "fixtures/dev/calibration/NORMALIZE-DELIVER/format-webp-probe-dev-calibration-s03-001/source.webp",
+          "role": "source",
+          "sha256": "3fe79651a92ea3850c3fc3dd9519a67c7f70b598fa238a3fd92042f6446e6452"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-webp-probe-dev-calibration-s03-001.v0",
+      "caseKind": "header-probe-only",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-webp-probe-dev-calibration-s03-001",
+        "none-procedural-header-probe:format-webp-probe-dev-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_WEBP_PROBE_ONLY",
+      "expectedDisposition": "probe-only-no-decode",
+      "fixtureId": "format-webp-probe-dev-calibration-s03-001",
+      "formatId": "webp",
+      "injection": {
+        "kind": "none-procedural-header-probe",
+        "steps": [
+          "Construct a project-original RIFF/WEBP header specimen with no decoded image payload.",
+          "Do not decode pixels or emit a NormalizedImage."
+        ]
+      },
+      "label": "WebP header-only research probe",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.webp-probe.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-webp-probe-dev-calibration-s03-001.v0"
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice03",
+    "scriptPath": "scripts/research-generate-slice03.mjs",
+    "seed": "20260815-NORMALIZE-DELIVER-dev-calibration",
+    "sourceRevision": "local-procedural-slice-03-format-policy-v0.3.0-seed-20260815",
+    "version": "0.3.0"
+  },
+  "isolationPolicy": "Every fixture has a unique source-family ID, capture-session ID, and source SHA-256 across the two open calibration partitions; every asset is catalog-denied.",
+  "manifestHash": "e84aea31aca5040345cd1a94651a06e765ca52550e3f88f65d59651a880015a2",
+  "manifestVersion": "0.3.0",
+  "partition": "dev/calibration",
+  "profileRefs": [
+    "profiles/input.jpeg-probe.v0.3.0.json",
+    "profiles/input.png-canonical.v0.3.0.json",
+    "profiles/input.webp-probe.v0.3.0.json"
+  ],
+  "schemaVersion": "slice03-fixture-manifest.v0",
+  "sealedState": "open-calibration",
+  "sourcePopulation": "Project-original deterministic procedural byte specimens for the frozen Slice 03 NORMALIZE-DELIVER format policy; no real, user, or third-party images.",
+  "suiteId": "NORMALIZE-DELIVER",
+  "suiteVersion": "0.3.0"
+}

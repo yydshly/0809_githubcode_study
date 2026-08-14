@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "suite-partition-plan.v0.schema.json",
+  "title": "Single Image Studio Slice 02 structural partition plan v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "preregistrationId", "planVersion", "frozenAt", "purpose", "contractRefs", "suites", "partitions", "manifestRefs", "sourceFamilyRule", "captureSessionRule", "deduplicationRule", "catalogRule", "sealedRule", "escapeRule", "evidenceStatus", "planHash"],
+  "properties": {
+    "schemaVersion": { "const": "suite-partition-plan.v0" },
+    "preregistrationId": { "const": "partition-plan.slice-02.structural.v0" },
+    "planVersion": { "$ref": "#/$defs/version" }, "frozenAt": { "$ref": "#/$defs/dateTime" },
+    "purpose": { "$ref": "#/$defs/string" }, "contractRefs": { "$ref": "#/$defs/strings" },
+    "suites": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string", "enum": ["NORMALIZE-DELIVER", "MATTE-GT"] }, "uniqueItems": true },
+    "partitions": { "type": "array", "minItems": 5, "maxItems": 5, "items": { "type": "string", "enum": ["dev/calibration", "holdout", "defect/calibration", "defect/holdout", "escape"] }, "uniqueItems": true },
+    "manifestRefs": { "type": "array", "minItems": 10, "maxItems": 10, "items": { "type": "string", "pattern": "^manifests/fixture-manifest\\..+\\.json$" }, "uniqueItems": true },
+    "sourceFamilyRule": { "$ref": "#/$defs/string" }, "captureSessionRule": { "$ref": "#/$defs/string" },
+    "deduplicationRule": { "$ref": "#/$defs/string" }, "catalogRule": { "$ref": "#/$defs/string" },
+    "sealedRule": { "$ref": "#/$defs/string" }, "escapeRule": { "$ref": "#/$defs/string" },
+    "evidenceStatus": { "$ref": "#/$defs/evidence" }, "planHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "strings": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/string" }, "uniqueItems": true },
+    "version": { "type": "string", "pattern": "^0\\.[0-9]+\\.[0-9]+$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "evidence": {
+      "type": "object", "additionalProperties": false, "required": ["level", "purpose"],
+      "properties": { "level": { "const": "C1=0" }, "purpose": { "const": "contract-and-isolation-rehearsal" } }
+    }
+  }
+}

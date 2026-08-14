@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "seal-ceremony-plan.v0.schema.json",
+  "title": "Single Image Studio Slice 03 seal ceremony plan v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "ceremonyRehearsal", "sealPlanId", "frozenAt", "candidateId", "frozenRefs", "evaluation", "rerunPolicy", "roles", "formalHoldoutStatus", "planSha256"],
+  "properties": {
+    "schemaVersion": { "const": "seal-ceremony-plan.v0" },
+    "ceremonyRehearsal": { "type": "boolean" },
+    "sealPlanId": { "$ref": "#/$defs/id" },
+    "frozenAt": { "$ref": "#/$defs/dateTime" },
+    "candidateId": { "$ref": "#/$defs/id" },
+    "frozenRefs": { "$ref": "#/$defs/baseFrozenRefs" },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["denominator", "metrics", "thresholds", "stoppingRule"],
+      "properties": {
+        "denominator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["unit", "frozenCount", "exclusionRule"],
+          "properties": {
+            "unit": { "const": "fixture" },
+            "frozenCount": { "type": "integer", "minimum": 1 },
+            "exclusionRule": { "const": "none-after-unseal" }
+          }
+        },
+        "metrics": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+        "thresholds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["metricId", "operator", "target"],
+            "properties": {
+              "metricId": { "$ref": "#/$defs/id" },
+              "operator": { "type": "string", "enum": ["gte", "lte"] },
+              "target": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          }
+        },
+        "stoppingRule": { "$ref": "#/$defs/nonEmpty" }
+      }
+    },
+    "rerunPolicy": { "$ref": "#/$defs/rerunPolicy" },
+    "roles": { "$ref": "#/$defs/roles" },
+    "formalHoldoutStatus": { "const": "not-created" },
+    "planSha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "ids": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/id" }, "uniqueItems": true },
+    "baseFrozenRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preregistrationSha256", "contractSha256", "candidateSha256", "runnerSha256", "formatProfileSha256", "qaProfileSha256"],
+      "properties": {
+        "preregistrationSha256": { "$ref": "#/$defs/sha256" },
+        "contractSha256": { "$ref": "#/$defs/sha256" },
+        "candidateSha256": { "$ref": "#/$defs/sha256" },
+        "runnerSha256": { "$ref": "#/$defs/sha256" },
+        "formatProfileSha256": { "$ref": "#/$defs/sha256" },
+        "qaProfileSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "rerunPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validResultRerunAllowed", "allowedInvalidReasons", "maxInvalidReruns", "aggregationRule"],
+      "properties": {
+        "validResultRerunAllowed": { "const": false },
+        "allowedInvalidReasons": { "type": "array", "items": { "type": "string", "enum": ["runner-crash-before-result", "custody-interruption", "integrity-check-failure"] }, "uniqueItems": true },
+        "maxInvalidReruns": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "aggregationRule": { "type": "string", "enum": ["first-valid-result-only", "all-invalid-attempts-plus-first-valid"] }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["custodianId", "candidateAuthorIds", "thresholdAuthorIds", "qaProfileAuthorIds", "stoppingRuleAuthorIds", "conflictDeclaration"],
+      "properties": {
+        "custodianId": { "$ref": "#/$defs/id" },
+        "candidateAuthorIds": { "$ref": "#/$defs/ids" },
+        "thresholdAuthorIds": { "$ref": "#/$defs/ids" },
+        "qaProfileAuthorIds": { "$ref": "#/$defs/ids" },
+        "stoppingRuleAuthorIds": { "$ref": "#/$defs/ids" },
+        "conflictDeclaration": { "const": "independent-no-conflict" }
+      }
+    }
+  }
+}

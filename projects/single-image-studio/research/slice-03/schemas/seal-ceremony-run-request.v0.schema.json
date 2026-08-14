@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "seal-ceremony-run-request.v0.schema.json",
+  "title": "Single Image Studio Slice 03 one-time run request v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "ceremonyRehearsal", "requestId", "rootRequestId", "attemptNumber", "retryOfReceiptId", "idempotencyKey", "requestedAt", "sealPlanId", "bundleId", "runnerPath", "executorId", "authorizedScope", "frozenRefs", "rerunPolicy", "requestSha256"],
+  "properties": {
+    "schemaVersion": { "const": "seal-ceremony-run-request.v0" },
+    "ceremonyRehearsal": { "type": "boolean" },
+    "requestId": { "$ref": "#/$defs/id" },
+    "rootRequestId": { "$ref": "#/$defs/id" },
+    "attemptNumber": { "type": "integer", "minimum": 1, "maximum": 4 },
+    "retryOfReceiptId": { "type": ["string", "null"] },
+    "idempotencyKey": { "$ref": "#/$defs/id" },
+    "requestedAt": { "$ref": "#/$defs/dateTime" },
+    "sealPlanId": { "$ref": "#/$defs/id" },
+    "bundleId": { "$ref": "#/$defs/id" },
+    "runnerPath": { "$ref": "#/$defs/nonEmpty" },
+    "executorId": { "$ref": "#/$defs/id" },
+    "authorizedScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["operation", "singleUse", "readOnlyBundle", "networkAccess"],
+      "properties": {
+        "operation": { "const": "sealed-evaluation" },
+        "singleUse": { "const": true },
+        "readOnlyBundle": { "const": true },
+        "networkAccess": { "const": false }
+      }
+    },
+    "frozenRefs": { "$ref": "#/$defs/frozenRefs" },
+    "rerunPolicy": { "$ref": "#/$defs/rerunPolicy" },
+    "requestSha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "frozenRefs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preregistrationSha256", "contractSha256", "candidateSha256", "runnerSha256", "formatProfileSha256", "qaProfileSha256", "sealPlanSha256", "bundleSha256"],
+      "properties": {
+        "preregistrationSha256": { "$ref": "#/$defs/sha256" },
+        "contractSha256": { "$ref": "#/$defs/sha256" },
+        "candidateSha256": { "$ref": "#/$defs/sha256" },
+        "runnerSha256": { "$ref": "#/$defs/sha256" },
+        "formatProfileSha256": { "$ref": "#/$defs/sha256" },
+        "qaProfileSha256": { "$ref": "#/$defs/sha256" },
+        "sealPlanSha256": { "$ref": "#/$defs/sha256" },
+        "bundleSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "rerunPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validResultRerunAllowed", "allowedInvalidReasons", "maxInvalidReruns", "aggregationRule"],
+      "properties": {
+        "validResultRerunAllowed": { "const": false },
+        "allowedInvalidReasons": { "type": "array", "items": { "type": "string", "enum": ["runner-crash-before-result", "custody-interruption", "integrity-check-failure"] }, "uniqueItems": true },
+        "maxInvalidReruns": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "aggregationRule": { "type": "string", "enum": ["first-valid-result-only", "all-invalid-attempts-plus-first-valid"] }
+      }
+    }
+  }
+}

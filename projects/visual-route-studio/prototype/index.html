@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Visual Route Studio 视觉路线决策低保真原型" />
+    <title>Visual Route Studio · 路线决策原型</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#studio">跳到决策工作台</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Visual Route Studio 首页">
+        <span class="brand__mark" aria-hidden="true">VR</span>
+        <span>
+          <strong>Visual Route Studio</strong>
+          <small>视觉路线工作台</small>
+        </span>
+      </a>
+      <nav aria-label="页面导航">
+        <a href="#studio">开始决策</a>
+        <a href="#comparison">完整对比</a>
+        <a href="#application">产品去向</a>
+      </nav>
+      <span class="stage-badge">阶段 0 · 独立原型</span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <p class="eyebrow">先决定怎么做，再决定生成什么</p>
+          <h1 id="hero-title">把一张素材，发展成一条<br />能解释、能比较、能落地的视觉路线。</h1>
+          <p class="hero__lead">
+            从用途、真实性和载体约束出发，获得 2–3 条不同方向。每条路线都说明保留什么、损失什么，以及真正生产还缺什么。
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#studio">用示例开始</a>
+            <a class="button button--ghost" href="../RESEARCH.md">阅读研究方法</a>
+          </div>
+        </div>
+        <div class="hero__map" aria-label="产品流程">
+          <ol>
+            <li><span>01</span><strong>明确任务</strong><small>用途、受众与不可改变事实</small></li>
+            <li><span>02</span><strong>选择路线</strong><small>理由、保留、损失与风险</small></li>
+            <li><span>03</span><strong>完整比较</strong><small>SOURCE 与 EFFECT 不裁切</small></li>
+            <li><span>04</span><strong>形成产品</strong><small>真实文字、尺寸与生产清单</small></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="studio" id="studio" aria-labelledby="studio-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 1 · 选择任务</p>
+            <h2 id="studio-title">这次要解决什么？</h2>
+          </div>
+          <p>三个示例代表三种不同的真实性和产品目标。切换任务后，推荐路线与风险会一起变化。</p>
+        </div>
+
+        <div class="task-tabs" role="group" aria-label="示例任务">
+          <button type="button" class="task-tab" data-scenario="family" aria-pressed="true">
+            <span>01</span><strong>家庭记忆册</strong><small>关系不可改变</small>
+          </button>
+          <button type="button" class="task-tab" data-scenario="travel" aria-pressed="false">
+            <span>02</span><strong>城市旅行专题</strong><small>地点证据优先</small>
+          </button>
+          <button type="button" class="task-tab" data-scenario="event" aria-pressed="false">
+            <span>03</span><strong>文化活动主视觉</strong><small>传播效率优先</small>
+          </button>
+        </div>
+
+        <article class="brief-panel" aria-live="polite">
+          <div class="brief-panel__title">
+            <p id="brief-kicker" class="eyebrow"></p>
+            <h3 id="brief-title"></h3>
+            <p id="brief-description"></p>
+          </div>
+          <dl class="brief-facts">
+            <div><dt>最终用途</dt><dd id="brief-use"></dd></div>
+            <div><dt>主要受众</dt><dd id="brief-audience"></dd></div>
+            <div><dt>不可改变事实</dt><dd id="brief-must-keep"></dd></div>
+            <div><dt>允许改变</dt><dd id="brief-can-change"></dd></div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="routes" aria-labelledby="routes-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 2 · 路线建议</p>
+            <h2 id="routes-title">不是风格排名，而是三种取舍</h2>
+          </div>
+          <p>选择一条路线后，下方完整对比、风险判断和产品预演都会同步更新。</p>
+        </div>
+        <div id="route-grid" class="route-grid"></div>
+      </section>
+
+      <section class="comparison" id="comparison" aria-labelledby="comparison-title">
+        <div class="section-heading section-heading--compact">
+          <div>
+            <p class="eyebrow">Step 3 · 完整对比</p>
+            <h2 id="comparison-title">看见结果，也看见代价</h2>
+          </div>
+          <span id="selection-status" class="selection-status" aria-live="polite"></span>
+        </div>
+
+        <div class="comparison-grid">
+          <figure class="visual-card">
+            <div class="visual-card__header"><span>SOURCE</span><strong>完整输入示意</strong></div>
+            <div class="visual-frame"><img id="source-image" alt="" /></div>
+            <figcaption id="source-caption"></figcaption>
+          </figure>
+          <figure class="visual-card visual-card--effect">
+            <div class="visual-card__header"><span>EFFECT</span><strong id="effect-name"></strong></div>
+            <div class="visual-frame"><img id="effect-image" alt="" /></div>
+            <figcaption id="effect-caption"></figcaption>
+          </figure>
+        </div>
+
+        <div class="decision-grid">
+          <article><span>为什么推荐</span><p id="route-why"></p></article>
+          <article><span>结果保留</span><ul id="route-keep"></ul></article>
+          <article><span>结果损失</span><ul id="route-loss"></ul></article>
+          <article class="decision-grid__risk"><span>主要风险</span><p id="route-risk"></p></article>
+        </div>
+      </section>
+
+      <section class="application" id="application" aria-labelledby="application-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Step 4 · 产品去向</p>
+            <h2 id="application-title">效果不是终点，应用才暴露问题</h2>
+          </div>
+          <p>这里是数字结构预演，不是实体样品。每种载体都会重新组织文字、画面和安全区。</p>
+        </div>
+
+        <div class="application-workspace">
+          <div class="format-controls" role="group" aria-label="选择产品载体">
+            <button type="button" data-format="poster" aria-pressed="true">竖版海报</button>
+            <button type="button" data-format="feature" aria-pressed="false">专题头图</button>
+            <button type="button" data-format="card" aria-pressed="false">故事卡片</button>
+          </div>
+
+          <div class="product-stage" id="product-stage" data-format="poster">
+            <div class="product-canvas">
+              <div class="product-canvas__meta"><span>Visual route prototype</span><span id="product-code"></span></div>
+              <div class="product-canvas__image"><img id="product-image" alt="" /></div>
+              <div class="product-canvas__copy">
+                <p id="product-kicker"></p>
+                <h3 id="product-title"></h3>
+                <p id="product-description"></p>
+              </div>
+              <div class="product-canvas__footer"><span>Digital preview</span><span>Not physical proof</span></div>
+            </div>
+          </div>
+
+          <aside class="handoff-panel">
+            <p class="eyebrow">交付摘要</p>
+            <h3 id="handoff-title"></h3>
+            <dl>
+              <div><dt>选定路线</dt><dd id="handoff-route"></dd></div>
+              <div><dt>当前载体</dt><dd id="handoff-format"></dd></div>
+              <div><dt>进入生产</dt><dd id="handoff-next"></dd></div>
+            </dl>
+            <a class="button button--primary button--full" id="download-brief" href="#" download>导出创意简报</a>
+            <p class="handoff-panel__note">导出的是决策记录和制作清单，不包含真实生成文件。</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="method-strip" aria-labelledby="method-title">
+        <div><p class="eyebrow">研究边界</p><h2 id="method-title">这个原型证明什么？</h2></div>
+        <p>它验证产品信息架构、路线选择、风险解释和产品去向。它不证明真实生成质量、第三方 Skill 执行、印刷效果或商业需求。</p>
+        <a href="../DESIGN-CONTRACT.md">查看设计契约 →</a>
+      </section>
+    </main>
+
+    <footer>
+      <p>Visual Route Studio · 独立产品研究原型</p>
+      <p>无第三方图片、代码或 Skill 运行依赖。</p>
+    </footer>
+  </body>
+</html>

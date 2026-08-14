@@ -1,0 +1,178 @@
+{
+  "capabilityId": "NORMALIZE-DELIVER",
+  "claimBoundary": "Machine-readable Slice 03 research policy only. Probe, rejection, extension recognition, and structural fixtures do not establish product format support.",
+  "formatMatrixId": "format-matrix.normalize-deliver.slice-03.v0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "matrixHash": "57ade2ad28bb4ecae40941ca084990aafc8f3182348085a9ab20158bfb61503e",
+  "matrixVersion": "0.3.0",
+  "rowCount": 15,
+  "rows": [
+    {
+      "claimBoundary": "Executable only for project-original open calibration bytes matching the closed canonical RGBA8 PNG profile; this is not user PNG or product support.",
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "formatId": "png",
+      "implementationState": "reference-executable",
+      "policyState": "reference-calibration-eligible",
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_PNG_OUTSIDE_CANONICAL_PROFILE"
+    },
+    {
+      "claimBoundary": "Only signature and container probing is permitted; no decode, normalization, ability calibration, or product support follows from a JPEG match.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "jpeg",
+      "implementationState": "probe-only",
+      "policyState": "research-candidate",
+      "productSupport": false,
+      "profileRef": "profiles/input.jpeg-probe.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_JPEG_PROBE_ONLY"
+    },
+    {
+      "claimBoundary": "Only RIFF/WEBP header probing is permitted; no decode, normalization, ability calibration, or product support follows from a WebP match.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "webp",
+      "implementationState": "probe-only",
+      "policyState": "research-candidate",
+      "productSupport": false,
+      "profileRef": "profiles/input.webp-probe.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_WEBP_PROBE_ONLY"
+    },
+    {
+      "claimBoundary": "HEIC is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "heic",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.heic-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_HEIC_DEFERRED"
+    },
+    {
+      "claimBoundary": "HEIF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "heif",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.heif-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_HEIF_DEFERRED"
+    },
+    {
+      "claimBoundary": "AVIF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "avif",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.avif-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_AVIF_DEFERRED"
+    },
+    {
+      "claimBoundary": "GIF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "gif",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.gif-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_GIF_DEFERRED"
+    },
+    {
+      "claimBoundary": "An animation-control chunk is a stable deferred rejection; no APNG frame decode, normalization, evidence, or product support is provided.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "apng",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.apng-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_APNG_DEFERRED"
+    },
+    {
+      "claimBoundary": "TIFF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "tiff",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.tiff-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_TIFF_DEFERRED"
+    },
+    {
+      "claimBoundary": "SVG is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "svg",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.svg-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_SVG_DEFERRED"
+    },
+    {
+      "claimBoundary": "PDF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "pdf",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.pdf-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_PDF_DEFERRED"
+    },
+    {
+      "claimBoundary": "RAW is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+      "direction": "input",
+      "evidenceState": "none",
+      "formatId": "raw",
+      "implementationState": "reject-only",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/input.raw-reject.v0.3.0.json",
+      "rejectionCode": "S03_INPUT_RAW_DEFERRED"
+    },
+    {
+      "claimBoundary": "Executable only for the frozen fixture RGBA8 straight-alpha PNG encoder and reopen check; this is not a product export claim.",
+      "direction": "output",
+      "evidenceState": "structural-only",
+      "formatId": "png",
+      "implementationState": "reference-executable",
+      "policyState": "reference-calibration-eligible",
+      "productSupport": false,
+      "profileRef": "profiles/output.png-reference.v0.3.0.json",
+      "rejectionCode": "S03_OUTPUT_PNG_OUTSIDE_REFERENCE_PROFILE"
+    },
+    {
+      "claimBoundary": "JPEG output has no encoder, artifact path, evidence, or product support in Slice 03.",
+      "direction": "output",
+      "evidenceState": "none",
+      "formatId": "jpeg",
+      "implementationState": "not-implemented",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/output.jpeg-reject.v0.3.0.json",
+      "rejectionCode": "S03_OUTPUT_JPEG_NOT_IMPLEMENTED"
+    },
+    {
+      "claimBoundary": "WEBP output has no encoder, artifact path, evidence, or product support in Slice 03.",
+      "direction": "output",
+      "evidenceState": "none",
+      "formatId": "webp",
+      "implementationState": "not-implemented",
+      "policyState": "deferred-reject",
+      "productSupport": false,
+      "profileRef": "profiles/output.webp-reject.v0.3.0.json",
+      "rejectionCode": "S03_OUTPUT_WEBP_NOT_IMPLEMENTED"
+    }
+  ],
+  "schemaVersion": "slice03-format-matrix.v0",
+  "status": "frozen-research-format-policy"
+}

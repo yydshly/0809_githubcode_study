@@ -1,0 +1,82 @@
+{
+  "createdAt": "2026-08-15T08:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "fixtureManifestId": "fixture-manifest.normalize-deliver.dev-calibration.slice-02.v1",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "normalize-dev-calibration-s02-001.source",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/NORMALIZE-DELIVER/normalize-dev-calibration-s02-001/source.png",
+          "role": "source",
+          "sha256": "9d7081b40dedb7df7feb0510f7feb319d25ce496454831d32f9903fc8acf8cf1",
+          "width": 96
+        },
+        {
+          "assetId": "normalize-dev-calibration-s02-001.expectedNormalized",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/NORMALIZE-DELIVER/normalize-dev-calibration-s02-001/expected-normalized.png",
+          "role": "expectedNormalized",
+          "sha256": "9d7081b40dedb7df7feb0510f7feb319d25ce496454831d32f9903fc8acf8cf1",
+          "width": 96
+        },
+        {
+          "assetId": "normalize-dev-calibration-s02-001.candidateDelivery",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/NORMALIZE-DELIVER/normalize-dev-calibration-s02-001/candidate-delivery.png",
+          "role": "candidateDelivery",
+          "sha256": "9d7081b40dedb7df7feb0510f7feb319d25ce496454831d32f9903fc8acf8cf1",
+          "width": 96
+        }
+      ],
+      "captureSessionId": "capture-session.normalize-deliver-dev-calibration-family-s02-001",
+      "caseKind": "normalization-export-contract",
+      "defectLabel": "none",
+      "derivationLineage": [
+        "project-original-procedural:normalize-dev-calibration-s02-001"
+      ],
+      "difficultCategories": [
+        "rgba8",
+        "alpha-policy",
+        "partition-dev-calibration"
+      ],
+      "expectedDisposition": "accept",
+      "height": 72,
+      "id": "normalize-dev-calibration-s02-001",
+      "label": "NORMALIZE-DELIVER dev/calibration structural fixture",
+      "perceptualHash": "2664654d4d49d999",
+      "rightsRecordId": "rights.project-original-synthetic.slice-02.v1",
+      "sourceFamilyId": "source-family.normalize-deliver-dev-calibration-family-s02-001",
+      "visibility": "research-private-synthetic",
+      "width": 96
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice02",
+    "scriptPath": "scripts/research-generate-slice02.mjs",
+    "seed": "20260815-NORMALIZE-DELIVER-dev-calibration",
+    "sourceRevision": "local-procedural-slice-02-v0.2.0-seed-20260815",
+    "version": "0.2.0"
+  },
+  "isolationPolicy": "Unique source family, capture session, exact source hash, and perceptual hash across every partition; catalog exposure denied.",
+  "manifestHash": "b595231ac6365d612117ddc356a2052e4fcea00ed93a385f930e37ffbae2d941",
+  "manifestVersion": "0.2.0",
+  "partition": "dev/calibration",
+  "preregistrationId": "partition-plan.slice-02.structural.v0",
+  "schemaVersion": "fixture-manifest.v1",
+  "sealedState": "open-calibration",
+  "sourcePopulation": "Project-original procedural structural fixture; not a real-photo population and not sufficient for C1.",
+  "suiteId": "NORMALIZE-DELIVER",
+  "suiteVersion": "0.2.0"
+}

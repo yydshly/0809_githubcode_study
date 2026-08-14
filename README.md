@@ -18,6 +18,8 @@
 | 项目 | 研究主题 | 技术栈 | 状态 | 本地研究 | 上游来源 | 独立仓库 | 在线演示 | 许可证 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Skill Zine Summary | Codex 照片/Zine 技能的技术谱系、渲染后端与验证方法 | Codex Skills、ImageGen、Python、HTML/CSS/SVG | 研究中 | [研究目录](projects/skill-zine-summary) | [tluy/skill-zine-summary](https://github.com/tluy/skill-zine-summary) | 暂无 | [GitHub Pages 完整研究站](https://yydshly.github.io/0809_githubcode_study/) · [OpenAI Sites 动态研究站](https://skill-zine-private-lab.yydshly.chatgpt.site/) | 汇总库未声明；子库见[来源审计](projects/skill-zine-summary/UPSTREAM.md) |
+| Image Product Studio R17 | 多 Skill 图片产品、单图/逐张/合集与产品适配的历史探索 | 产品研究、ImageGen、HTML/CSS、Canvas | 已归档 | [研究目录](projects/visual-route-studio) | 无单一上游；见[来源边界](projects/visual-route-studio/UPSTREAM.md) | 暂无 | [归档电脑网页](projects/visual-route-studio/compositor) | 本地原创研究；许可证待定 |
+| Single Image Studio | 单图能力底座：九类原子能力、用户效果、场景配方、证据与发布门禁；首轮桌面浏览器优先 | 图片研究、Node.js、Canvas、Image API | 研究中 | [研究目录](projects/single-image-studio) | 无单一上游；见[来源边界](projects/single-image-studio/UPSTREAM.md) | 暂无 | [桌面研究审阅入口](projects/single-image-studio/web/research) · [R0 工程探针（非产品）](projects/single-image-studio/web) | 本地原创研究；许可证待定 |
 
 状态统一使用：`计划中`、`研究中`、`可运行`、`已归档`。
 

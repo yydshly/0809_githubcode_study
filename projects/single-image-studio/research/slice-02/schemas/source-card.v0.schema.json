@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "source-card.v0.schema.json",
+  "title": "Single Image Studio SourceCard.v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "sourceCardId", "parentNormalizedImageId", "capabilityContractRef", "technical", "quality", "subject", "content", "createdAt"],
+  "properties": {
+    "schemaVersion": { "const": "source-card.v0" },
+    "sourceCardId": { "$ref": "#/$defs/string" },
+    "parentNormalizedImageId": { "$ref": "#/$defs/string" },
+    "capabilityContractRef": { "const": "CC-CAP03-SOURCE-CARD-V0@0.2.0" },
+    "technical": { "$ref": "#/$defs/technical" },
+    "quality": { "$ref": "#/$defs/quality" },
+    "subject": { "$ref": "#/$defs/subject" },
+    "content": { "$ref": "#/$defs/content" },
+    "createdAt": { "$ref": "#/$defs/dateTime" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "knownConfidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["lower", "upper"],
+      "properties": { "lower": { "const": 1 }, "upper": { "const": 1 } }
+    },
+    "unknownConfidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["lower", "upper"],
+      "properties": { "lower": { "const": 0 }, "upper": { "const": 0 } }
+    },
+    "mimeObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "observerContract", "confidence", "unknownReason"],
+      "properties": {
+        "value": { "const": "image/png" }, "observerContract": { "const": "reference-png-byte-observer.v0.2.0" },
+        "confidence": { "$ref": "#/$defs/knownConfidence" }, "unknownReason": { "const": "not-applicable" }
+      }
+    },
+    "dimensionObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "observerContract", "confidence", "unknownReason"],
+      "properties": {
+        "value": { "type": "integer", "minimum": 1, "maximum": 256 }, "observerContract": { "const": "reference-png-byte-observer.v0.2.0" },
+        "confidence": { "$ref": "#/$defs/knownConfidence" }, "unknownReason": { "const": "not-applicable" }
+      }
+    },
+    "orientationObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "observerContract", "confidence", "unknownReason"],
+      "properties": {
+        "value": { "const": 1 }, "observerContract": { "const": "reference-png-byte-observer.v0.2.0" },
+        "confidence": { "$ref": "#/$defs/knownConfidence" }, "unknownReason": { "const": "not-applicable" }
+      }
+    },
+    "colorProfileObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "observerContract", "confidence", "unknownReason"],
+      "properties": {
+        "value": { "const": "srgb" }, "observerContract": { "const": "reference-png-byte-observer.v0.2.0" },
+        "confidence": { "$ref": "#/$defs/knownConfidence" }, "unknownReason": { "const": "not-applicable" }
+      }
+    },
+    "alphaObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "observerContract", "confidence", "unknownReason"],
+      "properties": {
+        "value": { "type": "boolean" }, "observerContract": { "const": "reference-png-byte-observer.v0.2.0" },
+        "confidence": { "$ref": "#/$defs/knownConfidence" }, "unknownReason": { "const": "not-applicable" }
+      }
+    },
+    "unknownObservation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["value", "observerContract", "confidence", "unknownReason"],
+      "properties": {
+        "value": { "const": "unknown" }, "observerContract": { "const": "observer-not-frozen.v0.2.0" },
+        "confidence": { "$ref": "#/$defs/unknownConfidence" }, "unknownReason": { "type": "string", "pattern": "^[a-z-]+-observer-not-frozen$" }
+      }
+    },
+    "technical": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mime", "width", "height", "orientation", "colorProfile", "alphaPresent"],
+      "properties": {
+        "mime": { "$ref": "#/$defs/mimeObservation" }, "width": { "$ref": "#/$defs/dimensionObservation" },
+        "height": { "$ref": "#/$defs/dimensionObservation" }, "orientation": { "$ref": "#/$defs/orientationObservation" },
+        "colorProfile": { "$ref": "#/$defs/colorProfileObservation" }, "alphaPresent": { "$ref": "#/$defs/alphaObservation" }
+      }
+    },
+    "quality": {
+      "type": "object", "additionalProperties": false,
+      "required": ["blur", "exposure", "noise"],
+      "properties": { "blur": { "$ref": "#/$defs/unknownObservation" }, "exposure": { "$ref": "#/$defs/unknownObservation" }, "noise": { "$ref": "#/$defs/unknownObservation" } }
+    },
+    "subject": {
+      "type": "object", "additionalProperties": false,
+      "required": ["primarySubjectType", "subjectCount", "personCount"],
+      "properties": { "primarySubjectType": { "$ref": "#/$defs/unknownObservation" }, "subjectCount": { "$ref": "#/$defs/unknownObservation" }, "personCount": { "$ref": "#/$defs/unknownObservation" } }
+    },
+    "content": {
+      "type": "object", "additionalProperties": false,
+      "required": ["textPresence", "backgroundComplexity"],
+      "properties": { "textPresence": { "$ref": "#/$defs/unknownObservation" }, "backgroundComplexity": { "$ref": "#/$defs/unknownObservation" } }
+    }
+  }
+}

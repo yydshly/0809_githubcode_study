@@ -1,0 +1,36 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Return the format-specific deferred rejection without decoding or emitting an image artifact."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": 1048576,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "stable-policy-rejection",
+    "signatureLabels": [
+      "TIFF byte-order and magic header"
+    ]
+  },
+  "claimBoundary": "TIFF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+  "direction": "input",
+  "evidenceState": "none",
+  "extensions": [
+    "tif",
+    "tiff"
+  ],
+  "formatId": "tiff",
+  "formatProfileId": "format-profile.input.tiff-reject.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "reject-only",
+  "mediaTypes": [
+    "image/tiff"
+  ],
+  "policyState": "deferred-reject",
+  "productSupport": false,
+  "profileHash": "a850d12190fedbdf455448a7702c206ca5c25e0f8fd43a13c0337eee2e203ded",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_INPUT_TIFF_DEFERRED",
+  "schemaVersion": "slice03-format-profile.v0"
+}

@@ -1,0 +1,84 @@
+{
+  "contractHash": "0aaea35f2874f3648a68fa30ddbf978acaf32b2b0e49daf49320b36707b89f40",
+  "contractVersion": "0.3.0",
+  "eligibility": [
+    "NormalizedImage.v0 artifact from CC-CAP02-NORMALIZE@0.2.0",
+    "independently frozen parent artifact identity",
+    "exact RGBA8 sRGB single-frame filter-0 PNG profile",
+    "orientation 1 and straight/unpremultiplied alpha declaration",
+    "maximum 1 MiB and 256 by 256"
+  ],
+  "evidenceStatus": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1Pipeline": 0,
+    "R1ProductRelease": 0,
+    "R1ProductValidation": 0,
+    "U1": 0,
+    "V1": 0,
+    "claimBoundary": "Contract and byte/artifact consistency rehearsal only; no capability, effect, product, operational, governance, value, or release evidence.",
+    "evidenceManifestId": "not-established"
+  },
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementation": {
+    "adapterId": "observeNormalizedImageSlice03",
+    "adapterVersion": "0.3.0",
+    "executionLocation": "local-node-research-process",
+    "implementationSha256": "99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3",
+    "parserClass": "independent-closed-fixture-reference-not-production-decoder",
+    "scriptPath": "scripts/research-reference-adapters-slice03.mjs"
+  },
+  "inputContract": {
+    "artifactSchemaRef": "../slice-02/schemas/normalized-image.v0.schema.json",
+    "bytesType": "Uint8Array",
+    "maximumBytes": 1048576,
+    "maximumHeight": 256,
+    "maximumWidth": 256,
+    "parentIdentityFields": [
+      "normalizedImageId",
+      "parentImageAssetId",
+      "normalizedFileSha256",
+      "decodedPixelSha256"
+    ]
+  },
+  "observerContractId": "S03-TECHNICAL-OBSERVER",
+  "outputContract": {
+    "artifactType": "TechnicalObserverResult.slice03.v0",
+    "byteBackedTechnicalFactsOnly": true,
+    "schemaRef": "schemas/technical-observer.slice03.schema.json",
+    "sourceFactsSeparated": true
+  },
+  "rejectionConditions": [
+    "artifact shape or type mismatch",
+    "MIME or PNG signature mismatch",
+    "CRC, chunk profile, color profile, filter, interlace, or decode mismatch",
+    "file, pixel, parent identity, dimensions, or alpha mismatch",
+    "byte or dimension limit exceeded",
+    "implementation reference absent or malformed"
+  ],
+  "releaseStatus": "research-only-not-product-fallback",
+  "schemaVersion": "technical-observer-contract.slice03.v0",
+  "scope": "Project-original open-calibration normalized PNG bytes matching the closed Slice 03 fixture profile. The observer independently reopens bytes and cannot establish source-format, image-understanding, product, or production-decoder support.",
+  "status": "frozen-research",
+  "unknownPolicy": {
+    "confidenceLower": 0,
+    "confidenceUpper": 0,
+    "forbiddenInferences": [
+      "identity",
+      "age",
+      "person-category",
+      "text-content",
+      "aesthetic-score",
+      "recommendation"
+    ],
+    "reasonRequired": true,
+    "sections": [
+      "quality",
+      "subject",
+      "content"
+    ],
+    "value": "unknown"
+  }
+}

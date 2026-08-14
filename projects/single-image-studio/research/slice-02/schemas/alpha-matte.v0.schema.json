@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "alpha-matte.v0.schema.json",
+  "title": "Single Image Studio Slice 02 AlphaMatte v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "alphaMatteId", "parentNormalizedImageId", "parentSubjectMapId", "capabilityContractRef", "mime", "width", "height", "colorProfile", "matteEncoding", "alphaPlaneSha256", "fileSha256", "lowThreshold", "highThreshold", "createdAt"],
+  "properties": {
+    "schemaVersion": { "const": "alpha-matte.v0" },
+    "alphaMatteId": { "$ref": "#/$defs/string" },
+    "parentNormalizedImageId": { "$ref": "#/$defs/string" },
+    "parentSubjectMapId": { "$ref": "#/$defs/string" },
+    "capabilityContractRef": { "const": "CC-CAP04-MATTE-SIMPLE@0.2.0" },
+    "mime": { "const": "image/png" },
+    "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "height": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "colorProfile": { "const": "srgb" },
+    "matteEncoding": { "const": "grayscale-rgb-with-opaque-container" },
+    "alphaPlaneSha256": { "$ref": "#/$defs/sha256" },
+    "fileSha256": { "$ref": "#/$defs/sha256" },
+    "lowThreshold": { "type": "number", "minimum": 0, "maximum": 441 },
+    "highThreshold": { "type": "number", "minimum": 1, "maximum": 442 },
+    "createdAt": { "$ref": "#/$defs/dateTime" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" }
+  }
+}

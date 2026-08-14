@@ -1,0 +1,977 @@
+{
+  "claimBoundary": "Open structural policy fixtures only. They establish neither general format support nor C1, effect, product, operational, governance, value, or release evidence.",
+  "createdAt": "2026-08-15T10:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "open-format-policy-calibration-only"
+  },
+  "fixtureCount": 22,
+  "fixtureManifestId": "fixture-manifest.normalize-deliver.defect-calibration.slice-03.v0",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "format-png-mime-extension-conflict-defect-calibration-s03-001.source",
+          "byteLength": 8588,
+          "declaredMime": "image/jpeg",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-mime-extension-conflict-defect-calibration-s03-001/source.jpg",
+          "role": "source",
+          "sha256": "c29b68482ae1ee66594a80d93985d41f481935acfeb421934a6c77b094fddb4f"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-mime-extension-conflict-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-mime-extension-conflict-defect-calibration-s03-001",
+        "mime-extension-conflict:format-png-mime-extension-conflict-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_MIME_EXTENSION_MISMATCH",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-mime-extension-conflict-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "mime-extension-conflict",
+        "steps": [
+          "Render a unique canonical PNG byte stream.",
+          "Assign a .jpg path and image/jpeg declaration without changing the PNG signature."
+        ]
+      },
+      "label": "PNG bytes declared and named as JPEG",
+      "observedDimensions": {
+        "height": 41,
+        "width": 61
+      },
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-mime-extension-conflict-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-bad-signature-defect-calibration-s03-001.source",
+          "byteLength": 10510,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-bad-signature-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "0a27f79f9db53e447a7e404f1adc94f0f80cbe4a86f70a25e7d8f60c3f7e481f"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-bad-signature-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-bad-signature-defect-calibration-s03-001",
+        "bad-signature:format-png-bad-signature-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_BAD_SIGNATURE",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-bad-signature-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "bad-signature",
+        "steps": [
+          "Copy the canonical PNG bytes.",
+          "Flip the first signature byte."
+        ]
+      },
+      "label": "PNG signature corruption",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-bad-signature-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-crc-error-defect-calibration-s03-001.source",
+          "byteLength": 10510,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-crc-error-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "3938a6508c1c5d44f1e47fcc75576dfe31b4f0d9f34bdda3f000e9fcdbd60800"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-crc-error-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-crc-error-defect-calibration-s03-001",
+        "crc-error:format-png-crc-error-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_CRC_MISMATCH",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-crc-error-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "crc-error",
+        "steps": [
+          "Copy the canonical PNG bytes.",
+          "Flip one bit in the IHDR CRC without modifying IHDR data."
+        ]
+      },
+      "label": "PNG IHDR CRC corruption",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-crc-error-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-truncated-chunk-defect-calibration-s03-001.source",
+          "byteLength": 10504,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-truncated-chunk-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "a9c7c018fa2483d2d6461be22ebac96c0a946ad5ac0a4a4ee4c4cd733af7fc15"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-truncated-chunk-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-truncated-chunk-defect-calibration-s03-001",
+        "truncated-chunk:format-png-truncated-chunk-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_TRUNCATED_CHUNK",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-truncated-chunk-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "truncated-chunk",
+        "steps": [
+          "Copy the canonical PNG bytes.",
+          "Remove the final six bytes so IEND is incomplete."
+        ]
+      },
+      "label": "PNG truncated IEND chunk",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-truncated-chunk-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-trailing-bytes-defect-calibration-s03-001.source",
+          "byteLength": 10528,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-trailing-bytes-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "7e93d01ed7cd3becbecdebd3901a66e45850094ab273eb40717f5565b7f4462a"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-trailing-bytes-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-trailing-bytes-defect-calibration-s03-001",
+        "iend-trailing-bytes:format-png-trailing-bytes-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_TRAILING_BYTES",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-trailing-bytes-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "iend-trailing-bytes",
+        "steps": [
+          "Copy the canonical PNG bytes.",
+          "Append a fixed ASCII sentinel after IEND."
+        ]
+      },
+      "label": "PNG bytes after IEND",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-trailing-bytes-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-missing-srgb-defect-calibration-s03-001.source",
+          "byteLength": 10497,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-missing-srgb-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "4bfa5b6710f782cd9d6f2e8cfd73ae2b436b9b963954f466faba9a4906a729b5"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-missing-srgb-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-missing-srgb-defect-calibration-s03-001",
+        "missing-color-declaration:format-png-missing-srgb-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_SRGB_MISSING",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-missing-srgb-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "missing-color-declaration",
+        "steps": [
+          "Render the same project-original RGBA equations.",
+          "Encode without the required sRGB chunk."
+        ]
+      },
+      "label": "PNG missing embedded sRGB declaration",
+      "observedDimensions": {
+        "height": 48,
+        "width": 64
+      },
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-missing-srgb-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-conflicting-srgb-defect-calibration-s03-001.source",
+          "byteLength": 10523,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-conflicting-srgb-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "bcbb3a0b30c02a3522168c4968f76b5889369c59112f39c13568b1633ffd49d5"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-conflicting-srgb-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-conflicting-srgb-defect-calibration-s03-001",
+        "conflicting-color-declaration:format-png-conflicting-srgb-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_SRGB_CONFLICT",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-conflicting-srgb-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "conflicting-color-declaration",
+        "steps": [
+          "Encode the required sRGB rendering intent 0 chunk.",
+          "Inject a second sRGB chunk with rendering intent 1."
+        ]
+      },
+      "label": "PNG conflicting duplicate sRGB declarations",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-conflicting-srgb-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-byte-limit-defect-calibration-s03-001.source",
+          "byteLength": 1048577,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-byte-limit-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "0e25db8f9e0c519b1bbbfb13dfecfe06de88f834b35c6558470b2e8b811b98b8"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-byte-limit-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-byte-limit-defect-calibration-s03-001",
+        "byte-limit-exceeded:format-png-byte-limit-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_BYTE_LIMIT_EXCEEDED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-byte-limit-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "byte-limit-exceeded",
+        "steps": [
+          "Copy canonical PNG bytes into a deterministic buffer.",
+          "Pad the buffer to exactly 1 MiB plus one byte; rejection must occur before parsing."
+        ]
+      },
+      "label": "PNG input exceeds one MiB",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-byte-limit-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-dimension-limit-defect-calibration-s03-001.source",
+          "byteLength": 972,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-dimension-limit-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "7b0bd15db41b76b7166d6db9c31f59a1c35f8c5cfd386b2d773f71f34c809a04"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-dimension-limit-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-dimension-limit-defect-calibration-s03-001",
+        "dimension-limit-exceeded:format-png-dimension-limit-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_DIMENSION_LIMIT_EXCEEDED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-dimension-limit-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "dimension-limit-exceeded",
+        "steps": [
+          "Render project-original RGBA equations at 257 by 1.",
+          "Encode otherwise canonical PNG structure."
+        ]
+      },
+      "label": "PNG width exceeds 256 pixels",
+      "observedDimensions": {
+        "height": 1,
+        "width": 257
+      },
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-dimension-limit-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-non-rgba8-defect-calibration-s03-001.source",
+          "byteLength": 8816,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-non-rgba8-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "d6d300308140811b8ea81e9d9fd37beebeb41957081aa46b6adb6060a36ad624"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-non-rgba8-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-non-rgba8-defect-calibration-s03-001",
+        "non-rgba8:format-png-non-rgba8-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_RGBA8_REQUIRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-non-rgba8-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "non-rgba8",
+        "steps": [
+          "Render project-original RGB equations with no alpha channel.",
+          "Encode IHDR color type 2 rather than required color type 6."
+        ]
+      },
+      "label": "PNG RGB8 instead of RGBA8",
+      "observedDimensions": {
+        "height": 48,
+        "width": 64
+      },
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-non-rgba8-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-non-filter0-defect-calibration-s03-001.source",
+          "byteLength": 10511,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-non-filter0-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "68a0c0a484bd4d13c30fe489021888a58f048213bf289eeba1232dc8d43c689e"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-non-filter0-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-non-filter0-defect-calibration-s03-001",
+        "non-filter0:format-png-non-filter0-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_FILTER0_REQUIRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-non-filter0-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "non-filter0",
+        "steps": [
+          "Render project-original RGBA equations.",
+          "Set every decompressed scanline filter byte to 1 rather than 0."
+        ]
+      },
+      "label": "PNG scanline filter is not filter 0",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-non-filter0-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-interlace-defect-calibration-s03-001.source",
+          "byteLength": 10510,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-interlace-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "8a9a42cd5db3dee26fc7d5df7c6fb436adf49c2c3adc2198ac592f50940ba2b2"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-interlace-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-interlace-defect-calibration-s03-001",
+        "interlace-enabled:format-png-interlace-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_INTERLACE_FORBIDDEN",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-interlace-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "interlace-enabled",
+        "steps": [
+          "Render project-original RGBA equations.",
+          "Set IHDR interlace method to 1."
+        ]
+      },
+      "label": "PNG interlace flag is enabled",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-interlace-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-png-unknown-critical-defect-calibration-s03-001.source",
+          "byteLength": 10525,
+          "declaredMime": "image/png",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-png-unknown-critical-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "b5ef7d43218701fff7edefbc4864f7b6e3ac368fc371294b6a49b56aabef5972"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-png-unknown-critical-defect-calibration-s03-001.v0",
+      "caseKind": "injected-format-defect",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-png-unknown-critical-defect-calibration-s03-001",
+        "unknown-critical-chunk:format-png-unknown-critical-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "structural-only",
+      "expectedCode": "S03_PNG_UNKNOWN_CRITICAL_CHUNK",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-png-unknown-critical-defect-calibration-s03-001",
+      "formatId": "png",
+      "injection": {
+        "kind": "unknown-critical-chunk",
+        "steps": [
+          "Render an otherwise canonical PNG.",
+          "Insert the project-local unknown critical chunk ABCD before IDAT."
+        ]
+      },
+      "label": "PNG contains an unknown critical chunk",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.png-canonical.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-png-unknown-critical-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-heic-deferred-defect-calibration-s03-001.source",
+          "byteLength": 20,
+          "declaredMime": "image/heic",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-heic-deferred-defect-calibration-s03-001/source.heic",
+          "role": "source",
+          "sha256": "c8c9eee2a0e83c255cefbe56abcb2e5c17b2581c83700265370eec36c2e6b267"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-heic-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-heic-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-heic-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_HEIC_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-heic-deferred-defect-calibration-s03-001",
+      "formatId": "heic",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal HEIC policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "HEIC separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.heic-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-heic-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-heif-deferred-defect-calibration-s03-001.source",
+          "byteLength": 20,
+          "declaredMime": "image/heif",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-heif-deferred-defect-calibration-s03-001/source.heif",
+          "role": "source",
+          "sha256": "c2b7150fa84ac68eca8477d98d302028b294d879f6a097d6ec267739f8789f71"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-heif-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-heif-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-heif-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_HEIF_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-heif-deferred-defect-calibration-s03-001",
+      "formatId": "heif",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal HEIF policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "HEIF separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.heif-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-heif-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-avif-deferred-defect-calibration-s03-001.source",
+          "byteLength": 20,
+          "declaredMime": "image/avif",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-avif-deferred-defect-calibration-s03-001/source.avif",
+          "role": "source",
+          "sha256": "662bcbb19de49dd631474e394f2713a86d90e9b0bd2c393325b2bbda44f193d5"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-avif-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-avif-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-avif-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_AVIF_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-avif-deferred-defect-calibration-s03-001",
+      "formatId": "avif",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal AVIF policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "AVIF separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.avif-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-avif-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-gif-deferred-defect-calibration-s03-001.source",
+          "byteLength": 14,
+          "declaredMime": "image/gif",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-gif-deferred-defect-calibration-s03-001/source.gif",
+          "role": "source",
+          "sha256": "1f19970f056cd116a5fe3c02422c1ee1ac827136df470b5c89af492620512aa4"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-gif-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-gif-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-gif-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_GIF_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-gif-deferred-defect-calibration-s03-001",
+      "formatId": "gif",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal GIF policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "GIF separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.gif-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-gif-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-apng-deferred-defect-calibration-s03-001.source",
+          "byteLength": 10530,
+          "declaredMime": "image/apng",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-apng-deferred-defect-calibration-s03-001/source.png",
+          "role": "source",
+          "sha256": "4e04b976f32df8139b9ff7df5adfc9d45655aab7d480b47430d2764abe82cbd9"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-apng-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-apng-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-apng-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_APNG_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-apng-deferred-defect-calibration-s03-001",
+      "formatId": "apng",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal APNG policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "APNG separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.apng-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-apng-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-tiff-deferred-defect-calibration-s03-001.source",
+          "byteLength": 10,
+          "declaredMime": "image/tiff",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-tiff-deferred-defect-calibration-s03-001/source.tiff",
+          "role": "source",
+          "sha256": "c37e17ffad699c434f3e742e63207776cf4eab017efde278d2ee6fde02381b0d"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-tiff-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-tiff-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-tiff-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_TIFF_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-tiff-deferred-defect-calibration-s03-001",
+      "formatId": "tiff",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal TIFF policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "TIFF separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.tiff-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-tiff-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-svg-deferred-defect-calibration-s03-001.source",
+          "byteLength": 68,
+          "declaredMime": "image/svg+xml",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-svg-deferred-defect-calibration-s03-001/source.svg",
+          "role": "source",
+          "sha256": "42ef5241bb91f857a6645de76b5247a3b31d5c85e45f572f9ee053b221f7edc3"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-svg-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-svg-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-svg-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_SVG_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-svg-deferred-defect-calibration-s03-001",
+      "formatId": "svg",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal SVG policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "SVG separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.svg-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-svg-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-pdf-deferred-defect-calibration-s03-001.source",
+          "byteLength": 56,
+          "declaredMime": "application/pdf",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-pdf-deferred-defect-calibration-s03-001/source.pdf",
+          "role": "source",
+          "sha256": "affa8942169497e263ed5794c58ced0658549ccc495b6729944cd2eeeee8edb6"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-pdf-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-pdf-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-pdf-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_PDF_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-pdf-deferred-defect-calibration-s03-001",
+      "formatId": "pdf",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal PDF policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "PDF separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.pdf-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-pdf-deferred-defect-calibration-s03-001.v0"
+    },
+    {
+      "assets": [
+        {
+          "assetId": "format-raw-deferred-defect-calibration-s03-001.source",
+          "byteLength": 41,
+          "declaredMime": "application/x-camera-raw",
+          "exposure": "catalog-denied",
+          "path": "fixtures/defect/calibration/NORMALIZE-DELIVER/format-raw-deferred-defect-calibration-s03-001/source.raw",
+          "role": "source",
+          "sha256": "66ef2fd8311df26b2e4927b6b996b716295d89b29da66ec2ec3509109c1af149"
+        }
+      ],
+      "captureSessionId": "capture-session.slice-03.generator.format-raw-deferred-defect-calibration-s03-001.v0",
+      "caseKind": "deferred-format-rejection",
+      "containsRealPerson": false,
+      "derivationLineage": [
+        "project-original-procedural:format-raw-deferred-defect-calibration-s03-001",
+        "out-of-policy-procedural-format-specimen:format-raw-deferred-defect-calibration-s03-001"
+      ],
+      "direction": "input",
+      "evidenceState": "none",
+      "expectedCode": "S03_INPUT_RAW_DEFERRED",
+      "expectedDisposition": "reject",
+      "fixtureId": "format-raw-deferred-defect-calibration-s03-001",
+      "formatId": "raw",
+      "injection": {
+        "kind": "out-of-policy-procedural-format-specimen",
+        "steps": [
+          "Construct a project-original minimal RAW policy-identification specimen.",
+          "Return the registered stable rejection without decoding or artifact creation."
+        ]
+      },
+      "label": "RAW separate deferred format rejection",
+      "observedDimensions": null,
+      "perceptualHash": null,
+      "productSupport": false,
+      "profileRef": "profiles/input.raw-reject.v0.3.0.json",
+      "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+      "schemaVersion": "slice03-format-fixture.v0",
+      "sourceClass": "project-original-synthetic",
+      "sourceFamilyId": "source-family.slice-03.formats.format-raw-deferred-defect-calibration-s03-001.v0"
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice03",
+    "scriptPath": "scripts/research-generate-slice03.mjs",
+    "seed": "20260815-NORMALIZE-DELIVER-defect-calibration",
+    "sourceRevision": "local-procedural-slice-03-format-policy-v0.3.0-seed-20260815",
+    "version": "0.3.0"
+  },
+  "isolationPolicy": "Every fixture has a unique source-family ID, capture-session ID, and source SHA-256 across the two open calibration partitions; every asset is catalog-denied.",
+  "manifestHash": "be40336a35a1f593f135246fca4094263f2ba70e2c790b3985b60c7031a9b736",
+  "manifestVersion": "0.3.0",
+  "partition": "defect/calibration",
+  "profileRefs": [
+    "profiles/input.apng-reject.v0.3.0.json",
+    "profiles/input.avif-reject.v0.3.0.json",
+    "profiles/input.gif-reject.v0.3.0.json",
+    "profiles/input.heic-reject.v0.3.0.json",
+    "profiles/input.heif-reject.v0.3.0.json",
+    "profiles/input.pdf-reject.v0.3.0.json",
+    "profiles/input.png-canonical.v0.3.0.json",
+    "profiles/input.raw-reject.v0.3.0.json",
+    "profiles/input.svg-reject.v0.3.0.json",
+    "profiles/input.tiff-reject.v0.3.0.json"
+  ],
+  "schemaVersion": "slice03-fixture-manifest.v0",
+  "sealedState": "open-calibration",
+  "sourcePopulation": "Project-original deterministic procedural byte specimens for the frozen Slice 03 NORMALIZE-DELIVER format policy; no real, user, or third-party images.",
+  "suiteId": "NORMALIZE-DELIVER",
+  "suiteVersion": "0.3.0"
+}

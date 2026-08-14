@@ -1,0 +1,252 @@
+{
+  "captureSessionRule": "Each generator scene has a unique synthetic session ID; no session may appear in another partition.",
+  "createdAt": "2026-08-15T00:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "method-rehearsal"
+  },
+  "fixtureManifestId": "fixture-manifest.matte-gt.dev-calibration.v0",
+  "fixtures": [
+    {
+      "assets": {
+        "alpha": {
+          "assetId": "matte-hard-edge-001.alpha",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hard-edge-001/alpha.png",
+          "role": "alpha",
+          "sha256": "a5b3cfe6ef8ce6111f8e0ffe7e36e2c40fb29e6629f552e5dd2b1938731e8c7f",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/alpha.png",
+          "width": 160
+        },
+        "compositeBlack": {
+          "assetId": "matte-hard-edge-001.compositeBlack",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-black.png",
+          "role": "compositeBlack",
+          "sha256": "81203bef3796032a6bc73b424367cdf7b3c0bebc4c3b2ca4c48d28a269fda6e2",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-black.png",
+          "width": 160
+        },
+        "compositeSaturated": {
+          "assetId": "matte-hard-edge-001.compositeSaturated",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-saturated.png",
+          "role": "compositeSaturated",
+          "sha256": "25ddb074b6ee7de5b02b72af8fb28e8c13f34040a43cd60e9f58fa10e95b4481",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-saturated.png",
+          "width": 160
+        },
+        "compositeWhite": {
+          "assetId": "matte-hard-edge-001.compositeWhite",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-white.png",
+          "role": "compositeWhite",
+          "sha256": "633fca886dee38daf78e2fe83cb09cf3bcae7856009b0be3ce2b1f91a5c1bdaa",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/composite-white.png",
+          "width": 160
+        },
+        "foreground": {
+          "assetId": "matte-hard-edge-001.foreground",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hard-edge-001/foreground.png",
+          "role": "foreground",
+          "sha256": "8e2427b6f365a905b37f2eca7920e41dd72ab4b6cb0b7a34f59385ec447d3036",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/foreground.png",
+          "width": 160
+        },
+        "source": {
+          "assetId": "matte-hard-edge-001.source",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hard-edge-001/source.png",
+          "role": "source",
+          "sha256": "6cd894eca3493c09d91f3be6c38e0d0b96173cfaf8703ad4bdb18b3632d8f853",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hard-edge-001/source.png",
+          "width": 160
+        }
+      },
+      "captureSessionId": "capture-session.local-generator.matte-hard-edge-001.v0",
+      "category": "hard-edge",
+      "edgeType": "hard",
+      "expectedUse": "Exercise exact opaque/transparent boundary inspection.",
+      "height": 120,
+      "id": "matte-hard-edge-001",
+      "label": "Hard edge geometry",
+      "rightsRecordId": "rights.local-synthetic.v0",
+      "sourceFamilyId": "source-family.local-synthetic.matte-hard-edge-001.v0",
+      "visibility": "public-synthetic",
+      "width": 160
+    },
+    {
+      "assets": {
+        "alpha": {
+          "assetId": "matte-hole-001.alpha",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hole-001/alpha.png",
+          "role": "alpha",
+          "sha256": "53c4e0db3af1c0404c4aa0ac32784f0e8bfe3af6b054b8683f5038def4765138",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/alpha.png",
+          "width": 160
+        },
+        "compositeBlack": {
+          "assetId": "matte-hole-001.compositeBlack",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hole-001/composite-black.png",
+          "role": "compositeBlack",
+          "sha256": "7951ab7fe2942a652165170557b7bf10bd0283ff7fa7a7c27d7271a073cdc378",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-black.png",
+          "width": 160
+        },
+        "compositeSaturated": {
+          "assetId": "matte-hole-001.compositeSaturated",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hole-001/composite-saturated.png",
+          "role": "compositeSaturated",
+          "sha256": "4d2e1e9eb83bb5e5666cb766e20233545432595c565d3d66eebd4309e6100e9e",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-saturated.png",
+          "width": 160
+        },
+        "compositeWhite": {
+          "assetId": "matte-hole-001.compositeWhite",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hole-001/composite-white.png",
+          "role": "compositeWhite",
+          "sha256": "9cf4eed6c71cbec39c4851cf7e65d75150ee0effa6932b047f73d8fac2b512b1",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/composite-white.png",
+          "width": 160
+        },
+        "foreground": {
+          "assetId": "matte-hole-001.foreground",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hole-001/foreground.png",
+          "role": "foreground",
+          "sha256": "40f51d1426df9e9b70c7eb4f7ef9e46184284d59372850f2373a39f213633b8c",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/foreground.png",
+          "width": 160
+        },
+        "source": {
+          "assetId": "matte-hole-001.source",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-hole-001/source.png",
+          "role": "source",
+          "sha256": "9c6d861a870f23a260a0e7ea4690fe57d37f1dddc12bb2a5d4d85965013775a0",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-hole-001/source.png",
+          "width": 160
+        }
+      },
+      "captureSessionId": "capture-session.local-generator.matte-hole-001.v0",
+      "category": "interior-hole",
+      "edgeType": "hole",
+      "expectedUse": "Exercise preservation of an enclosed transparent region.",
+      "height": 120,
+      "id": "matte-hole-001",
+      "label": "Enclosed hole geometry",
+      "rightsRecordId": "rights.local-synthetic.v0",
+      "sourceFamilyId": "source-family.local-synthetic.matte-hole-001.v0",
+      "visibility": "public-synthetic",
+      "width": 160
+    },
+    {
+      "assets": {
+        "alpha": {
+          "assetId": "matte-soft-edge-001.alpha",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-soft-edge-001/alpha.png",
+          "role": "alpha",
+          "sha256": "1d982c9d2b644635dc2bd9b76035cd2b65f48a1725fa38380fdf3d070dc67dbd",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/alpha.png",
+          "width": 160
+        },
+        "compositeBlack": {
+          "assetId": "matte-soft-edge-001.compositeBlack",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-black.png",
+          "role": "compositeBlack",
+          "sha256": "4deb610b0b613a9ff9913245c6147de06dcc7a562955ba4db3a324077f6dccf6",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-black.png",
+          "width": 160
+        },
+        "compositeSaturated": {
+          "assetId": "matte-soft-edge-001.compositeSaturated",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-saturated.png",
+          "role": "compositeSaturated",
+          "sha256": "db72f7cfd93ed2ad8af765ba78151506d62a5574036abad45da767e6e37960a8",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-saturated.png",
+          "width": 160
+        },
+        "compositeWhite": {
+          "assetId": "matte-soft-edge-001.compositeWhite",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-white.png",
+          "role": "compositeWhite",
+          "sha256": "51d27b9ae91d0e3ecefd10db0e7c5a80ee9468fefa3dbbebff510b58c83d415a",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/composite-white.png",
+          "width": 160
+        },
+        "foreground": {
+          "assetId": "matte-soft-edge-001.foreground",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-soft-edge-001/foreground.png",
+          "role": "foreground",
+          "sha256": "01485ff801403aee055313d977b0a34203dc50a10a0d2133d2c5c4209a261529",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/foreground.png",
+          "width": 160
+        },
+        "source": {
+          "assetId": "matte-soft-edge-001.source",
+          "height": 120,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-soft-edge-001/source.png",
+          "role": "source",
+          "sha256": "07a908d0d4143dbbcdf86e5dd001eeb4e03ea31f0fb40c7c7598ae50cf0ba80b",
+          "url": "/research-assets/dev/calibration/MATTE-GT/matte-soft-edge-001/source.png",
+          "width": 160
+        }
+      },
+      "captureSessionId": "capture-session.local-generator.matte-soft-edge-001.v0",
+      "category": "soft-edge",
+      "edgeType": "soft",
+      "expectedUse": "Exercise partial-alpha inspection against contrasting backgrounds.",
+      "height": 120,
+      "id": "matte-soft-edge-001",
+      "label": "Soft edge geometry",
+      "rightsRecordId": "rights.local-synthetic.v0",
+      "sourceFamilyId": "source-family.local-synthetic.matte-soft-edge-001.v0",
+      "visibility": "public-synthetic",
+      "width": 160
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-fixtures",
+    "scriptPath": "scripts/research-generate-fixtures.mjs",
+    "seed": "20260815",
+    "sourceRevision": "local-procedural-v0.1.0-seed-20260815",
+    "version": "0.1.0"
+  },
+  "manifestHash": "bf8a16407ee536a899b1d5473ec519e5c738a9df0196e483fa738e46ce38e177",
+  "manifestVersion": "0.1.0",
+  "partition": "dev/calibration",
+  "schemaVersion": "fixture-manifest.v0",
+  "sourceFamilyRule": "Each procedural scene has a unique family ID; no family may appear in another partition.",
+  "sourcePopulation": "Three deterministic local geometric RGBA scenes covering hard edge, enclosed hole, and partial-alpha soft edge.",
+  "suiteId": "MATTE-GT",
+  "trainingContaminationRisk": "Not assessed; fixtures are method rehearsal only and must not support model-quality claims."
+}

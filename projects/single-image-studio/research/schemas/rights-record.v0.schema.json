@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rights-record.v0.schema.json",
+  "title": "Single Image Studio synthetic fixture rights record v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "rightsRecordId",
+    "recordVersion",
+    "createdAt",
+    "assetClass",
+    "origin",
+    "rightsHolder",
+    "license",
+    "permissions",
+    "privacy",
+    "evidenceStatus"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "rights-record.v0" },
+    "rightsRecordId": { "$ref": "#/$defs/nonEmptyString" },
+    "recordVersion": { "$ref": "#/$defs/researchVersion" },
+    "createdAt": { "$ref": "#/$defs/dateTime" },
+    "assetClass": { "const": "public-synthetic" },
+    "origin": { "$ref": "#/$defs/origin" },
+    "rightsHolder": { "$ref": "#/$defs/rightsHolder" },
+    "license": { "$ref": "#/$defs/license" },
+    "permissions": { "$ref": "#/$defs/permissions" },
+    "privacy": { "$ref": "#/$defs/privacy" },
+    "evidenceStatus": { "$ref": "#/$defs/evidenceStatus" }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "researchVersion": {
+      "type": "string",
+      "pattern": "^0\\.[0-9]+\\.[0-9]+$"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "generator", "externalInputs"],
+      "properties": {
+        "type": { "const": "project-original-procedural" },
+        "generator": { "$ref": "#/$defs/nonEmptyString" },
+        "externalInputs": {
+          "type": "array",
+          "maxItems": 0,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "rightsHolder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "basis"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "basis": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "terms"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmptyString" },
+        "terms": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "processingAllowed",
+        "researchUseAllowed",
+        "publicDisplayAllowed",
+        "redistributionAllowed",
+        "commercialMarketingAllowed",
+        "restrictions"
+      ],
+      "properties": {
+        "processingAllowed": { "const": true },
+        "researchUseAllowed": { "const": true },
+        "publicDisplayAllowed": { "const": true },
+        "redistributionAllowed": { "type": "boolean" },
+        "commercialMarketingAllowed": { "type": "boolean" },
+        "restrictions": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "containsRealPerson",
+        "containsPersonalData",
+        "containsThirdPartyMarks"
+      ],
+      "properties": {
+        "containsRealPerson": { "const": false },
+        "containsPersonalData": { "const": false },
+        "containsThirdPartyMarks": { "const": false }
+      }
+    },
+    "evidenceStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "purpose", "claimBoundary"],
+      "properties": {
+        "level": { "const": "C1=0" },
+        "purpose": { "const": "method-rehearsal" },
+        "claimBoundary": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    }
+  }
+}

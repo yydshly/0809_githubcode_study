@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "technical-observer.slice03.schema.json",
+  "title": "Single Image Studio Slice 03 byte-backed technical observer result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "observerContractRef",
+    "implementationRef",
+    "parent",
+    "sourceFormatFacts",
+    "normalizedArtifactFacts",
+    "quality",
+    "subject",
+    "content",
+    "observedAt"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "technical-observer-result.slice03.v0" },
+    "observerContractRef": { "const": "S03-TECHNICAL-OBSERVER@0.3.0" },
+    "implementationRef": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "parent": { "$ref": "#/$defs/parent" },
+    "sourceFormatFacts": { "$ref": "#/$defs/sourceFormatFacts" },
+    "normalizedArtifactFacts": { "$ref": "#/$defs/normalizedArtifactFacts" },
+    "quality": { "$ref": "#/$defs/quality" },
+    "subject": { "$ref": "#/$defs/subject" },
+    "content": { "$ref": "#/$defs/content" },
+    "observedAt": { "$ref": "#/$defs/dateTime" }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "zeroConfidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lower", "upper"],
+      "properties": {
+        "lower": { "const": 0 },
+        "upper": { "const": 0 }
+      }
+    },
+    "unknownObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unknownReason", "confidence"],
+      "properties": {
+        "value": { "const": "unknown" },
+        "unknownReason": { "type": "string", "pattern": "^[a-z0-9-]+$", "minLength": 1 },
+        "confidence": { "$ref": "#/$defs/zeroConfidence" }
+      }
+    },
+    "parent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["normalizedImageId", "parentImageAssetId", "normalizedFileSha256", "decodedPixelSha256"],
+      "properties": {
+        "normalizedImageId": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+        "parentImageAssetId": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+        "normalizedFileSha256": { "$ref": "#/$defs/sha256" },
+        "decodedPixelSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "sourceFormatFacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "mime", "format"],
+      "properties": {
+        "status": { "const": "not-observed-from-normalized-bytes" },
+        "mime": { "$ref": "#/$defs/unknownObservation" },
+        "format": { "$ref": "#/$defs/unknownObservation" }
+      }
+    },
+    "normalizedArtifactFacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mime",
+        "fileSignatureHex",
+        "byteLength",
+        "fileSha256",
+        "decodedWidth",
+        "decodedHeight",
+        "orientation",
+        "colorProfile",
+        "alphaChannelPresent",
+        "alphaPresent",
+        "alphaRepresentation",
+        "decodedPixelSha256",
+        "evidenceMethod"
+      ],
+      "properties": {
+        "mime": { "const": "image/png" },
+        "fileSignatureHex": { "const": "89504e470d0a1a0a" },
+        "byteLength": { "type": "integer", "minimum": 33, "maximum": 1048576 },
+        "fileSha256": { "$ref": "#/$defs/sha256" },
+        "decodedWidth": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "decodedHeight": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "orientation": { "const": 1 },
+        "colorProfile": { "const": "srgb" },
+        "alphaChannelPresent": { "const": true },
+        "alphaPresent": { "type": "boolean" },
+        "alphaRepresentation": { "const": "straight-unpremultiplied" },
+        "decodedPixelSha256": { "$ref": "#/$defs/sha256" },
+        "evidenceMethod": { "const": "full-reference-decode-not-header-probe" }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blur", "exposure", "noise"],
+      "properties": {
+        "blur": { "$ref": "#/$defs/unknownObservation" },
+        "exposure": { "$ref": "#/$defs/unknownObservation" },
+        "noise": { "$ref": "#/$defs/unknownObservation" }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primarySubjectType", "subjectCount", "personCount"],
+      "properties": {
+        "primarySubjectType": { "$ref": "#/$defs/unknownObservation" },
+        "subjectCount": { "$ref": "#/$defs/unknownObservation" },
+        "personCount": { "$ref": "#/$defs/unknownObservation" }
+      }
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["textPresence", "backgroundComplexity"],
+      "properties": {
+        "textPresence": { "$ref": "#/$defs/unknownObservation" },
+        "backgroundComplexity": { "$ref": "#/$defs/unknownObservation" }
+      }
+    }
+  }
+}

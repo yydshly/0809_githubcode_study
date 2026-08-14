@@ -1,0 +1,31 @@
+{
+  "assetClass": "project-original-synthetic",
+  "createdAt": "2026-08-15T10:00:00.000Z",
+  "evidenceStatus": {
+    "claimBoundary": "Project-original byte-structure fixtures only; no format capability, effect, product, operational, governance, value, or release evidence.",
+    "level": "C1=0",
+    "purpose": "open-format-policy-calibration-only"
+  },
+  "origin": {
+    "externalInputs": [],
+    "generator": "scripts/research-generate-slice03.mjs",
+    "type": "project-original-procedural"
+  },
+  "permissions": {
+    "commercialMarketingAllowed": false,
+    "processingAllowed": true,
+    "publicDisplayAllowed": false,
+    "redistributionAllowed": false,
+    "researchUseAllowed": true,
+    "restrictions": "Private open-calibration research fixtures only; all assets remain catalog-denied and cannot support product or release claims."
+  },
+  "privacy": {
+    "containsPersonalData": false,
+    "containsRealPerson": false,
+    "containsThirdPartyMarks": false
+  },
+  "recordVersion": "0.3.0",
+  "rightsHash": "2defb231a931af862dd2023a936927974850264e62c1942c6445adc518e2303e",
+  "rightsRecordId": "rights.project-original-synthetic.slice-03-formats.v1",
+  "schemaVersion": "slice03-rights-record.v0"
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "slice03-rights-record.v0.schema.json",
+  "title": "Single Image Studio Slice 03 format fixture rights record v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "rightsRecordId",
+    "recordVersion",
+    "createdAt",
+    "assetClass",
+    "origin",
+    "permissions",
+    "privacy",
+    "evidenceStatus",
+    "rightsHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "slice03-rights-record.v0" },
+    "rightsRecordId": { "const": "rights.project-original-synthetic.slice-03-formats.v1" },
+    "recordVersion": { "const": "0.3.0" },
+    "createdAt": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "assetClass": { "const": "project-original-synthetic" },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "generator", "externalInputs"],
+      "properties": {
+        "type": { "const": "project-original-procedural" },
+        "generator": { "const": "scripts/research-generate-slice03.mjs" },
+        "externalInputs": { "type": "array", "maxItems": 0, "items": { "type": "string" } }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "processingAllowed",
+        "researchUseAllowed",
+        "publicDisplayAllowed",
+        "redistributionAllowed",
+        "commercialMarketingAllowed",
+        "restrictions"
+      ],
+      "properties": {
+        "processingAllowed": { "const": true },
+        "researchUseAllowed": { "const": true },
+        "publicDisplayAllowed": { "const": false },
+        "redistributionAllowed": { "const": false },
+        "commercialMarketingAllowed": { "const": false },
+        "restrictions": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["containsRealPerson", "containsPersonalData", "containsThirdPartyMarks"],
+      "properties": {
+        "containsRealPerson": { "const": false },
+        "containsPersonalData": { "const": false },
+        "containsThirdPartyMarks": { "const": false }
+      }
+    },
+    "evidenceStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "purpose", "claimBoundary"],
+      "properties": {
+        "level": { "const": "C1=0" },
+        "purpose": { "const": "open-format-policy-calibration-only" },
+        "claimBoundary": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "rightsHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

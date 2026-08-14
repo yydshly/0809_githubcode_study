@@ -1,0 +1,82 @@
+{
+  "createdAt": "2026-08-15T08:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "fixtureManifestId": "fixture-manifest.normalize-deliver.holdout.slice-02.v1",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "normalize-holdout-s02-001.source",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/holdout/NORMALIZE-DELIVER/normalize-holdout-s02-001/source.png",
+          "role": "source",
+          "sha256": "4239b655c63f224d09d1b5ddc2b462ffc1210711701e05a7061c1b22b8f5dfde",
+          "width": 96
+        },
+        {
+          "assetId": "normalize-holdout-s02-001.expectedNormalized",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/holdout/NORMALIZE-DELIVER/normalize-holdout-s02-001/expected-normalized.png",
+          "role": "expectedNormalized",
+          "sha256": "4239b655c63f224d09d1b5ddc2b462ffc1210711701e05a7061c1b22b8f5dfde",
+          "width": 96
+        },
+        {
+          "assetId": "normalize-holdout-s02-001.candidateDelivery",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/holdout/NORMALIZE-DELIVER/normalize-holdout-s02-001/candidate-delivery.png",
+          "role": "candidateDelivery",
+          "sha256": "4239b655c63f224d09d1b5ddc2b462ffc1210711701e05a7061c1b22b8f5dfde",
+          "width": 96
+        }
+      ],
+      "captureSessionId": "capture-session.normalize-deliver-holdout-family-s02-001",
+      "caseKind": "normalization-export-contract",
+      "defectLabel": "none",
+      "derivationLineage": [
+        "project-original-procedural:normalize-holdout-s02-001"
+      ],
+      "difficultCategories": [
+        "rgba8",
+        "alpha-policy",
+        "partition-holdout"
+      ],
+      "expectedDisposition": "accept",
+      "height": 72,
+      "id": "normalize-holdout-s02-001",
+      "label": "NORMALIZE-DELIVER holdout structural fixture",
+      "perceptualHash": "5a4a5e52d694b5bc",
+      "rightsRecordId": "rights.project-original-synthetic.slice-02.v1",
+      "sourceFamilyId": "source-family.normalize-deliver-holdout-family-s02-001",
+      "visibility": "research-private-synthetic",
+      "width": 96
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice02",
+    "scriptPath": "scripts/research-generate-slice02.mjs",
+    "seed": "20260815-NORMALIZE-DELIVER-holdout",
+    "sourceRevision": "local-procedural-slice-02-v0.2.0-seed-20260815",
+    "version": "0.2.0"
+  },
+  "isolationPolicy": "Unique source family, capture session, exact source hash, and perceptual hash across every partition; catalog exposure denied.",
+  "manifestHash": "a9beaa36ee3b69a430ee648df783d5581b9533f03640113138f65cf0445855b1",
+  "manifestVersion": "0.2.0",
+  "partition": "holdout",
+  "preregistrationId": "partition-plan.slice-02.structural.v0",
+  "schemaVersion": "fixture-manifest.v1",
+  "sealedState": "sealed-structural-only",
+  "sourcePopulation": "Project-original procedural structural fixture; not a real-photo population and not sufficient for C1.",
+  "suiteId": "NORMALIZE-DELIVER",
+  "suiteVersion": "0.2.0"
+}

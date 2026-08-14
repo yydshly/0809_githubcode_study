@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "slice03-format-matrix.v0.schema.json",
+  "title": "Single Image Studio Slice 03 format policy matrix v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "formatMatrixId",
+    "matrixVersion",
+    "frozenAt",
+    "status",
+    "capabilityId",
+    "rowCount",
+    "claimBoundary",
+    "rows",
+    "matrixHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "slice03-format-matrix.v0" },
+    "formatMatrixId": { "const": "format-matrix.normalize-deliver.slice-03.v0" },
+    "matrixVersion": { "const": "0.3.0" },
+    "frozenAt": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "status": { "const": "frozen-research-format-policy" },
+    "capabilityId": { "const": "NORMALIZE-DELIVER" },
+    "rowCount": { "const": 15 },
+    "claimBoundary": { "$ref": "#/$defs/nonEmptyString" },
+    "rows": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": { "$ref": "#/$defs/row" }
+    },
+    "matrixHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "formatId": {
+      "type": "string",
+      "enum": ["png", "jpeg", "webp", "heic", "heif", "avif", "gif", "apng", "tiff", "svg", "pdf", "raw"]
+    },
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "formatId",
+        "direction",
+        "policyState",
+        "implementationState",
+        "evidenceState",
+        "productSupport",
+        "profileRef",
+        "rejectionCode",
+        "claimBoundary"
+      ],
+      "properties": {
+        "formatId": { "$ref": "#/$defs/formatId" },
+        "direction": { "type": "string", "enum": ["input", "output"] },
+        "policyState": {
+          "type": "string",
+          "enum": ["reference-calibration-eligible", "research-candidate", "deferred-reject", "forbidden"]
+        },
+        "implementationState": {
+          "type": "string",
+          "enum": ["reference-executable", "probe-only", "reject-only", "not-implemented"]
+        },
+        "evidenceState": { "type": "string", "enum": ["none", "structural-only"] },
+        "productSupport": { "const": false },
+        "profileRef": { "type": "string", "pattern": "^profiles/(?:input|output)\\.[a-z0-9-]+\\.v0\\.3\\.0\\.json$" },
+        "rejectionCode": { "type": "string", "pattern": "^S03_[A-Z0-9_]+$" },
+        "claimBoundary": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    }
+  }
+}

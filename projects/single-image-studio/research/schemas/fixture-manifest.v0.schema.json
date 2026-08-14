@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fixture-manifest.v0.schema.json",
+  "title": "Single Image Studio FixtureManifest v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "fixtureManifestId",
+    "manifestVersion",
+    "createdAt",
+    "suiteId",
+    "partition",
+    "generator",
+    "sourcePopulation",
+    "sourceFamilyRule",
+    "captureSessionRule",
+    "trainingContaminationRisk",
+    "evidenceStatus",
+    "fixtures",
+    "manifestHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "fixture-manifest.v0" },
+    "fixtureManifestId": { "$ref": "#/$defs/nonEmptyString" },
+    "manifestVersion": { "$ref": "#/$defs/researchVersion" },
+    "createdAt": { "$ref": "#/$defs/dateTime" },
+    "suiteId": { "const": "MATTE-GT" },
+    "partition": { "$ref": "#/$defs/partition" },
+    "generator": { "$ref": "#/$defs/generator" },
+    "sourcePopulation": { "$ref": "#/$defs/nonEmptyString" },
+    "sourceFamilyRule": { "$ref": "#/$defs/nonEmptyString" },
+    "captureSessionRule": { "$ref": "#/$defs/nonEmptyString" },
+    "trainingContaminationRisk": { "$ref": "#/$defs/nonEmptyString" },
+    "evidenceStatus": { "$ref": "#/$defs/evidenceStatus" },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/fixture" }
+    },
+    "manifestHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "researchVersion": {
+      "type": "string",
+      "pattern": "^0\\.[0-9]+\\.[0-9]+$"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "partition": {
+      "type": "string",
+      "enum": [
+        "dev/calibration",
+        "holdout",
+        "defect/calibration",
+        "defect/holdout",
+        "escape"
+      ]
+    },
+    "evidenceStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "purpose"],
+      "properties": {
+        "level": { "const": "C1=0" },
+        "purpose": { "const": "method-rehearsal" }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "sourceRevision",
+        "scriptPath",
+        "seed",
+        "externalInputs"
+      ],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "version": { "$ref": "#/$defs/researchVersion" },
+        "sourceRevision": { "$ref": "#/$defs/nonEmptyString" },
+        "scriptPath": { "const": "scripts/research-generate-fixtures.mjs" },
+        "seed": { "$ref": "#/$defs/nonEmptyString" },
+        "externalInputs": {
+          "type": "array",
+          "maxItems": 0,
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "category",
+        "edgeType",
+        "expectedUse",
+        "sourceFamilyId",
+        "captureSessionId",
+        "rightsRecordId",
+        "visibility",
+        "width",
+        "height",
+        "assets"
+      ],
+      "properties": {
+        "id": { "$ref": "#/$defs/fixtureId" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "category": { "$ref": "#/$defs/nonEmptyString" },
+        "edgeType": { "type": "string", "enum": ["hard", "hole", "soft"] },
+        "expectedUse": { "$ref": "#/$defs/nonEmptyString" },
+        "sourceFamilyId": { "$ref": "#/$defs/nonEmptyString" },
+        "captureSessionId": { "$ref": "#/$defs/nonEmptyString" },
+        "rightsRecordId": { "$ref": "#/$defs/nonEmptyString" },
+        "visibility": { "const": "public-synthetic" },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "assets": { "$ref": "#/$defs/assets" }
+      }
+    },
+    "fixtureId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "alpha",
+        "foreground",
+        "compositeBlack",
+        "compositeWhite",
+        "compositeSaturated"
+      ],
+      "properties": {
+        "source": { "$ref": "#/$defs/sourceAsset" },
+        "alpha": { "$ref": "#/$defs/alphaAsset" },
+        "foreground": { "$ref": "#/$defs/foregroundAsset" },
+        "compositeBlack": { "$ref": "#/$defs/compositeBlackAsset" },
+        "compositeWhite": { "$ref": "#/$defs/compositeWhiteAsset" },
+        "compositeSaturated": { "$ref": "#/$defs/compositeSaturatedAsset" }
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assetId",
+        "role",
+        "path",
+        "url",
+        "mimeType",
+        "width",
+        "height",
+        "sha256"
+      ],
+      "properties": {
+        "assetId": { "$ref": "#/$defs/nonEmptyString" },
+        "role": {
+          "type": "string",
+          "enum": [
+            "source",
+            "alpha",
+            "foreground",
+            "compositeBlack",
+            "compositeWhite",
+            "compositeSaturated"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "pattern": "^fixtures/(?:dev/calibration|holdout|defect/calibration|defect/holdout|escape)/MATTE-GT/[a-z0-9]+(?:-[a-z0-9]+)*/[A-Za-z0-9][A-Za-z0-9._-]*\\.png$"
+        },
+        "url": { "$ref": "#/$defs/assetUrl" },
+        "mimeType": { "const": "image/png" },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "assetUrl": {
+      "type": "string",
+      "pattern": "^/research-assets/(?:dev/calibration|holdout|defect/calibration|defect/holdout|escape)/MATTE-GT/[a-z0-9]+(?:-[a-z0-9]+)*/[A-Za-z0-9][A-Za-z0-9._-]*\\.png$"
+    },
+    "sourceAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/asset" },
+        { "properties": { "role": { "const": "source" } } }
+      ]
+    },
+    "alphaAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/asset" },
+        { "properties": { "role": { "const": "alpha" } } }
+      ]
+    },
+    "foregroundAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/asset" },
+        { "properties": { "role": { "const": "foreground" } } }
+      ]
+    },
+    "compositeBlackAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/asset" },
+        { "properties": { "role": { "const": "compositeBlack" } } }
+      ]
+    },
+    "compositeWhiteAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/asset" },
+        { "properties": { "role": { "const": "compositeWhite" } } }
+      ]
+    },
+    "compositeSaturatedAsset": {
+      "allOf": [
+        { "$ref": "#/$defs/asset" },
+        { "properties": { "role": { "const": "compositeSaturated" } } }
+      ]
+    }
+  }
+}

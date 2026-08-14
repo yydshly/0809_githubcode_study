@@ -1,0 +1,35 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "A header match returns the stable probe-only code and never decoded pixels or a NormalizedImage."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": 1048576,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "signature-only",
+    "signatureLabels": [
+      "RIFF plus WEBP form type"
+    ]
+  },
+  "claimBoundary": "Only RIFF/WEBP header probing is permitted; no decode, normalization, ability calibration, or product support follows from a WebP match.",
+  "direction": "input",
+  "evidenceState": "none",
+  "extensions": [
+    "webp"
+  ],
+  "formatId": "webp",
+  "formatProfileId": "format-profile.input.webp-probe.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "probe-only",
+  "mediaTypes": [
+    "image/webp"
+  ],
+  "policyState": "research-candidate",
+  "productSupport": false,
+  "profileHash": "9cbafd48475d55d25823a9e3a3b7d95632f2f9d4085e61a30d7430d248a0f3d5",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_INPUT_WEBP_PROBE_ONLY",
+  "schemaVersion": "slice03-format-profile.v0"
+}

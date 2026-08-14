@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rgba8-pixel-buffer.v0.schema.json",
+  "title": "Single Image Studio Slice 02 RGBA8PixelBuffer v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "pixelBufferId", "parentArtifactId", "width", "height", "mime", "colorProfile", "alphaPresent", "premultiply", "pixelSha256", "sourceClass"],
+  "properties": {
+    "schemaVersion": { "const": "rgba8-pixel-buffer.v0" },
+    "pixelBufferId": { "$ref": "#/$defs/string" },
+    "parentArtifactId": { "$ref": "#/$defs/string" },
+    "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "height": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "mime": { "const": "image/png" },
+    "colorProfile": { "const": "srgb" },
+    "alphaPresent": { "type": "boolean" },
+    "premultiply": { "const": "straight" },
+    "pixelSha256": { "$ref": "#/$defs/sha256" },
+    "sourceClass": { "const": "project-original-synthetic" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

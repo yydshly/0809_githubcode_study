@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "review-catalog.v0.schema.json",
+  "title": "Single Image Studio review catalog v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "catalogId",
+    "catalogVersion",
+    "generatedAt",
+    "evidenceStatus",
+    "visibilityPolicy",
+    "assetAllowlist",
+    "fixtures"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "review-catalog.v0" },
+    "catalogId": { "$ref": "#/$defs/nonEmptyString" },
+    "catalogVersion": { "$ref": "#/$defs/researchVersion" },
+    "generatedAt": { "$ref": "#/$defs/dateTime" },
+    "evidenceStatus": { "$ref": "#/$defs/evidenceStatus" },
+    "visibilityPolicy": { "$ref": "#/$defs/visibilityPolicy" },
+    "assetAllowlist": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/$defs/assetUrl" },
+      "uniqueItems": true
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "$ref": "#/$defs/catalogFixture" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "researchVersion": {
+      "type": "string",
+      "pattern": "^0\\.[0-9]+\\.[0-9]+$"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "partition": {
+      "type": "string",
+      "enum": [
+        "dev/calibration",
+        "holdout",
+        "defect/calibration",
+        "defect/holdout",
+        "escape"
+      ]
+    },
+    "evidenceStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "purpose"],
+      "properties": {
+        "level": { "const": "C1=0" },
+        "purpose": { "const": "method-rehearsal" }
+      }
+    },
+    "visibilityPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed"],
+      "properties": {
+        "allowed": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "const": "public-synthetic" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "assetUrl": {
+      "type": "string",
+      "pattern": "^/research-assets/(?:dev/calibration|holdout|defect/calibration|defect/holdout|escape)/MATTE-GT/[a-z0-9]+(?:-[a-z0-9]+)*/[A-Za-z0-9][A-Za-z0-9._-]*\\.png$"
+    },
+    "catalogFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "suite",
+        "partition",
+        "sourceRevision",
+        "candidateAlias",
+        "methodLabel",
+        "methodDetails",
+        "rightsRecordId",
+        "visibility",
+        "evidenceStatus",
+        "assets",
+        "facts"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "suite": { "const": "MATTE-GT" },
+        "partition": { "$ref": "#/$defs/partition" },
+        "sourceRevision": { "$ref": "#/$defs/nonEmptyString" },
+        "candidateAlias": { "$ref": "#/$defs/nonEmptyString" },
+        "methodLabel": { "$ref": "#/$defs/nonEmptyString" },
+        "methodDetails": { "$ref": "#/$defs/nonEmptyString" },
+        "rightsRecordId": { "$ref": "#/$defs/nonEmptyString" },
+        "visibility": { "const": "public-synthetic" },
+        "evidenceStatus": { "$ref": "#/$defs/evidenceStatus" },
+        "assets": { "$ref": "#/$defs/assets" },
+        "facts": { "$ref": "#/$defs/facts" }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "alpha",
+        "foreground",
+        "compositeBlack",
+        "compositeWhite",
+        "compositeSaturated"
+      ],
+      "properties": {
+        "source": { "$ref": "#/$defs/assetUrl" },
+        "alpha": { "$ref": "#/$defs/assetUrl" },
+        "foreground": { "$ref": "#/$defs/assetUrl" },
+        "compositeBlack": { "$ref": "#/$defs/assetUrl" },
+        "compositeWhite": { "$ref": "#/$defs/assetUrl" },
+        "compositeSaturated": { "$ref": "#/$defs/assetUrl" }
+      }
+    },
+    "facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "edgeType", "expectedUse"],
+      "properties": {
+        "category": { "$ref": "#/$defs/nonEmptyString" },
+        "edgeType": { "type": "string", "enum": ["hard", "hole", "soft"] },
+        "expectedUse": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    }
+  }
+}
