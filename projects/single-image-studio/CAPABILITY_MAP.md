@@ -101,20 +101,18 @@ evidence_status + release_status
 
 ### `SourceCard.v0` 最小合同
 
-首版只冻结效果资格真正需要、且能由已登记检查器观测的字段：
+Slice 02 的实际序列化合同以 [SourceCard.v0 schema](./research/slice-02/schemas/source-card.v0.schema.json) 为准；下列使用相同 camelCase 字段名。`@0.2.0` 只允许从归一化 PNG 字节重开核对技术字段，尚未冻结的质量、主体和内容观察被 schema 强制为 `unknown`：
 
 ```text
-schema_version=source-card.v0
-technical: mime + width + height + orientation + color_profile + alpha_present
+schemaVersion=source-card.v0
+technical: mime + width + height + orientation + colorProfile + alphaPresent
 quality: blur + exposure + noise
-subject: primary_subject_type(person|object|animal|scene|unknown)
-         + subject_count + person_count
-content: text_presence(true|false|unknown)
-         + background_complexity(low|medium|high|unknown)
-per_field: observer_contract + confidence_or_range + unknown_reason
+subject: primarySubjectType + subjectCount + personCount
+content: textPresence + backgroundComplexity
+perField: observerContract + confidence(lower, upper) + unknownReason
 ```
 
-`unknown` 是正式值，不得由默认分数或模型猜测补齐。每个效果分别声明哪些未知项导致拒绝、只是不推荐，或允许继续；`SourceCard.v0` 不做身份、年龄、敏感属性或审美价值判断。OCR 文本内容、材质、动作和空间理解留待独立合同，不得悄悄混入 v0。
+`unknown` 是正式值，不得由默认分数或模型猜测补齐。`@0.2.0` 中 technical observation 为强类型且 `confidence=[1,1]`；其余 observation 固定为 `value=unknown`、`confidence=[0,0]` 和逐字段 `unknownReason`。未来若要增加 `person|object|animal|scene`、布尔文字存在或背景复杂度枚举，必须发布新的合同 / schema 版本并独立取证，不能在 v0.2.0 内偷换。`SourceCard.v0` 不做身份、年龄、敏感属性或审美价值判断；OCR 文本内容、材质、动作和空间理解留待独立合同。
 
 ### `EffectDefinition`
 
@@ -200,7 +198,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 ### 组合扩展：形成效果与场景
 
-| 已验证能力组合 | 可形成的上层结果 |
+| 各依赖分别验证后可组合的候选能力 | 可形成的上层结果 |
 | --- | --- |
 | `CAP-03 + CAP-04 + CAP-05 + CAP-08` | 透明主体、纯色换底 |
 | `CAP-03 + CAP-06 + CAP-08` | 自然增强、后续旧照修复 |

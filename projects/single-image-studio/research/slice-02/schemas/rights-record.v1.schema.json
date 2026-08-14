@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rights-record.v1.schema.json",
+  "title": "Single Image Studio Slice 02 rights record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "rightsRecordId", "recordVersion", "createdAt", "assetClass", "origin", "permissions", "privacy", "evidenceStatus"],
+  "properties": {
+    "schemaVersion": { "const": "rights-record.v1" }, "rightsRecordId": { "$ref": "#/$defs/string" },
+    "recordVersion": { "$ref": "#/$defs/version" }, "createdAt": { "$ref": "#/$defs/dateTime" },
+    "assetClass": { "const": "project-original-synthetic" }, "origin": { "$ref": "#/$defs/origin" },
+    "permissions": { "$ref": "#/$defs/permissions" }, "privacy": { "$ref": "#/$defs/privacy" },
+    "evidenceStatus": { "$ref": "#/$defs/evidence" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "version": { "type": "string", "pattern": "^0\\.[0-9]+\\.[0-9]+$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "origin": {
+      "type": "object", "additionalProperties": false, "required": ["type", "generator", "externalInputs"],
+      "properties": { "type": { "const": "project-original-procedural" }, "generator": { "$ref": "#/$defs/string" }, "externalInputs": { "type": "array", "maxItems": 0, "items": { "type": "string" } } }
+    },
+    "permissions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["processingAllowed", "researchUseAllowed", "publicDisplayAllowed", "redistributionAllowed", "commercialMarketingAllowed", "restrictions"],
+      "properties": {
+        "processingAllowed": { "const": true }, "researchUseAllowed": { "const": true }, "publicDisplayAllowed": { "const": false },
+        "redistributionAllowed": { "const": false }, "commercialMarketingAllowed": { "const": false }, "restrictions": { "$ref": "#/$defs/string" }
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false, "required": ["containsRealPerson", "containsPersonalData", "containsThirdPartyMarks"],
+      "properties": { "containsRealPerson": { "const": false }, "containsPersonalData": { "const": false }, "containsThirdPartyMarks": { "const": false } }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false, "required": ["level", "purpose", "claimBoundary"],
+      "properties": { "level": { "const": "C1=0" }, "purpose": { "const": "contract-and-isolation-rehearsal" }, "claimBoundary": { "$ref": "#/$defs/string" } }
+    }
+  }
+}

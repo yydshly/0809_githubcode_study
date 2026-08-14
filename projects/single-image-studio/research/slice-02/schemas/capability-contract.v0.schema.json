@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "capability-contract.v0.schema.json",
+  "title": "Single Image Studio frozen research CapabilityContract v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "capabilityContractId", "capabilityDomain", "contractVersion", "frozenAt", "status",
+    "inputArtifactTypes", "outputArtifactTypes", "inputSchemaRefs", "outputSchemaRefs", "scope", "eligibility",
+    "rejectionConditions", "parameterFields", "executor", "semantics", "changeContract", "qa", "operations",
+    "governance", "evidence", "releaseStatus", "contractHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "capability-contract.v0" },
+    "capabilityContractId": { "type": "string", "pattern": "^CC-CAP(?:02|03|04)-[A-Z0-9-]+$" },
+    "capabilityDomain": { "type": "string", "enum": ["CAP-02", "CAP-03", "CAP-04"] },
+    "contractVersion": { "$ref": "#/$defs/version" },
+    "frozenAt": { "$ref": "#/$defs/dateTime" },
+    "status": { "const": "frozen-research" },
+    "inputArtifactTypes": { "$ref": "#/$defs/nonEmptyStrings" },
+    "outputArtifactTypes": { "$ref": "#/$defs/nonEmptyStrings" },
+    "inputSchemaRefs": { "$ref": "#/$defs/nonEmptyStrings" },
+    "outputSchemaRefs": { "$ref": "#/$defs/nonEmptyStrings" },
+    "scope": { "$ref": "#/$defs/nonEmptyString" },
+    "eligibility": { "$ref": "#/$defs/nonEmptyStrings" },
+    "rejectionConditions": { "$ref": "#/$defs/nonEmptyStrings" },
+    "parameterFields": { "type": "array", "items": { "$ref": "#/$defs/parameterField" } },
+    "executor": { "$ref": "#/$defs/executor" },
+    "semantics": { "$ref": "#/$defs/semantics" },
+    "changeContract": { "$ref": "#/$defs/changeContract" },
+    "qa": { "$ref": "#/$defs/qa" },
+    "operations": { "$ref": "#/$defs/operations" },
+    "governance": { "$ref": "#/$defs/governance" },
+    "evidence": { "$ref": "#/$defs/evidence" },
+    "releaseStatus": { "const": "research-only-not-product-fallback" },
+    "contractHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "nonEmptyStrings": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmptyString" }, "uniqueItems": true },
+    "version": { "type": "string", "pattern": "^0\\.[0-9]+\\.[0-9]+$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "parameterField": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "type", "required", "constraint"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" }, "type": { "$ref": "#/$defs/nonEmptyString" },
+        "required": { "type": "boolean" }, "constraint": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "executor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["registryId", "adapterId", "adapterVersion", "implementationRef", "algorithm", "model", "checkpoint", "executionLocation", "processingRegion", "dataPolicyVersion"],
+      "properties": {
+        "registryId": { "$ref": "#/$defs/nonEmptyString" }, "adapterId": { "$ref": "#/$defs/nonEmptyString" },
+        "adapterVersion": { "$ref": "#/$defs/version" }, "implementationRef": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "algorithm": { "$ref": "#/$defs/nonEmptyString" }, "model": { "$ref": "#/$defs/nonEmptyString" },
+        "checkpoint": { "$ref": "#/$defs/nonEmptyString" }, "executionLocation": { "$ref": "#/$defs/nonEmptyString" },
+        "processingRegion": { "$ref": "#/$defs/nonEmptyString" }, "dataPolicyVersion": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "semantics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["idempotencyScope", "query", "cancel", "timeoutMs", "retry", "reconciliation"],
+      "properties": {
+        "idempotencyScope": { "$ref": "#/$defs/nonEmptyString" }, "query": { "$ref": "#/$defs/nonEmptyString" },
+        "cancel": { "$ref": "#/$defs/nonEmptyString" }, "timeoutMs": { "type": "integer", "minimum": 1 },
+        "retry": { "$ref": "#/$defs/nonEmptyString" }, "reconciliation": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "changeContract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mustPreserve", "mayChange", "mustNotChange"],
+      "properties": { "mustPreserve": { "$ref": "#/$defs/nonEmptyStrings" }, "mayChange": { "$ref": "#/$defs/nonEmptyStrings" }, "mustNotChange": { "$ref": "#/$defs/nonEmptyStrings" } }
+    },
+    "qa": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profileId", "checks", "fallback"],
+      "properties": { "profileId": { "$ref": "#/$defs/nonEmptyString" }, "checks": { "$ref": "#/$defs/nonEmptyStrings" }, "fallback": { "$ref": "#/$defs/nonEmptyString" } }
+    },
+    "operations": {
+      "type": "object", "additionalProperties": false,
+      "required": ["costClass", "latencyClass", "hardwareRequirements", "observabilityProfile", "sliSloProfile", "runbookIds"],
+      "properties": {
+        "costClass": { "$ref": "#/$defs/nonEmptyString" }, "latencyClass": { "$ref": "#/$defs/nonEmptyString" },
+        "hardwareRequirements": { "$ref": "#/$defs/nonEmptyStrings" }, "observabilityProfile": { "$ref": "#/$defs/nonEmptyString" },
+        "sliSloProfile": { "$ref": "#/$defs/nonEmptyString" }, "runbookIds": { "$ref": "#/$defs/nonEmptyStrings" }
+      }
+    },
+    "governance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["codeLicense", "weightLicense", "dataTerms"],
+      "properties": { "codeLicense": { "$ref": "#/$defs/nonEmptyString" }, "weightLicense": { "$ref": "#/$defs/nonEmptyString" }, "dataTerms": { "$ref": "#/$defs/nonEmptyString" } }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "evidenceManifestId", "claimBoundary"],
+      "properties": { "status": { "const": "C1=0" }, "evidenceManifestId": { "const": "not-established" }, "claimBoundary": { "$ref": "#/$defs/nonEmptyString" } }
+    }
+  }
+}

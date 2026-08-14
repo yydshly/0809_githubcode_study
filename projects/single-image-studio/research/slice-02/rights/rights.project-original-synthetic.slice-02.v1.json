@@ -1,0 +1,30 @@
+{
+  "assetClass": "project-original-synthetic",
+  "createdAt": "2026-08-15T08:00:00.000Z",
+  "evidenceStatus": {
+    "claimBoundary": "Project-original structural fixtures only; no quality or release claim.",
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "origin": {
+    "externalInputs": [],
+    "generator": "scripts/research-generate-slice02.mjs",
+    "type": "project-original-procedural"
+  },
+  "permissions": {
+    "commercialMarketingAllowed": false,
+    "processingAllowed": true,
+    "publicDisplayAllowed": false,
+    "redistributionAllowed": false,
+    "researchUseAllowed": true,
+    "restrictions": "Private research fixtures only; holdout and defect/holdout are excluded from every review catalog and release allowlist."
+  },
+  "privacy": {
+    "containsPersonalData": false,
+    "containsRealPerson": false,
+    "containsThirdPartyMarks": false
+  },
+  "recordVersion": "0.2.0",
+  "rightsRecordId": "rights.project-original-synthetic.slice-02.v1",
+  "schemaVersion": "rights-record.v1"
+}

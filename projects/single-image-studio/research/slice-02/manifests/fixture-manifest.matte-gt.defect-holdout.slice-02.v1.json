@@ -1,0 +1,82 @@
+{
+  "createdAt": "2026-08-15T08:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "fixtureManifestId": "fixture-manifest.matte-gt.defect-holdout.slice-02.v1",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "matte-defect-holdout-s02-001.source",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/defect/holdout/MATTE-GT/matte-defect-holdout-s02-001/source.png",
+          "role": "source",
+          "sha256": "8dd8cf6b96709a7fd18ef0c7cd0c5177d5c7307d8537556eadd539dcad45bc82",
+          "width": 96
+        },
+        {
+          "assetId": "matte-defect-holdout-s02-001.groundTruthAlpha",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/defect/holdout/MATTE-GT/matte-defect-holdout-s02-001/ground-truth-alpha.png",
+          "role": "groundTruthAlpha",
+          "sha256": "413a81ee0634950707075633b5c8ecdaa8c0f6c637c4416564e78a22531abfc6",
+          "width": 96
+        },
+        {
+          "assetId": "matte-defect-holdout-s02-001.candidateAlpha",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/defect/holdout/MATTE-GT/matte-defect-holdout-s02-001/candidate-alpha.png",
+          "role": "candidateAlpha",
+          "sha256": "15ddfb3325e27939a66614326311946c6ec31560ae62e33bafe9939b3e198fb3",
+          "width": 96
+        }
+      ],
+      "captureSessionId": "capture-session.matte-gt-defect-holdout-family-s02-001",
+      "caseKind": "injected-matting-defect",
+      "defectLabel": "injected-opaque-halo",
+      "derivationLineage": [
+        "project-original-procedural:matte-defect-holdout-s02-001"
+      ],
+      "difficultCategories": [
+        "interior-hole",
+        "controlled-uniform-background",
+        "partition-defect-holdout"
+      ],
+      "expectedDisposition": "reject-candidate-alpha",
+      "height": 72,
+      "id": "matte-defect-holdout-s02-001",
+      "label": "MATTE-GT defect/holdout structural fixture",
+      "perceptualHash": "00183c263c180000",
+      "rightsRecordId": "rights.project-original-synthetic.slice-02.v1",
+      "sourceFamilyId": "source-family.matte-gt-defect-holdout-family-s02-001",
+      "visibility": "research-private-synthetic",
+      "width": 96
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice02",
+    "scriptPath": "scripts/research-generate-slice02.mjs",
+    "seed": "20260815-MATTE-GT-defect-holdout",
+    "sourceRevision": "local-procedural-slice-02-v0.2.0-seed-20260815",
+    "version": "0.2.0"
+  },
+  "isolationPolicy": "Unique source family, capture session, exact source hash, and perceptual hash across every partition; catalog exposure denied.",
+  "manifestHash": "b090eda3f39e87e666be4f63d5da41bb13492ef17da6b2144dc0c20e8389882c",
+  "manifestVersion": "0.2.0",
+  "partition": "defect/holdout",
+  "preregistrationId": "partition-plan.slice-02.structural.v0",
+  "schemaVersion": "fixture-manifest.v1",
+  "sealedState": "sealed-structural-only",
+  "sourcePopulation": "Project-original procedural structural fixture; not a real-photo population and not sufficient for C1.",
+  "suiteId": "MATTE-GT",
+  "suiteVersion": "0.2.0"
+}

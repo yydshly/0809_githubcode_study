@@ -1,0 +1,47 @@
+{
+  "captureSessionRule": "No captureSessionId may occur in more than one partition or suite fixture.",
+  "catalogRule": "No Slice 02 asset may appear in review-catalog.v0 or any server allowlist.",
+  "contractRefs": [
+    "CC-CAP02-EXPORT@0.2.0",
+    "CC-CAP02-NORMALIZE@0.2.0",
+    "CC-CAP03-SOURCE-CARD-V0@0.2.0",
+    "CC-CAP04-MATTE-SIMPLE@0.2.0"
+  ],
+  "deduplicationRule": "Exact source SHA-256 and 64-bit average perceptual hash must both be unique across fixtures.",
+  "escapeRule": "Only human-reconstructed project-original synthetic minimal reproductions; no retained user pixels or metadata.",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "frozenAt": "2026-08-15T07:45:00.000Z",
+  "manifestRefs": [
+    "manifests/fixture-manifest.matte-gt.defect-calibration.slice-02.v1.json",
+    "manifests/fixture-manifest.matte-gt.defect-holdout.slice-02.v1.json",
+    "manifests/fixture-manifest.matte-gt.dev-calibration.slice-02.v1.json",
+    "manifests/fixture-manifest.matte-gt.escape.slice-02.v1.json",
+    "manifests/fixture-manifest.matte-gt.holdout.slice-02.v1.json",
+    "manifests/fixture-manifest.normalize-deliver.defect-calibration.slice-02.v1.json",
+    "manifests/fixture-manifest.normalize-deliver.defect-holdout.slice-02.v1.json",
+    "manifests/fixture-manifest.normalize-deliver.dev-calibration.slice-02.v1.json",
+    "manifests/fixture-manifest.normalize-deliver.escape.slice-02.v1.json",
+    "manifests/fixture-manifest.normalize-deliver.holdout.slice-02.v1.json"
+  ],
+  "partitions": [
+    "dev/calibration",
+    "holdout",
+    "defect/calibration",
+    "defect/holdout",
+    "escape"
+  ],
+  "planHash": "f97918cdbfd47d4a34cfa51ffae580ec11cb19df3326e4287b2ca85063628408",
+  "planVersion": "0.2.0",
+  "preregistrationId": "partition-plan.slice-02.structural.v0",
+  "purpose": "Freeze contract and partition-isolation invariants before generating structural fixtures; not a C1 quality preregistration.",
+  "schemaVersion": "suite-partition-plan.v0",
+  "sealedRule": "holdout and defect/holdout are committed structural rehearsals only; future C1 requires a new genuinely sealed fixture version after a quality preregistration.",
+  "sourceFamilyRule": "No sourceFamilyId may occur in more than one partition or suite fixture.",
+  "suites": [
+    "NORMALIZE-DELIVER",
+    "MATTE-GT"
+  ]
+}

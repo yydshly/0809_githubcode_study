@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01 研究基础设施可运行；真实候选对测与 C1 取证尚未开始 |
-| 工程与研究工具 | R0 探针和桌面研究审阅入口可运行；77 项自动测试覆盖原有工程约束及研究清单、资源与交互合同 |
+| 研究阶段 | Slice 01 研究基础设施与 Slice 02 合同 / partition 隔离骨架可运行；真实候选对测与 C1 取证尚未开始 |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口和无界面的 Slice 02 参考适配器可运行；自动测试覆盖工程约束、研究清单、合同、隔离、资源与交互边界 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -81,6 +81,17 @@ npm.cmd start
 
 研究目录、生成与验证边界见 [research/README.md](research/README.md)，本次实现和覆盖合同见 [research/SLICE_01_CONTRACT.md](research/SLICE_01_CONTRACT.md)，实际自动化、HTTP 与浏览器结果见 [research/SLICE_01_EVIDENCE.md](research/SLICE_01_EVIDENCE.md)。
 
+## 运行 Slice 02 合同与隔离夹具
+
+Slice 02 冻结了输入归一化、正式 PNG `DeliveryArtifact` 导出、`SourceCard.v0` 和受控合成背景 Matting simple baseline 的四份研究合同；同时为 `NORMALIZE-DELIVER` 与 `MATTE-GT` 建立五 partition 的项目原创合成结构夹具。它没有扩展 `/` 或 `/research/` UI，也没有引入模型、权重、第三方图片或真实用户照片。
+
+```powershell
+npm.cmd run research:prepare
+npm.cmd run verify
+```
+
+参考适配器只接受窄范围、最大 `1 MiB` / `256 × 256` 的 RGBA8 filter-0 PNG fixture；超出范围会拒绝。仓库可见 holdout 只证明隔离机制，不能充当未来 C1 的密封质量 holdout。完整边界见 [research/SLICE_02_CONTRACT.md](research/SLICE_02_CONTRACT.md)，验收记录见 [research/SLICE_02_EVIDENCE.md](research/SLICE_02_EVIDENCE.md)。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目当前没有运行时第三方依赖，也不依赖兄弟项目。
@@ -137,6 +148,8 @@ npm.cmd run verify
 | [research/README.md](research/README.md) | 可执行研究目录、合成夹具、生成与校验命令 |
 | [research/SLICE_01_CONTRACT.md](research/SLICE_01_CONTRACT.md) | 第一刀实现授权、范围、桌面研究 UI 与覆盖矩阵 |
 | [research/SLICE_01_EVIDENCE.md](research/SLICE_01_EVIDENCE.md) | Slice 01 自动化、HTTP、浏览器主路径、错误路径与兼容限制 |
+| [research/SLICE_02_CONTRACT.md](research/SLICE_02_CONTRACT.md) | Slice 02 四份冻结研究合同、参考适配器与五 partition 隔离边界 |
+| [research/SLICE_02_EVIDENCE.md](research/SLICE_02_EVIDENCE.md) | Slice 02 确定性生成、合同 / 资产 hash、隔离与负例验收记录 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

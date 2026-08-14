@@ -1,0 +1,82 @@
+{
+  "createdAt": "2026-08-15T08:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "fixtureManifestId": "fixture-manifest.matte-gt.dev-calibration.slice-02.v1",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "matte-dev-calibration-s02-001.source",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-dev-calibration-s02-001/source.png",
+          "role": "source",
+          "sha256": "d001c59f9371d10d6ed092cadf1d414736496ac1d56cc58e6a3ae7a29032ac9b",
+          "width": 96
+        },
+        {
+          "assetId": "matte-dev-calibration-s02-001.groundTruthAlpha",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-dev-calibration-s02-001/ground-truth-alpha.png",
+          "role": "groundTruthAlpha",
+          "sha256": "5ad738452378f48a19a6bd2b10f287f7f907b514733b60c2f08393af5c7b6ca9",
+          "width": 96
+        },
+        {
+          "assetId": "matte-dev-calibration-s02-001.candidateAlpha",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/dev/calibration/MATTE-GT/matte-dev-calibration-s02-001/candidate-alpha.png",
+          "role": "candidateAlpha",
+          "sha256": "311587ce6a53760e827915a8038627d01b6a800e62ebae85f1252694089cbc16",
+          "width": 96
+        }
+      ],
+      "captureSessionId": "capture-session.matte-gt-dev-calibration-family-s02-001",
+      "caseKind": "matting-baseline-contract",
+      "defectLabel": "baseline-unmodified",
+      "derivationLineage": [
+        "project-original-procedural:matte-dev-calibration-s02-001"
+      ],
+      "difficultCategories": [
+        "soft-edge",
+        "controlled-uniform-background",
+        "partition-dev-calibration"
+      ],
+      "expectedDisposition": "measure-baseline-not-pass",
+      "height": 72,
+      "id": "matte-dev-calibration-s02-001",
+      "label": "MATTE-GT dev/calibration structural fixture",
+      "perceptualHash": "0010387c7c380000",
+      "rightsRecordId": "rights.project-original-synthetic.slice-02.v1",
+      "sourceFamilyId": "source-family.matte-gt-dev-calibration-family-s02-001",
+      "visibility": "research-private-synthetic",
+      "width": 96
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice02",
+    "scriptPath": "scripts/research-generate-slice02.mjs",
+    "seed": "20260815-MATTE-GT-dev-calibration",
+    "sourceRevision": "local-procedural-slice-02-v0.2.0-seed-20260815",
+    "version": "0.2.0"
+  },
+  "isolationPolicy": "Unique source family, capture session, exact source hash, and perceptual hash across every partition; catalog exposure denied.",
+  "manifestHash": "6cf39ba0d54b047f9b9abeef5880525ed7467686a13b7b17e3ed0f9ff4b971e6",
+  "manifestVersion": "0.2.0",
+  "partition": "dev/calibration",
+  "preregistrationId": "partition-plan.slice-02.structural.v0",
+  "schemaVersion": "fixture-manifest.v1",
+  "sealedState": "open-calibration",
+  "sourcePopulation": "Project-original procedural structural fixture; not a real-photo population and not sufficient for C1.",
+  "suiteId": "MATTE-GT",
+  "suiteVersion": "0.2.0"
+}

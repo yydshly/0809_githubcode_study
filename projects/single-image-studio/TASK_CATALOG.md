@@ -26,6 +26,8 @@
 
 当前没有 `released` 效果或场景。
 
+Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-CAP03-SOURCE-CARD-V0@0.2.0`，但它们只覆盖项目原创小尺寸 RGBA8 fixture，且 C1=0。下列研究态 DAG 用精确版本引用它们，只表示结构依赖可解析；真实用户分母不满足其 eligibility，因此效果仍不可执行、不可进入验证 surface。扩大格式、观察器或分母必须创建新合同版本，不能静默扩写 `0.2.0`。
+
 生命周期不等同于所有 surface 共用一份目录。受控验证 surface 只能从达到研究可见门槛的 `validated-internal` allowlist 中选择；正式产品 surface 只能从 `released` allowlist 中选择。`CAP-09.recommend` 在对应 allowlist 内排序，不能用正式发布门槛反向阻塞 V1-validation。
 
 ## 用户效果
@@ -37,7 +39,7 @@
 | 字段 | 契约 |
 | --- | --- |
 | 状态 | `research-candidate`；第一条纵向链 |
-| `execution_dag` | `CC-CAP01-INGEST@planned → CC-CAP02-NORMALIZE@planned → CC-CAP03-SOURCE-CARD-V0@planned → CC-CAP04-DETECT@planned → CC-CAP04-SEGMENT@planned → CC-CAP04-MATTE@planned → CC-CAP04-EDGE-REFINE@planned → [CC-CAP04-CORRECT@planned，可选] → CC-CAP05-COMPOSE-SUBJECT-BG@planned → CC-CAP02-EXPORT@planned → CC-CAP08-RUNTIME-SUBJECT-BG@planned` |
+| `execution_dag` | `CC-CAP01-INGEST@planned → CC-CAP02-NORMALIZE@0.2.0 → CC-CAP03-SOURCE-CARD-V0@0.2.0 → CC-CAP04-DETECT@planned → CC-CAP04-SEGMENT@planned → CC-CAP04-MATTE@planned → CC-CAP04-EDGE-REFINE@planned → [CC-CAP04-CORRECT@planned，可选] → CC-CAP05-COMPOSE-SUBJECT-BG@planned → CC-CAP02-EXPORT@0.2.0 → CC-CAP08-RUNTIME-SUBJECT-BG@planned` |
 | `execution_control` | `CC-CAP09-EXECUTE@planned`；它包裹并记录执行，不作为 Alpha / 像素处理节点 |
 | `selection_dependencies` | `SourceCard.v0 + CC-CAP09-RECOMMEND@planned`；只在可见效果已达门槛后生成推荐，不计入本效果 U1 |
 | 必须保留 | 主体类别、数量、几何、可见部件、前景核心像素；合格输入中的发丝、毛发、孔洞和软边 |
@@ -59,7 +61,7 @@
 | 字段 | 契约 |
 | --- | --- |
 | 状态 | `research-candidate`；旧 Canvas 路径不构成 U1 |
-| `execution_dag` | `CC-CAP01-INGEST@planned → CC-CAP02-NORMALIZE@planned → CC-CAP03-SOURCE-CARD-V0@planned → CC-CAP06-NATURAL-ENHANCE@planned → CC-CAP02-EXPORT@planned → CC-CAP08-RUNTIME-NATURAL-ENHANCE@planned` |
+| `execution_dag` | `CC-CAP01-INGEST@planned → CC-CAP02-NORMALIZE@0.2.0 → CC-CAP03-SOURCE-CARD-V0@0.2.0 → CC-CAP06-NATURAL-ENHANCE@planned → CC-CAP02-EXPORT@0.2.0 → CC-CAP08-RUNTIME-NATURAL-ENHANCE@planned` |
 | `execution_control` | `CC-CAP09-EXECUTE@planned`；只管理已选任务执行与 no-op / fallback |
 | `selection_dependencies` | `SourceCard.v0 + CC-CAP09-RECOMMEND@planned`；不计入本效果 U1 |
 | 必须保留 | 几何、主体、文字、面部结构和来源事实 |
@@ -172,7 +174,7 @@
 | `UT-FOCUS` | `effect.subject-focus` | 后置 |
 | `CR1–CR4` | `effect.creative.*` | 历史研究 ID，不是当前发布状态 |
 
-本轮不修改运行代码。R0 网页继续使用旧 ID，但所有产品与研究结论以本文件的新分类为准。
+本轮不修改 R0 `/` 页面、`server/server.mjs` 的旧任务路径或正式产品调用链；Slice 02 只在隔离的 `research/slice-02`、生成器、validator、测试与 reference adapter 中增加研究代码。R0 网页继续使用旧 ID，但所有产品与研究结论以本文件的新分类为准。
 
 ## 可见与发布规则
 

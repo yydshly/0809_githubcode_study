@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "delivery-artifact.v0.schema.json",
+  "title": "Single Image Studio DeliveryArtifact v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "deliveryArtifactId", "parentArtifactId", "capabilityContractRef", "mime", "width", "height", "colorProfile", "alphaPresent", "premultiply", "metadataPolicy", "byteLength", "fileSha256", "reopenVerification", "createdAt"],
+  "properties": {
+    "schemaVersion": { "const": "delivery-artifact.v0" }, "deliveryArtifactId": { "$ref": "#/$defs/string" },
+    "parentArtifactId": { "$ref": "#/$defs/string" }, "capabilityContractRef": { "const": "CC-CAP02-EXPORT@0.2.0" },
+    "mime": { "const": "image/png" }, "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+    "height": { "type": "integer", "minimum": 1, "maximum": 256 }, "colorProfile": { "const": "srgb" },
+    "alphaPresent": { "type": "boolean" }, "premultiply": { "const": "straight" },
+    "metadataPolicy": { "const": "strip-all-except-color-contract" }, "byteLength": { "type": "integer", "minimum": 1 },
+    "fileSha256": { "$ref": "#/$defs/sha256" }, "reopenVerification": { "$ref": "#/$defs/reopen" },
+    "createdAt": { "$ref": "#/$defs/dateTime" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "reopen": {
+      "type": "object", "additionalProperties": false,
+      "required": ["passed", "decodedMime", "decodedWidth", "decodedHeight", "decodedAlphaPresent", "decodedColorProfile", "decodedPixelSha256"],
+      "properties": {
+        "passed": { "const": true }, "decodedMime": { "const": "image/png" },
+        "decodedWidth": { "type": "integer", "minimum": 1 }, "decodedHeight": { "type": "integer", "minimum": 1 },
+        "decodedAlphaPresent": { "type": "boolean" }, "decodedColorProfile": { "const": "srgb" },
+        "decodedPixelSha256": { "$ref": "#/$defs/sha256" }
+      }
+    }
+  }
+}

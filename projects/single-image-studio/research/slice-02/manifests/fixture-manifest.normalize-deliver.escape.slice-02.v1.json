@@ -1,0 +1,82 @@
+{
+  "createdAt": "2026-08-15T08:00:00.000Z",
+  "evidenceStatus": {
+    "level": "C1=0",
+    "purpose": "contract-and-isolation-rehearsal"
+  },
+  "fixtureManifestId": "fixture-manifest.normalize-deliver.escape.slice-02.v1",
+  "fixtures": [
+    {
+      "assets": [
+        {
+          "assetId": "normalize-escape-s02-001.source",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/escape/NORMALIZE-DELIVER/normalize-escape-s02-001/source.png",
+          "role": "source",
+          "sha256": "558319993f6674d82103221c82dbc9ecb2168306f5be2e78239b6152d4b74470",
+          "width": 96
+        },
+        {
+          "assetId": "normalize-escape-s02-001.expectedNormalized",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/escape/NORMALIZE-DELIVER/normalize-escape-s02-001/expected-normalized.png",
+          "role": "expectedNormalized",
+          "sha256": "558319993f6674d82103221c82dbc9ecb2168306f5be2e78239b6152d4b74470",
+          "width": 96
+        },
+        {
+          "assetId": "normalize-escape-s02-001.candidateDelivery",
+          "exposure": "catalog-denied",
+          "height": 72,
+          "mimeType": "image/png",
+          "path": "fixtures/escape/NORMALIZE-DELIVER/normalize-escape-s02-001/candidate-delivery.png",
+          "role": "candidateDelivery",
+          "sha256": "e8588a46a01e5b1e25bf33d6e98d8c06e550e9b7598d33be8088763f5716752e",
+          "width": 96
+        }
+      ],
+      "captureSessionId": "capture-session.normalize-deliver-escape-family-s02-001",
+      "caseKind": "normalization-export-contract",
+      "defectLabel": "reconstructed-single-pixel-corruption-escape",
+      "derivationLineage": [
+        "human-reconstructed-synthetic-regression:normalize-escape-s02-001"
+      ],
+      "difficultCategories": [
+        "rgba8",
+        "alpha-policy",
+        "partition-escape"
+      ],
+      "expectedDisposition": "regression-only",
+      "height": 72,
+      "id": "normalize-escape-s02-001",
+      "label": "NORMALIZE-DELIVER escape structural fixture",
+      "perceptualHash": "3627b2939293d9c9",
+      "rightsRecordId": "rights.project-original-synthetic.slice-02.v1",
+      "sourceFamilyId": "source-family.normalize-deliver-escape-family-s02-001",
+      "visibility": "research-private-synthetic",
+      "width": 96
+    }
+  ],
+  "generator": {
+    "externalInputs": [],
+    "name": "research-generate-slice02",
+    "scriptPath": "scripts/research-generate-slice02.mjs",
+    "seed": "20260815-NORMALIZE-DELIVER-escape",
+    "sourceRevision": "local-procedural-slice-02-v0.2.0-seed-20260815",
+    "version": "0.2.0"
+  },
+  "isolationPolicy": "Unique source family, capture session, exact source hash, and perceptual hash across every partition; catalog exposure denied.",
+  "manifestHash": "0fb983c8d0c10cc7ab47d5c17ece098ff9177791f0e1313111af77a6b5df810c",
+  "manifestVersion": "0.2.0",
+  "partition": "escape",
+  "preregistrationId": "partition-plan.slice-02.structural.v0",
+  "schemaVersion": "fixture-manifest.v1",
+  "sealedState": "open-regression",
+  "sourcePopulation": "Project-original procedural structural fixture; not a real-photo population and not sufficient for C1.",
+  "suiteId": "NORMALIZE-DELIVER",
+  "suiteVersion": "0.2.0"
+}

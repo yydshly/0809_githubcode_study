@@ -1,0 +1,107 @@
+{
+  "capabilityContractId": "CC-CAP03-SOURCE-CARD-V0",
+  "capabilityDomain": "CAP-03",
+  "changeContract": {
+    "mayChange": [
+      "new SourceCard instance ID"
+    ],
+    "mustNotChange": [
+      "identity inference",
+      "age inference",
+      "sensitive attributes",
+      "aesthetic judgment",
+      "unknown converted to guessed values"
+    ],
+    "mustPreserve": [
+      "parent normalized artifact identity",
+      "technical facts"
+    ]
+  },
+  "contractHash": "3ba0009d27e32baf26c55d6f4e72879da586e520c5d39f462097b7ac42298fb2",
+  "contractVersion": "0.2.0",
+  "eligibility": [
+    "valid NormalizedImage.v0 artifact from the frozen normalization contract",
+    "normalized bytes match every technical artifact field"
+  ],
+  "evidence": {
+    "claimBoundary": "Executable contract and fixture-isolation rehearsal only; no capability, effect, product, operational, governance, value, or release evidence.",
+    "evidenceManifestId": "not-established",
+    "status": "C1=0"
+  },
+  "executor": {
+    "adapterId": "buildSourceCardV0",
+    "adapterVersion": "0.2.0",
+    "algorithm": "reopen normalized PNG bytes, cross-check artifact, then emit technical observations and fail-honest unknowns",
+    "checkpoint": "not-applicable",
+    "dataPolicyVersion": "data-policy.synthetic-fixtures-only.v0.2.0",
+    "executionLocation": "local-node-reference-process",
+    "implementationRef": "sha256:d161cd13cd6cedd0252753bf4bb1e5dce0b7b3043b9d6f49cff55834e80622f6",
+    "model": "not-applicable",
+    "processingRegion": "local-only",
+    "registryId": "REG-SOURCE-CARD-REFERENCE-V0"
+  },
+  "frozenAt": "2026-08-15T08:00:00.000Z",
+  "governance": {
+    "codeLicense": "project-repository-terms; external distribution not granted",
+    "dataTerms": "project-original synthetic fixtures only; no user or third-party images",
+    "weightLicense": "not-applicable-no-model-weights"
+  },
+  "inputArtifactTypes": [
+    "NormalizedImage"
+  ],
+  "inputSchemaRefs": [
+    "schemas/normalized-image.v0.schema.json"
+  ],
+  "operations": {
+    "costClass": "local-research-zero-external-cost",
+    "hardwareRequirements": [
+      "Node.js >=22",
+      "CPU",
+      "maximum 1 MiB and 256x256 RGBA8 fixture"
+    ],
+    "latencyClass": "fixture-only-unbenchmarked",
+    "observabilityProfile": "observability-not-qualified-for-O1",
+    "runbookIds": [
+      "not-applicable-reference-only"
+    ],
+    "sliSloProfile": "not-established"
+  },
+  "outputArtifactTypes": [
+    "SourceCard.v0"
+  ],
+  "outputSchemaRefs": [
+    "schemas/source-card.v0.schema.json"
+  ],
+  "parameterFields": [],
+  "qa": {
+    "checks": [
+      "reopened byte/artifact equality",
+      "all v0 fields present",
+      "observer contract per field",
+      "confidence range per field",
+      "unknown reason per unknown"
+    ],
+    "fallback": "emit unknown with reason for unimplemented observers; reject malformed or mismatched technical facts",
+    "profileId": "qa-profile.cc-cap03-source-card-v0.v0.2.0"
+  },
+  "rejectionConditions": [
+    "parent artifact missing",
+    "normalized bytes missing",
+    "artifact/byte mismatch",
+    "technical field absent",
+    "observer contract absent",
+    "unknown without unknown reason"
+  ],
+  "releaseStatus": "research-only-not-product-fallback",
+  "schemaVersion": "capability-contract.v0",
+  "scope": "Freeze SourceCard.v0 field shape and unknown policy. Technical PNG facts are observed by reopening normalized bytes and cross-checking the artifact; quality, subject, and content remain explicit unknown values.",
+  "semantics": {
+    "cancel": "not-applicable: bounded <=1 MiB and <=256x256 synchronous fixture call; timeoutMs is a caller-side post-call acceptance budget, not preemptive cancellation",
+    "idempotencyScope": "canonical input bytes + contract version + canonical parameters",
+    "query": "synchronous local reference call; result returned once",
+    "reconciliation": "not-applicable: no remote or persisted unknown terminal state",
+    "retry": "no automatic retry",
+    "timeoutMs": 2000
+  },
+  "status": "frozen-research"
+}

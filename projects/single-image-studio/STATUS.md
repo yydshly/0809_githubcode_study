@@ -20,9 +20,10 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 01 研究基础可运行；真实能力对测待建 | 进行中 | 已实例化 schema、rights、FixtureManifest、严格 validator 和首批 `MATTE-GT dev/calibration` 合成夹具；独立 holdout、defect、escape、适配器和能力实验记录仍未建立 |
+| 研究阶段 | Slice 02 合同与结构隔离骨架可运行；真实能力对测待建 | 进行中 | Slice 01 设施之外，已冻结 normalize、export、SourceCard.v0 与 Matting simple baseline 四份 `0.2.0` 研究合同，并为 `NORMALIZE-DELIVER` / `MATTE-GT` 建立五 partition 的项目原创合成结构夹具；它们只验证合同和隔离，真正密封 holdout、MATTE-REAL、真实候选与能力实验记录仍未建立 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
+| Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
@@ -91,13 +92,15 @@
 
 1. **已完成文档层**：状态、能力地图、注册表、效果 / 场景目录、证据、数据、安全、用户研究和来源账本已经相互引用；这不等于研究资产或能力证据已建立。
 2. **已完成 Slice 01 方法层**：建立研究目录、schema、rights、严格 manifest validator、3 个原创 `MATTE-GT dev/calibration` fixture、18 个图层资产、catalog allowlist、只读本地资源服务和桌面研究审阅入口；这些只证明研究设施一致性，C1 仍为 0。
-3. **下一步**：冻结输入归一化、正式导出、最小 Source Card 和 Matting baseline 的首批 CapabilityContract；扩充 `NORMALIZE-DELIVER` 与 `MATTE-GT / MATTE-REAL` 的 dev 来源，并在冻结前独立建立 holdout、defect 与 escape 边界。
-4. 在共同适用分母上，以至少两个已锁、许可允许研究且真正输出连续 Alpha 的候选、一个登记基线和可用市场基准评测 Matting；市场基准缺席需事前预注册。
-5. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
-6. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
-7. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
-8. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
-9. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
+3. **已完成 Slice 02 合同 / 隔离层**：冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0`、`CC-CAP03-SOURCE-CARD-V0@0.2.0` 与 `CC-CAP04-MATTE-SIMPLE@0.2.0`；加入无第三方依赖的本地参考适配器，并为两套 suite 建立 dev、holdout、defect/calibration、defect/holdout、escape 结构夹具。所有合同仍为 C1=0；仓库可见 holdout 只演练隔离，不能复用为质量证据。
+4. **立即下一步（Slice 03）**：只冻结 `NORMALIZE-DELIVER` 格式政策矩阵、normalized bytes 技术 observer 与仓库外密封仪式 schema / mock rehearsal；只建立项目原创 `dev/calibration`、`defect/calibration` 格式夹具，不提交未来正式 holdout 像素，不进入 Matting 候选，不创建 `MATTE-REAL`，也不把 JPEG / WebP 探测写成正式支持。
+5. **后续**：冻结完整 suite × partition 质量预注册、候选 / 阈值 / 分母 / 停止规则，再由独立 custodian 建立真正密封 holdout / defect-holdout；之后才扩 `MATTE-GT / MATTE-REAL` 的独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册。
+6. 在共同适用分母上，以至少两个已锁、许可允许研究且真正输出连续 Alpha 的候选、一个登记基线和可用市场基准评测 Matting；simple baseline 只作比较下限，不进入产品 fallback。
+7. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
+8. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
+9. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
+10. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
+11. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
 
 手机 / 平板产品、其他桌面浏览器、多图逐张、多图合集、商品套件、自由画布、公共部署以及未经独立验证的官方证件 profile 继续后置。
 

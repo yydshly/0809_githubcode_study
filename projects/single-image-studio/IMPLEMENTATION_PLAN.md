@@ -6,6 +6,8 @@
 
 当前代码可以作为上传校验、任务快照、服务代理、错误状态和下载契约的参考实现，但所有用户可见结果仍要用新的能力与证据重新取得。不得因自动测试通过、页面可点击或本地滤镜有输出，就提前标记 C1、U1、E1、R1-pipeline、R1-product、O1、G1 或 V1。
 
+截至 2026-08-15，Slice 02 已完成本计划中 WP1 / WP2 的一个窄范围准备切片：四份研究 `CapabilityContract@0.2.0`、无第三方依赖的 fixture reference adapter，以及 `NORMALIZE-DELIVER` / `MATTE-GT` 两套 suite 的五 partition 结构隔离夹具。该结果不满足 WP1 的正式退出条件：仓库可见 holdout 只演练隔离，尚无完整格式 / 真实题材覆盖、质量预注册或真正密封 holdout；因此 WP3 和任何 C1 判定仍未开始。
+
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
 ## 总体实施顺序

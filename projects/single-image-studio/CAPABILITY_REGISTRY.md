@@ -1,7 +1,7 @@
 # 基础能力候选注册表
 
 > 状态：当前规范（研究注册表）  
-> 最后核对：2026-08-14  
+> 最后核对：2026-08-15
 > 当前结论：以下条目均未取得 `C1`，也没有任何第三方代码、模型权重或资产进入本项目。
 
 本文是基础能力候选的唯一决策账本。它记录“可以研究什么、为什么尚不能发布”，不代表依赖已安装、模型已接入或能力已经成立。来源及第三方边界见 [UPSTREAM.md](./UPSTREAM.md)，能力定义见 [CAPABILITY_MAP.md](./CAPABILITY_MAP.md)，证据门槛见 [EVIDENCE_AND_RELEASE.md](./EVIDENCE_AND_RELEASE.md)。
@@ -51,7 +51,7 @@ Gate A
 
 Gate B 要求的是“使用哪台 / 哪类硬件”和成本上限，不要求尚未产生的 p50 / p95 或每次成本结论。`EvidenceManifest` 此时只登记预注册路径和空的结果位置。
 
-### Gate C · C1：允许冻结原子能力版本
+### Gate C · C1：允许向指定冻结合同授予 C1
 
 ```text
 Gate B
@@ -101,14 +101,16 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | Registry ID | 候选 | 能力域 | 目标能力 | 当前状态 | 主要阻塞项 |
 | --- | --- | --- | --- | --- | --- |
 | `REG-LOCAL-ASSET-INGEST` | 本地来源资产合同与入口 | `CAP-01` | 文件真实性、授权快照、hash 与父子版本 | `planned` | 冻结合同版本、持久化边界与治理验证 |
+| `REG-NORM-REFERENCE-RGBA8` | 本地 RGBA8 PNG 归一 / 导出参考适配器 | `CAP-02` | 冻结窄范围 `NormalizedImage` 与 `DeliveryArtifact` 合同并生成结构夹具 | `candidate`（非 Gate B） | 仅支持合成 fixture；正式格式矩阵、硬件 profile、质量预注册与独立 holdout |
 | `REG-NORM-SHARP` | Sharp | `CAP-02`、`CAP-05` | 来源归一化、裁切、合成、导出 | `research-only/pending-freeze` | 精确 npm 版本、传递依赖、性能基准 |
 | `REG-NORM-LIBVIPS` | libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | 精确 tag/commit、构建选项、LGPL 交付方式 |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
+| `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
 | `REG-DETECT-GROUNDING-DINO` | Grounding DINO | `CAP-03`、`CAP-04` | 开放词汇主体检测 | `research-only` | checkpoint 许可、哈希、训练数据与依赖审计 |
 | `REG-SEG-SAM2` | SAM 2.1 | `CAP-04` | 点击/框提示分割与人工修正 | `research-only/pending-freeze` | 精确 commit、checkpoint 选择/哈希、硬件实测 |
 | `REG-MATTE-BIREFNET` | BiRefNet | `CAP-04` | 通用高分辨率主体分割/Matting 候选 | `research-only` | 官方权重许可与哈希未锁定 |
 | `REG-MATTE-MODNET` | MODNet | `CAP-04` | 人像 Matting 基线 | `research-only/pending-freeze` | 精确 commit、checkpoint 文件/哈希、真实图对测 |
-| `REG-BASELINE-MATTE-SIMPLE` | 本地简单 Matting 基线占位 | `CAP-04` | 证明复杂候选相对简单方法的增益，不作为产品 fallback | `planned` | 冻结算法、适用分母、合同与实现版本 |
+| `REG-BASELINE-MATTE-SIMPLE` | 本地颜色距离 Matting 简单基线 | `CAP-04` | 证明复杂候选相对简单方法的增益，不作为产品 fallback | `candidate`（非 Gate B） | 只覆盖已知均匀背景合成图；真实分母、质量预注册与独立 holdout 未建立 |
 | `REG-LOCAL-EDGE-REFINE` | 本地边缘净化适配器 | `CAP-04` | 前景颜色去污染、孔洞与 Alpha / premultiply 语义 | `planned` | 冻结算法、参数、底层原语和多底 QA |
 | `REG-LOCAL-MATTE-CORRECTION` | 本地擦除 / 恢复修正工具 | `CAP-04` | 版本化用户修正与 `MatteRevision` | `planned` | 冻结交互操作、次数 / 面积、父版本与重验 |
 | `REG-LOCAL-NATURAL-ENHANCE` | 本地非生成自然增强适配器 | `CAP-06` | 限幅光色 / 噪声 / 轻度清晰度与 no-op | `planned` | 冻结算法图、参数上限、底层库版本与 QA |
@@ -122,9 +124,9 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | `REG-LOCAL-QA-RUNTIME` | 线上任务 QA 合同族 | `CAP-08` | 无真值条件下的任务检查、人工 fallback 与下载决定 | `planned` | 冻结各效果 QA profile、checker 与误放行上限 |
 | `REG-LOCAL-ORCHESTRATOR` | 本地显式规则编排器 | `CAP-09` | 独立 `execute` / `recommend` 合同，共用状态与失效基础设施 | `planned` | 分别冻结执行规则、推荐规则与证据 |
 
-## Planned `CapabilityContract` 解析表
+## `CapabilityContract` 解析表
 
-下表让研究态 `EffectDefinition.execution_dag` 能指向明确的合同占位，而不是只指向宽泛 CAP 域。这里的 `@planned` 是字面状态，不是可执行版本。所有条目统一为：
+下表让研究态 `EffectDefinition.execution_dag` 能指向明确的冻结研究合同或合同占位，而不是只指向宽泛 CAP 域。Slice 02 已把 normalize、export、SourceCard.v0 与 Matting simple baseline 四行冻结为窄范围 `@0.2.0`；它们仍为 C1=0、非 Gate B，也不能被 `validated-internal` / `released` 效果解析为已验证能力。其余 `@planned` 是字面状态，不是可执行版本，并统一为：
 
 ```text
 contract_version=planned
@@ -137,18 +139,18 @@ evidence_status=C1=0
 release_status=planned
 ```
 
-每行列出的 Registry ID 只是候选执行器集合。进入 Gate B 前，必须从集合中选择并冻结实际执行器，把许可 / 服务边界、输入输出、参数、变化合同、QA profile 与 fallback 补成完整 [CapabilityContract](./CAPABILITY_MAP.md#capabilitycontract)；不得把 `@planned` 字符串改名后冒充版本。
+每行列出的 Registry ID 是实际冻结 reference executor 或候选执行器集合。进入 Gate B 前，仍必须把适用于正式分母的执行器、许可 / 服务边界、输入输出、参数、变化合同、QA profile、fixture、硬件与 fallback 补齐并通过 smoke；不得把 `@planned` 改名，或把 Slice 02 的窄范围 reference contract 扩写后冒充正式版本。
 
 | Planned Contract ref | CAP 域 | 输入 → 输出 | 候选执行器映射 | 计划边界与 QA / fallback |
 | --- | --- | --- | --- | --- |
 | `CC-CAP01-INGEST@planned` | `CAP-01` | 用户文件 + 权利快照 → `ImageAsset` | `REG-LOCAL-ASSET-INGEST` | 解码 / hash / 权利失败即拒绝；不把浏览器预检当事实源 |
-| `CC-CAP02-NORMALIZE@planned` | `CAP-02` | `ImageAsset` → `NormalizedImage` | `REG-NORM-SHARP` 或 `REG-NORM-LIBVIPS` | 方向、ICC→sRGB、像素与元数据策略待冻结；失败不降级为原始字节 |
-| `CC-CAP02-EXPORT@planned` | `CAP-02` | `ForegroundLayer` / `CompositeImage` / `GeneratedCandidate` → `DeliveryArtifact` | `REG-NORM-SHARP` 或 `REG-NORM-LIBVIPS` | MIME、Alpha / premultiply、ICC、元数据和重开校验待冻结；导出失败不解锁下载 |
-| `CC-CAP03-SOURCE-CARD-V0@planned` | `CAP-03` | `NormalizedImage` → `SourceCard.v0` | `REG-VISION-OPENCV` + 许可完成后的检测候选 | 只输出能力地图定义的 v0 字段；每字段允许 `unknown + unknown_reason`，不得补猜 |
+| `CC-CAP02-NORMALIZE@0.2.0` | `CAP-02` | `ImageAsset` → `NormalizedImage` | `REG-NORM-REFERENCE-RGBA8` | 已冻结为最大 256×256、orientation=1、sRGB、RGBA8 filter-0 PNG 的结构参考；其他格式 fail closed，C1=0，不替代后续 Sharp/libvips 正式候选 |
+| `CC-CAP02-EXPORT@0.2.0` | `CAP-02` | `ForegroundLayer` / `CompositeImage` / `GeneratedCandidate` → `DeliveryArtifact` | `REG-NORM-REFERENCE-RGBA8` | 已冻结 PNG straight-alpha、metadata policy、byte/hash 与重开校验；仅合成 fixture 范围，失败不产生 DeliveryArtifact，C1=0 |
+| `CC-CAP03-SOURCE-CARD-V0@0.2.0` | `CAP-03` | `NormalizedImage` → `SourceCard.v0` | `REG-SOURCE-CARD-REFERENCE-V0` | v0 字段、每字段 observer/confidence/unknown reason 已冻结；当前仅技术字段可观测，其余必须 unknown，C1=0 |
 | `CC-CAP04-DETECT@planned` | `CAP-04` | `NormalizedImage` + 目标类别 → `SubjectMap` | `REG-DETECT-GROUNDING-DINO` 或后续登记候选 | 主体数量 / 类别 / 框与拒绝边界待冻结；错误主体不得静默进入 Matting |
 | `CC-CAP04-SEGMENT@planned` | `CAP-04` | `NormalizedImage` + `SubjectMap` + prompt → `SubjectMap` | `REG-SEG-SAM2` 或后续登记候选 | 输出是区域，不等于连续 Alpha；失败回到重新选主体或拒绝 |
 | `CC-CAP04-MATTE@planned` | `CAP-04` | `NormalizedImage` + `SubjectMap` → `AlphaMatte` | `REG-MATTE-BIREFNET` / `REG-MATTE-MODNET` 中与冻结分母匹配者 | 人像与通用物体不得共用未验证证据；灾难性误删直接失败 |
-| `CC-CAP04-MATTE-SIMPLE@planned` | `CAP-04` | `NormalizedImage` + `SubjectMap` → `AlphaMatte` | `REG-BASELINE-MATTE-SIMPLE` | 只作 calibration 比较，不得自动成为产品 fallback |
+| `CC-CAP04-MATTE-SIMPLE@0.2.0` | `CAP-04` | `NormalizedImage` + `SubjectMap` → `AlphaMatte` | `REG-BASELINE-MATTE-SIMPLE` | 已冻结为已知均匀背景颜色距离线性 Alpha 比较下限；明确拒绝真实照片 / 人物 / 非均匀背景，只作结构与 calibration 比较，C1=0且不得成为产品 fallback |
 | `CC-CAP04-EDGE-REFINE@planned` | `CAP-04` | `NormalizedImage` + `AlphaMatte` → `ForegroundLayer` | `REG-LOCAL-EDGE-REFINE` + 锁定后的 `REG-VISION-OPENCV` | 边缘去色、污染控制、孔洞与 premultiply 语义待冻结；黑 / 白 / 彩底检查 |
 | `CC-CAP04-CORRECT@planned` | `CAP-04` | `ForegroundLayer` + 用户操作 → `MatteRevision` + 新 `AlphaMatte` / `ForegroundLayer` | `REG-LOCAL-MATTE-CORRECTION`；语义提示候选另有 `REG-SEG-SAM2` | 修正次数、面积、工具、父版本与 corrected-pass QA 待冻结；不可隐藏 first-pass 失败 |
 | `CC-CAP05-COMPOSE-SUBJECT-BG@planned` | `CAP-05` | `ForegroundLayer` + 背景参数 → `CompositeImage` | `REG-NORM-SHARP` / `REG-NORM-LIBVIPS` / `REG-VISION-OPENCV` 中的冻结组合 | 透明或纯色 variant 分开参数与 QA；受保护前景不得重画 |
@@ -179,6 +181,33 @@ release_status=planned
 | 当前 R0 边界 | 已有输入预检和 hash 只能作为实现线索；尚无冻结 `CapabilityContract`、权利持久化或独立 holdout 证据 |
 | 证据与状态 | `C1=0`，`planned`；`implementation_ref` 冻结前不得被效果解析为已验证能力版本 |
 
+### `REG-NORM-REFERENCE-RGBA8` — RGBA8 PNG 归一 / 导出参考适配器
+
+| 字段 | 记录 |
+| --- | --- |
+| 来源 | [Slice 02 参考适配器](./scripts/research-reference-adapters.mjs) 本地原创研究；无外部代码、图片、服务或权重 |
+| 固定研究边界 | `observed_at=2026-08-15`；`CC-CAP02-NORMALIZE@0.2.0` 与 `CC-CAP02-EXPORT@0.2.0`；`adapter_version=0.2.0`；实现 SHA-256 `d161cd13cd6cedd0252753bf4bb1e5dce0b7b3043b9d6f49cff55834e80622f6` |
+| 预期职责 | 以窄范围参考实现冻结 `NormalizedImage.v0` 与 `DeliveryArtifact.v0` 的像素、Alpha、metadata policy、hash、byte length 和重开语义 |
+| 输入 / 输出与变化边界 | 仅最大 `1 MiB` / `256×256`、orientation=1、sRGB、RGBA8、non-interlaced、filter-0 PNG；decoded RGBA、尺寸和 straight Alpha 必须保持，容器 byte 可变 |
+| 运行位置 | Node.js >=22 本地同步研究进程；不接受用户上传，不承担浏览器或服务端正式处理 |
+| 代码 / 模型 / 数据 | 本地原创，仓库条款；不使用模型 / 权重；只使用 Slice 02 项目原创合成 fixture |
+| QA / fallback | 输出必须重开并核对尺寸、Alpha、像素 hash、文件 hash 和 byte length；任何范围外输入或重开失败均拒绝，不返回原字节冒充 `NormalizedImage` / `DeliveryArtifact` |
+| 硬件、成本、时延 | 固定为 CPU fixture reference；尚无正式 named hardware / O1Profile / p50 / p95，`pending-benchmark` 只作为 Gate B 阻塞，不写入已冻结合同字段 |
+| 证据与状态 | 来源与实现达到 `candidate`，但未达 Gate B；`C1=0`。不支持 EXIF 1–8、ICC / P3 / CMYK、JPEG / WebP / HEIC、HDR、动画或大图，不能替代 Sharp / libvips 正式对测 |
+
+### `REG-SOURCE-CARD-REFERENCE-V0` — SourceCard.v0 结构参考适配器
+
+| 字段 | 记录 |
+| --- | --- |
+| 来源 | [Slice 02 参考适配器](./scripts/research-reference-adapters.mjs) 与 [SourceCard.v0 schema](./research/slice-02/schemas/source-card.v0.schema.json) 本地原创研究 |
+| 固定研究边界 | `observed_at=2026-08-15`；`CC-CAP03-SOURCE-CARD-V0@0.2.0`；`adapter_version=0.2.0`；实现 SHA-256 `d161cd13cd6cedd0252753bf4bb1e5dce0b7b3043b9d6f49cff55834e80622f6` |
+| 预期职责 | 冻结 technical / quality / subject / content 字段、逐字段 observer、confidence range 与 `unknownReason`，验证 unknown 不被默认值或猜测覆盖 |
+| 输入 / 输出与变化边界 | `NormalizedImage.v0` artifact + 对应 normalized PNG bytes → `SourceCard.v0`；适配器重开字节并交叉核对 MIME、宽高、orientation、sRGB、Alpha 与 pixel hash，任一不一致即拒绝。blur / exposure / noise、主体、人物、文字和背景复杂度全部保持显式 unknown |
+| 运行位置 | Node.js >=22 本地同步研究进程；不调用视觉模型、OCR、检测器或人脸分析服务 |
+| 禁止范围 | 不推断身份、年龄、敏感属性、审美价值或用户意图；不得把 unknown 转成零分、默认类别或推荐信号 |
+| QA / fallback | 所有 v0 字段与逐字段 provenance 必须存在；技术父产物无效则拒绝，未冻结 observer 则 `unknown + unknownReason` |
+| 证据与状态 | 来源与实现达到 `candidate`，但未达 Gate B；`C1=0`。它冻结结构和诚实未知策略，不证明图片理解已经成立 |
+
 ### `REG-LOCAL-QA-EVIDENCE` — QA 与证据框架
 
 | 字段 | 记录 |
@@ -191,7 +220,7 @@ release_status=planned
 | 模型/权重/服务 | 框架本身无模型；OpenCV、感知指标、检测器、外部审核服务等每个 checker 必须解析到自己的冻结注册项与版本 |
 | 硬件、成本、时延 | `pending-benchmark`；分别记录 checker 时延/资源与整个 QA bundle 的 p50/p95、误放行和误拒绝 |
 | 当前 R0 边界 | 文件 hash、run ID 和响应完整性仅属于 `integrity_check`，不是图片任务 QA，不得升级为 `QAReport.pass` |
-| 证据与状态 | `C1=0`，`planned`；必须先通过 `defect` 反证集和独立 holdout 才能冻结任何 QA profile |
+| 证据与状态 | `C1=0`，`planned`；必须先在 dev/calibration 预注册并冻结 QA profile，再以 `defect` 反证集和独立 holdout 决定能否向该冻结版本授予 C1 / `validated` 状态 |
 
 ### `REG-LOCAL-QA-OFFLINE` — 离线证据 QA 合同
 
@@ -221,7 +250,7 @@ release_status=planned
 | 模型/权重/服务 | 不假设存在 GT；模型 checker 若未完成独立 defect / holdout 校准，必须保持 `research-only` |
 | 硬件、成本、时延 | `pending-benchmark`；记录每个 checker 与 bundle 的 p50/p95、人工转交率、误放行和误拒绝 |
 | QA / fallback | subject/background 检查 Alpha、边缘多底预览、主体大块误删、纯色色值与最终文件重开；其他 profile 按 Planned 解析表冻结。无法判断时人工复核或拒绝，不用离线 IoU 冒充线上真值 |
-| 证据与状态 | `C1=0`，`planned`；每个 profile 单独通过 defect 与独立 holdout 后才能冻结 |
+| 证据与状态 | `C1=0`，`planned`；每个 profile 必须先独立预注册并冻结，再通过 defect 与独立 holdout 决定能否授予 C1 / `validated` 状态 |
 
 ### `REG-LOCAL-ORCHESTRATOR` — 显式规则编排器
 
@@ -333,20 +362,20 @@ release_status=planned
 | 硬件、成本、时延 | `pending-benchmark` |
 | 证据与状态 | `C1=0`，`research-only/pending-freeze`；锁定 commit 与 checkpoint 后，必须与至少一个通用候选和简单基线在同一夹具盲测 |
 
-### `REG-BASELINE-MATTE-SIMPLE` — 简单 Matting 基线占位
+### `REG-BASELINE-MATTE-SIMPLE` — 颜色距离 Matting 简单基线
 
 | 字段 | 记录 |
 | --- | --- |
-| 来源 | [本项目](./README.md) 的本地研究占位；具体算法尚未选择，不能从名称推断为 GrabCut、阈值法或其他实现 |
-| 固定研究边界 | `observed_at=2026-08-14`；`CapabilityContract=CC-CAP04-MATTE-SIMPLE@planned`；`algorithm_version=pending-definition`；`implementation_ref=pending-freeze` |
+| 来源 | [Slice 02 参考适配器](./scripts/research-reference-adapters.mjs) 本地原创研究；不使用 OpenCV、学习模型或外部服务 |
+| 固定研究边界 | `observed_at=2026-08-15`；`CapabilityContract=CC-CAP04-MATTE-SIMPLE@0.2.0`；`algorithm_version=rgb-distance-linear-alpha.v0.2.0`；实现 SHA-256 `d161cd13cd6cedd0252753bf4bb1e5dce0b7b3043b9d6f49cff55834e80622f6` |
 | 预期职责 | 在同一输入、SubjectMap 和输出合同下提供低复杂度比较下限，用于判断学习型 Matting 的实际增益；不作为默认产品 fallback |
-| 输入 / 输出与变化边界 | `NormalizedImage` + `SubjectMap` → `AlphaMatte`；主体保护、拒绝、参数和 Alpha 语义均待预注册 |
-| 运行位置 | 计划为自托管 CPU 视觉 worker；具体语言与依赖待算法选择后冻结 |
-| 代码许可 | 本地原创部分许可证未定；若选用 OpenCV 或其他库，必须锁定对应 Registry ID、版本和传递许可 |
-| 模型/权重/训练数据 | 目标是不使用学习权重；当前因算法未定写 `pending-definition`，不得假称无依赖 |
-| 硬件、成本、时延 | `pending-benchmark` |
-| QA / fallback | 与正式候选共享离线指标和灾难性失败定义；失败只计入 baseline 结果，不自动触发它处理用户图片 |
-| 证据与状态 | `C1=0`，`planned`；算法、合同和实现未冻结前不得进入 Gate B |
+| 输入 / 输出与变化边界 | 已知均匀背景 RGB 的合成 `NormalizedImage` + 单主体 `SubjectMap` → 8-bit `AlphaMatte`；欧氏 RGB 距离在冻结 low / high threshold 间线性映射到 0…255 |
+| 运行位置 | Node.js >=22 本地 CPU 研究进程；最大 `256×256` fixture，不是正式视觉 worker |
+| 代码许可 | 本地原创；本项目尚未选择对外许可证，外部分发权不因本登记而授予 |
+| 模型/权重/训练数据 | 不使用模型、权重或训练数据；只生成 / 处理项目原创 procedural fixture |
+| 硬件、成本、时延 | `pending-benchmark`；Slice 02 只验证确定性和范围拒绝，未建立正式 hardware profile |
+| QA / fallback | 输出尺寸 / 范围 / 重复 hash 可检查；失败只计入 baseline，绝不自动处理用户图片。真实照片、人物、多主体、非均匀背景、反光 / 透明物均 fail closed |
+| 证据与状态 | 来源与实现达到 `candidate`，但结构夹具 plan 不是质量预注册，仓库可见 holdout 不是 C1 holdout；Gate B / C 均未达，`C1=0` |
 
 ### `REG-LOCAL-EDGE-REFINE` — 边缘净化适配器
 
@@ -456,7 +485,7 @@ release_status=planned
 | 官方来源 | [GPT Image 2 模型页](https://developers.openai.com/api/docs/models/gpt-image-2)、[图片生成指南](https://developers.openai.com/api/docs/guides/image-generation)、[价格](https://openai.com/api/pricing/) |
 | 固定研究边界 | `observed_at=2026-08-14`；官方不可变模型快照 `gpt-image-2-2026-04-21` 是后续实验目标 |
 | Gate 状态 | 来源 / snapshot / 服务条款入口足以保持来源层面 `candidate`；正式 Gate B 仍被 adapter 合同、数据发送边界、fixture 预注册与 cost guardrail 阻塞 |
-| 当前 R0 差异 | `server/server.mjs` 仍发送浮动别名 `gpt-image-2`；本轮按要求不改运行时代码，因此当前探针运行不能称为已固定模型版本，也不能复用为正式 E1、R1-pipeline 或 R1-product 证据 |
+| 当前 R0 差异 | `server/server.mjs` 仍发送浮动别名 `gpt-image-2`；本轮未修改该 R0 OpenAI 调用路径或正式产品运行链，因此当前探针运行不能称为已固定模型版本，也不能复用为正式 E1、R1-pipeline 或 R1-product 证据 |
 | 预期职责 | CR1/CR2 等云端创意生成/编辑候选；不承担像素级抠图、Alpha Matting、身份保证或官方证件合规 |
 | 运行位置 | OpenAI 托管服务；只能由服务端 adapter 调用，密钥不得进入浏览器 |
 | 代码许可 | 不适用；这是外部 API，不是开源代码依赖 |

@@ -113,7 +113,7 @@
 2026-08-14 核对的官方文档支持以下规划判断：
 
 - GPT Image 2 的官方模型页列出不可变 snapshot `gpt-image-2-2026-04-21`；研究和运行记录不得只写浮动别名 `gpt-image-2`。
-- 当前 `server/server.mjs` 仍以浮动别名调用 R0 探针。本轮只重构文档、不改运行时代码；正式实验前必须改用 snapshot，并由新的运行证据取代旧探针记录。
+- 当前 `server/server.mjs` 仍以浮动别名调用 R0 探针。本轮未修改该旧任务 / OpenAI 调用路径或正式产品 UI；Slice 02 另增的本地 reference adapter 只处理项目原创合成研究夹具。正式实验前必须把 R0 调用改用 snapshot，并由新的运行证据取代旧探针记录。
 - Image API 支持生成、整图编辑、一个或多个参考图，以及带 mask 的局部编辑。
 - GPT Image 的 mask 是通过提示引导模型编辑的输入，模型不保证完全精确地遵循 mask 形状；因此 masked edit 不是像素级抠图、前景锁定或 mask 外零改动证据。
 - `gpt-image-2` 当前不支持 `background: "transparent"`。透明 PNG 必须由本项目独立的分割 / Alpha Matting 与确定性 RGBA 合成链产生，不能把生成模型输出白底或近似主体边缘当成透明背景。

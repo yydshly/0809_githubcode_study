@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "image-asset.v0.schema.json",
+  "title": "Single Image Studio Slice 02 ImageAsset v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "imageAssetId", "mime", "byteLength", "fileSha256", "orientation", "colorProfile", "premultiply", "sourceClass", "createdAt"],
+  "properties": {
+    "schemaVersion": { "const": "image-asset.v0" },
+    "imageAssetId": { "$ref": "#/$defs/string" },
+    "mime": { "const": "image/png" },
+    "byteLength": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+    "fileSha256": { "$ref": "#/$defs/sha256" },
+    "orientation": { "const": 1 },
+    "colorProfile": { "const": "srgb" },
+    "premultiply": { "const": "straight" },
+    "sourceClass": { "const": "project-original-synthetic" },
+    "createdAt": { "$ref": "#/$defs/dateTime" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" }
+  }
+}

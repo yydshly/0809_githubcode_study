@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "subject-map.v0.schema.json",
+  "title": "Single Image Studio Slice 02 SubjectMap v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "subjectMapId", "parentNormalizedImageId", "subjectCount", "backgroundSample", "sourceClass", "containsRealPerson", "sourceAlpha"],
+  "properties": {
+    "schemaVersion": { "const": "subject-map.v0" },
+    "subjectMapId": { "$ref": "#/$defs/string" },
+    "parentNormalizedImageId": { "$ref": "#/$defs/string" },
+    "subjectCount": { "const": 1 },
+    "backgroundSample": { "$ref": "#/$defs/backgroundSample" },
+    "sourceClass": { "const": "project-original-synthetic" },
+    "containsRealPerson": { "const": false },
+    "sourceAlpha": { "const": "opaque" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "byte": { "type": "integer", "minimum": 0, "maximum": 255 },
+    "backgroundSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uniform", "rgb"],
+      "properties": {
+        "uniform": { "const": true },
+        "rgb": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/byte" } }
+      }
+    }
+  }
+}

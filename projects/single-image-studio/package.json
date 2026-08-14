@@ -7,11 +7,11 @@
     "dev": "node --watch server/server.mjs",
     "start": "node server/server.mjs",
     "mobile": "node scripts/mobile-preview.mjs",
-    "research:generate": "node scripts/research-generate-fixtures.mjs",
-    "research:validate": "node scripts/research-validate-fixtures.mjs",
+    "research:generate": "node scripts/research-generate-fixtures.mjs && node scripts/research-generate-slice02.mjs",
+    "research:validate": "node scripts/research-validate-fixtures.mjs && node scripts/research-validate-slice02.mjs",
     "research:prepare": "npm run research:generate && npm run research:validate",
     "test": "node --test",
-    "check": "node --check server/server.mjs && node --check scripts/mobile-preview.mjs && node --check scripts/research-generate-fixtures.mjs && node --check scripts/research-validate-fixtures.mjs && node --check web/main.js && node --check web/runtime-identity.js && node --check web/research/app.js && node --check web/research/research-fixtures.js",
+    "check": "node --check server/server.mjs && node --check scripts/mobile-preview.mjs && node --check scripts/research-generate-fixtures.mjs && node --check scripts/research-validate-fixtures.mjs && node --check scripts/research-reference-adapters.mjs && node --check scripts/research-generate-slice02.mjs && node --check scripts/research-validate-slice02.mjs && node --check web/main.js && node --check web/runtime-identity.js && node --check web/research/app.js && node --check web/research/research-fixtures.js",
     "verify": "npm run research:validate && npm test && npm run check"
   },
   "engines": {

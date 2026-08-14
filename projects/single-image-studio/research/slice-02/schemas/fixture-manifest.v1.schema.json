@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fixture-manifest.v1.schema.json",
+  "title": "Single Image Studio Slice 02 FixtureManifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "fixtureManifestId", "manifestVersion", "createdAt", "suiteId", "suiteVersion", "partition", "sealedState", "generator", "preregistrationId", "sourcePopulation", "isolationPolicy", "evidenceStatus", "fixtures", "manifestHash"],
+  "properties": {
+    "schemaVersion": { "const": "fixture-manifest.v1" }, "fixtureManifestId": { "$ref": "#/$defs/string" },
+    "manifestVersion": { "$ref": "#/$defs/version" }, "createdAt": { "$ref": "#/$defs/dateTime" },
+    "suiteId": { "type": "string", "enum": ["NORMALIZE-DELIVER", "MATTE-GT"] }, "suiteVersion": { "$ref": "#/$defs/version" },
+    "partition": { "$ref": "#/$defs/partition" },
+    "sealedState": { "type": "string", "enum": ["open-calibration", "sealed-structural-only", "open-regression"] },
+    "generator": { "$ref": "#/$defs/generator" }, "preregistrationId": { "const": "partition-plan.slice-02.structural.v0" },
+    "sourcePopulation": { "$ref": "#/$defs/string" }, "isolationPolicy": { "$ref": "#/$defs/string" },
+    "evidenceStatus": { "$ref": "#/$defs/evidence" },
+    "fixtures": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/fixture" } },
+    "manifestHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "strings": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/string" }, "uniqueItems": true },
+    "version": { "type": "string", "pattern": "^0\\.[0-9]+\\.[0-9]+$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "partition": { "type": "string", "enum": ["dev/calibration", "holdout", "defect/calibration", "defect/holdout", "escape"] },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["level", "purpose"],
+      "properties": { "level": { "const": "C1=0" }, "purpose": { "const": "contract-and-isolation-rehearsal" } }
+    },
+    "generator": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "version", "sourceRevision", "scriptPath", "seed", "externalInputs"],
+      "properties": {
+        "name": { "$ref": "#/$defs/string" }, "version": { "$ref": "#/$defs/version" },
+        "sourceRevision": { "$ref": "#/$defs/string" }, "scriptPath": { "const": "scripts/research-generate-slice02.mjs" },
+        "seed": { "$ref": "#/$defs/string" }, "externalInputs": { "type": "array", "maxItems": 0, "items": { "type": "string" } }
+      }
+    },
+    "fixture": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "label", "caseKind", "defectLabel", "expectedDisposition", "sourceFamilyId", "captureSessionId", "derivationLineage", "perceptualHash", "rightsRecordId", "visibility", "difficultCategories", "width", "height", "assets"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }, "label": { "$ref": "#/$defs/string" },
+        "caseKind": { "$ref": "#/$defs/string" }, "defectLabel": { "$ref": "#/$defs/string" },
+        "expectedDisposition": { "$ref": "#/$defs/string" }, "sourceFamilyId": { "$ref": "#/$defs/string" },
+        "captureSessionId": { "$ref": "#/$defs/string" }, "derivationLineage": { "$ref": "#/$defs/strings" },
+        "perceptualHash": { "type": "string", "pattern": "^[a-f0-9]{16}$" }, "rightsRecordId": { "$ref": "#/$defs/string" },
+        "visibility": { "const": "research-private-synthetic" }, "difficultCategories": { "$ref": "#/$defs/strings" },
+        "width": { "type": "integer", "minimum": 1 }, "height": { "type": "integer", "minimum": 1 },
+        "assets": { "type": "array", "minItems": 3, "items": { "$ref": "#/$defs/asset" } }
+      }
+    },
+    "asset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["assetId", "role", "path", "mimeType", "width", "height", "sha256", "exposure"],
+      "properties": {
+        "assetId": { "$ref": "#/$defs/string" },
+        "role": { "type": "string", "enum": ["source", "expectedNormalized", "candidateDelivery", "groundTruthAlpha", "candidateAlpha"] },
+        "path": { "type": "string", "pattern": "^fixtures/(?:dev/calibration|holdout|defect/calibration|defect/holdout|escape)/(?:NORMALIZE-DELIVER|MATTE-GT)/[a-z0-9-]+/[a-z0-9-]+\\.png$" },
+        "mimeType": { "const": "image/png" }, "width": { "type": "integer", "minimum": 1 }, "height": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" }, "exposure": { "const": "catalog-denied" }
+      }
+    }
+  }
+}
