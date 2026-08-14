@@ -1,0 +1,36 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "A signature match returns the stable probe-only code and never decoded pixels or a NormalizedImage."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": 1048576,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "signature-only",
+    "signatureLabels": [
+      "JPEG SOI marker"
+    ]
+  },
+  "claimBoundary": "Only signature and container probing is permitted; no decode, normalization, ability calibration, or product support follows from a JPEG match.",
+  "direction": "input",
+  "evidenceState": "none",
+  "extensions": [
+    "jpg",
+    "jpeg"
+  ],
+  "formatId": "jpeg",
+  "formatProfileId": "format-profile.input.jpeg-probe.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "probe-only",
+  "mediaTypes": [
+    "image/jpeg"
+  ],
+  "policyState": "research-candidate",
+  "productSupport": false,
+  "profileHash": "4e75cd5bbcece44307bf712e7763956f0471a36e0a197ac8567c34519135188f",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_INPUT_JPEG_PROBE_ONLY",
+  "schemaVersion": "slice03-format-profile.v0"
+}

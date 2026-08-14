@@ -1,6 +1,6 @@
 # Slice 03 范围冻结与进入合同
 
-> 状态：`scope-frozen / implementation-not-started`。本文件只冻结下一切片的研究边界与验收条件，不授予 C1，不创建 EvidenceManifest，不表示新增格式、图片理解、Matting 或产品能力。实时等级仍以 [../STATUS.md](../STATUS.md) 为准。
+> 状态：`scope-frozen / implementation-complete / research-only`。本文件冻结本切片的研究边界与验收条件；实际制品已按该边界完成，验收见 [SLICE_03_EVIDENCE.md](SLICE_03_EVIDENCE.md)。它不授予 C1，不创建 EvidenceManifest，不表示新增格式、图片理解、Matting 或产品能力。实时等级仍以 [../STATUS.md](../STATUS.md) 为准。
 
 ## 目标
 
@@ -81,15 +81,16 @@ Slice 03 不提交 `holdout`、`defect/holdout` 或未来正式 `escape` 像素�
 
 - `seal-plan`：候选、参数、阈值、分母、指标、停止规则、角色与时间戳冻结；
 - `bundle-manifest`：仓库外 bundle ID、资产计数、rights、加密 / 完整性摘要，不含像素或 seed；
-- `run-request`：一次性执行器、候选 hash、profile 与授权范围；
+- `run-request`：一次性执行器、候选 hash、seal-plan hash、profile 与授权范围；
 - `run-receipt` / `result-summary`：custodian、解封、运行、销毁 / 归档与原始结果位置；
 - 独立角色硬门：custodian 不得是候选实现、阈值、QA profile 或停止规则的作者 / 调参者；角色 ID 与冲突声明必须进入 receipt 并由 validator 拒绝重合；
-- 冻结链：preregistration、contract、candidate、runner、format profile、QA profile 与 bundle 必须逐项记录 SHA-256，并在 request / receipt 中形成不可变引用链；
+- 冻结链：seal plan、preregistration、contract、candidate、runner、format profile、QA profile 与 bundle 必须逐项记录 SHA-256，并在 request / receipt 中形成不可变引用链；
 - 隔离证明：bundle 必须记录 source-family / capture-session 排重摘要与 custodian 签署的 partition isolation 结果；
 - 一次性语义：request ID、idempotency key、允许的无效运行原因、最大重跑次数与结果归并规则必须事前冻结；有效正式结果不得选择性重跑；
-- custody：access / custody 事件必须追加记录 actor、时间、动作、前序事件 hash 与原因；
+- custody：每次 attempt 必须按 `access-granted → unsealed → run-started → run-completed` 追加记录 request / receipt、attempt、custodian actor、时间、动作、前序事件 hash 与原因，且全链时间不得倒序；
 - mock 隔离：所有 mock bundle / request / receipt 必须带 `ceremony-rehearsal=true`，正式 validator 必须拒绝该标记和任何 mock ID；
-- runner 路径：正式请求拒绝仓库内路径，并以 resolved real path 拒绝 symlink / junction / mount 回指仓库；“路径在仓库外”本身不构成密封证明；mock 只能使用系统临时目录并在测试结束清理。
+- 外部信任锚：正式 validator 必须由调用方提供预先持有的 seal-plan SHA-256、bundle SHA-256 与 custodian ID；不得让 bundle 内可重写字段自证其正式身份；
+- runner 路径：正式请求拒绝整个 Git 仓库与系统临时目录，并以 resolved real path 拒绝 symlink / junction / mount 回指；“路径在仓库外”本身不构成密封证明；mock 只能使用系统临时目录并在测试结束清理。
 
 真正 holdout 只能在候选、合同、QA profile、阈值、分母、指标和停止规则全部冻结后，由独立 custodian 在仓库外生成 / 保管并一次性运行。仓库可见资产、公开 seed 或随代码可重建的集合都不构成密封；Slice 03 完成时正式 holdout 状态仍必须是 `not-created`。
 

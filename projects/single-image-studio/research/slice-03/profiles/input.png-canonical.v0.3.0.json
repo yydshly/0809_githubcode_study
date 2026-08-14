@@ -1,0 +1,39 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Chunk sequence is exactly IHDR, sRGB, one-or-more IDAT, IEND.",
+      "IHDR is bit-depth 8, color-type 6 RGBA, compression 0, filter method 0, interlace 0.",
+      "Every decompressed scanline uses PNG filter byte 0.",
+      "The sRGB chunk is present exactly once and orientation is 1 by the closed no-transform-metadata profile.",
+      "Single-frame straight-alpha RGBA is required; dimensions are at most 256 by 256 and bytes at most 1 MiB."
+    ],
+    "decoderAllowed": true,
+    "encoderAllowed": false,
+    "maxByteLength": 1048576,
+    "maxHeight": 256,
+    "maxWidth": 256,
+    "probeKind": "canonical-png-closed-decode",
+    "signatureLabels": [
+      "PNG 8-byte signature"
+    ]
+  },
+  "claimBoundary": "Executable only for project-original open calibration bytes matching the closed canonical RGBA8 PNG profile; this is not user PNG or product support.",
+  "direction": "input",
+  "evidenceState": "structural-only",
+  "extensions": [
+    "png"
+  ],
+  "formatId": "png",
+  "formatProfileId": "format-profile.input.png-canonical.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "reference-executable",
+  "mediaTypes": [
+    "image/png"
+  ],
+  "policyState": "reference-calibration-eligible",
+  "productSupport": false,
+  "profileHash": "67cba687f37647c9fedf0e6037a6e78e7a25d91c3e6c9e4221e74607af1a1111",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_INPUT_PNG_OUTSIDE_CANONICAL_PROFILE",
+  "schemaVersion": "slice03-format-profile.v0"
+}

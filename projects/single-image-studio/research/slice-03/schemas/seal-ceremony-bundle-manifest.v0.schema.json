@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "seal-ceremony-bundle-manifest.v0.schema.json",
+  "title": "Single Image Studio Slice 03 external bundle manifest v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "ceremonyRehearsal", "bundleId", "createdAt", "bundleRootPath", "assetCount", "rights", "protection", "isolation", "formalHoldoutStatus", "manifestSha256"],
+  "properties": {
+    "schemaVersion": { "const": "seal-ceremony-bundle-manifest.v0" },
+    "ceremonyRehearsal": { "type": "boolean" },
+    "bundleId": { "$ref": "#/$defs/id" },
+    "createdAt": { "$ref": "#/$defs/dateTime" },
+    "bundleRootPath": { "$ref": "#/$defs/nonEmpty" },
+    "assetCount": { "type": "integer", "minimum": 0 },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligibility", "recordSha256"],
+      "properties": {
+        "eligibility": { "type": "string", "enum": ["project-original-rehearsal-metadata", "formal-custodian-cleared"] },
+        "recordSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "protection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["encryptedAtRest", "encryptionScheme", "integritySha256"],
+      "properties": {
+        "encryptedAtRest": { "const": true },
+        "encryptionScheme": { "$ref": "#/$defs/nonEmpty" },
+        "integritySha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "isolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceFamilyDigest", "captureSessionDigest", "sourceFamilyCount", "captureSessionCount", "partitionIsolationPassed", "custodianId", "signedAt"],
+      "properties": {
+        "sourceFamilyDigest": { "$ref": "#/$defs/sha256" },
+        "captureSessionDigest": { "$ref": "#/$defs/sha256" },
+        "sourceFamilyCount": { "type": "integer", "minimum": 0 },
+        "captureSessionCount": { "type": "integer", "minimum": 0 },
+        "partitionIsolationPassed": { "const": true },
+        "custodianId": { "$ref": "#/$defs/id" },
+        "signedAt": { "$ref": "#/$defs/dateTime" }
+      }
+    },
+    "formalHoldoutStatus": { "type": "string", "enum": ["not-created", "sealed-external"] },
+    "manifestSha256": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmpty": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._:-]{2,127}$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" }
+  }
+}

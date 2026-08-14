@@ -1,0 +1,35 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Reject an animation-control chunk before any frame decode or artifact creation."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": 1048576,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "structural-animation-rejection",
+    "signatureLabels": [
+      "PNG signature plus acTL animation-control chunk"
+    ]
+  },
+  "claimBoundary": "An animation-control chunk is a stable deferred rejection; no APNG frame decode, normalization, evidence, or product support is provided.",
+  "direction": "input",
+  "evidenceState": "none",
+  "extensions": [
+    "png"
+  ],
+  "formatId": "apng",
+  "formatProfileId": "format-profile.input.apng-reject.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "reject-only",
+  "mediaTypes": [
+    "image/apng"
+  ],
+  "policyState": "deferred-reject",
+  "productSupport": false,
+  "profileHash": "fd542cf679cfc21eaa7ae745a926944abf573b1e84a9ec190be3ff8ce3f6b05d",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_INPUT_APNG_DEFERRED",
+  "schemaVersion": "slice03-format-profile.v0"
+}

@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01 研究基础设施与 Slice 02 合同 / partition 隔离骨架可运行；真实候选对测与 C1 取证尚未开始 |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口和无界面的 Slice 02 参考适配器可运行；自动测试覆盖工程约束、研究清单、合同、隔离、资源与交互边界 |
+| 研究阶段 | Slice 01 研究基础设施、Slice 02 合同 / partition 隔离骨架与 Slice 03 格式 / observer / 密封仪式准备可运行；真实候选对测与 C1 取证尚未开始 |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02 / 03 参考设施可运行；自动测试覆盖工程约束、研究清单、合同、格式政策、隔离、密封仪式、资源与交互边界 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -92,6 +92,19 @@ npm.cmd run verify
 
 参考适配器只接受窄范围、最大 `1 MiB` / `256 × 256` 的 RGBA8 filter-0 PNG fixture；超出范围会拒绝。仓库可见 holdout 只证明隔离机制，不能充当未来 C1 的密封质量 holdout。完整边界见 [research/SLICE_02_CONTRACT.md](research/SLICE_02_CONTRACT.md)，验收记录见 [research/SLICE_02_EVIDENCE.md](research/SLICE_02_EVIDENCE.md)。
 
+## 运行 Slice 03 格式、observer 与密封仪式研究
+
+Slice 03 冻结 15 行 `NORMALIZE-DELIVER` 格式矩阵、逐行 profile 和独立 byte-backed technical observer，并用 25 个项目原创开放夹具检查 canonical PNG 与格式拒绝边界。JPEG / WebP 仅做 header probe 后稳定拒绝；所有矩阵行均为 `productSupport=false`，没有实现正式解码、归一化或导出。
+
+密封仪式测试只在系统临时目录生成 mock metadata，校验角色、hash 链、一次性运行、逐 attempt custody、外部 trusted pins 与完整 Git 仓库真实路径边界后立即清理。仓库中没有正式 holdout / defect-holdout / escape，正式 holdout 状态仍为 `not-created`。
+
+```powershell
+npm.cmd run research:prepare
+npm.cmd run verify
+```
+
+完整边界见 [research/SLICE_03_CONTRACT.md](research/SLICE_03_CONTRACT.md)，验收记录见 [research/SLICE_03_EVIDENCE.md](research/SLICE_03_EVIDENCE.md)。该切片没有扩展 `/` 或 `/research/` UI，也没有使用真实照片、模型权重或第三方图像依赖。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目当前没有运行时第三方依赖，也不依赖兄弟项目。
@@ -150,7 +163,8 @@ npm.cmd run verify
 | [research/SLICE_01_EVIDENCE.md](research/SLICE_01_EVIDENCE.md) | Slice 01 自动化、HTTP、浏览器主路径、错误路径与兼容限制 |
 | [research/SLICE_02_CONTRACT.md](research/SLICE_02_CONTRACT.md) | Slice 02 四份冻结研究合同、参考适配器与五 partition 隔离边界 |
 | [research/SLICE_02_EVIDENCE.md](research/SLICE_02_EVIDENCE.md) | Slice 02 确定性生成、合同 / 资产 hash、隔离与负例验收记录 |
-| [research/SLICE_03_CONTRACT.md](research/SLICE_03_CONTRACT.md) | Slice 03 格式政策、字节级技术 observer 与仓库外密封仪式的范围冻结；实现尚未开始 |
+| [research/SLICE_03_CONTRACT.md](research/SLICE_03_CONTRACT.md) | Slice 03 格式政策、字节级技术 observer 与仓库外密封仪式的冻结范围 |
+| [research/SLICE_03_EVIDENCE.md](research/SLICE_03_EVIDENCE.md) | Slice 03 矩阵 / profile、开放夹具、observer、密封仪式和 fail-closed 验收记录 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

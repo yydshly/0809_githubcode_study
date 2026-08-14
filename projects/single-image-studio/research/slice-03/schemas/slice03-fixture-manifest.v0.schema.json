@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "slice03-fixture-manifest.v0.schema.json",
+  "title": "Single Image Studio Slice 03 open format fixture manifest v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "fixtureManifestId",
+    "manifestVersion",
+    "createdAt",
+    "suiteId",
+    "suiteVersion",
+    "partition",
+    "sealedState",
+    "generator",
+    "sourcePopulation",
+    "isolationPolicy",
+    "claimBoundary",
+    "evidenceStatus",
+    "profileRefs",
+    "fixtureCount",
+    "fixtures",
+    "manifestHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "slice03-fixture-manifest.v0" },
+    "fixtureManifestId": { "type": "string", "pattern": "^fixture-manifest\\.normalize-deliver\\.(?:dev-calibration|defect-calibration)\\.slice-03\\.v0$" },
+    "manifestVersion": { "const": "0.3.0" },
+    "createdAt": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "suiteId": { "const": "NORMALIZE-DELIVER" },
+    "suiteVersion": { "const": "0.3.0" },
+    "partition": { "type": "string", "enum": ["dev/calibration", "defect/calibration"] },
+    "sealedState": { "const": "open-calibration" },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "sourceRevision", "scriptPath", "seed", "externalInputs"],
+      "properties": {
+        "name": { "const": "research-generate-slice03" },
+        "version": { "const": "0.3.0" },
+        "sourceRevision": { "const": "local-procedural-slice-03-format-policy-v0.3.0-seed-20260815" },
+        "scriptPath": { "const": "scripts/research-generate-slice03.mjs" },
+        "seed": { "type": "string", "pattern": "^20260815-NORMALIZE-DELIVER-(?:dev-calibration|defect-calibration)$" },
+        "externalInputs": { "type": "array", "maxItems": 0, "items": { "type": "string" } }
+      }
+    },
+    "sourcePopulation": { "$ref": "#/$defs/nonEmptyString" },
+    "isolationPolicy": { "$ref": "#/$defs/nonEmptyString" },
+    "claimBoundary": { "$ref": "#/$defs/nonEmptyString" },
+    "evidenceStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "purpose"],
+      "properties": {
+        "level": { "const": "C1=0" },
+        "purpose": { "const": "open-format-policy-calibration-only" }
+      }
+    },
+    "profileRefs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^profiles/input\\.[a-z0-9-]+\\.v0\\.3\\.0\\.json$" },
+      "uniqueItems": true
+    },
+    "fixtureCount": { "type": "integer", "minimum": 1 },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/fixture" }
+    },
+    "manifestHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "formatId": {
+      "type": "string",
+      "enum": ["png", "jpeg", "webp", "heic", "heif", "avif", "gif", "apng", "tiff", "svg", "pdf", "raw"]
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assetId", "role", "path", "declaredMime", "byteLength", "sha256", "exposure"],
+      "properties": {
+        "assetId": { "$ref": "#/$defs/nonEmptyString" },
+        "role": { "const": "source" },
+        "path": {
+          "type": "string",
+          "pattern": "^fixtures/(?:dev/calibration|defect/calibration)/NORMALIZE-DELIVER/[a-z0-9-]+/source\\.(?:png|jpe?g|webp|heic|heif|avif|gif|tiff?|svg|pdf|raw|bin)$"
+        },
+        "declaredMime": { "$ref": "#/$defs/nonEmptyString" },
+        "byteLength": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "exposure": { "const": "catalog-denied" }
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "fixtureId",
+        "label",
+        "caseKind",
+        "formatId",
+        "direction",
+        "profileRef",
+        "expectedDisposition",
+        "expectedCode",
+        "sourceFamilyId",
+        "captureSessionId",
+        "derivationLineage",
+        "injection",
+        "rightsRecordId",
+        "sourceClass",
+        "containsRealPerson",
+        "productSupport",
+        "evidenceState",
+        "observedDimensions",
+        "perceptualHash",
+        "assets"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "slice03-format-fixture.v0" },
+        "fixtureId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "label": { "$ref": "#/$defs/nonEmptyString" },
+        "caseKind": {
+          "type": "string",
+          "enum": ["canonical-reference", "header-probe-only", "injected-format-defect", "deferred-format-rejection"]
+        },
+        "formatId": { "$ref": "#/$defs/formatId" },
+        "direction": { "const": "input" },
+        "profileRef": { "type": "string", "pattern": "^profiles/input\\.[a-z0-9-]+\\.v0\\.3\\.0\\.json$" },
+        "expectedDisposition": { "type": "string", "enum": ["accept-reference-only", "probe-only-no-decode", "reject"] },
+        "expectedCode": { "type": "string", "pattern": "^S03_[A-Z0-9_]+$" },
+        "sourceFamilyId": { "$ref": "#/$defs/nonEmptyString" },
+        "captureSessionId": { "$ref": "#/$defs/nonEmptyString" },
+        "derivationLineage": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "uniqueItems": true
+        },
+        "injection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "steps"],
+          "properties": {
+            "kind": { "$ref": "#/$defs/nonEmptyString" },
+            "steps": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        },
+        "rightsRecordId": { "const": "rights.project-original-synthetic.slice-03-formats.v1" },
+        "sourceClass": { "const": "project-original-synthetic" },
+        "containsRealPerson": { "const": false },
+        "productSupport": { "const": false },
+        "evidenceState": { "type": "string", "enum": ["none", "structural-only"] },
+        "observedDimensions": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["width", "height"],
+              "properties": {
+                "width": { "type": "integer", "minimum": 1 },
+                "height": { "type": "integer", "minimum": 1 }
+              }
+            },
+            { "type": "null" }
+          ]
+        },
+        "perceptualHash": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{16}$" },
+            { "type": "null" }
+          ]
+        },
+        "assets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": { "$ref": "#/$defs/asset" }
+        }
+      }
+    }
+  }
+}

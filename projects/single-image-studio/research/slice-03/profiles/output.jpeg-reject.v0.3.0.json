@@ -1,0 +1,34 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Reject before encoding and do not create a DeliveryArtifact."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": null,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "no-implementation",
+    "signatureLabels": []
+  },
+  "claimBoundary": "JPEG output has no encoder, artifact path, evidence, or product support in Slice 03.",
+  "direction": "output",
+  "evidenceState": "none",
+  "extensions": [
+    "jpg",
+    "jpeg"
+  ],
+  "formatId": "jpeg",
+  "formatProfileId": "format-profile.output.jpeg-reject.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "not-implemented",
+  "mediaTypes": [
+    "image/jpeg"
+  ],
+  "policyState": "deferred-reject",
+  "productSupport": false,
+  "profileHash": "56cadda61c58b05b54800a08565e9ba8dc9a6a0cc3776ab6f5937249f8dd0fa6",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_OUTPUT_JPEG_NOT_IMPLEMENTED",
+  "schemaVersion": "slice03-format-profile.v0"
+}

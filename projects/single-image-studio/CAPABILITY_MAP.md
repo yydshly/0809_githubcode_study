@@ -114,6 +114,8 @@ perField: observerContract + confidence(lower, upper) + unknownReason
 
 `unknown` 是正式值，不得由默认分数或模型猜测补齐。`@0.2.0` 中 technical observation 为强类型且 `confidence=[1,1]`；其余 observation 固定为 `value=unknown`、`confidence=[0,0]` 和逐字段 `unknownReason`。未来若要增加 `person|object|animal|scene`、布尔文字存在或背景复杂度枚举，必须发布新的合同 / schema 版本并独立取证，不能在 v0.2.0 内偷换。`SourceCard.v0` 不做身份、年龄、敏感属性或审美价值判断；OCR 文本内容、材质、动作和空间理解留待独立合同。
 
+Slice 03 的 [`TechnicalObserverResult.slice03.v0`](./research/slice-03/schemas/technical-observer.slice03.schema.json) 是独立的研究中间产物：它从实际 normalized bytes 重开核对技术事实，并把 `sourceFormatFacts` 与 `normalizedArtifactFacts` 分栏。它不是新的产品 `SourceCard`，不会从 normalized PNG 反推源格式，且质量、主体和内容继续强制为 unknown。其冻结研究合同与验收见 [Slice 03 contract](./research/slice-03/contracts/technical-observer.slice03.v0.3.0.json) 和 [证据记录](./research/SLICE_03_EVIDENCE.md)；这些设施不授予 CAP-03 的 C1。
+
 ### `EffectDefinition`
 
 用户效果的逻辑合同包含：

@@ -67,6 +67,8 @@ G1 的数据流、安全与远程服务细则见 [DATA_FLOW_AND_SECURITY.md](DAT
 - `defect/calibration` 只能使用专属校准来源族调整 QA；`defect/holdout` 使用另一个来源族与密封标注，冻结前不得被候选 QA、提示词作者或阈值制定者看到。QA profile、缺陷生成方法或判定阈值改变后，旧 sealed defect-holdout 不得再次充当独立证据，必须发布新版本。
 - 四套夹具是项目控制的研究资产，不是用户上传的保留目录。真实用户图片按 [USER_RESEARCH_PROTOCOL.md](USER_RESEARCH_PROTOCOL.md) 和 G1 的告知、用途与删除期限处理，默认不永久进入 `dev/calibration`、`holdout`、`defect` 或 `escape`。真实漏检优先保存去标识元数据和人工重建的最小复现；只有另行取得明确、可撤回的研究保留授权并冻结期限时，原图才可进入受限 escape 资产库，且仍不得自动公开。
 
+Slice 03 只把未来密封运行的角色独立、冻结 hash 链、一次性请求、无效重跑、逐 attempt append-only custody、外部 trusted pins、实际文件 hash 与 resolved-realpath 边界做成 schema 和 mock rehearsal。mock 只在系统临时目录运行并被正式 validator 拒绝；正式运行还必须拒绝整个 Git 仓库与系统临时目录，且仓库外路径本身也不是密封证明。当前正式 holdout 明确为 `not-created`，因此这些设施不构成 C1 或任何独立验收证据；详见 [Slice 03 证据记录](research/SLICE_03_EVIDENCE.md)。
+
 ## 5. 统一研究流程
 
 1. **登记合同**：在 [CAPABILITY_REGISTRY.md](CAPABILITY_REGISTRY.md) 登记能力、执行器、精确版本 / checkpoint、输入输出、许可和已知限制。

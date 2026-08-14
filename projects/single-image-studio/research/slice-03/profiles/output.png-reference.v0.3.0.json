@@ -1,0 +1,36 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Encode RGBA8 straight-alpha pixels with an embedded sRGB declaration.",
+      "Reopen output and require exact dimensions, decoded pixel SHA-256, byte length, and file SHA-256."
+    ],
+    "decoderAllowed": true,
+    "encoderAllowed": true,
+    "maxByteLength": 1048576,
+    "maxHeight": 256,
+    "maxWidth": 256,
+    "probeKind": "canonical-png-closed-encode-and-reopen",
+    "signatureLabels": [
+      "PNG 8-byte signature"
+    ]
+  },
+  "claimBoundary": "Executable only for the frozen fixture RGBA8 straight-alpha PNG encoder and reopen check; this is not a product export claim.",
+  "direction": "output",
+  "evidenceState": "structural-only",
+  "extensions": [
+    "png"
+  ],
+  "formatId": "png",
+  "formatProfileId": "format-profile.output.png-reference.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "reference-executable",
+  "mediaTypes": [
+    "image/png"
+  ],
+  "policyState": "reference-calibration-eligible",
+  "productSupport": false,
+  "profileHash": "b4c25212ec92eb04d6d54211d5c1332d0be6c93ec6fedc830c66f2788b697388",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_OUTPUT_PNG_OUTSIDE_REFERENCE_PROFILE",
+  "schemaVersion": "slice03-format-profile.v0"
+}

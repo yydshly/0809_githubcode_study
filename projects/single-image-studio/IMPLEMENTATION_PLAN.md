@@ -6,9 +6,9 @@
 
 当前代码可以作为上传校验、任务快照、服务代理、错误状态和下载契约的参考实现，但所有用户可见结果仍要用新的能力与证据重新取得。不得因自动测试通过、页面可点击或本地滤镜有输出，就提前标记 C1、U1、E1、R1-pipeline、R1-product、O1、G1 或 V1。
 
-截至 2026-08-15，Slice 02 已完成本计划中 WP1 / WP2 的一个窄范围准备切片：四份研究 `CapabilityContract@0.2.0`、无第三方依赖的 fixture reference adapter，以及 `NORMALIZE-DELIVER` / `MATTE-GT` 两套 suite 的五 partition 结构隔离夹具。该结果不满足 WP1 的正式退出条件：仓库可见 holdout 只演练隔离，尚无完整格式 / 真实题材覆盖、质量预注册或真正密封 holdout；因此 WP3 和任何 C1 判定仍未开始。
+截至 2026-08-15，Slice 02 已完成四份研究 `CapabilityContract@0.2.0`、fixture reference adapter 与两套 suite 的五 partition 结构隔离骨架；Slice 03 又完成 15 行 `NORMALIZE-DELIVER` 格式政策 / profile、25 个开放项目原创校准夹具、独立 byte-backed technical observer，以及只在临时目录运行的密封仪式 mock rehearsal。所有格式行仍为 `productSupport=false`，正式 holdout 为 `not-created`。这些结果都不满足 WP1 的正式退出条件：尚无真实候选、完整质量预注册或真正密封验收，因此 WP3 和任何 C1 判定仍未开始。
 
-立即后续以 [Slice 03 范围合同](research/SLICE_03_CONTRACT.md) 为硬边界：只做格式政策、byte-backed technical observer 和仓库外密封仪式准备，不提前进入 Matting 候选、`MATTE-REAL`、真实照片、正式 holdout 或产品 UI。
+立即后续只能先发布新的范围合同并冻结 `NORMALIZE-DELIVER` 的真实候选 / codec 版本、suite × partition 分母、QA profile、阈值、指标、停止规则和密封运行请求。该预注册完成并审计前，不创建或查看正式 holdout；进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。Slice 03 的完成边界与验证结果见 [范围合同](research/SLICE_03_CONTRACT.md) 和 [证据记录](research/SLICE_03_EVIDENCE.md)。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 

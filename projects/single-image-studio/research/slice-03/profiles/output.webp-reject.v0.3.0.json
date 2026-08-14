@@ -1,0 +1,33 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Reject before encoding and do not create a DeliveryArtifact."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": null,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "no-implementation",
+    "signatureLabels": []
+  },
+  "claimBoundary": "WEBP output has no encoder, artifact path, evidence, or product support in Slice 03.",
+  "direction": "output",
+  "evidenceState": "none",
+  "extensions": [
+    "webp"
+  ],
+  "formatId": "webp",
+  "formatProfileId": "format-profile.output.webp-reject.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "not-implemented",
+  "mediaTypes": [
+    "image/webp"
+  ],
+  "policyState": "deferred-reject",
+  "productSupport": false,
+  "profileHash": "5d9ae3072da7708df98b4356d7dc09248c4038af340f9a5ff16cc3e3f4eee948",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_OUTPUT_WEBP_NOT_IMPLEMENTED",
+  "schemaVersion": "slice03-format-profile.v0"
+}

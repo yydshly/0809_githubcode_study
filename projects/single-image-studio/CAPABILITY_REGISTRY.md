@@ -106,6 +106,7 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | `REG-NORM-LIBVIPS` | libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | 精确 tag/commit、构建选项、LGPL 交付方式 |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
 | `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
+| `REG-SOURCE-CARD-TECHNICAL-S03` | Slice 03 独立 byte-backed 技术 observer | `CAP-03` | 从 normalized bytes 重开并核对父产物身份；源格式与 normalized 事实分栏 | `candidate`（非 Gate B） | 仅开放合成 calibration PNG；不是完整 SourceCard、图片理解、生产 decoder 或格式支持 |
 | `REG-DETECT-GROUNDING-DINO` | Grounding DINO | `CAP-03`、`CAP-04` | 开放词汇主体检测 | `research-only` | checkpoint 许可、哈希、训练数据与依赖审计 |
 | `REG-SEG-SAM2` | SAM 2.1 | `CAP-04` | 点击/框提示分割与人工修正 | `research-only/pending-freeze` | 精确 commit、checkpoint 选择/哈希、硬件实测 |
 | `REG-MATTE-BIREFNET` | BiRefNet | `CAP-04` | 通用高分辨率主体分割/Matting 候选 | `research-only` | 官方权重许可与哈希未锁定 |
@@ -207,6 +208,19 @@ release_status=planned
 | 禁止范围 | 不推断身份、年龄、敏感属性、审美价值或用户意图；不得把 unknown 转成零分、默认类别或推荐信号 |
 | QA / fallback | 所有 v0 字段与逐字段 provenance 必须存在；技术父产物无效则拒绝，未冻结 observer 则 `unknown + unknownReason` |
 | 证据与状态 | 来源与实现达到 `candidate`，但未达 Gate B；`C1=0`。它冻结结构和诚实未知策略，不证明图片理解已经成立 |
+
+### `REG-SOURCE-CARD-TECHNICAL-S03` — Slice 03 独立技术 observer
+
+| 字段 | 记录 |
+| --- | --- |
+| 来源 | [Slice 03 独立 observer](./scripts/research-reference-adapters-slice03.mjs)、[研究合同](./research/slice-03/contracts/technical-observer.slice03.v0.3.0.json) 与 [输出 schema](./research/slice-03/schemas/technical-observer.slice03.schema.json)；全部为本地原创研究，不含外部代码、图片、服务或权重 |
+| 固定研究边界 | `frozenAt=2026-08-15T10:00:00.000Z`；`S03-TECHNICAL-OBSERVER@0.3.0`；`adapterVersion=0.3.0`；实现 SHA-256 `99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3` |
+| 预期职责 | 独立于 Slice 02 生产侧 parser 重开 normalized PNG bytes，交叉核对 MIME / 签名、尺寸、orientation=1、embedded sRGB、Alpha、file / decoded-pixel hash 与父产物身份；source-format facts 与 normalized-artifact facts 分栏 |
+| 输入 / 输出与变化边界 | 仅 `CC-CAP02-NORMALIZE@0.2.0` 产生、最大 `1 MiB` / `256×256` 的开放项目原创 RGBA8 sRGB filter-0 PNG fixture；输出 `TechnicalObserverResult.slice03.v0`，不输出产品 SourceCard，不允许从 normalized bytes 反推源格式 |
+| 运行位置 | Node.js >=22 本地同步研究进程；独立 closed fixture parser，不是生产安全 decoder，也不接受真实用户照片 |
+| 禁止范围 | quality / subject / content 全部固定为 `unknown + unknownReason + confidence=[0,0]`；不推断身份、年龄、人物类别、文字内容、审美或推荐，不把 JPEG / WebP probe 写成支持 |
+| QA / fallback | bytes、artifact、parent identity 或 profile 任一不一致即 fail closed，不生成 observation；没有 original-source bytes 时源格式字段必须 unknown |
+| 证据与状态 | `C1=0`、非 Gate B、`research-only-not-product-fallback`；该 observer 只证明合同与结构一致性，不构成图片理解、格式能力、产品、运维、治理、价值或发布证据 |
 
 ### `REG-LOCAL-QA-EVIDENCE` — QA 与证据框架
 

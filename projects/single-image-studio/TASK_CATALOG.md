@@ -174,7 +174,7 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 | `UT-FOCUS` | `effect.subject-focus` | 后置 |
 | `CR1–CR4` | `effect.creative.*` | 历史研究 ID，不是当前发布状态 |
 
-本轮不修改 R0 `/` 页面、`server/server.mjs` 的旧任务路径或正式产品调用链；Slice 02 只在隔离的 `research/slice-02`、生成器、validator、测试与 reference adapter 中增加研究代码。R0 网页继续使用旧 ID，但所有产品与研究结论以本文件的新分类为准。
+本轮不修改 R0 `/` 页面、`server/server.mjs` 的旧任务路径或正式产品调用链；Slice 02 / 03 只在各自隔离的 research workspace、生成器、validator、测试与 reference adapter / 密封仪式 helper 中增加研究代码。R0 网页继续使用旧 ID，但所有产品与研究结论以本文件的新分类为准。
 
 ## 可见与发布规则
 

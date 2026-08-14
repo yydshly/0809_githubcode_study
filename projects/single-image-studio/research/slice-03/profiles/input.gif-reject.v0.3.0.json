@@ -1,0 +1,35 @@
+{
+  "bytePolicy": {
+    "constraints": [
+      "Return the format-specific deferred rejection without decoding or emitting an image artifact."
+    ],
+    "decoderAllowed": false,
+    "encoderAllowed": false,
+    "maxByteLength": 1048576,
+    "maxHeight": null,
+    "maxWidth": null,
+    "probeKind": "stable-policy-rejection",
+    "signatureLabels": [
+      "GIF87a or GIF89a header"
+    ]
+  },
+  "claimBoundary": "GIF is a separately registered deferred rejection only; identifying a token or extension is not decoding, normalization, evidence, or product support.",
+  "direction": "input",
+  "evidenceState": "none",
+  "extensions": [
+    "gif"
+  ],
+  "formatId": "gif",
+  "formatProfileId": "format-profile.input.gif-reject.v0.3.0",
+  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "implementationState": "reject-only",
+  "mediaTypes": [
+    "image/gif"
+  ],
+  "policyState": "deferred-reject",
+  "productSupport": false,
+  "profileHash": "235607a83805b62b80eaab70c980e8eca3be3508de0e571a1ed7fb6178043227",
+  "profileVersion": "0.3.0",
+  "rejectionCode": "S03_INPUT_GIF_DEFERRED",
+  "schemaVersion": "slice03-format-profile.v0"
+}

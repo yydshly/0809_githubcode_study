@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "slice03-format-profile.v0.schema.json",
+  "title": "Single Image Studio Slice 03 format profile v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "formatProfileId",
+    "profileVersion",
+    "frozenAt",
+    "formatId",
+    "direction",
+    "policyState",
+    "implementationState",
+    "evidenceState",
+    "productSupport",
+    "mediaTypes",
+    "extensions",
+    "bytePolicy",
+    "rejectionCode",
+    "claimBoundary",
+    "profileHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "slice03-format-profile.v0" },
+    "formatProfileId": { "type": "string", "pattern": "^format-profile\\.(?:input|output)\\.[a-z0-9-]+\\.v0\\.3\\.0$" },
+    "profileVersion": { "const": "0.3.0" },
+    "frozenAt": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "formatId": { "$ref": "#/$defs/formatId" },
+    "direction": { "type": "string", "enum": ["input", "output"] },
+    "policyState": { "$ref": "#/$defs/policyState" },
+    "implementationState": { "$ref": "#/$defs/implementationState" },
+    "evidenceState": { "type": "string", "enum": ["none", "structural-only"] },
+    "productSupport": { "const": false },
+    "mediaTypes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/nonEmptyString" },
+      "uniqueItems": true
+    },
+    "extensions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+$" },
+      "uniqueItems": true
+    },
+    "bytePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "probeKind",
+        "decoderAllowed",
+        "encoderAllowed",
+        "maxByteLength",
+        "maxWidth",
+        "maxHeight",
+        "signatureLabels",
+        "constraints"
+      ],
+      "properties": {
+        "probeKind": {
+          "type": "string",
+          "enum": [
+            "canonical-png-closed-decode",
+            "canonical-png-closed-encode-and-reopen",
+            "signature-only",
+            "stable-policy-rejection",
+            "structural-animation-rejection",
+            "no-implementation"
+          ]
+        },
+        "decoderAllowed": { "type": "boolean" },
+        "encoderAllowed": { "type": "boolean" },
+        "maxByteLength": { "$ref": "#/$defs/nullablePositiveInteger" },
+        "maxWidth": { "$ref": "#/$defs/nullablePositiveInteger" },
+        "maxHeight": { "$ref": "#/$defs/nullablePositiveInteger" },
+        "signatureLabels": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "uniqueItems": true
+        },
+        "constraints": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/nonEmptyString" },
+          "uniqueItems": true
+        }
+      }
+    },
+    "rejectionCode": { "type": "string", "pattern": "^S03_[A-Z0-9_]+$" },
+    "claimBoundary": { "$ref": "#/$defs/nonEmptyString" },
+    "profileHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "nullablePositiveInteger": {
+      "oneOf": [
+        { "type": "integer", "minimum": 1 },
+        { "type": "null" }
+      ]
+    },
+    "formatId": {
+      "type": "string",
+      "enum": ["png", "jpeg", "webp", "heic", "heif", "avif", "gif", "apng", "tiff", "svg", "pdf", "raw"]
+    },
+    "policyState": {
+      "type": "string",
+      "enum": ["reference-calibration-eligible", "research-candidate", "deferred-reject", "forbidden"]
+    },
+    "implementationState": {
+      "type": "string",
+      "enum": ["reference-executable", "probe-only", "reject-only", "not-implemented"]
+    }
+  }
+}

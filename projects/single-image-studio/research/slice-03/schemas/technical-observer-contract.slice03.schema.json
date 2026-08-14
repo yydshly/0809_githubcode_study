@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "technical-observer-contract.slice03.schema.json",
+  "title": "Single Image Studio Slice 03 technical observer research contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "observerContractId",
+    "contractVersion",
+    "frozenAt",
+    "status",
+    "inputContract",
+    "outputContract",
+    "scope",
+    "eligibility",
+    "rejectionConditions",
+    "implementation",
+    "unknownPolicy",
+    "evidenceStatus",
+    "releaseStatus",
+    "contractHash"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "technical-observer-contract.slice03.v0" },
+    "observerContractId": { "const": "S03-TECHNICAL-OBSERVER" },
+    "contractVersion": { "const": "0.3.0" },
+    "frozenAt": { "$ref": "#/$defs/dateTime" },
+    "status": { "const": "frozen-research" },
+    "inputContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifactSchemaRef", "bytesType", "maximumBytes", "maximumWidth", "maximumHeight", "parentIdentityFields"],
+      "properties": {
+        "artifactSchemaRef": { "const": "../slice-02/schemas/normalized-image.v0.schema.json" },
+        "bytesType": { "const": "Uint8Array" },
+        "maximumBytes": { "const": 1048576 },
+        "maximumWidth": { "const": 256 },
+        "maximumHeight": { "const": 256 },
+        "parentIdentityFields": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["normalizedImageId", "parentImageAssetId", "normalizedFileSha256", "decodedPixelSha256"]
+          }
+        }
+      }
+    },
+    "outputContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifactType", "schemaRef", "sourceFactsSeparated", "byteBackedTechnicalFactsOnly"],
+      "properties": {
+        "artifactType": { "const": "TechnicalObserverResult.slice03.v0" },
+        "schemaRef": { "const": "schemas/technical-observer.slice03.schema.json" },
+        "sourceFactsSeparated": { "const": true },
+        "byteBackedTechnicalFactsOnly": { "const": true }
+      }
+    },
+    "scope": { "$ref": "#/$defs/nonEmptyString" },
+    "eligibility": { "$ref": "#/$defs/nonEmptyStrings" },
+    "rejectionConditions": { "$ref": "#/$defs/nonEmptyStrings" },
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapterId", "adapterVersion", "scriptPath", "implementationSha256", "parserClass", "executionLocation"],
+      "properties": {
+        "adapterId": { "const": "observeNormalizedImageSlice03" },
+        "adapterVersion": { "const": "0.3.0" },
+        "scriptPath": { "const": "scripts/research-reference-adapters-slice03.mjs" },
+        "implementationSha256": { "$ref": "#/$defs/sha256" },
+        "parserClass": { "const": "independent-closed-fixture-reference-not-production-decoder" },
+        "executionLocation": { "const": "local-node-research-process" }
+      }
+    },
+    "unknownPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sections", "value", "confidenceLower", "confidenceUpper", "reasonRequired", "forbiddenInferences"],
+      "properties": {
+        "sections": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["quality", "subject", "content"] }
+        },
+        "value": { "const": "unknown" },
+        "confidenceLower": { "const": 0 },
+        "confidenceUpper": { "const": 0 },
+        "reasonRequired": { "const": true },
+        "forbiddenInferences": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["identity", "age", "person-category", "text-content", "aesthetic-score", "recommendation"] }
+        }
+      }
+    },
+    "evidenceStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["C1", "U1", "E1", "R1Pipeline", "R1ProductValidation", "R1ProductRelease", "O1", "G1", "V1", "evidenceManifestId", "claimBoundary"],
+      "properties": {
+        "C1": { "const": 0 },
+        "U1": { "const": 0 },
+        "E1": { "const": 0 },
+        "R1Pipeline": { "const": 0 },
+        "R1ProductValidation": { "const": 0 },
+        "R1ProductRelease": { "const": 0 },
+        "O1": { "const": 0 },
+        "G1": { "const": 0 },
+        "V1": { "const": 0 },
+        "evidenceManifestId": { "const": "not-established" },
+        "claimBoundary": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "releaseStatus": { "const": "research-only-not-product-fallback" },
+    "contractHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/nonEmptyString" }
+    },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+  }
+}

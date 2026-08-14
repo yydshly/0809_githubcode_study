@@ -1,6 +1,6 @@
 # Single Image Studio research workspace
 
-This directory is the executable research workspace for Slice 01 and Slice 02.
+This directory is the executable research workspace for Slice 01 through Slice 03.
 It contains only small, deterministic, project-original synthetic fixtures. It
 is not a model benchmark, product dataset, or capability claim.
 
@@ -68,13 +68,26 @@ repository, they cannot be reused as a genuinely sealed C1 quality holdout. See
 [SLICE_02_CONTRACT.md](SLICE_02_CONTRACT.md) and
 [SLICE_02_EVIDENCE.md](SLICE_02_EVIDENCE.md).
 
-## Slice 03 scope freeze
+## Slice 03 format, observer, and seal workspace
 
-[SLICE_03_CONTRACT.md](SLICE_03_CONTRACT.md) freezes the next narrow scope before
-implementation starts: a policy / implementation / evidence format matrix,
-byte-backed technical observation, and an out-of-repository sealing ceremony
-rehearsal. It explicitly forbids Matting candidates, `MATTE-REAL`, real photos,
-model weights, product UI changes, and checked-in future holdout pixels.
+`slice-03/` implements the narrow scope frozen in
+[SLICE_03_CONTRACT.md](SLICE_03_CONTRACT.md): fifteen policy / implementation /
+evidence format rows, an independently hashed byte-backed technical observer,
+25 open calibration / defect-calibration byte fixtures, and six strict
+out-of-repository sealing ceremony schemas. The formal holdout remains
+`not-created`; JPEG / WebP are probe-only, every format row has
+`productSupport=false`, and no Slice 03 asset enters the review catalog. See
+[SLICE_03_EVIDENCE.md](SLICE_03_EVIDENCE.md) for the actual checks and limits.
+
+```text
+slice-03/
+├─ contracts/          # one frozen technical-observer research contract
+├─ fixtures/           # only dev/calibration and defect/calibration
+├─ manifests/          # two open NORMALIZE-DELIVER manifests
+├─ profiles/           # one profile per 15-row format matrix entry
+├─ rights/             # project-original, catalog-denied boundary
+└─ schemas/            # format, fixture, observer and seal schemas
+```
 
 ## Commands
 
@@ -85,6 +98,8 @@ node scripts/research-generate-fixtures.mjs
 node scripts/research-validate-fixtures.mjs
 node scripts/research-generate-slice02.mjs
 node scripts/research-validate-slice02.mjs
+node scripts/research-generate-slice03.mjs
+node scripts/research-validate-slice03.mjs
 node --test tests/research-*.test.mjs
 ```
 
@@ -93,7 +108,7 @@ assets and JSON records. The validators recompute every SHA-256,
 checks PNG dimensions, requires exact versioned fields, validates rights and
 partition bindings, rejects family/session leakage across partitions, and
 requires the review catalog to expose only Slice 01 `public-synthetic`
-allowlisted assets. Slice 02 assets are always `catalog-denied`.
+allowlisted assets. Slice 02 and Slice 03 assets are always `catalog-denied`.
 
 ## Serving contract
 
