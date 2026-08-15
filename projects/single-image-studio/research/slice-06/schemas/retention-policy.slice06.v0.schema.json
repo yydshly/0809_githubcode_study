@@ -1,0 +1,384 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "excludedFromGateB": {
+          "const": true,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "gateBDecisionAuthority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "enum": [
+            "0.5.0",
+            "0.6.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/retention-policy.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cleanup": {
+      "additionalProperties": false,
+      "properties": {
+        "fullResultTreeInventoryRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "stagingMustBeRemovedOrReconciled": {
+          "const": true,
+          "type": "boolean"
+        },
+        "unreferencedBytesAllowed": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "stagingMustBeRemovedOrReconciled",
+        "unreferencedBytesAllowed",
+        "fullResultTreeInventoryRequired"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "disposition": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactsDirectoryAllowed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "catalogPublicationAllowed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "oracleNonPass": {
+          "const": "quarantine-nonartifact",
+          "type": "string"
+        },
+        "oraclePass": {
+          "const": "specimens-nonartifact",
+          "type": "string"
+        },
+        "overLimit": {
+          "const": "hash-only-nonartifact",
+          "type": "string"
+        },
+        "preflightReject": {
+          "const": "no-candidate-output",
+          "type": "string"
+        },
+        "productDownloadAllowed": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "oraclePass",
+        "oracleNonPass",
+        "preflightReject",
+        "overLimit",
+        "artifactsDirectoryAllowed",
+        "catalogPublicationAllowed",
+        "productDownloadAllowed"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "hashOnlyValues": {
+      "additionalProperties": false,
+      "properties": {
+        "maxPerOutputBytes": {
+          "const": 1048576,
+          "type": "integer"
+        },
+        "maxSessionBytes": {
+          "const": 18874368,
+          "type": "integer"
+        },
+        "reasonCode": {
+          "enum": [
+            "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+            "S06_DIAGNOSTIC_RETENTION_HASH_ONLY"
+          ],
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "retained",
+            "hash-only"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "reasonCode",
+        "maxPerOutputBytes",
+        "maxSessionBytes"
+      ],
+      "type": "object"
+    },
+    "maxPerOutputBytes": {
+      "const": 1048576,
+      "type": "integer"
+    },
+    "maxSessionBytes": {
+      "const": 18874368,
+      "type": "integer"
+    },
+    "mode": {
+      "const": "open-diagnostic",
+      "type": "string"
+    },
+    "recordVersion": {
+      "const": "0.6.0",
+      "type": "string"
+    },
+    "retainedValues": {
+      "additionalProperties": false,
+      "properties": {
+        "maxPerOutputBytes": {
+          "const": 1048576,
+          "type": "integer"
+        },
+        "maxSessionBytes": {
+          "const": 18874368,
+          "type": "integer"
+        },
+        "reasonCode": {
+          "enum": [
+            "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+            "S06_DIAGNOSTIC_RETENTION_HASH_ONLY"
+          ],
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "retained",
+            "hash-only"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "reasonCode",
+        "maxPerOutputBytes",
+        "maxSessionBytes"
+      ],
+      "type": "object"
+    },
+    "retentionPolicyId": {
+      "const": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+      "type": "string"
+    },
+    "rightsRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "retention-policy.slice06.v0",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "retentionPolicyId",
+    "recordVersion",
+    "mode",
+    "rightsRef",
+    "maxPerOutputBytes",
+    "maxSessionBytes",
+    "retainedValues",
+    "hashOnlyValues",
+    "disposition",
+    "cleanup",
+    "frozenAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

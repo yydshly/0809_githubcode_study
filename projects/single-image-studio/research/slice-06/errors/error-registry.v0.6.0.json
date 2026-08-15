@@ -1,0 +1,597 @@
+{
+  "contentHash": "b5b8b0dd5adde35b9c9a856a3a1e37569bc02721054bd99f803d59deb123c32e",
+  "errorRegistryId": "ERROR-REGISTRY-SLICE06@0.6.0",
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "frozenPrecedence": {
+    "exportInvalidArtifactVersion": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID-before-worker-invocation",
+    "normalizeMissingSrgb": "S06_INPUT_SRGB_REQUIRED-before-generic-idat-or-chunk-profile-rejection",
+    "oracleFindingOrder": [
+      "S06_ORACLE_BYTES_EMPTY",
+      "S06_ORACLE_BYTES_LIMIT_EXCEEDED",
+      "S06_ORACLE_PNG_SIGNATURE_MISMATCH",
+      "S06_ORACLE_PNG_CHUNK_TRUNCATED",
+      "S06_ORACLE_PNG_CHUNK_TYPE_INVALID",
+      "S06_ORACLE_PNG_CRC_MISMATCH",
+      "S06_ORACLE_PNG_IHDR_INVALID",
+      "S06_ORACLE_PNG_METHOD_MISMATCH",
+      "S06_ORACLE_PNG_PIXEL_LAYOUT_MISMATCH",
+      "S06_ORACLE_PNG_INTERLACE_FORBIDDEN",
+      "S06_ORACLE_PNG_APNG_FORBIDDEN",
+      "S06_ORACLE_PNG_UNKNOWN_CRITICAL",
+      "S06_ORACLE_PNG_IDAT_INVALID",
+      "S06_ORACLE_PNG_IEND_INVALID",
+      "S06_ORACLE_PNG_TRAILING_BYTES",
+      "S06_ORACLE_PNG_DECODE_FAILED",
+      "S06_ORACLE_PNG_DECODE_LENGTH_MISMATCH",
+      "S06_ORACLE_PNG_FILTER_INVALID",
+      "S06_ORACLE_PNG_SRGB_REQUIRED",
+      "S06_ORACLE_PNG_SRGB_INVALID",
+      "S06_ORACLE_PNG_ICCP_FORBIDDEN",
+      "S06_ORACLE_PNG_EXIF_FORBIDDEN",
+      "S06_ORACLE_PNG_METADATA_FORBIDDEN",
+      "S06_ORACLE_PNG_FILTER_POLICY_MISMATCH",
+      "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH"
+    ],
+    "outputOracleTopLevel": "S06_OUTPUT_ORACLE_REJECTED-with-exact-child-codes-required"
+  },
+  "recordVersion": "0.6.0",
+  "registeredCodes": [
+    {
+      "class": "protocol",
+      "code": "S06_ADAPTER_CONFIGURATION_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_CHARACTERIZATION_CLOSE_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_CLAIM_TIME_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DEFINITION_NOT_FROZEN",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_CLOSURE_BINDING_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_CLOSURE_COMMIT_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_CLOSURE_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_CONTENT_HASH_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_ENVELOPE_BINDING_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_EVIDENCE_BOUNDARY_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_OUTPUT_BYTES_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_RECORD_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "retention",
+      "code": "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+      "terminalRole": "policy-marker"
+    },
+    {
+      "class": "retention",
+      "code": "S06_DIAGNOSTIC_RETENTION_HASH_ONLY",
+      "terminalRole": "policy-marker"
+    },
+    {
+      "class": "retention",
+      "code": "S06_DIAGNOSTIC_RETENTION_INVALID",
+      "terminalRole": "policy-marker"
+    },
+    {
+      "class": "retention",
+      "code": "S06_DIAGNOSTIC_RETENTION_RIGHTS_DENIED",
+      "terminalRole": "policy-marker"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_RIGHTS_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_DIAGNOSTIC_SUMMARY_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_EXECUTION_PROTOCOL_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "terminalRole": "expected-sentinel"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_EXPORT_PARENT_BYTES_IDENTITY_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_EXPORT_REQUEST_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_EXPORT_RGBA_IDENTITY_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_BYTES_INVALID",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_CHUNK_PROFILE_INVALID",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_CHUNK_TRUNCATED",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_CRC_MISMATCH",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_DECODE_FAILED",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_DECODE_LENGTH_MISMATCH",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_DIMENSION_LIMIT_EXCEEDED",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_FILTER_INVALID",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_PIXEL_PROFILE_INVALID",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_PNG_TRUNCATED",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_SIGNATURE_MISMATCH",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "preflight",
+      "code": "S06_INPUT_SRGB_REQUIRED",
+      "terminalRole": "expected-sentinel"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_LEDGER_TIME_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_NORMALIZE_REQUEST_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_NORMALIZE_SOURCE_IDENTITY_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_OPERATION_ALREADY_REGISTERED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_API_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_BYTES_EMPTY",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_BYTES_LIMIT_EXCEEDED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_DIAGNOSTIC_BINDING_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_APNG_FORBIDDEN",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_CHUNK_TRUNCATED",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_CHUNK_TYPE_INVALID",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_CRC_MISMATCH",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_DECODE_FAILED",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_DECODE_LENGTH_MISMATCH",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_EXIF_FORBIDDEN",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_FILTER_INVALID",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_FILTER_POLICY_MISMATCH",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_ICCP_FORBIDDEN",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_IDAT_INVALID",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_IEND_INVALID",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_IHDR_INVALID",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_INTERLACE_FORBIDDEN",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_METADATA_FORBIDDEN",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_METHOD_MISMATCH",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_PIXEL_LAYOUT_MISMATCH",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_SIGNATURE_MISMATCH",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_SRGB_INVALID",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_SRGB_REQUIRED",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_TRAILING_BYTES",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "oracle-finding",
+      "code": "S06_ORACLE_PNG_UNKNOWN_CRITICAL",
+      "terminalRole": "oracle-child"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_PROTOCOL_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_ORACLE_RESULT_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_OUTPUT_ORACLE_REJECTED",
+      "terminalRole": "top-level"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_PATH_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_PREFLIGHT_FALSE_ALLOW",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_PUBLICATION_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "stop",
+      "code": "S06_PUBLICATION_RECONCILIATION_UNKNOWN",
+      "terminalRole": "inconclusive"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_REGISTERED_DENOMINATOR_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_REGISTERED_RUN_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_REGISTERED_RUN_TIME_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_RUNNER_CONFIGURATION_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_RUN_CLAIM_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_RUN_EVENT_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_RUN_REQUEST_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_RUN_RESULT_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_RUN_TIME_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "protocol",
+      "code": "S06_SESSION_OUTPUT_LIMIT_EXCEEDED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_SHARP_EXPORT_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_SHARP_NORMALIZE_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "stop",
+      "code": "S06_STOP_RULE_TRIGGERED",
+      "terminalRole": "inconclusive"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_CANCELLED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_EXITED_WITHOUT_RESULT",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_EXIT_NONZERO",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_FAILURE_CLOSURE_COMMIT_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_FAILURE_ENVELOPE_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_INPUT_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_OBSERVATION_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_OUTPUT_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_PROCESS_ERROR",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_PROTOCOL_INVALID",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "stop",
+      "code": "S06_WORKER_RECONCILIATION_UNKNOWN",
+      "terminalRole": "inconclusive"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_RUNTIME_VERSION_MISMATCH",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_SEND_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_SPAWN_FAILED",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_TIMEOUT",
+      "terminalRole": "protocol-failure"
+    },
+    {
+      "class": "worker",
+      "code": "S06_WORKER_TIMEOUT_POLICY_INVALID",
+      "terminalRole": "protocol-failure"
+    }
+  ],
+  "schemaVersion": "error-registry.slice06.v0",
+  "sourceImplementationRefs": [
+    {
+      "id": "ADAPTER-SHARP-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f",
+      "path": "scripts/research-diagnostic-adapter-slice06.mjs",
+      "version": "0.6.0"
+    },
+    {
+      "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+      "path": "scripts/research-sharp-worker-slice06.mjs",
+      "version": "0.6.0"
+    },
+    {
+      "id": "ORACLE-INDEPENDENT-PNG-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591",
+      "path": "scripts/research-diagnostic-png-oracle-slice06.mjs",
+      "version": "0.6.0"
+    },
+    {
+      "id": "RUNNER-LOCAL-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "92126b90afa4a9b68e5fe4ee1db7c11dc2eab8f9246dc1421bd06eb1db26e665",
+      "path": "scripts/research-run-slice06.mjs",
+      "version": "0.6.0"
+    }
+  ],
+  "unknownCodeTreatment": "protocol-failed-or-inconclusive-never-pass"
+}

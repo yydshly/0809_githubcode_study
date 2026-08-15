@@ -1,0 +1,138 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/registered-diagnostic-run.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attemptCount": {
+      "const": 12
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash",
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "mode": {
+      "const": "open-diagnostic"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "preregistrationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash",
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "registeredAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "registeredRunId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "replacementAttemptCount": {
+      "const": 0
+    },
+    "runId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "registered-diagnostic-run.slice06.v0"
+    },
+    "sourceCount": {
+      "const": 4
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "registeredRunId",
+    "mode",
+    "operation",
+    "runId",
+    "definitionRef",
+    "preregistrationRef",
+    "sourceCount",
+    "attemptCount",
+    "replacementAttemptCount",
+    "registeredAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

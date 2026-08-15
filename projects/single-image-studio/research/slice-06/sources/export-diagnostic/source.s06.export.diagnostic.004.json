@@ -1,0 +1,100 @@
+{
+  "attemptNumber": 1,
+  "byteAssetRef": {
+    "byteLength": 1037,
+    "fileSha256": "158a814dc5c497c575f45853708e3cd02c2f4d006e96e7a2e1d7d36c4f20ddf5",
+    "path": "research/slice-05/assets/open/export-smoke/raw.s05.export.smoke.004.png"
+  },
+  "captureSessionId": "capture.s06.export.diagnostic.004",
+  "contentHash": "5acb9045a780e0088d873be25a71234be14167825f19d616f2330e6fdc700f5d",
+  "diagnosticRole": "invalid-artifact-version-preflight-sentinel",
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "goldRef": null,
+  "independenceClaim": false,
+  "inputArtifactRef": {
+    "byteLength": 2623,
+    "contentHash": "8ae8a5bc2e271b6383dde25b5826e2547aaccbac1f0bdd19d32c1a6e673deced",
+    "fileSha256": "f2ee22acdc1ac20d8e1ac2484bb2d93f3b749c6c1e549a991de63c7fbb255448",
+    "id": "normalized.s05.export.smoke.004",
+    "path": "research/slice-05/artifacts/normalized-inputs/export-smoke/normalized.s05.export.smoke.004.json"
+  },
+  "inputFacts": {
+    "alphaPresent": false,
+    "byteLength": 1037,
+    "decodedPixelSha256": "a0f96d8e12829ed7766fb13d7798feb24d40f2a1a0bbbd06338c7771b58c3eba",
+    "fileSha256": "158a814dc5c497c575f45853708e3cd02c2f4d006e96e7a2e1d7d36c4f20ddf5",
+    "height": 20,
+    "mime": "image/png",
+    "width": 13
+  },
+  "newIndependentSource": false,
+  "operation": "export",
+  "partition": "diagnostic",
+  "recordVersion": "0.6.0",
+  "regressionLineageRef": {
+    "definitionRef": {
+      "byteLength": 108012,
+      "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+      "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+      "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+      "path": "research/slice-05/definition-index.v0.5.0.json"
+    },
+    "slice": "05",
+    "sourceId": "normalized.s05.export.smoke.004"
+  },
+  "repetitions": 3,
+  "retentionPolicyRef": {
+    "byteLength": 1942,
+    "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+    "fileSha256": "467781f02ec844f62cd3c6e1e52fe0997b8e12e92ba145a51138dac7d6c65891",
+    "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+    "path": "retention/open-diagnostic.v0.6.0.json"
+  },
+  "reuseBoundary": {
+    "c1Eligible": false,
+    "calibrationEligible": false,
+    "countsAsNewSource": false,
+    "holdoutEligible": false,
+    "sourceBytesCopied": false,
+    "sourceRecordRewritten": false
+  },
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "schemaVersion": "fixture-lineage.slice06.v0",
+  "sourceFamilyId": "family.s06.export.diagnostic.004",
+  "sourceId": "source.s06.export.diagnostic.004",
+  "sourceLineageId": "lineage.source.s06.export.diagnostic.004",
+  "sourceProvenanceRef": {
+    "byteLength": 2359,
+    "contentHash": "80b6c06d5b8d724f2f4f398845c7982ae07bb246f51edf9c7df0644fcb43a0fe",
+    "fileSha256": "bbcff630a9f1a290cb9eed9af7ca64c303f6f21b77ca2ac9da31175d718d369d",
+    "id": "provenance.raw.s05.export.smoke.004",
+    "path": "research/slice-05/sources/export-smoke/raw.s05.export.smoke.004.json"
+  }
+}

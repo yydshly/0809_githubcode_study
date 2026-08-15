@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "excludedFromGateB": {
+          "const": true,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "gateBDecisionAuthority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "enum": [
+            "0.5.0",
+            "0.6.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/error-registry.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "errorRegistryId": {
+      "const": "ERROR-REGISTRY-SLICE06@0.6.0",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "frozenPrecedence": {
+      "additionalProperties": false,
+      "properties": {
+        "exportInvalidArtifactVersion": {
+          "const": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID-before-worker-invocation",
+          "type": "string"
+        },
+        "normalizeMissingSrgb": {
+          "const": "S06_INPUT_SRGB_REQUIRED-before-generic-idat-or-chunk-profile-rejection",
+          "type": "string"
+        },
+        "oracleFindingOrder": {
+          "items": {
+            "pattern": "^S06_[A-Z0-9_]+$",
+            "type": "string"
+          },
+          "minItems": 10,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "outputOracleTopLevel": {
+          "const": "S06_OUTPUT_ORACLE_REJECTED-with-exact-child-codes-required",
+          "type": "string"
+        }
+      },
+      "required": [
+        "normalizeMissingSrgb",
+        "exportInvalidArtifactVersion",
+        "outputOracleTopLevel",
+        "oracleFindingOrder"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.6.0",
+      "type": "string"
+    },
+    "registeredCodes": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "class": {
+            "enum": [
+              "preflight",
+              "oracle-finding",
+              "worker",
+              "protocol",
+              "retention",
+              "stop"
+            ],
+            "type": "string"
+          },
+          "code": {
+            "pattern": "^S06_[A-Z0-9_]+$",
+            "type": "string"
+          },
+          "terminalRole": {
+            "enum": [
+              "expected-sentinel",
+              "oracle-child",
+              "top-level",
+              "protocol-failure",
+              "inconclusive",
+              "policy-marker"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "class",
+          "terminalRole"
+        ],
+        "type": "object"
+      },
+      "minItems": 20,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "schemaVersion": {
+      "const": "error-registry.slice06.v0",
+      "type": "string"
+    },
+    "sourceImplementationRefs": {
+      "items": {
+        "$ref": "#/$defs/implementationRef"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "unknownCodeTreatment": {
+      "const": "protocol-failed-or-inconclusive-never-pass",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "errorRegistryId",
+    "recordVersion",
+    "sourceImplementationRefs",
+    "registeredCodes",
+    "frozenPrecedence",
+    "unknownCodeTreatment",
+    "frozenAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

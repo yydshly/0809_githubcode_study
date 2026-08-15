@@ -1,0 +1,606 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/diagnostic-summary.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allClassificationsDeterministic": {
+      "type": "boolean"
+    },
+    "allOracleOutcomesDeterministic": {
+      "type": "boolean"
+    },
+    "allOutputBytesDeterministic": {
+      "type": "boolean"
+    },
+    "allPixelsDeterministic": {
+      "oneOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "allWorkerRuntimesDeterministic": {
+      "type": "boolean"
+    },
+    "calibrationAuthorized": {
+      "const": false
+    },
+    "caseResults": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "classificationDeterministic": {
+            "type": "boolean"
+          },
+          "closureComplete": {
+            "type": "boolean"
+          },
+          "decodedPixelSha256s": {
+            "items": {
+              "oneOf": [
+                {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "effectiveResultRefs": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "contentHash": {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                "id": {
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+                  "type": "string"
+                },
+                "relativePath": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "contentHash",
+                "relativePath"
+              ],
+              "type": "object"
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "exitConfirmedAll": {
+            "type": "boolean"
+          },
+          "expectedDisposition": {
+            "enum": [
+              "applicable",
+              "preflight-reject"
+            ]
+          },
+          "invalidatedResultRefs": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "contentHash": {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                "id": {
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+                  "type": "string"
+                },
+                "relativePath": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "contentHash",
+                "relativePath"
+              ],
+              "type": "object"
+            },
+            "maxItems": 0,
+            "type": "array"
+          },
+          "oracleOutcomeDeterministic": {
+            "type": "boolean"
+          },
+          "oraclePrimaryCodes": {
+            "items": {
+              "oneOf": [
+                {
+                  "pattern": "^S06_[A-Z0-9_]+$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "outputByteLengths": {
+            "items": {
+              "oneOf": [
+                {
+                  "maximum": 1048576,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "outputBytesDeterministic": {
+            "type": "boolean"
+          },
+          "outputFileSha256s": {
+            "items": {
+              "oneOf": [
+                {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "pixelDeterministic": {
+            "oneOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rawResultRefs": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "contentHash": {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                "id": {
+                  "maxLength": 200,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+                  "type": "string"
+                },
+                "relativePath": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "contentHash",
+                "relativePath"
+              ],
+              "type": "object"
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "sourceId": {
+            "maxLength": 200,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+            "type": "string"
+          },
+          "statuses": {
+            "items": {
+              "enum": [
+                "characterized-oracle-pass",
+                "characterized-oracle-non-pass",
+                "characterized-preflight-rejection",
+                "protocol-failed",
+                "inconclusive"
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "strictDecisions": {
+            "items": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "pass",
+                    "non-pass"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "telemetryCompleteAll": {
+            "type": "boolean"
+          },
+          "workerRuntimeDeterministic": {
+            "type": "boolean"
+          },
+          "workerRuntimePayloadSha256s": {
+            "items": {
+              "oneOf": [
+                {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          }
+        },
+        "required": [
+          "sourceId",
+          "expectedDisposition",
+          "rawResultRefs",
+          "effectiveResultRefs",
+          "invalidatedResultRefs",
+          "statuses",
+          "strictDecisions",
+          "outputByteLengths",
+          "outputFileSha256s",
+          "decodedPixelSha256s",
+          "oraclePrimaryCodes",
+          "workerRuntimePayloadSha256s",
+          "closureComplete",
+          "outputBytesDeterministic",
+          "pixelDeterministic",
+          "classificationDeterministic",
+          "oracleOutcomeDeterministic",
+          "workerRuntimeDeterministic",
+          "exitConfirmedAll",
+          "telemetryCompleteAll"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash",
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "calibrationAuthorized": {
+          "const": false
+        },
+        "e1": {
+          "const": 0
+        },
+        "excludedFromGateB": {
+          "const": true
+        },
+        "formal": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "gateBDecisionAuthority": {
+          "const": false
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "exitConfirmedAll": {
+      "type": "boolean"
+    },
+    "finishedAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "gateBDecisionAuthority": {
+      "const": false
+    },
+    "mode": {
+      "const": "open-diagnostic"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "overallStatus": {
+      "enum": [
+        "characterization-complete",
+        "protocol-failed",
+        "inconclusive"
+      ]
+    },
+    "preregistrationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash",
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "recordedAttemptCount": {
+      "const": 12
+    },
+    "registeredAttemptCount": {
+      "const": 12
+    },
+    "registeredSourceCount": {
+      "const": 4
+    },
+    "replacementAttemptCount": {
+      "const": 0
+    },
+    "retainedOutputBytes": {
+      "maximum": 9437184,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "runId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "diagnostic-summary.slice06.v0"
+    },
+    "startedAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "statusCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "characterized-oracle-non-pass": {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "characterized-oracle-pass": {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "characterized-preflight-rejection": {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "inconclusive": {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "protocol-failed": {
+          "maximum": 12,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "characterized-oracle-pass",
+        "characterized-oracle-non-pass",
+        "characterized-preflight-rejection",
+        "protocol-failed",
+        "inconclusive"
+      ],
+      "type": "object"
+    },
+    "summaryId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "telemetryCompleteAll": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "summaryId",
+    "mode",
+    "operation",
+    "definitionRef",
+    "preregistrationRef",
+    "runId",
+    "registeredSourceCount",
+    "registeredAttemptCount",
+    "recordedAttemptCount",
+    "replacementAttemptCount",
+    "statusCounts",
+    "caseResults",
+    "retainedOutputBytes",
+    "allOutputBytesDeterministic",
+    "allOracleOutcomesDeterministic",
+    "allPixelsDeterministic",
+    "allClassificationsDeterministic",
+    "allWorkerRuntimesDeterministic",
+    "exitConfirmedAll",
+    "telemetryCompleteAll",
+    "overallStatus",
+    "gateBDecisionAuthority",
+    "calibrationAuthorized",
+    "startedAt",
+    "finishedAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

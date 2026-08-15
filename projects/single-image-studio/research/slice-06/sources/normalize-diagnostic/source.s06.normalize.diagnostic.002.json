@@ -1,0 +1,100 @@
+{
+  "attemptNumber": 1,
+  "byteAssetRef": {
+    "byteLength": 1035,
+    "fileSha256": "238682f8f88bc29c227dc7fa9a3b66bfd80cccf065ef85b61604305eda260131",
+    "path": "research/slice-05/assets/open/normalize-smoke/raw.s05.normalize.smoke.002.png"
+  },
+  "captureSessionId": "capture.s06.normalize.diagnostic.002",
+  "contentHash": "b21228ae9bc52b696f2afd5568180049653724722d49cbe5b71a92cd064f334f",
+  "diagnosticRole": "canonical-partial-alpha-applicable",
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "goldRef": {
+    "byteLength": 1704,
+    "contentHash": "aa3c75f6d1fa945c114dd31e672bce05a73037e3d2cbebb066161a9aafc7f2e4",
+    "fileSha256": "14f8f318975901385e5a23ccd0ea52195423c733a7f9b568a82e7b4e2c57a7c3",
+    "id": "gold.raw.s05.normalize.smoke.002",
+    "path": "research/slice-05/gold/normalize-smoke/gold.raw.s05.normalize.smoke.002.json"
+  },
+  "independenceClaim": false,
+  "inputArtifactRef": null,
+  "inputFacts": {
+    "alphaPresent": true,
+    "byteLength": 1035,
+    "decodedPixelSha256": "cbe7e8f4cf08cd859a040c77e7163246a0de03fdae25a11be6d4a0d91967d7c4",
+    "fileSha256": "238682f8f88bc29c227dc7fa9a3b66bfd80cccf065ef85b61604305eda260131",
+    "height": 18,
+    "mime": "image/png",
+    "width": 13
+  },
+  "newIndependentSource": false,
+  "operation": "normalize",
+  "partition": "diagnostic",
+  "recordVersion": "0.6.0",
+  "regressionLineageRef": {
+    "definitionRef": {
+      "byteLength": 108012,
+      "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+      "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+      "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+      "path": "research/slice-05/definition-index.v0.5.0.json"
+    },
+    "slice": "05",
+    "sourceId": "raw.s05.normalize.smoke.002"
+  },
+  "repetitions": 3,
+  "retentionPolicyRef": {
+    "byteLength": 1942,
+    "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+    "fileSha256": "467781f02ec844f62cd3c6e1e52fe0997b8e12e92ba145a51138dac7d6c65891",
+    "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+    "path": "retention/open-diagnostic.v0.6.0.json"
+  },
+  "reuseBoundary": {
+    "c1Eligible": false,
+    "calibrationEligible": false,
+    "countsAsNewSource": false,
+    "holdoutEligible": false,
+    "sourceBytesCopied": false,
+    "sourceRecordRewritten": false
+  },
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "schemaVersion": "fixture-lineage.slice06.v0",
+  "sourceFamilyId": "family.s06.normalize.diagnostic.002",
+  "sourceId": "source.s06.normalize.diagnostic.002",
+  "sourceLineageId": "lineage.source.s06.normalize.diagnostic.002",
+  "sourceProvenanceRef": {
+    "byteLength": 2331,
+    "contentHash": "fa5d896c670ffe7d3ee1a83a58f8a5f26af89f5c5db3c0539c99486859d68575",
+    "fileSha256": "7cc653ad3062d52d491b20a2204b57513f1ac496d59e64612e3c696096e9e61a",
+    "id": "provenance.raw.s05.normalize.smoke.002",
+    "path": "research/slice-05/sources/normalize-smoke/raw.s05.normalize.smoke.002.json"
+  }
+}

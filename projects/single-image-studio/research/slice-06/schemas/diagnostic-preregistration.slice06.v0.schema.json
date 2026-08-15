@@ -1,0 +1,411 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "excludedFromGateB": {
+          "const": true,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "gateBDecisionAuthority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "enum": [
+            "0.5.0",
+            "0.6.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/diagnostic-preregistration.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "contractRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "denominator": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "const": 12,
+          "type": "integer"
+        },
+        "repetitionsPerSource": {
+          "const": 3,
+          "type": "integer"
+        },
+        "replacementAttempts": {
+          "const": 0,
+          "type": "integer"
+        },
+        "sourceUnits": {
+          "const": 4,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "sourceUnits",
+        "attempts",
+        "repetitionsPerSource",
+        "replacementAttempts"
+      ],
+      "type": "object"
+    },
+    "diagnosticPlanRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "errorRegistryRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "formalBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1Denominator": {
+          "const": 0,
+          "type": "integer"
+        },
+        "defectHoldout": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "escape": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "formalRunsAllowed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "holdout": {
+          "const": "not-created",
+          "type": "string"
+        }
+      },
+      "required": [
+        "holdout",
+        "defectHoldout",
+        "escape",
+        "formalRunsAllowed",
+        "c1Denominator"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "hardwareRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "implementationRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/$defs/implementationRef"
+          },
+          "role": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "required": [
+          "role",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "mode": {
+      "const": "open-diagnostic",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ],
+      "type": "string"
+    },
+    "outcomeRule": {
+      "const": "all-twelve-attempts-terminal-with-complete-byte-worker-oracle-ledger-and-tree-closure-or-close-protocol-failed-or-inconclusive",
+      "type": "string"
+    },
+    "preregistrationId": {
+      "enum": [
+        "PREREG-DIAGNOSTIC-NORMALIZE-PNG@0.6.0",
+        "PREREG-DIAGNOSTIC-EXPORT-PNG@0.6.0"
+      ],
+      "type": "string"
+    },
+    "recordVersion": {
+      "const": "0.6.0",
+      "type": "string"
+    },
+    "requestIdentityRule": {
+      "const": "new-slice06-source-run-session-request-and-idempotency-identities-only",
+      "type": "string"
+    },
+    "rerunRule": {
+      "const": "no-valid-outcome-rerun-no-replacement-no-majority-vote",
+      "type": "string"
+    },
+    "retentionPolicyRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "rightsRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "runIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "invocationLimit": {
+          "const": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "$ref": "#/$defs/id"
+        },
+        "sessionId": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "runId",
+        "sessionId",
+        "invocationLimit"
+      ],
+      "type": "object"
+    },
+    "runtimeAttestationRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "diagnostic-preregistration.slice06.v0",
+      "type": "string"
+    },
+    "sourceLineageRefs": {
+      "items": {
+        "$ref": "#/$defs/recordRef"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array"
+    },
+    "stateAtDefinitionFreeze": {
+      "const": "preregistered-diagnostic-results-zero",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "preregistrationId",
+    "recordVersion",
+    "mode",
+    "operation",
+    "stateAtDefinitionFreeze",
+    "runIdentity",
+    "candidateRef",
+    "contractRef",
+    "diagnosticPlanRef",
+    "runtimeAttestationRef",
+    "hardwareRef",
+    "rightsRef",
+    "retentionPolicyRef",
+    "errorRegistryRef",
+    "sourceLineageRefs",
+    "implementationRefs",
+    "denominator",
+    "requestIdentityRule",
+    "outcomeRule",
+    "rerunRule",
+    "formalBoundary",
+    "frozenAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

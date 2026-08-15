@@ -1,0 +1,62 @@
+{
+  "cleanup": {
+    "fullResultTreeInventoryRequired": true,
+    "stagingMustBeRemovedOrReconciled": true,
+    "unreferencedBytesAllowed": false
+  },
+  "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+  "disposition": {
+    "artifactsDirectoryAllowed": false,
+    "catalogPublicationAllowed": false,
+    "oracleNonPass": "quarantine-nonartifact",
+    "oraclePass": "specimens-nonartifact",
+    "overLimit": "hash-only-nonartifact",
+    "preflightReject": "no-candidate-output",
+    "productDownloadAllowed": false
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "hashOnlyValues": {
+    "maxPerOutputBytes": 1048576,
+    "maxSessionBytes": 18874368,
+    "reasonCode": "S06_DIAGNOSTIC_RETENTION_HASH_ONLY",
+    "state": "hash-only"
+  },
+  "maxPerOutputBytes": 1048576,
+  "maxSessionBytes": 18874368,
+  "mode": "open-diagnostic",
+  "recordVersion": "0.6.0",
+  "retainedValues": {
+    "maxPerOutputBytes": 1048576,
+    "maxSessionBytes": 18874368,
+    "reasonCode": "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+    "state": "retained"
+  },
+  "retentionPolicyId": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "schemaVersion": "retention-policy.slice06.v0"
+}

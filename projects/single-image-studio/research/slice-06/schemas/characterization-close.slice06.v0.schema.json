@@ -1,0 +1,244 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/characterization-close.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "calibrationAuthorized": {
+      "const": false
+    },
+    "calibrationState": {
+      "const": "not-created-by-scope"
+    },
+    "closeId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "closedAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash",
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "calibrationAuthorized": {
+          "const": false
+        },
+        "e1": {
+          "const": 0
+        },
+        "excludedFromGateB": {
+          "const": true
+        },
+        "formal": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "gateBDecisionAuthority": {
+          "const": false
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "gateBDecisionAuthority": {
+      "const": false
+    },
+    "gateBState": {
+      "const": "not-entered-diagnostic-only"
+    },
+    "mode": {
+      "const": "open-diagnostic"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "characterization-complete",
+        "protocol-failed",
+        "inconclusive"
+      ]
+    },
+    "resultTree": {
+      "additionalProperties": false,
+      "properties": {
+        "fileCount": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "totalBytes": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "fileCount",
+        "totalBytes",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "characterization-close.slice06.v0"
+    },
+    "summaryRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash",
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "closeId",
+    "mode",
+    "operation",
+    "definitionRef",
+    "summaryRef",
+    "outcome",
+    "gateBDecisionAuthority",
+    "gateBState",
+    "calibrationAuthorized",
+    "calibrationState",
+    "resultTree",
+    "closedAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

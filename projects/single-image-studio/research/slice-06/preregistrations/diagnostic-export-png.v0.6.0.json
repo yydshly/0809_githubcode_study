@@ -1,0 +1,192 @@
+{
+  "candidateRef": {
+    "byteLength": 5111,
+    "contentHash": "e22388d65b8dfbf9a6aeed5eafe14a3d3bd9064f9a714d0efe4a86fc813dfbe7",
+    "fileSha256": "166e7589d7c9c28cb64c488411badbad40b8cace498d9892ff4de36ff5a7249e",
+    "id": "REG-NORM-SHARP@0.6.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.6.0.json"
+  },
+  "contentHash": "818c882d7f7a853325674cce67b3b19e6267c7bc7c204ff82f4cefd58679ac8c",
+  "contractRef": {
+    "byteLength": 9732,
+    "contentHash": "5471c4bc78365099196b6b9283c49d270423a2c0221698dbef61842fb035692e",
+    "fileSha256": "1535fbdbdd4d2efae34fee8d30e2ef5ab52c78fc51423dafcf81b31f0fdb9326",
+    "id": "CC-CAP02-EXPORT-PNG@0.6.0",
+    "path": "contracts/cc-cap02-export-png.v0.6.0.json"
+  },
+  "denominator": {
+    "attempts": 12,
+    "repetitionsPerSource": 3,
+    "replacementAttempts": 0,
+    "sourceUnits": 4
+  },
+  "diagnosticPlanRef": {
+    "byteLength": 14160,
+    "contentHash": "e4d14b742a2894e584994c25b20b9f297138ece79fff2cf9b4373cd207d19982",
+    "fileSha256": "3f3d111143b3ec8acf2ffedae7958ae07da38d41fcd04281706439ba687fcba5",
+    "id": "PLAN-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "plans/diagnostic-export-png.v0.6.0.json"
+  },
+  "errorRegistryRef": {
+    "byteLength": 16168,
+    "contentHash": "b5b8b0dd5adde35b9c9a856a3a1e37569bc02721054bd99f803d59deb123c32e",
+    "fileSha256": "0d1efe28db9261ae69e9fb40780f03e1e0396a266888cf0046a9665db915ef91",
+    "id": "ERROR-REGISTRY-SLICE06@0.6.0",
+    "path": "errors/error-registry.v0.6.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "formalBoundary": {
+    "c1Denominator": 0,
+    "defectHoldout": "not-created",
+    "escape": "not-created",
+    "formalRunsAllowed": false,
+    "holdout": "not-created"
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "hardwareRef": {
+    "byteLength": 1697,
+    "contentHash": "eace9946f4134a6ab2fa0e849eae795eb45c2ca949aa0099155cb9cc22b84e84",
+    "fileSha256": "781b1505fed78402097138775908c062ac3c98ecfda1847210325ce9566ef7c2",
+    "id": "HARDWARE-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "hardware/hardware.win32-x64.v0.6.0.json"
+  },
+  "implementationRefs": [
+    {
+      "ref": {
+        "id": "ADAPTER-SHARP-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f",
+        "path": "scripts/research-diagnostic-adapter-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "candidate-adapter"
+    },
+    {
+      "ref": {
+        "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+        "path": "scripts/research-sharp-worker-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "candidate-worker"
+    },
+    {
+      "ref": {
+        "id": "ORACLE-INDEPENDENT-PNG-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591",
+        "path": "scripts/research-diagnostic-png-oracle-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "independent-diagnostic-oracle"
+    },
+    {
+      "ref": {
+        "id": "RUNNER-LOCAL-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "92126b90afa4a9b68e5fe4ee1db7c11dc2eab8f9246dc1421bd06eb1db26e665",
+        "path": "scripts/research-run-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "local-diagnostic-runner"
+    },
+    {
+      "ref": {
+        "id": "DRIVER-REGISTERED-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "bc4244c1922148fe1c36e4a9c76b7579c88753b6091fa986a8d8d9f4b8424a4c",
+        "path": "scripts/research-execute-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "registered-diagnostic-driver"
+    },
+    {
+      "ref": {
+        "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+        "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+        "path": "scripts/research-independent-png-oracle-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "regression-material-decoder"
+    }
+  ],
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "outcomeRule": "all-twelve-attempts-terminal-with-complete-byte-worker-oracle-ledger-and-tree-closure-or-close-protocol-failed-or-inconclusive",
+  "preregistrationId": "PREREG-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+  "recordVersion": "0.6.0",
+  "requestIdentityRule": "new-slice06-source-run-session-request-and-idempotency-identities-only",
+  "rerunRule": "no-valid-outcome-rerun-no-replacement-no-majority-vote",
+  "retentionPolicyRef": {
+    "byteLength": 1942,
+    "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+    "fileSha256": "467781f02ec844f62cd3c6e1e52fe0997b8e12e92ba145a51138dac7d6c65891",
+    "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+    "path": "retention/open-diagnostic.v0.6.0.json"
+  },
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "runIdentity": {
+    "invocationLimit": 1,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sessionId": "session.diagnostic.s06.export.v0.6.0"
+  },
+  "runtimeAttestationRef": {
+    "byteLength": 7133,
+    "contentHash": "521bb10670154d345e5a3ae1df5930485f783161f7cf0fc83204e891b5c7f6ab",
+    "fileSha256": "0817925872950b3a2ab1e2d0d4674e34eceadfc175188257d267f194557174d1",
+    "id": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "runtime/attestation.win32-x64.v0.6.0.json"
+  },
+  "schemaVersion": "diagnostic-preregistration.slice06.v0",
+  "sourceLineageRefs": [
+    {
+      "byteLength": 4092,
+      "contentHash": "b9d323112df46faa5df3b5d5cb9eea408902dd779319ce0d68846a13cbcf645e",
+      "fileSha256": "f0a7807f16652d0beca98fd06b7b30521a5b1b94b86bbf215c011bcd4b81bbd4",
+      "id": "lineage.source.s06.export.diagnostic.001",
+      "path": "sources/export-diagnostic/source.s06.export.diagnostic.001.json"
+    },
+    {
+      "byteLength": 4101,
+      "contentHash": "b66f0e304986c7fb685877ef50c0da0547f7d172b2c7e3fe70d340c37dfa65f8",
+      "fileSha256": "cc7bb25d9d6c4c0cbd25a6449563d6942a9734687d712a1a58880601a6aac685",
+      "id": "lineage.source.s06.export.diagnostic.002",
+      "path": "sources/export-diagnostic/source.s06.export.diagnostic.002.json"
+    },
+    {
+      "byteLength": 4097,
+      "contentHash": "8386ebef69ad431603f629272458ba7fc29847a5da0e6dd8453bc7d9e98dd41d",
+      "fileSha256": "f97090b5ec0f7d169003d9536e929677ee117a9b0639af98c0dc106127755222",
+      "id": "lineage.source.s06.export.diagnostic.003",
+      "path": "sources/export-diagnostic/source.s06.export.diagnostic.003.json"
+    },
+    {
+      "byteLength": 3811,
+      "contentHash": "5acb9045a780e0088d873be25a71234be14167825f19d616f2330e6fdc700f5d",
+      "fileSha256": "f3b0ab22b6be1c7df51e5873d80abe4b3b0b8b35607f4ad28b1ff5e6a9b504e6",
+      "id": "lineage.source.s06.export.diagnostic.004",
+      "path": "sources/export-diagnostic/source.s06.export.diagnostic.004.json"
+    }
+  ],
+  "stateAtDefinitionFreeze": "preregistered-diagnostic-results-zero"
+}

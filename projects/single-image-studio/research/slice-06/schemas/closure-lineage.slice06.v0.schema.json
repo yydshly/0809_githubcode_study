@@ -1,0 +1,542 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "excludedFromGateB": {
+          "const": true,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "gateBDecisionAuthority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "enum": [
+            "0.5.0",
+            "0.6.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/closure-lineage.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closureLineageId": {
+      "const": "LINEAGE-SLICE05-CLOSED-NON-PASS@0.6.0",
+      "type": "string"
+    },
+    "commitPins": {
+      "additionalProperties": false,
+      "properties": {
+        "slice05ClosureCommit": {
+          "const": "4d7003e8e583c5964ab81ac0eb7182861aa44c0f",
+          "type": "string"
+        },
+        "slice05DefinitionCommit": {
+          "const": "1db59c753991f9b0105c67c162e85cb9062ee3b1",
+          "type": "string"
+        },
+        "slice06PreviousProtocolBaselineCommit": {
+          "const": "002e28963289e1f49e49a29ca78ebf820958f235",
+          "type": "string"
+        },
+        "slice06ProtocolCommit": {
+          "const": "ed5a60fb2f103494f78fda4260909c6e83a1baf6",
+          "type": "string"
+        },
+        "slice06ScopeCommit": {
+          "const": "97584c02e5689c276825dec4e058b9a94d84913a",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slice05DefinitionCommit",
+        "slice05ClosureCommit",
+        "slice06ScopeCommit",
+        "slice06PreviousProtocolBaselineCommit",
+        "slice06ProtocolCommit"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "immutableFacts": {
+      "additionalProperties": false,
+      "properties": {
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "gateB": {
+          "const": "denied-not-entered",
+          "type": "string"
+        },
+        "historicalRecordsMayBeRewritten": {
+          "const": false,
+          "type": "boolean"
+        },
+        "historicalRequestsMayBeRerun": {
+          "const": false,
+          "type": "boolean"
+        },
+        "publishedArtifactCount": {
+          "const": 0,
+          "type": "integer"
+        },
+        "state": {
+          "const": "smoke-closed-non-pass",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state",
+        "gateB",
+        "calibrationAuthorized",
+        "publishedArtifactCount",
+        "historicalRequestsMayBeRerun",
+        "historicalRecordsMayBeRewritten"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.6.0",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "closure-lineage.slice06.v0",
+      "type": "string"
+    },
+    "slice05CandidateRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "slice05Definition": {
+      "additionalProperties": false,
+      "properties": {
+        "definitionRef": {
+          "$ref": "#/$defs/recordRef"
+        },
+        "descendantMachineTree": {
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {
+              "const": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+              "type": "string"
+            },
+            "directoryCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "fileCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "totalBytes": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "algorithm",
+            "fileCount",
+            "directoryCount",
+            "totalBytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "fullDefinitionTree": {
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {
+              "const": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+              "type": "string"
+            },
+            "directoryCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "fileCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "totalBytes": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "algorithm",
+            "fileCount",
+            "directoryCount",
+            "totalBytes",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "proseReadme": {
+          "$ref": "#/$defs/fileRef"
+        },
+        "schemaTree": {
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {
+              "const": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+              "type": "string"
+            },
+            "directoryCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "fileCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "totalBytes": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "algorithm",
+            "fileCount",
+            "directoryCount",
+            "totalBytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "definitionRef",
+        "descendantMachineTree",
+        "schemaTree",
+        "fullDefinitionTree",
+        "proseReadme"
+      ],
+      "type": "object"
+    },
+    "slice05ResultClosure": {
+      "additionalProperties": false,
+      "properties": {
+        "ledger": {
+          "additionalProperties": false,
+          "properties": {
+            "eventCount": {
+              "const": 72,
+              "type": "integer"
+            },
+            "file": {
+              "$ref": "#/$defs/fileRef"
+            },
+            "tailContentHash": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "file",
+            "eventCount",
+            "tailContentHash"
+          ],
+          "type": "object"
+        },
+        "operations": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "calibrationAuthorized": {
+                "const": false,
+                "type": "boolean"
+              },
+              "decision": {
+                "const": "denied-not-entered",
+                "type": "string"
+              },
+              "decisionRef": {
+                "$ref": "#/$defs/recordRef"
+              },
+              "historicalOracleChildSubtype": {
+                "const": "unknown",
+                "type": "string"
+              },
+              "operation": {
+                "enum": [
+                  "normalize",
+                  "export"
+                ],
+                "type": "string"
+              },
+              "summaryRef": {
+                "$ref": "#/$defs/recordRef"
+              }
+            },
+            "required": [
+              "operation",
+              "summaryRef",
+              "decisionRef",
+              "decision",
+              "calibrationAuthorized",
+              "historicalOracleChildSubtype"
+            ],
+            "type": "object"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        "resultRoot": {
+          "const": "research/slice-05/results/open-smoke",
+          "type": "string"
+        },
+        "resultTree": {
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": {
+              "const": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+              "type": "string"
+            },
+            "directoryCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "fileCount": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "totalBytes": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "algorithm",
+            "fileCount",
+            "directoryCount",
+            "totalBytes",
+            "sha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "resultRoot",
+        "resultTree",
+        "ledger",
+        "operations"
+      ],
+      "type": "object"
+    },
+    "slice05RightsRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "sourceCandidateMetadataRef": {
+      "$ref": "#/$defs/recordRef"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "closureLineageId",
+    "recordVersion",
+    "commitPins",
+    "sourceCandidateMetadataRef",
+    "slice05CandidateRef",
+    "slice05RightsRef",
+    "slice05Definition",
+    "slice05ResultClosure",
+    "immutableFacts",
+    "frozenAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

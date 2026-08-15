@@ -1,0 +1,106 @@
+{
+  "attemptNumber": 1,
+  "byteAssetRef": {
+    "byteLength": 1035,
+    "fileSha256": "9fd05e5719927679c6bb0e9cb5cb8a6206d294f52d8c62b30c4a92da820feca7",
+    "path": "research/slice-05/assets/open/export-smoke/raw.s05.export.smoke.002.png"
+  },
+  "captureSessionId": "capture.s06.export.diagnostic.002",
+  "contentHash": "b66f0e304986c7fb685877ef50c0da0547f7d172b2c7e3fe70d340c37dfa65f8",
+  "diagnosticRole": "independent-partial-alpha-applicable",
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "goldRef": {
+    "byteLength": 1775,
+    "contentHash": "e05f9420339641fb674dbff1e58c0e278056cd323b5a929d21cd0e3587f012ff",
+    "fileSha256": "3d6b632af7528fd6c32d96ca2a95b33d8dc5eebbcccb7d6b2dbf33b4fba492d9",
+    "id": "gold.normalized.s05.export.smoke.002",
+    "path": "research/slice-05/gold/export-smoke/gold.normalized.s05.export.smoke.002.json"
+  },
+  "independenceClaim": false,
+  "inputArtifactRef": {
+    "byteLength": 2617,
+    "contentHash": "8b86b48a49d245cacbb8c92f459d5432f6be48b21929c1e7f4156314af4f068d",
+    "fileSha256": "aa9f5fba7b5408b235cbef34fd97b724aa85b00170a7404ce1e7553458999014",
+    "id": "normalized.s05.export.smoke.002",
+    "path": "research/slice-05/artifacts/normalized-inputs/export-smoke/normalized.s05.export.smoke.002.json"
+  },
+  "inputFacts": {
+    "alphaPresent": true,
+    "byteLength": 1035,
+    "decodedPixelSha256": "6384cb99d73381f3b43ffc2a2143692ba716350acd0bf736624be08f7b9e1731",
+    "fileSha256": "9fd05e5719927679c6bb0e9cb5cb8a6206d294f52d8c62b30c4a92da820feca7",
+    "height": 18,
+    "mime": "image/png",
+    "width": 13
+  },
+  "newIndependentSource": false,
+  "operation": "export",
+  "partition": "diagnostic",
+  "recordVersion": "0.6.0",
+  "regressionLineageRef": {
+    "definitionRef": {
+      "byteLength": 108012,
+      "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+      "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+      "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+      "path": "research/slice-05/definition-index.v0.5.0.json"
+    },
+    "slice": "05",
+    "sourceId": "normalized.s05.export.smoke.002"
+  },
+  "repetitions": 3,
+  "retentionPolicyRef": {
+    "byteLength": 1942,
+    "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+    "fileSha256": "467781f02ec844f62cd3c6e1e52fe0997b8e12e92ba145a51138dac7d6c65891",
+    "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+    "path": "retention/open-diagnostic.v0.6.0.json"
+  },
+  "reuseBoundary": {
+    "c1Eligible": false,
+    "calibrationEligible": false,
+    "countsAsNewSource": false,
+    "holdoutEligible": false,
+    "sourceBytesCopied": false,
+    "sourceRecordRewritten": false
+  },
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "schemaVersion": "fixture-lineage.slice06.v0",
+  "sourceFamilyId": "family.s06.export.diagnostic.002",
+  "sourceId": "source.s06.export.diagnostic.002",
+  "sourceLineageId": "lineage.source.s06.export.diagnostic.002",
+  "sourceProvenanceRef": {
+    "byteLength": 2315,
+    "contentHash": "10d5703607a12ba18afc18c0ee8fa05c5beea3fbe2c82eb5595a90ea71e3df23",
+    "fileSha256": "77334e3a5ccd9fe1b043a7f56f581f18a8b72c5d3cb996927be24b7d5e1c1712",
+    "id": "provenance.raw.s05.export.smoke.002",
+    "path": "research/slice-05/sources/export-smoke/raw.s05.export.smoke.002.json"
+  }
+}

@@ -1,0 +1,384 @@
+{
+  "candidateRef": {
+    "byteLength": 5111,
+    "contentHash": "e22388d65b8dfbf9a6aeed5eafe14a3d3bd9064f9a714d0efe4a86fc813dfbe7",
+    "fileSha256": "166e7589d7c9c28cb64c488411badbad40b8cace498d9892ff4de36ff5a7249e",
+    "id": "REG-NORM-SHARP@0.6.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.6.0.json"
+  },
+  "cases": [
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "canonical-opaque-applicable",
+      "expectedDisposition": "applicable",
+      "expectedStableErrorCode": null,
+      "repetitions": 3,
+      "sourceId": "source.s06.normalize.diagnostic.001",
+      "sourceLineageRef": {
+        "byteLength": 3761,
+        "contentHash": "efb383ec8b9a0666187311d6e66035e90ca5ae188c7957b0fbeb662594ba4ca9",
+        "fileSha256": "343daf0b610f73916414947e8636401ed4be0964c5c4801d043f76a5665080b3",
+        "id": "lineage.source.s06.normalize.diagnostic.001",
+        "path": "sources/normalize-diagnostic/source.s06.normalize.diagnostic.001.json"
+      }
+    },
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "canonical-partial-alpha-applicable",
+      "expectedDisposition": "applicable",
+      "expectedStableErrorCode": null,
+      "repetitions": 3,
+      "sourceId": "source.s06.normalize.diagnostic.002",
+      "sourceLineageRef": {
+        "byteLength": 3767,
+        "contentHash": "b21228ae9bc52b696f2afd5568180049653724722d49cbe5b71a92cd064f334f",
+        "fileSha256": "aebae89beb347b383c18a4cf5784a001a7a5243ac4d61623561a7a64e8d63c13",
+        "id": "lineage.source.s06.normalize.diagnostic.002",
+        "path": "sources/normalize-diagnostic/source.s06.normalize.diagnostic.002.json"
+      }
+    },
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "canonical-alpha-holes-applicable",
+      "expectedDisposition": "applicable",
+      "expectedStableErrorCode": null,
+      "repetitions": 3,
+      "sourceId": "source.s06.normalize.diagnostic.003",
+      "sourceLineageRef": {
+        "byteLength": 3763,
+        "contentHash": "77c426ce8a6b2405a5c508f14b13ec6d2695cab3cd99e3d9be68fde0c647fa1a",
+        "fileSha256": "a4d9940a5791562e77664a469acd805287112392572219f88bfd8384f74ae62f",
+        "id": "lineage.source.s06.normalize.diagnostic.003",
+        "path": "sources/normalize-diagnostic/source.s06.normalize.diagnostic.003.json"
+      }
+    },
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "missing-srgb-preflight-sentinel",
+      "expectedDisposition": "preflight-reject",
+      "expectedStableErrorCode": "S06_INPUT_SRGB_REQUIRED",
+      "repetitions": 3,
+      "sourceId": "source.s06.normalize.diagnostic.004",
+      "sourceLineageRef": {
+        "byteLength": 3455,
+        "contentHash": "094927563b7493c603ca37fe166cf42419895c31cd046d70a0d910101d967e69",
+        "fileSha256": "d9b3e0d3a7776d55aa14922aafb1366f29d60c6dd1e049a78977c7445771f3f2",
+        "id": "lineage.source.s06.normalize.diagnostic.004",
+        "path": "sources/normalize-diagnostic/source.s06.normalize.diagnostic.004.json"
+      }
+    }
+  ],
+  "closureLineageRef": {
+    "byteLength": 6599,
+    "contentHash": "b7070ab9e283a8695bf483028b924b332eef91802a18273f5e20e7295a185575",
+    "fileSha256": "dc9b2447aafff3fb19adafcafbf0973491889b2dfa5b0e4b73907f74aa9e49b0",
+    "id": "LINEAGE-SLICE05-CLOSED-NON-PASS@0.6.0",
+    "path": "lineage/slice05-closed-non-pass.v0.6.0.json"
+  },
+  "contentHash": "f122e85267af395b9afa921b3227781083c9f30c148c0065740c4eba2cf8a48a",
+  "contractRef": {
+    "byteLength": 9407,
+    "contentHash": "55bea84dda0b414126f163e875ce86a64ec319055a368c71a25f6059e2a851f8",
+    "fileSha256": "6b09f0472530dd6e43d3a670a9c7bc73779c529447df5700ea95188a7efc03ee",
+    "id": "CC-CAP02-NORMALIZE-PNG@0.6.0",
+    "path": "contracts/cc-cap02-normalize-png.v0.6.0.json"
+  },
+  "denominator": {
+    "applicableSources": 3,
+    "attempts": 12,
+    "preflightSentinels": 1,
+    "repetitionsPerSource": 3,
+    "replacementAttempts": 0,
+    "sourceUnits": 4
+  },
+  "diagnosticPlanId": "PLAN-DIAGNOSTIC-NORMALIZE-PNG@0.6.0",
+  "errorRegistryRef": {
+    "byteLength": 16168,
+    "contentHash": "b5b8b0dd5adde35b9c9a856a3a1e37569bc02721054bd99f803d59deb123c32e",
+    "fileSha256": "0d1efe28db9261ae69e9fb40780f03e1e0396a266888cf0046a9665db915ef91",
+    "id": "ERROR-REGISTRY-SLICE06@0.6.0",
+    "path": "errors/error-registry.v0.6.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "hardwareRef": {
+    "byteLength": 1697,
+    "contentHash": "eace9946f4134a6ab2fa0e849eae795eb45c2ca949aa0099155cb9cc22b84e84",
+    "fileSha256": "781b1505fed78402097138775908c062ac3c98ecfda1847210325ce9566ef7c2",
+    "id": "HARDWARE-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "hardware/hardware.win32-x64.v0.6.0.json"
+  },
+  "implementationRefs": [
+    {
+      "ref": {
+        "id": "ADAPTER-SHARP-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f",
+        "path": "scripts/research-diagnostic-adapter-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "candidate-adapter"
+    },
+    {
+      "ref": {
+        "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+        "path": "scripts/research-sharp-worker-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "candidate-worker"
+    },
+    {
+      "ref": {
+        "id": "ORACLE-INDEPENDENT-PNG-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591",
+        "path": "scripts/research-diagnostic-png-oracle-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "independent-diagnostic-oracle"
+    },
+    {
+      "ref": {
+        "id": "RUNNER-LOCAL-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "92126b90afa4a9b68e5fe4ee1db7c11dc2eab8f9246dc1421bd06eb1db26e665",
+        "path": "scripts/research-run-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "local-diagnostic-runner"
+    },
+    {
+      "ref": {
+        "id": "DRIVER-REGISTERED-DIAGNOSTIC@0.6.0",
+        "implementationSha256": "bc4244c1922148fe1c36e4a9c76b7579c88753b6091fa986a8d8d9f4b8424a4c",
+        "path": "scripts/research-execute-slice06.mjs",
+        "version": "0.6.0"
+      },
+      "role": "registered-diagnostic-driver"
+    },
+    {
+      "ref": {
+        "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+        "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+        "path": "scripts/research-independent-png-oracle-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "regression-material-decoder"
+    }
+  ],
+  "mode": "open-diagnostic",
+  "operation": "normalize",
+  "outcomeBoundary": {
+    "calibrationAuthorized": false,
+    "candidateConformancePass": false,
+    "characterizationMaySelectFutureCandidateDiscussion": true,
+    "gateBDecisionAuthority": false
+  },
+  "recordVersion": "0.6.0",
+  "repetitionRule": {
+    "allThreeTerminalRequired": true,
+    "majorityVoteAllowed": false,
+    "missingOrUnknownRequiresStop": true,
+    "validOutcomeRerunAllowed": false
+  },
+  "resultProtocolSchemaRefs": [
+    {
+      "file": {
+        "byteLength": 6196,
+        "fileSha256": "559ff94af62928af06e3b1edc715bd8441d16bd1e02af95724d157fe1f9dc834",
+        "path": "schemas/candidate-output-observation.slice06.v0.schema.json"
+      },
+      "role": "candidate-output-observation",
+      "schemaVersion": "candidate-output-observation.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 9933,
+        "fileSha256": "6ab9655ff35264a317f229c134c2abfafa9cfeb1dd04cedbbfffad4de17d367a",
+        "path": "schemas/diagnostic-envelope.slice06.v0.schema.json"
+      },
+      "role": "diagnostic-envelope",
+      "schemaVersion": "diagnostic-envelope.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 8807,
+        "fileSha256": "25e8caa36b17487cef802dc0b254c20e5037c8137590f25b948e89bc311aecd7",
+        "path": "schemas/oracle-diagnostic.slice06.v0.schema.json"
+      },
+      "role": "oracle-diagnostic",
+      "schemaVersion": "oracle-diagnostic.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 12573,
+        "fileSha256": "9283830e59a2e2f60ad9be5e6c4345fca52495f5b6d31cc685132adcecc71554",
+        "path": "schemas/local-run-request.slice06.v0.schema.json"
+      },
+      "role": "runRequest",
+      "schemaVersion": "local-run-request.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 2547,
+        "fileSha256": "f5ea22fcdd39d7a97ff823c9c620c67741d85d3761b5fc572c34a01ba6b692d8",
+        "path": "schemas/idempotency-claim.slice06.v0.schema.json"
+      },
+      "role": "runClaim",
+      "schemaVersion": "idempotency-claim.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5622,
+        "fileSha256": "185f18d9e66b9ac8d5a19b0fea9cb60c31d57cf37f76325e3ecaba1541d19d88",
+        "path": "schemas/run-event.slice06.v0.schema.json"
+      },
+      "role": "runEvent",
+      "schemaVersion": "run-event.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 11320,
+        "fileSha256": "60d67e5875a9a737d212b52210b6a1c0a4169b43badd2544ea6f6a2157d8d3e4",
+        "path": "schemas/run-result.slice06.v0.schema.json"
+      },
+      "role": "runResult",
+      "schemaVersion": "run-result.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 14859,
+        "fileSha256": "37723d004acf5af629c1d4d4639f2ab3c52c663756f1d4c731078bdf9a6319fc",
+        "path": "schemas/diagnostic-summary.slice06.v0.schema.json"
+      },
+      "role": "diagnosticSummary",
+      "schemaVersion": "diagnostic-summary.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5239,
+        "fileSha256": "158dd18fe5b3c42739c3afa2594098f41d68ff3709173ba45320e50bcc2475e2",
+        "path": "schemas/characterization-close.slice06.v0.schema.json"
+      },
+      "role": "characterizationClose",
+      "schemaVersion": "characterization-close.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 3098,
+        "fileSha256": "588c51ae0aaf465ac79f7226250bca7270faa26a362c016c4e247fc4da31f7ef",
+        "path": "schemas/registered-diagnostic-run.slice06.v0.schema.json"
+      },
+      "role": "registeredRun",
+      "schemaVersion": "registered-diagnostic-run.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5685,
+        "fileSha256": "50519bfdaba0aba4768a395aec3b2a71e84bb54d877d6325f49212dbf82b0ef7",
+        "path": "schemas/worker-observation.slice06.v0.schema.json"
+      },
+      "role": "workerObservation",
+      "schemaVersion": "worker-observation.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 1686,
+        "fileSha256": "ff976d84a3b028fb07db61434b5a5edf0976dacedcac571dacc483c76d659876",
+        "path": "schemas/five-role-publication.slice06.v0.schema.json"
+      },
+      "role": "closurePublication",
+      "schemaVersion": "five-role-publication.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 10747,
+        "fileSha256": "471924a507c476a1de7eeba4233bad9db04b16e02c2305b57047dd28a59a08bd",
+        "path": "schemas/worker-failure-envelope.slice06.v0.schema.json"
+      },
+      "role": "workerFailureEnvelope",
+      "schemaVersion": "worker-failure-envelope.slice06.v0"
+    }
+  ],
+  "resultsStateAtDefinitionFreeze": "not-created",
+  "retentionPolicyRef": {
+    "byteLength": 1942,
+    "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+    "fileSha256": "467781f02ec844f62cd3c6e1e52fe0997b8e12e92ba145a51138dac7d6c65891",
+    "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+    "path": "retention/open-diagnostic.v0.6.0.json"
+  },
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "runtimeAttestationRef": {
+    "byteLength": 7133,
+    "contentHash": "521bb10670154d345e5a3ae1df5930485f783161f7cf0fc83204e891b5c7f6ab",
+    "fileSha256": "0817925872950b3a2ab1e2d0d4674e34eceadfc175188257d267f194557174d1",
+    "id": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "runtime/attestation.win32-x64.v0.6.0.json"
+  },
+  "schemaVersion": "diagnostic-plan.slice06.v0",
+  "stopRules": [
+    {
+      "code": "S06_DEFINITION_DRIFT",
+      "condition": "any definition, implementation, runtime, source, gold, schema, plan, preregistration, manifest or commit pin differs",
+      "disposition": "seal-and-version-bump"
+    },
+    {
+      "code": "S06_REGISTERED_DENOMINATOR_INVALID",
+      "condition": "registered source or repetition denominator differs from four by three",
+      "disposition": "protocol-failed"
+    },
+    {
+      "code": "S06_PUBLICATION_RECONCILIATION_UNKNOWN",
+      "condition": "durable closure publication cannot be reconciled",
+      "disposition": "inconclusive"
+    },
+    {
+      "code": "S06_WORKER_RECONCILIATION_UNKNOWN",
+      "condition": "worker exit identity cannot be confirmed",
+      "disposition": "inconclusive"
+    },
+    {
+      "code": "S06_DIAGNOSTIC_CLOSURE_INVALID",
+      "condition": "bytes, worker observation, oracle child codes or envelope closure is incomplete",
+      "disposition": "protocol-failed"
+    },
+    {
+      "code": "S06_EXECUTION_PROTOCOL_FAILED",
+      "condition": "execution leaves the closed protocol",
+      "disposition": "protocol-failed"
+    },
+    {
+      "code": "S06_PREFLIGHT_FALSE_ALLOW",
+      "condition": "a preflight sentinel reaches candidate execution",
+      "disposition": "protocol-failed"
+    },
+    {
+      "code": "S06_STOP_RULE_TRIGGERED",
+      "condition": "one prior attempt activates the one-version stop rule",
+      "disposition": "inconclusive"
+    }
+  ]
+}

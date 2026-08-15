@@ -1,0 +1,456 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/worker-failure-envelope.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptNumber": {
+          "const": 1
+        },
+        "idempotencyKey": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "partition": {
+          "const": "diagnostic"
+        },
+        "repetition": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "sourceId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId",
+        "sourceId",
+        "partition",
+        "repetition",
+        "attemptNumber",
+        "idempotencyKey"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "calibrationAuthorized": {
+          "const": false
+        },
+        "e1": {
+          "const": 0
+        },
+        "excludedFromGateB": {
+          "const": true
+        },
+        "formal": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "gateBDecisionAuthority": {
+          "const": false
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "mode": {
+      "const": "open-diagnostic"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "reasonCode": {
+      "pattern": "^S06_[A-Z0-9_]+$",
+      "type": "string"
+    },
+    "requestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "worker-failure-envelope.slice06.v0"
+    },
+    "workerFailureEnvelopeId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "workerObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "exit": {
+          "additionalProperties": false,
+          "properties": {
+            "confirmed": {
+              "type": "boolean"
+            },
+            "exitCode": {
+              "oneOf": [
+                {
+                  "maximum": 255,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "signal": {
+              "oneOf": [
+                {
+                  "maxLength": 40,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "terminationRequested": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "confirmed",
+            "exitCode",
+            "signal",
+            "terminationRequested"
+          ],
+          "type": "object"
+        },
+        "message": {
+          "additionalProperties": false,
+          "properties": {
+            "payloadSha256": {
+              "oneOf": [
+                {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "protocolVersion": {
+              "oneOf": [
+                {
+                  "maxLength": 80,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "received": {
+              "type": "boolean"
+            },
+            "receivedAt": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "pattern": "Z$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "succeeded",
+                    "failed"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "received",
+            "receivedAt",
+            "protocolVersion",
+            "status",
+            "payloadSha256"
+          ],
+          "type": "object"
+        },
+        "parentWall": {
+          "additionalProperties": false,
+          "properties": {
+            "durationMs": {
+              "maximum": 11000,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "exitedAt": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "pattern": "Z$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "finishedAt": {
+              "format": "date-time",
+              "pattern": "Z$",
+              "type": "string"
+            },
+            "messageAt": {
+              "oneOf": [
+                {
+                  "format": "date-time",
+                  "pattern": "Z$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "startedAt": {
+              "format": "date-time",
+              "pattern": "Z$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "startedAt",
+            "messageAt",
+            "exitedAt",
+            "finishedAt",
+            "durationMs"
+          ],
+          "type": "object"
+        },
+        "runtime": {
+          "additionalProperties": false,
+          "properties": {
+            "matchesFrozen": {
+              "oneOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "payloadSha256": {
+              "oneOf": [
+                {
+                  "pattern": "^[a-f0-9]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "payloadSha256",
+            "matchesFrozen"
+          ],
+          "type": "object"
+        },
+        "telemetry": {
+          "additionalProperties": false,
+          "properties": {
+            "resourceUsage": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "maxRssKiB": {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "systemCpuMicros": {
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "userCpuMicros": {
+                      "minimum": 0,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "maxRssKiB",
+                    "userCpuMicros",
+                    "systemCpuMicros"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "source": {
+              "oneOf": [
+                {
+                  "const": "worker-self-reported-not-hard-isolation"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "workerDurationMs": {
+              "oneOf": [
+                {
+                  "maximum": 10000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "source",
+            "workerDurationMs",
+            "resourceUsage"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "message",
+        "runtime",
+        "telemetry",
+        "parentWall",
+        "exit"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "workerFailureEnvelopeId",
+    "mode",
+    "operation",
+    "requestRef",
+    "attempt",
+    "reasonCode",
+    "workerObservation",
+    "createdAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,272 @@
+{
+  "artifactSchemaRefs": [
+    {
+      "file": {
+        "byteLength": 5752,
+        "fileSha256": "d35a0680ecc20f1be45db42c04bcba53febd71aba5b4bc7cd7c7ed9e5c28bf1f",
+        "path": "research/slice-05/schemas/normalized-image.slice04.v0.schema.json"
+      },
+      "role": "input-normalized-image",
+      "schemaVersion": "normalized-image.slice04.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5746,
+        "fileSha256": "b81f3c2000798cb39b1fec17d6382ed288a1d6071b84c68562778db1c3103526",
+        "path": "research/slice-05/schemas/delivery-artifact.slice04.v0.schema.json"
+      },
+      "role": "output-delivery-artifact",
+      "schemaVersion": "delivery-artifact.slice04.v0"
+    }
+  ],
+  "calibrationStateAtDefinitionFreeze": "not-created-by-scope",
+  "candidateRef": {
+    "byteLength": 5111,
+    "contentHash": "e22388d65b8dfbf9a6aeed5eafe14a3d3bd9064f9a714d0efe4a86fc813dfbe7",
+    "fileSha256": "166e7589d7c9c28cb64c488411badbad40b8cace498d9892ff4de36ff5a7249e",
+    "id": "REG-NORM-SHARP@0.6.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.6.0.json"
+  },
+  "capabilityId": "CAP-02",
+  "closureLineageRef": {
+    "byteLength": 6599,
+    "contentHash": "b7070ab9e283a8695bf483028b924b332eef91802a18273f5e20e7295a185575",
+    "fileSha256": "dc9b2447aafff3fb19adafcafbf0973491889b2dfa5b0e4b73907f74aa9e49b0",
+    "id": "LINEAGE-SLICE05-CLOSED-NON-PASS@0.6.0",
+    "path": "lineage/slice05-closed-non-pass.v0.6.0.json"
+  },
+  "contentHash": "5471c4bc78365099196b6b9283c49d270423a2c0221698dbef61842fb035692e",
+  "contractId": "CC-CAP02-EXPORT-PNG@0.6.0",
+  "diagnosticPersistence": {
+    "artifactPublicationAllowed": false,
+    "candidateOutputBytesRequiredWhenWithinLimit": true,
+    "diagnosticEnvelopeRequired": true,
+    "exactOracleChildCodesRequired": true,
+    "workerObservationRequired": true
+  },
+  "diagnosticProtocolSchemaRefs": [
+    {
+      "file": {
+        "byteLength": 6196,
+        "fileSha256": "559ff94af62928af06e3b1edc715bd8441d16bd1e02af95724d157fe1f9dc834",
+        "path": "schemas/candidate-output-observation.slice06.v0.schema.json"
+      },
+      "role": "candidate-output-observation",
+      "schemaVersion": "candidate-output-observation.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 9933,
+        "fileSha256": "6ab9655ff35264a317f229c134c2abfafa9cfeb1dd04cedbbfffad4de17d367a",
+        "path": "schemas/diagnostic-envelope.slice06.v0.schema.json"
+      },
+      "role": "diagnostic-envelope",
+      "schemaVersion": "diagnostic-envelope.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 8807,
+        "fileSha256": "25e8caa36b17487cef802dc0b254c20e5037c8137590f25b948e89bc311aecd7",
+        "path": "schemas/oracle-diagnostic.slice06.v0.schema.json"
+      },
+      "role": "oracle-diagnostic",
+      "schemaVersion": "oracle-diagnostic.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 12573,
+        "fileSha256": "9283830e59a2e2f60ad9be5e6c4345fca52495f5b6d31cc685132adcecc71554",
+        "path": "schemas/local-run-request.slice06.v0.schema.json"
+      },
+      "role": "runRequest",
+      "schemaVersion": "local-run-request.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 2547,
+        "fileSha256": "f5ea22fcdd39d7a97ff823c9c620c67741d85d3761b5fc572c34a01ba6b692d8",
+        "path": "schemas/idempotency-claim.slice06.v0.schema.json"
+      },
+      "role": "runClaim",
+      "schemaVersion": "idempotency-claim.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5622,
+        "fileSha256": "185f18d9e66b9ac8d5a19b0fea9cb60c31d57cf37f76325e3ecaba1541d19d88",
+        "path": "schemas/run-event.slice06.v0.schema.json"
+      },
+      "role": "runEvent",
+      "schemaVersion": "run-event.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 11320,
+        "fileSha256": "60d67e5875a9a737d212b52210b6a1c0a4169b43badd2544ea6f6a2157d8d3e4",
+        "path": "schemas/run-result.slice06.v0.schema.json"
+      },
+      "role": "runResult",
+      "schemaVersion": "run-result.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 14859,
+        "fileSha256": "37723d004acf5af629c1d4d4639f2ab3c52c663756f1d4c731078bdf9a6319fc",
+        "path": "schemas/diagnostic-summary.slice06.v0.schema.json"
+      },
+      "role": "diagnosticSummary",
+      "schemaVersion": "diagnostic-summary.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5239,
+        "fileSha256": "158dd18fe5b3c42739c3afa2594098f41d68ff3709173ba45320e50bcc2475e2",
+        "path": "schemas/characterization-close.slice06.v0.schema.json"
+      },
+      "role": "characterizationClose",
+      "schemaVersion": "characterization-close.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 3098,
+        "fileSha256": "588c51ae0aaf465ac79f7226250bca7270faa26a362c016c4e247fc4da31f7ef",
+        "path": "schemas/registered-diagnostic-run.slice06.v0.schema.json"
+      },
+      "role": "registeredRun",
+      "schemaVersion": "registered-diagnostic-run.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5685,
+        "fileSha256": "50519bfdaba0aba4768a395aec3b2a71e84bb54d877d6325f49212dbf82b0ef7",
+        "path": "schemas/worker-observation.slice06.v0.schema.json"
+      },
+      "role": "workerObservation",
+      "schemaVersion": "worker-observation.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 1686,
+        "fileSha256": "ff976d84a3b028fb07db61434b5a5edf0976dacedcac571dacc483c76d659876",
+        "path": "schemas/five-role-publication.slice06.v0.schema.json"
+      },
+      "role": "closurePublication",
+      "schemaVersion": "five-role-publication.slice06.v0"
+    },
+    {
+      "file": {
+        "byteLength": 10747,
+        "fileSha256": "471924a507c476a1de7eeba4233bad9db04b16e02c2305b57047dd28a59a08bd",
+        "path": "schemas/worker-failure-envelope.slice06.v0.schema.json"
+      },
+      "role": "workerFailureEnvelope",
+      "schemaVersion": "worker-failure-envelope.slice06.v0"
+    }
+  ],
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "failureSemantics": {
+    "failClosed": true,
+    "replacementAttempts": 0,
+    "stableErrorCodeRequired": true,
+    "unknownIsProtocolFailureOrInconclusive": true,
+    "validOutcomeRerunAllowed": false
+  },
+  "formalDefectHoldoutStatusAtDefinitionFreeze": "not-created",
+  "formalEscapeStatusAtDefinitionFreeze": "not-created",
+  "formalHoldoutStatusAtDefinitionFreeze": "not-created",
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "gateBStateAtDefinitionFreeze": "not-entered-diagnostic-only",
+  "implementation": {
+    "adapterRef": {
+      "id": "ADAPTER-SHARP-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f",
+      "path": "scripts/research-diagnostic-adapter-slice06.mjs",
+      "version": "0.6.0"
+    },
+    "atomicDiagnosticClosureRequired": true,
+    "fallbackAllowed": false,
+    "imagePipelineExecutedByDefinitionGenerator": false,
+    "independentOracleRef": {
+      "id": "ORACLE-INDEPENDENT-PNG-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591",
+      "path": "scripts/research-diagnostic-png-oracle-slice06.mjs",
+      "version": "0.6.0"
+    },
+    "independentReopenRequired": true,
+    "isolatedWorkerRequired": true,
+    "passthroughAllowed": false,
+    "state": "definition-frozen-diagnostic-only-not-run",
+    "workerRef": {
+      "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+      "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+      "path": "scripts/research-sharp-worker-slice06.mjs",
+      "version": "0.6.0"
+    }
+  },
+  "inputProfile": {
+    "alphaMode": "straight-unpremultiplied",
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "interlace": "forbidden",
+    "maxBytes": 1048576,
+    "maxHeight": 256,
+    "maxWidth": 256,
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "type": "NormalizedImage.slice04.v0"
+  },
+  "operation": "export",
+  "outputProfile": {
+    "alphaMode": "straight-unpremultiplied",
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "interlace": "forbidden",
+    "maxBytes": 1048576,
+    "maxHeight": 256,
+    "maxWidth": 256,
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "type": "DeliveryArtifact.slice04.v0"
+  },
+  "recordVersion": "0.6.0",
+  "runtimeAttestationRef": {
+    "byteLength": 7133,
+    "contentHash": "521bb10670154d345e5a3ae1df5930485f783161f7cf0fc83204e891b5c7f6ab",
+    "fileSha256": "0817925872950b3a2ab1e2d0d4674e34eceadfc175188257d267f194557174d1",
+    "id": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "runtime/attestation.win32-x64.v0.6.0.json"
+  },
+  "schemaVersion": "capability-contract.slice06.v0",
+  "sourceSlice05ContractRef": {
+    "byteLength": 5851,
+    "contentHash": "9158ec6b07c3a877976fa48c5001a9f3c65ef746d5d1a99dca74696d58c1d278",
+    "fileSha256": "c994b2307e8fc44a5078f864a3ac0c2d91c5a103967e29befee4640456074903",
+    "id": "CC-CAP02-EXPORT-PNG@0.5.0",
+    "path": "research/slice-05/contracts/cc-cap02-export-png.v0.5.0.json"
+  },
+  "suiteId": "NORMALIZE-DELIVER"
+}

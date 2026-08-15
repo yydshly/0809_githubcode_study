@@ -10,7 +10,7 @@
 | 记录日期 | 2026-08-12 |
 | 前序许可 | 本地原创研究，许可证待定；第三方边界按下方固定研究账本审计 |
 
-本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留。随后 Slice 05 为同一复合候选新增 exact research-only devDependencies 与 lockfile，并以 runtime attestation 精确锁定实际 package / native closure。Slice 06 Phase A 新增 scope 文档；Phase B 新增本地原创的隔离 diagnostic adapter / worker / oracle / runner、strict schemas 与 fake-only tests。测试只在内存构造 synthetic PNG bytes、在系统临时目录构造 fake closure / result tree；没有新增依赖、取得或复制第三方代码 / 资产、创建或提交 canonical repository fixture / result，也没有运行真实 Sharp 图片路径。
+本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留。随后 Slice 05 为同一复合候选新增 exact research-only devDependencies 与 lockfile，并以 runtime attestation 精确锁定实际 package / native closure。Slice 06 Phase A 新增 scope 文档；Phase B 新增本地原创的隔离 diagnostic adapter / worker / oracle / runner、strict schemas 与 fake-only tests；Phase C 又新增本地原创 generator / validator / driver，并冻结只含 metadata / lineage refs 的 results-zero machine definition。测试只在内存构造 synthetic PNG bytes、在系统临时目录构造 fake closure / result tree；没有新增依赖、取得或复制第三方代码 / 资产、复制图片 bytes 或创建 canonical repository result，也没有运行真实 Sharp 图片路径。
 
 ## 本地原创范围
 
@@ -50,7 +50,7 @@
 
 | Registry ID | 官方来源 | 代码 / package 许可 | 权重 / 服务边界 | 本地复制 |
 | --- | --- | --- | --- | --- |
-| `REG-NORM-SHARP` | [lovell/sharp v0.35.3](https://github.com/lovell/sharp/releases/tag/v0.35.3)、commit `1018449164723ba0203c1beffaba0e21f7829c18`、npm `sharp@0.35.3` 与 Windows x64 bundles | `sharp` Apache-2.0；`@img/sharp-libvips-win32-x64` LGPL-3.0-or-later；`@img/sharp-win32-x64` Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo LGPL-2.1-or-later；实际第三方通知逐项保留 | 无模型；`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6` 与 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 作为同一复合候选；Slice 05 normalize / export Gate B 均 `denied-not-entered` | Slice 05 exact dependency / lock / inventory 与 closed non-pass smoke 保持不变；Slice 06 已新增本地原创 diagnostic protocol code / schemas / fake tests，但未新增 runtime / dependency / canonical repository asset / result，`@0.6.0` machine candidate 仍未创建 |
+| `REG-NORM-SHARP` | [lovell/sharp v0.35.3](https://github.com/lovell/sharp/releases/tag/v0.35.3)、commit `1018449164723ba0203c1beffaba0e21f7829c18`、npm `sharp@0.35.3` 与 Windows x64 bundles | `sharp` Apache-2.0；`@img/sharp-libvips-win32-x64` LGPL-3.0-or-later；`@img/sharp-win32-x64` Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo LGPL-2.1-or-later；实际第三方通知逐项保留 | 无模型；`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6` 与 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 作为同一复合候选；Slice 05 normalize / export Gate B 均 `denied-not-entered` | Slice 05 exact dependency / lock / inventory 与 closed non-pass smoke 保持不变；Slice 06 已冻结本地原创 diagnostic protocol / definition，`REG-NORM-SHARP@0.6.0` 仅为 diagnostic-only machine candidate，未新增 runtime dependency、复制图片或生成 canonical result |
 | `REG-NORM-LIBVIPS` | [libvips v8.18.3](https://github.com/libvips/libvips/releases/tag/v8.18.3)、commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626`、[libvips.org](https://www.libvips.org/) | LGPL-2.1-or-later | 该 source ref 已用于 Sharp bundled 来源追踪；standalone 构建、格式库、链接与交付边界仍未锁，继续 pending-freeze | 无 |
 | `REG-VISION-OPENCV` | [opencv/opencv](https://github.com/opencv/opencv)、[OpenCV license](https://opencv.org/license/) | OpenCV 4.5.0 起主体为 Apache-2.0 | 核心原语无权重；数据文件、可选模块和第三方组件另审 | 无 |
 | `REG-DETECT-GROUNDING-DINO` | [IDEA-Research/GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) | Apache-2.0 | checkpoint 许可、训练数据、依赖与哈希未锁定，`research-only` | 无 |
@@ -122,9 +122,9 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 
 ### Slice 06 diagnostic protocol lineage 与资产边界
 
-[Slice 06 范围合同](./research/SLICE_06_CONTRACT.md) 只允许未来建立 diagnostic-only `REG-NORM-SHARP@0.6.0`，其 source metadata 继续引用 Slice 04 `@0.4.0`，closed-non-pass lineage 指向 Slice 05 `@0.5.0`。Phase B 的 adapter / worker / oracle / runner、13 份 schema 与 fake-only tests 是本地原创实现；没有新增 npm dependency，也没有运行真实 Sharp 图片路径。新的 candidate / runtime record 仍未生成；Sharp `0.35.3`、bundled libvips 与 installed closure 只能作为预期 lineage，实际运行前仍须 fresh inventory / attestation，不能把 Slice 05 的时点事实冒充 Slice 06 环境。
+[Slice 06 范围合同](./research/SLICE_06_CONTRACT.md) 只允许 diagnostic-only `REG-NORM-SHARP@0.6.0`，其 source metadata 继续引用 Slice 04 `@0.4.0`，closed-non-pass lineage 指向 Slice 05 `@0.5.0`。Phase B 的 adapter / worker / oracle / runner、13 份 runtime protocol schema 与 fake-only tests，以及 Phase C 的 generator / validator / driver、13 份 machine-record schema 与 results-zero definition 都是本地原创实现；没有新增 npm dependency，也没有运行真实 Sharp 图片路径。fresh runtime / hardware records 已在 `2026-08-15T08:17:06.288Z` 的定义中冻结；它们重新观测同一 installed closure，不能把 Slice 05 的时点事实冒充 Slice 06 当前环境。
 
-计划的 8 个 source unit 只引用 Slice 05 已提交的项目原创 public-synthetic bytes / rights / gold facts，使用新 Slice 06 wrapper identity 并声明 `regressionLineageRef` / `independenceClaim=false`；不下载、生成或复制第三方图片，也不创建真实照片、模型 / checkpoint、正式 holdout、defect-holdout 或 escape。未来 candidate output 仅可保存为非产品 diagnostic specimen / quarantine，不进入 catalog、artifact、calibration 或正式证据路径。
+冻结的 8 个 source unit wrapper 只引用 Slice 05 已提交的项目原创 public-synthetic bytes / rights / gold facts，使用新 Slice 06 identity 并声明 `regressionLineageRef` / `independenceClaim=false`；Slice 06 tree 没有复制这些 image bytes，也不下载、生成或复制第三方图片，不创建真实照片、模型 / checkpoint、正式 holdout、defect-holdout 或 escape。未来 candidate output 仅可保存为非产品 diagnostic specimen / quarantine，不进入 catalog、artifact、calibration 或正式证据路径。
 
 ## 市场官方研究入口
 
@@ -168,7 +168,7 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 2026-08-14 核对的官方文档支持以下规划判断：
 
 - GPT Image 2 的官方模型页列出不可变 snapshot `gpt-image-2-2026-04-21`；研究和运行记录不得只写浮动别名 `gpt-image-2`。
-- 当前 `server/server.mjs` 仍以浮动别名调用 R0 探针。本轮未修改该旧任务 / OpenAI 调用路径或正式产品 UI；Slice 02 / 03 的本地 reference adapter、validator 与密封仪式 helper 只处理项目原创合成研究夹具或临时 mock metadata，Slice 04 只提交 Sharp 复合候选的来源锁与预注册 metadata，Slice 05 新增 exact research-only Sharp dependency declaration / lockfile 与本地 synthetic definition，Slice 06 Phase B 只新增隔离的本地 diagnostic protocol / schema / fake tests，没有新增依赖或运行真实图片。项目不包含第三方图片、模型或权重，`node_modules/` 不提交；正式 OpenAI 实验前必须把 R0 调用改用 snapshot，并由新的运行证据取代旧探针记录。
+- 当前 `server/server.mjs` 仍以浮动别名调用 R0 探针。本轮未修改该旧任务 / OpenAI 调用路径或正式产品 UI；Slice 02 / 03 的本地 reference adapter、validator 与密封仪式 helper 只处理项目原创合成研究夹具或临时 mock metadata，Slice 04 只提交 Sharp 复合候选的来源锁与预注册 metadata，Slice 05 新增 exact research-only Sharp dependency declaration / lockfile 与本地 synthetic definition，Slice 06 新增隔离的本地 diagnostic protocol、results-zero definition、strict schemas 与 fake-only tests，没有新增依赖、复制图片或运行真实图片。项目不包含第三方图片、模型或权重，`node_modules/` 不提交；正式 OpenAI 实验前必须把 R0 调用改用 snapshot，并由新的运行证据取代旧探针记录。
 - Image API 支持生成、整图编辑、一个或多个参考图，以及带 mask 的局部编辑。
 - GPT Image 的 mask 是通过提示引导模型编辑的输入，模型不保证完全精确地遵循 mask 形状；因此 masked edit 不是像素级抠图、前景锁定或 mask 外零改动证据。
 - `gpt-image-2` 当前不支持 `background: "transparent"`。透明 PNG 必须由本项目独立的分割 / Alpha Matting 与确定性 RGBA 合成链产生，不能把生成模型输出白底或近似主体边缘当成透明背景。

@@ -1,0 +1,179 @@
+{
+  "candidateRef": {
+    "byteLength": 5111,
+    "contentHash": "e22388d65b8dfbf9a6aeed5eafe14a3d3bd9064f9a714d0efe4a86fc813dfbe7",
+    "fileSha256": "166e7589d7c9c28cb64c488411badbad40b8cace498d9892ff4de36ff5a7249e",
+    "id": "REG-NORM-SHARP@0.6.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.6.0.json"
+  },
+  "contentHash": "8a5848997828fb7b511e2bbab2fe195a37233425e7c3a38289b9d2456d6d9841",
+  "contractRef": {
+    "byteLength": 9732,
+    "contentHash": "5471c4bc78365099196b6b9283c49d270423a2c0221698dbef61842fb035692e",
+    "fileSha256": "1535fbdbdd4d2efae34fee8d30e2ef5ab52c78fc51423dafcf81b31f0fdb9326",
+    "id": "CC-CAP02-EXPORT-PNG@0.6.0",
+    "path": "contracts/cc-cap02-export-png.v0.6.0.json"
+  },
+  "counts": {
+    "applicableSources": 3,
+    "preflightSentinels": 1,
+    "repetitionsPerSource": 3,
+    "replacementAttempts": 0,
+    "totalPlannedAttempts": 12,
+    "totalSources": 4
+  },
+  "diagnosticPlanRef": {
+    "byteLength": 14160,
+    "contentHash": "e4d14b742a2894e584994c25b20b9f297138ece79fff2cf9b4373cd207d19982",
+    "fileSha256": "3f3d111143b3ec8acf2ffedae7958ae07da38d41fcd04281706439ba687fcba5",
+    "id": "PLAN-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "plans/diagnostic-export-png.v0.6.0.json"
+  },
+  "entries": [
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "independent-opaque-applicable",
+      "expectedDisposition": "applicable",
+      "expectedStableErrorCode": null,
+      "repetitions": 3,
+      "sourceId": "source.s06.export.diagnostic.001",
+      "sourceLineageRef": {
+        "byteLength": 4092,
+        "contentHash": "b9d323112df46faa5df3b5d5cb9eea408902dd779319ce0d68846a13cbcf645e",
+        "fileSha256": "f0a7807f16652d0beca98fd06b7b30521a5b1b94b86bbf215c011bcd4b81bbd4",
+        "id": "lineage.source.s06.export.diagnostic.001",
+        "path": "sources/export-diagnostic/source.s06.export.diagnostic.001.json"
+      }
+    },
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "independent-partial-alpha-applicable",
+      "expectedDisposition": "applicable",
+      "expectedStableErrorCode": null,
+      "repetitions": 3,
+      "sourceId": "source.s06.export.diagnostic.002",
+      "sourceLineageRef": {
+        "byteLength": 4101,
+        "contentHash": "b66f0e304986c7fb685877ef50c0da0547f7d172b2c7e3fe70d340c37dfa65f8",
+        "fileSha256": "cc7bb25d9d6c4c0cbd25a6449563d6942a9734687d712a1a58880601a6aac685",
+        "id": "lineage.source.s06.export.diagnostic.002",
+        "path": "sources/export-diagnostic/source.s06.export.diagnostic.002.json"
+      }
+    },
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "independent-alpha-holes-applicable",
+      "expectedDisposition": "applicable",
+      "expectedStableErrorCode": null,
+      "repetitions": 3,
+      "sourceId": "source.s06.export.diagnostic.003",
+      "sourceLineageRef": {
+        "byteLength": 4097,
+        "contentHash": "8386ebef69ad431603f629272458ba7fc29847a5da0e6dd8453bc7d9e98dd41d",
+        "fileSha256": "f97090b5ec0f7d169003d9536e929677ee117a9b0639af98c0dc106127755222",
+        "id": "lineage.source.s06.export.diagnostic.003",
+        "path": "sources/export-diagnostic/source.s06.export.diagnostic.003.json"
+      }
+    },
+    {
+      "attemptNumber": 1,
+      "diagnosticRole": "invalid-artifact-version-preflight-sentinel",
+      "expectedDisposition": "preflight-reject",
+      "expectedStableErrorCode": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "repetitions": 3,
+      "sourceId": "source.s06.export.diagnostic.004",
+      "sourceLineageRef": {
+        "byteLength": 3811,
+        "contentHash": "5acb9045a780e0088d873be25a71234be14167825f19d616f2330e6fdc700f5d",
+        "fileSha256": "f3b0ab22b6be1c7df51e5873d80abe4b3b0b8b35607f4ad28b1ff5e6a9b504e6",
+        "id": "lineage.source.s06.export.diagnostic.004",
+        "path": "sources/export-diagnostic/source.s06.export.diagnostic.004.json"
+      }
+    }
+  ],
+  "errorRegistryRef": {
+    "byteLength": 16168,
+    "contentHash": "b5b8b0dd5adde35b9c9a856a3a1e37569bc02721054bd99f803d59deb123c32e",
+    "fileSha256": "0d1efe28db9261ae69e9fb40780f03e1e0396a266888cf0046a9665db915ef91",
+    "id": "ERROR-REGISTRY-SLICE06@0.6.0",
+    "path": "errors/error-registry.v0.6.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "hardwareRef": {
+    "byteLength": 1697,
+    "contentHash": "eace9946f4134a6ab2fa0e849eae795eb45c2ca949aa0099155cb9cc22b84e84",
+    "fileSha256": "781b1505fed78402097138775908c062ac3c98ecfda1847210325ce9566ef7c2",
+    "id": "HARDWARE-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "hardware/hardware.win32-x64.v0.6.0.json"
+  },
+  "isolation": {
+    "crossOperationAggregationAllowed": false,
+    "independenceClaim": false,
+    "newSlice06SourceFamilyAndCaptureSessionIds": true,
+    "operationSpecificRunAndSessionIds": true,
+    "reusedSlice05BytesAreLineageOnly": true
+  },
+  "manifestId": "FM-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+  "manifestKind": "open-diagnostic-characterization",
+  "manifestVersion": "0.6.0",
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "outputBoundary": {
+    "artifactPublicationAllowed": false,
+    "retainedOnlyAsDiagnosticSpecimenOrQuarantine": true,
+    "workerObservationAndExactOracleChildCodesRequired": true
+  },
+  "preregistrationRef": {
+    "byteLength": 7574,
+    "contentHash": "818c882d7f7a853325674cce67b3b19e6267c7bc7c204ff82f4cefd58679ac8c",
+    "fileSha256": "c3348d2f342c231344bb7bf183104eb8906a669f2cb9c1b56753f8e8f92c2929",
+    "id": "PREREG-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "preregistrations/diagnostic-export-png.v0.6.0.json"
+  },
+  "retentionPolicyRef": {
+    "byteLength": 1942,
+    "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+    "fileSha256": "467781f02ec844f62cd3c6e1e52fe0997b8e12e92ba145a51138dac7d6c65891",
+    "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0",
+    "path": "retention/open-diagnostic.v0.6.0.json"
+  },
+  "rightsRef": {
+    "byteLength": 2083,
+    "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+    "fileSha256": "375653a88b59ce0c8c11b9d39a0336fe35a812e67a6bf3b86d9e5f68378a0899",
+    "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+    "path": "rights/open-synthetic-reuse.v0.6.0.json"
+  },
+  "runIdentity": {
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sessionId": "session.diagnostic.s06.export.v0.6.0"
+  },
+  "runtimeAttestationRef": {
+    "byteLength": 7133,
+    "contentHash": "521bb10670154d345e5a3ae1df5930485f783161f7cf0fc83204e891b5c7f6ab",
+    "fileSha256": "0817925872950b3a2ab1e2d0d4674e34eceadfc175188257d267f194557174d1",
+    "id": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "runtime/attestation.win32-x64.v0.6.0.json"
+  },
+  "schemaVersion": "diagnostic-manifest.slice06.v0",
+  "stateAtDefinitionFreeze": "frozen-results-zero-not-run"
+}

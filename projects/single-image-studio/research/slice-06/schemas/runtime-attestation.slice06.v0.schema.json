@@ -1,0 +1,874 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "excludedFromGateB": {
+          "const": true,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "gateBDecisionAuthority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "enum": [
+            "0.5.0",
+            "0.6.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/runtime-attestation.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "closureLineageRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "environment": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu": {
+          "additionalProperties": false,
+          "properties": {
+            "logicalProcessors": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "models": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "models",
+            "logicalProcessors"
+          ],
+          "type": "object"
+        },
+        "memory": {
+          "additionalProperties": false,
+          "properties": {
+            "totalBytes": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "totalBytes"
+          ],
+          "type": "object"
+        },
+        "node": {
+          "additionalProperties": false,
+          "properties": {
+            "abi": {
+              "pattern": "^[0-9]+$",
+              "type": "string"
+            },
+            "napi": {
+              "pattern": "^[0-9]+$",
+              "type": "string"
+            },
+            "version": {
+              "pattern": "^v[0-9]+",
+              "type": "string"
+            }
+          },
+          "required": [
+            "version",
+            "abi",
+            "napi"
+          ],
+          "type": "object"
+        },
+        "npm": {
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+",
+              "type": "string"
+            }
+          },
+          "required": [
+            "version"
+          ],
+          "type": "object"
+        },
+        "os": {
+          "additionalProperties": false,
+          "properties": {
+            "architecture": {
+              "const": "x64",
+              "type": "string"
+            },
+            "platform": {
+              "const": "win32",
+              "type": "string"
+            },
+            "release": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "version": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "platform",
+            "release",
+            "version",
+            "architecture"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "os",
+        "cpu",
+        "memory",
+        "node",
+        "npm"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "executionBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "candidatePipelineInvoked": {
+          "const": false,
+          "type": "boolean"
+        },
+        "hostnameRecorded": {
+          "const": false,
+          "type": "boolean"
+        },
+        "imageBytesRead": {
+          "const": false,
+          "type": "boolean"
+        },
+        "imageDecoded": {
+          "const": false,
+          "type": "boolean"
+        },
+        "imageEncoded": {
+          "const": false,
+          "type": "boolean"
+        },
+        "serialRecorded": {
+          "const": false,
+          "type": "boolean"
+        },
+        "sharpImportedForVersionsOnly": {
+          "const": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "sharpImportedForVersionsOnly",
+        "imageBytesRead",
+        "imageDecoded",
+        "imageEncoded",
+        "candidatePipelineInvoked",
+        "hostnameRecorded",
+        "serialRecorded"
+      ],
+      "type": "object"
+    },
+    "expectedWorkerRuntime": {
+      "additionalProperties": false,
+      "properties": {
+        "architecture": {
+          "const": "x64",
+          "type": "string"
+        },
+        "nativeVersions": {
+          "additionalProperties": false,
+          "properties": {
+            "aom": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "archive": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "cairo": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "cgif": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "exif": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "expat": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "ffi": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "fontconfig": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "freetype": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "fribidi": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "glib": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "harfbuzz": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "heif": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "highway": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "imagequant": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "lcms": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "mozjpeg": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "pango": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "pixman": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "png": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "proxy-libintl": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "rsvg": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sharp": {
+              "const": "0.35.3",
+              "type": "string"
+            },
+            "tiff": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "uhdr": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "vips": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "webp": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "xml2": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "zlib-ng": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "aom",
+            "archive",
+            "cairo",
+            "cgif",
+            "exif",
+            "expat",
+            "ffi",
+            "fontconfig",
+            "freetype",
+            "fribidi",
+            "glib",
+            "harfbuzz",
+            "heif",
+            "highway",
+            "imagequant",
+            "lcms",
+            "mozjpeg",
+            "pango",
+            "pixman",
+            "png",
+            "proxy-libintl",
+            "rsvg",
+            "tiff",
+            "uhdr",
+            "vips",
+            "webp",
+            "xml2",
+            "zlib-ng",
+            "sharp"
+          ],
+          "type": "object"
+        },
+        "nodeVersion": {
+          "pattern": "^v[0-9]+",
+          "type": "string"
+        },
+        "platform": {
+          "const": "win32",
+          "type": "string"
+        },
+        "settings": {
+          "additionalProperties": false,
+          "properties": {
+            "cacheFilesMax": {
+              "const": 0,
+              "type": "integer"
+            },
+            "cacheItemsMax": {
+              "const": 0,
+              "type": "integer"
+            },
+            "cacheMemoryMaxMiB": {
+              "const": 0,
+              "type": "integer"
+            },
+            "concurrency": {
+              "const": 1,
+              "type": "integer"
+            },
+            "ignoreGlobalLibvips": {
+              "const": "1",
+              "type": "string"
+            },
+            "simd": {
+              "const": false,
+              "type": "boolean"
+            },
+            "uvThreadpoolSize": {
+              "const": "1",
+              "type": "string"
+            },
+            "vipsConcurrency": {
+              "const": "1",
+              "type": "string"
+            }
+          },
+          "required": [
+            "concurrency",
+            "cacheMemoryMaxMiB",
+            "cacheFilesMax",
+            "cacheItemsMax",
+            "simd",
+            "uvThreadpoolSize",
+            "vipsConcurrency",
+            "ignoreGlobalLibvips"
+          ],
+          "type": "object"
+        },
+        "sharpVersion": {
+          "const": "0.35.3",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sharpVersion",
+        "nativeVersions",
+        "nodeVersion",
+        "platform",
+        "architecture",
+        "settings"
+      ],
+      "type": "object"
+    },
+    "installedClosure": {
+      "additionalProperties": false,
+      "properties": {
+        "allowlist": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "fileCount": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ignoredEmptyScopeDirectories": {
+          "items": {
+            "pattern": "^@[a-z0-9._-]+$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "nativeArtifacts": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "byteLength": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "expectedSha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "path": {
+                "$ref": "#/$defs/relativePath"
+              },
+              "sha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            },
+            "required": [
+              "path",
+              "byteLength",
+              "sha256",
+              "expectedSha256"
+            ],
+            "type": "object"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "packages": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "packageJsonSha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "path": {
+                "$ref": "#/$defs/relativePath"
+              },
+              "version": {
+                "minLength": 1,
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "version",
+              "path",
+              "packageJsonSha256"
+            ],
+            "type": "object"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array"
+        },
+        "treeSha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "allowlist",
+        "packages",
+        "ignoredEmptyScopeDirectories",
+        "fileCount",
+        "treeSha256",
+        "nativeArtifacts"
+      ],
+      "type": "object"
+    },
+    "inventoryImplementationRef": {
+      "$ref": "#/$defs/implementationRef"
+    },
+    "inventoryPayloadSha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "observationBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "freshInventoryRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "inventoryHelperReusedReadOnly": {
+          "const": true,
+          "type": "boolean"
+        },
+        "sourceSlice05RuntimeRecordReusedAsObservation": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "freshInventoryRequired",
+        "sourceSlice05RuntimeRecordReusedAsObservation",
+        "inventoryHelperReusedReadOnly"
+      ],
+      "type": "object"
+    },
+    "observedCandidateId": {
+      "const": "REG-NORM-SHARP@0.6.0",
+      "type": "string"
+    },
+    "packageLock": {
+      "additionalProperties": false,
+      "properties": {
+        "expectedSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "lockfileVersion": {
+          "const": 3,
+          "type": "integer"
+        },
+        "path": {
+          "const": "package-lock.json",
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "expectedSha256",
+        "lockfileVersion"
+      ],
+      "type": "object"
+    },
+    "packageManifest": {
+      "additionalProperties": false,
+      "properties": {
+        "exactDevDependencies": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "enum": [
+                  "@img/sharp-win32-x64",
+                  "sharp"
+                ],
+                "type": "string"
+              },
+              "version": {
+                "const": "0.35.3",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "version"
+            ],
+            "type": "object"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "path": {
+          "const": "package.json",
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "exactDevDependencies"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.6.0",
+      "type": "string"
+    },
+    "recordedAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "runtimeAttestationId": {
+      "const": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "runtime-attestation.slice06.v0",
+      "type": "string"
+    },
+    "sourceSlice05RuntimeRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "versions": {
+      "additionalProperties": false,
+      "properties": {
+        "installedComponentCount": {
+          "const": 28,
+          "type": "integer"
+        },
+        "installedVersionsJsonSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "matchesInstalledVersionsJson": {
+          "const": true,
+          "type": "boolean"
+        },
+        "packagingMetadataDifferenceCount": {
+          "const": 9,
+          "type": "integer"
+        },
+        "sharpRuntimeComponentCount": {
+          "const": 29,
+          "type": "integer"
+        },
+        "sharpVersion": {
+          "const": "0.35.3",
+          "type": "string"
+        }
+      },
+      "required": [
+        "installedVersionsJsonSha256",
+        "installedComponentCount",
+        "sharpRuntimeComponentCount",
+        "sharpVersion",
+        "matchesInstalledVersionsJson",
+        "packagingMetadataDifferenceCount"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "runtimeAttestationId",
+    "recordVersion",
+    "observedCandidateId",
+    "closureLineageRef",
+    "sourceSlice05RuntimeRef",
+    "inventoryImplementationRef",
+    "inventoryPayloadSha256",
+    "packageManifest",
+    "packageLock",
+    "installedClosure",
+    "versions",
+    "expectedWorkerRuntime",
+    "environment",
+    "observationBoundary",
+    "executionBoundary",
+    "recordedAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

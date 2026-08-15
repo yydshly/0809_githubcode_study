@@ -1,0 +1,113 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/idempotency-claim.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptNumber": {
+          "const": 1
+        },
+        "idempotencyKey": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "partition": {
+          "const": "diagnostic"
+        },
+        "repetition": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "sourceId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId",
+        "sourceId",
+        "partition",
+        "repetition",
+        "attemptNumber",
+        "idempotencyKey"
+      ],
+      "type": "object"
+    },
+    "claimId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "claimedAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "idempotencyKeyHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "mode": {
+      "const": "open-diagnostic"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "requestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "idempotency-claim.slice06.v0"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "claimId",
+    "requestRef",
+    "idempotencyKeyHash",
+    "mode",
+    "operation",
+    "attempt",
+    "claimedAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

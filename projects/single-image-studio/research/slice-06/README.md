@@ -1,14 +1,46 @@
 # Slice 06 workspace
 
 Current state: `scope-frozen / implementation-and-fake-protocol-tests-ready /
-definition-not-frozen / diagnostic-characterization-not-run /
+definition-frozen / results-zero / diagnostic-characterization-not-run /
 Gate-B-no-authority / calibration-forbidden / non-C1 / non-product`.
 
 The governing scope is [SLICE_06_CONTRACT.md](../SLICE_06_CONTRACT.md). Phase B
 has implemented the local diagnostic protocol without running the real Sharp
-image path. The machine candidate lock, contract records, plans,
-preregistrations, manifests, fixture wrappers, fresh runtime / hardware
-observations, definition index and results are still `not-created`.
+image path. Phase C has materialized the diagnostic-only candidate lock, two
+contract records, two plans, two preregistrations, two manifests, eight
+regression-lineage wrappers, fresh runtime / hardware observations and a
+results-zero definition index. Diagnostic results remain `not-created`.
+
+## Phase C results-zero definition
+
+The canonical definition contains 26 recursively closed schemas, 23 non-index
+machine records, the [definition index](definition-index.v0.6.0.json), and this
+README. The 26 schemas are the thirteen Phase B protocol schemas plus thirteen
+strict schemas for the Phase C definition records. The index pins 49 descendant
+machine files; adding the index gives 50 machine files, and adding this README
+gives a 51-file frozen definition tree.
+
+The two manifests register exactly eight new Slice 06 source identities and 24
+planned attempts. Their wrappers point to exact committed Slice 05 public
+synthetic bytes and records; no image bytes are copied into Slice 06, and every
+wrapper declares `independenceClaim=false`. The runtime and hardware records are
+fresh observations for this definition, while the dependency and native-code
+lineage remains the exact installed research-only Sharp closure already audited
+in Slice 05.
+
+The definition pins the generator, registered driver, Phase B adapter, worker,
+independent diagnostic oracle, runner, runtime inventory helper, and Slice 05
+regression decoder. It deliberately does not pin the central validator: that
+validator embeds the final definition-tree pins and is therefore an external
+admission and evidence-enforcement layer, not a self-referential member of the
+definition DAG.
+
+At definition freeze, `results/` is absent, copied image bytes are zero, and no
+candidate pixel pipeline has run. The result protocol records one planned
+driver invocation, two planned operation runs and 8 / 24 planned source / attempt
+counts. Actual registered counts must be derived from completed operation runs;
+a `protocol-failed` or `inconclusive` first operation globally stops the second
+operation, consumes the version, and cannot be retried.
 
 ## Phase B protocol inventory
 
@@ -74,13 +106,13 @@ independent-oracle records; they must never be published under `artifacts/`.
 
 ## Not authorized yet
 
-Phase B does not authorize running Sharp on image bytes. Before any registered
-characterization, this implementation and its strict fake-protocol tests must
-be committed and pushed. Phase C must then generate and adversarially validate
-the new candidate / contracts / preregistrations, eight regression wrappers,
-fresh runtime inventory and results-zero machine definition. That definition
-must itself be frozen, committed and pushed before the single registered
-diagnostic invocation is allowed.
+The frozen definition does not itself authorize running Sharp on image bytes.
+This exact 51-file definition, its generator, registered driver and central
+validator must pass adversarial validation, then the containing commit must be
+pushed with local `HEAD` equal to `origin/main`. Only after that admission may
+one driver invocation register the normalize and export operation runs in their
+frozen order. Any implementation, runtime, schema, lineage, definition, Git or
+results-root drift stops before execution.
 
 Do not invoke the Slice 05 smoke or calibration commands. `@0.5.0` is immutable
 and closed. Slice 06 will have no calibration command or Gate-B decision record.

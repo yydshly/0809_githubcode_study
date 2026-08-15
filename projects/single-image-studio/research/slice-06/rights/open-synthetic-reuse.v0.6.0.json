@@ -1,0 +1,61 @@
+{
+  "assetClass": "project-original-deterministic-synthetic-open-research-fixtures",
+  "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "independenceClaim": false,
+  "oracleRightsValues": {
+    "assetClass": "project-original-deterministic-synthetic-open-research-fixtures",
+    "candidateDerivativeRepositoryRetention": true,
+    "containsRealPerson": false,
+    "diagnosticPublicDisplay": true,
+    "modelWeightsUsed": false,
+    "realUserPhotosUsed": false,
+    "thirdPartyAssetsUsed": false
+  },
+  "permissions": {
+    "artifactPublication": false,
+    "candidateDerivativeRepositoryRetention": true,
+    "diagnosticPublicDisplay": true,
+    "permissionBasis": "project-original-authorship-carried-by-pinned-slice05-rights",
+    "productUseClaim": false,
+    "repositoryReference": true
+  },
+  "provenance": {
+    "containsRealPerson": false,
+    "copiedImageBytes": false,
+    "modelWeightsUsed": false,
+    "realUserPhotosUsed": false,
+    "regressionLineageOnly": true,
+    "thirdPartyAssetsUsed": false
+  },
+  "recordVersion": "0.6.0",
+  "reuseClass": "read-only-reference-to-committed-slice05-public-synthetic-lineage",
+  "rightsRecordId": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0",
+  "schemaVersion": "rights-record.slice06.v0",
+  "sourceSlice05RightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "research/slice-05/rights/open-synthetic.v0.5.0.json"
+  }
+}

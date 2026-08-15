@@ -1,0 +1,65 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/five-role-publication.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "atomicDirectoryCommit": {
+      "const": true
+    },
+    "rolePaths": {
+      "additionalProperties": false,
+      "properties": {
+        "candidateOutput": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        },
+        "candidateOutputObservation": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        },
+        "diagnosticEnvelope": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        },
+        "oracleDiagnostic": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        },
+        "terminalResult": {
+          "maxLength": 500,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "candidateOutput",
+        "candidateOutputObservation",
+        "oracleDiagnostic",
+        "diagnosticEnvelope",
+        "terminalResult"
+      ],
+      "type": "object"
+    },
+    "rootRelativePath": {
+      "maxLength": 500,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9._:@/-]+$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "rootRelativePath",
+    "atomicDirectoryCommit",
+    "rolePaths"
+  ],
+  "type": "object"
+}

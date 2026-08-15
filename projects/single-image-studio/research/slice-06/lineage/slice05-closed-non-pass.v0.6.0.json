@@ -1,0 +1,158 @@
+{
+  "closureLineageId": "LINEAGE-SLICE05-CLOSED-NON-PASS@0.6.0",
+  "commitPins": {
+    "slice05ClosureCommit": "4d7003e8e583c5964ab81ac0eb7182861aa44c0f",
+    "slice05DefinitionCommit": "1db59c753991f9b0105c67c162e85cb9062ee3b1",
+    "slice06PreviousProtocolBaselineCommit": "002e28963289e1f49e49a29ca78ebf820958f235",
+    "slice06ProtocolCommit": "ed5a60fb2f103494f78fda4260909c6e83a1baf6",
+    "slice06ScopeCommit": "97584c02e5689c276825dec4e058b9a94d84913a"
+  },
+  "contentHash": "b7070ab9e283a8695bf483028b924b332eef91802a18273f5e20e7295a185575",
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T08:17:06.288Z",
+  "immutableFacts": {
+    "calibrationAuthorized": false,
+    "gateB": "denied-not-entered",
+    "historicalRecordsMayBeRewritten": false,
+    "historicalRequestsMayBeRerun": false,
+    "publishedArtifactCount": 0,
+    "state": "smoke-closed-non-pass"
+  },
+  "recordVersion": "0.6.0",
+  "schemaVersion": "closure-lineage.slice06.v0",
+  "slice05CandidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "research/slice-05/candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "slice05Definition": {
+    "definitionRef": {
+      "byteLength": 108012,
+      "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+      "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+      "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+      "path": "research/slice-05/definition-index.v0.5.0.json"
+    },
+    "descendantMachineTree": {
+      "algorithm": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+      "directoryCount": 0,
+      "fileCount": 366,
+      "sha256": "8b340918e423043538997250c63b9b49b175b2d2b349c4835de48dd017ed82c0",
+      "totalBytes": 3256096
+    },
+    "fullDefinitionTree": {
+      "algorithm": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+      "directoryCount": 36,
+      "fileCount": 368,
+      "sha256": "108812d4eec84fa3037f8540d8fb273748982beb5e5f28a07eb7cda93e1218f2",
+      "totalBytes": 3368870
+    },
+    "proseReadme": {
+      "byteLength": 4762,
+      "fileSha256": "1a22e17fb57cd23ab19da5e97fb2ed909dd4793e8800047371f8cf7bfd9330a7",
+      "path": "research/slice-05/README.md"
+    },
+    "schemaTree": {
+      "algorithm": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+      "directoryCount": 0,
+      "fileCount": 25,
+      "sha256": "8b5170c4026c930d4ac98e903d9b58902589869971f1fa013637c70eae6ebca6",
+      "totalBytes": 282953
+    }
+  },
+  "slice05ResultClosure": {
+    "ledger": {
+      "eventCount": 72,
+      "file": {
+        "byteLength": 65430,
+        "fileSha256": "7bcb9f3f2eded4aaedc59a6fc2473b6ad711ba3dc9a2ad00eaf162dd57b28d6a",
+        "path": "research/slice-05/results/open-smoke/ledger/events.ndjson"
+      },
+      "tailContentHash": "f8f2fe5e0356a801cbd59670c16d79dba976d2338a297e6e917a3f5ebf581828"
+    },
+    "operations": [
+      {
+        "calibrationAuthorized": false,
+        "decision": "denied-not-entered",
+        "decisionRef": {
+          "byteLength": 7588,
+          "contentHash": "4f3c428ce3d9674054fe66e04dae8ec8a5157a666335d81694e570cd1f2a84e1",
+          "fileSha256": "42e69ef94d90c224e977052dee373f1d1d65a4fbedfc6b147a6a1336e150f71e",
+          "id": "gate-b.normalize.4e03ecfcfc917bb5",
+          "path": "research/slice-05/results/open-smoke/decisions/normalize.gate-b-decision.slice05.v0.json"
+        },
+        "historicalOracleChildSubtype": "unknown",
+        "operation": "normalize",
+        "summaryRef": {
+          "byteLength": 13369,
+          "contentHash": "4e03ecfcfc917bb5fc23ba50064f2876e75ce44c3a8a6e149b2d2e883d0652ec",
+          "fileSha256": "391fe2284dd05c2aff178b28bbf9eab3598ada0545fde3cc5cf9c0bc8df13a41",
+          "id": "smoke-summary.normalize.792c7f641d26a9d5",
+          "path": "research/slice-05/results/open-smoke/summaries/normalize.smoke-summary.slice05.v0.json"
+        }
+      },
+      {
+        "calibrationAuthorized": false,
+        "decision": "denied-not-entered",
+        "decisionRef": {
+          "byteLength": 7470,
+          "contentHash": "583307cd0d3d97876b54eb3b4c0dd3cc14c40536d53d2d8e25604c8bc7faa0ba",
+          "fileSha256": "201b017b12654b6c14c16599f04293aa868ba553804faa7928044674162e5227",
+          "id": "gate-b.export.4d9f369f971e75eb",
+          "path": "research/slice-05/results/open-smoke/decisions/export.gate-b-decision.slice05.v0.json"
+        },
+        "historicalOracleChildSubtype": "unknown",
+        "operation": "export",
+        "summaryRef": {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "research/slice-05/results/open-smoke/summaries/export.smoke-summary.slice05.v0.json"
+        }
+      }
+    ],
+    "resultRoot": "research/slice-05/results/open-smoke",
+    "resultTree": {
+      "algorithm": "sha256(sorted(relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+      "directoryCount": 8,
+      "fileCount": 116,
+      "sha256": "e6cd4aea45419cc4fd02724555fb439191162ca4f5aaab6a00834f8898d8256b",
+      "totalBytes": 357303
+    }
+  },
+  "slice05RightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "research/slice-05/rights/open-synthetic.v0.5.0.json"
+  },
+  "sourceCandidateMetadataRef": {
+    "byteLength": 12123,
+    "contentHash": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+    "fileSha256": "f4699666bbd57f750448a298b7a87f5dc379ce6744a54aaf651d14693087d778",
+    "id": "REG-NORM-SHARP@0.4.0",
+    "path": "research/slice-04/candidate-locks/composite-sharp-win32-x64.v0.4.0.json"
+  }
+}

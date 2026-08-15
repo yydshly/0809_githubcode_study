@@ -1,0 +1,267 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/worker-observation.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "exit": {
+      "additionalProperties": false,
+      "properties": {
+        "confirmed": {
+          "type": "boolean"
+        },
+        "exitCode": {
+          "oneOf": [
+            {
+              "maximum": 255,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "signal": {
+          "oneOf": [
+            {
+              "maxLength": 40,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "terminationRequested": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "confirmed",
+        "exitCode",
+        "signal",
+        "terminationRequested"
+      ],
+      "type": "object"
+    },
+    "message": {
+      "additionalProperties": false,
+      "properties": {
+        "payloadSha256": {
+          "oneOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "protocolVersion": {
+          "oneOf": [
+            {
+              "maxLength": 80,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "received": {
+          "type": "boolean"
+        },
+        "receivedAt": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "pattern": "Z$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "oneOf": [
+            {
+              "enum": [
+                "succeeded",
+                "failed"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "received",
+        "receivedAt",
+        "protocolVersion",
+        "status",
+        "payloadSha256"
+      ],
+      "type": "object"
+    },
+    "parentWall": {
+      "additionalProperties": false,
+      "properties": {
+        "durationMs": {
+          "maximum": 11000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "exitedAt": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "pattern": "Z$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "finishedAt": {
+          "format": "date-time",
+          "pattern": "Z$",
+          "type": "string"
+        },
+        "messageAt": {
+          "oneOf": [
+            {
+              "format": "date-time",
+              "pattern": "Z$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "startedAt": {
+          "format": "date-time",
+          "pattern": "Z$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "startedAt",
+        "messageAt",
+        "exitedAt",
+        "finishedAt",
+        "durationMs"
+      ],
+      "type": "object"
+    },
+    "runtime": {
+      "additionalProperties": false,
+      "properties": {
+        "matchesFrozen": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "payloadSha256": {
+          "oneOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "payloadSha256",
+        "matchesFrozen"
+      ],
+      "type": "object"
+    },
+    "telemetry": {
+      "additionalProperties": false,
+      "properties": {
+        "resourceUsage": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "maxRssKiB": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "systemCpuMicros": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "userCpuMicros": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "maxRssKiB",
+                "userCpuMicros",
+                "systemCpuMicros"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source": {
+          "oneOf": [
+            {
+              "const": "worker-self-reported-not-hard-isolation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workerDurationMs": {
+          "oneOf": [
+            {
+              "maximum": 10000,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "source",
+        "workerDurationMs",
+        "resourceUsage"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "message",
+    "runtime",
+    "telemetry",
+    "parentWall",
+    "exit"
+  ],
+  "type": "object"
+}

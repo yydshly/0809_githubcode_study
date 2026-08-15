@@ -1,0 +1,785 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "calibrationAuthorized": {
+          "const": false,
+          "type": "boolean"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "excludedFromGateB": {
+          "const": true,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "gateBDecisionAuthority": {
+          "const": false,
+          "type": "boolean"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "formal",
+        "productSupport",
+        "excludedFromGateB",
+        "gateBDecisionAuthority",
+        "calibrationAuthorized",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "enum": [
+            "0.5.0",
+            "0.6.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/definition-index.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "closureLineageRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "contractRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "ref": {
+            "$ref": "#/$defs/recordRef"
+          }
+        },
+        "required": [
+          "operation",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "counts": {
+      "additionalProperties": false,
+      "properties": {
+        "copiedImageBytes": {
+          "const": 0,
+          "type": "integer"
+        },
+        "defectHoldoutFixtures": {
+          "const": 0,
+          "type": "integer"
+        },
+        "escapeFixtures": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalFixtures": {
+          "const": 0,
+          "type": "integer"
+        },
+        "generatedResults": {
+          "const": 0,
+          "type": "integer"
+        },
+        "holdoutFixtures": {
+          "const": 0,
+          "type": "integer"
+        },
+        "machineRecordsExcludingIndex": {
+          "const": 23,
+          "type": "integer"
+        },
+        "manifests": {
+          "const": 2,
+          "type": "integer"
+        },
+        "plannedAttempts": {
+          "const": 24,
+          "type": "integer"
+        },
+        "schemas": {
+          "const": 26,
+          "type": "integer"
+        },
+        "sourceLineageRecords": {
+          "const": 8,
+          "type": "integer"
+        },
+        "sourceUnits": {
+          "const": 8,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "schemas",
+        "machineRecordsExcludingIndex",
+        "manifests",
+        "sourceLineageRecords",
+        "sourceUnits",
+        "plannedAttempts",
+        "copiedImageBytes",
+        "generatedResults",
+        "formalFixtures",
+        "holdoutFixtures",
+        "defectHoldoutFixtures",
+        "escapeFixtures"
+      ],
+      "type": "object"
+    },
+    "definitionIndexId": {
+      "const": "DEFINITION-INDEX-SLICE06@0.6.0",
+      "type": "string"
+    },
+    "definitionState": {
+      "const": "frozen-definition-results-zero-diagnostic-only",
+      "type": "string"
+    },
+    "diagnosticPlanRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "ref": {
+            "$ref": "#/$defs/recordRef"
+          }
+        },
+        "required": [
+          "operation",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "errorRegistryRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "executionAdmission": {
+      "additionalProperties": false,
+      "properties": {
+        "containingCommitRecordedInDefinition": {
+          "const": false,
+          "type": "boolean"
+        },
+        "containingGitCommitMustBePushedBeforeRun": {
+          "const": true,
+          "type": "boolean"
+        },
+        "definitionFrozen": {
+          "const": true,
+          "type": "boolean"
+        },
+        "driverMustVerifyHeadAndOrigin": {
+          "const": true,
+          "type": "boolean"
+        },
+        "registeredInvocationPerOperation": {
+          "const": 1,
+          "type": "integer"
+        },
+        "resultsZero": {
+          "const": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "definitionFrozen",
+        "resultsZero",
+        "containingGitCommitMustBePushedBeforeRun",
+        "containingCommitRecordedInDefinition",
+        "driverMustVerifyHeadAndOrigin",
+        "registeredInvocationPerOperation"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "hardwareRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "implementationRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/$defs/implementationRef"
+          },
+          "role": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "required": [
+          "role",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "initialResultStateAtDefinitionFreeze": {
+      "additionalProperties": false,
+      "properties": {
+        "closeRecordsPresent": {
+          "const": 0,
+          "type": "integer"
+        },
+        "ledgersPresent": {
+          "const": 0,
+          "type": "integer"
+        },
+        "quarantinePresent": {
+          "const": 0,
+          "type": "integer"
+        },
+        "resultFilesPresent": {
+          "const": 0,
+          "type": "integer"
+        },
+        "resultsDirectoryPresent": {
+          "const": false,
+          "type": "boolean"
+        },
+        "specimensPresent": {
+          "const": 0,
+          "type": "integer"
+        },
+        "summariesPresent": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "resultsDirectoryPresent",
+        "resultFilesPresent",
+        "ledgersPresent",
+        "summariesPresent",
+        "closeRecordsPresent",
+        "specimensPresent",
+        "quarantinePresent"
+      ],
+      "type": "object"
+    },
+    "machineTree": {
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": {
+          "const": "sha256(sorted(slice-root-relative-path+NUL+decimal-byte-length+NUL+file-sha256+NUL))",
+          "type": "string"
+        },
+        "fileCount": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "files": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "byteLength": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "classification": {
+                "$ref": "#/$defs/id"
+              },
+              "fileSha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "path": {
+                "$ref": "#/$defs/relativePath"
+              }
+            },
+            "required": [
+              "path",
+              "classification",
+              "byteLength",
+              "fileSha256"
+            ],
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "proseReadmeExcludedAndSeparatelyPinned": {
+          "const": true,
+          "type": "boolean"
+        },
+        "rootSelfExcludedToAvoidCircularHash": {
+          "const": true,
+          "type": "boolean"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "algorithm",
+        "rootSelfExcludedToAvoidCircularHash",
+        "proseReadmeExcludedAndSeparatelyPinned",
+        "fileCount",
+        "sha256",
+        "files"
+      ],
+      "type": "object"
+    },
+    "manifestRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "ref": {
+            "$ref": "#/$defs/recordRef"
+          }
+        },
+        "required": [
+          "operation",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "preregistrationRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "ref": {
+            "$ref": "#/$defs/recordRef"
+          }
+        },
+        "required": [
+          "operation",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "proseReadmeRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "const": "README.md",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.6.0",
+      "type": "string"
+    },
+    "resultProtocol": {
+      "additionalProperties": false,
+      "properties": {
+        "canonicalResultsRoot": {
+          "const": "research/slice-06/results/open-diagnostic",
+          "type": "string"
+        },
+        "globalStop": {
+          "additionalProperties": false,
+          "properties": {
+            "actualCountsRecordedOnlyByDriverAfterExecution": {
+              "const": true,
+              "type": "boolean"
+            },
+            "firstOperationBlockingStatuses": {
+              "const": [
+                "protocol-failed",
+                "inconclusive"
+              ],
+              "items": {
+                "enum": [
+                  "protocol-failed",
+                  "inconclusive"
+                ],
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "operationOrder": {
+              "const": [
+                "normalize",
+                "export"
+              ],
+              "items": {
+                "enum": [
+                  "normalize",
+                  "export"
+                ],
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "secondOperationRegistrationRequiresFirstStatus": {
+              "const": "characterization-complete",
+              "type": "string"
+            }
+          },
+          "required": [
+            "operationOrder",
+            "secondOperationRegistrationRequiresFirstStatus",
+            "firstOperationBlockingStatuses",
+            "actualCountsRecordedOnlyByDriverAfterExecution"
+          ],
+          "type": "object"
+        },
+        "maximumDriverInvocations": {
+          "const": 1,
+          "type": "integer"
+        },
+        "plannedAttempts": {
+          "const": 24,
+          "type": "integer"
+        },
+        "plannedRegisteredOperationRuns": {
+          "const": 2,
+          "type": "integer"
+        },
+        "plannedSourceUnits": {
+          "const": 8,
+          "type": "integer"
+        },
+        "replacementAttempts": {
+          "const": 0,
+          "type": "integer"
+        },
+        "resultAllowlist": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 8,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "canonicalResultsRoot",
+        "maximumDriverInvocations",
+        "plannedRegisteredOperationRuns",
+        "plannedSourceUnits",
+        "plannedAttempts",
+        "replacementAttempts",
+        "globalStop",
+        "resultAllowlist"
+      ],
+      "type": "object"
+    },
+    "resultProtocolSchemaRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "$ref": "#/$defs/fileRef"
+          },
+          "role": {
+            "$ref": "#/$defs/id"
+          },
+          "schemaVersion": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "required": [
+          "role",
+          "schemaVersion",
+          "file"
+        ],
+        "type": "object"
+      },
+      "maxItems": 13,
+      "minItems": 13,
+      "type": "array"
+    },
+    "retentionPolicyRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "rightsRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "runtimeAttestationRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "definition-index.slice06.v0",
+      "type": "string"
+    },
+    "scopeContractRef": {
+      "$ref": "#/$defs/fileRef"
+    },
+    "sourceLineageRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "ref": {
+            "$ref": "#/$defs/recordRef"
+          }
+        },
+        "required": [
+          "operation",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "definitionIndexId",
+    "recordVersion",
+    "definitionState",
+    "frozenAt",
+    "scopeContractRef",
+    "closureLineageRef",
+    "runtimeAttestationRef",
+    "hardwareRef",
+    "candidateRef",
+    "contractRefs",
+    "diagnosticPlanRefs",
+    "preregistrationRefs",
+    "manifestRefs",
+    "sourceLineageRefs",
+    "rightsRef",
+    "retentionPolicyRef",
+    "errorRegistryRef",
+    "implementationRefs",
+    "resultProtocolSchemaRefs",
+    "resultProtocol",
+    "proseReadmeRef",
+    "initialResultStateAtDefinitionFreeze",
+    "executionAdmission",
+    "machineTree",
+    "counts",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

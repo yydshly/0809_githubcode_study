@@ -1,0 +1,232 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/run-event.slice06.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptNumber": {
+          "const": 1
+        },
+        "idempotencyKey": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "partition": {
+          "const": "diagnostic"
+        },
+        "repetition": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        },
+        "sourceId": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId",
+        "sourceId",
+        "partition",
+        "repetition",
+        "attemptNumber",
+        "idempotencyKey"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "eventId": {
+      "maxLength": 200,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+      "type": "string"
+    },
+    "eventType": {
+      "enum": [
+        "attempt-registered",
+        "closure-publication-intent",
+        "closure-publication-complete",
+        "attempt-terminal"
+      ]
+    },
+    "idempotencyKeyHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "mode": {
+      "const": "open-diagnostic"
+    },
+    "occurredAt": {
+      "format": "date-time",
+      "pattern": "Z$",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "previousEventHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "publication": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "atomicDirectoryCommit": {
+              "const": true
+            },
+            "rolePaths": {
+              "additionalProperties": false,
+              "properties": {
+                "candidateOutput": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                },
+                "candidateOutputObservation": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                },
+                "diagnosticEnvelope": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                },
+                "oracleDiagnostic": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                },
+                "terminalResult": {
+                  "maxLength": 500,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9._:@/-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "candidateOutput",
+                "candidateOutputObservation",
+                "oracleDiagnostic",
+                "diagnosticEnvelope",
+                "terminalResult"
+              ],
+              "type": "object"
+            },
+            "rootRelativePath": {
+              "maxLength": 500,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9._:@/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "rootRelativePath",
+            "atomicDirectoryCommit",
+            "rolePaths"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reasonCode": {
+      "oneOf": [
+        {
+          "pattern": "^S06_[A-Z0-9_]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "maxLength": 200,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "run-event.slice06.v0"
+    },
+    "sequence": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "status": {
+      "oneOf": [
+        {
+          "enum": [
+            "characterized-oracle-pass",
+            "characterized-oracle-non-pass",
+            "characterized-preflight-rejection",
+            "protocol-failed",
+            "inconclusive"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "sequence",
+    "previousEventHash",
+    "eventType",
+    "requestRef",
+    "idempotencyKeyHash",
+    "mode",
+    "operation",
+    "attempt",
+    "status",
+    "reasonCode",
+    "publication",
+    "occurredAt",
+    "contentHash"
+  ],
+  "type": "object"
+}
