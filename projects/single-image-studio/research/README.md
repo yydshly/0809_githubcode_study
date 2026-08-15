@@ -68,6 +68,14 @@ an explicit gold-to-adapter expected projection and truthful worker lifecycle.
 See [SLICE_10_EVIDENCE.md](SLICE_10_EVIDENCE.md). Formal holdout remains absent,
 all evidence axes remain zero, and `productSupport=false`.
 
+Slice 11 is now scope-frozen but not implemented. It creates a new `@0.11.0`
+identity for exactly two protocol corrections: a content-addressed projection
+from the complete gold identity to the adapter's twelve canonical expected
+fields, and worker lifecycle derived from actual preflight, spawn, IPC and exit
+events. It plans new identities over the same 96-source / 288-attempt open
+population with zero retry or replacement. No definition, request, result or
+Sharp calibration exists. See [SLICE_11_CONTRACT.md](SLICE_11_CONTRACT.md).
+
 ## Evidence boundary
 
 - Every artifact in the initial `MATTE-GT` set is `public-synthetic`.

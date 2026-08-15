@@ -20,7 +20,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 10 唯一 registered calibration 已 fail closed | `Slice 10: closed-protocol-failed / 1-of-288-terminal / no-rerun / non-C1 / non-product` | 首个 normalize applicable request 在 Sharp worker 前因 expected-object shape 不兼容停止；export 未启动，artifact / output / oracle / summary 均为 0；下一步必须新建 Slice 11 |
+| 研究阶段 | Slice 10 已 fail closed；Slice 11 scope 已冻结 | `Slice 11: scope-frozen / implementation-not-started / definition-not-created / calibration-not-run / non-C1 / non-product` | 只允许版本化修复 gold-to-adapter expected projection 与 worker lifecycle；真实 calibration 必须等待新 results-zero definition 提交推送 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -32,6 +32,7 @@
 | Slice 08 结果 | 唯一 invocation 已关闭为 incomplete protocol failure | result tree `2dd9e53f…da0d6`；2 files / 3,779 bytes；normalize first request + started event；0 terminal / output / closure / oracle / summary / decision；export 未启动 | driver 错把 Slice 05 `goldRecordId` 读取为 `id`，在 worker 前 fail closed；中央验证 partial tree 为 0 issues，但没有 Gate B decision，calibration=false；详见 [Slice 08 evidence](research/SLICE_08_EVIDENCE.md) |
 | Slice 09 结果 | 唯一 registered smoke 已关闭；两项 Gate B 均 pass | result tree `2f6bc6c2…cf451`；186 files / 29 dirs / 312,983 bytes；36 requests + claims + terminal results；18 closures；108 ledger events | normalize/export 各 18 / 18 pass、6 / 6 sources 3/3 deterministic；两 decision 均 `gateBPassed=true`，但 `calibrationAuthorized=false`、C1=0、productSupport=false。详见 [Slice 09 evidence](research/SLICE_09_EVIDENCE.md) |
 | Slice 10 结果 | definition freeze `2026-08-15T18:03:39.680Z`；result tree `225847…ee9e`；4 files / 6,919 bytes | planned 96 / 288；actual normalize 1 terminal、export 0；pass 0 / protocol-failed 1 | `S10_EXPECTED_OUTPUT_INVALID` 在 worker 前触发；terminal 又错误记录 `workerInvoked=true`，central 以 `RESULT_WORKER_LIFECYCLE_INVALID` 拒绝。详见 [Slice 10 evidence](research/SLICE_10_EVIDENCE.md) |
+| Slice 11 scope | `@0.11.0`；implementation / definition / results 均未创建 | 新身份的 96 sources / 288 attempts；零 retry / replacement | 冻结 exact 12-field expected projection和事实派生的 worker lifecycle；当前不得运行。详见 [Slice 11 合同](research/SLICE_11_CONTRACT.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
@@ -112,7 +113,7 @@
 10. **Slice 08 已关闭为 protocol-failed，不得重跑**：results-zero definition 于 `2026-08-15T13:37:23.038Z` 冻结并以 commit `a8bcbe57278c7fd2620c16b39f1a939a1e3ccf89` 推送。唯一 registered invocation 写入首个 normalize request 与 `attempt-started` 后，actual-case driver 因把 Slice 05 的 `goldRecordId` 错读为 `id` 而在 worker 前抛出 `S08_CASE_MATERIAL_INVALID`。partial tree 为 2 files / 3,779 bytes，SHA-256 `2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6`；0 terminal / output / decision，export 未启动。central validator 对该不可重放 partial tree 返回 0 issues；这只证明失败记录一致，不是 Gate B pass。任何修复必须进入新版本、新定义和新完整分母，calibration 继续禁止。
 11. **Slice 09 唯一 registered smoke 已关闭并推送**：results-zero definition 于 `2026-08-15T15:17:03.776Z` 冻结并以 commit `36d92844a2ea58113567a24482e5297ba8cdd9ab` 推送；随后唯一注册运行形成 36 / 36 terminal pass、18 identity-bound artifact closures 与两条 54-event ledger，结果 commit 为 `c91014c6bef8878277a8520d003b10684972087b`。normalize / export 各 9 applicable + 9 exact rejection pass，6 / 6 sources 均 3/3 deterministic，两项 Gate B 均 pass。不得重跑或补跑；calibration 仍需后续切片另行冻结和授权，当前 C1=0、productSupport=false。
 12. **Slice 10 唯一 registered calibration 已关闭，不得重跑**：results-zero definition 已先以 commit `86543a47bb5eea6a287861bf587fbffc3014ba1f` 推送；唯一 invocation 随后只注册并终结首个 normalize attempt。完整 gold expected 被直接传给只接受 12 个 canonical output keys 的 Slice 07 adapter，故以 `S10_EXPECTED_OUTPUT_INVALID` 在 `spawnWorker()` 前停止；export、output、oracle、artifact、summary 与 runtime-end 均为 0。不可变 terminal 又把该 pre-worker 路径误记为 `workerInvoked=true`，central 因 `RESULT_WORKER_LIFECYCLE_INVALID` fail closed。4-file result tree SHA-256 为 `225847d125c58ee6affaa087746101d469d7ae04109504f0bd6781f593b9ee9e`。不得补跑剩余 287 slots；任何修复必须进入 Slice 11 / `@0.11.0` 新定义。
-13. Slice 11 必须冻结明确的 gold-to-adapter expected 投影和真实 worker lifecycle 记录，再以全新 results-zero definition、中央负例、提交与推送获得运行资格；它仍是 open calibration，不是 C1 或产品支持。
+13. **Slice 11 scope 已冻结，implementation 尚未开始**：`@0.11.0` 只修 gold-to-adapter exact 12-field expected projection 与事实派生的 worker lifecycle；重新建立新身份的 96 / 288 开放分母，零 retry / replacement。必须先提交推送 scope，再实现 fake-only 协议与中央负例、冻结并推送 results-zero definition，之后才可能运行；它仍不是 C1 或产品支持。
 14. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
 15. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
 15. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。

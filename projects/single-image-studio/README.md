@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 唯一 registered calibration 已在首个 normalize attempt 关闭为 protocol failure：actual 1 / planned 288，export 0，output / artifact / oracle / summary 0；同版本不得重跑。下一步必须新建 Slice 11；C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 scope 已冻结，只修 expected projection 与 worker lifecycle，implementation / definition / results 尚未创建。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -161,6 +161,10 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 [Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。normalize / export 各冻结 48 sources × 3，合计 96 / 288，零 retry / replacement；results-zero definition 已先提交推送。唯一 registered invocation 随后在首个 normalize applicable request 以 `S10_EXPECTED_OUTPUT_INVALID` 停止：case driver 把完整 gold expected object 交给只接受 12 个 canonical output keys 的 Slice 07 raw adapter，故在启动 Sharp worker 前 fail closed。export 未启动，output / artifact / oracle / summary / runtime-end 均为 0。不可变 terminal 还把该路径错误记成 `workerInvoked=true`，central 因 `RESULT_WORKER_LIFECYCLE_INVALID` 拒绝整份结果。Slice 10 不得重跑；完整树 pins、时序与后续 Slice 11 边界见 [Slice 10 evidence](research/SLICE_10_EVIDENCE.md)。
 
+## Slice 11 scope 已冻结
+
+[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修两项协议：从完整 gold identity 生成并哈希绑定 adapter 所需的 exact 12-field expected，以及按实际 preflight / spawn / IPC / exit 事件派生 worker lifecycle。它重新预留新身份的 96-source / 288-attempt 开放分母，但当前 implementation、machine definition、request、result 均未创建。scope commit、fake-only 实现和 results-zero definition 分别提交推送前，禁止真实 Sharp calibration。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -241,6 +245,8 @@ npm.cmd run verify
 | [research/SLICE_10_CONTRACT.md](research/SLICE_10_CONTRACT.md) | Slice 10 开放 calibration 的 96-source / 288-attempt 分母、零重试、停止规则与非 C1 边界 |
 | [research/SLICE_10_EVIDENCE.md](research/SLICE_10_EVIDENCE.md) | Slice 10 唯一 registered invocation 的 4-file failure tree、协议根因、lifecycle 失真与禁止重跑边界 |
 | [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 已冻结的 results-zero machine definition workspace（保持其冻结时口径） |
+| [research/SLICE_11_CONTRACT.md](research/SLICE_11_CONTRACT.md) | Slice 11 expected projection、worker lifecycle、新 96 / 288 分母与非 C1 边界 |
+| [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 当前仅 scope-only 的研究 workspace 与执行前硬停止 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -248,7 +254,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖，以及 Slice 06–10 的不可变 research-only 记录。Slice 09 两项 Gate B 均通过；Slice 10 calibration 则在 1 / 288 后因 pre-worker protocol failure 关闭，不能形成候选质量结论。这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–10 的不可变 research-only 记录，以及 Slice 11 scope-only 文档。Slice 09 两项 Gate B 均通过；Slice 10 calibration 在 1 / 288 后因 pre-worker protocol failure 关闭；Slice 11 尚未实现或运行。这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。
