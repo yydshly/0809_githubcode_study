@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–08 保持各自不可改写的历史边界；Slice 08 在首个 worker 前 protocol-failed 并已关闭。Slice 09 `goldRecordId` identity 底层已直接对真实 gold shape 通过 6 / 6 fake-only tests，完整 driver / runner / definition / result 仍为 0；calibration、C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–08 保持各自不可改写的历史边界；Slice 08 在首个 worker 前 protocol-failed 并已关闭。Slice 09 `goldRecordId` identity、closed case context 与 actual-case driver 已对真实 normalize / export gold shape 通过 14 / 14 fake-only tests，durable runner / definition / result 仍为 0；calibration、C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -155,7 +155,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 09 只冻结新 gold identity 范围
 
-[Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。第一层本地实现 [research-gateb-gold-identity-slice09.mjs](scripts/research-gateb-gold-identity-slice09.mjs) 已直接读取真实 Slice 05 gold record 并通过 6 / 6 fake-only tests；缺失 / 双写 ID、引用 / 字节 / operation 漂移、自哈希洗白与 rejection 触碰 gold 都会 fail closed。完整 driver / runner、machine definition、runtime observation、request、result 和 decision 仍未创建，真实 Sharp 运行与 calibration 均禁止。后续必须重新建立全部 12 sources / 36 attempts，不得仅补跑 Slice 08 剩余 attempt。
+[Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。当前已实现 [gold identity](scripts/research-gateb-gold-identity-slice09.mjs)、[case context](scripts/research-gateb-case-context-slice09.mjs) 和 [actual-case driver](scripts/research-gateb-driver-slice09.mjs)，三套定向 fake-only 测试 14 / 14；真实 normalize / export gold shape、完整 3+3×3 operation 分母、rejection gold-free / worker-free、identity / manifest / source bytes 漂移和旧 S08 replay 均已覆盖。durable runner、machine definition、runtime observation、request、result 和 decision 仍未创建，真实 Sharp 运行与 calibration 均禁止。后续必须重新建立全部 12 sources / 36 attempts，不得仅补跑 Slice 08 剩余 attempt。
 
 ## 运行 R0 工程探针
 

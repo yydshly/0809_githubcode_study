@@ -12,6 +12,7 @@ import {
   SLICE09_GOLD_IDENTITY_SCHEMA,
   validateSlice09GoldIdentity,
 } from "../scripts/research-gateb-gold-identity-slice09.mjs";
+import { inspectSlice05Schema } from "../scripts/research-validate-slice05.mjs";
 
 const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const GOLD_PATH = "research/slice-05/gold/normalize-smoke/gold.raw.s05.normalize.smoke.001.json";
@@ -45,6 +46,11 @@ test("actual immutable Slice 05 goldRecordId creates a closed Slice 09 identity"
   assert.equal(validateSlice09GoldIdentity(fixture.identity), true);
   assert.equal(SLICE09_GOLD_IDENTITY_SCHEMA.additionalProperties, false);
   assert.deepEqual([...SLICE09_GOLD_IDENTITY_SCHEMA.required].sort(), Object.keys(SLICE09_GOLD_IDENTITY_SCHEMA.properties).sort());
+  assert.equal(SLICE09_GOLD_IDENTITY_SCHEMA.$id,
+    "https://single-image-studio.invalid/research/slice-09/schemas/gold-identity.slice09.v0.schema.json");
+  const vocabularyProbe = structuredClone(SLICE09_GOLD_IDENTITY_SCHEMA);
+  vocabularyProbe.$id = "https://single-image-studio.invalid/research/slice-05/schemas/slice09-gold-vocabulary-probe.schema.json";
+  assert.deepEqual(inspectSlice05Schema(vocabularyProbe, "slice09.goldIdentity"), []);
 });
 
 test("applicable execution exposes only the typed goldRecordId and frozen expected facts", async () => {

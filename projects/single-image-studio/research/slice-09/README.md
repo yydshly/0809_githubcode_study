@@ -1,7 +1,7 @@
 # Slice 09 workspace
 
-Current state: `scope-frozen / identity-layer-fake-tested /
-driver-runner-not-started / definition-not-created / Gate-B-smoke-not-run /
+Current state: `scope-frozen / identity-context-driver-fake-tested /
+durable-runner-not-started / definition-not-created / Gate-B-smoke-not-run /
 calibration-forbidden / non-C1 / non-product`.
 
 The governing scope is [SLICE_09_CONTRACT.md](../SLICE_09_CONTRACT.md). Slice 09
@@ -17,12 +17,26 @@ applicable branch. Tests read the actual immutable Slice 05 gold JSON and pass
 6 / 6; `.id` fallback, dual-key records, self-rehashed drift and rejection-side
 gold access fail closed. Source/test SHA-256 values are
 `2ae836fc9f0f85ce5b4a0adaf19f4f44e8bc2975f1fb0479a2aa289c4dd8365a` and
-`1fb865cb80d370469ba095822f0361b128f0ae0c9b2ffd9e13d04a0d0a908a86`.
+`d231f57e7fee02677ecadc55a51446a0c8653e3a994b8d7761915ba95b59000e`.
 The repository-wide `npm.cmd run verify` passes `399 / 399` after adding this
 layer.
 
-No complete Slice 09 case context, actual driver, durable runner, machine
-definition, runtime observation, fixture copy, request, result, decision,
+Phase B now also adds
+[`research-gateb-case-context-slice09.mjs`](../../scripts/research-gateb-case-context-slice09.mjs)
+and
+[`research-gateb-driver-slice09.mjs`](../../scripts/research-gateb-driver-slice09.mjs).
+Their source SHA-256 values are
+`1c3199677710a755e286e768de2a15d4e0a26ac11b4e0613e6dde11a477a46d2` and
+`9fa740db95f192a8c03763d63ba28a49d52f6f03fb544ec5a4c1e8d030293d71`.
+The three Slice 09 suites pass 14 / 14, including exact Slice 09 schema IDs and
+recursive closure, both complete 3+3-by-3 operation denominators, production
+callback shape, actual normalize/export gold records, rejection gold/worker
+exclusion, byte/manifest/source drift and Slice 08 replay rejection. Tests use
+only injected executors; they do not start the Sharp worker. After this Phase B
+addition, the repository-wide `npm.cmd run verify` passes `407 / 407`.
+
+No Slice 09 durable runner, machine definition, runtime observation, fixture
+copy, request, result, decision,
 calibration, formal material, model weight, third-party image, real-user image
 or product integration exists. Real Sharp execution remains forbidden until a
 future results-zero definition is independently validated, committed and pushed.
