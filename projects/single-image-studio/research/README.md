@@ -1,7 +1,7 @@
 # Single Image Studio research workspace
 
 This directory is the executable research workspace for Slice 01 through Slice
-08. Its image fixtures are small, deterministic, and project-original. Slice
+09. Its image fixtures are small, deterministic, and project-original. Slice
 05's only registered real smoke is closed non-pass, so its calibration is
 forbidden. Slice 06 now has a frozen diagnostic-only definition and one closed
 registered result tree. The real Sharp path ran only for 18 public-synthetic
@@ -23,9 +23,10 @@ field. The immutable partial tree has one request, one started event and no
 terminal/output/decision. Slice 08 is closed protocol-failed and cannot be
 replayed.
 
-Slice 09 has a frozen results-zero definition; its gold identity, closed case
-context, actual-case driver, durable runner, registered admission, definition
-generator and central validator are tested 34 / 34. They read actual immutable normalize/export
+Slice 09 has a frozen definition and one closed registered open-smoke result;
+its gold identity, closed case context, actual-case driver, durable runner,
+registered admission, definition generator and central validator are tested
+34 / 34. They read actual immutable normalize/export
 Slice 05 gold records and bind `goldRecordId`, content/file/pixel identity,
 source and manifest without guessing a generic `.id` field. The complete durable
 runner writes only system-temporary fake closure trees and validates requests,
@@ -33,9 +34,12 @@ claims, ledger events, identity-bound closures, summaries and decisions. The
 generator and validator independently rebuild the canonical definition with 18
 schemas, 12 sources, six gold identities, 36 planned attempts, zero copied image
 bytes and zero results. It froze at `2026-08-15T15:17:03.776Z` in commit
-`36d92844a2ea58113567a24482e5297ba8cdd9ab`. Runtime attestation exists inside
-the definition; request/result/decision records do not. Real Sharp execution and
-calibration remain forbidden until the one-time registered admission succeeds.
+`36d92844a2ea58113567a24482e5297ba8cdd9ab`. The only registered run then closed
+36 / 36 terminal attempts with 18 identity-bound artifact closures; normalize
+and export each passed 9 applicable + 9 exact rejection attempts, and both Gate-B
+decisions pass. The result commit is
+`c91014c6bef8878277a8520d003b10684972087b`. It cannot be replayed;
+calibration remains separately forbidden and all evidence axes remain zero.
 
 ## Evidence boundary
 

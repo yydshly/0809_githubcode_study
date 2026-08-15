@@ -224,7 +224,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 当前不是同时实现九类能力，而是按依赖建立最小可验证纵切：
 
-1. `CAP-01 + CAP-02`：Slice 05 Gate B 双拒绝，Slice 06 diagnostic 已定位 Sharp PNG profile 缺陷；Slice 07 applicable 路径全过，但 rejection driver protocol 失配导致 Gate B 再次双拒绝。Slice 08 在 worker 前因 gold ID 字段读取错误 protocol-failed 并已关闭。Slice 09 results-zero definition 已冻结并推送：18 schemas / 12 sources / 6 gold identities / 36 planned attempts / 0 results；registered smoke 尚未运行，calibration 与 C1 仍为 0。
+1. `CAP-01 + CAP-02`：Slice 05 Gate B 双拒绝，Slice 06 diagnostic 定位 Sharp PNG profile 缺陷；Slice 07 applicable 路径全过但 rejection protocol 失配，Slice 08 又因 gold ID 读取错误在 worker 前失败。Slice 09 用 versioned gold identity 闭合 36 / 36 terminal attempts：normalize / export 各 9 applicable + 9 exact rejection pass，两项 Gate B 均 pass。该结果仍是开放 research smoke，calibration 未授权、formal holdout 未创建、C1=0。
 2. `CAP-03`：形成最小 `SourceCard`，只记录可验证字段，不伪造推荐分数。
 3. `CAP-04 + CAP-05 + CAP-08`：对测 Matting 并完成透明 / 纯色主体背景效果。
 4. `CAP-09.execute`：随第一条无界面管线冻结确定性执行控制、状态、fallback 和失效传播，但不参与像素质量结论。

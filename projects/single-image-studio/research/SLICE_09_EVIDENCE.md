@@ -1,13 +1,16 @@
-# Slice 09 definition-freeze evidence
+# Slice 09 definition and registered Gate-B evidence
 
 ## Outcome
 
-Slice 09 `@0.9.0` is frozen at the definition boundary:
+Slice 09 `@0.9.0` froze its definition and then completed its only registered
+open smoke. Both operation decisions are `pass`, but the evidence boundary
+remains research-only:
 
 ```text
 definition-frozen
-results-zero
-Gate-B-smoke-not-run
+registered-smoke-closed
+normalize-Gate-B-pass
+export-Gate-B-pass
 calibration-forbidden
 non-C1
 non-product
@@ -73,22 +76,72 @@ The production central validator reports:
 - `runtimeRechecked=true`;
 - `regenerationVerified=true` from two fresh byte-identical temporary trees;
 - an exact non-null definition reference;
-- `postRun=null` because no registered result exists.
+- a strict, valid post-run closure after the registered result commit.
 
 The seven Slice 09 suites pass `34 / 34`. Full `npm.cmd run verify` passes
 `427 / 427`, including syntax checks. Adversarial coverage rejects unknown or
 extra files, empty directories, an early result root, schema drift, self-hash
 laundering, runtime drift and definition regeneration mismatch.
 
+## Registered result closure
+
+The first registered command was denied by the sandbox at the initial
+`results/` directory creation with `EPERM`. It created no directory, request,
+claim, ledger event or selectable outcome. After confirming the worktree and
+result root were unchanged, the exact command was executed once with the
+required workspace permission. That is the only registered invocation.
+
+The immutable result commit is
+`c91014c6bef8878277a8520d003b10684972087b`. The registered interval is:
+
+- normalize: `2026-08-15T15:40:41.952Z`–`2026-08-15T15:40:45.872Z`;
+- export: `2026-08-15T15:40:45.954Z`–`2026-08-15T15:40:50.487Z`.
+
+The closed `research/slice-09/results` tree contains 186 regular files in 29
+child directories, totals 312,983 bytes, and has tree SHA-256
+`2f6bc6c2d7490568db0facd8b2615f74294fbb6e1b3a09828bf7a654750cf451`.
+It includes 36 requests, 36 claims, 36 terminal results, 18 identity-bound
+artifact closures, 18 PNG outputs, two 54-event ledgers, two summaries and two
+decisions. There are no replacements, protocol failures, non-pass attempts,
+staging remnants or extra result subtrees.
+
+| Operation | Applicable artifact pass | Exact rejection pass | Source 3/3 pass | Decision |
+| --- | ---: | ---: | ---: | --- |
+| normalize | 9 / 9 | 9 / 9 | 6 / 6 | `pass` |
+| export | 9 / 9 | 9 / 9 | 6 / 6 | `pass` |
+
+All nine applicable attempts per operation have independent oracle pass,
+confirmed worker exit and byte/pixel identity bound through the frozen gold
+identity. All nine rejection attempts per operation return their exact frozen
+code before artifact publication.
+
+Durable result pins are:
+
+| Record | Content hash | File SHA-256 |
+| --- | --- | --- |
+| normalize summary | `b84bade6bf4a263e709e1b36b639befd4224b004c76f6a492de9b3b86067d549` | `f66212eaf24fea16980f55635d6905830748da2f3efbb75400f577227e85ed38` |
+| export summary | `43e5d21ec4be3e911fd2674ee9dcb1dca3764dfd4d0e63f45d4835c4a1422d39` | `29dd894e6e6ddaf7b38867c11d9e759ef8a2472b119f441f17344b387fe5260b` |
+| normalize decision | `6f90fcb9e954ab3cc408d129f59966ebe77a38ca5789ca4582e05b95d406e3cc` | `e6e0ff5887f1bc2e4de0442f19e1c670e3ef5f907addf376ee158474577054d5` |
+| export decision | `572c76a5e194b2ce3dc8800088a5da8bed60efb6697f6306bad3b9d029a840e6` | `52fdb53381ce70a37bf73bc9bec392a51d4944c119ffdd633f8013b36c62999c` |
+
+The normalize / export ledger file SHA-256 values are
+`bd361984a6665bdc98f989b421f923143a267f490bb3f02cc66e8920fa722e82`
+and `06f2b6dd9ed8c08c33d8dfe8748e1498930cc2608b0db582c659d3ab0cc5b270`.
+Their tail content hashes are
+`239c2fff8c1bb09bd2e3874566b428e2eb2ae40984e4475c8deb23ddb5baee8d`
+and `c050c014be4092f8285c1fdf92434936fed15c4c2b79b69dc11fff017027ac81`.
+
+The central post-run validator independently reopens the complete closure and
+reports `valid=true`, `issues=[]`, `generatedResults=186`, with both operations
+valid. The seven Slice 09 suites pass `34 / 34` after the canonical lifecycle
+test was updated to require this exact post-run closure rather than the earlier
+results-zero state.
+
 ## Authorization boundary
 
-No real Sharp worker, request, claim, ledger, artifact closure, summary or
-Gate-B decision was created in this freeze. Calibration, formal holdout,
-defect-holdout, escape, product UI/server integration and release material are
-absent. All evidence axes remain zero, `productSupport=false`, and release is
-`none / 0 / 0`.
-
-The only next authorized state change is the single registered Slice 09 open
-smoke, after a fresh clean/pushed admission check confirms this exact definition
-commit and an absent result root. It is not a retry of Slice 08 and must not be
-rerun or selectively supplemented.
+The registered open smoke is closed and must not be rerun or selectively
+supplemented. Although both Gate-B decisions pass, each record intentionally
+keeps `calibrationAuthorized=false`; calibration needs a separate next-slice
+authorization and frozen plan. Formal holdout, defect-holdout, escape, product
+UI/server integration and release material remain absent. All evidence axes
+remain zero, `productSupport=false`, and release is `none / 0 / 0`.
