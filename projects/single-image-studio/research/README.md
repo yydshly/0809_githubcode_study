@@ -23,6 +23,12 @@ field. The immutable partial tree has one request, one started event and no
 terminal/output/decision. Slice 08 is closed protocol-failed and cannot be
 replayed.
 
+Slice 09 is scope-frozen only. It will version the gold-record identity boundary
+so production code binds the frozen `goldRecordId`, content/file/pixel identity,
+source and manifest without guessing a generic `.id` field. No Slice 09 code,
+machine definition, runtime observation, request, result or decision exists yet;
+real Sharp execution and calibration remain forbidden.
+
 ## Evidence boundary
 
 - Every artifact in the initial `MATTE-GT` set is `public-synthetic`.
@@ -329,4 +335,4 @@ form:
 The local server must serve only URLs listed in `assetAllowlist`. Files merely
 present under `fixtures/` are not automatically public.
 
-实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)；Slice 07 的闭合结果见 [SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md)；下一版本的范围见 [SLICE_08_CONTRACT.md](SLICE_08_CONTRACT.md)。
+实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)；Slice 07 的闭合结果见 [SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md)；Slice 08 的 partial protocol failure 见 [SLICE_08_EVIDENCE.md](SLICE_08_EVIDENCE.md)；下一新版本范围见 [SLICE_09_CONTRACT.md](SLICE_09_CONTRACT.md)。

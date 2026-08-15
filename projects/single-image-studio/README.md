@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–07 保持各自不可改写的历史边界；Slice 07 Gate B 双拒绝。Slice 08 唯一 registered invocation 在首个 normalize attempt 的 worker 前 protocol-failed，留下 1 request + 1 started event、0 terminal / output / decision；同版本关闭，calibration、C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–08 保持各自不可改写的历史边界；Slice 08 在首个 worker 前 protocol-failed 并已关闭。Slice 09 只冻结新 `goldRecordId` identity boundary 与完整 36-attempt 分母，implementation / definition / result 仍为 0；calibration、C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -153,6 +153,10 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 [Slice 08 范围合同](research/SLICE_08_CONTRACT.md) 版本化 runner → driver 的 closed `caseContext` 边界。results-zero definition 于 `2026-08-15T13:37:23.038Z` 冻结并推送；唯一 registered invocation 随后写入首个 normalize request 与 `attempt-started`，但 actual-case driver 把 Slice 05 gold 的 `goldRecordId` 错读为 `id`，因此以 `S08_CASE_MATERIAL_INVALID` 在 Sharp worker 前停止。不可重放的 partial tree 只有 2 files / 3,779 bytes，SHA-256 `2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6`；terminal、output、closure、oracle、summary、decision 均为 0，export 未启动。中央验证能重开 request 与 sole ledger event 并返回 0 issues，但没有 Gate B decision，calibration 继续禁止。任何修复必须进入新版本；详见 [Slice 08 evidence](research/SLICE_08_EVIDENCE.md)。
 
+## Slice 09 只冻结新 gold identity 范围
+
+[Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。本阶段仅冻结 scope：新 `@0.9.0` implementation、machine definition、runtime observation、request、result 和 decision 均未创建，真实 Sharp 运行与 calibration 均禁止。后续必须重新建立全部 12 sources / 36 attempts，不得仅补跑 Slice 08 剩余 attempt。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -227,6 +231,8 @@ npm.cmd run verify
 | [research/SLICE_08_CONTRACT.md](research/SLICE_08_CONTRACT.md) | Slice 08 typed case-context、新 36-attempt 分母与禁止选择性补跑的 scope-only 合同 |
 | [research/SLICE_08_EVIDENCE.md](research/SLICE_08_EVIDENCE.md) | Slice 08 results-zero definition 与已封存 partial protocol-failure 的 UTC、tree pins、分母、验证和硬停止 |
 | [research/slice-08/README.md](research/slice-08/README.md) | Slice 08 typed protocol / runner / definition tooling workspace 与定义前硬停止 |
+| [research/SLICE_09_CONTRACT.md](research/SLICE_09_CONTRACT.md) | Slice 09 gold identity、新 36-attempt 分母与禁止重放的 scope-only 合同 |
+| [research/slice-09/README.md](research/slice-09/README.md) | Slice 09 尚未实现 / 定义 / 运行的工作区边界 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
