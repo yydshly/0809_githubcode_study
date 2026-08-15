@@ -147,7 +147,7 @@ Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / 
 
 [Slice 07 范围合同](research/SLICE_07_CONTRACT.md) 计划 `REG-NORM-SHARP-CANONICAL-PNG@0.7.0`：worker 返回 RGBA8 与尺寸，候选自有 encoder 只写 `IHDR,sRGB,IDAT,IEND`、filter 0，不得调用 Sharp PNG encoder 后再 patch，也不得复用 independent oracle / reference encoder。normalize / export 各冻结 3 applicable + 3 rejection sources、每个 3 次，共 36 attempts；两项 Gate B 都 pass 后，才可在后续切片讨论 calibration。
 
-当前 Slice 07 只有 scope 文档，没有实现、schema、machine definition、fixture wrapper、runtime observation、result 或 decision。范围提交 / 推送后才实现 fake-tested candidate；results-zero definition 再次提交 / 推送前不得运行真实 Sharp 图片路径。formal holdout、真实照片、模型权重、产品 UI / server 与全部证据轴仍保持未创建或 0。
+Slice 07 的第一项实现已落盘：项目原创 canonical PNG encoder 经 independent Slice 05 oracle 的内存 synthetic tests `5 / 5`，确认固定 chunks、filter 0、RGBA / Alpha identity 与三次 byte determinism。Sharp raw worker、adapter、runner、schema、machine definition、fixture wrapper、runtime observation、result 或 decision 仍未创建；results-zero definition 提交 / 推送前不得运行真实 Sharp 图片路径。formal holdout、真实照片、模型权重、产品 UI / server 与全部证据轴仍保持未创建或 0。
 
 ## 运行 R0 工程探针
 

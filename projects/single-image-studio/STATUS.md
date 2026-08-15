@@ -20,7 +20,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 06 唯一注册诊断已闭合；Slice 07 scope 已冻结 | `Slice 07: scope-frozen / implementation-not-started / Gate-B-smoke-not-run / calibration-forbidden / non-C1 / non-product` | Slice 06 已证明 Sharp 输出像素正确但 PNG 缺 `sRGB`、含禁止的 `pHYs`。Slice 07 选择“Sharp 像素处理 + candidate-owned canonical PNG encoder”的新复合候选，计划 12 sources / 36 attempts；当前没有 Slice 07 实现、定义或结果 |
+| 研究阶段 | Slice 06 唯一注册诊断已闭合；Slice 07 encoder implementation 已开始 | `Slice 07: scope-frozen / implementation-in-progress / encoder-ready / definition-not-frozen / Gate-B-smoke-not-run / calibration-forbidden / non-C1 / non-product` | 项目原创 canonical PNG encoder 已通过 independent-oracle fake tests；Sharp raw worker、adapter、runner、machine definition 与 result 均未创建，真实 Slice 07 图片路径未运行 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -28,7 +28,7 @@
 | Slice 04 metadata 研究设施 | 候选来源锁 / 预注册可验证 | 1 candidate lock；15 format rows；2 contracts；2 operation-specific five-partition plans；1 QA profile；2 preregistrations；1 seal intent | 10 records / 7 schemas，仅 metadata；normalize / export 每项 lifecycle 为 30 / 30 / 18 / 18 / 0，初始 C1 只计 sealed 30 + 18 = 48；artifact schema / oracle、runner、durable ledger、trust、角色 assignment / approval 均未建，全部格式 `productSupport=false`，非 Gate B |
 | Slice 05 定义与 smoke | 定义已冻结；真实 smoke 已关闭且未过门 | definition：25 schemas / 6 manifests / 108 sources / 54 inputs / 54 gold；smoke：36 attempts、116 files、0 artifacts | normalize `6 pass / 12 non-pass`，export `9 pass / 9 non-pass`；两项 applicable attempts 共 18 次均以 `S05_OUTPUT_ORACLE_REJECTED` 结束，normalize 另有 3 次预期 `S05_INPUT_SRGB_REQUIRED`、实际 `S05_INPUT_CHUNK_PROFILE_INVALID`。两份 Gate B decision 均为 `denied-not-entered`，calibration 禁止；详见 [Slice 05 定义与真实 smoke 证据](research/SLICE_05_EVIDENCE.md) |
 | Slice 06 诊断结果 | 唯一 registered invocation 已关闭；post-run validator 逐 byte 重算通过 | 152 files / 34 dirs / 583,198 bytes；24 requests + 24 claims + 24 results；84 ledger events；18 quarantine outputs；2 summaries + 2 closes；0 artifact / calibration / formal / holdout | result-tree SHA-256 `4c82a65083ccc1675a65d632010360d991171255ec5ef74b4a50092f701dd146`；normalize summary `70f80c7a…1900f`，export `1b60c9f1…829a0`；两项均 `9 oracle-non-pass + 3 preflight-pass`，Gate B authority=false、calibration=false、全部证据轴=0。详见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md) |
-| Slice 07 新候选范围 | 只完成 scope-only 治理冻结 | 计划 2 operations / 12 public-synthetic lineage sources / 36 attempts；implementation / definition / results 均为 0 | 新 encoder 必须只写 `IHDR,sRGB,IDAT,IEND`、filter 0，并与 independent oracle 实现隔离；两项 Gate B 都通过后才可在后续切片讨论 calibration。详见 [Slice 07 contract](research/SLICE_07_CONTRACT.md) |
+| Slice 07 新候选实现 | scope 已冻结；candidate encoder 已实现并定向通过 `5 / 5` | encoder source SHA-256 `cf71ddd2…c5d78`；test SHA-256 `ca61b62d…d8011`；3 组 frozen output hash | independent oracle 重开确认只含 `IHDR,sRGB,IDAT,IEND`、filter 0、RGBA / Alpha identity；worker / adapter / runner / definition / results 仍为 0。详见 [Slice 07 workspace](research/slice-07/README.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |

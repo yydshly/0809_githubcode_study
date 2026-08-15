@@ -246,9 +246,11 @@ with candidate output.
 The future smoke denominator is normalize and export × (three applicable +
 three rejection sources) × three repetitions = 36 attempts. Both
 operation-specific Gate-B decisions must pass before a later slice can consider
-open calibration. At this scope-only stage there is no Slice 07 implementation,
-schema, machine definition, fixture wrapper, runtime observation, result,
-decision, artifact or product integration. See [slice-07/README.md](slice-07/README.md).
+open calibration. The first implementation increment now provides the
+candidate-owned canonical encoder and `5 / 5` in-memory independent-oracle
+tests; no Sharp image path was invoked. Worker, adapter, runner, schema, machine
+definition, fixture wrapper, runtime observation, result, decision, artifact
+and product integration remain not created. See [slice-07/README.md](slice-07/README.md).
 
 ## Commands
 
