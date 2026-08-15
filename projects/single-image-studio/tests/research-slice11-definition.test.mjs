@@ -3,12 +3,16 @@ import { mkdtemp, mkdir, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
+import { createSlice11RuntimeObservation } from "../scripts/research-calibration-durable-slice11.mjs";
+import { createSlice11OperationClaim } from "../scripts/research-calibration-operation-slice11.mjs";
 import { buildSlice11DefinitionPreview } from "../scripts/research-generate-slice11.mjs";
 import { loadSlice11DefinitionContext, loadSlice11OperationCases, runRegisteredSlice11Calibration } from "../scripts/research-run-slice11.mjs";
 import { validateSlice11Definition } from "../scripts/research-validate-slice11.mjs";
 
 const TEST_UTC = "2026-08-16T01:00:00.000Z";
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 async function materialize() {
   const root = await mkdtemp(path.join(tmpdir(), "s11-definition-"));
   const built = await buildSlice11DefinitionPreview({ frozenAt: TEST_UTC });
@@ -67,9 +71,39 @@ test("central validator rejects source byte drift and arbitrary result material"
   assert.ok(resultReport.issues.some((entry) => entry.code === "POSTRUN_OPERATION_INVALID"));
 });
 
+test("central validator closes an exact zero-attempt startup runtime mismatch and blocks replay", async () => {
+  const { root, built } = await materialize();
+  const context = await loadSlice11DefinitionContext({ definitionRoot: root, projectRoot: PROJECT_ROOT });
+  const loaded = await loadSlice11OperationCases({ context, operation: "normalize" });
+  const operationRoot = path.join(root, "results", "open-calibration", "normalize");
+  await mkdir(path.join(operationRoot, "runtime"), { recursive: true });
+  const claim = createSlice11OperationClaim({
+    runId: "registered-open-calibration-slice11", operation: "normalize", cases: loaded.cases,
+    runtimeBindingRef: built.index.runtimeRef, claimedAt: TEST_UTC,
+  });
+  const frozenRuntime = JSON.parse(await readFile(path.join(root, ...built.index.runtimeRef.path.split("/")), "utf8"));
+  const runtimeStart = createSlice11RuntimeObservation({
+    observationId: "runtime-observation.s11.normalize.start", phase: "start",
+    runtimeBindingRef: built.index.runtimeRef, frozenPayloadSha256: frozenRuntime.inventoryPayloadSha256,
+    observedPayload: JSON.parse(frozenRuntime.inventoryCanonicalJson), observedAt: TEST_UTC,
+  });
+  assert.equal(runtimeStart.matchesFrozen, false, "regression fixture must reproduce the newline hash mismatch");
+  await writeFile(path.join(operationRoot, "operation-claim.json"), `${JSON.stringify(claim)}\n`);
+  await writeFile(path.join(operationRoot, "runtime", "start.json"), `${JSON.stringify(runtimeStart)}\n`);
+  const report = await validateSlice11Definition({ definitionRoot: root, requirePins: false });
+  assert.equal(report.valid, true, JSON.stringify(report.issues));
+  assert.deepEqual(report.postRun.operations.map(({ operation, status, requestCount }) => ({ operation, status, requestCount })), [
+    { operation: "normalize", status: "startup-runtime-drift", requestCount: 0 },
+  ]);
+  await assert.rejects(() => runRegisteredSlice11Calibration({
+    definitionRoot: root, resultsRoot: path.join(root, "results", "open-calibration"),
+    validateDefinition: async () => report, gitAdmission: async () => {},
+  }), { code: "S11_DEFINITION_ADMISSION_DENIED" });
+});
+
 test("definition loader maps new source identities to exact immutable Slice 10 case material", async () => {
   const { root } = await materialize();
-  const context = await loadSlice11DefinitionContext({ definitionRoot: root, projectRoot: path.resolve(".") });
+  const context = await loadSlice11DefinitionContext({ definitionRoot: root, projectRoot: PROJECT_ROOT });
   for (const operation of ["normalize", "export"]) {
     const loaded = await loadSlice11OperationCases({ context, operation });
     assert.equal(loaded.cases.length, 48);

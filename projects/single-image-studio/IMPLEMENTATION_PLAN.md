@@ -8,7 +8,7 @@
 
 截至 2026-08-15，Slice 05 的唯一注册真实 smoke 已关闭为 non-pass，Slice 06 唯一 diagnostic 已定位缺 `sRGB` / 禁止 `pHYs`。Slice 07 新复合候选的唯一 registered smoke 也已闭合：36 / 36 terminal，18 / 18 applicable candidate outputs 全部通过独立 oracle，但 18 个 rejection 因 driver executor binding 漏传 frozen classification fields 而全部 non-pass。两项 Gate B 均 denied，calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0`–`@0.10.0` 或补跑旧 calibration。Slice 11 / `@0.11.0` results-zero definition 已于 `2026-08-15T23:01:50.529Z` 冻结：projection / case / lifecycle / durable operation、registered driver、central validator、23 schemas、96 source wrappers / 288 attempts、48 gold identities、4 manifests、0 copied image bytes与0 results均已闭合；42 / 42 Slice 11 fake-only tests通过。下一步不再增加协议层：先提交推送该 results-zero baseline；确认 `HEAD == origin/main`、worktree clean 后，执行唯一 registered open calibration。若候选失败则关闭本候选，不在同版本继续修 runner。
+禁止重跑 `@0.5.0`–`@0.11.0` 或补跑旧 calibration。Slice 11 / `@0.11.0` results-zero definition 已于 `2026-08-15T23:01:50.529Z` 冻结并以 commit `33f24395e9ad2cd672d156a6f491e02118a62ed1` 推送；唯一 registered invocation 随后在 0 / 288 attempts 处以 `S11_RUNTIME_START_DRIFT` 停止。冻结与观测 runtime JSON 实际逐字段一致，失败由 canonical JSON SHA 是否包含末尾换行的内部口径不一致造成；Sharp worker与像素路径均未调用。该两文件 startup failure 已封闭、不可重跑。为纠正项目偏航，不再创建 Slice 12 或继续扩 normalize/export 协议；后续直接回到已冻结的 SourceCard.v0 与 Matting baseline 工作包。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 

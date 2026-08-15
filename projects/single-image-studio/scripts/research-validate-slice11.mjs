@@ -7,7 +7,10 @@ import {
   SLICE11_DEFINITION_PATH, SLICE11_DEFINITION_SCHEMA_DOCUMENTS, buildSlice11DefinitionPreview,
   canonicalBytesSlice11Definition, digestSlice11Files, sha256Slice11Definition,
 } from "./research-generate-slice11.mjs";
-import { validateSlice11CalibrationClaim, validateSlice11ApplicableClosure, validateSlice11TerminalClosure } from "./research-calibration-durable-slice11.mjs";
+import {
+  validateSlice11CalibrationClaim, validateSlice11ApplicableClosure, validateSlice11RuntimeObservation,
+  validateSlice11TerminalClosure,
+} from "./research-calibration-durable-slice11.mjs";
 import { validateSlice11CalibrationRequest, validateSlice11CalibrationSummary, validateSlice11RecordRef } from "./research-calibration-protocol-slice11.mjs";
 import { validateSlice11DurableLedger, validateSlice11OperationClaim, validateSlice11OperationClose } from "./research-calibration-operation-slice11.mjs";
 
@@ -67,8 +70,33 @@ function compareMap(actual, expected, issues) {
 function contentRef(record, idKey) { return { id: record[idKey], contentHash: record.contentHash }; }
 async function readJson(filePath) { return JSON.parse(await readFile(filePath, "utf8")); }
 
+async function validateStartupRuntimeFailure(operationRoot, operation) {
+  const operationTree = await tree(operationRoot);
+  const allowedFiles = new Set(["operation-claim.json", "runtime/start.json"]);
+  const allowedDirs = new Set(["runtime"]);
+  if (operationTree.files.size !== allowedFiles.size || [...operationTree.files.keys()].some((name) => !allowedFiles.has(name))
+    || operationTree.dirs.size !== allowedDirs.size || [...operationTree.dirs].some((name) => !allowedDirs.has(name))) {
+    return null;
+  }
+  const claim = await readJson(path.join(operationRoot, "operation-claim.json"));
+  const runtimeStart = await readJson(path.join(operationRoot, "runtime", "start.json"));
+  validateSlice11OperationClaim(claim);
+  validateSlice11RuntimeObservation(runtimeStart);
+  if (claim.operation !== operation || runtimeStart.phase !== "start" || runtimeStart.matchesFrozen !== false
+    || runtimeStart.observationId !== `runtime-observation.s11.${operation}.start`
+    || JSON.stringify(claim.runtimeBindingRef) !== JSON.stringify(runtimeStart.runtimeBindingRef)) {
+    throw new Error("startup runtime failure identity/state binding invalid");
+  }
+  return Object.freeze({
+    operation, status: "startup-runtime-drift", requestCount: 0, closureCount: 0, eventCount: 0,
+    closeRef: null, runtimeStartRef: contentRef(runtimeStart, "observationId"),
+  });
+}
+
 async function validateOperation(operationRoot, operation, issues) {
   try {
+    const startupFailure = await validateStartupRuntimeFailure(operationRoot, operation);
+    if (startupFailure !== null) return startupFailure;
     const operationTree = await tree(operationRoot);
     const allowedFiles = new Set(["operation-claim.json", "publication-ledger.ndjson", "runtime/start.json", "runtime/end-observation.json", "final/operation-close.json", "final/runtime-end.json"]);
     const claim = await readJson(path.join(operationRoot, "operation-claim.json"));

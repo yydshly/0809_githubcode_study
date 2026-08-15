@@ -82,16 +82,20 @@ ledger requires exact start-terminal pairs, and the pure in-memory runner closes
 schemas define an idempotent durable claim, start/end runtime observation, oracle
 facts, a six-file applicable publication and variable closed terminal publication.
 Three operation-level schemas add the exclusive operation claim, fsynced
-publication-event ledger and atomic operation close. Forty-two fake-only tests
+publication-event ledger and atomic operation close. Forty-three tests
 cover deterministic reconstruction, semantic rehash
 laundering, denominator and reference closure, byte drift, protocol global stop,
 claim conflicts, applicable / rejection / failure closure, full 48x3 durable
 bridging, a 288-event publication chain, runtime drift, atomic final close, replay
-denial, and rename reconciliation. They do not invoke Sharp
-or create canonical requests/results. The results-zero definition freezes 23 schemas,
-96 new source identities / 288 attempts, 48 gold identities, four manifests and zero
-copied image bytes; calibration remains unrun with zero retry and replacement. See
-[SLICE_11_CONTRACT.md](SLICE_11_CONTRACT.md).
+denial, rename reconciliation, and the exact startup-failure closure. Fake paths
+do not invoke Sharp. The results-zero definition froze 23 schemas, 96 new source
+identities / 288 planned attempts, 48 gold identities, four manifests and zero
+copied image bytes. Its only registered invocation then stopped before any request,
+worker, or pixel operation because definition/runtime observation disagreed only on
+whether the canonical JSON hash includes a trailing newline. The two-file result is
+closed as `startup-runtime-drift`, replay is denied, and Slice 11 will not be followed
+by another normalize/export runner slice. See [SLICE_11_CONTRACT.md](SLICE_11_CONTRACT.md)
+and [SLICE_11_EVIDENCE.md](SLICE_11_EVIDENCE.md).
 
 ## Evidence boundary
 

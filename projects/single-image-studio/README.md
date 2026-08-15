@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 results-zero definition 已冻结，含 96 sources / 288 planned attempts，42 / 42 fake-only tests通过，真实 calibration 尚未运行。C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–11 保持各自不可改写的历史边界。Slice 11 唯一 invocation 因 runtime JSON 哈希换行口径错误在 0 / 288 attempts 处 fail closed；未调用 Sharp 像素路径。停止新增 normalize/export runner slice，转回 SourceCard.v0 与 Matting baseline。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -163,7 +163,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 11 scope 已冻结
 
-[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修 gold-to-adapter projection 与真实 worker lifecycle。projection、versioned adapter、case executor、strict lifecycle record、durable attempt / operation runner、registered driver 与 central validator 已实现。results-zero definition 于 `2026-08-15T23:01:50.529Z` 冻结：23 schemas、96 source wrappers / 288 attempts、48 gold identities、4 manifests、0 copied image bytes、0 results；full tree SHA-256 为 `d33d254a78eec2a96b2abdb98891fd94279359b4a7e7bf0bb6d0505779a2e90c`。42 / 42 Slice 11 fake-only tests 不调用 Sharp。definition commit 推送且工作树 clean 前，禁止唯一 registered calibration。精确 pins 与执行边界见 [Slice 11 evidence](research/SLICE_11_EVIDENCE.md)。
+[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修 gold-to-adapter projection 与真实 worker lifecycle。results-zero definition 于 `2026-08-15T23:01:50.529Z` 冻结并以 commit `33f24395e9ad2cd672d156a6f491e02118a62ed1` 推送。唯一 registered invocation 只产生 operation claim 与 runtime start observation，随后因 canonical JSON SHA 的末尾换行口径不一致而以 `S11_RUNTIME_START_DRIFT` 停止；actual request / attempt / worker / pixel / terminal / export 均为 0。两文件 result tree SHA-256 为 `a638a17afa69ab41015181b61ef7a64fa58e9057a9f64f7bc29bfe2f35dd3689`。central validator 将该形状封闭并拒绝 replay；43 / 43 Slice 11 tests 与 522 / 522 全量测试通过。精确 pins 与执行边界见 [Slice 11 evidence](research/SLICE_11_EVIDENCE.md)。
 
 ## 运行 R0 工程探针
 
@@ -246,7 +246,7 @@ npm.cmd run verify
 | [research/SLICE_10_EVIDENCE.md](research/SLICE_10_EVIDENCE.md) | Slice 10 唯一 registered invocation 的 4-file failure tree、协议根因、lifecycle 失真与禁止重跑边界 |
 | [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 已冻结的 results-zero machine definition workspace（保持其冻结时口径） |
 | [research/SLICE_11_CONTRACT.md](research/SLICE_11_CONTRACT.md) | Slice 11 expected projection、worker lifecycle、新 96 / 288 分母与非 C1 边界 |
-| [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 当前 Phase B foundation 状态、尚未 materialize 的研究 workspace 与执行前硬停止 |
+| [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 冻结 definition workspace；运行后的不可变 startup-failure 事实见外部 evidence |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -254,7 +254,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–10 的不可变 research-only 记录，以及 Slice 11 的 fake-only protocol foundation。Slice 09 两项 Gate B 均通过；Slice 10 calibration 在 1 / 288 后因 pre-worker protocol failure 关闭；Slice 11 尚未 materialize definition 或运行。这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖与 Slice 06–11 的不可变 research-only 记录。Slice 09 两项 Gate B 均通过；Slice 10 在 1 / 288、Slice 11 在 0 / 288 处分别因协议错误 fail closed。两者都不是 formal holdout、C1 或产品支持。项目停止新增 normalize/export runner slice，下一步回到 SourceCard.v0 与 Matting baseline；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。
