@@ -8,7 +8,7 @@
 
 截至 2026-08-15，Slice 05 的唯一注册真实 smoke 已关闭为 non-pass，Slice 06 唯一 diagnostic 已定位缺 `sRGB` / 禁止 `pHYs`。Slice 07 新复合候选的唯一 registered smoke 也已闭合：36 / 36 terminal，18 / 18 applicable candidate outputs 全部通过独立 oracle，但 18 个 rejection 因 driver executor binding 漏传 frozen classification fields 而全部 non-pass。两项 Gate B 均 denied，calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0`–`@0.10.0` 或补跑旧 calibration。Slice 10 只终结首个 normalize applicable attempt，以 `S10_EXPECTED_OUTPUT_INVALID` 在 Sharp worker 前停止；terminal 又误记 `workerInvoked=true`，central 以 `RESULT_WORKER_LIFECYCLE_INVALID` fail closed。Slice 11 / `@0.11.0` scope 现已冻结：只允许实现完整 gold identity → exact 12-field adapter expected 的显式投影，以及从 preflight / spawn / IPC / exit 事实派生的 worker lifecycle。随后须以新身份重建 96 / 288、零 retry / replacement 的开放分母，完成 fake-only 负例、冻结并推送 results-zero definition；在此之前不得运行真实 calibration。
+立即后续禁止重跑 `@0.5.0`–`@0.10.0` 或补跑旧 calibration。Slice 11 / `@0.11.0` scope 已冻结，projection / lifecycle Phase B foundation 已实现：完整 gold identity 被 canonicalize / hash 后投影为 exact 12 adapter keys；adapter 从真实 preflight / spawn / IPC / exit 事件派生 lifecycle，7 / 7 fake-only tests通过且不调用 Sharp。下一步须把该边界接入 versioned case / runner / terminal / ledger / summary schemas 与中央负例，再以新 identities 重建 96 / 288、零 retry / replacement 的 results-zero definition并推送；在此之前不得运行真实 calibration。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
