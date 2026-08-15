@@ -6,9 +6,9 @@
 
 当前代码可以作为上传校验、任务快照、服务代理、错误状态和下载契约的参考实现，但所有用户可见结果仍要用新的能力与证据重新取得。不得因自动测试通过、页面可点击或本地滤镜有输出，就提前标记 C1、U1、E1、R1-pipeline、R1-product、O1、G1 或 V1。
 
-截至 2026-08-15，Slice 02 已完成四份研究 `CapabilityContract@0.2.0`、fixture reference adapter 与两套 suite 的五 partition 结构隔离骨架；Slice 03 完成 15 行 `NORMALIZE-DELIVER` 格式政策 / profile、25 个开放项目原创夹具、独立 byte-backed technical observer，以及只用临时 mock metadata 的密封仪式 rehearsal。Slice 04 又把 Sharp `v0.35.3`、Windows x64 bundle、`sharp-libvips@1.3.2` 与 bundled libvips 上游边界锁成一个 source-resolved 复合候选，并冻结两份 metadata-only 合同、QA、normalize / export 两份 operation-specific 五 partition plan、两份预注册与 seal intent。所有格式仍为 `productSupport=false`；operation artifact schema / oracle、runner / durable ledger / trust / roles、正式像素与 calibration 均未建，因此 WP3 与任何 C1 判定仍未开始。
+截至 2026-08-15，Slice 02 已完成四份研究 `CapabilityContract@0.2.0`、fixture reference adapter 与两套 suite 的五 partition 结构隔离骨架；Slice 03 完成 15 行 `NORMALIZE-DELIVER` 格式政策 / profile、25 个开放项目原创夹具、独立 byte-backed technical observer，以及只用临时 mock metadata 的密封仪式 rehearsal。Slice 04 又把 Sharp `v0.35.3`、Windows x64 bundle、`sharp-libvips@1.3.2` 与 bundled libvips 上游边界锁成一个 source-resolved 复合候选，并冻结两份 metadata-only 合同、QA、normalize / export 两份 operation-specific 五 partition plan、两份预注册与 seal intent。Slice 05 目前只完成 [范围合同](research/SLICE_05_CONTRACT.md) 冻结，状态为 `scope-frozen / implementation-not-started`；machine prereg、operation artifact schema / oracle、adapter、named hardware、smoke、开放 calibration、runner / durable ledger / trust / roles 与正式像素均未建，因此 WP3 与任何 C1 判定仍未开始。
 
-立即后续必须发布新的 Gate B / calibration 范围合同，只允许为 Slice 04 已锁候选创建 operation artifact schema 与独立 oracle / gold、实现 adapter、冻结执行位置 / named hardware / 资源与运行语义、完成 codec smoke，并在项目原创开放 `dev/calibration` / `defect/calibration` 上运行 calibration；不得直接创建正式 holdout。calibration 若改变 candidate、QA、阈值或停止规则，必须发布新版本和新预注册。进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。Slice 04 的完成边界与验证结果见 [范围合同](research/SLICE_04_CONTRACT.md) 和 [证据记录](research/SLICE_04_EVIDENCE.md)。
+立即后续只能实施已经冻结的 Slice 05 范围：为 Slice 04 已锁候选创建 operation artifact schema 与独立 oracle / gold、实现 adapter、冻结执行位置 / named hardware / 资源与运行语义，并对 normalize / export 分别完成 codec smoke。只有某项 operation 的 Gate B smoke 全项通过后，才可运行该项项目原创开放 `dev/calibration=30` / `defect/calibration=18`；不得由另一项继承，也不得创建正式 holdout。calibration 若改变 candidate、QA、阈值或停止规则，必须发布新版本和新预注册。进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。Slice 04 的完成边界与验证结果见 [范围合同](research/SLICE_04_CONTRACT.md) 和 [证据记录](research/SLICE_04_EVIDENCE.md)，Slice 05 的实施硬边界见 [Slice 05 范围合同](research/SLICE_05_CONTRACT.md)。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
@@ -127,7 +127,15 @@ Slice 04 按 [范围合同](research/SLICE_04_CONTRACT.md) 完成 `REG-NORM-SHAR
 
 同一切片只以 metadata 冻结 15 行格式矩阵、normalize / export 两份合同及各自 30 / 30 / 18 / 18 / event-driven-0 的五 partition lifecycle、QA、两份预注册和 seal intent。每项初始 C1 只计 sealed 30 + 18 = 48；open calibration 与 append-only escape 排除，有限来源要求 3 / 3 repeats 全过。所有像素和 operation oracle 均为 `not-created`；seal 只 pin Slice 03 envelope，actual runner、durable ledger、trust、角色 assignment / approval 未建，request 状态 `not-issued-awaiting-custodian-bundle`。
 
-这不是 Gate B：operation artifact schema / independent oracle / gold、adapter、执行位置、named hardware、资源 guardrail、幂等 / timeout / retry / reconciliation、实际输入输出 smoke 与开放 calibration 都未建立。下一明确切片必须先补齐这些条件并只运行开放 calibration；该阶段仍不得创建正式 holdout。正式 bundle 和一次性运行还要等待 calibration 后的新最终版本、阈值与预注册通过独立审计。
+这不是 Gate B：operation artifact schema / independent oracle / gold、adapter、执行位置、named hardware、资源 guardrail、幂等 / timeout / retry / reconciliation、实际输入输出 smoke 与开放 calibration 都未建立。Slice 05 已冻结补齐这些条件的范围，但 implementation 仍未开始；该阶段只允许运行通过 operation-specific Gate B smoke 后的开放 calibration，仍不得创建正式 holdout。正式 bundle 和一次性运行还要等待 calibration 后的新最终版本、阈值与预注册通过独立审计。
+
+### 2.2 Slice 05 已冻结范围，implementation 未开始
+
+Slice 05 的范围自包含 [SLICE_05_CONTRACT.md](research/SLICE_05_CONTRACT.md) 的 Git commit 起生效，不使用尚未发生的未来时间冒充 freeze。当前没有 machine prereg freeze、fixture manifest、artifact schema / oracle、adapter、dependency installation、named hardware、smoke 或 calibration record。
+
+实施时 normalize 与 export 必须独立推进：先冻结各自 artifact / oracle / gold、adapter binding、hardware / runtime、运行语义、开放 fixture manifest 与 machine preregistration，再运行实际 input / output / failure smoke。某项 smoke 任一硬门 non-pass 时，该项保持非 Gate B 且不得运行 calibration；只有全项通过时，才能运行该项 `dev/calibration=30` 与 `defect/calibration=18`，每来源 3 次 planned repetitions。完整开放计划为两项 operation 共 96 个独立来源、288 个 planned repetitions，smoke case 不进入这些分母。
+
+本阶段所有格式继续 `productSupport=false`，smoke 与开放 calibration 都不进入未来 C1 分母，也不建立 EvidenceManifest。正式 holdout、defect-holdout、escape、bundle、request、receipt、formal runner / durable ledger / trusted authority 继续为 `not-created`；C1、U1、E1、R1、O1、G1、V1 与 Release Gate 全部维持 0。
 
 ## WP3 · 主体 / 背景纵深
 

@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–03 研究设施与 Slice 04 候选来源锁 / 预注册 metadata 可验证；Gate B adapter、calibration 与 C1 取证尚未开始 |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–04 研究设施可运行；Slice 04 只验证候选来源、合同、QA、分母、预注册和 seal intent metadata，不执行图片 codec |
+| 研究阶段 | Slice 01–04 已完成各自冻结边界；Slice 05 仅完成范围冻结，状态为 `scope-frozen / implementation-not-started`；Gate B adapter、smoke、开放 calibration 与 C1 取证尚未开始 |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–04 研究设施可运行；Slice 05 当前只有 human-readable scope contract，没有 machine prereg、fixture、adapter、codec 执行或 calibration 结果 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -119,7 +119,15 @@ npm.cmd run verify
 
 normalize / export 每项都计划 `30 dev/calibration + 30 holdout + 18 defect/calibration + 18 defect/holdout + event-driven-0 escape`；初始 C1 只计 sealed holdout 30 + sealed defect-holdout 18 = 48，open calibration 与 append-only escape 排除。有限来源必须 3 / 3 repeats 全过，每来源跨三次最多一次仅替代 no-result invalid。Slice 03 observer 与 seal 只作不兼容 design lineage / execution-envelope reference；operation artifact schema / oracle、runner、durable ledger、trusted authority、角色 assignment / approval 与所有像素均未创建，request 为 `not-issued-awaiting-custodian-bundle`，因此非 Gate B。
 
-完整边界见 [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md)，实际 hash 与验收结果见 [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md)。下一步必须另发明确切片，只做 operation artifact schema / independent oracle / gold、adapter、运行语义、named hardware、smoke 和开放 calibration；仍不得直接创建正式 holdout、扩 UI 或进入 Matting。
+完整边界见 [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md)，实际 hash 与验收结果见 [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md)。后续边界现已由 [Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 明确冻结；implementation 仍未开始。
+
+## Slice 05 范围冻结
+
+[Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 已将下一步收窄为 canonical PNG 的 normalize / export 两项独立 operation。该范围自包含合同文件的 Git commit 起生效；当前只完成 scope freeze，尚未发生机器预注册冻结，也没有安装或执行 Sharp、创建 fixture / artifact schema / oracle、实现 adapter、命名硬件、运行 smoke 或 calibration。
+
+实现顺序必须按 operation 分开：先冻结 artifact / independent oracle / gold、adapter、执行环境、运行语义、开放 fixture manifest 与 machine preregistration，再完成实际 input / output / failure smoke。只有某项 operation 的 Gate B smoke 全项通过，才可运行该项开放 `dev/calibration=30` 与 `defect/calibration=18`；另一项不能继承其结果。smoke 与开放 calibration 均排除于未来 C1 分母，全部格式继续 `productSupport=false`。
+
+Slice 05 明确禁止创建正式 holdout、defect-holdout、escape、bundle、request、receipt、formal result 或 EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。当前及实施后的本切片都不能据此声称真实归一化、正式导出或产品能力；全部证据轴继续为 0。
 
 ## 运行 R0 工程探针
 
@@ -183,6 +191,7 @@ npm.cmd run verify
 | [research/SLICE_03_EVIDENCE.md](research/SLICE_03_EVIDENCE.md) | Slice 03 矩阵 / profile、开放夹具、observer、密封仪式和 fail-closed 验收记录 |
 | [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md) | Slice 04 Sharp 复合候选来源锁、完整预注册与未签发 seal request 边界 |
 | [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md) | Slice 04 metadata 制品、上游 hash、负例和非 Gate B 验收记录 |
+| [research/SLICE_05_CONTRACT.md](research/SLICE_05_CONTRACT.md) | Slice 05 operation-specific Gate B smoke 与开放 calibration 的冻结范围；当前 implementation 尚未开始 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
