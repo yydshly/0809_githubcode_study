@@ -47,19 +47,19 @@ function readRecord(built, relativePath) {
 test("Slice 10 preview is byte deterministic, results-zero and deliberately non-executable", async () => {
   const first = await buildSlice10DefinitionPreview({ frozenAt: TEST_UTC });
   const second = await buildSlice10DefinitionPreview({ frozenAt: TEST_UTC });
-  assert.equal(first.fileMap.size, 176);
+  assert.equal(first.fileMap.size, 182);
   assert.equal(first.fileMap.size, second.fileMap.size);
   assert.equal(digestSlice10Files(first.fileMap), digestSlice10Files(second.fileMap));
   for (const [relativePath, bytes] of first.fileMap) assert.deepEqual(bytes, second.fileMap.get(relativePath), relativePath);
-  assert.equal(first.index.definitionState, "preview-not-frozen-runner-not-created");
-  assert.equal(first.index.runnerRef, null);
+  assert.equal(first.index.definitionState, "preview-not-frozen-central-validator-not-created");
+  assert.equal(first.index.runnerRef.id, "RUNNER-OPEN-CALIBRATION@0.10.0");
   assert.equal(first.index.resultsState, "not-created");
   assert.equal(first.index.formalHoldoutState, "not-created");
   assert.ok([...first.fileMap.keys()].every((entry) => !entry.startsWith("results/") && !entry.endsWith(".png")));
 });
 
-test("exactly 16 Slice 10 schemas use the exact namespace and recursively closed supported vocabulary", () => {
-  assert.equal(Object.keys(SLICE10_PREVIEW_SCHEMA_DOCUMENTS).length, 16);
+test("exactly 22 Slice 10 schemas use the exact namespace and recursively closed supported vocabulary", () => {
+  assert.equal(Object.keys(SLICE10_PREVIEW_SCHEMA_DOCUMENTS).length, 22);
   for (const [relativePath, schema] of Object.entries(SLICE10_PREVIEW_SCHEMA_DOCUMENTS)) {
     assert.equal(schema.$id, `https://single-image-studio.invalid/research/slice-10/${relativePath}`);
     assertClosedSchema(schema, relativePath);
@@ -185,17 +185,24 @@ test("every generated record is canonically self-hashed and every internal recor
   }
 });
 
-test("preview implementation pins are actual and intentionally omit a runner and central validator", async () => {
+test("preview implementation pins are actual, include the complete runtime stack, and omit only the central validator", async () => {
   const built = await buildSlice10DefinitionPreview({ frozenAt: TEST_UTC });
   const candidate = readRecord(built, SLICE10_PREVIEW_PATHS.candidate);
-  assert.equal(candidate.implementationRefs.length, 7);
+  assert.equal(candidate.implementationRefs.length, 11);
   assert.ok(candidate.implementationRefs.some((entry) => entry.path === "scripts/research-calibration-protocol-slice10.mjs"));
   assert.ok(candidate.implementationRefs.some((entry) => entry.path === "scripts/research-generate-slice10.mjs"));
-  assert.ok(candidate.implementationRefs.every((entry) => !entry.path.includes("runner-slice10") && !entry.path.includes("validate-slice10")));
+  for (const expected of [
+    "scripts/research-calibration-runner-slice10.mjs",
+    "scripts/research-calibration-case-slice10.mjs",
+    "scripts/research-run-slice10.mjs",
+    "scripts/research-runtime-observer-slice10.mjs",
+  ]) assert.ok(candidate.implementationRefs.some((entry) => entry.path === expected));
+  assert.ok(candidate.implementationRefs.every((entry) => !entry.path.includes("validate-slice10")));
   for (const implementation of candidate.implementationRefs) {
     const bytes = await readFile(new URL(`../${implementation.path}`, import.meta.url));
     assert.equal(createHash("sha256").update(bytes).digest("hex"), implementation.sha256, implementation.path);
   }
-  assert.equal(candidate.executionState, "runner-not-created-preview-not-executable");
+  assert.equal(candidate.executionState, "runner-complete-central-validator-not-created-preview-not-executable");
+  assert.equal(built.index.runnerRef.sha256, candidate.implementationRefs.find((entry) => entry.id === "RUNNER-OPEN-CALIBRATION@0.10.0").sha256);
   assert.equal(path.basename(SLICE10_PREVIEW_PATHS.definition), "definition-index.preview.v0.10.0.json");
 });

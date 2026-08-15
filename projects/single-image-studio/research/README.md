@@ -50,7 +50,10 @@ implemented and passes 7 / 7 fake-only tests. It rejects attempt two, missing or
 duplicate slots, partition or operation drift, generic rejection laundering and
 2-of-3 majority promotion. A separate definition-preview generator passes 9/9
 fake-only tests: two fixed-UTC temporary builds are byte-identical and contain
-16 strict schemas, 96 new source wrappers, 48 gold identities and four manifests.
+22 strict schemas, 96 new source wrappers, 48 gold identities and four manifests.
+The preview now pins the complete runner, actual-case adapter, registered driver
+and durable runtime-end observer implementation bytes; only the central validator
+and formal results-zero materialization remain absent.
 They pin the actual Slice 05 open-synthetic bytes/records and immutable Slice 09
 dual-pass admission lineage without copying image bytes. A fake-only durable
 runner foundation passes 7/7 system-temp tests for one 48x3 operation,

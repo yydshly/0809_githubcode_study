@@ -10,6 +10,8 @@ import {
   SLICE10_SLICE09_RESULT_COMMIT,
   SLICE10_SLICE09_RESULT_TREE_SHA256,
 } from "./research-calibration-protocol-slice10.mjs";
+import { SLICE10_RUNNER_SCHEMA_DOCUMENTS } from "./research-calibration-runner-slice10.mjs";
+import { SLICE10_RUNTIME_END_SCHEMA_DOCUMENTS } from "./research-runtime-observer-slice10.mjs";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const PROJECT_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
@@ -117,8 +119,8 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
     architecture: { const: "sharp-raw-rgba-plus-project-canonical-png-encoder" },
     versionReason: { const: "open-calibration-protocol-and-source-identity-only" },
     slice09AdmissionLineageRef: refSchema, slice09CandidateRef: refSchema,
-    implementationRefs: { type: "array", minItems: 7, maxItems: 7, items: implementationRefSchema },
-    executionState: { const: "runner-not-created-preview-not-executable" },
+    implementationRefs: { type: "array", minItems: 11, maxItems: 11, items: implementationRefSchema },
+    executionState: { const: "runner-complete-central-validator-not-created-preview-not-executable" },
     evidenceBoundary: evidenceSchema, contentHash: hex,
   }),
   "schemas/capability-contract.slice10.v0.schema.json": schema("capability-contract.slice10.v0.schema.json", {
@@ -204,7 +206,7 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
   }),
   "schemas/definition-index.slice10.v0.schema.json": schema("definition-index.slice10.v0.schema.json", {
     schemaVersion: { const: "definition-index.slice10.v0" }, id, frozenAt: utcSchema,
-    definitionState: { const: "preview-not-frozen-runner-not-created" }, candidateRef: refSchema,
+    definitionState: { const: "preview-not-frozen-central-validator-not-created" }, candidateRef: refSchema,
     contractRefs: { type: "array", minItems: 2, maxItems: 2, items: refSchema }, runtimeRef: refSchema,
     hardwareRef: refSchema, rightsRef: refSchema, admissionLineageRef: refSchema,
     planRefs: { type: "array", minItems: 2, maxItems: 2, items: refSchema },
@@ -212,7 +214,7 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
     manifestRefs: { type: "array", minItems: 4, maxItems: 4, items: refSchema },
     sourceRefs: { type: "array", minItems: 96, maxItems: 96, items: refSchema },
     goldIdentityRefs: { type: "array", minItems: 48, maxItems: 48, items: refSchema },
-    schemaPaths: { type: "array", minItems: 16, maxItems: 16, items: text }, runnerRef: { const: null },
+    schemaPaths: { type: "array", minItems: 22, maxItems: 22, items: text }, runnerRef: implementationRefSchema,
     resultProtocol: objectSchema({
       driverInvocations: { const: 1 }, registeredOperationRuns: { const: 2 }, plannedSources: { const: 96 },
       plannedAttempts: { const: 288 }, replacements: { const: 0 }, resultsRoot: { const: "results/open-calibration" },
@@ -224,13 +226,15 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
       sourceWrappers: { const: 96 }, sources: { const: 96 },
     }),
     resultsState: { const: "not-created" }, formalHoldoutState: { const: "not-created" },
-    generatorSha256: hex, readmeSha256: hex, descendantFileCount: { type: "integer", minimum: 175, maximum: 175 },
+    generatorSha256: hex, readmeSha256: hex, descendantFileCount: { type: "integer", minimum: 181, maximum: 181 },
     descendantTreeSha256: hex, evidenceBoundary: evidenceSchema, contentHash: hex,
   }),
 });
 
 export const SLICE10_PREVIEW_SCHEMA_DOCUMENTS = Object.freeze({
   ...SLICE10_PROTOCOL_SCHEMA_DOCUMENTS,
+  ...SLICE10_RUNNER_SCHEMA_DOCUMENTS,
+  ...SLICE10_RUNTIME_END_SCHEMA_DOCUMENTS,
   ...SLICE10_MACHINE_SCHEMA_DOCUMENTS,
 });
 
@@ -382,6 +386,10 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
     implementationRef("scripts/research-gateb-adapter-slice07.mjs", "ADAPTER-SHARP-CANONICAL-PNG@0.10.0"),
     implementationRef("scripts/research-independent-png-oracle-slice05.mjs", "ORACLE-INDEPENDENT-PNG@0.5.0"),
     implementationRef("scripts/research-inventory-sharp-slice05.mjs", "INVENTORY-SHARP-RUNTIME@0.5.0"),
+    implementationRef("scripts/research-calibration-runner-slice10.mjs", "RUNNER-OPEN-CALIBRATION@0.10.0"),
+    implementationRef("scripts/research-calibration-case-slice10.mjs", "CASE-DRIVER-OPEN-CALIBRATION@0.10.0"),
+    implementationRef("scripts/research-run-slice10.mjs", "DRIVER-REGISTERED-OPEN-CALIBRATION@0.10.0"),
+    implementationRef("scripts/research-runtime-observer-slice10.mjs", "OBSERVER-RUNTIME-END@0.10.0"),
     implementationRef("scripts/research-generate-slice10.mjs", "GENERATOR-SLICE10-DEFINITION-PREVIEW@0.10.0"),
   ]);
   const candidate = withHash({
@@ -389,7 +397,7 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
     architecture: "sharp-raw-rgba-plus-project-canonical-png-encoder",
     versionReason: "open-calibration-protocol-and-source-identity-only",
     slice09AdmissionLineageRef: admissionLineageRef, slice09CandidateRef,
-    implementationRefs: implementations, executionState: "runner-not-created-preview-not-executable",
+    implementationRefs: implementations, executionState: "runner-complete-central-validator-not-created-preview-not-executable",
     evidenceBoundary: SLICE10_EVIDENCE_BOUNDARY,
   });
   const candidateRef = descriptor(SLICE10_PREVIEW_PATHS.candidate, candidate, fileMap);
@@ -543,18 +551,19 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
     preregistrationRefs[operation] = descriptor(SLICE10_PREVIEW_PATHS[`${operation}Prereg`], prereg, fileMap);
   }
 
-  if (sourceRefs.length !== 96 || goldIdentityRefs.length !== 48 || manifestRefs.length !== 4 || fileMap.size !== 175) {
+  if (sourceRefs.length !== 96 || goldIdentityRefs.length !== 48 || manifestRefs.length !== 4 || fileMap.size !== 181) {
     throw new Error(`Slice 10 preview population mismatch: files=${fileMap.size}, sources=${sourceRefs.length}, gold=${goldIdentityRefs.length}`);
   }
   const generatorSha256 = implementations.find((entry) => entry.id === "GENERATOR-SLICE10-DEFINITION-PREVIEW@0.10.0").sha256;
   const index = withHash({
     schemaVersion: "definition-index.slice10.v0", id: "DEFINITION-INDEX-SLICE10-PREVIEW@0.10.0", frozenAt: freeze,
-    definitionState: "preview-not-frozen-runner-not-created", candidateRef,
+    definitionState: "preview-not-frozen-central-validator-not-created", candidateRef,
     contractRefs: [contractRefs.normalize, contractRefs.export], runtimeRef, hardwareRef, rightsRef,
     admissionLineageRef, planRefs: [planRefs.normalize, planRefs.export],
     preregistrationRefs: [preregistrationRefs.normalize, preregistrationRefs.export],
     manifestRefs, sourceRefs, goldIdentityRefs,
-    schemaPaths: Object.keys(SLICE10_PREVIEW_SCHEMA_DOCUMENTS).sort(), runnerRef: null,
+    schemaPaths: Object.keys(SLICE10_PREVIEW_SCHEMA_DOCUMENTS).sort(),
+    runnerRef: implementations.find((entry) => entry.id === "RUNNER-OPEN-CALIBRATION@0.10.0"),
     resultProtocol: {
       driverInvocations: 1, registeredOperationRuns: 2, plannedSources: 96, plannedAttempts: 288,
       replacements: 0, resultsRoot: "results/open-calibration",
