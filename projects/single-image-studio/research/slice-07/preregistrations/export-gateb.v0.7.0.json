@@ -1,0 +1,51 @@
+{
+  "allAttemptsMustPass": true,
+  "allThreePerSourceMustPass": true,
+  "applicableSources": 3,
+  "attempts": 18,
+  "calibrationAuthorized": false,
+  "contentHash": "dee3e6c4a8ba32149c2579ad3361ed9e980f7a2558f6fb0c1149ce4fcfea7d9d",
+  "contractRef": {
+    "byteLength": 1108,
+    "contentHash": "009c2595ec8a67e71f895ffa38aeca2b0d373327d52c4d3295237305edd69b8d",
+    "fileSha256": "0027b7ee6bc587ec1fbddfe72c0b78a42c1c87a8568415cdee098e9db184b282",
+    "id": "CC-CAP02-EXPORT-PNG@0.7.0",
+    "path": "contracts/cc-cap02-export-png.v0.7.0.json"
+  },
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "PREREG-GATEB-EXPORT-PNG@0.7.0",
+  "manifestRef": {
+    "byteLength": 5971,
+    "contentHash": "d66729f008051b079b824c30dd1889fb4f3c30833b818fdbe102da4de726df56",
+    "fileSha256": "00e99657c3ad536db1e881963302f7c1ad5e28ad2e9f37ff142c7a8de6622e3d",
+    "id": "FM-GATEB-EXPORT-PNG@0.7.0",
+    "path": "manifests/export-smoke.v0.7.0.json"
+  },
+  "operation": "export",
+  "planRef": {
+    "byteLength": 793,
+    "contentHash": "0e0e1ac9fa8882b1b4a5be8a1907638992375890db1bfa565bc3b57ed9bcf79b",
+    "fileSha256": "2aece8feaa2518f51efcac7e9864f9afb4f95c4edbfee5ebb6fa578c7108d3c2",
+    "id": "PLAN-GATEB-OPEN-SMOKE@0.7.0",
+    "path": "plans/gateb-open-smoke.v0.7.0.json"
+  },
+  "rejectionSources": 3,
+  "repetitions": 3,
+  "replacements": 0,
+  "schemaVersion": "preregistration.slice07.v0",
+  "sources": 6
+}

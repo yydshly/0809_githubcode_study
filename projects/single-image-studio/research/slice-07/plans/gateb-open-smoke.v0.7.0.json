@@ -1,0 +1,33 @@
+{
+  "calibrationAuthorized": false,
+  "contentHash": "0e0e1ac9fa8882b1b4a5be8a1907638992375890db1bfa565bc3b57ed9bcf79b",
+  "driverInvocations": 1,
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "PLAN-GATEB-OPEN-SMOKE@0.7.0",
+  "operationOrder": [
+    "normalize",
+    "export"
+  ],
+  "ordinaryNonPassContinues": true,
+  "plannedAttempts": 36,
+  "protocolFailureGlobalStop": true,
+  "registeredOperationRuns": 2,
+  "repetitionsPerSource": 3,
+  "replacements": 0,
+  "schemaVersion": "gateb-plan.slice07.v0",
+  "sourcesPerOperation": 6
+}

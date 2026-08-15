@@ -1,0 +1,28 @@
+{
+  "architecture": "x64",
+  "contentHash": "7ca46048e97da294f8584592caef03aa09b0c90aced20356c9f1c94fe730d074",
+  "cpuModel": "13th Gen Intel(R) Core(TM) i9-13980HX",
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "HARDWARE-WIN32-X64-GATEB@0.7.0",
+  "logicalProcessors": 32,
+  "nodeVersion": "v22.15.0",
+  "osRelease": "10.0.26200",
+  "osVersion": "Windows 11 Home China",
+  "platform": "win32",
+  "schemaVersion": "hardware-profile.slice07.v0",
+  "totalMemoryBytes": 16779960320
+}

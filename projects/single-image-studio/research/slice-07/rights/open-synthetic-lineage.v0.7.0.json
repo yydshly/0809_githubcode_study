@@ -1,0 +1,26 @@
+{
+  "contentHash": "1b0e5624565c8b92110fde39005205f7d1ed81328dce033dee15ba28f69a201c",
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "RIGHTS-OPEN-SYNTHETIC-LINEAGE@0.7.0",
+  "modelWeights": false,
+  "productUseAuthorized": false,
+  "projectOriginalSyntheticOnly": true,
+  "realUserPhotos": false,
+  "repositoryRetentionAllowed": true,
+  "schemaVersion": "rights.slice07.v0",
+  "thirdPartyImageAssets": false
+}

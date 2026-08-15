@@ -1,0 +1,437 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-07/schemas/definition-index.slice07.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "contractRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "byteLength": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "contentHash": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "fileSha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "id",
+          "contentHash",
+          "byteLength",
+          "fileSha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "copiedImageBytes": {
+      "const": 0
+    },
+    "descendantFileCount": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "descendantTreeSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "C1": {
+          "const": 0
+        },
+        "E1": {
+          "const": 0
+        },
+        "G1": {
+          "const": 0
+        },
+        "O1": {
+          "const": 0
+        },
+        "R1": {
+          "const": 0
+        },
+        "U1": {
+          "const": 0
+        },
+        "V1": {
+          "const": 0
+        },
+        "formal": {
+          "const": false
+        },
+        "productSupport": {
+          "const": false
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        }
+      },
+      "required": [
+        "C1",
+        "U1",
+        "E1",
+        "R1",
+        "O1",
+        "G1",
+        "V1",
+        "productSupport",
+        "formal",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$",
+      "type": "string"
+    },
+    "generatorSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "hardwareRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "const": "DEFINITION-INDEX-SLICE07@0.7.0"
+    },
+    "manifestRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "byteLength": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "contentHash": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "fileSha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "id",
+          "contentHash",
+          "byteLength",
+          "fileSha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "planRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "preregistrationRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "byteLength": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "contentHash": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "fileSha256": {
+            "pattern": "^[a-f0-9]{64}$",
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "id",
+          "contentHash",
+          "byteLength",
+          "fileSha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "readmeSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "resultProtocol": {
+      "$id": "https://single-image-studio.invalid/research/slice-07/schemas/result-protocol.inline",
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "driverInvocations": {
+          "const": 1
+        },
+        "plannedAttempts": {
+          "const": 36
+        },
+        "plannedSources": {
+          "const": 12
+        },
+        "registeredOperationRuns": {
+          "const": 2
+        },
+        "replacements": {
+          "const": 0
+        },
+        "resultsRoot": {
+          "const": "results/open-smoke"
+        }
+      },
+      "required": [
+        "driverInvocations",
+        "registeredOperationRuns",
+        "plannedSources",
+        "plannedAttempts",
+        "replacements",
+        "resultsRoot"
+      ],
+      "type": "object"
+    },
+    "resultsState": {
+      "const": "not-created"
+    },
+    "rightsRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "runtimeRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "schemaPaths": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 16,
+      "minItems": 16,
+      "type": "array"
+    },
+    "schemaVersion": {
+      "const": "definition-index.slice07.v0"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "frozenAt",
+    "candidateRef",
+    "contractRefs",
+    "runtimeRef",
+    "hardwareRef",
+    "rightsRef",
+    "planRef",
+    "preregistrationRefs",
+    "manifestRefs",
+    "schemaPaths",
+    "resultProtocol",
+    "resultsState",
+    "copiedImageBytes",
+    "generatorSha256",
+    "readmeSha256",
+    "descendantFileCount",
+    "descendantTreeSha256",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

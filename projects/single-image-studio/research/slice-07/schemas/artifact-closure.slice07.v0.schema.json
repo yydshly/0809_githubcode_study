@@ -1,0 +1,168 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-07/schemas/artifact-closure.slice07.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attemptId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@-]{0,199}$",
+      "type": "string"
+    },
+    "classification": {
+      "enum": [
+        "artifact-pass",
+        "candidate-non-pass"
+      ]
+    },
+    "closureId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@-]{0,199}$",
+      "type": "string"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "decodedPixelSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "C1": {
+          "const": 0
+        },
+        "E1": {
+          "const": 0
+        },
+        "G1": {
+          "const": 0
+        },
+        "O1": {
+          "const": 0
+        },
+        "R1": {
+          "const": 0
+        },
+        "U1": {
+          "const": 0
+        },
+        "V1": {
+          "const": 0
+        },
+        "formal": {
+          "const": false
+        },
+        "productSupport": {
+          "const": false
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        }
+      },
+      "required": [
+        "C1",
+        "U1",
+        "E1",
+        "R1",
+        "O1",
+        "G1",
+        "V1",
+        "productSupport",
+        "formal",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "oracleFactsSha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      ]
+    },
+    "outputByteLength": {
+      "maximum": 1048576,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "outputFileSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "outputRelativePath": {
+      "pattern": "^closures/[A-Za-z0-9._:@-]+/output\\.(png|bin)$",
+      "type": "string"
+    },
+    "repetition": {
+      "maximum": 3,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "requestId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@-]{0,199}$",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "artifact-closure.slice07.v0"
+    },
+    "sourceId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@-]{0,199}$",
+      "type": "string"
+    },
+    "workerExitConfirmed": {
+      "const": true
+    },
+    "workerMessageSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "workerRecordSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "workerRuntimeSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "closureId",
+    "requestId",
+    "attemptId",
+    "operation",
+    "sourceId",
+    "repetition",
+    "classification",
+    "outputRelativePath",
+    "outputByteLength",
+    "outputFileSha256",
+    "decodedPixelSha256",
+    "oracleFactsSha256",
+    "workerMessageSha256",
+    "workerRuntimeSha256",
+    "workerRecordSha256",
+    "workerExitConfirmed",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

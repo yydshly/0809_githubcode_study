@@ -1,0 +1,111 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-07/schemas/rights.slice07.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "C1": {
+          "const": 0
+        },
+        "E1": {
+          "const": 0
+        },
+        "G1": {
+          "const": 0
+        },
+        "O1": {
+          "const": 0
+        },
+        "R1": {
+          "const": 0
+        },
+        "U1": {
+          "const": 0
+        },
+        "V1": {
+          "const": 0
+        },
+        "formal": {
+          "const": false
+        },
+        "productSupport": {
+          "const": false
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        }
+      },
+      "required": [
+        "C1",
+        "U1",
+        "E1",
+        "R1",
+        "O1",
+        "G1",
+        "V1",
+        "productSupport",
+        "formal",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$",
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    },
+    "modelWeights": {
+      "const": false
+    },
+    "productUseAuthorized": {
+      "const": false
+    },
+    "projectOriginalSyntheticOnly": {
+      "const": true
+    },
+    "realUserPhotos": {
+      "const": false
+    },
+    "repositoryRetentionAllowed": {
+      "const": true
+    },
+    "schemaVersion": {
+      "const": "rights.slice07.v0"
+    },
+    "thirdPartyImageAssets": {
+      "const": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "projectOriginalSyntheticOnly",
+    "realUserPhotos",
+    "thirdPartyImageAssets",
+    "modelWeights",
+    "repositoryRetentionAllowed",
+    "productUseAuthorized",
+    "frozenAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

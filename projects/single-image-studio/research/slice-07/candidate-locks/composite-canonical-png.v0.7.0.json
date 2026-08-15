@@ -1,0 +1,67 @@
+{
+  "architecture": "sharp-raw-rgba-plus-project-canonical-png-encoder",
+  "contentHash": "d531b02db0e883c82f3548b42ced6ef2d4a8e6acab83df7b5e8f773708aac84e",
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "REG-NORM-SHARP-CANONICAL-PNG@0.7.0",
+  "implementationRefs": [
+    {
+      "id": "ENCODER-CANONICAL-PNG@0.7.0",
+      "path": "scripts/research-canonical-png-encoder-slice07.mjs",
+      "sha256": "cf71ddd2de336f6ea8092030c43f220c49804f30798e09f9e4aaf4e8e93c5d78"
+    },
+    {
+      "id": "WORKER-SHARP-RAW-RGBA@0.7.0",
+      "path": "scripts/research-sharp-raw-worker-slice07.mjs",
+      "sha256": "4ce6b725d509e35328c6826f1a7345c34b2582d2df19a9cb4b6115b8990f30bd"
+    },
+    {
+      "id": "ADAPTER-SHARP-CANONICAL-PNG@0.7.0",
+      "path": "scripts/research-gateb-adapter-slice07.mjs",
+      "sha256": "88c0543204fe4f28c564cd945d952e20b7f455c589d4c6ab0ce6a49e1d2af61e"
+    },
+    {
+      "id": "RUNNER-GATEB-OPEN-SMOKE@0.7.0",
+      "path": "scripts/research-gateb-runner-slice07.mjs",
+      "sha256": "6decec76a29cfe922b0718950503e027e51e67386442c0f91809e3c7af8a71f8"
+    },
+    {
+      "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+      "path": "scripts/research-independent-png-oracle-slice05.mjs",
+      "sha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c"
+    },
+    {
+      "id": "DRIVER-REGISTERED-GATEB-SMOKE@0.7.0",
+      "path": "scripts/research-run-slice07.mjs",
+      "sha256": "802760f4ae6c322f6f46dd5449cc8a8c3147940744ddcbca147981cd3f55a600"
+    },
+    {
+      "id": "GENERATOR-SLICE07-DEFINITION@0.7.0",
+      "path": "scripts/research-generate-slice07.mjs",
+      "sha256": "c42837da0347980f468e4c26107c94242e76ac0751218ed15014d6e358659f1d"
+    }
+  ],
+  "schemaVersion": "candidate-lock.slice07.v0",
+  "sharpVersion": "0.35.3",
+  "slice06DefinitionRef": {
+    "byteLength": 31107,
+    "contentHash": "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+    "fileSha256": "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    "id": "DEFINITION-INDEX-SLICE06@0.6.0",
+    "path": "../slice-06/definition-index.v0.6.0.json"
+  },
+  "slice06EvidenceFileSha256": "2049a60f54d3ab991fef977f8bd4c0681011dd1aca365dc101aa5c90de7a026a"
+}

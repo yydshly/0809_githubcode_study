@@ -1,0 +1,242 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-07/schemas/source-lineage.slice07.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "captureSessionId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    },
+    "categoryId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    },
+    "contentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "copiedImageBytes": {
+      "const": false
+    },
+    "disposition": {
+      "enum": [
+        "applicable",
+        "rejection"
+      ]
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "C1": {
+          "const": 0
+        },
+        "E1": {
+          "const": 0
+        },
+        "G1": {
+          "const": 0
+        },
+        "O1": {
+          "const": 0
+        },
+        "R1": {
+          "const": 0
+        },
+        "U1": {
+          "const": 0
+        },
+        "V1": {
+          "const": 0
+        },
+        "formal": {
+          "const": false
+        },
+        "productSupport": {
+          "const": false
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        }
+      },
+      "required": [
+        "C1",
+        "U1",
+        "E1",
+        "R1",
+        "O1",
+        "G1",
+        "V1",
+        "productSupport",
+        "formal",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "expectedStableErrorCode": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "frozenAt": {
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$",
+      "type": "string"
+    },
+    "goldRecordFileSha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      ]
+    },
+    "goldRecordPath": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    },
+    "independenceClaim": {
+      "const": false
+    },
+    "normalizedArtifactFileSha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      ]
+    },
+    "normalizedArtifactPath": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "priorManifestContentHash": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "priorSourceId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    },
+    "rawAssetByteLength": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "rawAssetDecodedPixelSha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      ]
+    },
+    "rawAssetFileSha256": {
+      "pattern": "^[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "rawAssetMime": {
+      "type": "string"
+    },
+    "rawAssetPath": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "source-lineage.slice07.v0"
+    },
+    "sourceDeclarationDecodedPixelSha256": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      ]
+    },
+    "sourceDeclarationMime": {
+      "type": "string"
+    },
+    "sourceFamilyId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    },
+    "sourceId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,299}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "operation",
+    "sourceId",
+    "priorSourceId",
+    "sourceFamilyId",
+    "captureSessionId",
+    "categoryId",
+    "disposition",
+    "expectedStableErrorCode",
+    "rawAssetPath",
+    "rawAssetByteLength",
+    "rawAssetFileSha256",
+    "rawAssetDecodedPixelSha256",
+    "rawAssetMime",
+    "sourceDeclarationMime",
+    "sourceDeclarationDecodedPixelSha256",
+    "normalizedArtifactPath",
+    "normalizedArtifactFileSha256",
+    "goldRecordPath",
+    "goldRecordFileSha256",
+    "priorManifestContentHash",
+    "independenceClaim",
+    "copiedImageBytes",
+    "frozenAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

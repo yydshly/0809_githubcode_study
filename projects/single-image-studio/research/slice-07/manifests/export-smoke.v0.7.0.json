@@ -1,0 +1,158 @@
+{
+  "applicableSources": 3,
+  "contentHash": "d66729f008051b079b824c30dd1889fb4f3c30833b818fdbe102da4de726df56",
+  "contractRef": {
+    "byteLength": 1108,
+    "contentHash": "009c2595ec8a67e71f895ffa38aeca2b0d373327d52c4d3295237305edd69b8d",
+    "fileSha256": "0027b7ee6bc587ec1fbddfe72c0b78a42c1c87a8568415cdee098e9db184b282",
+    "id": "CC-CAP02-EXPORT-PNG@0.7.0",
+    "path": "contracts/cc-cap02-export-png.v0.7.0.json"
+  },
+  "entries": [
+    {
+      "disposition": "applicable",
+      "expected": {
+        "alphaMode": "straight-unpremultiplied",
+        "alphaPresent": false,
+        "animation": "forbidden",
+        "colorSpace": "embedded-sRGB",
+        "decodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+        "height": 8,
+        "interlace": "forbidden",
+        "metadataPolicy": "strip-all-except-color-contract",
+        "orientation": 1,
+        "pixelLayout": "RGBA8",
+        "pngFilterPolicy": "filter-0-only",
+        "width": 24
+      },
+      "expectedStableErrorCode": null,
+      "sourceId": "source.s07.export.smoke.001",
+      "wrapperRef": {
+        "byteLength": 1848,
+        "contentHash": "f845eb70e450eefff47b7d958c3454e790fac88f2ffe6fda30f1c3274fabc305",
+        "fileSha256": "69e518232fac264f60982e5333bb5d9da3c767458c9a346af740b1329aa1c463",
+        "id": "lineage.source.s07.export.smoke.001",
+        "path": "source-lineage/export/source.s07.export.smoke.001.json"
+      }
+    },
+    {
+      "disposition": "applicable",
+      "expected": {
+        "alphaMode": "straight-unpremultiplied",
+        "alphaPresent": true,
+        "animation": "forbidden",
+        "colorSpace": "embedded-sRGB",
+        "decodedPixelSha256": "6384cb99d73381f3b43ffc2a2143692ba716350acd0bf736624be08f7b9e1731",
+        "height": 18,
+        "interlace": "forbidden",
+        "metadataPolicy": "strip-all-except-color-contract",
+        "orientation": 1,
+        "pixelLayout": "RGBA8",
+        "pngFilterPolicy": "filter-0-only",
+        "width": 13
+      },
+      "expectedStableErrorCode": null,
+      "sourceId": "source.s07.export.smoke.002",
+      "wrapperRef": {
+        "byteLength": 1856,
+        "contentHash": "8f05d711887714ed4482eec07c02e387115a07e6962e033ba243cc7a28a271a4",
+        "fileSha256": "ec1ebb14c7b2ac466227bafe0823445a0a1f584a942f04b33f8655b48a9448b3",
+        "id": "lineage.source.s07.export.smoke.002",
+        "path": "source-lineage/export/source.s07.export.smoke.002.json"
+      }
+    },
+    {
+      "disposition": "applicable",
+      "expected": {
+        "alphaMode": "straight-unpremultiplied",
+        "alphaPresent": true,
+        "animation": "forbidden",
+        "colorSpace": "embedded-sRGB",
+        "decodedPixelSha256": "2ed8bd693af92a89f5d825ba88c46eb1b1c8f2489a3a294a132ea77591cb7a72",
+        "height": 14,
+        "interlace": "forbidden",
+        "metadataPolicy": "strip-all-except-color-contract",
+        "orientation": 1,
+        "pixelLayout": "RGBA8",
+        "pngFilterPolicy": "filter-0-only",
+        "width": 13
+      },
+      "expectedStableErrorCode": null,
+      "sourceId": "source.s07.export.smoke.003",
+      "wrapperRef": {
+        "byteLength": 1853,
+        "contentHash": "f026e7eedf86c91f15557d0c7a899a2d5ee8ee94dfe7d9a4c84a0dfc2ab40d1f",
+        "fileSha256": "338e7cfcc89e9f3d74e629450b8c1a03a9c4f83e23b1f595f535de27dd1a1379",
+        "id": "lineage.source.s07.export.smoke.003",
+        "path": "source-lineage/export/source.s07.export.smoke.003.json"
+      }
+    },
+    {
+      "disposition": "rejection",
+      "expected": null,
+      "expectedStableErrorCode": "S07_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "sourceId": "source.s07.export.smoke.004",
+      "wrapperRef": {
+        "byteLength": 1778,
+        "contentHash": "789eafcdc8527f69f709aee564e8af9b61be41ea4ff4c86af31d65ca203a7443",
+        "fileSha256": "7537b85ae80cdcce1de34e6a8a8801d2b0e83a60a9677a15b1ee1137c1799f10",
+        "id": "lineage.source.s07.export.smoke.004",
+        "path": "source-lineage/export/source.s07.export.smoke.004.json"
+      }
+    },
+    {
+      "disposition": "rejection",
+      "expected": null,
+      "expectedStableErrorCode": "S07_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "sourceId": "source.s07.export.smoke.005",
+      "wrapperRef": {
+        "byteLength": 1775,
+        "contentHash": "ae20b0c027ebe11a517ffdc2e8b168501a767f72ae3b1c2a90ca053873b76c54",
+        "fileSha256": "c1c01743003151a70dc3ae7dad12d38dab1847d75164db17461745aa93a6af92",
+        "id": "lineage.source.s07.export.smoke.005",
+        "path": "source-lineage/export/source.s07.export.smoke.005.json"
+      }
+    },
+    {
+      "disposition": "rejection",
+      "expected": null,
+      "expectedStableErrorCode": "S07_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "sourceId": "source.s07.export.smoke.006",
+      "wrapperRef": {
+        "byteLength": 1763,
+        "contentHash": "3bb601c9f25f4fccaffcd828a405d1a0882d13c4208a4316fdf1f136ccb5e6cd",
+        "fileSha256": "2d2fff0c07e05c347869eda79f73d5cc0ec5ca78b121462484e60db666c5a4d0",
+        "id": "lineage.source.s07.export.smoke.006",
+        "path": "source-lineage/export/source.s07.export.smoke.006.json"
+      }
+    }
+  ],
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "FM-GATEB-EXPORT-PNG@0.7.0",
+  "operation": "export",
+  "rejectionSources": 3,
+  "repetitions": 3,
+  "rightsRef": {
+    "byteLength": 669,
+    "contentHash": "1b0e5624565c8b92110fde39005205f7d1ed81328dce033dee15ba28f69a201c",
+    "fileSha256": "546dc8f4569e37aa75c02e46a82ed8e6a958fc3c8e0dad2cc4cbe9742a6650ff",
+    "id": "RIGHTS-OPEN-SYNTHETIC-LINEAGE@0.7.0",
+    "path": "rights/open-synthetic-lineage.v0.7.0.json"
+  },
+  "schemaVersion": "manifest.slice07.v0",
+  "sources": 6
+}

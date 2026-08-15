@@ -1,0 +1,158 @@
+{
+  "applicableSources": 3,
+  "contentHash": "dcf2c3e76d5783c5c370bd67272a3a363976af559c06d0c41b770180846a6f70",
+  "contractRef": {
+    "byteLength": 1105,
+    "contentHash": "f440d4021b90d339d7dd0a7012d2ffffb314b54cfb158f3e8fec881e5ec4639b",
+    "fileSha256": "bf2373770207671f9dd17b2c9844f4beadaf4161b8519e5dbdb9b2bac9900fb4",
+    "id": "CC-CAP02-NORMALIZE-PNG@0.7.0",
+    "path": "contracts/cc-cap02-normalize-png.v0.7.0.json"
+  },
+  "entries": [
+    {
+      "disposition": "applicable",
+      "expected": {
+        "alphaMode": "straight-unpremultiplied",
+        "alphaPresent": false,
+        "animation": "forbidden",
+        "colorSpace": "embedded-sRGB",
+        "decodedPixelSha256": "ee281e2bea46172bcf9e0a3f55cb244d30c3e08fdb37c82d8603c8157c9e285f",
+        "height": 22,
+        "interlace": "forbidden",
+        "metadataPolicy": "strip-all-except-color-contract",
+        "orientation": 1,
+        "pixelLayout": "RGBA8",
+        "pngFilterPolicy": "filter-0-only",
+        "width": 15
+      },
+      "expectedStableErrorCode": null,
+      "sourceId": "source.s07.normalize.smoke.001",
+      "wrapperRef": {
+        "byteLength": 1723,
+        "contentHash": "8606135bdc92cc91bf031f9aa0a6d812fb60935cbe8d7d1a7331e12e2f55edf1",
+        "fileSha256": "4a4650049fe15a7859dc04516358118ed14da684a7672f0362e2354c180bc135",
+        "id": "lineage.source.s07.normalize.smoke.001",
+        "path": "source-lineage/normalize/source.s07.normalize.smoke.001.json"
+      }
+    },
+    {
+      "disposition": "applicable",
+      "expected": {
+        "alphaMode": "straight-unpremultiplied",
+        "alphaPresent": true,
+        "animation": "forbidden",
+        "colorSpace": "embedded-sRGB",
+        "decodedPixelSha256": "cbe7e8f4cf08cd859a040c77e7163246a0de03fdae25a11be6d4a0d91967d7c4",
+        "height": 18,
+        "interlace": "forbidden",
+        "metadataPolicy": "strip-all-except-color-contract",
+        "orientation": 1,
+        "pixelLayout": "RGBA8",
+        "pngFilterPolicy": "filter-0-only",
+        "width": 13
+      },
+      "expectedStableErrorCode": null,
+      "sourceId": "source.s07.normalize.smoke.002",
+      "wrapperRef": {
+        "byteLength": 1730,
+        "contentHash": "e3c1f1369568f066a11c2dbc7b1943cb24fabac4116668b49597c4e305c37574",
+        "fileSha256": "05225690bd0f8d379a29c7d8f5fbcd73de5d2dee170892f1e3f67501465e615e",
+        "id": "lineage.source.s07.normalize.smoke.002",
+        "path": "source-lineage/normalize/source.s07.normalize.smoke.002.json"
+      }
+    },
+    {
+      "disposition": "applicable",
+      "expected": {
+        "alphaMode": "straight-unpremultiplied",
+        "alphaPresent": true,
+        "animation": "forbidden",
+        "colorSpace": "embedded-sRGB",
+        "decodedPixelSha256": "1ba8ada3b07158359efeb65f2859b6bc5f949d32cc8b69e024f0f6edb5810239",
+        "height": 14,
+        "interlace": "forbidden",
+        "metadataPolicy": "strip-all-except-color-contract",
+        "orientation": 1,
+        "pixelLayout": "RGBA8",
+        "pngFilterPolicy": "filter-0-only",
+        "width": 10
+      },
+      "expectedStableErrorCode": null,
+      "sourceId": "source.s07.normalize.smoke.003",
+      "wrapperRef": {
+        "byteLength": 1727,
+        "contentHash": "708abbb87fcc179b5cf9811d1237195c81c0e0be77a0f759a874b130fb3a2c36",
+        "fileSha256": "717893b378bd27315a68e5548dc5e0e3fc2c62b758963c9d5b26e72a5e55067c",
+        "id": "lineage.source.s07.normalize.smoke.003",
+        "path": "source-lineage/normalize/source.s07.normalize.smoke.003.json"
+      }
+    },
+    {
+      "disposition": "rejection",
+      "expected": null,
+      "expectedStableErrorCode": "S07_INPUT_CRC_MISMATCH",
+      "sourceId": "source.s07.normalize.smoke.004",
+      "wrapperRef": {
+        "byteLength": 1568,
+        "contentHash": "68027ad9b3b2b02598de34eca99adb04b7bb171fe64c303fcd6e7ea6882c7036",
+        "fileSha256": "85eb010b0f8a8101b3329e9300a966f25a6f4ffd4106bd30df487ffaf87781da",
+        "id": "lineage.source.s07.normalize.smoke.004",
+        "path": "source-lineage/normalize/source.s07.normalize.smoke.004.json"
+      }
+    },
+    {
+      "disposition": "rejection",
+      "expected": null,
+      "expectedStableErrorCode": "S07_INPUT_SRGB_REQUIRED",
+      "sourceId": "source.s07.normalize.smoke.005",
+      "wrapperRef": {
+        "byteLength": 1573,
+        "contentHash": "57695b589314c1621d94763d2260243324a4bb6bec31a0ddff11c30544ca8f22",
+        "fileSha256": "22f2302811e999385988e9996629e96a1abe3d82815ed201d1204098f0af95c9",
+        "id": "lineage.source.s07.normalize.smoke.005",
+        "path": "source-lineage/normalize/source.s07.normalize.smoke.005.json"
+      }
+    },
+    {
+      "disposition": "rejection",
+      "expected": null,
+      "expectedStableErrorCode": "S07_NORMALIZE_SOURCE_DECLARATION_INVALID",
+      "sourceId": "source.s07.normalize.smoke.006",
+      "wrapperRef": {
+        "byteLength": 1589,
+        "contentHash": "6740ce3aeea471315e2ba2b20b5fb63637a3d084a623925ceeb9ae00af2cb094",
+        "fileSha256": "583ca5103d9cd2bca096271baaf86e47b93c841a100b7def71c89234e440602b",
+        "id": "lineage.source.s07.normalize.smoke.006",
+        "path": "source-lineage/normalize/source.s07.normalize.smoke.006.json"
+      }
+    }
+  ],
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "FM-GATEB-NORMALIZE-PNG@0.7.0",
+  "operation": "normalize",
+  "rejectionSources": 3,
+  "repetitions": 3,
+  "rightsRef": {
+    "byteLength": 669,
+    "contentHash": "1b0e5624565c8b92110fde39005205f7d1ed81328dce033dee15ba28f69a201c",
+    "fileSha256": "546dc8f4569e37aa75c02e46a82ed8e6a958fc3c8e0dad2cc4cbe9742a6650ff",
+    "id": "RIGHTS-OPEN-SYNTHETIC-LINEAGE@0.7.0",
+    "path": "rights/open-synthetic-lineage.v0.7.0.json"
+  },
+  "schemaVersion": "manifest.slice07.v0",
+  "sources": 6
+}

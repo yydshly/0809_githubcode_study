@@ -243,15 +243,16 @@ pixels; a project-original candidate encoder will emit only
 consumer of final bytes and cannot generate, repair, or share implementation
 with candidate output.
 
-The future smoke denominator is normalize and export × (three applicable +
+The frozen smoke denominator is normalize and export × (three applicable +
 three rejection sources) × three repetitions = 36 attempts. Both
 operation-specific Gate-B decisions must pass before a later slice can consider
-open calibration. The fake-tested implementation now provides the candidate-owned
+open calibration. The fake-tested implementation provides the candidate-owned
 encoder, raw-RGBA worker, adapter, durable runner and six recursively closed runner
-schemas; the combined targeted suites pass `25 / 25`. Tests use in-memory synthetic
+schemas. The results-zero machine definition is now frozen with 16 total schemas,
+23 non-index records, 12 lineage wrappers and zero results. Tests use in-memory synthetic
 bytes, fake child processes and system-temporary result trees only; no real Sharp image
-path was invoked. Machine definition, fixture wrapper, fresh runtime observation,
-canonical result, decision, artifact and product integration remain not created. See
+path was invoked. Canonical result, decision, artifact and product integration remain
+not created. See [SLICE_07_EVIDENCE.md](SLICE_07_EVIDENCE.md) and
 [slice-07/README.md](slice-07/README.md).
 
 ## Commands

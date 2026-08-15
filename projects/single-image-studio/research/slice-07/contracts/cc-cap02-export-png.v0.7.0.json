@@ -1,0 +1,36 @@
+{
+  "candidateRef": {
+    "byteLength": 2458,
+    "contentHash": "d531b02db0e883c82f3548b42ced6ef2d4a8e6acab83df7b5e8f773708aac84e",
+    "fileSha256": "64cd4cfbae5e7d2f2e8c1955922748e3fee5a906434852b68e9b7aea084831f5",
+    "id": "REG-NORM-SHARP-CANONICAL-PNG@0.7.0",
+    "path": "candidate-locks/composite-canonical-png.v0.7.0.json"
+  },
+  "contentHash": "009c2595ec8a67e71f895ffa38aeca2b0d373327d52c4d3295237305edd69b8d",
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "fallback": false,
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "id": "CC-CAP02-EXPORT-PNG@0.7.0",
+  "inputBoundary": "independent-normalized-image-lineage",
+  "maxDimension": 256,
+  "maxOutputBytes": 1048576,
+  "operation": "export",
+  "oracleRepair": false,
+  "outputProfile": "canonical-png-IHDR-sRGB-IDAT-IEND-filter0",
+  "passthrough": false,
+  "productSupport": false,
+  "schemaVersion": "capability-contract.slice07.v0"
+}

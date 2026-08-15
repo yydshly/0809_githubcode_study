@@ -1,0 +1,135 @@
+{
+  "candidateRef": {
+    "byteLength": 2458,
+    "contentHash": "d531b02db0e883c82f3548b42ced6ef2d4a8e6acab83df7b5e8f773708aac84e",
+    "fileSha256": "64cd4cfbae5e7d2f2e8c1955922748e3fee5a906434852b68e9b7aea084831f5",
+    "id": "REG-NORM-SHARP-CANONICAL-PNG@0.7.0",
+    "path": "candidate-locks/composite-canonical-png.v0.7.0.json"
+  },
+  "contentHash": "298e2ee08c5471eb50f95aff26e46d3459e26bb586ef8c4d59cb01b96072b2d6",
+  "contractRefs": [
+    {
+      "byteLength": 1105,
+      "contentHash": "f440d4021b90d339d7dd0a7012d2ffffb314b54cfb158f3e8fec881e5ec4639b",
+      "fileSha256": "bf2373770207671f9dd17b2c9844f4beadaf4161b8519e5dbdb9b2bac9900fb4",
+      "id": "CC-CAP02-NORMALIZE-PNG@0.7.0",
+      "path": "contracts/cc-cap02-normalize-png.v0.7.0.json"
+    },
+    {
+      "byteLength": 1108,
+      "contentHash": "009c2595ec8a67e71f895ffa38aeca2b0d373327d52c4d3295237305edd69b8d",
+      "fileSha256": "0027b7ee6bc587ec1fbddfe72c0b78a42c1c87a8568415cdee098e9db184b282",
+      "id": "CC-CAP02-EXPORT-PNG@0.7.0",
+      "path": "contracts/cc-cap02-export-png.v0.7.0.json"
+    }
+  ],
+  "copiedImageBytes": 0,
+  "descendantFileCount": 39,
+  "descendantTreeSha256": "6c94fd4cb707355eeea78c188733c18380a65a3c887ea6e185da0b2eed6cea75",
+  "evidenceBoundary": {
+    "C1": 0,
+    "E1": 0,
+    "G1": 0,
+    "O1": 0,
+    "R1": 0,
+    "U1": 0,
+    "V1": 0,
+    "formal": false,
+    "productSupport": false,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0
+  },
+  "frozenAt": "2026-08-15T12:15:57.873Z",
+  "generatorSha256": "c42837da0347980f468e4c26107c94242e76ac0751218ed15014d6e358659f1d",
+  "hardwareRef": {
+    "byteLength": 740,
+    "contentHash": "7ca46048e97da294f8584592caef03aa09b0c90aced20356c9f1c94fe730d074",
+    "fileSha256": "79782292d4a9ee20d56a384295eae5a8dd33715e95d1c38f782bdd4ae1d2695d",
+    "id": "HARDWARE-WIN32-X64-GATEB@0.7.0",
+    "path": "hardware/named-hardware.v0.7.0.json"
+  },
+  "id": "DEFINITION-INDEX-SLICE07@0.7.0",
+  "manifestRefs": [
+    {
+      "byteLength": 6027,
+      "contentHash": "dcf2c3e76d5783c5c370bd67272a3a363976af559c06d0c41b770180846a6f70",
+      "fileSha256": "712017e236664a35394137d7cb51c2b1ef8799cd68007d34ab4652fea4b7d3ef",
+      "id": "FM-GATEB-NORMALIZE-PNG@0.7.0",
+      "path": "manifests/normalize-smoke.v0.7.0.json"
+    },
+    {
+      "byteLength": 5971,
+      "contentHash": "d66729f008051b079b824c30dd1889fb4f3c30833b818fdbe102da4de726df56",
+      "fileSha256": "00e99657c3ad536db1e881963302f7c1ad5e28ad2e9f37ff142c7a8de6622e3d",
+      "id": "FM-GATEB-EXPORT-PNG@0.7.0",
+      "path": "manifests/export-smoke.v0.7.0.json"
+    }
+  ],
+  "planRef": {
+    "byteLength": 793,
+    "contentHash": "0e0e1ac9fa8882b1b4a5be8a1907638992375890db1bfa565bc3b57ed9bcf79b",
+    "fileSha256": "2aece8feaa2518f51efcac7e9864f9afb4f95c4edbfee5ebb6fa578c7108d3c2",
+    "id": "PLAN-GATEB-OPEN-SMOKE@0.7.0",
+    "path": "plans/gateb-open-smoke.v0.7.0.json"
+  },
+  "preregistrationRefs": [
+    {
+      "byteLength": 1677,
+      "contentHash": "ab8163413423cb182e27e438c94119a25a253ec0818e799627b4838e31055725",
+      "fileSha256": "73f41f261a87c234d5c6d449c89ad5ab674695293b1e0939baeed868b8c43b27",
+      "id": "PREREG-GATEB-NORMALIZE-PNG@0.7.0",
+      "path": "preregistrations/normalize-gateb.v0.7.0.json"
+    },
+    {
+      "byteLength": 1659,
+      "contentHash": "dee3e6c4a8ba32149c2579ad3361ed9e980f7a2558f6fb0c1149ce4fcfea7d9d",
+      "fileSha256": "a7046866b92edcdd0c1e7a0c136547a1ec8d13236856efbe8170410122dc0c8f",
+      "id": "PREREG-GATEB-EXPORT-PNG@0.7.0",
+      "path": "preregistrations/export-gateb.v0.7.0.json"
+    }
+  ],
+  "readmeSha256": "94d1269e820ab45b773283782b8c198cd1d0285b0b934db113667e5a4563b5f6",
+  "resultProtocol": {
+    "driverInvocations": 1,
+    "plannedAttempts": 36,
+    "plannedSources": 12,
+    "registeredOperationRuns": 2,
+    "replacements": 0,
+    "resultsRoot": "results/open-smoke"
+  },
+  "resultsState": "not-created",
+  "rightsRef": {
+    "byteLength": 669,
+    "contentHash": "1b0e5624565c8b92110fde39005205f7d1ed81328dce033dee15ba28f69a201c",
+    "fileSha256": "546dc8f4569e37aa75c02e46a82ed8e6a958fc3c8e0dad2cc4cbe9742a6650ff",
+    "id": "RIGHTS-OPEN-SYNTHETIC-LINEAGE@0.7.0",
+    "path": "rights/open-synthetic-lineage.v0.7.0.json"
+  },
+  "runtimeRef": {
+    "byteLength": 29352,
+    "contentHash": "28385c4f60ccb2e24915fe57f8aefcf883820e4e4c4cb9298cf65526ef9fb697",
+    "fileSha256": "837581153a17790d8dd814bf0dc51b2038a6f7e9c0102814b599d08a347e12b0",
+    "id": "RUNTIME-SHARP-CANONICAL-PNG@0.7.0",
+    "path": "runtime/runtime-attestation.v0.7.0.json"
+  },
+  "schemaPaths": [
+    "schemas/artifact-closure.slice07.v0.schema.json",
+    "schemas/candidate-lock.slice07.v0.schema.json",
+    "schemas/capability-contract.slice07.v0.schema.json",
+    "schemas/definition-index.slice07.v0.schema.json",
+    "schemas/gateb-decision.slice07.v0.schema.json",
+    "schemas/gateb-plan.slice07.v0.schema.json",
+    "schemas/hardware-profile.slice07.v0.schema.json",
+    "schemas/local-run-request.slice07.v0.schema.json",
+    "schemas/manifest.slice07.v0.schema.json",
+    "schemas/operation-summary.slice07.v0.schema.json",
+    "schemas/preregistration.slice07.v0.schema.json",
+    "schemas/rights.slice07.v0.schema.json",
+    "schemas/run-event.slice07.v0.schema.json",
+    "schemas/run-result.slice07.v0.schema.json",
+    "schemas/runtime-attestation.slice07.v0.schema.json",
+    "schemas/source-lineage.slice07.v0.schema.json"
+  ],
+  "schemaVersion": "definition-index.slice07.v0"
+}

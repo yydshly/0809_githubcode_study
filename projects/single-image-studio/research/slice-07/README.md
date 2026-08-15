@@ -1,7 +1,7 @@
 # Slice 07 workspace
 
 Current state: `scope-frozen / implementation-ready / fake-tested-runtime-protocol /
-definition-not-frozen / Gate-B-smoke-not-run /
+definition-frozen / results-zero / Gate-B-smoke-not-run /
 calibration-forbidden / non-C1 / non-product`.
 
 The governing scope is [SLICE_07_CONTRACT.md](../SLICE_07_CONTRACT.md). Slice 07
@@ -39,15 +39,23 @@ and runner test SHA-256 is
 `559619d0d6769f6dd8cc70446f91252555ad6c2824b8c95168c813750e880ca6`.
 Tests use in-memory synthetic bytes, fake child processes and system-temporary
 result trees only. They do not fork the real worker or invoke Sharp.
-The full project `npm.cmd run verify` passes `350 / 350`; the five new files
-also pass explicit `node --check`, and `git diff --check` is clean.
+The Phase B full-project baseline passed `350 / 350`. At definition freeze, the
+six Slice 07 suites pass `38 / 38` using only in-memory synthetic bytes, fake
+children and system-temporary trees. The definition generator, registered
+driver and central validator are
+[`research-generate-slice07.mjs`](../../scripts/research-generate-slice07.mjs),
+[`research-run-slice07.mjs`](../../scripts/research-run-slice07.mjs), and
+[`research-validate-slice07.mjs`](../../scripts/research-validate-slice07.mjs).
+Final full-project verification and its exact count are recorded outside this
+pinned README so the validator is not indirectly self-referential.
 
-No Slice 07 machine definition, canonical schema file, machine record, fixture
-wrapper, fresh runtime observation, result, decision, artifact, formal holdout,
-UI or server integration exists yet. Do not create a freeze timestamp until the
-definition generator, validator, driver and adversarial tests are stable. Do not run the Sharp image
-path until a results-zero definition commit has been validated, committed, and
-pushed.
+The frozen results-zero machine definition contains exactly 16 schemas, 23
+non-index records, one index, 12 lineage-only source wrappers, two manifests,
+12 planned sources and 36 planned attempts. It copies no image bytes and
+contains a fresh runtime observation. No Slice 07 result, decision, artifact,
+calibration, formal holdout, UI or server integration exists. Do not run the
+Sharp image path until this definition commit has been validated, committed,
+and pushed.
 
 Slice 05 and Slice 06 are immutable closed history. Their requests and results
 must not be replayed. Slice 07 may only pin their exact records as lineage and
