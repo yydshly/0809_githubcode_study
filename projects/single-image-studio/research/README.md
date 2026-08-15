@@ -70,8 +70,11 @@ after all operation terminals it inventories the package/native/runtime closure,
 requires byte-identical equality with the frozen start attestation, and publishes
 one distinct `runtime-end.json` with create-only and fsync semantics. Drift,
 replay, an invalid clock, or an image-processing boundary violation fail closed.
-It reads versions only and does not invoke an image pipeline. The registered
-driver remains non-executable until a central validator exists. No materialized machine definition, canonical request/result,
+It reads versions only and does not invoke an image pipeline. A central validator
+foundation passes 5/5 fake-only tests for deterministic full-tree regeneration,
+fresh runtime re-observation, forbidden results/extras, README pinning, and explicit
+denial while final literal pins are absent. The registered driver remains
+non-executable until the formal results-zero definition and pins exist. No materialized machine definition, canonical request/result,
 formal holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
 before any Sharp calibration.
 
