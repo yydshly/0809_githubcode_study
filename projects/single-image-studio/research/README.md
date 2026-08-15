@@ -68,18 +68,21 @@ an explicit gold-to-adapter expected projection and truthful worker lifecycle.
 See [SLICE_10_EVIDENCE.md](SLICE_10_EVIDENCE.md). Formal holdout remains absent,
 all evidence axes remain zero, and `productSupport=false`.
 
-Slice 11 is scope-frozen, and its fake-only projection, case and lifecycle
-foundation is now implemented. It creates a new `@0.11.0` identity for exactly
+Slice 11 is scope-frozen, and its fake-only projection, case, lifecycle and pure
+protocol-runner foundation is now implemented. It creates a new `@0.11.0` identity for exactly
 two corrections: a content-addressed projection from the complete gold identity
 to the adapter's twelve canonical expected fields, and worker lifecycle derived
 from actual preflight, spawn, IPC and exit events. The generic case executor
 passes the complete gold object only to the versioned adapter, binds every
-request to frozen case material, and keeps rejection cases worker-free. Thirteen
-fake-only tests cover deterministic reconstruction, strict schemas, semantic
-rehash laundering, lifecycle records, request rebinding, worker-free rejection
-and successful candidate closure. They do not invoke Sharp. Slice 11 still has
-no machine definition, request, result or calibration; its future 96-source /
-288-attempt population retains zero retry and replacement. See
+request to frozen case material, and keeps rejection cases worker-free. The new
+versioned request, terminal, ledger and summary protocol uses six recursively
+closed schemas; terminal facts cross-bind lifecycle and projection records, the
+ledger requires exact start-terminal pairs, and the pure in-memory runner closes
+48x3 slots per operation without retries or replacements. Twenty fake-only tests
+cover deterministic reconstruction, semantic rehash laundering, denominator and
+reference closure, byte drift and protocol global stop. They do not invoke Sharp
+or create canonical requests/results. Slice 11 still has no machine definition or
+calibration; its future 96-source / 288-attempt population retains zero retry and replacement. See
 [SLICE_11_CONTRACT.md](SLICE_11_CONTRACT.md).
 
 ## Evidence boundary

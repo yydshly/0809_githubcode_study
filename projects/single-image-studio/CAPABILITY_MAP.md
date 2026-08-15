@@ -34,7 +34,7 @@ Layer 4  场景配方
 | `CAP-08` | QA 证据 | 分离离线证据 QA 与线上任务 QA；记录输入、执行、输出、指标、版本和失败，控制下载与发布 | `QAReport`、`RunManifest`、`EvidenceManifest` | Alpha / 边缘、像素保护、尺寸 / 色值、主体数量、must-keep、参考泄漏 | 每类效果的 QA profile、漂移监控、审核工具与证据回放 |
 | `CAP-09` | 编排推荐 | 以独立合同执行已选 DAG，或在当前 surface 的冻结 allowlist 中做资格过滤与可解释排序；管理任务、重试与失效传播 | `ExecutionPlan`、`RecommendationSet`；实际运行写入 `RunManifest` | `CAP-09.execute` 的确定性执行控制；后置 `CAP-09.recommend` 的硬资格与冻结规则 | Agent 路由、缓存、硬件选择、个性化、批量调度 |
 
-表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。`CAP-02` 的 Slice 05–08 失败历史保持不可改写；Slice 09 的 canonical PNG normalize / export 唯一 open smoke 已双 Gate-B pass。Slice 10 的唯一 calibration 在首个 normalize attempt 因 expected-object shape 不兼容于 Sharp worker 前停止，且 terminal lifecycle 记录失真；同版本不得重跑。Slice 11 的 versioned exact projection、lifecycle record 与 case executor foundation 已通过 13 / 13 fake-only tests，但 request / runner / definition / results 仍未创建。即使未来 calibration 通过，也不是 formal holdout、C1 或产品支持。JPEG / WebP 等行继续 fail closed，全部格式仍为 `productSupport=false`。
+表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。`CAP-02` 的 Slice 05–08 失败历史保持不可改写；Slice 09 的 canonical PNG normalize / export 唯一 open smoke 已双 Gate-B pass。Slice 10 的唯一 calibration 在首个 normalize attempt 因 expected-object shape 不兼容于 Sharp worker 前停止，且 terminal lifecycle 记录失真；同版本不得重跑。Slice 11 的 versioned projection / case / lifecycle / in-memory runner foundation 已通过 20 / 20 fake-only tests，但 durable publication、central definition 与 canonical results 仍未创建。即使未来 calibration 通过，也不是 formal holdout、C1 或产品支持。JPEG / WebP 等行继续 fail closed，全部格式仍为 `productSupport=false`。
 
 ### 能力依赖原则
 

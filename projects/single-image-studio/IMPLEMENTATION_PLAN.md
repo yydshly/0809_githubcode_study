@@ -8,7 +8,7 @@
 
 截至 2026-08-15，Slice 05 的唯一注册真实 smoke 已关闭为 non-pass，Slice 06 唯一 diagnostic 已定位缺 `sRGB` / 禁止 `pHYs`。Slice 07 新复合候选的唯一 registered smoke 也已闭合：36 / 36 terminal，18 / 18 applicable candidate outputs 全部通过独立 oracle，但 18 个 rejection 因 driver executor binding 漏传 frozen classification fields 而全部 non-pass。两项 Gate B 均 denied，calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0`–`@0.10.0` 或补跑旧 calibration。Slice 11 / `@0.11.0` scope 已冻结，projection / case / lifecycle Phase B foundation 已实现：完整 gold identity 被 canonicalize / hash 后投影为 exact 12 adapter keys；adapter 从真实 preflight / spawn / IPC / exit 事件派生 lifecycle；strict lifecycle record 与 generic case executor 再将投影、worker 事实、request 和 frozen material交叉绑定。13 / 13 fake-only tests通过且不调用 Sharp。下一步须把该边界接入 versioned request / runner / terminal / ledger / summary schemas 与中央负例，再以新 identities 重建 96 / 288、零 retry / replacement 的 results-zero definition并推送；在此之前不得运行真实 calibration。
+立即后续禁止重跑 `@0.5.0`–`@0.10.0` 或补跑旧 calibration。Slice 11 / `@0.11.0` scope 已冻结，projection / case / lifecycle / pure protocol runner foundation 已实现：完整 gold identity 被投影为 exact 12 adapter keys；strict lifecycle record、versioned request / terminal、成对 hash-chain ledger 与 48×3 summary 全部交叉绑定。20 / 20 fake-only tests验证每 operation 144 terminals、零 retry / replacement、3/3 byte determinism、worker-free rejection、重哈希攻击和 protocol global stop，且不调用 Sharp。下一步须实现 durable claim / atomic publication / runtime-end observation 与 central adversarial validator，再以新 identities 重建 96 / 288 的 results-zero definition并推送；在此之前不得运行真实 calibration。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 

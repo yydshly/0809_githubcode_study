@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 exact projection、lifecycle record 与 case executor foundation 已通过 13 / 13 fake-only tests，machine definition / results 尚未创建。C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 projection / case / lifecycle / in-memory runner foundation 已通过 20 / 20 fake-only tests，machine definition / results 尚未创建。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -163,7 +163,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 11 scope 已冻结
 
-[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修两项协议：从完整 gold identity 生成并哈希绑定 adapter 所需的 exact 12-field expected，以及按实际 preflight / spawn / IPC / exit 事件派生 worker lifecycle。投影器、versioned adapter、strict lifecycle record 与 generic case executor 已实现并通过 13 / 13 fake-only tests，不调用 Sharp；case 层把完整 gold 只交给 versioned adapter，并精确绑定 request、source、partition、disposition 与错误码。新身份的 96-source / 288-attempt machine definition、request、result仍未创建；完整 runner 协议和 results-zero definition 分别提交推送前，禁止真实 calibration。
+[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修 gold-to-adapter projection 与真实 worker lifecycle。projection、versioned adapter、case executor、strict lifecycle record，以及 versioned request / terminal / ledger / summary 与纯内存 48×3 runner foundation 已实现；20 / 20 fake-only tests 不调用 Sharp。terminal 不再自述 worker 布尔，而是引用并交叉验证 lifecycle / projection；ledger 强制 start-terminal 成对链；summary 从 144 terminals派生 3/3 与 byte determinism。canonical 96-source / 288-attempt machine definition、request、result仍未创建；durable publication、central validator 和 results-zero definition 分别提交推送前，禁止真实 calibration。
 
 ## 运行 R0 工程探针
 

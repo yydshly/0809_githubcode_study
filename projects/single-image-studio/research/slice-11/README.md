@@ -1,7 +1,7 @@
 # Slice 11 workspace
 
-状态：`scope-frozen / projection-case-and-lifecycle-foundation / definition-not-created / results-not-created / calibration-not-run`。
+状态：`scope-frozen / projection-case-lifecycle-and-in-memory-runner-foundation / definition-not-created / results-not-created / calibration-not-run`。
 
-Phase B 已在项目 `scripts/` 中实现 versioned expected projector、lifecycle adapter、strict lifecycle record 与 generic case executor，并以 13 / 13 fake-only tests 验证；测试不调用 Sharp。case executor 将完整 gold 仅交给 versioned adapter，并把 request 精确绑定 frozen source / partition / disposition；rejection 保持 worker-free。当前目录仍只有治理 README；没有 materialized schema、machine record、source wrapper、request、result、图片 bytes、formal holdout、artifact 或产品接线。
+Phase B 已在项目 `scripts/` 中实现 versioned expected projector / adapter、strict lifecycle record、generic case executor，以及纯内存 request / terminal / ledger / summary runner foundation；20 / 20 fake-only tests 不调用 Sharp。6 份 schema 递归关闭；terminal 交叉绑定 lifecycle / projection；ledger 强制 start-terminal 成对 hash chain；summary 固定每 operation 48×3、零 replacement，并将 byte drift 保持为 complete non-pass。当前目录仍只有治理 README；这些测试只在内存构造记录，没有 materialized schema、machine record、source wrapper、canonical request / result、图片 bytes、formal holdout、artifact 或产品接线。
 
 范围与硬停止见 [Slice 11 合同](../SLICE_11_CONTRACT.md)，Slice 10 的不可改写失败事实见 [Slice 10 evidence](../SLICE_10_EVIDENCE.md)。在 scope commit 推送、实现完成、results-zero definition 冻结并单独推送以前，禁止执行真实 Sharp calibration。
