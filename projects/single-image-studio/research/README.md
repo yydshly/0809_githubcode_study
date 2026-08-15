@@ -73,10 +73,13 @@ replay, an invalid clock, or an image-processing boundary violation fail closed.
 It reads versions only and does not invoke an image pipeline. A central validator
 foundation passes 5/5 fake-only tests for deterministic full-tree regeneration,
 fresh runtime re-observation, forbidden results/extras, README pinning, and explicit
-denial while final literal pins are absent. The registered driver remains
-non-executable until the formal results-zero definition and pins exist. No materialized machine definition, canonical request/result,
-formal holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
-before any Sharp calibration.
+literal-pin admission. The results-zero definition froze at
+`2026-08-15T18:03:39.680Z`: 183 files, 22 schemas, 96 sources, 288 planned
+attempts and zero results. Its index content/file hashes are `1b0ecac1…bcbc` /
+`c2b7ae16…b13c`, and its full-tree digest is `0250a743…d532`; pins, fresh
+runtime and deterministic regeneration pass. No canonical request/result,
+formal holdout, or copied image bytes exists. This baseline must be committed
+and pushed before the unique registered calibration invocation.
 
 ## Evidence boundary
 

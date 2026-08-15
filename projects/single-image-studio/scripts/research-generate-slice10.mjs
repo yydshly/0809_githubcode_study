@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -26,20 +26,20 @@ const MANIFEST_SPECS = Object.freeze([
   Object.freeze({ operation: "export", partition: "defect/calibration", priorName: "export-defect.v0.5.0.json", label: "defect" }),
 ]);
 
-export const SLICE10_GENERATOR_VERSION = "slice10-definition-preview-generator.v0.10.0";
+export const SLICE10_GENERATOR_VERSION = "slice10-definition-generator.v0.10.0";
 export const SLICE10_PREVIEW_PATHS = Object.freeze({
-  definition: "definition-index.preview.v0.10.0.json",
-  candidate: "candidate-locks/composite-canonical-png.preview.v0.10.0.json",
-  runtime: "runtime/runtime-attestation.preview.v0.10.0.json",
-  hardware: "hardware/named-hardware.preview.v0.10.0.json",
-  rights: "rights/open-synthetic-lineage.preview.v0.10.0.json",
+  definition: "definition-index.v0.10.0.json",
+  candidate: "candidate-locks/composite-canonical-png.v0.10.0.json",
+  runtime: "runtime/runtime-attestation.v0.10.0.json",
+  hardware: "hardware/named-hardware.v0.10.0.json",
+  rights: "rights/open-synthetic-lineage.v0.10.0.json",
   admissionLineage: "lineage/slice09-gateb-admission.v0.10.0.json",
-  normalizeContract: "contracts/cc-cap02-normalize-png.preview.v0.10.0.json",
-  exportContract: "contracts/cc-cap02-export-png.preview.v0.10.0.json",
-  normalizePlan: "plans/normalize-open-calibration.preview.v0.10.0.json",
-  exportPlan: "plans/export-open-calibration.preview.v0.10.0.json",
-  normalizePrereg: "preregistrations/normalize-open-calibration.preview.v0.10.0.json",
-  exportPrereg: "preregistrations/export-open-calibration.preview.v0.10.0.json",
+  normalizeContract: "contracts/cc-cap02-normalize-png.v0.10.0.json",
+  exportContract: "contracts/cc-cap02-export-png.v0.10.0.json",
+  normalizePlan: "plans/normalize-open-calibration.v0.10.0.json",
+  exportPlan: "plans/export-open-calibration.v0.10.0.json",
+  normalizePrereg: "preregistrations/normalize-open-calibration.v0.10.0.json",
+  exportPrereg: "preregistrations/export-open-calibration.v0.10.0.json",
 });
 
 function stable(value) {
@@ -120,7 +120,7 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
     versionReason: { const: "open-calibration-protocol-and-source-identity-only" },
     slice09AdmissionLineageRef: refSchema, slice09CandidateRef: refSchema,
     implementationRefs: { type: "array", minItems: 11, maxItems: 11, items: implementationRefSchema },
-    executionState: { const: "runner-complete-central-validator-not-created-preview-not-executable" },
+    executionState: { const: "execution-stack-frozen-results-zero-awaiting-definition-commit" },
     evidenceBoundary: evidenceSchema, contentHash: hex,
   }),
   "schemas/capability-contract.slice10.v0.schema.json": schema("capability-contract.slice10.v0.schema.json", {
@@ -139,7 +139,7 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
   }),
   "schemas/runtime-attestation.slice10.v0.schema.json": schema("runtime-attestation.slice10.v0.schema.json", {
     schemaVersion: { const: "runtime-attestation.slice10.v0" }, id, frozenAt: utcSchema,
-    observationState: { const: "definition-preview-read-versions-only-no-image-pipeline" },
+    observationState: { const: "definition-freeze-read-versions-only-no-image-pipeline" },
     inventoryCanonicalJson: text, inventoryPayloadSha256: hex, workerRuntimeCanonicalJson: text,
     workerRuntimeSha256: hex, evidenceBoundary: evidenceSchema, contentHash: hex,
   }),
@@ -206,7 +206,7 @@ export const SLICE10_MACHINE_SCHEMA_DOCUMENTS = Object.freeze({
   }),
   "schemas/definition-index.slice10.v0.schema.json": schema("definition-index.slice10.v0.schema.json", {
     schemaVersion: { const: "definition-index.slice10.v0" }, id, frozenAt: utcSchema,
-    definitionState: { const: "preview-not-frozen-central-validator-not-created" }, candidateRef: refSchema,
+    definitionState: { const: "definition-frozen-results-zero" }, candidateRef: refSchema,
     contractRefs: { type: "array", minItems: 2, maxItems: 2, items: refSchema }, runtimeRef: refSchema,
     hardwareRef: refSchema, rightsRef: refSchema, admissionLineageRef: refSchema,
     planRefs: { type: "array", minItems: 2, maxItems: 2, items: refSchema },
@@ -356,7 +356,7 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
   };
   const runtime = withHash({
     schemaVersion: "runtime-attestation.slice10.v0", id: "RUNTIME-SHARP-CANONICAL-PNG@0.10.0", frozenAt: freeze,
-    observationState: "definition-preview-read-versions-only-no-image-pipeline",
+    observationState: "definition-freeze-read-versions-only-no-image-pipeline",
     inventoryCanonicalJson: canonicalJsonSlice05(inventory), inventoryPayloadSha256: inventory.attestation.payloadSha256,
     workerRuntimeCanonicalJson: canonicalJsonSlice05(workerRuntime),
     workerRuntimeSha256: sha256Slice10Definition(Buffer.from(canonicalJsonSlice05(workerRuntime))),
@@ -390,14 +390,14 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
     implementationRef("scripts/research-calibration-case-slice10.mjs", "CASE-DRIVER-OPEN-CALIBRATION@0.10.0"),
     implementationRef("scripts/research-run-slice10.mjs", "DRIVER-REGISTERED-OPEN-CALIBRATION@0.10.0"),
     implementationRef("scripts/research-runtime-observer-slice10.mjs", "OBSERVER-RUNTIME-END@0.10.0"),
-    implementationRef("scripts/research-generate-slice10.mjs", "GENERATOR-SLICE10-DEFINITION-PREVIEW@0.10.0"),
+    implementationRef("scripts/research-generate-slice10.mjs", "GENERATOR-SLICE10-DEFINITION@0.10.0"),
   ]);
   const candidate = withHash({
     schemaVersion: "candidate-lock.slice10.v0", id: "REG-NORM-SHARP-CANONICAL-PNG@0.10.0", frozenAt: freeze,
     architecture: "sharp-raw-rgba-plus-project-canonical-png-encoder",
     versionReason: "open-calibration-protocol-and-source-identity-only",
     slice09AdmissionLineageRef: admissionLineageRef, slice09CandidateRef,
-    implementationRefs: implementations, executionState: "runner-complete-central-validator-not-created-preview-not-executable",
+    implementationRefs: implementations, executionState: "execution-stack-frozen-results-zero-awaiting-definition-commit",
     evidenceBoundary: SLICE10_EVIDENCE_BOUNDARY,
   });
   const candidateRef = descriptor(SLICE10_PREVIEW_PATHS.candidate, candidate, fileMap);
@@ -471,7 +471,7 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
       fileSha256: sha256Slice10Definition(priorManifestBytes),
     });
     const manifestId = `FM-OPEN-CALIBRATION-${spec.operation.toUpperCase()}-${spec.label.toUpperCase()}@0.10.0`;
-    const manifestPath = `manifests/${spec.operation}-${spec.label}.preview.v0.10.0.json`;
+    const manifestPath = `manifests/${spec.operation}-${spec.label}.v0.10.0.json`;
     const entries = [];
     const pendingGold = [];
     for (let index = 0; index < priorManifest.entries.length; index += 1) {
@@ -554,10 +554,10 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
   if (sourceRefs.length !== 96 || goldIdentityRefs.length !== 48 || manifestRefs.length !== 4 || fileMap.size !== 181) {
     throw new Error(`Slice 10 preview population mismatch: files=${fileMap.size}, sources=${sourceRefs.length}, gold=${goldIdentityRefs.length}`);
   }
-  const generatorSha256 = implementations.find((entry) => entry.id === "GENERATOR-SLICE10-DEFINITION-PREVIEW@0.10.0").sha256;
+  const generatorSha256 = implementations.find((entry) => entry.id === "GENERATOR-SLICE10-DEFINITION@0.10.0").sha256;
   const index = withHash({
-    schemaVersion: "definition-index.slice10.v0", id: "DEFINITION-INDEX-SLICE10-PREVIEW@0.10.0", frozenAt: freeze,
-    definitionState: "preview-not-frozen-central-validator-not-created", candidateRef,
+    schemaVersion: "definition-index.slice10.v0", id: "DEFINITION-INDEX-SLICE10@0.10.0", frozenAt: freeze,
+    definitionState: "definition-frozen-results-zero", candidateRef,
     contractRefs: [contractRefs.normalize, contractRefs.export], runtimeRef, hardwareRef, rightsRef,
     admissionLineageRef, planRefs: [planRefs.normalize, planRefs.export],
     preregistrationRefs: [preregistrationRefs.normalize, preregistrationRefs.export],
@@ -582,7 +582,21 @@ export async function buildSlice10DefinitionPreview({ frozenAt, readmeBytes = nu
 }
 
 async function main() {
-  throw new Error("Slice 10 preview generator has no materialization CLI; complete and freeze the runner first");
+  const args = process.argv.slice(2);
+  if (args.length !== 2 || args[0] !== "--materialize-definition") {
+    throw new Error("Usage: node scripts/research-generate-slice10.mjs --materialize-definition <exact-millisecond-UTC>");
+  }
+  const entries = await readdir(SLICE10_ROOT);
+  if (entries.length !== 1 || entries[0] !== "README.md") {
+    throw new Error("Slice 10 root must contain only the reviewed README before one-time materialization");
+  }
+  const built = await buildSlice10DefinitionPreview({ frozenAt: args[1] });
+  for (const [relativePath, bytes] of built.fileMap) {
+    const target = path.join(SLICE10_ROOT, ...relativePath.split("/"));
+    await mkdir(path.dirname(target), { recursive: true });
+    await writeFile(target, bytes, { flag: "wx" });
+  }
+  process.stdout.write(`${JSON.stringify({ frozenAt: built.index.frozenAt, files: built.fileMap.size, definition: SLICE10_PREVIEW_PATHS.definition })}\n`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === SCRIPT_PATH) await main();

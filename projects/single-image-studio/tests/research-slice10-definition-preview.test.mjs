@@ -44,14 +44,14 @@ function readRecord(built, relativePath) {
   return JSON.parse(built.fileMap.get(relativePath));
 }
 
-test("Slice 10 preview is byte deterministic, results-zero and deliberately non-executable", async () => {
+test("Slice 10 final-definition candidate is byte deterministic and results-zero", async () => {
   const first = await buildSlice10DefinitionPreview({ frozenAt: TEST_UTC });
   const second = await buildSlice10DefinitionPreview({ frozenAt: TEST_UTC });
   assert.equal(first.fileMap.size, 182);
   assert.equal(first.fileMap.size, second.fileMap.size);
   assert.equal(digestSlice10Files(first.fileMap), digestSlice10Files(second.fileMap));
   for (const [relativePath, bytes] of first.fileMap) assert.deepEqual(bytes, second.fileMap.get(relativePath), relativePath);
-  assert.equal(first.index.definitionState, "preview-not-frozen-central-validator-not-created");
+  assert.equal(first.index.definitionState, "definition-frozen-results-zero");
   assert.equal(first.index.runnerRef.id, "RUNNER-OPEN-CALIBRATION@0.10.0");
   assert.equal(first.index.resultsState, "not-created");
   assert.equal(first.index.formalHoldoutState, "not-created");
@@ -185,7 +185,7 @@ test("every generated record is canonically self-hashed and every internal recor
   }
 });
 
-test("preview implementation pins are actual, include the complete runtime stack, and omit only the central validator", async () => {
+test("definition implementation pins are actual, include the complete runtime stack, and omit only the central validator", async () => {
   const built = await buildSlice10DefinitionPreview({ frozenAt: TEST_UTC });
   const candidate = readRecord(built, SLICE10_PREVIEW_PATHS.candidate);
   assert.equal(candidate.implementationRefs.length, 11);
@@ -202,7 +202,7 @@ test("preview implementation pins are actual, include the complete runtime stack
     const bytes = await readFile(new URL(`../${implementation.path}`, import.meta.url));
     assert.equal(createHash("sha256").update(bytes).digest("hex"), implementation.sha256, implementation.path);
   }
-  assert.equal(candidate.executionState, "runner-complete-central-validator-not-created-preview-not-executable");
+  assert.equal(candidate.executionState, "execution-stack-frozen-results-zero-awaiting-definition-commit");
   assert.equal(built.index.runnerRef.sha256, candidate.implementationRefs.find((entry) => entry.id === "RUNNER-OPEN-CALIBRATION@0.10.0").sha256);
-  assert.equal(path.basename(SLICE10_PREVIEW_PATHS.definition), "definition-index.preview.v0.10.0.json");
+  assert.equal(path.basename(SLICE10_PREVIEW_PATHS.definition), "definition-index.v0.10.0.json");
 });

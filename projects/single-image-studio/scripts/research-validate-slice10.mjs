@@ -15,7 +15,16 @@ import {
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const PROJECT_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
 const DEFAULT_ROOT = path.join(PROJECT_ROOT, "research", "slice-10");
-const README_SHA256 = "4ad72f07602abccc6e3ea96ea376bda188b189953fc123cdd3f87221e1890d30";
+const README_SHA256 = "f90a6c77f305bcb23cbf3f5eda1fd61c8acea089965c08e270d1308a6d4a5041";
+const FINAL_PINS = Object.freeze({
+  frozenAt: "2026-08-15T18:03:39.680Z",
+  generatorSha256: "b6ad42bd7659e369c1906e5c17e71a081ee8768f134ab5bc831604d8c24360d1",
+  indexContentHash: "1b0ecac1b1d8b2320fc95fd92f53bf4ebdae79e7879be910d0c232cfeb56bcbc",
+  indexFileSha256: "c2b7ae163a1cd68656e16d97b00cacd295182b80ed1ae9021d9dc28b414b13c3",
+  descendantTreeSha256: "dc1cea563e069a645039c7f22b54eb34de298db45d3047703fdef333e1c80e8a",
+  schemaTreeSha256: "ee7415e36739dea08b128c590741d40c9340a3e24cef72856a2912238923e24c",
+  fullTreeSha256: "0250a743487d681e4282909a21804e142901e536dfc8a8ebee31a17f66cdd532",
+});
 const SUPPORTED_SCHEMA_KEYWORDS = new Set([
   "$id", "$schema", "additionalProperties", "const", "enum", "items", "maxItems", "maxLength",
   "maximum", "minItems", "minLength", "minimum", "oneOf", "pattern", "properties", "required", "type",
@@ -137,7 +146,8 @@ export async function validateSlice10Definition({
       issues.push(issue("REGENERATION_FAILED", error.message));
     }
   }
-  if (index.definitionState !== "preview-not-frozen-central-validator-not-created" || index.resultsState !== "not-created"
+  if (index.definitionState !== "definition-frozen-results-zero" || index.id !== "DEFINITION-INDEX-SLICE10@0.10.0"
+    || index.resultsState !== "not-created"
     || index.formalHoldoutState !== "not-created" || index.counts?.sources !== 96 || index.counts?.plannedAttempts !== 288
     || index.counts?.copiedImageBytes !== 0 || index.schemaPaths?.length !== 22 || !index.runnerRef) {
     issues.push(issue("DEFINITION_SEMANTICS_INVALID", "preview denominator or zero-result boundary is invalid"));
@@ -145,7 +155,18 @@ export async function validateSlice10Definition({
   if (canonicalBytesSlice10(index).length !== indexBytes.length || index.contentHash !== expectedBuild?.index?.contentHash) {
     issues.push(issue("DEFINITION_INDEX_HASH_INVALID", "definition index hash differs from regeneration"));
   }
-  if (requirePins) issues.push(issue("FINAL_PINS_NOT_FROZEN", "preview validator cannot authorize execution before final pins"));
+  const schemaFiles = new Map([...actual].filter(([entry]) => entry.startsWith("schemas/")));
+  const observedPins = {
+    frozenAt: index.frozenAt,
+    generatorSha256: index.generatorSha256,
+    indexContentHash: index.contentHash,
+    indexFileSha256: sha256(indexBytes),
+    descendantTreeSha256: index.descendantTreeSha256,
+    schemaTreeSha256: digestSlice10Files(schemaFiles),
+    fullTreeSha256: digestSlice10Files(actual),
+  };
+  const pinsVerified = Object.entries(FINAL_PINS).every(([key, value]) => observedPins[key] === value);
+  if (requirePins && !pinsVerified) issues.push(issue("FINAL_PINS_MISMATCH", "formal definition literal pins do not match"));
   const definitionRef = issues.length === 0 ? recordRef(indexBytes, index) : null;
   return Object.freeze({
     valid: issues.length === 0,
@@ -156,7 +177,12 @@ export async function validateSlice10Definition({
     descendantTreeSha256: expectedBuild ? digestSlice10Files(new Map([...expectedBuild.fileMap].filter(([entry]) => entry !== SLICE10_PREVIEW_PATHS.definition))) : null,
     runtimeRechecked: Boolean(recheckRuntime && expectedBuild),
     regenerationVerified: Boolean(regenerate && expectedBuild && issues.length === 0),
-    pinsVerified: false,
+    pinsVerified,
+    frozenAt: index.frozenAt,
+    indexContentHash: index.contentHash,
+    indexFileSha256: sha256(indexBytes),
+    schemaTreeSha256: observedPins.schemaTreeSha256,
+    fullTreeSha256: observedPins.fullTreeSha256,
   });
 }
 

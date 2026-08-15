@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope 已冻结：协议 7/7、preview 9/9、runner 7/7、actual-case adapter 9/9、registered driver 5/5、runtime-end observer 6/6、central validator foundation 5/5。正式 definition/literal pins 和 results 尚未创建，driver 不可执行；新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 results-zero definition 已于 `2026-08-15T18:03:39.680Z` 冻结：183 files、22 schemas、96 sources、288 planned attempts、results=0；central pins/runtime/regeneration 全通过。必须先提交推送本基线，才允许唯一 registered calibration；C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -159,7 +159,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 10 open calibration scope and definition preview
 
-[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` sources，每来源 3 次，合计 96 / 288；固定零 retry / replacement。[Calibration protocol](scripts/research-calibration-protocol-slice10.mjs) 7/7、[definition preview](scripts/research-generate-slice10.mjs) 9/9、[durable runner](scripts/research-calibration-runner-slice10.mjs) 7/7、[actual-case adapter](scripts/research-calibration-case-slice10.mjs) 9/9。adapter 按冻结引用重开全部 96 个真实 Slice 05 source record / bytes 与 48 个 independent gold；48 个 rejection 全部 worker-free。runner 只在全部 terminal 后接受 distinct durable runtime-end ref。[Registered driver](scripts/research-run-slice10.mjs) 以 5/5 验证 central / Git / results-zero admission、两项顺序 operation、普通 non-pass 继续与 protocol 全局停。[Runtime-end observer](scripts/research-runtime-observer-slice10.mjs) 以 6/6 验证冻结 runtime 的逐字节重盘、原子发布、漂移、嵌入 payload 伪造与重放拒绝。[Central validator foundation](scripts/research-validate-slice10.mjs) 以 5/5 验证完整树重生成、runtime 重盘、结果/额外文件和 README 篡改拒绝，并在 final pins 未冻结时拒绝执行 admission。没有 actual Sharp 调用或 canonical result；必须先完成正式 definition freeze、literal pins、提交与推送，才允许唯一 registered calibration。
+[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。normalize / export 各冻结 30 个 `dev/calibration` 与 18 个 `defect/calibration` sources，每来源 3 次，合计 96 / 288，零 retry / replacement。results-zero definition 于 `2026-08-15T18:03:39.680Z` 冻结为 183 files / 22 schemas，index content/file `1b0eca…bcbc` / `c2b7ae…b13c`，full tree `0250a7…d532`；central literal pins、fresh runtime 与 deterministic regeneration 全通过。case adapter 重开全部 96 个 Slice 05 records/bytes 与 48 个 independent gold，48 个 rejection worker-free；runtime-end observer 只读版本与依赖清单。没有 actual Sharp calibration 或 canonical result。必须先提交推送该 results-zero 基线，才允许唯一 registered invocation。
 
 ## 运行 R0 工程探针
 
@@ -247,7 +247,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–09 的不可变 research-only 记录，以及 Slice 10 scope / protocol / definition-preview 工具。Slice 09 两项 Gate B 均通过，但 Slice 10 正式 definition 与 calibration 尚未创建或运行；这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–09 的不可变 research-only 记录，以及 Slice 10 results-zero definition。Slice 09 两项 Gate B 均通过，但 Slice 10 calibration 尚未运行；这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。
