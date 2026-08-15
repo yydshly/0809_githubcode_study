@@ -53,11 +53,14 @@ fake-only tests: two fixed-UTC temporary builds are byte-identical and contain
 16 strict schemas, 96 new source wrappers, 48 gold identities and four manifests.
 They pin the actual Slice 05 open-synthetic bytes/records and immutable Slice 09
 dual-pass admission lineage without copying image bytes. A fake-only durable
-runner foundation now passes 7/7 system-temp tests for one 48x3 operation,
+runner foundation passes 7/7 system-temp tests for one 48x3 operation,
 zero retry, per-file fsync, atomic prepared/rename/complete publication, a
 432-event hash-chain ledger, complete non-pass handling, global protocol stop
-and end-runtime drift refusal. It has no actual adapter wiring or executable
-registered driver. No materialized machine definition, canonical request/result,
+and end-runtime drift refusal. An actual-case adapter foundation adds 9/9
+fake-only tests: it reopens all 96 immutable Slice 05 source records and bytes,
+all 48 independent gold identities, keeps all 48 rejection cases worker-free,
+and sends only applicable fake outputs through the independent PNG decoder.
+It has no executable registered driver. No materialized machine definition, canonical request/result,
 formal holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
 before any Sharp calibration.
 
