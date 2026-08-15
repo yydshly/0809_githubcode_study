@@ -14,7 +14,7 @@
 
 Slice 08 Phase A–C 只新增本地原创 typed case-context、actual-case driver、durable runner、registered driver、definition generator、central validator 与范围文档。fake-only tests 使用内存 records / functions、项目原创 tiny PNG 与系统临时 fake result tree，不新增 dependency、upstream package、第三方代码 / 图片 / 模型 / 权重。results-zero definition 只写入 12 个指向既有 Slice 05 / 07 项目原创 public-synthetic material 的 lineage wrapper，复制图片 bytes 为 0。唯一 registered invocation 随后在首个 attempt 的 Sharp worker 前因本地 gold ID protocol bug 关闭；只新增 1 request 与 1 ledger event，没有输出、第三方资产、terminal 或 decision。
 
-Slice 09 Phase A 只新增本地原创范围文档，冻结 `goldRecordId` 精确绑定与新完整 36-attempt 研究分母。后续本地原创的 gold identity / case context / actual driver / durable runner 只 import Node builtins 与既有项目内 candidate / oracle validators，以仓库中真实 Slice 05 normalize / export gold JSON 及系统临时 fake closure tree 做注入式测试。它们不新增 dependency / upstream package / 第三方代码或资产，不启动 Sharp worker，不创建 machine definition、fixture copy或 canonical request / result / decision；临时 runner tree 在测试目录内验证后不作为证据保留。
+Slice 09 Phase A–C 只新增本地原创范围、gold identity / case context / actual driver / durable runner / registered admission / definition generator / central validator。它们只 import Node builtins 与既有项目内 candidate / oracle / inventory validators，以仓库中真实 Slice 05 normalize / export gold JSON 及系统临时 fake closure / definition tree 做注入式测试。当前不新增 dependency / upstream package / 第三方代码或资产，不启动 Sharp worker，不创建 canonical machine definition、fixture copy或 canonical request / result / decision；临时树验证后不作为证据保留。
 
 ## 本地原创范围
 

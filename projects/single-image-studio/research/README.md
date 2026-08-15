@@ -24,13 +24,16 @@ terminal/output/decision. Slice 08 is closed protocol-failed and cannot be
 replayed.
 
 Slice 09 is scope-frozen; its gold identity, closed case context, actual-case
-driver and durable operation runner are fake-tested 19 / 19. They read actual immutable normalize/export
+driver, durable runner, registered admission, definition generator and central
+validator are fake-tested 33 / 33. They read actual immutable normalize/export
 Slice 05 gold records and bind `goldRecordId`, content/file/pixel identity,
 source and manifest without guessing a generic `.id` field. The complete durable
 runner writes only system-temporary fake closure trees and validates requests,
 claims, ledger events, identity-bound closures, summaries and decisions. The
-machine definition, runtime observation and canonical request/result/decision do
-not exist yet; real Sharp execution and calibration remain forbidden.
+generator and validator also produce and independently rebuild results-zero
+previews with 18 schemas, 12 sources, six gold identities and zero copied image
+bytes. The canonical definition, runtime observation and request/result/decision
+do not exist yet; real Sharp execution and calibration remain forbidden.
 
 ## Evidence boundary
 

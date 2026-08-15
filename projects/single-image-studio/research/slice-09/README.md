@@ -1,6 +1,6 @@
 # Slice 09 workspace
 
-Current state: `scope-frozen / identity-context-driver-runner-fake-tested /
+Current state: `scope-frozen / definition-tooling-fake-tested /
 definition-not-created / Gate-B-smoke-not-run /
 calibration-forbidden / non-C1 / non-product`.
 
@@ -47,6 +47,27 @@ Self-rehashed gold identity, summary and ledger drift, generic rejection errors,
 partial roots and second invocation all fail closed. The tests write only to
 system temporary directories and do not start Sharp. After adding the runner,
 the repository-wide `npm.cmd run verify` passes `412 / 412`.
+
+Phase D adds the registered admission driver, results-zero definition generator
+and central validator:
+
+- [`research-run-slice09.mjs`](../../scripts/research-run-slice09.mjs), SHA-256
+  `6a67426264be0a97947788e97522ca8bb38eab031d935c43c5dee906c888afd9`;
+- [`research-generate-slice09.mjs`](../../scripts/research-generate-slice09.mjs), SHA-256
+  `3e1ac2c7cfe34c053281394b4451a6d594d1dd43f73a4943231889b7f62c75c9`;
+- [`research-validate-slice09.mjs`](../../scripts/research-validate-slice09.mjs), SHA-256
+  `ed383febaab86b70ea07252ccdf6cc62cd4a426c5ef4e977dae6c60b7bae8744`.
+
+The three new suites pass 14 / 14; all seven Slice 09 suites pass 33 / 33.
+Fixed-UTC twin previews are byte-identical and contain 18 schemas, 12 new source
+lineage records, six complete gold identity records, 36 planned attempts, zero
+copied image bytes and zero results. Manifests store only closed `{path,id}`
+identity locators while the definition index separately pins all six immutable
+identity refs; this removes the manifest/identity hash cycle without weakening
+offline closure. The validator rejects extra files, empty directories,
+unregistered result roots, self-hashed promotion, locator replay and unfrozen
+literal pins. The repository-wide `npm.cmd run verify` passes `426 / 426`. No
+canonical definition has been materialized.
 
 No Slice 09 machine definition, runtime observation, fixture copy, canonical
 request, result, decision,
