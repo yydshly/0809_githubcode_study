@@ -84,13 +84,27 @@ test("a noncanonical preview cannot satisfy the frozen literal pins", async () =
   assert.equal(report.issues.some((entry) => entry.code === "S09_PIN_NOT_FROZEN"), false);
 });
 
-test("canonical production definition passes literal pins, runtime recheck and twin regeneration", async () => {
+test("canonical production definition and registered result closure pass pins, runtime recheck and twin regeneration", async () => {
   const report = await validateSlice09Definition();
   assert.equal(report.valid, true);
   assert.deepEqual(report.issues, []);
   assert.equal(report.pinsVerified, true);
   assert.equal(report.runtimeRechecked, true);
   assert.equal(report.regenerationVerified, true);
-  assert.equal(report.counts.generatedResults, 0);
-  assert.equal(report.postRun, null);
+  assert.equal(report.counts.generatedResults, 186);
+  assert.equal(report.postRun?.valid, true);
+  for (const operation of ["normalize", "export"]) {
+    const result = report.postRun.operations[operation];
+    assert.equal(result.valid, true);
+    assert.equal(result.requestCount, 18);
+    assert.equal(result.claimCount, 18);
+    assert.equal(result.closureCount, 9);
+    assert.equal(result.rejectionRecordCount, 9);
+    assert.equal(result.summary.passAttempts, 18);
+    assert.equal(result.summary.nonPassAttempts, 0);
+    assert.equal(result.summary.sourceThreeOfThreePasses, 6);
+    assert.equal(result.decision.state, "pass");
+    assert.equal(result.decision.gateBPassed, true);
+    assert.equal(result.decision.calibrationAuthorized, false);
+  }
 });
