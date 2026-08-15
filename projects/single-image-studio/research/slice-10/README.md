@@ -1,8 +1,8 @@
 # Slice 10 open-calibration workspace
 
-> State: `scope-frozen / protocol-foundation-fake-tested / runner-not-created / definition-not-created / calibration-not-run / formal-holdout-not-created / non-C1 / non-product`.
+> State: `scope-frozen / protocol-foundation-fake-tested / definition-preview-fake-tested / runner-not-created / definition-not-created / calibration-not-run / formal-holdout-not-created / non-C1 / non-product`.
 
-This directory is reserved for the versioned Slice 10 open-calibration machine definition. The standalone protocol module now defines strict admission, request, terminal and summary records and passes 7 / 7 fake-only tests. This directory still contains no materialized schemas, source wrappers, manifests, preregistrations, runtime observation, requests, results, calibration summary, holdout material, or copied image bytes.
+This directory is reserved for the versioned Slice 10 open-calibration machine definition. The standalone protocol module defines strict admission, request, terminal and summary records and passes 7 / 7 fake-only tests. The definition-preview generator passes another 9 / 9: fixed-UTC twin temporary builds are byte-identical and contain 16 strict schemas, 96 new source wrappers, 48 applicable gold identities and four operation-by-partition manifests. It reopens and hashes existing Slice 05 open-synthetic records and Slice 09 admission records without copying image bytes or invoking the Sharp image pipeline. The generator deliberately has no materialization CLI. This directory still contains no materialized schemas, source wrappers, manifests, preregistrations, runtime observation, requests, results, calibration summary, holdout material, or copied image bytes.
 
 The governing contract is [../SLICE_10_CONTRACT.md](../SLICE_10_CONTRACT.md). Slice 09 is immutable admission lineage: its unique registered smoke passed both Gate-B decisions, but its contract fixed `calibrationAuthorized=false`. Slice 10 therefore requires new `@0.10.0` identities and a separately frozen results-zero definition before any calibration may run.
 
