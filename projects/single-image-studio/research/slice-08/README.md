@@ -1,6 +1,6 @@
 # Slice 08 workspace
 
-Current state: `scope-frozen / typed-protocol-fake-tested /
+Current state: `scope-frozen / typed-protocol-and-definition-stack-fake-tested /
 definition-not-created / Gate-B-smoke-not-run / calibration-forbidden /
 non-C1 / non-product`.
 
@@ -35,6 +35,20 @@ The actual-case layer additionally binds source bytes / hashes and gold records;
 rejection material cannot load gold and cannot invoke the raw worker.
 It uses fake functions and in-memory records only; it does not fork Sharp or
 create canonical repository results. Both new files pass `node --check`.
+
+Phase C now also implements the durable operation runner, explicit registered
+driver, deterministic results-zero definition generator and central validator:
+[`research-gateb-runner-slice08.mjs`](../../scripts/research-gateb-runner-slice08.mjs),
+[`research-run-slice08.mjs`](../../scripts/research-run-slice08.mjs),
+[`research-generate-slice08.mjs`](../../scripts/research-generate-slice08.mjs)
+and [`research-validate-slice08.mjs`](../../scripts/research-validate-slice08.mjs).
+The six Slice 08 fake-only suites pass `28 / 28`. They cover the complete
+36-attempt denominator, atomic result closure, ledger binding, exact-code
+rejection, 16 recursively closed schemas, two-temp regeneration, external
+Slice 05 / 07 lineage reopening, and full fake post-run output/oracle reopening.
+No canonical definition or result has been written yet; the validator's formal
+definition and post-run pins intentionally remain unset until their respective
+freeze commits.
 
 No Slice 08 machine definition, fixture wrapper, fresh runtime observation,
 registered result, decision, calibration, formal holdout, product integration,

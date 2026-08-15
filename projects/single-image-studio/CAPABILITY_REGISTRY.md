@@ -533,7 +533,7 @@ release_status=planned
 2. Slice 06 diagnostic-only `@0.6.0` 的唯一 registered invocation 已完成并封存；24 / 24 terminal、零 replacement，post-run tree 和 ledger 全闭合。该版本禁止补跑或选择性重跑。
 3. Slice 06 没有 Gate B decision authority；已确认 Sharp PNG encoder 的共同 profile 不符合合同。其结果只作不可变 lineage，正式 holdout 继续 `not-created`。
 4. Slice 07 唯一 36-attempt registered smoke 已关闭：applicable 18/18 通过，但 rejection 0/18 exact pass；两项 Gate B denied。不得重跑，任何 driver binding 修复必须进入新版本与新定义。
-5. Slice 08 typed case-context 与 actual-case driver 已 fake-only 12 / 12；下一步冻结 / 推送完整新 36-attempt results-zero definition，不得只补跑旧 rejection。
+5. Slice 08 typed case-context、actual-case driver、durable runner、registered driver、definition generator 与 central validator 已 fake-only 28 / 28；下一步以真实 UTC 冻结 / 推送完整新 36-attempt results-zero definition，不得只补跑旧 rejection。
 6. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
 6. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
 7. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。
