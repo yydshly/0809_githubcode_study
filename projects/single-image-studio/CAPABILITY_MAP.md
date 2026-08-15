@@ -34,7 +34,7 @@ Layer 4  场景配方
 | `CAP-08` | QA 证据 | 分离离线证据 QA 与线上任务 QA；记录输入、执行、输出、指标、版本和失败，控制下载与发布 | `QAReport`、`RunManifest`、`EvidenceManifest` | Alpha / 边缘、像素保护、尺寸 / 色值、主体数量、must-keep、参考泄漏 | 每类效果的 QA profile、漂移监控、审核工具与证据回放 |
 | `CAP-09` | 编排推荐 | 以独立合同执行已选 DAG，或在当前 surface 的冻结 allowlist 中做资格过滤与可解释排序；管理任务、重试与失效传播 | `ExecutionPlan`、`RecommendationSet`；实际运行写入 `RunManifest` | `CAP-09.execute` 的确定性执行控制；后置 `CAP-09.recommend` 的硬资格与冻结规则 | Agent 路由、缓存、硬件选择、个性化、批量调度 |
 
-表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。尤其 `CAP-02` 当前只冻结 Slice 05 canonical PNG normalize / export 的开放研究定义；JPEG / WebP 等行继续 fail closed，全部格式仍为 `productSupport=false`。
+表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。尤其 `CAP-02` 的 Slice 05 canonical PNG normalize / export 开放研究已在真实 smoke 中双双 non-pass、Gate B `denied-not-entered`；JPEG / WebP 等行也继续 fail closed，全部格式仍为 `productSupport=false`。
 
 ### 能力依赖原则
 
@@ -120,7 +120,7 @@ Slice 03 的 [`TechnicalObserverResult.slice03.v0`](./research/slice-03/schemas/
 
 Slice 04 又为 `CAP-02` 冻结 `CC-CAP02-NORMALIZE-PNG@0.4.0` 与 `CC-CAP02-EXPORT-PNG@0.4.0` 两份 candidate-bound metadata contract，并将其绑定到 `REG-NORM-SHARP@0.4.0`、共享 QA、两份 operation-specific plan 与两份独立预注册。每项初始 C1 只预注册 sealed 48 个来源；operation artifact schema / independent oracle、adapter、named hardware、codec smoke、calibration 或正式像素均未创建，Slice 03 observer 只作不兼容 design lineage。全部格式仍为 `productSupport=false`，因此这些记录不能被页面、效果 DAG 或下载路径解析为已执行能力。范围与证据见 [Slice 04 contract](./research/SLICE_04_CONTRACT.md) 和 [Slice 04 evidence](./research/SLICE_04_EVIDENCE.md)。
 
-Slice 05 没有覆盖上述历史记录，而是新增 `REG-NORM-SHARP@0.5.0` installed runtime candidate 与 `CC-CAP02-NORMALIZE-PNG@0.5.0` / `CC-CAP02-EXPORT-PNG@0.5.0` 两份 adapter-bound research contract。`NormalizedImage.slice04.v0` 与 `DeliveryArtifact.slice04.v0` strict schema、independent oracle / gold、adapter / isolated worker、named hardware、local runner、Gate B plan 及开放 manifest / preregistration 已在 `2026-08-15T04:23:38.389Z` 的 machine definition 中精确 pin；真实 Sharp smoke 未运行，Gate B 仍为 `not-evaluated`，calibration 与 results 均为 0。它们只能在定义基线提交 / 推送后进入 operation-specific smoke，仍不能被产品页面、效果 DAG 或下载路径解析为能力。完整证据见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
+Slice 05 没有覆盖上述历史记录，而是新增 `REG-NORM-SHARP@0.5.0` installed runtime candidate 与 `CC-CAP02-NORMALIZE-PNG@0.5.0` / `CC-CAP02-EXPORT-PNG@0.5.0` 两份 adapter-bound research contract。`NormalizedImage.slice04.v0` 与 `DeliveryArtifact.slice04.v0` strict schema、independent oracle / gold、adapter / isolated worker、named hardware、local runner、Gate B plan 及开放 manifest / preregistration 已在 `2026-08-15T04:23:38.389Z` 的 machine definition 中精确 pin。随后唯一注册真实 smoke 中，normalize 为 `6 pass / 12 non-pass`、export 为 `9 pass / 9 non-pass`；18 次 applicable attempt 全部 `S05_OUTPUT_ORACLE_REJECTED`，artifact 为 0，两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。该版本已经关闭，不得 calibration 或选择性重跑，仍不能被产品页面、效果 DAG 或下载路径解析为能力。完整证据见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
 
 ### `EffectDefinition`
 
@@ -220,7 +220,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 当前不是同时实现九类能力，而是按依赖建立最小可验证纵切：
 
-1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；当前 Slice 05 只完成 canonical PNG normalize / export 的开放研究定义冻结，实际 smoke / Gate B / calibration / C1 均未完成。
+1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 canonical PNG normalize / export 定义虽已冻结，但实际 smoke 已双双 non-pass、Gate B 均拒绝进入，calibration 被禁止且 C1 仍为 0。后续只能用新的 candidate / contract / preregistration 版本重新开始。
 2. `CAP-03`：形成最小 `SourceCard`，只记录可验证字段，不伪造推荐分数。
 3. `CAP-04 + CAP-05 + CAP-08`：对测 Matting 并完成透明 / 纯色主体背景效果。
 4. `CAP-09.execute`：随第一条无界面管线冻结确定性执行控制、状态、fallback 和失效传播，但不参与像素质量结论。

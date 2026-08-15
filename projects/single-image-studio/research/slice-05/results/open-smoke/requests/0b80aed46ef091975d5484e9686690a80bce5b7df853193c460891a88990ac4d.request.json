@@ -1,0 +1,95 @@
+{
+  "adapterRef": {
+    "id": "ADAPTER-SHARP-NORMALIZE-EXPORT@0.5.0",
+    "implementationSha256": "ea521c4de76e18a0dae844686498b5d908fb0434eb9b8eeafffdfccbd57b71b1",
+    "version": "0.5.0"
+  },
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.export.83450daf67bf.8813f8add830.r3.a1",
+    "partition": "smoke",
+    "repetition": 3,
+    "runId": "run.smoke.export.d914d75e54bb9b5e",
+    "sourceId": "normalized.s05.export.smoke.001"
+  },
+  "contentHash": "8008a7124a3d7b29477e331bf5effb20b6ec2bdfc940d7b2092b5a2340b26969",
+  "contractRef": {
+    "byteLength": 5851,
+    "contentHash": "9158ec6b07c3a877976fa48c5001a9f3c65ef746d5d1a99dca74696d58c1d278",
+    "fileSha256": "c994b2307e8fc44a5078f864a3ac0c2d91c5a103967e29befee4640456074903",
+    "id": "CC-CAP02-EXPORT-PNG@0.5.0",
+    "path": "contracts/cc-cap02-export-png.v0.5.0.json"
+  },
+  "createdAt": "2026-08-15T04:52:07.757Z",
+  "definitionRef": {
+    "byteLength": 108012,
+    "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+    "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+    "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+    "path": "definition-index.v0.5.0.json"
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "goldRecordRef": {
+    "byteLength": 1775,
+    "contentHash": "78a181cc98de135d8440fb4c643e7d44faf7f91f49e818c37bbda3a65240c0e6",
+    "fileSha256": "4287ffba1e085e0f8ebb27613dfa417bafa7f96da5e85b56c10290384b6f2043",
+    "id": "gold.normalized.s05.export.smoke.001",
+    "path": "gold/export-smoke/gold.normalized.s05.export.smoke.001.json"
+  },
+  "manifestEntryRef": {
+    "contentHash": "8813f8add83000e47cc1ab65b68daef88ce007f6d0a2b66049bd3586fae6da64",
+    "entryIndex": 0,
+    "sourceId": "normalized.s05.export.smoke.001"
+  },
+  "manifestRef": {
+    "byteLength": 14522,
+    "contentHash": "83450daf67bf38c92cb5d92487ff541de36082e0b45433d4853523d5efcd286f",
+    "fileSha256": "086c2d4bbda038f2026ce71848d834bdf7368cac46438e3e254127c697c9fd19",
+    "id": "FM-NORMALIZE-DELIVER-EXPORT-SMOKE@0.5.0",
+    "path": "manifests/export-smoke.v0.5.0.json"
+  },
+  "mode": "smoke",
+  "operation": "export",
+  "oracleRef": {
+    "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+    "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+    "version": "0.5.0"
+  },
+  "requestId": "request.export.83450daf67bf38c9.1570f020fb1e60ca.r3.a1",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "local-run-request.slice05.v0",
+  "sourceIdentity": {
+    "normalizedArtifactRef": {
+      "byteLength": 2616,
+      "contentHash": "59749df2a27d63391ac6a8fdb986126856fa99d846571fa7ab49d77d4a459d5a",
+      "fileSha256": "37551ee9aacac1a014f2310ab1ce6ec596c641d6fc3e56e85a2726c153fb861e",
+      "id": "normalized.s05.export.smoke.001",
+      "path": "artifacts/normalized-inputs/export-smoke/normalized.s05.export.smoke.001.json",
+      "producerKind": "independent-fixture-generator"
+    },
+    "rawAssetRef": {
+      "byteLength": 792,
+      "decodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+      "fileSha256": "8cd86f42a1b1decc565cde76b62a489ac65536ba456a7e48bd9226e8585165a8",
+      "mime": "image/png",
+      "path": "assets/open/export-smoke/raw.s05.export.smoke.001.png",
+      "sourceDeclarationDecodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d"
+    },
+    "sourceId": "normalized.s05.export.smoke.001",
+    "sourceProvenanceRef": {
+      "byteLength": 2307,
+      "contentHash": "96abef10094503010e5989b708a8c13cc941d1a467a5cbd8b805f6efe16488a6",
+      "fileSha256": "d33cfd1e18f0dea2d26b8737b2d073073cc1b9256614f2fdb32a2391c3c52095",
+      "id": "provenance.raw.s05.export.smoke.001",
+      "path": "sources/export-smoke/raw.s05.export.smoke.001.json"
+    }
+  }
+}

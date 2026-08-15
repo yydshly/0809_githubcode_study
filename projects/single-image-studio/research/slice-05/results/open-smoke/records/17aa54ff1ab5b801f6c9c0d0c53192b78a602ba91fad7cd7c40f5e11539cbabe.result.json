@@ -1,0 +1,57 @@
+{
+  "artifactRef": null,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.normalize.792c7f641d26.54ac72b59f78.r1.a1",
+    "partition": "smoke",
+    "repetition": 1,
+    "runId": "run.smoke.normalize.d914d75e54bb9b5e",
+    "sourceId": "raw.s05.normalize.smoke.006"
+  },
+  "contentHash": "c641612321156ef312f16f30e77d6104dd094aa519afe3f054108e9979f9f866",
+  "durationMs": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+  "finishedAt": "2026-08-15T04:52:07.252Z",
+  "idempotencyKeyHash": "17aa54ff1ab5b801f6c9c0d0c53192b78a602ba91fad7cd7c40f5e11539cbabe",
+  "mode": "smoke",
+  "operation": "normalize",
+  "oracleResultRef": null,
+  "reasonCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+  "requestRef": {
+    "contentHash": "4b278b0b7a4fcc365d37949dd79f7dda7dfb050c0fdc4b0a763eca94d431b17a",
+    "id": "request.normalize.792c7f641d26a9d5.22c8bcc50c69d235.r1.a1"
+  },
+  "resourceUsage": null,
+  "resultId": "result.17aa54ff1ab5b801f6c9c0d0c53192b78a602ba91fad7cd7c40f5e11539cbabe",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "run-result.slice05.v0",
+  "startedAt": "2026-08-15T04:52:07.247Z",
+  "status": "pass",
+  "workerExitConfirmed": null,
+  "workerObservation": null,
+  "workerRuntime": null
+}

@@ -1,0 +1,57 @@
+{
+  "artifactRef": null,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.export.83450daf67bf.8813f8add830.r1.a1",
+    "partition": "smoke",
+    "repetition": 1,
+    "runId": "run.smoke.export.d914d75e54bb9b5e",
+    "sourceId": "normalized.s05.export.smoke.001"
+  },
+  "contentHash": "938a35ec698ab5a90d1e5065897e57712672ed91eae709ef3ff3aa6ced3bc00e",
+  "durationMs": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "finishedAt": "2026-08-15T04:52:07.565Z",
+  "idempotencyKeyHash": "b13a0ebbed187df428ed702238edf251ab2253442c208b0acf2516d916519dd9",
+  "mode": "smoke",
+  "operation": "export",
+  "oracleResultRef": null,
+  "reasonCode": "S05_OUTPUT_ORACLE_REJECTED",
+  "requestRef": {
+    "contentHash": "d9ecda0a97e385442fcbe119a174db22d9fd9e6e489d99c8c983f1ce808acb64",
+    "id": "request.export.83450daf67bf38c9.1570f020fb1e60ca.r1.a1"
+  },
+  "resourceUsage": null,
+  "resultId": "result.b13a0ebbed187df428ed702238edf251ab2253442c208b0acf2516d916519dd9",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "run-result.slice05.v0",
+  "startedAt": "2026-08-15T04:52:07.410Z",
+  "status": "nonpass",
+  "workerExitConfirmed": null,
+  "workerObservation": null,
+  "workerRuntime": null
+}

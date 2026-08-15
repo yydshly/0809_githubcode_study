@@ -221,10 +221,17 @@ test("open-calibration validator fails closed without operation and cannot targe
   assert.ok(formal.issues.some(({ code }) => code === "CALIBRATION_RESULT_ROOT_BOUNDARY_FORBIDDEN"));
 });
 
-async function copiedFrozenDefinition(t, prefix = "single-image-studio-s05-adversarial-") {
+async function copiedFrozenDefinition(
+  t,
+  prefix = "single-image-studio-s05-adversarial-",
+  { includeCanonicalResults = false } = {},
+) {
   const wrapper = await temporaryDirectory(t, prefix);
   const root = path.join(wrapper, "slice-05");
   await cp(CANONICAL_SLICE_ROOT, root, { recursive: true, force: false, errorOnExist: true });
+  if (!includeCanonicalResults) {
+    await rm(path.join(root, "results"), { recursive: true, force: true });
+  }
   return root;
 }
 
@@ -764,7 +771,7 @@ test("full definition validator rejects the frozen adversarial matrix", { skip: 
   });
 
   await t.test("registered post-run root is excluded from definition pins but remains strictly validated", async (st) => {
-    const root = await copiedFrozenDefinition(st);
+    const root = await copiedFrozenDefinition(st, undefined, { includeCanonicalResults: true });
     const resultsRoot = path.join(root, "results", "open-smoke");
     await mkdir(resultsRoot, { recursive: true });
     await writeFile(path.join(resultsRoot, "rogue.png"), Buffer.from("89504e470d0a1a0a", "hex"));

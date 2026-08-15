@@ -1,0 +1,57 @@
+{
+  "artifactRef": null,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.normalize.792c7f641d26.898b97519601.r1.a1",
+    "partition": "smoke",
+    "repetition": 1,
+    "runId": "run.smoke.normalize.d914d75e54bb9b5e",
+    "sourceId": "raw.s05.normalize.smoke.004"
+  },
+  "contentHash": "251c20c9c356ec4fb9af88748beb826dcf719dc6c17f41a892ee8410c0819e92",
+  "durationMs": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+  "finishedAt": "2026-08-15T04:52:07.012Z",
+  "idempotencyKeyHash": "0100ccb05eda3879ed12e057bc36bc38114dafc898cdfac3c6cee83c662bd28e",
+  "mode": "smoke",
+  "operation": "normalize",
+  "oracleResultRef": null,
+  "reasonCode": "S05_INPUT_CRC_MISMATCH",
+  "requestRef": {
+    "contentHash": "fd9a02a177dfa7543d11123e4a01c26bc7c75eabe1fd31585c2de52b3ba98ba2",
+    "id": "request.normalize.792c7f641d26a9d5.69e2c55d285db01a.r1.a1"
+  },
+  "resourceUsage": null,
+  "resultId": "result.0100ccb05eda3879ed12e057bc36bc38114dafc898cdfac3c6cee83c662bd28e",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "run-result.slice05.v0",
+  "startedAt": "2026-08-15T04:52:07.008Z",
+  "status": "pass",
+  "workerExitConfirmed": null,
+  "workerObservation": null,
+  "workerRuntime": null
+}

@@ -1,10 +1,10 @@
-# Slice 05 定义冻结证据
+# Slice 05 定义冻结与真实 smoke 证据
 
-> 记录日期：2026-08-15。Slice 05 机器定义于 `2026-08-15T04:23:38.389Z` 冻结；当前状态是 `definition-frozen / Gate-B-not-evaluated / calibration-not-started / non-C1 / non-product`。本文只证明定义树、开放合成夹具、runtime inventory、合同、oracle / gold、runner 协议和预注册能够被严格封口与校验。真实 Sharp smoke 尚未运行，Gate B 尚未评估，开放 calibration 尚未运行。
+> 记录日期：2026-08-15。Slice 05 机器定义于 `2026-08-15T04:23:38.389Z` 冻结；唯一注册的真实 Sharp smoke 于 `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` 运行并关闭为 non-pass。当前状态是 `definition-frozen / smoke-closed-non-pass / Gate-B-denied-not-entered / calibration-forbidden / non-C1 / non-product`。
 
 ## 结论
 
-Slice 05 已在 [范围合同](SLICE_05_CONTRACT.md) 授权的边界内完成**定义冻结**，但没有产生任何运行结果。normalize 与 export 仍是两个独立 operation；任一 operation 只有在其实际 Sharp smoke 的全部硬门同时通过后，才可进入自己的开放 calibration。另一 operation 不能继承该决定，smoke 或开放 calibration 也都不能进入未来 C1 分母。
+Slice 05 已在 [范围合同](SLICE_05_CONTRACT.md) 授权的边界内完成**定义冻结和一次注册 smoke**。normalize 与 export 仍是两个独立 operation，但两份 Gate B decision 都是 `denied-not-entered`，两者 `calibrationAuthorized=false`。本版本已经关闭，不得运行 calibration、选择性重跑或用未注册调用覆盖结果；smoke 结果也不能进入未来 C1 分母。
 
 以下状态没有改变：
 
@@ -16,11 +16,11 @@ formal holdout/defect-holdout/escape=not-created
 formal bundle/request/receipt/result/EvidenceManifest=not-created
 ```
 
-测试中的 fake executor、临时 smoke / calibration closure 和对抗 mutation 只验证本地协议与 fail-closed 行为；它们不调用 Sharp 像素管线，不写入 canonical `results/`，也不是 Gate B 或 calibration 结果。
+定义冻结测试中的 fake executor、临时 smoke / calibration closure 和对抗 mutation 只验证本地协议与 fail-closed 行为；它们不调用 Sharp 像素管线，也不是 Gate B 或 calibration 结果。本文后续单独登记的 `results/open-smoke/` 才是唯一注册的真实 smoke；它是 non-pass 负证据，不是能力证据。
 
 ## 定义根与完整性 pins
 
-canonical 根为 `research/slice-05/`，DAG 根为 `definition-index.v0.5.0.json` / `DEFINITION-INDEX-SLICE05@0.5.0`。
+冻结 definition 位于 `research/slice-05/`，DAG 根为 `definition-index.v0.5.0.json` / `DEFINITION-INDEX-SLICE05@0.5.0`；后续 `results/` 是独立运行树，不进入以下 definition pins。
 
 | Pin | SHA-256 / 数量 |
 | --- | --- |
@@ -29,11 +29,11 @@ canonical 根为 `research/slice-05/`，DAG 根为 `definition-index.v0.5.0.json
 | definition index file | `8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96` / 108012 bytes |
 | descendant machine tree | `8b340918e423043538997250c63b9b49b175b2d2b349c4835de48dd017ed82c0` / 366 files |
 | schema tree | `8b5170c4026c930d4ac98e903d9b58902589869971f1fa013637c70eae6ebca6` / 25 files |
-| full Slice 05 tree | `108812d4eec84fa3037f8540d8fb273748982beb5e5f28a07eb7cda93e1218f2` / 368 files / 36 directories |
+| frozen full definition tree（results absent） | `108812d4eec84fa3037f8540d8fb273748982beb5e5f28a07eb7cda93e1218f2` / 368 files / 36 directories |
 | Slice 05 prose README | `1a22e17fb57cd23ab19da5e97fb2ed909dd4793e8800047371f8cf7bfd9330a7` / 4762 bytes |
 | independent fixture generator | `bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d` |
 
-tree hash 统一使用按 project-relative path 二进制排序的 `path + NUL + decimal byte length + NUL + file SHA-256 + NUL` 输入。definition index 为避免自循环而不进入 descendant tree；`README.md` 也从 descendant tree 排除，但以精确 byte length / file SHA-256 单独纳入 index 的 `contentHash`。full tree 则包含 index 与 README。
+tree hash 统一使用按 project-relative path 二进制排序的 `path + NUL + decimal byte length + NUL + file SHA-256 + NUL` 输入。definition index 为避免自循环而不进入 descendant tree；`README.md` 也从 descendant tree 排除，但以精确 byte length / file SHA-256 单独纳入 index 的 `contentHash`。冻结 full definition tree 包含 index 与 README，但不包含运行后才建立的 `results/`。
 
 ## 候选、合同与运行环境
 
@@ -46,7 +46,7 @@ tree hash 统一使用按 project-relative path 二进制排序的 `path + NUL +
 | named hardware | `HARDWARE-WIN32-X64@0.5.0` | `634ec49c338b7cff36b0d012070620b1b8b38cc9031cdc54f678619ade35528b` | `c9b4070a6219c91cccdb03a02496adc0f555e09d80a5dedde87c2717ebd47fbf` |
 | open synthetic rights | `RIGHTS-OPEN-SYNTHETIC@0.5.0` | `fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb` | `afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4` |
 
-`REG-NORM-SHARP@0.5.0` 是实际安装闭包候选；它明确引用 Slice 04 的不可变来源 metadata `REG-NORM-SHARP@0.4.0`，没有覆盖历史记录。两份 `@0.5.0` 合同 pin operation artifact schema、candidate adapter、isolated worker、independent oracle、local runner、hardware / runtime、failure semantics 与禁止 fallback / passthrough 的边界，但其 `gateB` 状态仍为 `not-evaluated`。
+`REG-NORM-SHARP@0.5.0` 是实际安装闭包候选；它明确引用 Slice 04 的不可变来源 metadata `REG-NORM-SHARP@0.4.0`，没有覆盖历史记录。两份 `@0.5.0` 合同 pin operation artifact schema、candidate adapter、isolated worker、independent oracle、local runner、hardware / runtime、failure semantics 与禁止 fallback / passthrough 的边界；其冻结时 `gateB` 状态为 `not-evaluated`，后续真实 decision 均为 `denied-not-entered`，不回写冻结合同。
 
 runtime inventory 的冻结事实为：
 
@@ -80,7 +80,7 @@ runtime inventory 的冻结事实为：
 - 108 份 source provenance record 与 108 个项目原创 raw open asset，其中 12 个用于 smoke、96 个用于开放 calibration；
 - 54 份 export `NormalizedImage` 输入 artifact record，全部 truthful 标记实际 producer；
 - 54 份独立 gold record，只覆盖事前定义的 applicable / control；gold 不由 candidate 生成；
-- 0 份 result、admission、ledger、summary 或 Gate B decision。
+- definition freeze 时为 0 份 result、admission、ledger、summary 或 Gate B decision；后续 smoke result tree 与冻结 definition tree 分开保存。
 
 normalize 与 export 的 family、session、source ID 和 manifest 全部隔离。export 的输入由 independent fixture generator 建立，不用 normalize candidate 输出生成 gold。所有 raw / artifact / gold bytes 都由不依赖 Sharp 的 project-original `crypto` / `zlib` generator 构造并经独立 oracle 自检。
 
@@ -94,9 +94,40 @@ normalize 与 export 的 family、session、source ID 和 manifest 全部隔离�
 | normalize calibration preregistration | `PREREG-CALIBRATION-NORMALIZE-PNG@0.5.0` | `b825a2e52a5ed3727d4f27952b0515e43cfa2194fcfab0d459400b0c2943c115` | `d7a340f61f1ae1c0723779fd0175432a8e3b9b087f732de76d57ea82fabe205f` |
 | export calibration preregistration | `PREREG-CALIBRATION-EXPORT-PNG@0.5.0` | `a9b7f85b4e408b6e0f16814afb5196f3d46fae84db65a51929e4c31d47486713` | `e528523f104a59a7b180d143b6665952f227339e9077decb02deead168e53a99` |
 
-Gate B plan 为 normalize / export 各自固定 6 个 smoke source、逐 case expected disposition / exact error code、12 个 all-conjunctive gate、implementation / runtime / hardware / schema / manifest pins 与 result protocol。其冻结时状态是 `not-evaluated`；没有跨 operation 汇总字段可以把一项结果转授另一项。
+Gate B plan 为 normalize / export 各自固定 6 个 smoke source、逐 case expected disposition / exact error code、12 个 all-conjunctive gate、implementation / runtime / hardware / schema / manifest pins 与 result protocol。其冻结时状态是 `not-evaluated`；没有跨 operation 汇总字段可以把一项结果转授另一项。实际运行后两项分别作出 `denied-not-entered` 决定。
 
-两份 calibration preregistration 已冻结开放 30 + 18 来源、每来源 3 次 planned repetition、错误 / no-result / replacement / denominator 语义，但状态仍为 `blocked-until-operation-specific-gate-b-pass`。正式 holdout、defect-holdout 与 escape 没有 manifest、asset 或 result。
+两份 calibration preregistration 已冻结开放 30 + 18 来源、每来源 3 次 planned repetition、错误 / no-result / replacement / denominator 语义，但当前版本没有任何 operation 通过 Gate B，`calibrationAuthorized=false`，所以这 96 个来源 / 288 次 planned repetition 全部禁止运行。正式 holdout、defect-holdout 与 escape 没有 manifest、asset 或 result。
+
+## 唯一注册真实 smoke 结果
+
+定义基线提交并推送后，首次调用因 sandbox `mkdir EPERM` 在任何 request、claim 或 result 建立之前停止。该调用没有进入注册分母，也没有留下可选择的 terminal outcome。随后获批的调用是**唯一注册 smoke**，不是看过结果后的选择性重跑；本版本不得再次运行以替换或挑选结果。
+
+唯一注册运行的持久化边界为：
+
+| 项目 | 精确事实 |
+| --- | --- |
+| 运行区间 | `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` |
+| result root | [`slice-05/results/open-smoke/`](slice-05/results/open-smoke/) |
+| result tree | 116 files / 8 directories / 357303 bytes；SHA-256 `e6cd4aea45419cc4fd02724555fb439191162ca4f5aaab6a00834f8898d8256b` |
+| attempt records | 36 requests / 36 claims / 36 terminal results；两项 operation 各 6 sources × 3 repetitions |
+| durable ledger | [`events.ndjson`](slice-05/results/open-smoke/ledger/events.ndjson)，72 events；file SHA-256 `7bcb9f3f2eded4aaedc59a6fc2473b6ad711ba3dc9a2ad00eaf162dd57b28d6a`；tail `contentHash=f8f2fe5e0356a801cbd59670c16d79dba976d2338a297e6e917a3f5ebf581828` |
+| published artifacts | 0；没有 PNG、artifact record 或 oracle result 被发布 |
+| calibration material | 0；`results/open-calibration/` 不存在 |
+
+operation 结果与 pins 为：
+
+| Operation | Summary | Attempt 结果 | Gate B decision |
+| --- | --- | --- | --- |
+| normalize | [`normalize.smoke-summary.slice05.v0.json`](slice-05/results/open-smoke/summaries/normalize.smoke-summary.slice05.v0.json)；`contentHash=4e03ecfcfc917bb5fc23ba50064f2876e75ce44c3a8a6e149b2d2e883d0652ec`；file SHA-256 `391fe2284dd05c2aff178b28bbf9eab3598ada0545fde3cc5cf9c0bc8df13a41` | 6 pass / 12 non-pass | [`normalize.gate-b-decision.slice05.v0.json`](slice-05/results/open-smoke/decisions/normalize.gate-b-decision.slice05.v0.json)；`contentHash=4f3c428ce3d9674054fe66e04dae8ec8a5157a666335d81694e570cd1f2a84e1`；file SHA-256 `42e69ef94d90c224e977052dee373f1d1d65a4fbedfc6b147a6a1336e150f71e`；`denied-not-entered` / `calibrationAuthorized=false` |
+| export | [`export.smoke-summary.slice05.v0.json`](slice-05/results/open-smoke/summaries/export.smoke-summary.slice05.v0.json)；`contentHash=4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd`；file SHA-256 `de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3` | 9 pass / 9 non-pass | [`export.gate-b-decision.slice05.v0.json`](slice-05/results/open-smoke/decisions/export.gate-b-decision.slice05.v0.json)；`contentHash=583307cd0d3d97876b54eb3b4c0dd3cc14c40536d53d2d8e25604c8bc7faa0ba`；file SHA-256 `201b017b12654b6c14c16599f04293aa868ba553804faa7928044674162e5227`；`denied-not-entered` / `calibrationAuthorized=false` |
+
+normalize 的 9 次 applicable attempt 全部以 `S05_OUTPUT_ORACLE_REJECTED` 结束。三个预注册 rejection source 中，CRC 与 source declaration 两组共 6 次按预期 pass；sRGB 组 3 次预期 `S05_INPUT_SRGB_REQUIRED`，实际却为 `S05_INPUT_CHUNK_PROFILE_INVALID`，因此 non-pass。export 的 9 次 applicable attempt 也全部为 `S05_OUTPUT_ORACLE_REJECTED`；三个 rejection source 共 9 次全部按预期 pass。两项合计 15 pass / 21 non-pass，不能跨 operation 汇总为 Gate B 判断。
+
+[`fault-semantics-result.slice05.v0.json`](slice-05/results/open-smoke/fault/fault-semantics-result.slice05.v0.json) 的 6 / 6 场景通过，`contentHash=b58fd247a3f399aeeaf175829c816a6e2d842cfbe77037f3906a6ce64d26c3d1`、file SHA-256 `19dfad18c3fa11e032ae346bf06f8063e8066c64a185199e8a72282df7526d91`。两份 summary 中 invalid no-result、timeout、cancelled、unknown reconciliation 与 replacement counts 全为 0；false allow / false reject 也均为 0。fault semantics 通过只证明预注册的故障协议工作，不抵消 applicable 与 rejection-code non-pass。
+
+真实 smoke 的只读审计严重度为 `P1/P2/P3 = 0/2/0`。第一项 P2 是 18 次 applicable output 只留下 generic oracle rejection：失败 bytes、底层 oracle subtype、worker telemetry 与三次输出确定性没有持久化，无法离线定位 output-profile compliance；第二项 P2 是 normalize missing-sRGB 的实际错误码与冻结预注册不符。没有 P1 是因为 runner / oracle 正确 fail closed、没有错误授权或 artifact 发布；这不降低两项 Gate B non-pass 的阻断性。
+
+持久化记录只支持这一最窄结论：worker IPC 返回并通过严格响应校验的 output bytes，随后被 precommit independent oracle 拒绝，因此没有 artifact 发布。进程退出确认未持久化（`workerExitConfirmed=null`）；terminal result 也没有保留 oracle 的具体子错误或足以重建该诊断的 worker / oracle payload，所以具体拒绝子因是 **unknown**。不得根据源码、环境或再次运行补猜历史原因。下一版本须同时纠正输出 profile 行为与 normalize sRGB rejection code，并把 worker / oracle 诊断持久化；这要求新的 candidate、contract、preregistration 与 definition freeze，不能原地修改 `@0.5.0`。
 
 ## 验证结果
 
@@ -108,21 +139,22 @@ independent oracle suite: 15/15
 generator + runtime inventory suites: 11/11
 targeted runner + adapter + generator + oracle groups: 57/57
 central validator CLI: valid=true; issues=[]
-unresolved P1/P2/P3: 0
+post-smoke full npm.cmd run verify: 228/228; research validators + syntax check passed
+unresolved definition-freeze P1/P2/P3: 0
 ```
 
-这些数字有重叠，不能相加：`57/57` 由 runner 19、adapter 18、generator 5、oracle 15 组成；`11/11` 由 generator 5 与 inventory 6 组成；oracle 的 15 项也单独列出以说明 independent decoder / provenance 覆盖。central 的 40 项另覆盖完整 definition DAG、fake 36-attempt smoke closure、fake normalize 48-source × 3 repetition calibration closure及其 adversarial mutations。fake closure 全部位于临时目录，结束后不构成 canonical evidence。
+这些数字有重叠，不能相加：`57/57` 由 runner 19、adapter 18、generator 5、oracle 15 组成；`11/11` 由 generator 5 与 inventory 6 组成；oracle 的 15 项也单独列出以说明 independent decoder / provenance 覆盖。central 的 40 项另覆盖完整 definition DAG、fake 36-attempt smoke closure、fake normalize 48-source × 3 repetition calibration closure及其 adversarial mutations。fake closure 全部位于临时目录，结束后不构成 canonical evidence。真实结果写入后，测试临时副本默认排除 canonical `results/`，仅 post-run 专项显式保留它；该 test-harness 隔离修复不改 scripts、definition 或真实 results。这里的 P1/P2/P3=0 是 definition freeze 当时的审计结论，不覆盖后续真实 smoke 暴露的输出拒绝、错误码不符与诊断缺失。
 
 定向测试验证的 fail-closed 范围包括：runtime package / lock / native / versions 漂移、额外 package / WASM / native / executable / archive、路径逃逸、schema 松绑、未登记文件、README-only 篡改、operation / family / session 交叉、manifest / gold / artifact provenance 漂移、错误码漂移、producer taint、幂等冲突、publication crash / reconciliation、分母删除、summary 自报、runtime observation 漂移、跨 results root 混用，以及把 smoke / calibration 写成能力或正式证据。
 
-这些自动检查只证明研究定义和执行协议在已覆盖条件下保持一致。它们不证明 Sharp 对任何真实输入运行成功、PNG 已获产品支持、质量达到 C1、O1 / G1 成立，或用户可以使用该能力。
+这些自动检查只证明研究定义和执行协议在已覆盖条件下保持一致。后续真实 smoke 又只证明 `@0.5.0` 在该冻结分母上 non-pass；它不证明 Sharp 输出获得 oracle 接受、PNG 已获产品支持、质量达到 C1、O1 / G1 成立，或用户可以使用该能力。
 
 ## 下一步与硬停止
 
-1. 先把本定义基线及其 exact pins 提交并推送到 GitHub；未形成不可变 Git baseline 前不得运行 smoke。
-2. 从该 baseline 运行真实 Sharp smoke，并分别形成 normalize / export 的 terminal summary 与 Gate B decision；不得合并判断。
-3. 只有某一 operation 的全部 Gate B conjunct 都通过，才可运行该 operation 的开放 calibration；另一 operation 继续阻塞。
-4. smoke 或 calibration 结果继续只属于本地开放研究，不能改写本文件中的全轴 0、`productSupport=false` 或 formal material `not-created`。
-5. calibration 后若需要改变 candidate、合同、adapter、schema、QA、gold、阈值、分母或停止规则，必须发布新版本和新预注册；不得原地修改本冻结树。
+1. `REG-NORM-SHARP@0.5.0` 与两份 `CapabilityContract@0.5.0` 已关闭为 non-pass；不得删除、改写或选择性重跑现有结果，也不得运行 normalize / export calibration。
+2. 下一尝试必须使用新的 candidate、contract、adapter / runner diagnostics、preregistration 与版本化 definition tree；修复目标至少包括输出 profile、normalize sRGB rejection code 和 worker / oracle 诊断持久化。
+3. 新版本重新冻结并取得不可变 Git baseline 后，才可从头运行其自己的 operation-specific smoke；仍须分别判断 normalize / export，不得继承或汇总。
+4. 只有未来新版本某一 operation 的全部 Gate B conjunct 同时通过，才可运行该 operation 的开放 calibration；另一 operation 继续阻塞。
+5. 现有 smoke 结果继续只属于本地开放研究，不能改写全轴 0、`productSupport=false` 或 formal material `not-created`。正式 holdout / defect-holdout / escape 仍禁止创建。
 
 Slice 05 当前下一动作不是建立 formal holdout，也不是扩展 UI、Matting、SourceCard 内容理解、真实照片、模型权重或其他格式。

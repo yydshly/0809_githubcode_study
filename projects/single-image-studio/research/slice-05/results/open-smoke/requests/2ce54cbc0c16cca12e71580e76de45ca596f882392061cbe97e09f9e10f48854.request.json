@@ -1,0 +1,82 @@
+{
+  "adapterRef": {
+    "id": "ADAPTER-SHARP-NORMALIZE-EXPORT@0.5.0",
+    "implementationSha256": "ea521c4de76e18a0dae844686498b5d908fb0434eb9b8eeafffdfccbd57b71b1",
+    "version": "0.5.0"
+  },
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.normalize.792c7f641d26.0f6c544bdb8b.r2.a1",
+    "partition": "smoke",
+    "repetition": 2,
+    "runId": "run.smoke.normalize.d914d75e54bb9b5e",
+    "sourceId": "raw.s05.normalize.smoke.005"
+  },
+  "contentHash": "1ed01a9154006b787415ed0c2d37a6c38bae21214dcad9f85089fd6ed0a13379",
+  "contractRef": {
+    "byteLength": 5544,
+    "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+    "fileSha256": "78a7842095cd877bfa7b3388d4f960b5f37612a7827a9d763d19a947247dd068",
+    "id": "CC-CAP02-NORMALIZE-PNG@0.5.0",
+    "path": "contracts/cc-cap02-normalize-png.v0.5.0.json"
+  },
+  "createdAt": "2026-08-15T04:52:07.156Z",
+  "definitionRef": {
+    "byteLength": 108012,
+    "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+    "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+    "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+    "path": "definition-index.v0.5.0.json"
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+  "goldRecordRef": null,
+  "manifestEntryRef": {
+    "contentHash": "0f6c544bdb8b77c8955c28dee57de06338126969657ba5457203f1cfc6c45b62",
+    "entryIndex": 4,
+    "sourceId": "raw.s05.normalize.smoke.005"
+  },
+  "manifestRef": {
+    "byteLength": 11858,
+    "contentHash": "792c7f641d26a9d5a30bb612e780683da8f58631ba56c46dedd717d7be1fb956",
+    "fileSha256": "3aebda4055b08716560b8370d6a5c2806615cb28062c7210ac9ff470e5d63ebf",
+    "id": "FM-NORMALIZE-DELIVER-NORMALIZE-SMOKE@0.5.0",
+    "path": "manifests/normalize-smoke.v0.5.0.json"
+  },
+  "mode": "smoke",
+  "operation": "normalize",
+  "oracleRef": {
+    "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+    "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+    "version": "0.5.0"
+  },
+  "requestId": "request.normalize.792c7f641d26a9d5.d831c363b1405316.r2.a1",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "local-run-request.slice05.v0",
+  "sourceIdentity": {
+    "normalizedArtifactRef": null,
+    "rawAssetRef": {
+      "byteLength": 947,
+      "decodedPixelSha256": null,
+      "fileSha256": "0d6cb2635753325fb150e75cfd134d5f3b1fe58a5734fe385bbf5f385fae8ad7",
+      "mime": "image/png",
+      "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.005.png",
+      "sourceDeclarationDecodedPixelSha256": "941fa9f3307c34e10ff2384fd299b2df14f8d76f324b6940c509ee8c1a1db8bc"
+    },
+    "sourceId": "raw.s05.normalize.smoke.005",
+    "sourceProvenanceRef": {
+      "byteLength": 2324,
+      "contentHash": "10e85649cb8451eb2db3a6f8518e56acf7a27a335647a4e870ee6cbf96088e62",
+      "fileSha256": "47fe77d79c3759778ad6c0f9c3154600ed00fea09ac382e2ae2d3e27764727b2",
+      "id": "provenance.raw.s05.normalize.smoke.005",
+      "path": "sources/normalize-smoke/raw.s05.normalize.smoke.005.json"
+    }
+  }
+}

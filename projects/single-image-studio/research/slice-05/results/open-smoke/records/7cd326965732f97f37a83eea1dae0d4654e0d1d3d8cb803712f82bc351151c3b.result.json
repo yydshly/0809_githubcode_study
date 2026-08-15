@@ -1,0 +1,57 @@
+{
+  "artifactRef": null,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.export.83450daf67bf.e18cf8ad9c78.r2.a1",
+    "partition": "smoke",
+    "repetition": 2,
+    "runId": "run.smoke.export.d914d75e54bb9b5e",
+    "sourceId": "normalized.s05.export.smoke.004"
+  },
+  "contentHash": "fa81b07b8dfc7fb0cca6e83d27f2fd35ca568f69606054411e18d354a3a99b51",
+  "durationMs": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+  "finishedAt": "2026-08-15T04:52:09.223Z",
+  "idempotencyKeyHash": "7cd326965732f97f37a83eea1dae0d4654e0d1d3d8cb803712f82bc351151c3b",
+  "mode": "smoke",
+  "operation": "export",
+  "oracleResultRef": null,
+  "reasonCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+  "requestRef": {
+    "contentHash": "87966f2b00299cd17a9aa30a3749a0dedba1d77ca64526b13ff2eeb6a3ece146",
+    "id": "request.export.83450daf67bf38c9.14e2f162564e8477.r2.a1"
+  },
+  "resourceUsage": null,
+  "resultId": "result.7cd326965732f97f37a83eea1dae0d4654e0d1d3d8cb803712f82bc351151c3b",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "run-result.slice05.v0",
+  "startedAt": "2026-08-15T04:52:09.218Z",
+  "status": "pass",
+  "workerExitConfirmed": null,
+  "workerObservation": null,
+  "workerRuntime": null
+}

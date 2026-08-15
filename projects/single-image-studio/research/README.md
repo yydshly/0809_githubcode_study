@@ -4,8 +4,9 @@ This directory is the executable research workspace for Slice 01 through Slice
 05. Its image fixtures are small, deterministic, and project-original. Slice 04
 adds only source-lock and preregistration metadata; Slice 05 adds a frozen local
 definition baseline for two operation-specific Sharp smoke decisions and gated
-open calibration. It is not a model benchmark, product dataset, completed codec
-evaluation, or capability claim.
+open calibration. Its only registered real smoke is now closed non-pass, so
+calibration is forbidden. It is not a model benchmark, product dataset,
+completed codec evaluation, or capability claim.
 
 ## Evidence boundary
 
@@ -18,13 +19,14 @@ evaluation, or capability claim.
   matting quality, user value, reliability, governance, or release readiness.
 - Slice 04 does not decode, normalize, encode, benchmark, or calibrate an image.
   Its source-resolved Sharp record is a non-Gate-B candidate, not format support.
-- Slice 05 is now `definition-frozen / Gate-B-not-evaluated /
-  calibration-not-started`. Its historical scope contract is unchanged; the
-  `@0.5.0` machine definition froze at `2026-08-15T04:23:38.389Z` and has zero
-  canonical results.
+- Slice 05 is now `definition-frozen / smoke-closed-non-pass /
+  Gate-B-denied-not-entered / calibration-forbidden`. Its historical scope
+  contract is unchanged; the `@0.5.0` machine definition froze at
+  `2026-08-15T04:23:38.389Z` with zero results at freeze, then its only
+  registered smoke produced the separate `results/open-smoke/` tree.
 - Slice 05 runtime inventory imported Sharp only to read `sharp.versions`; it
-  did not read, decode, encode, or transform image bytes. Real Sharp smoke and
-  all calibration remain unrun.
+  did not read, decode, encode, or transform image bytes. The later real Sharp
+  smoke ran, but normalize and export both failed Gate B; no calibration ran.
 - `methodLabel` and `methodDetails` are delivered in the local catalog and only
   hidden by the review interface until unblinding. This is an interaction
   rehearsal, not adversary-resistant or independent reviewer blinding.
@@ -137,7 +139,7 @@ partition and operation oracle remains `not-created`, and the seal envelope is
 not runnable; the request state is `not-issued-awaiting-custodian-bundle`. See
 [SLICE_04_EVIDENCE.md](SLICE_04_EVIDENCE.md) for actual hashes and validation.
 
-## Slice 05 definition freeze
+## Slice 05 definition freeze and closed smoke
 
 [SLICE_05_CONTRACT.md](SLICE_05_CONTRACT.md) preserves the historical scope
 freeze. The current machine definition is rooted at
@@ -164,7 +166,8 @@ slice-05/
 ├─ artifacts/normalized-inputs/  # 54 independent export inputs
 ├─ gold/                         # 54 independent applicable/control records
 ├─ rights/                       # open synthetic rights boundary
-└─ schemas/                      # 25 strict schemas
+├─ schemas/                      # 25 strict schemas
+└─ results/open-smoke/           # later registered smoke; outside definition pins
 ```
 
 The frozen open partitions are operation-specific:
@@ -175,12 +178,21 @@ The frozen open partitions are operation-specific:
   the complete open plan.
 
 Those 96 calibration sources and their 288 planned repetitions are now frozen
-machine denominators, but they have not been run. Two additional independent
+machine denominators, but they have not been run and are now forbidden for this
+version. Two additional independent
 smoke manifests contain 6 normalize and 6 export sources, also with three
 planned repetitions; smoke cases cannot enter calibration. Formal holdout,
 defect-holdout, escape, bundle, request, receipt, formal result, and
 EvidenceManifest material remain forbidden and `not-created`. Every format
 remains `productSupport=false`, and every evidence axis remains 0.
+
+The only registered real smoke ran from `2026-08-15T04:52:05.490Z` through
+`2026-08-15T04:52:10.426Z`. It produced 36 requests, 36 claims, 36 terminal results, 72
+ledger events, and zero artifacts. Normalize closed at 6 pass / 12 non-pass;
+export closed at 9 pass / 9 non-pass. Both Gate B decisions are
+`denied-not-entered` with `calibrationAuthorized=false`. See
+[SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md) for exact result-tree, summary,
+decision, ledger, and error-code pins.
 
 ## Commands
 
@@ -195,30 +207,21 @@ node scripts/research-generate-slice03.mjs
 node scripts/research-validate-slice03.mjs
 node scripts/research-generate-slice04.mjs
 node scripts/research-validate-slice04.mjs
-node scripts/research-generate-slice05.mjs
 node scripts/research-validate-slice05.mjs
 node --test tests/research-*.test.mjs
 ```
 
-The Slice 05 generator produced the frozen canonical bytes above. Re-running it
-is only a deterministic definition-integrity check before results exist; it
-refuses to erase or overwrite a `results/` tree. Any semantic change requires a
-new version and freeze, not regeneration of the current record.
+The Slice 05 generator produced the frozen canonical definition bytes before
+results existed. Do not re-run it now: it refuses to erase or overwrite the
+`results/` tree, and the current version is closed. The registered smoke was run
+once with `npm.cmd run research:smoke:slice05`; do not invoke it again to select
+a different outcome. Both calibration commands are forbidden because neither
+operation received an all-pass Gate B decision.
 
-After the exact definition baseline is committed and pushed, actual smoke is:
-
-```powershell
-npm.cmd run research:smoke:slice05
-```
-
-This command must still produce separate normalize / export summaries and Gate
-B decisions. Run neither calibration command unless that operation's own Gate B
-decision is all-pass:
-
-```powershell
-npm.cmd run research:calibrate:normalize:slice05
-npm.cmd run research:calibrate:export:slice05
-```
+Any correction requires a new candidate, contract, preregistration, version and
+definition freeze. That new version must correct the output-profile behavior and
+normalize sRGB rejection code and preserve worker / oracle diagnostics before a
+fresh smoke may run.
 
 The generators are deterministic. Re-running them rewrites only their declared
 assets and JSON records. The validators recompute every SHA-256,

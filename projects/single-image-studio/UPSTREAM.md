@@ -50,7 +50,7 @@
 
 | Registry ID | 官方来源 | 代码 / package 许可 | 权重 / 服务边界 | 本地复制 |
 | --- | --- | --- | --- | --- |
-| `REG-NORM-SHARP` | [lovell/sharp v0.35.3](https://github.com/lovell/sharp/releases/tag/v0.35.3)、commit `1018449164723ba0203c1beffaba0e21f7829c18`、npm `sharp@0.35.3` 与 Windows x64 bundles | `sharp` Apache-2.0；`@img/sharp-libvips-win32-x64` LGPL-3.0-or-later；`@img/sharp-win32-x64` Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo LGPL-2.1-or-later；实际第三方通知逐项保留 | 无模型；`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6` 与 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 作为同一复合候选；Gate B 未评估 | Slice 05 提交 exact dependency declaration / lockfile / inventory；本地 `node_modules/` 不提交，真实 Sharp smoke 未运行 |
+| `REG-NORM-SHARP` | [lovell/sharp v0.35.3](https://github.com/lovell/sharp/releases/tag/v0.35.3)、commit `1018449164723ba0203c1beffaba0e21f7829c18`、npm `sharp@0.35.3` 与 Windows x64 bundles | `sharp` Apache-2.0；`@img/sharp-libvips-win32-x64` LGPL-3.0-or-later；`@img/sharp-win32-x64` Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo LGPL-2.1-or-later；实际第三方通知逐项保留 | 无模型；`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6` 与 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 作为同一复合候选；Slice 05 normalize / export Gate B 均 `denied-not-entered` | Slice 05 提交 exact dependency declaration / lockfile / inventory；本地 `node_modules/` 不提交；唯一注册真实 smoke closed non-pass、artifact 0、calibration 禁止 |
 | `REG-NORM-LIBVIPS` | [libvips v8.18.3](https://github.com/libvips/libvips/releases/tag/v8.18.3)、commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626`、[libvips.org](https://www.libvips.org/) | LGPL-2.1-or-later | 该 source ref 已用于 Sharp bundled 来源追踪；standalone 构建、格式库、链接与交付边界仍未锁，继续 pending-freeze | 无 |
 | `REG-VISION-OPENCV` | [opencv/opencv](https://github.com/opencv/opencv)、[OpenCV license](https://opencv.org/license/) | OpenCV 4.5.0 起主体为 Apache-2.0 | 核心原语无权重；数据文件、可选模块和第三方组件另审 | 无 |
 | `REG-DETECT-GROUNDING-DINO` | [IDEA-Research/GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) | Apache-2.0 | checkpoint 许可、训练数据、依赖与哈希未锁定，`research-only` | 无 |
@@ -96,7 +96,7 @@ candidate lock 将 `versions.properties` 的 28 个 native component version 与
 
 Sharp 与其 bundled libvips 只能作为一个 `REG-NORM-SHARP` 复合候选。把同一 bundle 的 libvips 另计为 standalone `REG-NORM-LIBVIPS` 对照会产生伪独立性，严格禁止。standalone 路径仍须另行锁定构建选项、启用的格式库、artifact hash、动态 / 静态链接和 LGPL 交付方式。
 
-### Slice 05 installed runtime 与定义冻结边界
+### Slice 05 installed runtime、定义冻结与 smoke 边界
 
 Slice 05 只为本地开放研究在 `package.json` 声明 exact devDependencies `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3`，并提交 lockfile v3；`package.json` / `package-lock.json` SHA-256 分别为 `8040895e4ed38f38b354a6e7431e5763027d3c8e15713d0dd5562b5a69dfdedb` 与 `16963d711f878ea6295a278310e3aad579d099a60f1b5e73a6a91d26dc485a2c`。lockfile 包含 npm optional platform metadata 不等于这些平台包实际安装；runtime inventory 对 Windows x64 的实际 installed closure fail closed。
 
@@ -114,7 +114,9 @@ installed tree SHA-256 为 `a419af3606ca38f1878acb65d1ea273f0c129b0c156686b1e912
 
 actual `versions.json` 与 `sharp.versions` 的 28 项 runtime version 精确一致。它们与 Slice 04 packaging metadata 在 `archive`、`expat`、`ffi`、`glib`、`heif`、`pango`、`rsvg`、`tiff`、`uhdr` 九项存在如实登记的非致命版本差异；Slice 05 不用旧 metadata 覆盖 actual runtime，也不原地修改 Slice 04。runtime attestation `contentHash=8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47`，完整边界见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
 
-inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调用 candidate pipeline。定义树中的 108 个 raw fixture、54 个 `NormalizedImage` input 与 54 个 gold 均为项目原创 deterministic synthetic assets，由不依赖 Sharp 的 generator / oracle 建立；没有真实照片、用户上传、第三方样片、模型或权重。真实 Sharp smoke、Gate B 与 calibration 仍未运行，因此安装与 definition freeze 不能转写为格式支持或能力证据。
+inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调用 candidate pipeline。定义树中的 108 个 raw fixture、54 个 `NormalizedImage` input 与 54 个 gold 均为项目原创 deterministic synthetic assets，由不依赖 Sharp 的 generator / oracle 建立；没有真实照片、用户上传、第三方样片、模型或权重。
+
+定义冻结后的唯一注册真实 smoke 于 `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` 运行。normalize / export 各自 18 次 attempt，分别只有 6 / 9 次 pass；18 次 applicable attempt 全部以 `S05_OUTPUT_ORACLE_REJECTED` 结束，artifact 为 0，两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。该结果不改变任何 upstream、package license 或 provenance 结论，也不构成格式支持；当前版本禁止 calibration。durable result 没有持久化 oracle 的具体拒绝子因，因此保持 unknown，不从 package metadata 或运行环境反推。下一版本必须使用新的 candidate / contract / preregistration，纠正输出 profile 与 normalize sRGB rejection code并保留 worker / oracle 诊断；完整结果 pins 见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
 
 作为单独的动态安全观测，`npm.cmd audit --omit=optional --json` 在 `2026-08-15T04:40:58.503Z` 至 `2026-08-15T04:41:00.846Z` 返回 exit code 0 / `auditReportVersion=2`；当时 `info/low/moderate/high/critical/total` vulnerability counts 全为 0，dependency metadata 为 `prod=1 / dev=32 / optional=27 / peer=0 / peerOptional=0 / total=32`。npm advisory 结果是 live-at-that-time、non-frozen、non-Gate 的外部状态，不进入 Slice 05 canonical pins，也不能替代许可证 / notices / provenance 审计或 G1。
 

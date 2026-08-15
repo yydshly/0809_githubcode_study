@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–04 已完成各自冻结边界；Slice 05 已于 `2026-08-15T04:23:38.389Z` 完成 machine definition freeze，状态为 `definition-frozen / Gate-B-not-evaluated / calibration-not-started`；真实 Sharp smoke 与 C1 取证尚未开始 |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 05 已冻结 runtime inventory、contracts、adapter / oracle / runner 协议与项目原创开放 fixtures，但 canonical results 为 0，不构成 codec 能力或产品功能 |
+| 研究阶段 | Slice 01–04 已完成各自冻结边界；Slice 05 definition 于 `2026-08-15T04:23:38.389Z` 冻结，唯一注册真实 smoke 随后关闭为 `smoke-closed-non-pass / Gate-B-denied-not-entered / calibration-forbidden` |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 05 smoke 持久化 36 次 terminal attempt、72 个 ledger event 和两份拒绝进入 Gate B 的决定，产出 artifact 为 0，不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -121,22 +121,19 @@ normalize / export 每项都计划 `30 dev/calibration + 30 holdout + 18 defect/
 
 完整边界见 [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md)，实际 hash 与验收结果见 [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md)。后续边界由 [Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 冻结；该合同保留当时 `implementation-not-started` 的历史事实，当前进度见 [Slice 05 定义冻结证据](research/SLICE_05_EVIDENCE.md)。
 
-## Slice 05 定义冻结
+## Slice 05 定义冻结与真实 smoke 结果
 
 [Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 将范围收窄为 canonical PNG 的 normalize / export 两项独立 operation；该合同不原地改写。当前新的 `@0.5.0` machine definition 已于 `2026-08-15T04:23:38.389Z` 冻结：25 份 strict schema、6 份 operation-specific manifest、108 份 source record / raw open asset、54 份 export `NormalizedImage` 输入和 54 份 independent gold。definition index `contentHash` 为 `d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271`，完整 368-file tree SHA-256 为 `108812d4eec84fa3037f8540d8fb273748982beb5e5f28a07eb7cda93e1218f2`。
 
-定义树还 pin `REG-NORM-SHARP@0.5.0` installed runtime closure、normalize / export 两份 `CapabilityContract@0.5.0`、独立 oracle / gold、candidate adapter / isolated worker、named hardware、local runner / fault semantics、Gate B plan 和两份开放 calibration preregistration。runtime inventory 只导入 Sharp 读取版本，没有处理图片；真实 Sharp smoke 未运行，Gate B 仍为 `not-evaluated`，calibration 仍为 `not-started`，canonical `results/` 不存在。
+定义树还 pin `REG-NORM-SHARP@0.5.0` installed runtime closure、normalize / export 两份 `CapabilityContract@0.5.0`、独立 oracle / gold、candidate adapter / isolated worker、named hardware、local runner / fault semantics、Gate B plan 和两份开放 calibration preregistration。runtime inventory 阶段只导入 Sharp 读取版本，没有处理图片；该定义基线提交 / 推送后，唯一注册的真实 smoke 于 `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` 运行并持久化 116 files / 8 directories / 357303 bytes，result tree SHA-256 为 `e6cd4aea45419cc4fd02724555fb439191162ca4f5aaab6a00834f8898d8256b`。
 
-下一步必须先提交并推送 exact definition baseline，再从该 baseline 运行 operation-specific smoke：
+normalize summary 为 `6 pass / 12 non-pass`：9 次 applicable attempt 全部 `S05_OUTPUT_ORACLE_REJECTED`，另 3 次 sRGB rejection 预期 `S05_INPUT_SRGB_REQUIRED`、实际 `S05_INPUT_CHUNK_PROFILE_INVALID`。export summary 为 `9 pass / 9 non-pass`：9 次 applicable attempt 全部 `S05_OUTPUT_ORACLE_REJECTED`，9 次 rejection 全部按预期通过。两份 Gate B decision 均为 `denied-not-entered`，`calibrationAuthorized=false`；36 次 attempt 没有发布任何 artifact。fault semantics 注入场景 `6/6` 通过；两份 operation summary 的 registered candidate-attempt counters 中 invalid / timeout / cancelled / unknown reconciliation / replacement 均为 0。
 
-```powershell
-node scripts/research-validate-slice05.mjs
-npm.cmd run research:smoke:slice05
-```
+首次未注册调用因 sandbox `mkdir EPERM` 在任何 request / claim / result 之前停止；随后获批调用是唯一注册 smoke，不是根据结果选择的重跑。持久化记录只能证明 worker IPC 返回并通过严格响应校验的 output bytes，随后被 precommit independent oracle 拒绝；进程退出确认未持久化（`workerExitConfirmed=null`），具体 oracle 子因保持 unknown，不补猜也不重跑。当前版本的 normalize / export calibration 均被禁止。
 
-smoke runner 必须分别形成 normalize / export 的 terminal summary 与 Gate B decision。只有某项 operation 的全部 Gate B conjunct 通过，才可运行该项开放 `dev/calibration=30` 与 `defect/calibration=18`；另一项不能继承其结果。smoke 与开放 calibration 均排除于未来 C1 分母，全部格式继续 `productSupport=false`。
+下一步不是修补或重跑 `@0.5.0`，而是发布新的 candidate / contract / preregistration，纠正输出 profile 与 normalize sRGB rejection code，并把 worker / oracle 诊断持久化后重新冻结、重新运行 smoke。smoke 与未来开放 calibration 仍排除于 C1 分母，全部格式继续 `productSupport=false`。
 
-Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / request / receipt / result / EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。定义冻结和自动测试不能据此声称真实归一化、正式导出或产品能力；完整 pins、测试与限制见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)，全部证据轴继续为 0。
+Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / request / receipt / result / EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。定义冻结、自动测试和这次失败的真实 smoke 都不能据此声称真实归一化、正式导出或产品能力；完整 pins、结果与限制见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)，全部证据轴继续为 0。
 
 ## 运行 R0 工程探针
 
@@ -201,7 +198,7 @@ npm.cmd run verify
 | [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md) | Slice 04 Sharp 复合候选来源锁、完整预注册与未签发 seal request 边界 |
 | [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md) | Slice 04 metadata 制品、上游 hash、负例和非 Gate B 验收记录 |
 | [research/SLICE_05_CONTRACT.md](research/SLICE_05_CONTRACT.md) | Slice 05 operation-specific Gate B smoke 与开放 calibration 的历史范围冻结；不随当前进度原地改写 |
-| [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md) | Slice 05 machine definition、runtime closure、fixtures、hash、测试与 Gate-B-not-evaluated 边界 |
+| [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md) | Slice 05 machine definition、runtime closure、真实 smoke non-pass、hash、Gate B 拒绝与 calibration 禁止边界 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

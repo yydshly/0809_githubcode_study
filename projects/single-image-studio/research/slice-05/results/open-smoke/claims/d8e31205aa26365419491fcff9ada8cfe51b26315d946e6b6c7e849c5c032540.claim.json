@@ -1,0 +1,21 @@
+{
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.export.83450daf67bf.dedfadf680c8.r1.a1",
+    "partition": "smoke",
+    "repetition": 1,
+    "runId": "run.smoke.export.d914d75e54bb9b5e",
+    "sourceId": "normalized.s05.export.smoke.006"
+  },
+  "claimId": "claim.d8e31205aa26365419491fcff9ada8cfe51b26315d946e6b6c7e849c5c032540",
+  "claimedAt": "2026-08-15T04:52:09.573Z",
+  "contentHash": "3ec4e7394d97d472e31b13424eb25bb7f23c54cefbf115450467e9f9b0af7440",
+  "idempotencyKeyHash": "d8e31205aa26365419491fcff9ada8cfe51b26315d946e6b6c7e849c5c032540",
+  "mode": "smoke",
+  "operation": "export",
+  "requestRef": {
+    "contentHash": "5fe2a3617cb9d84bef245e247a165d157ed82d19bc91f747b202eaa2cac469cc",
+    "id": "request.export.83450daf67bf38c9.add092e6c562791f.r1.a1"
+  },
+  "schemaVersion": "idempotency-claim.slice05.v0"
+}

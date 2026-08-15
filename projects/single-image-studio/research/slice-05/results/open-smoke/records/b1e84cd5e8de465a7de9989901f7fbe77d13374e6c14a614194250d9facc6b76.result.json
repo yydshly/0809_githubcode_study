@@ -1,0 +1,57 @@
+{
+  "artifactRef": null,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "s05.smoke.normalize.792c7f641d26.00fed4ba5343.r3.a1",
+    "partition": "smoke",
+    "repetition": 3,
+    "runId": "run.smoke.normalize.d914d75e54bb9b5e",
+    "sourceId": "raw.s05.normalize.smoke.002"
+  },
+  "contentHash": "cf1d0167bd2221fc9d22386b0a347e4662bd9b03153027cbc06bb86f2ec073a5",
+  "durationMs": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "finishedAt": "2026-08-15T04:52:06.491Z",
+  "idempotencyKeyHash": "b1e84cd5e8de465a7de9989901f7fbe77d13374e6c14a614194250d9facc6b76",
+  "mode": "smoke",
+  "operation": "normalize",
+  "oracleResultRef": null,
+  "reasonCode": "S05_OUTPUT_ORACLE_REJECTED",
+  "requestRef": {
+    "contentHash": "9e7bdee58d10f3996f54c3c66fd86abf6ddee1c343b84421e9062af960342897",
+    "id": "request.normalize.792c7f641d26a9d5.5adca6ec448ed283.r3.a1"
+  },
+  "resourceUsage": null,
+  "resultId": "result.b1e84cd5e8de465a7de9989901f7fbe77d13374e6c14a614194250d9facc6b76",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "run-result.slice05.v0",
+  "startedAt": "2026-08-15T04:52:06.369Z",
+  "status": "nonpass",
+  "workerExitConfirmed": null,
+  "workerObservation": null,
+  "workerRuntime": null
+}

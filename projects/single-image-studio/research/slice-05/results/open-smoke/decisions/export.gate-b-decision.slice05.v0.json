@@ -1,0 +1,205 @@
+{
+  "calibrationAuthorized": false,
+  "conjunctResults": [
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 2246,
+          "contentHash": "78fef4fca8c6768a2d3b6071d0e8c53b2a6a77ec8717992ddbf81e52c7b4d058",
+          "fileSha256": "5d9c26070f3e31570d77935980d845af79ed3858fe762d13875ea0a50809b6ee",
+          "id": "smoke-audit.export.83450daf67bf38c9",
+          "path": "audit/export.smoke-session-audit.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.definition-integrity",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 2246,
+          "contentHash": "78fef4fca8c6768a2d3b6071d0e8c53b2a6a77ec8717992ddbf81e52c7b4d058",
+          "fileSha256": "5d9c26070f3e31570d77935980d845af79ed3858fe762d13875ea0a50809b6ee",
+          "id": "smoke-audit.export.83450daf67bf38c9",
+          "path": "audit/export.smoke-session-audit.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.runtime-integrity",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 2246,
+          "contentHash": "78fef4fca8c6768a2d3b6071d0e8c53b2a6a77ec8717992ddbf81e52c7b4d058",
+          "fileSha256": "5d9c26070f3e31570d77935980d845af79ed3858fe762d13875ea0a50809b6ee",
+          "id": "smoke-audit.export.83450daf67bf38c9",
+          "path": "audit/export.smoke-session-audit.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.implementation-integrity",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 2246,
+          "contentHash": "78fef4fca8c6768a2d3b6071d0e8c53b2a6a77ec8717992ddbf81e52c7b4d058",
+          "fileSha256": "5d9c26070f3e31570d77935980d845af79ed3858fe762d13875ea0a50809b6ee",
+          "id": "smoke-audit.export.83450daf67bf38c9",
+          "path": "audit/export.smoke-session-audit.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.source-isolation",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "summaries/export.smoke-summary.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.applicable-success",
+      "status": "non-pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "summaries/export.smoke-summary.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.rejection-correctness",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "summaries/export.smoke-summary.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.repeat-determinism",
+      "status": "non-pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 2774,
+          "contentHash": "b58fd247a3f399aeeaf175829c816a6e2d842cfbe77037f3906a6ce64d26c3d1",
+          "fileSha256": "19dfad18c3fa11e032ae346bf06f8063e8066c64a185199e8a72282df7526d91",
+          "id": "fault-result.d914d75e54bb9b5e",
+          "path": "fault/fault-semantics-result.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.fault-semantics",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 2246,
+          "contentHash": "78fef4fca8c6768a2d3b6071d0e8c53b2a6a77ec8717992ddbf81e52c7b4d058",
+          "fileSha256": "5d9c26070f3e31570d77935980d845af79ed3858fe762d13875ea0a50809b6ee",
+          "id": "smoke-audit.export.83450daf67bf38c9",
+          "path": "audit/export.smoke-session-audit.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.oracle-independence",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "summaries/export.smoke-summary.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.zero-ambiguous-outcomes",
+      "status": "non-pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "summaries/export.smoke-summary.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.no-cross-operation-aggregation",
+      "status": "pass"
+    },
+    {
+      "evidenceRefs": [
+        {
+          "byteLength": 13372,
+          "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+          "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+          "id": "smoke-summary.export.83450daf67bf38c9",
+          "path": "summaries/export.smoke-summary.slice05.v0.json"
+        }
+      ],
+      "gateId": "gate-b.export.no-capability-promotion",
+      "status": "pass"
+    }
+  ],
+  "contentHash": "583307cd0d3d97876b54eb3b4c0dd3cc14c40536d53d2d8e25604c8bc7faa0ba",
+  "decidedAt": "2026-08-15T04:52:10.426Z",
+  "decision": "denied-not-entered",
+  "decisionId": "gate-b.export.4d9f369f971e75eb",
+  "definitionRef": {
+    "byteLength": 108012,
+    "contentHash": "d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271",
+    "fileSha256": "8cbf1f0aaf018c54b95eaa5ef0f3a2f6cb11dc60529ea569408496514d582d96",
+    "id": "DEFINITION-INDEX-SLICE05@0.5.0",
+    "path": "definition-index.v0.5.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "gateBPlanRef": {
+    "byteLength": 18087,
+    "contentHash": "2f8a889d87ca3e66829b47d204d41973f9b495a1770eeb871f393155bf9630f2",
+    "fileSha256": "9468fa36d3c6e6bfc5069346e9759c0e0e78f0a82402029b738d89141ade9531",
+    "id": "GATE-B-SMOKE-NORMALIZE-EXPORT@0.5.0",
+    "path": "plans/gate-b-smoke.v0.5.0.json"
+  },
+  "operation": "export",
+  "productSupport": false,
+  "schemaVersion": "gate-b-decision.slice05.v0",
+  "smokeSummaryRef": {
+    "byteLength": 13372,
+    "contentHash": "4d9f369f971e75ebf45e8c5b91d439503a9c212a365343dade7de49c19cfa6fd",
+    "fileSha256": "de76d6e038570b9a20977460176086484efcfda7ad473a8e15f35a2a1d625aa3",
+    "id": "smoke-summary.export.83450daf67bf38c9",
+    "path": "summaries/export.smoke-summary.slice05.v0.json"
+  }
+}
