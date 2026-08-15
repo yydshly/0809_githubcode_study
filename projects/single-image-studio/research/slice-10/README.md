@@ -1,8 +1,8 @@
 # Slice 10 open-calibration workspace
 
-> State: `scope-frozen / implementation-not-started / definition-not-created / calibration-not-run / formal-holdout-not-created / non-C1 / non-product`.
+> State: `scope-frozen / protocol-foundation-fake-tested / runner-not-created / definition-not-created / calibration-not-run / formal-holdout-not-created / non-C1 / non-product`.
 
-This directory is reserved for the versioned Slice 10 open-calibration machine definition. At the scope-only checkpoint it contains no schemas, source wrappers, manifests, preregistrations, runtime observation, requests, results, calibration summary, holdout material, or copied image bytes.
+This directory is reserved for the versioned Slice 10 open-calibration machine definition. The standalone protocol module now defines strict admission, request, terminal and summary records and passes 7 / 7 fake-only tests. This directory still contains no materialized schemas, source wrappers, manifests, preregistrations, runtime observation, requests, results, calibration summary, holdout material, or copied image bytes.
 
 The governing contract is [../SLICE_10_CONTRACT.md](../SLICE_10_CONTRACT.md). Slice 09 is immutable admission lineage: its unique registered smoke passed both Gate-B decisions, but its contract fixed `calibrationAuthorized=false`. Slice 10 therefore requires new `@0.10.0` identities and a separately frozen results-zero definition before any calibration may run.
 

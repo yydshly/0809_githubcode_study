@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope-only 合同已冻结：计划 normalize / export 各 48 sources × 3，共 96 / 288；implementation、definition 与 results 尚未创建，新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope 已冻结，admission / request / terminal / summary 协议基础通过 7/7 fake-only tests；计划 96 sources / 288 attempts。durable runner、definition 与 results 尚未创建，新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -159,7 +159,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 10 open calibration scope-only
 
-[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` 项目原创 public-synthetic sources，每来源 3 次，合计 96 sources / 288 attempts；固定零 retry、零 replacement 和 source-level 3 / 3。当前仅范围冻结：implementation、machine definition、fresh runtime observation、request、result、summary 与 formal holdout 均未创建。必须先完成 fake-only tooling、results-zero definition freeze、提交与推送，才允许唯一 registered open calibration。即使 calibration 双 pass，也只允许下一切片评审 formal-holdout preregistration，不产生 C1、O1、productSupport 或 Release Gate。
+[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` 项目原创 public-synthetic sources，每来源 3 次，合计 96 sources / 288 attempts；固定零 retry、零 replacement 和 source-level 3 / 3。[Calibration protocol](scripts/research-calibration-protocol-slice10.mjs) 已建立严格 admission / request / terminal / summary 记录并以 7/7 fake-only tests 验证零 replacement、完整分母与失败不洗白；durable runner、machine definition、fresh runtime observation、request、result与 formal holdout 仍未创建。必须先完成其余 tooling、results-zero definition freeze、提交与推送，才允许唯一 registered open calibration。即使 calibration 双 pass，也只允许下一切片评审 formal-holdout preregistration，不产生 C1、O1、productSupport 或 Release Gate。
 
 ## 运行 R0 工程探针
 

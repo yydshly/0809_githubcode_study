@@ -41,14 +41,17 @@ decisions pass. The result commit is
 `c91014c6bef8878277a8520d003b10684972087b`. It cannot be replayed;
 calibration remains separately forbidden and all evidence axes remain zero.
 
-Slice 10 is scope-frozen only. Its contract plans two operation-specific open
+Slice 10 is scope-frozen. Its contract plans two operation-specific open
 calibrations: normalize and export each use 30 `dev/calibration` plus 18
 `defect/calibration` public-synthetic sources, three repetitions per source,
 for 96 sources and 288 attempts in total. Retry and replacement are both zero.
-No Slice 10 implementation, machine definition, runtime observation, request,
-result, calibration summary, formal holdout, or copied image bytes exists yet.
-The scope commit must be pushed before fake-only tooling begins, and a separate
-results-zero definition must be frozen and pushed before any Sharp calibration.
+The strict admission, request, terminal and 48x3 summary protocol foundation is
+implemented and passes 7 / 7 fake-only tests. It rejects attempt two, missing or
+duplicate slots, partition or operation drift, generic rejection laundering and
+2-of-3 majority promotion. No durable Slice 10 runner, machine definition,
+runtime observation, canonical request/result, formal holdout, or copied image
+bytes exists yet. A separate results-zero definition must be frozen and pushed
+before any Sharp calibration.
 
 ## Evidence boundary
 
