@@ -1,7 +1,7 @@
 # Slice 08 workspace
 
-Current state: `scope-frozen / typed-protocol-and-definition-stack-fake-tested /
-definition-not-created / Gate-B-smoke-not-run / calibration-forbidden /
+Current state: `scope-frozen / implementation-fake-tested /
+definition-frozen / results-zero / Gate-B-smoke-not-run / calibration-forbidden /
 non-C1 / non-product`.
 
 The governing scope is [SLICE_08_CONTRACT.md](../SLICE_08_CONTRACT.md). Slice 08
@@ -46,11 +46,12 @@ The six Slice 08 fake-only suites pass `28 / 28`. They cover the complete
 36-attempt denominator, atomic result closure, ledger binding, exact-code
 rejection, 16 recursively closed schemas, two-temp regeneration, external
 Slice 05 / 07 lineage reopening, and full fake post-run output/oracle reopening.
-No canonical definition or result has been written yet; the validator's formal
-definition and post-run pins intentionally remain unset until their respective
-freeze commits.
+The canonical definition is frozen with zero results. Its exact UTC and tree
+pins are recorded outside this pinned README so the README cannot create a
+self-referential hash cycle. The post-run pin remains unset until the single
+registered smoke has closed.
 
-No Slice 08 machine definition, fixture wrapper, fresh runtime observation,
-registered result, decision, calibration, formal holdout, product integration,
-or real-user asset exists. Real Sharp image execution remains forbidden until a
-results-zero definition has been validated, committed, and pushed.
+No Slice 08 registered result, decision, calibration, formal holdout, product
+integration, or real-user asset exists. Real Sharp image execution remains
+forbidden until this results-zero definition has been validated, committed,
+and pushed.

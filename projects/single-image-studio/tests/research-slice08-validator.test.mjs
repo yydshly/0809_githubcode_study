@@ -14,6 +14,15 @@ import { validateSlice08Definition } from "../scripts/research-validate-slice08.
 const PROJECT_ROOT = path.resolve(import.meta.dirname, "..");
 const TEST_UTC = "2026-08-15T09:45:00.000Z";
 
+test("frozen canonical definition passes literal pins, fresh runtime and regeneration", async () => {
+  const report = await validateSlice08Definition();
+  assert.equal(report.valid, true, JSON.stringify(report.issues));
+  assert.equal(report.pinsVerified, true);
+  assert.equal(report.runtimeRechecked, true);
+  assert.equal(report.regenerationVerified, true);
+  assert.equal(report.postRun, null);
+});
+
 async function freshDefinition() {
   const root = await mkdtemp(path.join(os.tmpdir(), "s08-validator-"));
   await materializeSlice08Definition({ outputRoot: root, frozenAt: TEST_UTC });

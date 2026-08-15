@@ -15,14 +15,14 @@ const ZERO = Object.freeze({ C1: 0, U1: 0, E1: 0, R1: 0, O1: 0, G1: 0, V1: 0, pr
 const SUPPORTED = new Set(["$schema", "$id", "$ref", "$defs", "type", "const", "enum", "pattern", "format", "minimum", "maximum", "minItems", "maxItems", "items", "oneOf", "additionalProperties", "required", "properties"]);
 
 export const SLICE08_FROZEN_PINS = Object.freeze({
-  frozenAt: null,
-  definitionContentHash: null,
-  definitionFileSha256: null,
-  descendantTreeSha256: null,
-  schemaTreeSha256: null,
-  fullTreeSha256: null,
-  readmeSha256: null,
-  generatorSha256: null,
+  frozenAt: "2026-08-15T13:37:23.038Z",
+  definitionContentHash: "048d1d0212ea8e59fdf3e24b0acb6d75e57535ac1fa8757d42442cb7b8623695",
+  definitionFileSha256: "7ff4e599eeff45865dccb5d9bd9f6e8c0faba516785f808c4063f4b11e4aa8c7",
+  descendantTreeSha256: "ee577c4560d2b08e9a18fb8ac8b2872916b3652bd1b664ef9b366b1e704996a4",
+  schemaTreeSha256: "1a6f45c3415eece37bc007042a87538ff81c9262373b732aaf8fcacafa0ee9d0",
+  fullTreeSha256: "c6845e689a33607f8c031e87eec8a42cbfdc78b3ca6ca2698e2b5cf98c35cc24",
+  readmeSha256: "4dd57e7e6035209e9bfaea1a8a6ec8fc082b9f129e57fc31b8f14c886dced7f3",
+  generatorSha256: "d46ba04d6bbcc21604baba9906c14c67cb79cb7f331f1919e78d47a64951c23b",
 });
 export const SLICE08_POSTRUN_TREE_SHA256 = null;
 

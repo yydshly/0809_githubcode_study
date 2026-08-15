@@ -8,7 +8,7 @@
 
 截至 2026-08-15，Slice 05 的唯一注册真实 smoke 已关闭为 non-pass，Slice 06 唯一 diagnostic 已定位缺 `sRGB` / 禁止 `pHYs`。Slice 07 新复合候选的唯一 registered smoke 也已闭合：36 / 36 terminal，18 / 18 applicable candidate outputs 全部通过独立 oracle，但 18 个 rejection 因 driver executor binding 漏传 frozen classification fields 而全部 non-pass。两项 Gate B 均 denied，calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0` / `@0.6.0` / `@0.7.0` 或运行旧 calibration。[Slice 08 合同](research/SLICE_08_CONTRACT.md) 已把下一步收紧为新的 `@0.8.0` typed case-context evidence unit；production callback、actual-case material、durable runner、registered driver、definition generator 与 central validator 的六套 fake adversarial tests 已 `28 / 28`，证明 disposition / expected code / source / manifest / gold 的 closed self-hash 绑定、rejection worker-free 分流，以及完整 ledger / output / oracle 结果闭包。下一步是以真实 UTC 冻结并提交推送 results-zero definition。新 smoke 必须完整执行 36 次，不能只补跑 Slice 07 的 rejection。两项 Gate B 都通过前 calibration 继续禁止。
+立即后续禁止重跑 `@0.5.0` / `@0.6.0` / `@0.7.0` 或运行旧 calibration。[Slice 08 合同](research/SLICE_08_CONTRACT.md) 已把下一步收紧为新的 `@0.8.0` typed case-context evidence unit；production callback、actual-case material、durable runner、registered driver、definition generator 与 central validator 的六套 fake adversarial tests 已 `28 / 28`。results-zero definition 已于 `2026-08-15T13:37:23.038Z` 冻结，含 12 sources / 36 planned attempts / 0 results；下一步必须先提交并推送该定义，再运行唯一完整 smoke。不能只补跑 Slice 07 的 rejection，两项 Gate B 都通过前 calibration 继续禁止。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
