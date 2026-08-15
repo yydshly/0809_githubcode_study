@@ -81,10 +81,13 @@ ledger requires exact start-terminal pairs, and the pure in-memory runner closes
 48x3 slots per operation without retries or replacements. Five additional strict
 schemas define an idempotent durable claim, start/end runtime observation, oracle
 facts, a six-file applicable publication and variable closed terminal publication.
-Thirty-three fake-only tests cover deterministic reconstruction, semantic rehash
+Three operation-level schemas add the exclusive operation claim, fsynced
+publication-event ledger and atomic operation close. Thirty-seven fake-only tests
+cover deterministic reconstruction, semantic rehash
 laundering, denominator and reference closure, byte drift, protocol global stop,
 claim conflicts, applicable / rejection / failure closure, full 48x3 durable
-bridging, replay denial, and rename reconciliation. They do not invoke Sharp
+bridging, a 288-event publication chain, runtime drift, atomic final close, replay
+denial, and rename reconciliation. They do not invoke Sharp
 or create canonical requests/results. Slice 11 still has no machine definition or
 calibration; its future 96-source / 288-attempt population retains zero retry and replacement. See
 [SLICE_11_CONTRACT.md](SLICE_11_CONTRACT.md).
