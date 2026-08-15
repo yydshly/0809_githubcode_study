@@ -62,8 +62,13 @@ all 48 independent gold identities, keeps all 48 rejection cases worker-free,
 and sends only applicable fake outputs through the independent PNG decoder. A
 registered-driver foundation passes 5/5 fake-only tests for central/Git/results-zero
 admission, two sequential operation runs, ordinary non-pass continuation and
-protocol global stop. It remains non-executable until a durable end-runtime
-observer and central validator exist. No materialized machine definition, canonical request/result,
+protocol global stop. A durable end-runtime observer passes 6/6 fake-only tests:
+after all operation terminals it inventories the package/native/runtime closure,
+requires byte-identical equality with the frozen start attestation, and publishes
+one distinct `runtime-end.json` with create-only and fsync semantics. Drift,
+replay, an invalid clock, or an image-processing boundary violation fail closed.
+It reads versions only and does not invoke an image pipeline. The registered
+driver remains non-executable until a central validator exists. No materialized machine definition, canonical request/result,
 formal holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
 before any Sharp calibration.
 

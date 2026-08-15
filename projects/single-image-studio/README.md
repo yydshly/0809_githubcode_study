@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope 已冻结：协议 7/7、preview 9/9、runner 7/7、actual-case adapter 9/9、registered-driver foundation 5/5。durable runtime-end observer、central validator、正式 definition 和 results 尚未创建，driver 不可执行；新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope 已冻结：协议 7/7、preview 9/9、runner 7/7、actual-case adapter 9/9、registered-driver foundation 5/5、durable runtime-end observer 6/6。central validator、正式 definition 和 results 尚未创建，driver 不可执行；新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -159,7 +159,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 10 open calibration scope and definition preview
 
-[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` sources，每来源 3 次，合计 96 / 288；固定零 retry / replacement。[Calibration protocol](scripts/research-calibration-protocol-slice10.mjs) 7/7、[definition preview](scripts/research-generate-slice10.mjs) 9/9、[durable runner](scripts/research-calibration-runner-slice10.mjs) 7/7、[actual-case adapter](scripts/research-calibration-case-slice10.mjs) 9/9。adapter 按冻结引用重开全部 96 个真实 Slice 05 source record / bytes 与 48 个 independent gold；48 个 rejection 全部 worker-free。runner 只在全部 terminal 后接受 distinct durable runtime-end ref。[Registered-driver foundation](scripts/research-run-slice10.mjs) 以 5/5 验证 central / Git / results-zero admission、两项顺序 operation、普通 non-pass 继续与 protocol 全局停。没有 actual Sharp 调用或 canonical result；durable runtime-end observer、central validator 和正式 machine definition 仍未创建，因此 driver 不可执行。必须先完成这些 tooling、definition freeze、提交与推送，才允许唯一 registered calibration。
+[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` sources，每来源 3 次，合计 96 / 288；固定零 retry / replacement。[Calibration protocol](scripts/research-calibration-protocol-slice10.mjs) 7/7、[definition preview](scripts/research-generate-slice10.mjs) 9/9、[durable runner](scripts/research-calibration-runner-slice10.mjs) 7/7、[actual-case adapter](scripts/research-calibration-case-slice10.mjs) 9/9。adapter 按冻结引用重开全部 96 个真实 Slice 05 source record / bytes 与 48 个 independent gold；48 个 rejection 全部 worker-free。runner 只在全部 terminal 后接受 distinct durable runtime-end ref。[Registered-driver foundation](scripts/research-run-slice10.mjs) 以 5/5 验证 central / Git / results-zero admission、两项顺序 operation、普通 non-pass 继续与 protocol 全局停。[Runtime-end observer](scripts/research-runtime-observer-slice10.mjs) 以 6/6 验证冻结 runtime 的逐字节重盘、原子发布、漂移、嵌入 payload 伪造与重放拒绝；它只读取版本和依赖清单，不处理图片。没有 actual Sharp 调用或 canonical result；central validator 和正式 machine definition 仍未创建，因此 driver 不可执行。必须先完成 central validator、definition freeze、提交与推送，才允许唯一 registered calibration。
 
 ## 运行 R0 工程探针
 

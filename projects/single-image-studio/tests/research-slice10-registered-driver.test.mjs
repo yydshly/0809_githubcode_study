@@ -110,6 +110,6 @@ test("definition denial, dirty Git and an existing result root stop before opera
   assert.equal(runnerCalls, 0);
 });
 
-test("registered driver requires a central validator and durable runtime-end observer", async () => {
+test("registered driver requires a central validator while providing its durable runtime-end observer by default", async () => {
   await assert.rejects(runRegisteredSlice10Calibration(), { code: "S10_REGISTERED_DRIVER_CONFIGURATION_INVALID" });
 });

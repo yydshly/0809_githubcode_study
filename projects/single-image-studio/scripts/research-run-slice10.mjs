@@ -12,6 +12,7 @@ import {
   verifySlice10FinalOutput,
 } from "./research-calibration-case-slice10.mjs";
 import { runSlice10CalibrationOperation } from "./research-calibration-runner-slice10.mjs";
+import { createSlice10RuntimeEndObserver } from "./research-runtime-observer-slice10.mjs";
 
 const execFile = promisify(execFileCallback);
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
@@ -103,7 +104,7 @@ export async function runRegisteredSlice10Calibration({
   loadDefinitionContext = loadSlice10DefinitionContext,
   gitAdmission = defaultGitAdmission,
   rawExecutorFactory,
-  runtimeEndObserver,
+  runtimeEndObserver = createSlice10RuntimeEndObserver({ projectRoot }),
   operationRunner = runSlice10CalibrationOperation,
   now = () => new Date().toISOString(),
 } = {}) {
