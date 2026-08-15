@@ -21,14 +21,14 @@
   ],
   "formatId": "raw",
   "formatProfileId": "format-profile.input.raw-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "application/x-camera-raw"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "b0f280996f0c82695514e30420713edf0c3cfa6f60ee259acd55e28ece9b4d44",
+  "profileHash": "b28082e28ee5da2fefc8102cf8b77e81b54ac4b9fd1b0311c26014c9e55245c4",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_RAW_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

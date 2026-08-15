@@ -21,14 +21,14 @@
   ],
   "formatId": "avif",
   "formatProfileId": "format-profile.input.avif-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "image/avif"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "bbaaec7146eeaa01b9716513425eaa420f69d86dda9cd8f16c4ea89971b1bd23",
+  "profileHash": "48b711f0d458f4cb1e3795a0177df4c668ab208be71e2ee4042f686837e7533c",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_AVIF_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

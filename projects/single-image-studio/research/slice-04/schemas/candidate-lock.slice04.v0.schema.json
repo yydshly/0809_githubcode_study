@@ -1,0 +1,1749 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-04/schemas/candidate-lock.slice04.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "acquisitionBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactsRetained": {
+          "const": false,
+          "type": "boolean"
+        },
+        "githubSourceArchivesDownloaded": {
+          "const": false,
+          "type": "boolean"
+        },
+        "packagesInstalled": {
+          "const": false,
+          "type": "boolean"
+        },
+        "tarballsDeletedAfterHash": {
+          "const": true,
+          "type": "boolean"
+        },
+        "tarballsDownloadedForHashOnly": {
+          "const": true,
+          "type": "boolean"
+        },
+        "tarballsExecuted": {
+          "const": false,
+          "type": "boolean"
+        },
+        "tarballsUnpacked": {
+          "const": false,
+          "type": "boolean"
+        },
+        "temporaryDirectory": {
+          "const": ".tmp/slice04-artifacts",
+          "type": "string"
+        }
+      },
+      "required": [
+        "temporaryDirectory",
+        "tarballsDownloadedForHashOnly",
+        "tarballsDeletedAfterHash",
+        "tarballsUnpacked",
+        "tarballsExecuted",
+        "packagesInstalled",
+        "artifactsRetained",
+        "githubSourceArchivesDownloaded"
+      ],
+      "type": "object"
+    },
+    "artifacts": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "acquisitionState": {
+                "const": "hash-verified-temporary-not-retained",
+                "type": "string"
+              },
+              "artifactId": {
+                "const": "npm:sharp@0.35.3",
+                "type": "string"
+              },
+              "byteLength": {
+                "const": 214036,
+                "type": "integer"
+              },
+              "license": {
+                "const": "Apache-2.0",
+                "type": "string"
+              },
+              "npmIntegrity": {
+                "const": "sha512-ej0zVHuZGHCiABXcNxeYhpRnPNPAcvbG8RMdBAhDAxLKkCRVSpK3Iyu7qbqw3JMzoj0REeM6f3tJLtVwl0023Q==",
+                "type": "string"
+              },
+              "obtainedAt": {
+                "const": "2026-08-15",
+                "type": "string"
+              },
+              "packageName": {
+                "const": "sharp",
+                "type": "string"
+              },
+              "role": {
+                "const": "javascript-wrapper-source-package",
+                "type": "string"
+              },
+              "sha256": {
+                "const": "53637f5503f81d10b02097eca6f94c44e69d92ba7ef759f268a0c4ea1d06ae54",
+                "type": "string"
+              },
+              "tarballUrl": {
+                "const": "https://registry.npmjs.org/sharp/-/sharp-0.35.3.tgz",
+                "type": "string"
+              },
+              "version": {
+                "const": "0.35.3",
+                "type": "string"
+              }
+            },
+            "required": [
+              "artifactId",
+              "packageName",
+              "version",
+              "tarballUrl",
+              "npmIntegrity",
+              "byteLength",
+              "sha256",
+              "license",
+              "role",
+              "obtainedAt",
+              "acquisitionState"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "acquisitionState": {
+                "const": "hash-verified-temporary-not-retained",
+                "type": "string"
+              },
+              "artifactId": {
+                "const": "npm:@img/sharp-win32-x64@0.35.3",
+                "type": "string"
+              },
+              "byteLength": {
+                "const": 8434051,
+                "type": "integer"
+              },
+              "license": {
+                "const": "Apache-2.0 AND LGPL-3.0-or-later",
+                "type": "string"
+              },
+              "npmIntegrity": {
+                "const": "sha512-D4y1vNeZrIIJCN+uHaWVtH86B+aCrdMYYjicy9pXHvbGZeGYLLSd3wdVuC37FxVXlU1ARsk84eKWfWMXGYEqvA==",
+                "type": "string"
+              },
+              "obtainedAt": {
+                "const": "2026-08-15",
+                "type": "string"
+              },
+              "packageName": {
+                "const": "@img/sharp-win32-x64",
+                "type": "string"
+              },
+              "role": {
+                "const": "win32-x64-native-addon-package",
+                "type": "string"
+              },
+              "sha256": {
+                "const": "f0f81118ad4557cceb6c4f90adaf252926e7cd3f6cd3d7040053d4bba088e940",
+                "type": "string"
+              },
+              "tarballUrl": {
+                "const": "https://registry.npmjs.org/@img/sharp-win32-x64/-/sharp-win32-x64-0.35.3.tgz",
+                "type": "string"
+              },
+              "version": {
+                "const": "0.35.3",
+                "type": "string"
+              }
+            },
+            "required": [
+              "artifactId",
+              "packageName",
+              "version",
+              "tarballUrl",
+              "npmIntegrity",
+              "byteLength",
+              "sha256",
+              "license",
+              "role",
+              "obtainedAt",
+              "acquisitionState"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "acquisitionState": {
+                "const": "hash-verified-temporary-not-retained",
+                "type": "string"
+              },
+              "artifactId": {
+                "const": "npm:@img/sharp-libvips-win32-x64@1.3.2",
+                "type": "string"
+              },
+              "byteLength": {
+                "const": 8209445,
+                "type": "integer"
+              },
+              "license": {
+                "const": "LGPL-3.0-or-later",
+                "type": "string"
+              },
+              "npmIntegrity": {
+                "const": "sha512-T10FUimHrO/JzFNo26IS1N0wZBVGI9VCyxZHkkmhv8ayeUAHURaONXbqWK8S/uy0IDe5QCY7XuiCbMNovL1m6g==",
+                "type": "string"
+              },
+              "obtainedAt": {
+                "const": "2026-08-15",
+                "type": "string"
+              },
+              "packageName": {
+                "const": "@img/sharp-libvips-win32-x64",
+                "type": "string"
+              },
+              "role": {
+                "const": "packaging-provenance-only-not-runtime",
+                "type": "string"
+              },
+              "sha256": {
+                "const": "bcae355919358e0406c1674d0beaf841e9b11f321f8a54b927cddf4935c27668",
+                "type": "string"
+              },
+              "tarballUrl": {
+                "const": "https://registry.npmjs.org/@img/sharp-libvips-win32-x64/-/sharp-libvips-win32-x64-1.3.2.tgz",
+                "type": "string"
+              },
+              "version": {
+                "const": "1.3.2",
+                "type": "string"
+              }
+            },
+            "required": [
+              "artifactId",
+              "packageName",
+              "version",
+              "tarballUrl",
+              "npmIntegrity",
+              "byteLength",
+              "sha256",
+              "license",
+              "role",
+              "obtainedAt",
+              "acquisitionState"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "acquisitionState": {
+                "const": "hash-verified-temporary-not-retained",
+                "type": "string"
+              },
+              "artifactId": {
+                "const": "npm:@img/colour@1.1.0",
+                "type": "string"
+              },
+              "byteLength": {
+                "const": 17410,
+                "type": "integer"
+              },
+              "license": {
+                "const": "MIT",
+                "type": "string"
+              },
+              "npmIntegrity": {
+                "const": "sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==",
+                "type": "string"
+              },
+              "obtainedAt": {
+                "const": "2026-08-15",
+                "type": "string"
+              },
+              "packageName": {
+                "const": "@img/colour",
+                "type": "string"
+              },
+              "role": {
+                "const": "sharp-runtime-dependency",
+                "type": "string"
+              },
+              "sha256": {
+                "const": "6c2df3ac33d4b8647191ad8942a579e6004be00c25846677eab85f04702d85b1",
+                "type": "string"
+              },
+              "tarballUrl": {
+                "const": "https://registry.npmjs.org/@img/colour/-/colour-1.1.0.tgz",
+                "type": "string"
+              },
+              "version": {
+                "const": "1.1.0",
+                "type": "string"
+              }
+            },
+            "required": [
+              "artifactId",
+              "packageName",
+              "version",
+              "tarballUrl",
+              "npmIntegrity",
+              "byteLength",
+              "sha256",
+              "license",
+              "role",
+              "obtainedAt",
+              "acquisitionState"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "acquisitionState": {
+                "const": "hash-verified-temporary-not-retained",
+                "type": "string"
+              },
+              "artifactId": {
+                "const": "npm:detect-libc@2.1.2",
+                "type": "string"
+              },
+              "byteLength": {
+                "const": 7776,
+                "type": "integer"
+              },
+              "license": {
+                "const": "Apache-2.0",
+                "type": "string"
+              },
+              "npmIntegrity": {
+                "const": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",
+                "type": "string"
+              },
+              "obtainedAt": {
+                "const": "2026-08-15",
+                "type": "string"
+              },
+              "packageName": {
+                "const": "detect-libc",
+                "type": "string"
+              },
+              "role": {
+                "const": "sharp-runtime-dependency",
+                "type": "string"
+              },
+              "sha256": {
+                "const": "270dec0fc06cff86481da8af2dd8f18dee6b602790b14ef0e1c2c18d7da39427",
+                "type": "string"
+              },
+              "tarballUrl": {
+                "const": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+                "type": "string"
+              },
+              "version": {
+                "const": "2.1.2",
+                "type": "string"
+              }
+            },
+            "required": [
+              "artifactId",
+              "packageName",
+              "version",
+              "tarballUrl",
+              "npmIntegrity",
+              "byteLength",
+              "sha256",
+              "license",
+              "role",
+              "obtainedAt",
+              "acquisitionState"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "acquisitionState": {
+                "const": "hash-verified-temporary-not-retained",
+                "type": "string"
+              },
+              "artifactId": {
+                "const": "npm:semver@7.8.5",
+                "type": "string"
+              },
+              "byteLength": {
+                "const": 29399,
+                "type": "integer"
+              },
+              "license": {
+                "const": "ISC",
+                "type": "string"
+              },
+              "npmIntegrity": {
+                "const": "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==",
+                "type": "string"
+              },
+              "obtainedAt": {
+                "const": "2026-08-15",
+                "type": "string"
+              },
+              "packageName": {
+                "const": "semver",
+                "type": "string"
+              },
+              "role": {
+                "const": "sharp-runtime-dependency",
+                "type": "string"
+              },
+              "sha256": {
+                "const": "d85045d4300d7d57c891336b95df532e73f34c22ffcd222452b6d08b9d127d5d",
+                "type": "string"
+              },
+              "tarballUrl": {
+                "const": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
+                "type": "string"
+              },
+              "version": {
+                "const": "7.8.5",
+                "type": "string"
+              }
+            },
+            "required": [
+              "artifactId",
+              "packageName",
+              "version",
+              "tarballUrl",
+              "npmIntegrity",
+              "byteLength",
+              "sha256",
+              "license",
+              "role",
+              "obtainedAt",
+              "acquisitionState"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "bundledNativeVersionsSource": {
+      "additionalProperties": false,
+      "properties": {
+        "actualRuntimeArtifactId": {
+          "const": "npm:@img/sharp-win32-x64@0.35.3",
+          "type": "string"
+        },
+        "copiedIntoRepository": {
+          "const": false,
+          "type": "boolean"
+        },
+        "metadataFile": {
+          "const": "versions.properties",
+          "type": "string"
+        },
+        "metadataSources": {
+          "additionalProperties": false,
+          "properties": {
+            "thirdPartyNotices": {
+              "additionalProperties": false,
+              "properties": {
+                "byteLength": {
+                  "const": 4230,
+                  "type": "integer"
+                },
+                "immutableRawUrl": {
+                  "const": "https://raw.githubusercontent.com/lovell/sharp-libvips/4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6/THIRD-PARTY-NOTICES.md",
+                  "type": "string"
+                },
+                "sha256": {
+                  "const": "25ffcfa69e28b1913ced27ec778b90f24911a1bb3021253577e8b0af55db0d49",
+                  "type": "string"
+                },
+                "sourceCommit": {
+                  "const": "4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6",
+                  "type": "string"
+                },
+                "sourcePath": {
+                  "const": "THIRD-PARTY-NOTICES.md",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sourceCommit",
+                "sourcePath",
+                "immutableRawUrl",
+                "byteLength",
+                "sha256"
+              ],
+              "type": "object"
+            },
+            "versionsProperties": {
+              "additionalProperties": false,
+              "properties": {
+                "byteLength": {
+                  "const": 599,
+                  "type": "integer"
+                },
+                "immutableRawUrl": {
+                  "const": "https://raw.githubusercontent.com/lovell/sharp-libvips/4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6/versions.properties",
+                  "type": "string"
+                },
+                "sha256": {
+                  "const": "cebb421de9568ae3ce8cfd66be62c3da53c2d549232c2e4327d9a9f97276c237",
+                  "type": "string"
+                },
+                "sourceCommit": {
+                  "const": "4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6",
+                  "type": "string"
+                },
+                "sourcePath": {
+                  "const": "versions.properties",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "sourceCommit",
+                "sourcePath",
+                "immutableRawUrl",
+                "byteLength",
+                "sha256"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "versionsProperties",
+            "thirdPartyNotices"
+          ],
+          "type": "object"
+        },
+        "nativeVersionCount": {
+          "const": 28,
+          "type": "integer"
+        },
+        "noticeFile": {
+          "const": "THIRD-PARTY-NOTICES.md",
+          "type": "string"
+        },
+        "noticeSummary": {
+          "additionalProperties": false,
+          "properties": {
+            "anyLaterExplanation": {
+              "const": "bundled LGPLv3 notices rely on the upstream LGPL v2 or v2.1 any-later option; package and upstream declarations remain distinct",
+              "type": "string"
+            },
+            "anyLaterExplanationSource": {
+              "const": "THIRD-PARTY-NOTICES.md lines 35-36",
+              "type": "string"
+            },
+            "bundledPackageDeclares": {
+              "const": "LGPL-3.0-or-later",
+              "type": "string"
+            },
+            "componentLicenses": {
+              "items": {
+                "oneOf": [
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "aom",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "BSD-2-Clause + Alliance for Open Media Patent License 1.0",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "archive",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "BSD-2-Clause",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "cairo",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MPL-2.0",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "cgif",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "exif",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "expat",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "ffi",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "fontconfig",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "fontconfig-BSD-like",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "freetype",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "FreeType-BSD-like",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "fribidi",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "glib",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "harfbuzz",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "heif",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "highway",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "BSD-3-Clause",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "imagequant",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "BSD-2-Clause",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "lcms",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "mozjpeg",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "zlib + IJG + BSD-3-Clause",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "pango",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "pixman",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "png",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "libpng",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "proxy-libintl",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "rsvg",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "tiff",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "libtiff-BSD-like",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "uhdr",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "vips",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "LGPLv3-via-upstream-any-later",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "webp",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "New-BSD",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "xml2",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "MIT",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  },
+                  {
+                    "additionalProperties": false,
+                    "properties": {
+                      "componentId": {
+                        "const": "zlib-ng",
+                        "type": "string"
+                      },
+                      "usedUnder": {
+                        "const": "zlib",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "componentId",
+                      "usedUnder"
+                    ],
+                    "type": "object"
+                  }
+                ]
+              },
+              "maxItems": 28,
+              "minItems": 28,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "futureDistributionReviewState": {
+              "const": "not-complete-blocks-release",
+              "type": "string"
+            },
+            "upstreamLibvipsDeclares": {
+              "const": "LGPL-2.1-or-later",
+              "type": "string"
+            }
+          },
+          "required": [
+            "bundledPackageDeclares",
+            "upstreamLibvipsDeclares",
+            "anyLaterExplanationSource",
+            "anyLaterExplanation",
+            "componentLicenses",
+            "futureDistributionReviewState"
+          ],
+          "type": "object"
+        },
+        "packagingSourceArtifactId": {
+          "const": "npm:@img/sharp-libvips-win32-x64@1.3.2",
+          "type": "string"
+        },
+        "versions": {
+          "additionalProperties": false,
+          "properties": {
+            "aom": {
+              "const": "3.14.1",
+              "type": "string"
+            },
+            "archive": {
+              "const": "3.8.8",
+              "type": "string"
+            },
+            "cairo": {
+              "const": "1.18.4",
+              "type": "string"
+            },
+            "cgif": {
+              "const": "0.5.3",
+              "type": "string"
+            },
+            "exif": {
+              "const": "0.6.26",
+              "type": "string"
+            },
+            "expat": {
+              "const": "2.8.2",
+              "type": "string"
+            },
+            "ffi": {
+              "const": "3.6.0",
+              "type": "string"
+            },
+            "fontconfig": {
+              "const": "2.18.1",
+              "type": "string"
+            },
+            "freetype": {
+              "const": "2.14.3",
+              "type": "string"
+            },
+            "fribidi": {
+              "const": "1.0.16",
+              "type": "string"
+            },
+            "glib": {
+              "const": "2.89.1",
+              "type": "string"
+            },
+            "harfbuzz": {
+              "const": "14.2.1",
+              "type": "string"
+            },
+            "heif": {
+              "const": "1.23.1",
+              "type": "string"
+            },
+            "highway": {
+              "const": "1.4.0",
+              "type": "string"
+            },
+            "imagequant": {
+              "const": "2.4.1",
+              "type": "string"
+            },
+            "lcms": {
+              "const": "2.19.1",
+              "type": "string"
+            },
+            "mozjpeg": {
+              "const": "0826579",
+              "type": "string"
+            },
+            "pango": {
+              "const": "1.58.0",
+              "type": "string"
+            },
+            "pixman": {
+              "const": "0.46.4",
+              "type": "string"
+            },
+            "png": {
+              "const": "1.6.58",
+              "type": "string"
+            },
+            "proxy-libintl": {
+              "const": "0.5",
+              "type": "string"
+            },
+            "rsvg": {
+              "const": "2.62.90",
+              "type": "string"
+            },
+            "tiff": {
+              "const": "d01a94b",
+              "type": "string"
+            },
+            "uhdr": {
+              "const": "1acdbed",
+              "type": "string"
+            },
+            "vips": {
+              "const": "8.18.3",
+              "type": "string"
+            },
+            "webp": {
+              "const": "1.6.0",
+              "type": "string"
+            },
+            "xml2": {
+              "const": "2.15.3",
+              "type": "string"
+            },
+            "zlib-ng": {
+              "const": "2.3.3",
+              "type": "string"
+            }
+          },
+          "required": [
+            "aom",
+            "archive",
+            "cairo",
+            "cgif",
+            "exif",
+            "expat",
+            "ffi",
+            "fontconfig",
+            "freetype",
+            "fribidi",
+            "glib",
+            "harfbuzz",
+            "heif",
+            "highway",
+            "imagequant",
+            "lcms",
+            "mozjpeg",
+            "pango",
+            "pixman",
+            "png",
+            "proxy-libintl",
+            "rsvg",
+            "tiff",
+            "uhdr",
+            "vips",
+            "webp",
+            "xml2",
+            "zlib-ng"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "actualRuntimeArtifactId",
+        "packagingSourceArtifactId",
+        "metadataFile",
+        "noticeFile",
+        "metadataSources",
+        "noticeSummary",
+        "copiedIntoRepository",
+        "nativeVersionCount",
+        "versions"
+      ],
+      "type": "object"
+    },
+    "candidateKind": {
+      "const": "composite-sharp-with-bundled-libvips",
+      "type": "string"
+    },
+    "candidateLockId": {
+      "const": "REG-NORM-SHARP@0.4.0",
+      "type": "string"
+    },
+    "comparisonArmIds": {
+      "items": {
+        "enum": [
+          "REG-NORM-SHARP@0.4.0"
+        ],
+        "type": "string"
+      },
+      "maxItems": 1,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "compositeCandidateCount": {
+      "const": 1,
+      "type": "integer"
+    },
+    "contentHash": {
+      "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+      "type": "string"
+    },
+    "dependencyEdges": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "const": "npm:sharp@0.35.3",
+                "type": "string"
+              },
+              "kind": {
+                "const": "runtime",
+                "type": "string"
+              },
+              "to": {
+                "const": "npm:@img/colour@1.1.0",
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "kind"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "const": "npm:sharp@0.35.3",
+                "type": "string"
+              },
+              "kind": {
+                "const": "runtime",
+                "type": "string"
+              },
+              "to": {
+                "const": "npm:detect-libc@2.1.2",
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "kind"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "const": "npm:sharp@0.35.3",
+                "type": "string"
+              },
+              "kind": {
+                "const": "runtime",
+                "type": "string"
+              },
+              "to": {
+                "const": "npm:semver@7.8.5",
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "kind"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "const": "npm:sharp@0.35.3",
+                "type": "string"
+              },
+              "kind": {
+                "const": "platform-optional",
+                "type": "string"
+              },
+              "to": {
+                "const": "npm:@img/sharp-win32-x64@0.35.3",
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "kind"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "const": "npm:@img/sharp-win32-x64@0.35.3",
+                "type": "string"
+              },
+              "kind": {
+                "const": "provenance-lock-not-runtime",
+                "type": "string"
+              },
+              "to": {
+                "const": "npm:@img/sharp-libvips-win32-x64@1.3.2",
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "kind"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "executionState": {
+      "const": "not-run",
+      "type": "string"
+    },
+    "frozenAt": {
+      "const": "2026-08-15T00:20:45.916Z",
+      "type": "string"
+    },
+    "gateAState": {
+      "const": "source-resolved",
+      "type": "string"
+    },
+    "gateBState": {
+      "const": "not-entered",
+      "type": "string"
+    },
+    "installationState": {
+      "const": "not-installed",
+      "type": "string"
+    },
+    "licenseBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "bundledLibvipsIsIndependentArm": {
+          "const": false,
+          "type": "boolean"
+        },
+        "packageDeclarationsRemainDistinct": {
+          "const": true,
+          "type": "boolean"
+        },
+        "releaseLicenseReviewState": {
+          "const": "not-complete",
+          "type": "string"
+        },
+        "standaloneLibvipsState": {
+          "const": "pending-freeze",
+          "type": "string"
+        },
+        "thirdPartyNoticeRequiredForFutureDistribution": {
+          "const": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "packageDeclarationsRemainDistinct",
+        "thirdPartyNoticeRequiredForFutureDistribution",
+        "bundledLibvipsIsIndependentArm",
+        "standaloneLibvipsState",
+        "releaseLicenseReviewState"
+      ],
+      "type": "object"
+    },
+    "modelWeightsTrainingData": {
+      "const": "not-applicable",
+      "type": "string"
+    },
+    "observedAt": {
+      "const": "2026-08-15",
+      "type": "string"
+    },
+    "productSupport": {
+      "const": false,
+      "type": "boolean"
+    },
+    "recordVersion": {
+      "const": "0.4.0",
+      "type": "string"
+    },
+    "registryId": {
+      "const": "REG-NORM-SHARP",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "candidate-lock.slice04.v0",
+      "type": "string"
+    },
+    "sourceRepositories": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "archiveDownloaded": {
+                "const": false,
+                "type": "boolean"
+              },
+              "commit": {
+                "const": "1018449164723ba0203c1beffaba0e21f7829c18",
+                "type": "string"
+              },
+              "componentId": {
+                "const": "sharp",
+                "type": "string"
+              },
+              "license": {
+                "const": "Apache-2.0",
+                "type": "string"
+              },
+              "sourceUrl": {
+                "const": "https://github.com/lovell/sharp",
+                "type": "string"
+              },
+              "tag": {
+                "const": "v0.35.3",
+                "type": "string"
+              },
+              "version": {
+                "const": "0.35.3",
+                "type": "string"
+              }
+            },
+            "required": [
+              "componentId",
+              "sourceUrl",
+              "tag",
+              "version",
+              "commit",
+              "license",
+              "archiveDownloaded"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "archiveDownloaded": {
+                "const": false,
+                "type": "boolean"
+              },
+              "commit": {
+                "const": "4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6",
+                "type": "string"
+              },
+              "componentId": {
+                "const": "sharp-libvips-packaging",
+                "type": "string"
+              },
+              "license": {
+                "const": "Apache-2.0",
+                "type": "string"
+              },
+              "sourceUrl": {
+                "const": "https://github.com/lovell/sharp-libvips",
+                "type": "string"
+              },
+              "tag": {
+                "const": "v1.3.2",
+                "type": "string"
+              },
+              "version": {
+                "const": "1.3.2",
+                "type": "string"
+              }
+            },
+            "required": [
+              "componentId",
+              "sourceUrl",
+              "tag",
+              "version",
+              "commit",
+              "license",
+              "archiveDownloaded"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "archiveDownloaded": {
+                "const": false,
+                "type": "boolean"
+              },
+              "commit": {
+                "const": "3664cfc5dc2c5661288f5bf5a85ccc51c64c1626",
+                "type": "string"
+              },
+              "componentId": {
+                "const": "libvips-upstream",
+                "type": "string"
+              },
+              "license": {
+                "const": "LGPL-2.1-or-later",
+                "type": "string"
+              },
+              "sourceUrl": {
+                "const": "https://github.com/libvips/libvips",
+                "type": "string"
+              },
+              "tag": {
+                "const": "v8.18.3",
+                "type": "string"
+              },
+              "version": {
+                "const": "8.18.3",
+                "type": "string"
+              }
+            },
+            "required": [
+              "componentId",
+              "sourceUrl",
+              "tag",
+              "version",
+              "commit",
+              "license",
+              "archiveDownloaded"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "sourceState": {
+      "const": "source-resolved",
+      "type": "string"
+    },
+    "targetPlatform": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu": {
+          "const": "x64",
+          "type": "string"
+        },
+        "libc": {
+          "const": "not-applicable",
+          "type": "string"
+        },
+        "os": {
+          "const": "win32",
+          "type": "string"
+        }
+      },
+      "required": [
+        "os",
+        "cpu",
+        "libc"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "candidateLockId",
+    "recordVersion",
+    "frozenAt",
+    "observedAt",
+    "registryId",
+    "candidateKind",
+    "compositeCandidateCount",
+    "comparisonArmIds",
+    "sourceState",
+    "gateAState",
+    "gateBState",
+    "installationState",
+    "executionState",
+    "productSupport",
+    "targetPlatform",
+    "sourceRepositories",
+    "artifacts",
+    "dependencyEdges",
+    "bundledNativeVersionsSource",
+    "licenseBoundary",
+    "acquisitionBoundary",
+    "modelWeightsTrainingData",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "title": "Slice 04 composite candidate lock",
+  "type": "object"
+}

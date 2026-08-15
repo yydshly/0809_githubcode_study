@@ -69,6 +69,10 @@ G1 的数据流、安全与远程服务细则见 [DATA_FLOW_AND_SECURITY.md](DAT
 
 Slice 03 只把未来密封运行的角色独立、冻结 hash 链、一次性请求、无效重跑、逐 attempt append-only custody、外部 trusted pins、实际文件 hash 与 resolved-realpath 边界做成 schema 和 mock rehearsal。mock 只在系统临时目录运行并被正式 validator 拒绝；正式运行还必须拒绝整个 Git 仓库与系统临时目录，且仓库外路径本身也不是密封证明。当前正式 holdout 明确为 `not-created`，因此这些设施不构成 C1 或任何独立验收证据；详见 [Slice 03 证据记录](research/SLICE_03_EVIDENCE.md)。
 
+Slice 04 只冻结 `REG-NORM-SHARP` 的 source-resolved 复合候选 metadata，以及 `NORMALIZE-DELIVER` 的两份合同、QA、normalize / export 两份 operation-specific 五 partition plan、两份预注册与 seal intent；没有安装或执行 codec，没有 adapter、named hardware、smoke、calibration、正式像素或 EvidenceManifest 结果。每项 lifecycle 为 30 / 30 / 18 / 18 / event-driven-0，初始 C1 只计 sealed holdout 30 + sealed defect-holdout 18 = 48；open calibration 与 append-only escape 排除。Slice 03 observer / seal 只作不兼容 design lineage / execution-envelope reference，正式 artifact schema / oracle、runner、durable ledger、trust、角色 assignment / approval 均未建。全部格式继续 `productSupport=false`，因此 validator 通过仍不构成 Gate B 或 C1；详见 [Slice 04 范围合同](research/SLICE_04_CONTRACT.md) 与 [证据记录](research/SLICE_04_EVIDENCE.md)。
+
+密封 request 的冻结必须区分 policy/template 与具体实例。候选、合同、QA、分母和停止规则可以在 bundle 创建前冻结，但包含 `bundleId` / `bundleSha256` 的具体一次性 request 只能按 `preregistration frozen → independent custodian bundle → external pins / isolation audit → issue request → run` 的顺序签发。Slice 04 request 状态为 `not-issued-awaiting-custodian-bundle`，不得用伪造 bundle ID 提前满足冻结链。
+
 ## 5. 统一研究流程
 
 1. **登记合同**：在 [CAPABILITY_REGISTRY.md](CAPABILITY_REGISTRY.md) 登记能力、执行器、精确版本 / checkpoint、输入输出、许可和已知限制。

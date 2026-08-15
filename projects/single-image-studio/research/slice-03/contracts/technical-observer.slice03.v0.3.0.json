@@ -1,5 +1,5 @@
 {
-  "contractHash": "0aaea35f2874f3648a68fa30ddbf978acaf32b2b0e49daf49320b36707b89f40",
+  "contractHash": "c9af17a228099f4da4e1e840b9ecaf876815bf906de18ae53cda69047259191a",
   "contractVersion": "0.3.0",
   "eligibility": [
     "NormalizedImage.v0 artifact from CC-CAP02-NORMALIZE@0.2.0",
@@ -21,7 +21,7 @@
     "claimBoundary": "Contract and byte/artifact consistency rehearsal only; no capability, effect, product, operational, governance, value, or release evidence.",
     "evidenceManifestId": "not-established"
   },
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementation": {
     "adapterId": "observeNormalizedImageSlice03",
     "adapterVersion": "0.3.0",

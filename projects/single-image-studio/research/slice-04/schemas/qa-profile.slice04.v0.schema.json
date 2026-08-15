@@ -1,0 +1,692 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-04/schemas/qa-profile.slice04.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateLockRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+          "type": "string"
+        },
+        "id": {
+          "const": "REG-NORM-SHARP@0.4.0",
+          "type": "string"
+        },
+        "path": {
+          "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "checks": {
+      "items": {
+        "enum": [
+          "mime-and-signature",
+          "dimensions",
+          "orientation",
+          "embedded-srgb",
+          "rgba8",
+          "straight-alpha",
+          "metadata-policy",
+          "file-sha256",
+          "decoded-pixel-sha256"
+        ],
+        "type": "string"
+      },
+      "maxItems": 9,
+      "minItems": 9,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "checksByOperation": {
+      "additionalProperties": false,
+      "properties": {
+        "export": {
+          "items": {
+            "enum": [
+              "normalized-input-artifact-shape-and-identity",
+              "delivery-artifact-shape",
+              "delivery-bytes-reopen",
+              "delivery-file-and-decoded-pixel-hash",
+              "delivery-metadata-policy"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "normalize": {
+          "items": {
+            "enum": [
+              "source-bytes-policy",
+              "normalized-artifact-shape",
+              "normalized-parent-identity",
+              "normalized-bytes-reopen",
+              "normalized-file-and-decoded-pixel-hash",
+              "normalized-metadata-policy"
+            ],
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "normalize",
+        "export"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "executionState": {
+      "const": "not-run",
+      "type": "string"
+    },
+    "formatTargetRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+          "type": "string"
+        },
+        "id": {
+          "const": "FT-NORMALIZE-DELIVER@0.4.0",
+          "type": "string"
+        },
+        "path": {
+          "const": "profiles/format-target.normalize-deliver.v0.4.0.json",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "const": "2026-08-15T00:20:45.916Z",
+      "type": "string"
+    },
+    "gateBState": {
+      "const": "not-entered",
+      "type": "string"
+    },
+    "implementationState": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "oracle": {
+      "additionalProperties": false,
+      "properties": {
+        "actualBytesReopenRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "candidateDecoderMayBeSoleOracle": {
+          "const": false,
+          "type": "boolean"
+        },
+        "candidateMayProduceGold": {
+          "const": false,
+          "type": "boolean"
+        },
+        "candidateMaySelfCertify": {
+          "const": false,
+          "type": "boolean"
+        },
+        "candidateOutputMayDefineGold": {
+          "const": false,
+          "type": "boolean"
+        },
+        "designLineageRef": {
+          "additionalProperties": false,
+          "properties": {
+            "compatibilityState": {
+              "const": "reference-only-not-compatible-with-slice04-contracts",
+              "type": "string"
+            },
+            "incompatibilities": {
+              "items": {
+                "enum": [
+                  "hardcodes-CC-CAP02-NORMALIZE-at-0.2.0",
+                  "accepts-NormalizedImage-only-not-DeliveryArtifact"
+                ],
+                "type": "string"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "observerContractRef": {
+              "const": "S03-TECHNICAL-OBSERVER@0.3.0",
+              "type": "string"
+            },
+            "observerContractSha256": {
+              "const": "c9af17a228099f4da4e1e840b9ecaf876815bf906de18ae53cda69047259191a",
+              "type": "string"
+            },
+            "observerDeclaredFrozenAt": {
+              "const": "2026-08-14T19:47:13.000Z",
+              "type": "string"
+            },
+            "observerImplementationRef": {
+              "const": "sha256:99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3",
+              "type": "string"
+            }
+          },
+          "required": [
+            "observerContractRef",
+            "observerContractSha256",
+            "observerImplementationRef",
+            "observerDeclaredFrozenAt",
+            "compatibilityState",
+            "incompatibilities"
+          ],
+          "type": "object"
+        },
+        "futureGoldSourceRule": {
+          "const": "project-original-independent-source-or-frozen-reference-program-not-authored-by-candidate-team",
+          "type": "string"
+        },
+        "independentDecodedPixelIdentityRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "operationPrerequisites": {
+          "items": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "artifactSchemaState": {
+                    "const": "not-created-blocks-gate-b",
+                    "type": "string"
+                  },
+                  "independentGoldState": {
+                    "const": "not-created",
+                    "type": "string"
+                  },
+                  "independentImplementationHashState": {
+                    "const": "not-created",
+                    "type": "string"
+                  },
+                  "operation": {
+                    "const": "normalize",
+                    "type": "string"
+                  },
+                  "prerequisiteId": {
+                    "const": "ORACLE-PREREQ-NORMALIZE-PNG@0.4.0",
+                    "type": "string"
+                  },
+                  "requiredArtifactSchemaId": {
+                    "const": "normalized-image.slice04.v0.schema.json",
+                    "type": "string"
+                  },
+                  "requiredArtifactType": {
+                    "const": "NormalizedImage.slice04.v0",
+                    "type": "string"
+                  },
+                  "requiredContractId": {
+                    "const": "CC-CAP02-NORMALIZE-PNG@0.4.0",
+                    "type": "string"
+                  },
+                  "state": {
+                    "const": "not-created-blocks-gate-b",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "prerequisiteId",
+                  "operation",
+                  "requiredContractId",
+                  "requiredArtifactType",
+                  "requiredArtifactSchemaId",
+                  "artifactSchemaState",
+                  "state",
+                  "independentImplementationHashState",
+                  "independentGoldState"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "artifactSchemaState": {
+                    "const": "not-created-blocks-gate-b",
+                    "type": "string"
+                  },
+                  "independentGoldState": {
+                    "const": "not-created",
+                    "type": "string"
+                  },
+                  "independentImplementationHashState": {
+                    "const": "not-created",
+                    "type": "string"
+                  },
+                  "operation": {
+                    "const": "export",
+                    "type": "string"
+                  },
+                  "prerequisiteId": {
+                    "const": "ORACLE-PREREQ-EXPORT-PNG@0.4.0",
+                    "type": "string"
+                  },
+                  "requiredArtifactSchemaId": {
+                    "const": "delivery-artifact.slice04.v0.schema.json",
+                    "type": "string"
+                  },
+                  "requiredArtifactType": {
+                    "const": "DeliveryArtifact.slice04.v0",
+                    "type": "string"
+                  },
+                  "requiredContractId": {
+                    "const": "CC-CAP02-EXPORT-PNG@0.4.0",
+                    "type": "string"
+                  },
+                  "state": {
+                    "const": "not-created-blocks-gate-b",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "prerequisiteId",
+                  "operation",
+                  "requiredContractId",
+                  "requiredArtifactType",
+                  "requiredArtifactSchemaId",
+                  "artifactSchemaState",
+                  "state",
+                  "independentImplementationHashState",
+                  "independentGoldState"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "source": {
+          "const": "future-operation-specific-independent-oracles-with-slice03-byte-observer-design-lineage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "designLineageRef",
+        "operationPrerequisites",
+        "futureGoldSourceRule",
+        "candidateMaySelfCertify",
+        "candidateMayProduceGold",
+        "candidateOutputMayDefineGold",
+        "candidateDecoderMayBeSoleOracle",
+        "actualBytesReopenRequired",
+        "independentDecodedPixelIdentityRequired"
+      ],
+      "type": "object"
+    },
+    "outcomeClasses": {
+      "items": {
+        "enum": [
+          "pass",
+          "false-reject",
+          "false-allow",
+          "invalid",
+          "failure",
+          "timeout",
+          "cancelled",
+          "missing",
+          "unknown"
+        ],
+        "type": "string"
+      },
+      "maxItems": 9,
+      "minItems": 9,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "productSupport": {
+      "const": false,
+      "type": "boolean"
+    },
+    "profileKind": {
+      "const": "offline-evidence-qa-metadata-only",
+      "type": "string"
+    },
+    "qaProfileId": {
+      "const": "QA-NORMALIZE-DELIVER@0.4.0",
+      "type": "string"
+    },
+    "recordVersion": {
+      "const": "0.4.0",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "qa-profile.slice04.v0",
+      "type": "string"
+    },
+    "suiteId": {
+      "const": "NORMALIZE-DELIVER",
+      "type": "string"
+    },
+    "thresholds": {
+      "additionalProperties": false,
+      "properties": {
+        "allCategoriesMustPass": {
+          "const": true,
+          "type": "boolean"
+        },
+        "applicableAcceptanceRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "cancelledRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "catastrophicFailureTolerance": {
+          "const": 0,
+          "type": "integer"
+        },
+        "defectRejectionRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "failureRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "falseAllowRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "falseRejectRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "identityMatchRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "missingRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "timeoutRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        },
+        "unknownRate": {
+          "additionalProperties": false,
+          "properties": {
+            "operator": {
+              "const": "exactly",
+              "type": "string"
+            },
+            "value": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "operator",
+            "value"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "applicableAcceptanceRate",
+        "defectRejectionRate",
+        "identityMatchRate",
+        "falseRejectRate",
+        "falseAllowRate",
+        "failureRate",
+        "timeoutRate",
+        "cancelledRate",
+        "missingRate",
+        "unknownRate",
+        "catastrophicFailureTolerance",
+        "allCategoriesMustPass"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "qaProfileId",
+    "recordVersion",
+    "frozenAt",
+    "suiteId",
+    "profileKind",
+    "candidateLockRef",
+    "formatTargetRef",
+    "implementationState",
+    "executionState",
+    "oracle",
+    "checks",
+    "checksByOperation",
+    "outcomeClasses",
+    "thresholds",
+    "productSupport",
+    "gateBState",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "title": "Slice 04 offline evidence QA profile",
+  "type": "object"
+}

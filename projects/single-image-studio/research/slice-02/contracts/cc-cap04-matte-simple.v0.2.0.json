@@ -16,7 +16,7 @@
       "pixel alignment"
     ]
   },
-  "contractHash": "786221fe3281a53cc792e331249694655e754b8c952fb775bade45071dc23ac8",
+  "contractHash": "892b684fa7998bc43526084f349690494a0374eb8b7ec4ebebebc8c1715f6be7",
   "contractVersion": "0.2.0",
   "eligibility": [
     "RGBA8 sRGB normalized fixture whose artifact matches bytes",
@@ -44,7 +44,7 @@
     "processingRegion": "local-only",
     "registryId": "REG-BASELINE-MATTE-SIMPLE"
   },
-  "frozenAt": "2026-08-15T08:00:00.000Z",
+  "frozenAt": "2026-08-14T18:41:55.000Z",
   "governance": {
     "codeLicense": "project-repository-terms; external distribution not granted",
     "dataTerms": "project-original synthetic fixtures only; no user or third-party images",

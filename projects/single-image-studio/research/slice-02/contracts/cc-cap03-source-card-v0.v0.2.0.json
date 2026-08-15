@@ -17,7 +17,7 @@
       "technical facts"
     ]
   },
-  "contractHash": "3ba0009d27e32baf26c55d6f4e72879da586e520c5d39f462097b7ac42298fb2",
+  "contractHash": "e29cd27a1dc67426014f790cd171ad8c729cec2347fd93d311ecbbec20d62889",
   "contractVersion": "0.2.0",
   "eligibility": [
     "valid NormalizedImage.v0 artifact from the frozen normalization contract",
@@ -40,7 +40,7 @@
     "processingRegion": "local-only",
     "registryId": "REG-SOURCE-CARD-REFERENCE-V0"
   },
-  "frozenAt": "2026-08-15T08:00:00.000Z",
+  "frozenAt": "2026-08-14T18:41:55.000Z",
   "governance": {
     "codeLicense": "project-repository-terms; external distribution not granted",
     "dataTerms": "project-original synthetic fixtures only; no user or third-party images",

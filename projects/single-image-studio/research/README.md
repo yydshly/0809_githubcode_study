@@ -1,8 +1,9 @@
 # Single Image Studio research workspace
 
-This directory is the executable research workspace for Slice 01 through Slice 03.
-It contains only small, deterministic, project-original synthetic fixtures. It
-is not a model benchmark, product dataset, or capability claim.
+This directory is the executable research workspace for Slice 01 through Slice 04.
+Its image fixtures are small, deterministic, and project-original; Slice 04 adds
+only source-lock and preregistration metadata. It is not a model benchmark,
+product dataset, codec installation, or capability claim.
 
 ## Evidence boundary
 
@@ -13,6 +14,8 @@ is not a model benchmark, product dataset, or capability claim.
   used.
 - Passing the validator proves repository consistency only. It does not prove
   matting quality, user value, reliability, governance, or release readiness.
+- Slice 04 does not decode, normalize, encode, benchmark, or calibrate an image.
+  Its source-resolved Sharp record is a non-Gate-B candidate, not format support.
 - `methodLabel` and `methodDetails` are delivered in the local catalog and only
   hidden by the review interface until unblinding. This is an interaction
   rehearsal, not adversary-resistant or independent reviewer blinding.
@@ -89,6 +92,40 @@ slice-03/
 └─ schemas/            # format, fixture, observer and seal schemas
 ```
 
+## Slice 04 candidate-lock and preregistration workspace
+
+`slice-04/` implements the metadata-only scope frozen in
+[SLICE_04_CONTRACT.md](SLICE_04_CONTRACT.md). It pins Sharp `v0.35.3`, its
+Windows x64 npm / native bundle, `sharp-libvips@1.3.2` and upstream libvips
+`v8.18.3` as one composite `REG-NORM-SHARP` candidate, then binds that source
+lock to `NORMALIZE-DELIVER` contracts, QA, denominators, preregistrations and a
+seal intent.
+
+```text
+slice-04/
+├─ candidate-locks/    # composite-sharp-win32-x64.v0.4.0.json
+├─ profiles/           # 15-row format-target.normalize-deliver.v0.4.0.json
+├─ contracts/          # normalize/export metadata-only contract JSON
+├─ preregistrations/   # two operation plans, QA, two preregistrations and seal intent
+└─ schemas/            # strict schemas for every generated record type
+```
+
+The six npm registry tarballs were downloaded only to the uncommitted
+repository-local `.tmp/slice04-artifacts` directory for SHA-256 calculation,
+then deleted without unpacking, execution, installation, or retention. No
+GitHub source archive was downloaded, and no third-party package is installed
+in this project. Every format row remains
+`productSupport=false`.
+
+Normalize and export each have an operation-specific 30 / 30 / 18 / 18 / 0
+five-partition lifecycle. Only sealed holdout 30 plus sealed defect-holdout 18
+enter that operation's initial C1 decision; open calibration and append-only
+escape are excluded. All 3/3 planned repetitions must pass, with at most one
+no-result invalid replacement per source across the three. Every pixel
+partition and operation oracle remains `not-created`, and the seal envelope is
+not runnable; the request state is `not-issued-awaiting-custodian-bundle`. See
+[SLICE_04_EVIDENCE.md](SLICE_04_EVIDENCE.md) for actual hashes and validation.
+
 ## Commands
 
 Run from `projects/single-image-studio` with Node.js 22 or newer:
@@ -100,6 +137,8 @@ node scripts/research-generate-slice02.mjs
 node scripts/research-validate-slice02.mjs
 node scripts/research-generate-slice03.mjs
 node scripts/research-validate-slice03.mjs
+node scripts/research-generate-slice04.mjs
+node scripts/research-validate-slice04.mjs
 node --test tests/research-*.test.mjs
 ```
 
@@ -108,7 +147,8 @@ assets and JSON records. The validators recompute every SHA-256,
 checks PNG dimensions, requires exact versioned fields, validates rights and
 partition bindings, rejects family/session leakage across partitions, and
 requires the review catalog to expose only Slice 01 `public-synthetic`
-allowlisted assets. Slice 02 and Slice 03 assets are always `catalog-denied`.
+allowlisted assets. Slice 02 and Slice 03 assets are always `catalog-denied`;
+Slice 04 contains no image asset at all and must not add catalog entries.
 
 ## Serving contract
 

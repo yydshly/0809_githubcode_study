@@ -21,14 +21,14 @@
   ],
   "formatId": "pdf",
   "formatProfileId": "format-profile.input.pdf-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "application/pdf"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "90d5a5ac020edc4ab8f8daa0d6112f81e2409e5a0ddef54d8c95767f5e7ad23b",
+  "profileHash": "d9893c9de851e6b7be65ea5e98acc3cc962cead83ce979a3bdf7c813e7a11994",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_PDF_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

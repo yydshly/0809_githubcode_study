@@ -22,14 +22,14 @@
   ],
   "formatId": "png",
   "formatProfileId": "format-profile.output.png-reference.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reference-executable",
   "mediaTypes": [
     "image/png"
   ],
   "policyState": "reference-calibration-eligible",
   "productSupport": false,
-  "profileHash": "b4c25212ec92eb04d6d54211d5c1332d0be6c93ec6fedc830c66f2788b697388",
+  "profileHash": "376d13ff3fcaa152aca776d891b386c7c05e086c1d3322bb9cf6b0984efb8a2a",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_OUTPUT_PNG_OUTSIDE_REFERENCE_PROFILE",
   "schemaVersion": "slice03-format-profile.v0"

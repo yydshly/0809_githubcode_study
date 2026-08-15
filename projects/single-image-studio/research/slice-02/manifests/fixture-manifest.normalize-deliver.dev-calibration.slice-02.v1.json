@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-08-15T08:00:00.000Z",
+  "createdAt": "2026-08-14T18:41:55.000Z",
   "evidenceStatus": {
     "level": "C1=0",
     "purpose": "contract-and-isolation-rehearsal"
@@ -70,7 +70,7 @@
     "version": "0.2.0"
   },
   "isolationPolicy": "Unique source family, capture session, exact source hash, and perceptual hash across every partition; catalog exposure denied.",
-  "manifestHash": "b595231ac6365d612117ddc356a2052e4fcea00ed93a385f930e37ffbae2d941",
+  "manifestHash": "5bc34f46065f8779d53b791d8c1451a8136d6d22d09f90c5a7b9d83780e6569d",
   "manifestVersion": "0.2.0",
   "partition": "dev/calibration",
   "preregistrationId": "partition-plan.slice-02.structural.v0",

@@ -22,14 +22,14 @@
   ],
   "formatId": "jpeg",
   "formatProfileId": "format-profile.input.jpeg-probe.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "probe-only",
   "mediaTypes": [
     "image/jpeg"
   ],
   "policyState": "research-candidate",
   "productSupport": false,
-  "profileHash": "4e75cd5bbcece44307bf712e7763956f0471a36e0a197ac8567c34519135188f",
+  "profileHash": "88a2fd9a0211702cb2d9f4839f649a598ae6a79f839a76477bf8ea147425bb5b",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_JPEG_PROBE_ONLY",
   "schemaVersion": "slice03-format-profile.v0"

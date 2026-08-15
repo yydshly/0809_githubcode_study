@@ -21,14 +21,14 @@
   ],
   "formatId": "apng",
   "formatProfileId": "format-profile.input.apng-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "image/apng"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "fd542cf679cfc21eaa7ae745a926944abf573b1e84a9ec190be3ff8ce3f6b05d",
+  "profileHash": "ab7912635682acbb0cb5cbbc6c689d7596b8bcd041e13bcb484fbaa9fc98aeb7",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_APNG_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

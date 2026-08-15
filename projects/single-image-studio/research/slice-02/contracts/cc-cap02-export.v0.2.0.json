@@ -18,7 +18,7 @@
       "straight alpha"
     ]
   },
-  "contractHash": "18c598a23c8c2508e9374cc4d22d8e5715046cbfeb2c7725c2afb9a0ba017a47",
+  "contractHash": "52e4e78debe6ad96f582fbfedb16c629e1755f174bcd3e7dd0ebb57bc72c1509",
   "contractVersion": "0.2.0",
   "eligibility": [
     "RGBA8 pixel buffer",
@@ -42,7 +42,7 @@
     "processingRegion": "local-only",
     "registryId": "REG-NORM-REFERENCE-RGBA8"
   },
-  "frozenAt": "2026-08-15T08:00:00.000Z",
+  "frozenAt": "2026-08-14T18:41:55.000Z",
   "governance": {
     "codeLicense": "project-repository-terms; external distribution not granted",
     "dataTerms": "project-original synthetic fixtures only; no user or third-party images",

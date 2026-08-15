@@ -1,0 +1,554 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-04/schemas/seal-intent.slice04.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowedInvalidReasons": {
+      "items": {
+        "enum": [
+          "runner-crash-before-result",
+          "custody-interruption",
+          "integrity-check-failure"
+        ],
+        "type": "string"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "bundleState": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "candidateExecutionState": {
+      "const": "not-run",
+      "type": "string"
+    },
+    "candidateLockRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+          "type": "string"
+        },
+        "id": {
+          "const": "REG-NORM-SHARP@0.4.0",
+          "type": "string"
+        },
+        "path": {
+          "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "capabilityContractRefs": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "contentHash": {
+                "const": "534ba211e44d1ef669c75cb130c3e1e3cd63dff7be61dd246853dd72d1ebdeca",
+                "type": "string"
+              },
+              "id": {
+                "const": "CC-CAP02-NORMALIZE-PNG@0.4.0",
+                "type": "string"
+              },
+              "path": {
+                "const": "contracts/cc-cap02-normalize-png.v0.4.0.json",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "id",
+              "contentHash"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "contentHash": {
+                "const": "8c2fef119a53af39c02108bde6ffd7e8390bebbd77a31d935734033da1c1cd7f",
+                "type": "string"
+              },
+              "id": {
+                "const": "CC-CAP02-EXPORT-PNG@0.4.0",
+                "type": "string"
+              },
+              "path": {
+                "const": "contracts/cc-cap02-export-png.v0.4.0.json",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "id",
+              "contentHash"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "contentHash": {
+      "const": "955f0f345849da6da0d4d2fee9f530547f576ad0210515c510012cb5178d675b",
+      "type": "string"
+    },
+    "custodyLedgerState": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "evidenceManifestState": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "externalPinsState": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "formalDefectHoldoutStatus": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "formalEscapeStatus": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "formalHoldoutStatus": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "formalRunPrerequisites": {
+      "additionalProperties": false,
+      "properties": {
+        "actualRunnerState": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "approvalState": {
+          "const": "not-approved",
+          "type": "string"
+        },
+        "durableCrossProcessConsumedRequestLedgerState": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "formalRunBlocked": {
+          "const": true,
+          "type": "boolean"
+        },
+        "operationSpecificOracleState": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "roleAssignmentState": {
+          "const": "not-assigned",
+          "type": "string"
+        },
+        "trustedAuthorityState": {
+          "const": "not-created",
+          "type": "string"
+        }
+      },
+      "required": [
+        "actualRunnerState",
+        "durableCrossProcessConsumedRequestLedgerState",
+        "trustedAuthorityState",
+        "operationSpecificOracleState",
+        "roleAssignmentState",
+        "approvalState",
+        "formalRunBlocked"
+      ],
+      "type": "object"
+    },
+    "formatTargetRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+          "type": "string"
+        },
+        "id": {
+          "const": "FT-NORMALIZE-DELIVER@0.4.0",
+          "type": "string"
+        },
+        "path": {
+          "const": "profiles/format-target.normalize-deliver.v0.4.0.json",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "const": "2026-08-15T00:20:45.916Z",
+      "type": "string"
+    },
+    "gateBState": {
+      "const": "not-entered",
+      "type": "string"
+    },
+    "partitionPlanRefs": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "contentHash": {
+                "const": "35c59353b75fb517c428ea87cf9c50b379cdddb29261e2f30655e7fd761b9700",
+                "type": "string"
+              },
+              "id": {
+                "const": "PP-NORMALIZE-PNG@0.4.0",
+                "type": "string"
+              },
+              "path": {
+                "const": "preregistrations/partition-plan.normalize-png.v0.4.0.json",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "id",
+              "contentHash"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "contentHash": {
+                "const": "69f5965e7da9e873831573f84139b0f0cadcee07af99b15b7c7866729897ec09",
+                "type": "string"
+              },
+              "id": {
+                "const": "PP-EXPORT-PNG@0.4.0",
+                "type": "string"
+              },
+              "path": {
+                "const": "preregistrations/partition-plan.export-png.v0.4.0.json",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "id",
+              "contentHash"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "pixelMaterialState": {
+      "const": "none",
+      "type": "string"
+    },
+    "preregistrationRefs": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "contentHash": {
+                "const": "95f5e481352dd440e0a47e6b03193f4af4c0ea7656f1505ed3ca63e8aae2f84e",
+                "type": "string"
+              },
+              "id": {
+                "const": "PREREG-NORMALIZE-PNG@0.4.0",
+                "type": "string"
+              },
+              "path": {
+                "const": "preregistrations/preregistration.normalize-png.v0.4.0.json",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "id",
+              "contentHash"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "contentHash": {
+                "const": "86e418f7227bdb880c9a4bc44ce7757fc4463d50c226855639bcc8e77941b134",
+                "type": "string"
+              },
+              "id": {
+                "const": "PREREG-EXPORT-PNG@0.4.0",
+                "type": "string"
+              },
+              "path": {
+                "const": "preregistrations/preregistration.export-png.v0.4.0.json",
+                "type": "string"
+              }
+            },
+            "required": [
+              "path",
+              "id",
+              "contentHash"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "productSupport": {
+      "const": false,
+      "type": "boolean"
+    },
+    "qaProfileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+          "type": "string"
+        },
+        "id": {
+          "const": "QA-NORMALIZE-DELIVER@0.4.0",
+          "type": "string"
+        },
+        "path": {
+          "const": "preregistrations/qa-profile.normalize-deliver.v0.4.0.json",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.4.0",
+      "type": "string"
+    },
+    "requestPolicyState": {
+      "const": "execution-envelope-reference-only-not-runnable",
+      "type": "string"
+    },
+    "requestStatus": {
+      "const": "not-issued-awaiting-custodian-bundle",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "const": "seal-intent.slice04.v0",
+      "type": "string"
+    },
+    "sealIntentId": {
+      "const": "SEAL-INTENT-NORMALIZE-DELIVER@0.4.0",
+      "type": "string"
+    },
+    "sealPolicyRef": {
+      "additionalProperties": false,
+      "properties": {
+        "compatibilityState": {
+          "const": "execution-envelope-reference-only",
+          "type": "string"
+        },
+        "externalTrustedPinsRequired": {
+          "items": {
+            "enum": [
+              "expectedPlanSha256",
+              "expectedBundleSha256",
+              "expectedCustodianId"
+            ],
+            "type": "string"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "implementationPath": {
+          "const": "scripts/research-seal-ceremony-slice03.mjs",
+          "type": "string"
+        },
+        "implementationSha256": {
+          "const": "70c36d1d8eecd4099d11ffb7f04754b7c54bbd6d56c46a35a0d4850f8d8ac58a",
+          "type": "string"
+        },
+        "requiredMode": {
+          "const": "formal",
+          "type": "string"
+        },
+        "schemaPaths": {
+          "items": {
+            "enum": [
+              "research/slice-03/schemas/seal-ceremony-bundle-manifest.v0.schema.json",
+              "research/slice-03/schemas/seal-ceremony-custody-event.v0.schema.json",
+              "research/slice-03/schemas/seal-ceremony-plan.v0.schema.json",
+              "research/slice-03/schemas/seal-ceremony-result-summary.v0.schema.json",
+              "research/slice-03/schemas/seal-ceremony-run-receipt.v0.schema.json",
+              "research/slice-03/schemas/seal-ceremony-run-request.v0.schema.json"
+            ],
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "schemaTreeSha256": {
+          "const": "dd4291953ac349d9a19ffe306a279e5efb51243794cdc81733104876fbb34ecb",
+          "type": "string"
+        }
+      },
+      "required": [
+        "implementationPath",
+        "implementationSha256",
+        "schemaPaths",
+        "schemaTreeSha256",
+        "requiredMode",
+        "externalTrustedPinsRequired",
+        "compatibilityState"
+      ],
+      "type": "object"
+    },
+    "secretMaterialState": {
+      "const": "none",
+      "type": "string"
+    },
+    "suiteId": {
+      "const": "NORMALIZE-DELIVER",
+      "type": "string"
+    },
+    "suiteVersion": {
+      "const": "0.4.0",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "sealIntentId",
+    "recordVersion",
+    "frozenAt",
+    "suiteId",
+    "suiteVersion",
+    "candidateLockRef",
+    "formatTargetRef",
+    "partitionPlanRefs",
+    "qaProfileRef",
+    "capabilityContractRefs",
+    "preregistrationRefs",
+    "sealPolicyRef",
+    "allowedInvalidReasons",
+    "requestStatus",
+    "requestPolicyState",
+    "formalRunPrerequisites",
+    "formalHoldoutStatus",
+    "formalDefectHoldoutStatus",
+    "formalEscapeStatus",
+    "bundleState",
+    "externalPinsState",
+    "custodyLedgerState",
+    "secretMaterialState",
+    "pixelMaterialState",
+    "candidateExecutionState",
+    "productSupport",
+    "gateBState",
+    "evidenceManifestState",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "title": "Slice 04 seal intent",
+  "type": "object"
+}

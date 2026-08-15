@@ -1,6 +1,6 @@
 {
   "captureSessionRule": "Each generator scene has a unique synthetic session ID; no session may appear in another partition.",
-  "createdAt": "2026-08-15T00:00:00.000Z",
+  "createdAt": "2026-08-14T17:26:30.000Z",
   "evidenceStatus": {
     "level": "C1=0",
     "purpose": "method-rehearsal"
@@ -241,7 +241,7 @@
     "sourceRevision": "local-procedural-v0.1.0-seed-20260815",
     "version": "0.1.0"
   },
-  "manifestHash": "bf8a16407ee536a899b1d5473ec519e5c738a9df0196e483fa738e46ce38e177",
+  "manifestHash": "b41ed6e559a47ffca45e9f3389657a93dc4d6cd002307a1098340a011acf8809",
   "manifestVersion": "0.1.0",
   "partition": "dev/calibration",
   "schemaVersion": "fixture-manifest.v0",

@@ -22,14 +22,14 @@
   ],
   "formatId": "tiff",
   "formatProfileId": "format-profile.input.tiff-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "image/tiff"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "a850d12190fedbdf455448a7702c206ca5c25e0f8fd43a13c0337eee2e203ded",
+  "profileHash": "6bf37e87085e96cfe8c346b38dcac875a878d6723b72bdf5a0f820a534df7844",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_TIFF_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

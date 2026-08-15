@@ -10,7 +10,7 @@ export const DEFAULT_RESEARCH_ROOT = path.resolve(SCRIPT_DIR, "../research");
 export const FIXTURE_DEFINITION = Object.freeze({
   schemaVersion: "fixture-generator.v0",
   version: "0.1.0",
-  createdAt: "2026-08-15T00:00:00.000Z",
+  createdAt: "2026-08-14T17:26:30.000Z",
   seed: "20260815",
   sourceRevision: "local-procedural-v0.1.0-seed-20260815",
   suite: "MATTE-GT",

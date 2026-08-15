@@ -21,14 +21,14 @@
   ],
   "formatId": "svg",
   "formatProfileId": "format-profile.input.svg-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "image/svg+xml"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "86613b8db745f2a695e99440e68be4f29e17a40b3bc6d755898470c49356924b",
+  "profileHash": "46308a9eef529de1d1fb5e2814ddd3c7834663134f6fdd19d37058e5b29c6746",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_SVG_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

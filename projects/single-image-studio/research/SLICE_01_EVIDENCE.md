@@ -10,11 +10,13 @@
 - loopback-only 的只读 catalog / PNG 服务。
 - `surface.research-review`：六视图、适配 / 1:1、轮廓叠加、结构化初判、提交锁定和主动解盲。
 
-FixtureManifest 的确定性 manifest hash：
+FixtureManifest 的当前 canonical manifest hash：
 
 ```text
-bf8a16407ee536a899b1d5473ec519e5c738a9df0196e483fa738e46ce38e177
+b41ed6e559a47ffca45e9f3389657a93dc4d6cd002307a1098340a011acf8809
 ```
+
+2026-08-15 时间链审计撤销旧 pin `bf8a16407ee536a899b1d5473ec519e5c738a9df0196e483fa738e46ce38e177`：旧记录的 `createdAt` 是错误的未来 UTC；同版 generator 现以原提交时刻 `2026-08-14T17:26:30.000Z` 重新生成并得到上述 canonical hash。Git 历史与旧 pin 仍保留用于审计，但旧值不得再作为当前清单身份。这个修正没有改变任何 PNG bytes、fixture 语义、rights、partition、浏览器结果或证据等级，也没有创建新证据。
 
 ## 自动化与 HTTP 证据
 

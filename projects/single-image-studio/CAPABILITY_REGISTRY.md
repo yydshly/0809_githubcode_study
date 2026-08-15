@@ -2,7 +2,7 @@
 
 > 状态：当前规范（研究注册表）  
 > 最后核对：2026-08-15
-> 当前结论：以下条目均未取得 `C1`，也没有任何第三方代码、模型权重或资产进入本项目。
+> 当前结论：以下条目均未取得 `C1`。Slice 04 只把六个 npm registry tarball 临时下载到仓库内未提交的 `.tmp/slice04-artifacts` 计算 SHA-256 后删除；没有解包、执行、安装或保留，GitHub commits 只经官方页面 / API 解析，因而没有第三方代码、二进制、模型权重或资产进入项目制品或依赖。
 
 本文是基础能力候选的唯一决策账本。它记录“可以研究什么、为什么尚不能发布”，不代表依赖已安装、模型已接入或能力已经成立。来源及第三方边界见 [UPSTREAM.md](./UPSTREAM.md)，能力定义见 [CAPABILITY_MAP.md](./CAPABILITY_MAP.md)，证据门槛见 [EVIDENCE_AND_RELEASE.md](./EVIDENCE_AND_RELEASE.md)。
 
@@ -102,8 +102,8 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | --- | --- | --- | --- | --- | --- |
 | `REG-LOCAL-ASSET-INGEST` | 本地来源资产合同与入口 | `CAP-01` | 文件真实性、授权快照、hash 与父子版本 | `planned` | 冻结合同版本、持久化边界与治理验证 |
 | `REG-NORM-REFERENCE-RGBA8` | 本地 RGBA8 PNG 归一 / 导出参考适配器 | `CAP-02` | 冻结窄范围 `NormalizedImage` 与 `DeliveryArtifact` 合同并生成结构夹具 | `candidate`（非 Gate B） | 仅支持合成 fixture；正式格式矩阵、硬件 profile、质量预注册与独立 holdout |
-| `REG-NORM-SHARP` | Sharp | `CAP-02`、`CAP-05` | 来源归一化、裁切、合成、导出 | `research-only/pending-freeze` | 精确 npm 版本、传递依赖、性能基准 |
-| `REG-NORM-LIBVIPS` | libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | 精确 tag/commit、构建选项、LGPL 交付方式 |
+| `REG-NORM-SHARP` | Sharp + Windows x64 bundled libvips 复合候选 | `CAP-02`、`CAP-05` | 来源归一化、裁切、合成、导出 | `candidate`（source-resolved，非 Gate B） | adapter、执行位置 / named hardware、运行语义、codec smoke、开放 calibration 与正式 holdout |
+| `REG-NORM-LIBVIPS` | standalone libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | standalone 构建选项、启用格式库、链接 / LGPL 交付方式与 artifact hash |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
 | `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
 | `REG-SOURCE-CARD-TECHNICAL-S03` | Slice 03 独立 byte-backed 技术 observer | `CAP-03` | 从 normalized bytes 重开并核对父产物身份；源格式与 normalized 事实分栏 | `candidate`（非 Gate B） | 仅开放合成 calibration PNG；不是完整 SourceCard、图片理解、生产 decoder 或格式支持 |
@@ -127,7 +127,7 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 
 ## `CapabilityContract` 解析表
 
-下表让研究态 `EffectDefinition.execution_dag` 能指向明确的冻结研究合同或合同占位，而不是只指向宽泛 CAP 域。Slice 02 已把 normalize、export、SourceCard.v0 与 Matting simple baseline 四行冻结为窄范围 `@0.2.0`；它们仍为 C1=0、非 Gate B，也不能被 `validated-internal` / `released` 效果解析为已验证能力。其余 `@planned` 是字面状态，不是可执行版本，并统一为：
+下表让研究态 `EffectDefinition.execution_dag` 能指向明确的冻结研究合同或合同占位，而不是只指向宽泛 CAP 域。Slice 02 已把 normalize、export、SourceCard.v0 与 Matting simple baseline 四行冻结为窄范围 reference `@0.2.0`；Slice 04 又为同一 PNG 范围新增两份绑定 `REG-NORM-SHARP@0.4.0` 的 metadata-only `@0.4.0` 合同及各自独立五 partition plan。后者没有 compatible artifact schema / oracle、adapter 或运行结果，不替代 `@0.2.0` reference，也不能被解析为 executable。所有这些合同仍为 C1=0、非 Gate B，不能被 `validated-internal` / `released` 效果解析为已验证能力。其余 `@planned` 是字面状态，不是可执行版本，并统一为：
 
 ```text
 contract_version=planned
@@ -147,6 +147,8 @@ release_status=planned
 | `CC-CAP01-INGEST@planned` | `CAP-01` | 用户文件 + 权利快照 → `ImageAsset` | `REG-LOCAL-ASSET-INGEST` | 解码 / hash / 权利失败即拒绝；不把浏览器预检当事实源 |
 | `CC-CAP02-NORMALIZE@0.2.0` | `CAP-02` | `ImageAsset` → `NormalizedImage` | `REG-NORM-REFERENCE-RGBA8` | 已冻结为最大 256×256、orientation=1、sRGB、RGBA8 filter-0 PNG 的结构参考；其他格式 fail closed，C1=0，不替代后续 Sharp/libvips 正式候选 |
 | `CC-CAP02-EXPORT@0.2.0` | `CAP-02` | `ForegroundLayer` / `CompositeImage` / `GeneratedCandidate` → `DeliveryArtifact` | `REG-NORM-REFERENCE-RGBA8` | 已冻结 PNG straight-alpha、metadata policy、byte/hash 与重开校验；仅合成 fixture 范围，失败不产生 DeliveryArtifact，C1=0 |
+| `CC-CAP02-NORMALIZE-PNG@0.4.0` | `CAP-02` | canonical PNG source bytes → `NormalizedImage.slice04.v0` | `REG-NORM-SHARP@0.4.0` | metadata-only：对应 artifact schema / independent oracle 为 `not-created-blocks-gate-b`；adapter / hardware / smoke / calibration 未建，初始 C1 预注册 sealed 48，`productSupport=false`、C1=0 |
+| `CC-CAP02-EXPORT-PNG@0.4.0` | `CAP-02` | `NormalizedImage.slice04.v0` → `DeliveryArtifact.slice04.v0` | `REG-NORM-SHARP@0.4.0` | metadata-only：对应 artifact schema / independent oracle 为 `not-created-blocks-gate-b`；禁止 passthrough / fallback，未安装或执行 candidate，初始 C1 预注册 sealed 48，`productSupport=false`、C1=0 |
 | `CC-CAP03-SOURCE-CARD-V0@0.2.0` | `CAP-03` | `NormalizedImage` → `SourceCard.v0` | `REG-SOURCE-CARD-REFERENCE-V0` | v0 字段、每字段 observer/confidence/unknown reason 已冻结；当前仅技术字段可观测，其余必须 unknown，C1=0 |
 | `CC-CAP04-DETECT@planned` | `CAP-04` | `NormalizedImage` + 目标类别 → `SubjectMap` | `REG-DETECT-GROUNDING-DINO` 或后续登记候选 | 主体数量 / 类别 / 框与拒绝边界待冻结；错误主体不得静默进入 Matting |
 | `CC-CAP04-SEGMENT@planned` | `CAP-04` | `NormalizedImage` + `SubjectMap` + prompt → `SubjectMap` | `REG-SEG-SAM2` 或后续登记候选 | 输出是区域，不等于连续 Alpha；失败回到重新选主体或拒绝 |
@@ -214,7 +216,7 @@ release_status=planned
 | 字段 | 记录 |
 | --- | --- |
 | 来源 | [Slice 03 独立 observer](./scripts/research-reference-adapters-slice03.mjs)、[研究合同](./research/slice-03/contracts/technical-observer.slice03.v0.3.0.json) 与 [输出 schema](./research/slice-03/schemas/technical-observer.slice03.schema.json)；全部为本地原创研究，不含外部代码、图片、服务或权重 |
-| 固定研究边界 | `frozenAt=2026-08-15T10:00:00.000Z`；`S03-TECHNICAL-OBSERVER@0.3.0`；`adapterVersion=0.3.0`；实现 SHA-256 `99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3` |
+| 固定研究边界 | `frozenAt=2026-08-14T19:47:13.000Z`（原提交时刻；未来 UTC erratum 已重算 hash 链）；`S03-TECHNICAL-OBSERVER@0.3.0`；`adapterVersion=0.3.0`；实现 SHA-256 `99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3` |
 | 预期职责 | 独立于 Slice 02 生产侧 parser 重开 normalized PNG bytes，交叉核对 MIME / 签名、尺寸、orientation=1、embedded sRGB、Alpha、file / decoded-pixel hash 与父产物身份；source-format facts 与 normalized-artifact facts 分栏 |
 | 输入 / 输出与变化边界 | 仅 `CC-CAP02-NORMALIZE@0.2.0` 产生、最大 `1 MiB` / `256×256` 的开放项目原创 RGBA8 sRGB filter-0 PNG fixture；输出 `TechnicalObserverResult.slice03.v0`，不输出产品 SourceCard，不允许从 normalized bytes 反推源格式 |
 | 运行位置 | Node.js >=22 本地同步研究进程；独立 closed fixture parser，不是生产安全 decoder，也不接受真实用户照片 |
@@ -286,27 +288,30 @@ release_status=planned
 
 | 字段 | 记录 |
 | --- | --- |
-| 官方来源 | [lovell/sharp](https://github.com/lovell/sharp)、[官方文档](https://sharp.pixelplumbing.com/) |
-| 固定研究边界 | `observed_at=2026-08-14`；`git_commit=pending-resolution`；`npm_version=pending-selection` |
+| 官方来源 | [lovell/sharp](https://github.com/lovell/sharp)、[Sharp v0.35.3 release](https://github.com/lovell/sharp/releases/tag/v0.35.3)、[官方文档](https://sharp.pixelplumbing.com/) |
+| 固定研究边界 | `candidate_lock=REG-NORM-SHARP@0.4.0`；`observed_at=2026-08-15`；`version/tag=v0.35.3`；`git_commit=1018449164723ba0203c1beffaba0e21f7829c18`；`npm_version=0.35.3`；Windows x64 npm / native bundle；candidate lock 与六个 npm registry tarball SHA-256 见 [Slice 04 metadata](./research/slice-04/) |
+| 复合依赖边界 | `sharp-libvips=1.3.2`，commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6`；Windows x64 bundle 中的 libvips 来源追溯至 `libvips=v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626`；`versions.properties` 的 28 项 native version 与 `THIRD-PARTY-NOTICES.md` 的逐组件 `usedUnder` 声明已锁入 candidate metadata，未来 distribution license review 仍阻塞发布 |
 | 预期职责 | EXIF 自动旋转、尺寸归一、ICC/色彩处理、裁切、合成、PNG/JPEG/WebP 导出 |
-| 运行位置 | Node/TypeScript 网关或独立确定性渲染 worker；不得放入浏览器作为正式处理证据 |
-| 代码许可 | Apache-2.0；仍需保留许可与审查预编译包包含的 libvips/编解码依赖 |
+| 运行位置 | `not-created`；后续候选为 Node/TypeScript 网关或独立确定性渲染 worker，不得放入浏览器作为正式处理证据；named hardware 未冻结 |
+| 代码许可 | `sharp@0.35.3` 为 Apache-2.0；`@img/sharp-libvips-win32-x64@1.3.2` package metadata 为 LGPL-3.0-or-later；`@img/sharp-win32-x64@0.35.3` package metadata 为 Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo 为 LGPL-2.1-or-later。冻结 THIRD-PARTY-NOTICES 说明 bundled LGPLv3 条目使用上游 v2 / v2.1 any-later 条款；预编译包的格式 / 压缩 / 色彩依赖继续逐项履约，source-resolved 不等于发布许可审计完成 |
 | 模型/权重 | 不适用 |
 | 硬件、成本、时延 | `pending-benchmark`；以 CPU 为首个评测 profile，记录 p50/p95、峰值 RAM 与每百万像素耗时 |
-| 证据与状态 | `C1=0`，`research-only/pending-freeze`；先锁定精确 npm / libvips 版本，再验证方向、ICC→sRGB、Alpha 与编码确定性 |
+| 取得 / 保留 | `sharp`、`@img/sharp-win32-x64`、`@img/sharp-libvips-win32-x64`、`@img/colour`、`detect-libc`、`semver` 六个 npm registry tarball 只进入未提交的 `.tmp/slice04-artifacts` 做 SHA-256 后删除；未解包、执行、安装、保留或写入项目依赖。GitHub commit 只经官方页面 / API 解析，没有下载 source archive；仓库无第三方源码 / 二进制 |
+| 比较臂规则 | Sharp 与其 Windows x64 bundled libvips 是一个复合候选，不得算作两个独立比较臂；standalone libvips 由下一条独立登记且仍 pending-freeze |
+| 证据与状态 | `C1=0`，`candidate/source-resolved`，非 Gate B；Slice 04 只冻结 metadata contracts、共享 QA、两份 operation-specific plan / preregistration 与不可运行 seal envelope。artifact schema / independent oracle、adapter、named hardware、runner / durable ledger / trust / roles、codec smoke 和开放 calibration 尚未建立；任何格式仍为 `productSupport=false` |
 
 ### `REG-NORM-LIBVIPS` — libvips
 
 | 字段 | 记录 |
 | --- | --- |
 | 官方来源 | [libvips/libvips](https://github.com/libvips/libvips)、[官方站点](https://www.libvips.org/) |
-| 固定研究边界 | `observed_at=2026-08-14`；`git_commit/tag=pending-resolution` |
+| 固定研究边界 | 上游 `version/tag=v8.18.3`、`git_commit=3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 已作为 Sharp bundled libvips 的来源链记录；standalone artifact、构建配置与交付边界仍为 `pending-resolution` |
 | 预期职责 | Sharp 的底层图像处理引擎；必要时作为 Python/CLI 的低内存确定性处理候选 |
 | 运行位置 | 自托管 CPU worker |
 | 代码许可 | LGPL-2.1-or-later；具体静态/动态链接、修改和再分发方式须在交付前复核 |
 | 模型/权重 | 不适用 |
 | 硬件、成本、时延 | `pending-benchmark`；构建时必须记录启用的格式库和各自许可证 |
-| 证据与状态 | `C1=0`，`research-only/pending-freeze`；若只通过 Sharp 使用，也要先把实际捆绑版本写入运行 manifest |
+| 证据与状态 | `C1=0`，`research-only/pending-freeze`；上游 source ref 已知不等于 standalone 候选锁定。只有通过 Sharp 使用时归入 `REG-NORM-SHARP` 复合候选，未来运行 manifest 仍须写实际 bundled 版本 |
 
 ### `REG-VISION-OPENCV` — OpenCV
 
@@ -514,8 +519,8 @@ release_status=planned
 
 ## 下一次登记动作
 
-1. 先按 Gate A 锁定来源与许可，再把本表 `@planned` 合同补成不可变版本；不得直接从仓库名跳到 effect DAG。
-2. 为三个首轮对测方向分别预注册候选：归一化 / 导出（Sharp/libvips）、主体与背景（至少 MODNet + 一个许可完成且与正式分母匹配的通用 Matting 候选 + 已定义简单基线）、自然增强（本地非生成适配器）、创意（固定 OpenAI snapshot）。
-3. 通过官方 release/tag/API 获取不可变源版本，下载前记录许可文件；下载后立即计算 SHA-256。托管服务改记录 snapshot、endpoint 与条款核对日期，不虚构文件 hash。
-4. 在 Gate B 冻结 adapter、命名硬件、fixture、预注册与成本上限；只在此后运行 calibration，并把实测成本 / 时延和结果写入 `EvidenceManifest`。
-5. 将 checkpoint、依赖和训练数据结论逐项写回本表；无法消除的商用限制转为 `no-go`。在独立 holdout、defect 与重复性证据齐全后才评审 C1。
+1. `REG-NORM-SHARP` 已在 Slice 04 完成 Gate A / source-resolved metadata；下一明确切片只能先创建两项 operation artifact schema 与独立 oracle / gold，再实现锁定版本的 adapter、命名执行位置 / hardware、资源和运行语义并做 smoke。缺少任一项时继续非 Gate B。
+2. adapter smoke 通过后，才可在项目原创开放 `dev/calibration` / `defect/calibration` 上运行 calibration；正式 holdout 仍保持 `not-created`。calibration 导致 candidate、合同、QA 或阈值改变时发布新版本和新预注册。
+3. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
+4. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
+5. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。

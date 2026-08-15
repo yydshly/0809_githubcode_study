@@ -13,7 +13,7 @@
     "level": "C1=0",
     "purpose": "contract-and-isolation-rehearsal"
   },
-  "frozenAt": "2026-08-15T07:45:00.000Z",
+  "frozenAt": "2026-08-14T18:41:55.000Z",
   "manifestRefs": [
     "manifests/fixture-manifest.matte-gt.defect-calibration.slice-02.v1.json",
     "manifests/fixture-manifest.matte-gt.defect-holdout.slice-02.v1.json",
@@ -33,7 +33,7 @@
     "defect/holdout",
     "escape"
   ],
-  "planHash": "f97918cdbfd47d4a34cfa51ffae580ec11cb19df3326e4287b2ca85063628408",
+  "planHash": "101e924e4b793931d29a5919fa033ab029c2b89844d7578ae89717783b4eca4c",
   "planVersion": "0.2.0",
   "preregistrationId": "partition-plan.slice-02.structural.v0",
   "purpose": "Freeze contract and partition-isolation invariants before generating structural fixtures; not a C1 quality preregistration.",

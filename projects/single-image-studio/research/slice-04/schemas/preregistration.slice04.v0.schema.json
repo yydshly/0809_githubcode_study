@@ -1,0 +1,1969 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-04/schemas/preregistration.slice04.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "approvers": {
+          "items": {
+            "enum": [
+              "role.independent-approver",
+              "role.methodology-approver"
+            ],
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "c1Decision": {
+          "const": "not-evaluated",
+          "type": "string"
+        },
+        "candidateExecutionState": {
+          "const": "not-run",
+          "type": "string"
+        },
+        "candidateLockRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+              "type": "string"
+            },
+            "id": {
+              "const": "REG-NORM-SHARP@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "capabilityContractRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "534ba211e44d1ef669c75cb130c3e1e3cd63dff7be61dd246853dd72d1ebdeca",
+              "type": "string"
+            },
+            "id": {
+              "const": "CC-CAP02-NORMALIZE-PNG@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "contracts/cc-cap02-normalize-png.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "comparisonBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "alternativeEvidenceRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "marketBenchmarkReason": {
+              "const": "deterministic codec conformance uses golden identities, properties, an independent observer, and fault injection",
+              "type": "string"
+            },
+            "marketBenchmarkState": {
+              "const": "not-applicable",
+              "type": "string"
+            }
+          },
+          "required": [
+            "marketBenchmarkState",
+            "marketBenchmarkReason",
+            "alternativeEvidenceRequired"
+          ],
+          "type": "object"
+        },
+        "contentHash": {
+          "const": "95f5e481352dd440e0a47e6b03193f4af4c0ea7656f1505ed3ca63e8aae2f84e",
+          "type": "string"
+        },
+        "decisionScope": {
+          "const": "separate-capability-contract-decision",
+          "type": "string"
+        },
+        "decisionState": {
+          "const": "preregistered-metadata-only-not-run",
+          "type": "string"
+        },
+        "decisionToInform": {
+          "const": "whether CC-CAP02-NORMALIZE-PNG@0.4.0 may enter a later one-time independent formal C1 evaluation after adapter calibration and Gate B",
+          "type": "string"
+        },
+        "estimands": {
+          "additionalProperties": false,
+          "properties": {
+            "allThreePlannedRepetitionsMustPass": {
+              "const": true,
+              "type": "boolean"
+            },
+            "finiteStratumPopulationInferenceAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "firstAttemptPerPlannedRepetitionIsPrimary": {
+              "const": true,
+              "type": "boolean"
+            },
+            "majorityVoteAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "primary": {
+              "const": "holdout-source-level-all-three-planned-repetitions-all-pass",
+              "type": "string"
+            },
+            "secondary": {
+              "const": "same-source-all-three-pass-after-at-most-one-predeclared-no-result-replacement",
+              "type": "string"
+            }
+          },
+          "required": [
+            "primary",
+            "secondary",
+            "firstAttemptPerPlannedRepetitionIsPrimary",
+            "allThreePlannedRepetitionsMustPass",
+            "majorityVoteAllowed",
+            "finiteStratumPopulationInferenceAllowed"
+          ],
+          "type": "object"
+        },
+        "evaluationPlanBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "bindingScope": {
+              "const": "entire-partition-plan-including-all-suite-partition-fields",
+              "type": "string"
+            },
+            "calibrationExcludedFromInitialC1": {
+              "const": true,
+              "type": "boolean"
+            },
+            "calibrationResultState": {
+              "const": "not-created",
+              "type": "string"
+            },
+            "escapeExcludedFromInitialC1": {
+              "const": true,
+              "type": "boolean"
+            },
+            "fixtureManifestRequiredVersion": {
+              "const": "0.4.0",
+              "type": "string"
+            },
+            "fixtureManifestState": {
+              "const": "not-created-blocks-run",
+              "type": "string"
+            },
+            "initialC1DecisionDenominators": {
+              "additionalProperties": false,
+              "properties": {
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "total": {
+                  "const": 48,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "holdout",
+                "defectHoldout",
+                "total"
+              ],
+              "type": "object"
+            },
+            "lifecyclePlannedDenominators": {
+              "additionalProperties": false,
+              "properties": {
+                "defectCalibration": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "devCalibration": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "escapeInitial": {
+                  "const": 0,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "devCalibration",
+                "holdout",
+                "defectCalibration",
+                "defectHoldout",
+                "escapeInitial"
+              ],
+              "type": "object"
+            },
+            "partitionPlanContentHash": {
+              "const": "35c59353b75fb517c428ea87cf9c50b379cdddb29261e2f30655e7fd761b9700",
+              "type": "string"
+            }
+          },
+          "required": [
+            "bindingScope",
+            "partitionPlanContentHash",
+            "lifecyclePlannedDenominators",
+            "initialC1DecisionDenominators",
+            "calibrationExcludedFromInitialC1",
+            "escapeExcludedFromInitialC1",
+            "fixtureManifestState",
+            "fixtureManifestRequiredVersion",
+            "calibrationResultState"
+          ],
+          "type": "object"
+        },
+        "evidenceBoundary": {
+          "additionalProperties": false,
+          "properties": {
+            "c1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "e1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "g1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "o1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1Pipeline": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductRelease": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductValidation": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseAllowlist": {
+              "const": "none",
+              "type": "string"
+            },
+            "releaseApproved": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseRegistered": {
+              "const": 0,
+              "type": "integer"
+            },
+            "u1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "v1": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "c1",
+            "u1",
+            "e1",
+            "r1Pipeline",
+            "r1ProductValidation",
+            "r1ProductRelease",
+            "o1",
+            "g1",
+            "v1",
+            "releaseAllowlist",
+            "releaseRegistered",
+            "releaseApproved"
+          ],
+          "type": "object"
+        },
+        "formalPartitionsState": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "formatTargetRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+              "type": "string"
+            },
+            "id": {
+              "const": "FT-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "profiles/format-target.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "frozenAt": {
+          "const": "2026-08-15T00:20:45.916Z",
+          "type": "string"
+        },
+        "gateBState": {
+          "const": "not-entered",
+          "type": "string"
+        },
+        "operation": {
+          "const": "normalize",
+          "type": "string"
+        },
+        "oraclePrerequisiteBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "operation": {
+              "const": "normalize",
+              "type": "string"
+            },
+            "prerequisiteId": {
+              "const": "ORACLE-PREREQ-NORMALIZE-PNG@0.4.0",
+              "type": "string"
+            },
+            "qaProfileContentHash": {
+              "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+              "type": "string"
+            },
+            "state": {
+              "const": "not-created-blocks-gate-b",
+              "type": "string"
+            }
+          },
+          "required": [
+            "qaProfileContentHash",
+            "prerequisiteId",
+            "operation",
+            "state"
+          ],
+          "type": "object"
+        },
+        "owners": {
+          "items": {
+            "enum": [
+              "role.evidence-owner",
+              "role.normalize-contract-owner"
+            ],
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "partitionPlanRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "35c59353b75fb517c428ea87cf9c50b379cdddb29261e2f30655e7fd761b9700",
+              "type": "string"
+            },
+            "id": {
+              "const": "PP-NORMALIZE-PNG@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "preregistrations/partition-plan.normalize-png.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "preregistrationId": {
+          "const": "PREREG-NORMALIZE-PNG@0.4.0",
+          "type": "string"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "qaProfileRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+              "type": "string"
+            },
+            "id": {
+              "const": "QA-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "preregistrations/qa-profile.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "recordVersion": {
+          "const": "0.4.0",
+          "type": "string"
+        },
+        "rerunPolicy": {
+          "additionalProperties": false,
+          "properties": {
+            "allAttemptHistoryRetained": {
+              "const": true,
+              "type": "boolean"
+            },
+            "allowedInvalidReasons": {
+              "items": {
+                "enum": [
+                  "runner-crash-before-result",
+                  "custody-interruption",
+                  "integrity-check-failure"
+                ],
+                "type": "string"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "cancelledCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "failureCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": {
+              "const": true,
+              "type": "boolean"
+            },
+            "maximumInvalidRerunsPerSource": {
+              "const": 1,
+              "type": "integer"
+            },
+            "missingCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "timeoutCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "validNonPassMayBeReplacedOrOverwritten": {
+              "const": false,
+              "type": "boolean"
+            },
+            "validResultRerunAllowed": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "validResultRerunAllowed",
+            "maximumInvalidRerunsPerSource",
+            "allowedInvalidReasons",
+            "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt",
+            "validNonPassMayBeReplacedOrOverwritten",
+            "missingCountsInDenominator",
+            "timeoutCountsInDenominator",
+            "failureCountsInDenominator",
+            "cancelledCountsInDenominator",
+            "allAttemptHistoryRetained"
+          ],
+          "type": "object"
+        },
+        "researchQuestion": {
+          "const": "Does the exact source-resolved composite candidate satisfy every frozen canonical-PNG normalization identity and rejection invariant on the registered independent-source strata?",
+          "type": "string"
+        },
+        "reviewBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "agreementMetric": {
+              "const": "raw-agreement-and-category-confusion-counts",
+              "type": "string"
+            },
+            "candidateIdentityBlinded": {
+              "const": true,
+              "type": "boolean"
+            },
+            "independentAdjudicatorRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "primaryReviewerCount": {
+              "const": 2,
+              "type": "integer"
+            },
+            "unresolvedDisagreementTreatment": {
+              "const": "non-pass",
+              "type": "string"
+            }
+          },
+          "required": [
+            "primaryReviewerCount",
+            "candidateIdentityBlinded",
+            "independentAdjudicatorRequired",
+            "unresolvedDisagreementTreatment",
+            "agreementMetric"
+          ],
+          "type": "object"
+        },
+        "roleGovernance": {
+          "additionalProperties": false,
+          "properties": {
+            "approvalState": {
+              "const": "not-approved",
+              "type": "string"
+            },
+            "assignmentState": {
+              "const": "not-assigned",
+              "type": "string"
+            },
+            "formalRunBlocked": {
+              "const": true,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "assignmentState",
+            "approvalState",
+            "formalRunBlocked"
+          ],
+          "type": "object"
+        },
+        "roles": {
+          "additionalProperties": false,
+          "properties": {
+            "approver": {
+              "const": "role.independent-approver",
+              "type": "string"
+            },
+            "candidateAuthor": {
+              "const": "role.candidate-author",
+              "type": "string"
+            },
+            "custodian": {
+              "const": "role.future-independent-custodian",
+              "type": "string"
+            },
+            "oracleAuthor": {
+              "const": "role.oracle-author",
+              "type": "string"
+            },
+            "qaAuthor": {
+              "const": "role.qa-author",
+              "type": "string"
+            },
+            "stoppingRuleAuthor": {
+              "const": "role.stopping-author",
+              "type": "string"
+            },
+            "thresholdAuthor": {
+              "const": "role.threshold-author",
+              "type": "string"
+            }
+          },
+          "required": [
+            "candidateAuthor",
+            "qaAuthor",
+            "oracleAuthor",
+            "thresholdAuthor",
+            "stoppingRuleAuthor",
+            "custodian",
+            "approver"
+          ],
+          "type": "object"
+        },
+        "schemaVersion": {
+          "const": "preregistration.slice04.v0",
+          "type": "string"
+        },
+        "stoppingRule": {
+          "additionalProperties": false,
+          "properties": {
+            "collectionWindow": {
+              "const": "single-frozen-formal-window",
+              "type": "string"
+            },
+            "dataDependentExtensionAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "denominatorReductionAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "earlySuccessAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "escapeInitialSources": {
+              "const": 0,
+              "type": "integer"
+            },
+            "initialC1DecisionSources": {
+              "additionalProperties": false,
+              "properties": {
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "total": {
+                  "const": 48,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "holdout",
+                "defectHoldout",
+                "total"
+              ],
+              "type": "object"
+            },
+            "insufficientOrContaminatedDisposition": {
+              "const": "close-inconclusive-or-failed-and-version-new-plan",
+              "type": "string"
+            },
+            "lifecyclePlannedFiniteSources": {
+              "additionalProperties": false,
+              "properties": {
+                "defectCalibration": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "devCalibration": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "devCalibration",
+                "holdout",
+                "defectCalibration",
+                "defectHoldout"
+              ],
+              "type": "object"
+            },
+            "thresholdAdjustmentAfterObservationAllowed": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "collectionWindow",
+            "lifecyclePlannedFiniteSources",
+            "initialC1DecisionSources",
+            "escapeInitialSources",
+            "dataDependentExtensionAllowed",
+            "earlySuccessAllowed",
+            "denominatorReductionAllowed",
+            "thresholdAdjustmentAfterObservationAllowed",
+            "insufficientOrContaminatedDisposition"
+          ],
+          "type": "object"
+        },
+        "suiteId": {
+          "const": "NORMALIZE-DELIVER",
+          "type": "string"
+        },
+        "suiteVersion": {
+          "const": "0.4.0",
+          "type": "string"
+        },
+        "thresholds": {
+          "additionalProperties": false,
+          "properties": {
+            "allCategoriesMustPass": {
+              "const": true,
+              "type": "boolean"
+            },
+            "applicableAcceptanceRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "cancelledRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "catastrophicFailureTolerance": {
+              "const": 0,
+              "type": "integer"
+            },
+            "defectRejectionRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "failureRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "falseAllowRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "falseRejectRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "identityMatchRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "missingRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "timeoutRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "unknownRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "applicableAcceptanceRate",
+            "defectRejectionRate",
+            "identityMatchRate",
+            "falseRejectRate",
+            "falseAllowRate",
+            "failureRate",
+            "timeoutRate",
+            "cancelledRate",
+            "missingRate",
+            "unknownRate",
+            "catastrophicFailureTolerance",
+            "allCategoriesMustPass"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "preregistrationId",
+        "recordVersion",
+        "frozenAt",
+        "suiteId",
+        "suiteVersion",
+        "operation",
+        "researchQuestion",
+        "decisionToInform",
+        "decisionScope",
+        "decisionState",
+        "candidateLockRef",
+        "formatTargetRef",
+        "capabilityContractRef",
+        "partitionPlanRef",
+        "qaProfileRef",
+        "oraclePrerequisiteBinding",
+        "evaluationPlanBinding",
+        "estimands",
+        "rerunPolicy",
+        "thresholds",
+        "stoppingRule",
+        "comparisonBinding",
+        "reviewBinding",
+        "roles",
+        "roleGovernance",
+        "owners",
+        "approvers",
+        "formalPartitionsState",
+        "candidateExecutionState",
+        "productSupport",
+        "gateBState",
+        "c1Decision",
+        "evidenceBoundary",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "approvers": {
+          "items": {
+            "enum": [
+              "role.independent-approver",
+              "role.methodology-approver"
+            ],
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "c1Decision": {
+          "const": "not-evaluated",
+          "type": "string"
+        },
+        "candidateExecutionState": {
+          "const": "not-run",
+          "type": "string"
+        },
+        "candidateLockRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+              "type": "string"
+            },
+            "id": {
+              "const": "REG-NORM-SHARP@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "capabilityContractRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "8c2fef119a53af39c02108bde6ffd7e8390bebbd77a31d935734033da1c1cd7f",
+              "type": "string"
+            },
+            "id": {
+              "const": "CC-CAP02-EXPORT-PNG@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "contracts/cc-cap02-export-png.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "comparisonBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "alternativeEvidenceRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "marketBenchmarkReason": {
+              "const": "deterministic codec conformance uses golden identities, properties, an independent observer, and fault injection",
+              "type": "string"
+            },
+            "marketBenchmarkState": {
+              "const": "not-applicable",
+              "type": "string"
+            }
+          },
+          "required": [
+            "marketBenchmarkState",
+            "marketBenchmarkReason",
+            "alternativeEvidenceRequired"
+          ],
+          "type": "object"
+        },
+        "contentHash": {
+          "const": "86e418f7227bdb880c9a4bc44ce7757fc4463d50c226855639bcc8e77941b134",
+          "type": "string"
+        },
+        "decisionScope": {
+          "const": "separate-capability-contract-decision",
+          "type": "string"
+        },
+        "decisionState": {
+          "const": "preregistered-metadata-only-not-run",
+          "type": "string"
+        },
+        "decisionToInform": {
+          "const": "whether CC-CAP02-EXPORT-PNG@0.4.0 may enter a later one-time independent formal C1 evaluation after adapter calibration and Gate B",
+          "type": "string"
+        },
+        "estimands": {
+          "additionalProperties": false,
+          "properties": {
+            "allThreePlannedRepetitionsMustPass": {
+              "const": true,
+              "type": "boolean"
+            },
+            "finiteStratumPopulationInferenceAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "firstAttemptPerPlannedRepetitionIsPrimary": {
+              "const": true,
+              "type": "boolean"
+            },
+            "majorityVoteAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "primary": {
+              "const": "holdout-source-level-all-three-planned-repetitions-all-pass",
+              "type": "string"
+            },
+            "secondary": {
+              "const": "same-source-all-three-pass-after-at-most-one-predeclared-no-result-replacement",
+              "type": "string"
+            }
+          },
+          "required": [
+            "primary",
+            "secondary",
+            "firstAttemptPerPlannedRepetitionIsPrimary",
+            "allThreePlannedRepetitionsMustPass",
+            "majorityVoteAllowed",
+            "finiteStratumPopulationInferenceAllowed"
+          ],
+          "type": "object"
+        },
+        "evaluationPlanBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "bindingScope": {
+              "const": "entire-partition-plan-including-all-suite-partition-fields",
+              "type": "string"
+            },
+            "calibrationExcludedFromInitialC1": {
+              "const": true,
+              "type": "boolean"
+            },
+            "calibrationResultState": {
+              "const": "not-created",
+              "type": "string"
+            },
+            "escapeExcludedFromInitialC1": {
+              "const": true,
+              "type": "boolean"
+            },
+            "fixtureManifestRequiredVersion": {
+              "const": "0.4.0",
+              "type": "string"
+            },
+            "fixtureManifestState": {
+              "const": "not-created-blocks-run",
+              "type": "string"
+            },
+            "initialC1DecisionDenominators": {
+              "additionalProperties": false,
+              "properties": {
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "total": {
+                  "const": 48,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "holdout",
+                "defectHoldout",
+                "total"
+              ],
+              "type": "object"
+            },
+            "lifecyclePlannedDenominators": {
+              "additionalProperties": false,
+              "properties": {
+                "defectCalibration": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "devCalibration": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "escapeInitial": {
+                  "const": 0,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "devCalibration",
+                "holdout",
+                "defectCalibration",
+                "defectHoldout",
+                "escapeInitial"
+              ],
+              "type": "object"
+            },
+            "partitionPlanContentHash": {
+              "const": "69f5965e7da9e873831573f84139b0f0cadcee07af99b15b7c7866729897ec09",
+              "type": "string"
+            }
+          },
+          "required": [
+            "bindingScope",
+            "partitionPlanContentHash",
+            "lifecyclePlannedDenominators",
+            "initialC1DecisionDenominators",
+            "calibrationExcludedFromInitialC1",
+            "escapeExcludedFromInitialC1",
+            "fixtureManifestState",
+            "fixtureManifestRequiredVersion",
+            "calibrationResultState"
+          ],
+          "type": "object"
+        },
+        "evidenceBoundary": {
+          "additionalProperties": false,
+          "properties": {
+            "c1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "e1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "g1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "o1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1Pipeline": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductRelease": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductValidation": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseAllowlist": {
+              "const": "none",
+              "type": "string"
+            },
+            "releaseApproved": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseRegistered": {
+              "const": 0,
+              "type": "integer"
+            },
+            "u1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "v1": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "c1",
+            "u1",
+            "e1",
+            "r1Pipeline",
+            "r1ProductValidation",
+            "r1ProductRelease",
+            "o1",
+            "g1",
+            "v1",
+            "releaseAllowlist",
+            "releaseRegistered",
+            "releaseApproved"
+          ],
+          "type": "object"
+        },
+        "formalPartitionsState": {
+          "const": "not-created",
+          "type": "string"
+        },
+        "formatTargetRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+              "type": "string"
+            },
+            "id": {
+              "const": "FT-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "profiles/format-target.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "frozenAt": {
+          "const": "2026-08-15T00:20:45.916Z",
+          "type": "string"
+        },
+        "gateBState": {
+          "const": "not-entered",
+          "type": "string"
+        },
+        "operation": {
+          "const": "export",
+          "type": "string"
+        },
+        "oraclePrerequisiteBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "operation": {
+              "const": "export",
+              "type": "string"
+            },
+            "prerequisiteId": {
+              "const": "ORACLE-PREREQ-EXPORT-PNG@0.4.0",
+              "type": "string"
+            },
+            "qaProfileContentHash": {
+              "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+              "type": "string"
+            },
+            "state": {
+              "const": "not-created-blocks-gate-b",
+              "type": "string"
+            }
+          },
+          "required": [
+            "qaProfileContentHash",
+            "prerequisiteId",
+            "operation",
+            "state"
+          ],
+          "type": "object"
+        },
+        "owners": {
+          "items": {
+            "enum": [
+              "role.evidence-owner",
+              "role.export-contract-owner"
+            ],
+            "type": "string"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "partitionPlanRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "69f5965e7da9e873831573f84139b0f0cadcee07af99b15b7c7866729897ec09",
+              "type": "string"
+            },
+            "id": {
+              "const": "PP-EXPORT-PNG@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "preregistrations/partition-plan.export-png.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "preregistrationId": {
+          "const": "PREREG-EXPORT-PNG@0.4.0",
+          "type": "string"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "qaProfileRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+              "type": "string"
+            },
+            "id": {
+              "const": "QA-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "preregistrations/qa-profile.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "recordVersion": {
+          "const": "0.4.0",
+          "type": "string"
+        },
+        "rerunPolicy": {
+          "additionalProperties": false,
+          "properties": {
+            "allAttemptHistoryRetained": {
+              "const": true,
+              "type": "boolean"
+            },
+            "allowedInvalidReasons": {
+              "items": {
+                "enum": [
+                  "runner-crash-before-result",
+                  "custody-interruption",
+                  "integrity-check-failure"
+                ],
+                "type": "string"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "cancelledCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "failureCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": {
+              "const": true,
+              "type": "boolean"
+            },
+            "maximumInvalidRerunsPerSource": {
+              "const": 1,
+              "type": "integer"
+            },
+            "missingCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "timeoutCountsInDenominator": {
+              "const": true,
+              "type": "boolean"
+            },
+            "validNonPassMayBeReplacedOrOverwritten": {
+              "const": false,
+              "type": "boolean"
+            },
+            "validResultRerunAllowed": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "validResultRerunAllowed",
+            "maximumInvalidRerunsPerSource",
+            "allowedInvalidReasons",
+            "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt",
+            "validNonPassMayBeReplacedOrOverwritten",
+            "missingCountsInDenominator",
+            "timeoutCountsInDenominator",
+            "failureCountsInDenominator",
+            "cancelledCountsInDenominator",
+            "allAttemptHistoryRetained"
+          ],
+          "type": "object"
+        },
+        "researchQuestion": {
+          "const": "Does the exact source-resolved composite candidate satisfy every frozen canonical-PNG export identity and rejection invariant on the registered independent-source strata?",
+          "type": "string"
+        },
+        "reviewBinding": {
+          "additionalProperties": false,
+          "properties": {
+            "agreementMetric": {
+              "const": "raw-agreement-and-category-confusion-counts",
+              "type": "string"
+            },
+            "candidateIdentityBlinded": {
+              "const": true,
+              "type": "boolean"
+            },
+            "independentAdjudicatorRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "primaryReviewerCount": {
+              "const": 2,
+              "type": "integer"
+            },
+            "unresolvedDisagreementTreatment": {
+              "const": "non-pass",
+              "type": "string"
+            }
+          },
+          "required": [
+            "primaryReviewerCount",
+            "candidateIdentityBlinded",
+            "independentAdjudicatorRequired",
+            "unresolvedDisagreementTreatment",
+            "agreementMetric"
+          ],
+          "type": "object"
+        },
+        "roleGovernance": {
+          "additionalProperties": false,
+          "properties": {
+            "approvalState": {
+              "const": "not-approved",
+              "type": "string"
+            },
+            "assignmentState": {
+              "const": "not-assigned",
+              "type": "string"
+            },
+            "formalRunBlocked": {
+              "const": true,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "assignmentState",
+            "approvalState",
+            "formalRunBlocked"
+          ],
+          "type": "object"
+        },
+        "roles": {
+          "additionalProperties": false,
+          "properties": {
+            "approver": {
+              "const": "role.independent-approver",
+              "type": "string"
+            },
+            "candidateAuthor": {
+              "const": "role.candidate-author",
+              "type": "string"
+            },
+            "custodian": {
+              "const": "role.future-independent-custodian",
+              "type": "string"
+            },
+            "oracleAuthor": {
+              "const": "role.oracle-author",
+              "type": "string"
+            },
+            "qaAuthor": {
+              "const": "role.qa-author",
+              "type": "string"
+            },
+            "stoppingRuleAuthor": {
+              "const": "role.stopping-author",
+              "type": "string"
+            },
+            "thresholdAuthor": {
+              "const": "role.threshold-author",
+              "type": "string"
+            }
+          },
+          "required": [
+            "candidateAuthor",
+            "qaAuthor",
+            "oracleAuthor",
+            "thresholdAuthor",
+            "stoppingRuleAuthor",
+            "custodian",
+            "approver"
+          ],
+          "type": "object"
+        },
+        "schemaVersion": {
+          "const": "preregistration.slice04.v0",
+          "type": "string"
+        },
+        "stoppingRule": {
+          "additionalProperties": false,
+          "properties": {
+            "collectionWindow": {
+              "const": "single-frozen-formal-window",
+              "type": "string"
+            },
+            "dataDependentExtensionAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "denominatorReductionAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "earlySuccessAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "escapeInitialSources": {
+              "const": 0,
+              "type": "integer"
+            },
+            "initialC1DecisionSources": {
+              "additionalProperties": false,
+              "properties": {
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "total": {
+                  "const": 48,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "holdout",
+                "defectHoldout",
+                "total"
+              ],
+              "type": "object"
+            },
+            "insufficientOrContaminatedDisposition": {
+              "const": "close-inconclusive-or-failed-and-version-new-plan",
+              "type": "string"
+            },
+            "lifecyclePlannedFiniteSources": {
+              "additionalProperties": false,
+              "properties": {
+                "defectCalibration": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "defectHoldout": {
+                  "const": 18,
+                  "type": "integer"
+                },
+                "devCalibration": {
+                  "const": 30,
+                  "type": "integer"
+                },
+                "holdout": {
+                  "const": 30,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "devCalibration",
+                "holdout",
+                "defectCalibration",
+                "defectHoldout"
+              ],
+              "type": "object"
+            },
+            "thresholdAdjustmentAfterObservationAllowed": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "collectionWindow",
+            "lifecyclePlannedFiniteSources",
+            "initialC1DecisionSources",
+            "escapeInitialSources",
+            "dataDependentExtensionAllowed",
+            "earlySuccessAllowed",
+            "denominatorReductionAllowed",
+            "thresholdAdjustmentAfterObservationAllowed",
+            "insufficientOrContaminatedDisposition"
+          ],
+          "type": "object"
+        },
+        "suiteId": {
+          "const": "NORMALIZE-DELIVER",
+          "type": "string"
+        },
+        "suiteVersion": {
+          "const": "0.4.0",
+          "type": "string"
+        },
+        "thresholds": {
+          "additionalProperties": false,
+          "properties": {
+            "allCategoriesMustPass": {
+              "const": true,
+              "type": "boolean"
+            },
+            "applicableAcceptanceRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "cancelledRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "catastrophicFailureTolerance": {
+              "const": 0,
+              "type": "integer"
+            },
+            "defectRejectionRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "failureRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "falseAllowRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "falseRejectRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "identityMatchRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 1,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "missingRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "timeoutRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            },
+            "unknownRate": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "const": "exactly",
+                  "type": "string"
+                },
+                "value": {
+                  "const": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "operator",
+                "value"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "applicableAcceptanceRate",
+            "defectRejectionRate",
+            "identityMatchRate",
+            "falseRejectRate",
+            "falseAllowRate",
+            "failureRate",
+            "timeoutRate",
+            "cancelledRate",
+            "missingRate",
+            "unknownRate",
+            "catastrophicFailureTolerance",
+            "allCategoriesMustPass"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "preregistrationId",
+        "recordVersion",
+        "frozenAt",
+        "suiteId",
+        "suiteVersion",
+        "operation",
+        "researchQuestion",
+        "decisionToInform",
+        "decisionScope",
+        "decisionState",
+        "candidateLockRef",
+        "formatTargetRef",
+        "capabilityContractRef",
+        "partitionPlanRef",
+        "qaProfileRef",
+        "oraclePrerequisiteBinding",
+        "evaluationPlanBinding",
+        "estimands",
+        "rerunPolicy",
+        "thresholds",
+        "stoppingRule",
+        "comparisonBinding",
+        "reviewBinding",
+        "roles",
+        "roleGovernance",
+        "owners",
+        "approvers",
+        "formalPartitionsState",
+        "candidateExecutionState",
+        "productSupport",
+        "gateBState",
+        "c1Decision",
+        "evidenceBoundary",
+        "contentHash"
+      ],
+      "type": "object"
+    }
+  ],
+  "title": "Slice 04 preregistration"
+}

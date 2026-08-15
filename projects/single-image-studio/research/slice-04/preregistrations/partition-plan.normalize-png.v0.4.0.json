@@ -1,0 +1,645 @@
+{
+  "approvalState": "not-approved-blocks-formal-run",
+  "approvers": [
+    "role.independent-approver",
+    "role.methodology-approver"
+  ],
+  "comparisonPlan": {
+    "candidateCount": 1,
+    "candidateIds": [
+      "REG-NORM-SHARP@0.4.0"
+    ],
+    "deterministicContractAlternativeEvidence": [
+      "golden-byte-and-decoded-pixel-identities",
+      "future-independent-normalize-oracle-with-slice03-design-lineage",
+      "property-tests",
+      "fault-injection"
+    ],
+    "marketBenchmarkReason": "deterministic codec conformance is judged against frozen bytes, properties, and a future operation-specific independent oracle rather than a market image editor",
+    "marketBenchmarkState": "not-applicable"
+  },
+  "contentHash": "35c59353b75fb517c428ea87cf9c50b379cdddb29261e2f30655e7fd761b9700",
+  "denominatorPolicy": {
+    "cancelledIncluded": true,
+    "correctRejectSeparateFromFalseReject": true,
+    "failureIncluded": true,
+    "falseAllowSeparateFromExecutionFailure": true,
+    "finiteStratumPopulationInferenceAllowed": false,
+    "missingIncluded": true,
+    "registeredSourcesNeverSilentlyRemoved": true,
+    "timeoutIncluded": true,
+    "unknownIncluded": true
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "g1": 0,
+    "o1": 0,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "fixtureManifestRequiredVersion": "0.4.0",
+  "fixtureManifestState": "not-created-blocks-run",
+  "fixturePixelsPresent": false,
+  "formalDefectHoldoutStatus": "not-created",
+  "formalEscapeStatus": "not-created",
+  "formalHoldoutStatus": "not-created",
+  "frozenAt": "2026-08-15T00:20:45.916Z",
+  "holdoutSeedsPresent": false,
+  "initialC1DecisionDenominators": {
+    "calibrationExcluded": true,
+    "defectHoldout": 18,
+    "escapeExcluded": true,
+    "holdout": 30,
+    "total": 48
+  },
+  "isolation": {
+    "captureSessionUniqueAcrossPartitions": true,
+    "derivativeCrossPartitionForbidden": true,
+    "exactHashCrossPartitionForbidden": true,
+    "nearDuplicateCrossPartitionForbidden": true,
+    "priorSliceStructuralFixtureReuseForbidden": true,
+    "sourceFamilyUniqueAcrossPartitions": true
+  },
+  "lifecyclePlannedDenominators": {
+    "defectCalibration": 18,
+    "defectHoldout": 18,
+    "devCalibration": 30,
+    "escapeInitial": 0,
+    "holdout": 30
+  },
+  "operation": "normalize",
+  "owners": [
+    "role.evidence-owner",
+    "role.partition-owner"
+  ],
+  "partitionPlanId": "PP-NORMALIZE-PNG@0.4.0",
+  "partitions": [
+    {
+      "allowedInvalidReasons": [
+        "runner-crash-before-result",
+        "custody-interruption",
+        "integrity-check-failure"
+      ],
+      "applicableCategories": [
+        {
+          "categoryId": "canonical-opaque-source-png",
+          "minimumIndependentSources": 6
+        },
+        {
+          "categoryId": "canonical-partial-alpha-source-png",
+          "minimumIndependentSources": 6
+        },
+        {
+          "categoryId": "canonical-alpha-holes-source-png",
+          "minimumIndependentSources": 6
+        }
+      ],
+      "approvers": [
+        "role.independent-approver",
+        "role.methodology-approver"
+      ],
+      "assetState": "not-created",
+      "captureSessionRule": "one captureSessionId per generation session; sessions never cross partitions",
+      "catastrophicFailureDefinitions": [
+        "candidate-oracle-identity-collision",
+        "accepted-output-byte-or-decoded-pixel-identity-mismatch",
+        "unsupported-or-defect-input-produces-an-artifact",
+        "registered-result-is-lost-replaced-or-associated-with-the-wrong-source"
+      ],
+      "categoryFloor": "all three planned repetitions of every registered source in every category must pass",
+      "confidenceMethod": "finite-stratum exact counts and descriptive rates only; no population inference",
+      "countKind": "finite-stratum",
+      "deterministicOrStochastic": "deterministic-local-codec",
+      "diagnosticRetryRule": "diagnostic runs are outside formal results and cannot replace or erase a registered attempt",
+      "difficultCategories": [
+        {
+          "categoryId": "one-pixel-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "maximum-dimension-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "source-alpha-extremes-and-thin-holes",
+          "minimumIndependentSources": 2
+        }
+      ],
+      "eligibilityRule": "exactly one registered independent source with complete rights, family, session, category, and immutable asset hashes",
+      "escapePolicy": null,
+      "evidenceRole": "open-calibration",
+      "excludedFromInitialC1": true,
+      "exclusionRule": "only pre-run rights withdrawal, proven cross-partition lineage contamination, or corrupt custody; retain exclusion record in denominator ledger",
+      "failureTimeoutCancelTreatment": "each remains a distinct non-pass outcome in its registered-source denominator",
+      "fixtureManifest": {
+        "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-DEV-CALIBRATION@0.4.0",
+        "requiredVersion": "0.4.0",
+        "state": "not-created-blocks-run"
+      },
+      "formal": false,
+      "frozenAt": "2026-08-15T00:20:45.916Z",
+      "internalRetryRule": "zero retries for valid outcomes; maximum one replacement per source across all three repetitions only after a predeclared invalid no-result attempt",
+      "invalidRunRule": "only runner-crash-before-result, custody-interruption, or integrity-check-failure before a result; at most one total replacement per source across all three planned repetitions; it may replace only its corresponding no-result attempt; retain all attempts",
+      "maximumCollectionWindow": "P14D",
+      "minimumApplicableSources": 18,
+      "minimumIndependentSourcesTotal": 30,
+      "minimumRejectionSources": 12,
+      "missingResultTreatment": "missing remains a distinct non-pass outcome in its registered-source denominator",
+      "operation": "normalize",
+      "overallThreshold": "all registered sources pass all three repetitions with zero false allow, false reject, failure, timeout, cancellation, missing, or unknown",
+      "owners": [
+        "role.evidence-owner"
+      ],
+      "partition": "dev/calibration",
+      "plannedIndependentSources": 30,
+      "primaryEstimand": "proportion-of-registered-independent-sources-with-all-three-planned-repetitions-passing",
+      "rejectionCategories": [
+        {
+          "categoryId": "container-signature-or-crc-invalid",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "pixel-layout-color-or-metadata-invalid",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "resource-limit-or-unsupported-format",
+          "minimumIndependentSources": 4
+        }
+      ],
+      "repeatPassRule": {
+        "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": true,
+        "majorityVoteAllowed": false,
+        "maximumInvalidReplacementsPerSourceAcrossAllRepetitions": 1,
+        "plannedRepetitions": 3,
+        "requiredValidPasses": 3,
+        "validNonPassRerunAllowed": false
+      },
+      "runRepetitionsPerSource": 3,
+      "secondaryEstimands": [
+        "same-source-all-three-pass-after-at-most-one-total-validly-classified-no-result-replacement-per-source-across-all-three-planned-repetitions",
+        "false-reject-rate-among-applicable-sources",
+        "false-allow-rate-among-rejection-sources"
+      ],
+      "sourceFamilyRule": "one sourceFamilyId per independent construction lineage; derivatives remain in one partition",
+      "sourceLevelAggregation": "all-three-planned-repetitions-must-pass; one allowed invalid rerun replaces only its no-result attempt",
+      "sourcePopulation": "future project-original synthetic raw source PNG bytes authored after Slice 04 freeze",
+      "stoppingRule": "close exactly at the frozen registered source set; no early success, denominator reduction, majority vote, or data-dependent extension",
+      "suiteId": "NORMALIZE-DELIVER",
+      "suiteVersion": "0.4.0",
+      "unitOfAnalysis": "independent_source",
+      "userExecutionRule": "not-applicable: offline evidence run has no user execution"
+    },
+    {
+      "allowedInvalidReasons": [
+        "runner-crash-before-result",
+        "custody-interruption",
+        "integrity-check-failure"
+      ],
+      "applicableCategories": [
+        {
+          "categoryId": "canonical-opaque-source-png",
+          "minimumIndependentSources": 6
+        },
+        {
+          "categoryId": "canonical-partial-alpha-source-png",
+          "minimumIndependentSources": 6
+        },
+        {
+          "categoryId": "canonical-alpha-holes-source-png",
+          "minimumIndependentSources": 6
+        }
+      ],
+      "approvers": [
+        "role.independent-approver",
+        "role.methodology-approver"
+      ],
+      "assetState": "not-created",
+      "captureSessionRule": "one captureSessionId per generation session; sessions never cross partitions",
+      "catastrophicFailureDefinitions": [
+        "candidate-oracle-identity-collision",
+        "accepted-output-byte-or-decoded-pixel-identity-mismatch",
+        "unsupported-or-defect-input-produces-an-artifact",
+        "registered-result-is-lost-replaced-or-associated-with-the-wrong-source"
+      ],
+      "categoryFloor": "all three planned repetitions of every registered source in every category must pass",
+      "confidenceMethod": "finite-stratum exact counts and descriptive rates only; no population inference",
+      "countKind": "finite-stratum",
+      "deterministicOrStochastic": "deterministic-local-codec",
+      "diagnosticRetryRule": "diagnostic runs are outside formal results and cannot replace or erase a registered attempt",
+      "difficultCategories": [
+        {
+          "categoryId": "one-pixel-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "maximum-dimension-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "source-alpha-extremes-and-thin-holes",
+          "minimumIndependentSources": 2
+        }
+      ],
+      "eligibilityRule": "exactly one registered independent source with complete rights, family, session, category, and immutable asset hashes",
+      "escapePolicy": null,
+      "evidenceRole": "sealed-independent-c1",
+      "excludedFromInitialC1": false,
+      "exclusionRule": "only pre-run rights withdrawal, proven cross-partition lineage contamination, or corrupt custody; retain exclusion record in denominator ledger",
+      "failureTimeoutCancelTreatment": "each remains a distinct non-pass outcome in its registered-source denominator",
+      "fixtureManifest": {
+        "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-HOLDOUT@0.4.0",
+        "requiredVersion": "0.4.0",
+        "state": "not-created-blocks-run"
+      },
+      "formal": true,
+      "frozenAt": "2026-08-15T00:20:45.916Z",
+      "internalRetryRule": "zero retries for valid outcomes; maximum one replacement per source across all three repetitions only after a predeclared invalid no-result attempt",
+      "invalidRunRule": "only runner-crash-before-result, custody-interruption, or integrity-check-failure before a result; at most one total replacement per source across all three planned repetitions; it may replace only its corresponding no-result attempt; retain all attempts",
+      "maximumCollectionWindow": "P14D",
+      "minimumApplicableSources": 18,
+      "minimumIndependentSourcesTotal": 30,
+      "minimumRejectionSources": 12,
+      "missingResultTreatment": "missing remains a distinct non-pass outcome in its registered-source denominator",
+      "operation": "normalize",
+      "overallThreshold": "all registered sources pass all three repetitions with zero false allow, false reject, failure, timeout, cancellation, missing, or unknown",
+      "owners": [
+        "role.evidence-owner"
+      ],
+      "partition": "holdout",
+      "plannedIndependentSources": 30,
+      "primaryEstimand": "proportion-of-registered-independent-sources-with-all-three-planned-repetitions-passing",
+      "rejectionCategories": [
+        {
+          "categoryId": "container-signature-or-crc-invalid",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "pixel-layout-color-or-metadata-invalid",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "resource-limit-or-unsupported-format",
+          "minimumIndependentSources": 4
+        }
+      ],
+      "repeatPassRule": {
+        "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": true,
+        "majorityVoteAllowed": false,
+        "maximumInvalidReplacementsPerSourceAcrossAllRepetitions": 1,
+        "plannedRepetitions": 3,
+        "requiredValidPasses": 3,
+        "validNonPassRerunAllowed": false
+      },
+      "runRepetitionsPerSource": 3,
+      "secondaryEstimands": [
+        "same-source-all-three-pass-after-at-most-one-total-validly-classified-no-result-replacement-per-source-across-all-three-planned-repetitions",
+        "false-reject-rate-among-applicable-sources",
+        "false-allow-rate-among-rejection-sources"
+      ],
+      "sourceFamilyRule": "one sourceFamilyId per independent construction lineage; derivatives remain in one partition",
+      "sourceLevelAggregation": "all-three-planned-repetitions-must-pass; one allowed invalid rerun replaces only its no-result attempt",
+      "sourcePopulation": "future project-original synthetic raw source PNG bytes authored after Slice 04 freeze",
+      "stoppingRule": "close exactly at the frozen registered source set; no early success, denominator reduction, majority vote, or data-dependent extension",
+      "suiteId": "NORMALIZE-DELIVER",
+      "suiteVersion": "0.4.0",
+      "unitOfAnalysis": "independent_source",
+      "userExecutionRule": "not-applicable: offline evidence run has no user execution"
+    },
+    {
+      "allowedInvalidReasons": [
+        "runner-crash-before-result",
+        "custody-interruption",
+        "integrity-check-failure"
+      ],
+      "applicableCategories": [
+        {
+          "categoryId": "injected-defect-control-opaque-source-png",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "injected-defect-control-partial-alpha-source-png",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "injected-defect-control-alpha-holes-source-png",
+          "minimumIndependentSources": 2
+        }
+      ],
+      "approvers": [
+        "role.independent-approver",
+        "role.methodology-approver"
+      ],
+      "assetState": "not-created",
+      "captureSessionRule": "one captureSessionId per generation session; sessions never cross partitions",
+      "catastrophicFailureDefinitions": [
+        "candidate-oracle-identity-collision",
+        "accepted-output-byte-or-decoded-pixel-identity-mismatch",
+        "unsupported-or-defect-input-produces-an-artifact",
+        "registered-result-is-lost-replaced-or-associated-with-the-wrong-source"
+      ],
+      "categoryFloor": "all three planned repetitions of every registered source in every category must pass",
+      "confidenceMethod": "finite-stratum exact counts and descriptive rates only; no population inference",
+      "countKind": "finite-stratum",
+      "deterministicOrStochastic": "deterministic-local-codec",
+      "diagnosticRetryRule": "diagnostic runs are outside formal results and cannot replace or erase a registered attempt",
+      "difficultCategories": [
+        {
+          "categoryId": "one-pixel-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "maximum-dimension-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "source-alpha-extremes-and-thin-holes",
+          "minimumIndependentSources": 2
+        }
+      ],
+      "eligibilityRule": "exactly one registered independent source with complete rights, family, session, category, and immutable asset hashes",
+      "escapePolicy": null,
+      "evidenceRole": "open-defect-calibration",
+      "excludedFromInitialC1": true,
+      "exclusionRule": "only pre-run rights withdrawal, proven cross-partition lineage contamination, or corrupt custody; retain exclusion record in denominator ledger",
+      "failureTimeoutCancelTreatment": "each remains a distinct non-pass outcome in its registered-source denominator",
+      "fixtureManifest": {
+        "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-DEFECT-CALIBRATION@0.4.0",
+        "requiredVersion": "0.4.0",
+        "state": "not-created-blocks-run"
+      },
+      "formal": false,
+      "frozenAt": "2026-08-15T00:20:45.916Z",
+      "internalRetryRule": "zero retries for valid outcomes; maximum one replacement per source across all three repetitions only after a predeclared invalid no-result attempt",
+      "invalidRunRule": "only runner-crash-before-result, custody-interruption, or integrity-check-failure before a result; at most one total replacement per source across all three planned repetitions; it may replace only its corresponding no-result attempt; retain all attempts",
+      "maximumCollectionWindow": "P14D",
+      "minimumApplicableSources": 6,
+      "minimumIndependentSourcesTotal": 18,
+      "minimumRejectionSources": 12,
+      "missingResultTreatment": "missing remains a distinct non-pass outcome in its registered-source denominator",
+      "operation": "normalize",
+      "overallThreshold": "all registered sources pass all three repetitions with zero false allow, false reject, failure, timeout, cancellation, missing, or unknown",
+      "owners": [
+        "role.evidence-owner"
+      ],
+      "partition": "defect/calibration",
+      "plannedIndependentSources": 18,
+      "primaryEstimand": "proportion-of-registered-independent-sources-with-all-three-planned-repetitions-passing",
+      "rejectionCategories": [
+        {
+          "categoryId": "injected-container-signature-or-crc-defect",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "injected-pixel-layout-color-or-metadata-defect",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "injected-resource-limit-or-unsupported-format-defect",
+          "minimumIndependentSources": 4
+        }
+      ],
+      "repeatPassRule": {
+        "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": true,
+        "majorityVoteAllowed": false,
+        "maximumInvalidReplacementsPerSourceAcrossAllRepetitions": 1,
+        "plannedRepetitions": 3,
+        "requiredValidPasses": 3,
+        "validNonPassRerunAllowed": false
+      },
+      "runRepetitionsPerSource": 3,
+      "secondaryEstimands": [
+        "same-source-all-three-pass-after-at-most-one-total-validly-classified-no-result-replacement-per-source-across-all-three-planned-repetitions",
+        "false-reject-rate-among-applicable-sources",
+        "false-allow-rate-among-rejection-sources"
+      ],
+      "sourceFamilyRule": "one sourceFamilyId per independent construction lineage; derivatives remain in one partition",
+      "sourceLevelAggregation": "all-three-planned-repetitions-must-pass; one allowed invalid rerun replaces only its no-result attempt",
+      "sourcePopulation": "future project-original synthetic raw source PNG bytes with exactly one registered purposefully injected normalize-specific defect plus separately registered valid controls",
+      "stoppingRule": "close exactly at the frozen registered source set; no early success, denominator reduction, majority vote, or data-dependent extension",
+      "suiteId": "NORMALIZE-DELIVER",
+      "suiteVersion": "0.4.0",
+      "unitOfAnalysis": "independent_source",
+      "userExecutionRule": "not-applicable: offline evidence run has no user execution"
+    },
+    {
+      "allowedInvalidReasons": [
+        "runner-crash-before-result",
+        "custody-interruption",
+        "integrity-check-failure"
+      ],
+      "applicableCategories": [
+        {
+          "categoryId": "injected-defect-control-opaque-source-png",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "injected-defect-control-partial-alpha-source-png",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "injected-defect-control-alpha-holes-source-png",
+          "minimumIndependentSources": 2
+        }
+      ],
+      "approvers": [
+        "role.independent-approver",
+        "role.methodology-approver"
+      ],
+      "assetState": "not-created",
+      "captureSessionRule": "one captureSessionId per generation session; sessions never cross partitions",
+      "catastrophicFailureDefinitions": [
+        "candidate-oracle-identity-collision",
+        "accepted-output-byte-or-decoded-pixel-identity-mismatch",
+        "unsupported-or-defect-input-produces-an-artifact",
+        "registered-result-is-lost-replaced-or-associated-with-the-wrong-source"
+      ],
+      "categoryFloor": "all three planned repetitions of every registered source in every category must pass",
+      "confidenceMethod": "finite-stratum exact counts and descriptive rates only; no population inference",
+      "countKind": "finite-stratum",
+      "deterministicOrStochastic": "deterministic-local-codec",
+      "diagnosticRetryRule": "diagnostic runs are outside formal results and cannot replace or erase a registered attempt",
+      "difficultCategories": [
+        {
+          "categoryId": "one-pixel-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "maximum-dimension-source-boundary",
+          "minimumIndependentSources": 2
+        },
+        {
+          "categoryId": "source-alpha-extremes-and-thin-holes",
+          "minimumIndependentSources": 2
+        }
+      ],
+      "eligibilityRule": "exactly one registered independent source with complete rights, family, session, category, and immutable asset hashes",
+      "escapePolicy": null,
+      "evidenceRole": "sealed-independent-c1-qa",
+      "excludedFromInitialC1": false,
+      "exclusionRule": "only pre-run rights withdrawal, proven cross-partition lineage contamination, or corrupt custody; retain exclusion record in denominator ledger",
+      "failureTimeoutCancelTreatment": "each remains a distinct non-pass outcome in its registered-source denominator",
+      "fixtureManifest": {
+        "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-DEFECT-HOLDOUT@0.4.0",
+        "requiredVersion": "0.4.0",
+        "state": "not-created-blocks-run"
+      },
+      "formal": true,
+      "frozenAt": "2026-08-15T00:20:45.916Z",
+      "internalRetryRule": "zero retries for valid outcomes; maximum one replacement per source across all three repetitions only after a predeclared invalid no-result attempt",
+      "invalidRunRule": "only runner-crash-before-result, custody-interruption, or integrity-check-failure before a result; at most one total replacement per source across all three planned repetitions; it may replace only its corresponding no-result attempt; retain all attempts",
+      "maximumCollectionWindow": "P14D",
+      "minimumApplicableSources": 6,
+      "minimumIndependentSourcesTotal": 18,
+      "minimumRejectionSources": 12,
+      "missingResultTreatment": "missing remains a distinct non-pass outcome in its registered-source denominator",
+      "operation": "normalize",
+      "overallThreshold": "all registered sources pass all three repetitions with zero false allow, false reject, failure, timeout, cancellation, missing, or unknown",
+      "owners": [
+        "role.evidence-owner"
+      ],
+      "partition": "defect/holdout",
+      "plannedIndependentSources": 18,
+      "primaryEstimand": "proportion-of-registered-independent-sources-with-all-three-planned-repetitions-passing",
+      "rejectionCategories": [
+        {
+          "categoryId": "injected-container-signature-or-crc-defect",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "injected-pixel-layout-color-or-metadata-defect",
+          "minimumIndependentSources": 4
+        },
+        {
+          "categoryId": "injected-resource-limit-or-unsupported-format-defect",
+          "minimumIndependentSources": 4
+        }
+      ],
+      "repeatPassRule": {
+        "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": true,
+        "majorityVoteAllowed": false,
+        "maximumInvalidReplacementsPerSourceAcrossAllRepetitions": 1,
+        "plannedRepetitions": 3,
+        "requiredValidPasses": 3,
+        "validNonPassRerunAllowed": false
+      },
+      "runRepetitionsPerSource": 3,
+      "secondaryEstimands": [
+        "same-source-all-three-pass-after-at-most-one-total-validly-classified-no-result-replacement-per-source-across-all-three-planned-repetitions",
+        "false-reject-rate-among-applicable-sources",
+        "false-allow-rate-among-rejection-sources"
+      ],
+      "sourceFamilyRule": "one sourceFamilyId per independent construction lineage; derivatives remain in one partition",
+      "sourceLevelAggregation": "all-three-planned-repetitions-must-pass; one allowed invalid rerun replaces only its no-result attempt",
+      "sourcePopulation": "future project-original synthetic raw source PNG bytes with exactly one registered purposefully injected normalize-specific defect plus separately registered valid controls",
+      "stoppingRule": "close exactly at the frozen registered source set; no early success, denominator reduction, majority vote, or data-dependent extension",
+      "suiteId": "NORMALIZE-DELIVER",
+      "suiteVersion": "0.4.0",
+      "unitOfAnalysis": "independent_source",
+      "userExecutionRule": "not-applicable: offline evidence run has no user execution"
+    },
+    {
+      "allowedInvalidReasons": [],
+      "applicableCategories": [],
+      "approvers": [
+        "role.independent-approver",
+        "role.methodology-approver"
+      ],
+      "assetState": "not-created",
+      "captureSessionRule": "one captureSessionId per generation session; sessions never cross partitions",
+      "catastrophicFailureDefinitions": [
+        "candidate-oracle-identity-collision",
+        "accepted-output-byte-or-decoded-pixel-identity-mismatch",
+        "unsupported-or-defect-input-produces-an-artifact",
+        "registered-result-is-lost-replaced-or-associated-with-the-wrong-source"
+      ],
+      "categoryFloor": "not-applicable",
+      "confidenceMethod": "not-applicable-no-success-inference",
+      "countKind": "event-driven",
+      "deterministicOrStochastic": "diagnostic-event-ledger-not-a-success-estimand",
+      "diagnosticRetryRule": "reproduction attempts are separately appended and never count as a C1 denominator or success",
+      "difficultCategories": [],
+      "eligibilityRule": "confirmed contract-relevant event with rights, privacy, family, session, immutable evidence, and independent adjudication",
+      "escapePolicy": {
+        "appendOnly": true,
+        "confirmedContractRelevantEscapeAction": "invalidate-dependent-qa-and-c1; publish-new-version; create-new-sealed-holdout",
+        "escapeCanSupportSuccessOrEarlyStopping": false,
+        "reproductionAttemptsCountTowardC1": false,
+        "reproductionAttemptsRecordedSeparately": true
+      },
+      "evidenceRole": "diagnostic-invalidation-ledger",
+      "excludedFromInitialC1": true,
+      "exclusionRule": "events never disappear; rejected reports retain an append-only adjudication record and reason",
+      "failureTimeoutCancelTreatment": "not-applicable to a success denominator; diagnostic reproduction failures, timeouts, and cancellations remain append-only event history",
+      "fixtureManifest": {
+        "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-ESCAPE@0.4.0",
+        "requiredVersion": "0.4.0",
+        "state": "not-created-blocks-run"
+      },
+      "formal": false,
+      "frozenAt": "2026-08-15T00:20:45.916Z",
+      "internalRetryRule": "not-applicable to C1; reproduction attempts cannot erase, downgrade, or close a confirmed escape",
+      "invalidRunRule": "not-applicable to the C1 denominator; diagnostic reproduction attempts remain append-only and cannot erase an escape",
+      "maximumCollectionWindow": "unbounded-append-only-event-ledger",
+      "minimumApplicableSources": 0,
+      "minimumIndependentSourcesTotal": 0,
+      "minimumRejectionSources": 0,
+      "missingResultTreatment": "not-applicable to a success denominator; missing diagnostic reproduction remains append-only event history",
+      "operation": "normalize",
+      "overallThreshold": "not-applicable",
+      "owners": [
+        "role.evidence-owner"
+      ],
+      "partition": "escape",
+      "plannedIndependentSources": 0,
+      "primaryEstimand": "not-applicable-diagnostic-invalidation-ledger",
+      "rejectionCategories": [],
+      "repeatPassRule": {
+        "invalidReplacementMayReplaceOnlyCorrespondingNoResultAttempt": false,
+        "majorityVoteAllowed": false,
+        "maximumInvalidReplacementsPerSourceAcrossAllRepetitions": 0,
+        "plannedRepetitions": 0,
+        "requiredValidPasses": 0,
+        "validNonPassRerunAllowed": false
+      },
+      "runRepetitionsPerSource": 0,
+      "secondaryEstimands": [],
+      "sourceFamilyRule": "one sourceFamilyId per independent construction lineage; derivatives remain in one partition",
+      "sourceLevelAggregation": "not-applicable-no-c1-success-estimand",
+      "sourcePopulation": "future adjudicated production-like QA escapes with rights and privacy clearance",
+      "stoppingRule": "append-only event adjudication; every confirmed contract-relevant escape invalidates dependent QA/C1 and requires a new version and new sealed holdout",
+      "suiteId": "NORMALIZE-DELIVER",
+      "suiteVersion": "0.4.0",
+      "unitOfAnalysis": "confirmed_contract_relevant_escape_event",
+      "userExecutionRule": "not-applicable: offline evidence run has no user execution"
+    }
+  ],
+  "recordVersion": "0.4.0",
+  "repeatsPerSource": 3,
+  "reviewerPlan": {
+    "adjudicationRule": "any disagreement or unknown is adjudicated by the independent third reviewer; unresolved remains non-pass",
+    "adjudicatorId": "role.independent-adjudicator",
+    "agreementMetric": "raw-agreement-and-category-confusion-counts",
+    "candidateIdentityBlinded": true,
+    "originalRatingsRetained": true,
+    "primaryReviewerCount": 2,
+    "primaryReviewerIds": [
+      "role.blinded-reviewer-a",
+      "role.blinded-reviewer-b"
+    ],
+    "sourceOrderBlindedAndFrozen": true
+  },
+  "roleAssignmentState": "not-assigned",
+  "schemaVersion": "partition-plan.slice04.v0",
+  "sourceLevelAggregation": "all-three-planned-repetitions-must-pass",
+  "suiteId": "NORMALIZE-DELIVER",
+  "suiteVersion": "0.4.0",
+  "unitOfAnalysis": "independent_source"
+}

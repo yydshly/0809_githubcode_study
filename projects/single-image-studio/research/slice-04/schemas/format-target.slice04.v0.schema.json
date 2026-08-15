@@ -1,0 +1,1906 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-04/schemas/format-target.slice04.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateLockRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+          "type": "string"
+        },
+        "id": {
+          "const": "REG-NORM-SHARP@0.4.0",
+          "type": "string"
+        },
+        "path": {
+          "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "formatTargetId": {
+      "const": "FT-NORMALIZE-DELIVER@0.4.0",
+      "type": "string"
+    },
+    "frozenAt": {
+      "const": "2026-08-15T00:20:45.916Z",
+      "type": "string"
+    },
+    "gateBState": {
+      "const": "not-entered",
+      "type": "string"
+    },
+    "productSupport": {
+      "const": false,
+      "type": "boolean"
+    },
+    "recordVersion": {
+      "const": "0.4.0",
+      "type": "string"
+    },
+    "rowCount": {
+      "const": 15,
+      "type": "integer"
+    },
+    "rows": {
+      "items": {
+        "oneOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "target-not-implemented",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".png"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "png",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/png"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "additionalProperties": false,
+                "properties": {
+                  "alphaMode": {
+                    "const": "straight-unpremultiplied",
+                    "type": "string"
+                  },
+                  "animation": {
+                    "const": "forbidden",
+                    "type": "string"
+                  },
+                  "byteLimit": {
+                    "const": 1048576,
+                    "type": "integer"
+                  },
+                  "colorSpace": {
+                    "const": "embedded-sRGB",
+                    "type": "string"
+                  },
+                  "heightLimit": {
+                    "const": 256,
+                    "type": "integer"
+                  },
+                  "interlace": {
+                    "const": "forbidden",
+                    "type": "string"
+                  },
+                  "orientation": {
+                    "const": 1,
+                    "type": "integer"
+                  },
+                  "pixelLayout": {
+                    "const": "RGBA8",
+                    "type": "string"
+                  },
+                  "pngFilterPolicy": {
+                    "const": "filter-0-only",
+                    "type": "string"
+                  },
+                  "widthLimit": {
+                    "const": 256,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "byteLimit",
+                  "widthLimit",
+                  "heightLimit",
+                  "pixelLayout",
+                  "colorSpace",
+                  "orientation",
+                  "alphaMode",
+                  "pngFilterPolicy",
+                  "interlace",
+                  "animation"
+                ],
+                "type": "object"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_PNG_TARGET_NOT_IMPLEMENTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": true,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:png",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".jpg",
+                    ".jpeg"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "jpeg",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/jpeg"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_JPEG_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:jpeg",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".webp"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "webp",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/webp"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_WEBP_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:webp",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".heic"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "heic",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/heic"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_HEIC_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:heic",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".heif"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "heif",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/heif"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_HEIF_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:heif",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".avif"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "avif",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/avif"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_AVIF_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:avif",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".gif"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "gif",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/gif"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_GIF_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:gif",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".apng"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "apng",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/apng"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_APNG_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:apng",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".tif",
+                    ".tiff"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "tiff",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/tiff"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_TIFF_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:tiff",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".svg"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "svg",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/svg+xml"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_SVG_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:svg",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".pdf"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "pdf",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "application/pdf"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_PDF_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:pdf",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "input",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".raw"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "raw",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "application/octet-stream"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_INPUT_RAW_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "input:raw",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "output",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "target-not-implemented",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".png"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "png",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/png"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "additionalProperties": false,
+                "properties": {
+                  "alphaMode": {
+                    "const": "straight-unpremultiplied",
+                    "type": "string"
+                  },
+                  "animation": {
+                    "const": "forbidden",
+                    "type": "string"
+                  },
+                  "byteLimit": {
+                    "const": 1048576,
+                    "type": "integer"
+                  },
+                  "colorSpace": {
+                    "const": "embedded-sRGB",
+                    "type": "string"
+                  },
+                  "heightLimit": {
+                    "const": 256,
+                    "type": "integer"
+                  },
+                  "interlace": {
+                    "const": "forbidden",
+                    "type": "string"
+                  },
+                  "orientation": {
+                    "const": 1,
+                    "type": "integer"
+                  },
+                  "pixelLayout": {
+                    "const": "RGBA8",
+                    "type": "string"
+                  },
+                  "pngFilterPolicy": {
+                    "const": "filter-0-only",
+                    "type": "string"
+                  },
+                  "widthLimit": {
+                    "const": 256,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "byteLimit",
+                  "widthLimit",
+                  "heightLimit",
+                  "pixelLayout",
+                  "colorSpace",
+                  "orientation",
+                  "alphaMode",
+                  "pngFilterPolicy",
+                  "interlace",
+                  "animation"
+                ],
+                "type": "object"
+              },
+              "rejectionCode": {
+                "const": "S04_OUTPUT_PNG_TARGET_NOT_IMPLEMENTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": true,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "output:png",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "output",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".jpg",
+                    ".jpeg"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 2,
+                "minItems": 2,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "jpeg",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/jpeg"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_OUTPUT_JPEG_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "output:jpeg",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "direction": {
+                "const": "output",
+                "type": "string"
+              },
+              "disposition": {
+                "const": "reject",
+                "type": "string"
+              },
+              "evidenceLevel": {
+                "const": "C0",
+                "type": "string"
+              },
+              "executionState": {
+                "const": "not-run",
+                "type": "string"
+              },
+              "extensions": {
+                "items": {
+                  "enum": [
+                    ".webp"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "fallbackAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "formatId": {
+                "const": "webp",
+                "type": "string"
+              },
+              "gateBState": {
+                "const": "not-entered",
+                "type": "string"
+              },
+              "implementationState": {
+                "const": "not-installed",
+                "type": "string"
+              },
+              "mediaTypes": {
+                "items": {
+                  "enum": [
+                    "image/webp"
+                  ],
+                  "type": "string"
+                },
+                "maxItems": 1,
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "passthroughAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "probeAllowed": {
+                "const": false,
+                "type": "boolean"
+              },
+              "productSupport": {
+                "const": false,
+                "type": "boolean"
+              },
+              "profile": {
+                "const": null,
+                "type": "null"
+              },
+              "rejectionCode": {
+                "const": "S04_OUTPUT_WEBP_REJECTED",
+                "type": "string"
+              },
+              "reopenRequired": {
+                "const": false,
+                "type": "boolean"
+              },
+              "rowId": {
+                "const": "output:webp",
+                "type": "string"
+              }
+            },
+            "required": [
+              "rowId",
+              "direction",
+              "formatId",
+              "mediaTypes",
+              "extensions",
+              "disposition",
+              "implementationState",
+              "executionState",
+              "probeAllowed",
+              "passthroughAllowed",
+              "fallbackAllowed",
+              "reopenRequired",
+              "profile",
+              "rejectionCode",
+              "productSupport",
+              "gateBState",
+              "evidenceLevel"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 15,
+      "minItems": 15,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "schemaVersion": {
+      "const": "format-target.slice04.v0",
+      "type": "string"
+    },
+    "suiteId": {
+      "const": "NORMALIZE-DELIVER",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "formatTargetId",
+    "recordVersion",
+    "frozenAt",
+    "suiteId",
+    "candidateLockRef",
+    "rowCount",
+    "rows",
+    "productSupport",
+    "gateBState",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "title": "Slice 04 format target",
+  "type": "object"
+}

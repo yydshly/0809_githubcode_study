@@ -6,16 +6,17 @@
 
 当前代码可以作为上传校验、任务快照、服务代理、错误状态和下载契约的参考实现，但所有用户可见结果仍要用新的能力与证据重新取得。不得因自动测试通过、页面可点击或本地滤镜有输出，就提前标记 C1、U1、E1、R1-pipeline、R1-product、O1、G1 或 V1。
 
-截至 2026-08-15，Slice 02 已完成四份研究 `CapabilityContract@0.2.0`、fixture reference adapter 与两套 suite 的五 partition 结构隔离骨架；Slice 03 又完成 15 行 `NORMALIZE-DELIVER` 格式政策 / profile、25 个开放项目原创校准夹具、独立 byte-backed technical observer，以及只在临时目录运行的密封仪式 mock rehearsal。所有格式行仍为 `productSupport=false`，正式 holdout 为 `not-created`。这些结果都不满足 WP1 的正式退出条件：尚无真实候选、完整质量预注册或真正密封验收，因此 WP3 和任何 C1 判定仍未开始。
+截至 2026-08-15，Slice 02 已完成四份研究 `CapabilityContract@0.2.0`、fixture reference adapter 与两套 suite 的五 partition 结构隔离骨架；Slice 03 完成 15 行 `NORMALIZE-DELIVER` 格式政策 / profile、25 个开放项目原创夹具、独立 byte-backed technical observer，以及只用临时 mock metadata 的密封仪式 rehearsal。Slice 04 又把 Sharp `v0.35.3`、Windows x64 bundle、`sharp-libvips@1.3.2` 与 bundled libvips 上游边界锁成一个 source-resolved 复合候选，并冻结两份 metadata-only 合同、QA、normalize / export 两份 operation-specific 五 partition plan、两份预注册与 seal intent。所有格式仍为 `productSupport=false`；operation artifact schema / oracle、runner / durable ledger / trust / roles、正式像素与 calibration 均未建，因此 WP3 与任何 C1 判定仍未开始。
 
-立即后续只能先发布新的范围合同并冻结 `NORMALIZE-DELIVER` 的真实候选 / codec 版本、suite × partition 分母、QA profile、阈值、指标、停止规则和密封运行请求。该预注册完成并审计前，不创建或查看正式 holdout；进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。Slice 03 的完成边界与验证结果见 [范围合同](research/SLICE_03_CONTRACT.md) 和 [证据记录](research/SLICE_03_EVIDENCE.md)。
+立即后续必须发布新的 Gate B / calibration 范围合同，只允许为 Slice 04 已锁候选创建 operation artifact schema 与独立 oracle / gold、实现 adapter、冻结执行位置 / named hardware / 资源与运行语义、完成 codec smoke，并在项目原创开放 `dev/calibration` / `defect/calibration` 上运行 calibration；不得直接创建正式 holdout。calibration 若改变 candidate、QA、阈值或停止规则，必须发布新版本和新预注册。进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。Slice 04 的完成边界与验证结果见 [范围合同](research/SLICE_04_CONTRACT.md) 和 [证据记录](research/SLICE_04_EVIDENCE.md)。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
 ## 总体实施顺序
 
 ```text
-证据 schema 与能力注册
+证据 schema、候选来源锁与预注册
+→ Gate B adapter / smoke 与开放 calibration
 → dev/calibration、holdout、defect、escape 四套互斥集合
 → 主体 / 背景 C1 与 U1
 → 自然增强 C1 / U1 + CR1 / CR2 E1 对测
@@ -119,6 +120,14 @@ research/
 - 市场基准无法合法或技术取得时，在预注册前固定缺席原因与替代比较臂；不能在看到本项目结果后临时取消，也不能用宣传图、README 指标或主观印象代替。
 
 注册表门分为“来源 / 许可可锁定”“可进入 calibration”“C1 / O1 已取得”三层；性能和 EvidenceManifest 结果由对测产生，不能反过来作为进入对测的前置。本工作包只产生候选清单、预注册地址和可重复调用，不授予 C1。
+
+### 2.1 Slice 04 已完成的 metadata 入场层
+
+Slice 04 按 [范围合同](research/SLICE_04_CONTRACT.md) 完成 `REG-NORM-SHARP` 的 Gate A / source-resolved 锁定：Sharp `v0.35.3` / commit `1018449164723ba0203c1beffaba0e21f7829c18`、Windows x64 npm / native bundle、`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6`，以及 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626`。六个 npm registry tarball 只在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256 后删除，未解包、执行、安装或保留；GitHub commit 只经官方页面 / API 解析，没有下载 source archive。28 项 native version / 逐组件许可由 commit-fixed raw metadata 锁定且 future distribution review 仍阻塞发布。Sharp 与 bundled libvips 是一个复合候选；standalone `REG-NORM-LIBVIPS` 仍未冻结。
+
+同一切片只以 metadata 冻结 15 行格式矩阵、normalize / export 两份合同及各自 30 / 30 / 18 / 18 / event-driven-0 的五 partition lifecycle、QA、两份预注册和 seal intent。每项初始 C1 只计 sealed 30 + 18 = 48；open calibration 与 append-only escape 排除，有限来源要求 3 / 3 repeats 全过。所有像素和 operation oracle 均为 `not-created`；seal 只 pin Slice 03 envelope，actual runner、durable ledger、trust、角色 assignment / approval 未建，request 状态 `not-issued-awaiting-custodian-bundle`。
+
+这不是 Gate B：operation artifact schema / independent oracle / gold、adapter、执行位置、named hardware、资源 guardrail、幂等 / timeout / retry / reconciliation、实际输入输出 smoke 与开放 calibration 都未建立。下一明确切片必须先补齐这些条件并只运行开放 calibration；该阶段仍不得创建正式 holdout。正式 bundle 和一次性运行还要等待 calibration 后的新最终版本、阈值与预注册通过独立审计。
 
 ## WP3 · 主体 / 背景纵深
 

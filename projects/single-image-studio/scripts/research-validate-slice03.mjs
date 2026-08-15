@@ -21,8 +21,8 @@ import { validateSealCeremonySchemas } from "./research-seal-ceremony-slice03.mj
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const PROJECT_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
 const DEFAULT_OBSERVER_ADAPTER_PATH = path.resolve(path.dirname(SCRIPT_PATH), "research-reference-adapters-slice03.mjs");
-export const CANONICAL_SLICE03_GENERATED_TREE_SHA256 = "2655c57799ecfcb69f57102a20c261c609e8345ffddd9d22697e6119637a6430";
-export const CANONICAL_SLICE03_OBSERVER_CONTRACT_HASH = "0aaea35f2874f3648a68fa30ddbf978acaf32b2b0e49daf49320b36707b89f40";
+export const CANONICAL_SLICE03_GENERATED_TREE_SHA256 = "c44e9cd7f8ab54650761fd3f8526be0ab84e9081d5ed0c39bbdc8a0a7b6a4d1c";
+export const CANONICAL_SLICE03_OBSERVER_CONTRACT_HASH = "c9af17a228099f4da4e1e840b9ecaf876815bf906de18ae53cda69047259191a";
 export const CANONICAL_SLICE03_SCHEMA_TREE_SHA256 = "393fc66dbe6379f84f001617d4bbedd50139422f1443e446850672ff661c3226";
 const EXPECTED_SCHEMA_FILES = Object.freeze([
   "seal-ceremony-bundle-manifest.v0.schema.json",
@@ -439,7 +439,7 @@ function validateFixtureBytes(issues, fixture, bytes, adapterHash, location) {
         premultiply: "straight",
         metadataPolicy: "strip-all-except-color-contract",
         pixelSha256: pixelHash,
-        createdAt: "2026-08-15T10:00:00.000Z",
+        createdAt: "2026-08-14T19:47:13.000Z",
       };
       const observation = observeNormalizedImageSlice03({
         normalizedArtifact: artifact,
@@ -451,7 +451,7 @@ function validateFixtureBytes(issues, fixture, bytes, adapterHash, location) {
           decodedPixelSha256: pixelHash,
         },
         implementationRef: `sha256:${adapterHash}`,
-        observedAt: "2026-08-15T10:00:00.000Z",
+        observedAt: "2026-08-14T19:47:13.000Z",
       });
       if (observation.implementationRef !== `sha256:${adapterHash}`) add(issues, "OBSERVER_IMPLEMENTATION_REF_MISMATCH", location, "observer did not preserve the frozen implementation ref");
       return observation;
@@ -496,7 +496,7 @@ function validateFixtureBytes(issues, fixture, bytes, adapterHash, location) {
     premultiply: "straight",
     metadataPolicy: "strip-all-except-color-contract",
     pixelSha256: "0".repeat(64),
-    createdAt: "2026-08-15T10:00:00.000Z",
+    createdAt: "2026-08-14T19:47:13.000Z",
   };
   try {
     observeNormalizedImageSlice03({
@@ -509,7 +509,7 @@ function validateFixtureBytes(issues, fixture, bytes, adapterHash, location) {
         decodedPixelSha256: dummyArtifact.pixelSha256,
       },
       implementationRef: `sha256:${adapterHash}`,
-      observedAt: "2026-08-15T10:00:00.000Z",
+      observedAt: "2026-08-14T19:47:13.000Z",
     });
     add(issues, "PNG_DEFECT_NOT_REJECTED", location, fixture.expectedCode);
   } catch (error) {

@@ -9,7 +9,7 @@ export const DEFAULT_SLICE03_ROOT = path.resolve(SCRIPT_DIR, "../research/slice-
 const OBSERVER_ADAPTER_PATH = path.resolve(SCRIPT_DIR, "research-reference-adapters-slice03.mjs");
 
 const VERSION = "0.3.0";
-const CREATED_AT = "2026-08-15T10:00:00.000Z";
+const CREATED_AT = "2026-08-14T19:47:13.000Z";
 const SOURCE_REVISION = "local-procedural-slice-03-format-policy-v0.3.0-seed-20260815";
 const RIGHTS_RECORD_ID = "rights.project-original-synthetic.slice-03-formats.v1";
 const SUITE_ID = "NORMALIZE-DELIVER";

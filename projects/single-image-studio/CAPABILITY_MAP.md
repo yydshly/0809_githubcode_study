@@ -116,6 +116,8 @@ perField: observerContract + confidence(lower, upper) + unknownReason
 
 Slice 03 的 [`TechnicalObserverResult.slice03.v0`](./research/slice-03/schemas/technical-observer.slice03.schema.json) 是独立的研究中间产物：它从实际 normalized bytes 重开核对技术事实，并把 `sourceFormatFacts` 与 `normalizedArtifactFacts` 分栏。它不是新的产品 `SourceCard`，不会从 normalized PNG 反推源格式，且质量、主体和内容继续强制为 unknown。其冻结研究合同与验收见 [Slice 03 contract](./research/slice-03/contracts/technical-observer.slice03.v0.3.0.json) 和 [证据记录](./research/SLICE_03_EVIDENCE.md)；这些设施不授予 CAP-03 的 C1。
 
+Slice 04 又为 `CAP-02` 冻结 `CC-CAP02-NORMALIZE-PNG@0.4.0` 与 `CC-CAP02-EXPORT-PNG@0.4.0` 两份 candidate-bound metadata contract，并将其绑定到 `REG-NORM-SHARP@0.4.0`、共享 QA、两份 operation-specific plan 与两份独立预注册。每项初始 C1 只预注册 sealed 48 个来源；operation artifact schema / independent oracle、adapter、named hardware、codec smoke、calibration 或正式像素均未创建，Slice 03 observer 只作不兼容 design lineage。全部格式仍为 `productSupport=false`，因此这些记录不能被页面、效果 DAG 或下载路径解析为已执行能力。范围与证据见 [Slice 04 contract](./research/SLICE_04_CONTRACT.md) 和 [Slice 04 evidence](./research/SLICE_04_EVIDENCE.md)。
+
 ### `EffectDefinition`
 
 用户效果的逻辑合同包含：

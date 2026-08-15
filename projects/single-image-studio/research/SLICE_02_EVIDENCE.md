@@ -10,11 +10,13 @@
 - 2 个 suite × 5 个 partition = 10 个项目原创合成 fixture / 30 个 PNG。
 - strict validator：合同 / 实现 / plan / manifest / asset hash、rights、partition coverage、family / session / exact / perceptual 隔离、sealed state、escape lineage 和 catalog denial。
 
-冻结 partition plan hash：
+当前 canonical partition plan hash：
 
 ```text
-f97918cdbfd47d4a34cfa51ffae580ec11cb19df3326e4287b2ca85063628408
+101e924e4b793931d29a5919fa033ab029c2b89844d7578ae89717783b4eca4c
 ```
+
+2026-08-15 时间链审计撤销旧 pin `f97918cdbfd47d4a34cfa51ffae580ec11cb19df3326e4287b2ca85063628408`：旧 plan / manifests 的冻结时间是错误的未来 UTC；同版 generator 现以原提交时刻 `2026-08-14T18:41:55.000Z` 重生成并得到上述 canonical plan hash。Git 历史与旧 pin 仍保留用于审计，但旧值不得再作为当前 plan 身份。这个修正没有改变 PNG bytes、合同语义、fixture partition / lineage 或证据等级，也没有创建新证据；所有受时间字段影响的同版 manifest / contract hash 由当前机器树重新闭合。
 
 参考适配器和各合同的实际 hash 以生成后的 contract JSON 为准；适配器文件变化会让 validator fail closed，并要求重新生成合同和夹具。
 

@@ -13,12 +13,14 @@
 冻结 hash：
 
 ```text
-format matrix: 57ade2ad28bb4ecae40941ca084990aafc8f3182348085a9ab20158bfb61503e
+format matrix: e1170570ff5b4d6a4b6100cd90d5a83e7001856f849324b135d2322238b79178
 technical observer implementation: 99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3
-technical observer contract: 0aaea35f2874f3648a68fa30ddbf978acaf32b2b0e49daf49320b36707b89f40
-generated subset tree (45 files): 2655c57799ecfcb69f57102a20c261c609e8345ffddd9d22697e6119637a6430
+technical observer contract: c9af17a228099f4da4e1e840b9ecaf876815bf906de18ae53cda69047259191a
+generated subset tree (45 files): c44e9cd7f8ab54650761fd3f8526be0ab84e9081d5ed0c39bbdc8a0a7b6a4d1c
 schema tree (13 files): 393fc66dbe6379f84f001617d4bbedd50139422f1443e446850672ff661c3226
 ```
+
+2026-08-15 时间链审计撤销旧 format matrix pin `57ade2ad28bb4ecae40941ca084990aafc8f3182348085a9ab20158bfb61503e`、observer contract pin `0aaea35f2874f3648a68fa30ddbf978acaf32b2b0e49daf49320b36707b89f40` 与 generated subset pin `2655c57799ecfcb69f57102a20c261c609e8345ffddd9d22697e6119637a6430`：旧记录的冻结时间是错误的未来 UTC；同版 generator 现以原提交时刻 `2026-08-14T19:47:13.000Z` 确定性重生成。Git 历史和旧 pins 仍保留用于审计，但不得再作为当前机器树身份。schema tree 与 observer implementation hash 未变；PNG bytes、格式政策、observer 语义、fixture partition 和证据等级均未改变，也没有创建新证据。
 
 ## 验证命令与结果
 

@@ -21,14 +21,14 @@
   ],
   "formatId": "heif",
   "formatProfileId": "format-profile.input.heif-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "image/heif"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "4cce3c490427a3634ebc6119ff99b48ae56ecb37b0c54cad4a6354c7d8147d10",
+  "profileHash": "f53cf9868bf6e59d84890afdf62aedaedf2cc0392dd66f7a881ffe4436cc62b9",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_HEIF_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

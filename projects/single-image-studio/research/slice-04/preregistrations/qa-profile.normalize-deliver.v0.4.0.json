@@ -1,0 +1,165 @@
+{
+  "candidateLockRef": {
+    "contentHash": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+    "id": "REG-NORM-SHARP@0.4.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json"
+  },
+  "checks": [
+    "mime-and-signature",
+    "dimensions",
+    "orientation",
+    "embedded-srgb",
+    "rgba8",
+    "straight-alpha",
+    "metadata-policy",
+    "file-sha256",
+    "decoded-pixel-sha256"
+  ],
+  "checksByOperation": {
+    "export": [
+      "normalized-input-artifact-shape-and-identity",
+      "delivery-artifact-shape",
+      "delivery-bytes-reopen",
+      "delivery-file-and-decoded-pixel-hash",
+      "delivery-metadata-policy"
+    ],
+    "normalize": [
+      "source-bytes-policy",
+      "normalized-artifact-shape",
+      "normalized-parent-identity",
+      "normalized-bytes-reopen",
+      "normalized-file-and-decoded-pixel-hash",
+      "normalized-metadata-policy"
+    ]
+  },
+  "contentHash": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "g1": 0,
+    "o1": 0,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "executionState": "not-run",
+  "formatTargetRef": {
+    "contentHash": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+    "id": "FT-NORMALIZE-DELIVER@0.4.0",
+    "path": "profiles/format-target.normalize-deliver.v0.4.0.json"
+  },
+  "frozenAt": "2026-08-15T00:20:45.916Z",
+  "gateBState": "not-entered",
+  "implementationState": "not-created",
+  "oracle": {
+    "actualBytesReopenRequired": true,
+    "candidateDecoderMayBeSoleOracle": false,
+    "candidateMayProduceGold": false,
+    "candidateMaySelfCertify": false,
+    "candidateOutputMayDefineGold": false,
+    "designLineageRef": {
+      "compatibilityState": "reference-only-not-compatible-with-slice04-contracts",
+      "incompatibilities": [
+        "hardcodes-CC-CAP02-NORMALIZE-at-0.2.0",
+        "accepts-NormalizedImage-only-not-DeliveryArtifact"
+      ],
+      "observerContractRef": "S03-TECHNICAL-OBSERVER@0.3.0",
+      "observerContractSha256": "c9af17a228099f4da4e1e840b9ecaf876815bf906de18ae53cda69047259191a",
+      "observerDeclaredFrozenAt": "2026-08-14T19:47:13.000Z",
+      "observerImplementationRef": "sha256:99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3"
+    },
+    "futureGoldSourceRule": "project-original-independent-source-or-frozen-reference-program-not-authored-by-candidate-team",
+    "independentDecodedPixelIdentityRequired": true,
+    "operationPrerequisites": [
+      {
+        "artifactSchemaState": "not-created-blocks-gate-b",
+        "independentGoldState": "not-created",
+        "independentImplementationHashState": "not-created",
+        "operation": "normalize",
+        "prerequisiteId": "ORACLE-PREREQ-NORMALIZE-PNG@0.4.0",
+        "requiredArtifactSchemaId": "normalized-image.slice04.v0.schema.json",
+        "requiredArtifactType": "NormalizedImage.slice04.v0",
+        "requiredContractId": "CC-CAP02-NORMALIZE-PNG@0.4.0",
+        "state": "not-created-blocks-gate-b"
+      },
+      {
+        "artifactSchemaState": "not-created-blocks-gate-b",
+        "independentGoldState": "not-created",
+        "independentImplementationHashState": "not-created",
+        "operation": "export",
+        "prerequisiteId": "ORACLE-PREREQ-EXPORT-PNG@0.4.0",
+        "requiredArtifactSchemaId": "delivery-artifact.slice04.v0.schema.json",
+        "requiredArtifactType": "DeliveryArtifact.slice04.v0",
+        "requiredContractId": "CC-CAP02-EXPORT-PNG@0.4.0",
+        "state": "not-created-blocks-gate-b"
+      }
+    ],
+    "source": "future-operation-specific-independent-oracles-with-slice03-byte-observer-design-lineage"
+  },
+  "outcomeClasses": [
+    "pass",
+    "false-reject",
+    "false-allow",
+    "invalid",
+    "failure",
+    "timeout",
+    "cancelled",
+    "missing",
+    "unknown"
+  ],
+  "productSupport": false,
+  "profileKind": "offline-evidence-qa-metadata-only",
+  "qaProfileId": "QA-NORMALIZE-DELIVER@0.4.0",
+  "recordVersion": "0.4.0",
+  "schemaVersion": "qa-profile.slice04.v0",
+  "suiteId": "NORMALIZE-DELIVER",
+  "thresholds": {
+    "allCategoriesMustPass": true,
+    "applicableAcceptanceRate": {
+      "operator": "exactly",
+      "value": 1
+    },
+    "cancelledRate": {
+      "operator": "exactly",
+      "value": 0
+    },
+    "catastrophicFailureTolerance": 0,
+    "defectRejectionRate": {
+      "operator": "exactly",
+      "value": 1
+    },
+    "failureRate": {
+      "operator": "exactly",
+      "value": 0
+    },
+    "falseAllowRate": {
+      "operator": "exactly",
+      "value": 0
+    },
+    "falseRejectRate": {
+      "operator": "exactly",
+      "value": 0
+    },
+    "identityMatchRate": {
+      "operator": "exactly",
+      "value": 1
+    },
+    "missingRate": {
+      "operator": "exactly",
+      "value": 0
+    },
+    "timeoutRate": {
+      "operator": "exactly",
+      "value": 0
+    },
+    "unknownRate": {
+      "operator": "exactly",
+      "value": 0
+    }
+  }
+}

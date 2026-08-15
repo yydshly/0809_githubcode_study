@@ -21,14 +21,14 @@
   ],
   "formatId": "gif",
   "formatProfileId": "format-profile.input.gif-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "reject-only",
   "mediaTypes": [
     "image/gif"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "235607a83805b62b80eaab70c980e8eca3be3508de0e571a1ed7fb6178043227",
+  "profileHash": "c322bb1cff052c8978b46a5674c8e713ade5bb74ed3968b446dd816c94168163",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_INPUT_GIF_DEFERRED",
   "schemaVersion": "slice03-format-profile.v0"

@@ -19,14 +19,14 @@
   ],
   "formatId": "webp",
   "formatProfileId": "format-profile.output.webp-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "not-implemented",
   "mediaTypes": [
     "image/webp"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "5d9ae3072da7708df98b4356d7dc09248c4038af340f9a5ff16cc3e3f4eee948",
+  "profileHash": "7dc49b2356ac77e74af648c3ad6e856d6c0530195ff2cd0f40493bd16eae05a5",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_OUTPUT_WEBP_NOT_IMPLEMENTED",
   "schemaVersion": "slice03-format-profile.v0"

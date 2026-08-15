@@ -2,8 +2,8 @@
   "capabilityId": "NORMALIZE-DELIVER",
   "claimBoundary": "Machine-readable Slice 03 research policy only. Probe, rejection, extension recognition, and structural fixtures do not establish product format support.",
   "formatMatrixId": "format-matrix.normalize-deliver.slice-03.v0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
-  "matrixHash": "57ade2ad28bb4ecae40941ca084990aafc8f3182348085a9ab20158bfb61503e",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
+  "matrixHash": "e1170570ff5b4d6a4b6100cd90d5a83e7001856f849324b135d2322238b79178",
   "matrixVersion": "0.3.0",
   "rowCount": 15,
   "rows": [

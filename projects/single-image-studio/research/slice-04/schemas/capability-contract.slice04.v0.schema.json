@@ -1,0 +1,807 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-04/schemas/capability-contract.slice04.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "c1State": {
+          "const": "not-evaluated",
+          "type": "string"
+        },
+        "candidateLockRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+              "type": "string"
+            },
+            "id": {
+              "const": "REG-NORM-SHARP@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "capabilityId": {
+          "const": "CAP-02",
+          "type": "string"
+        },
+        "contentHash": {
+          "const": "534ba211e44d1ef669c75cb130c3e1e3cd63dff7be61dd246853dd72d1ebdeca",
+          "type": "string"
+        },
+        "contractId": {
+          "const": "CC-CAP02-NORMALIZE-PNG@0.4.0",
+          "type": "string"
+        },
+        "evidenceBoundary": {
+          "additionalProperties": false,
+          "properties": {
+            "c1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "e1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "g1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "o1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1Pipeline": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductRelease": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductValidation": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseAllowlist": {
+              "const": "none",
+              "type": "string"
+            },
+            "releaseApproved": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseRegistered": {
+              "const": 0,
+              "type": "integer"
+            },
+            "u1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "v1": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "c1",
+            "u1",
+            "e1",
+            "r1Pipeline",
+            "r1ProductValidation",
+            "r1ProductRelease",
+            "o1",
+            "g1",
+            "v1",
+            "releaseAllowlist",
+            "releaseRegistered",
+            "releaseApproved"
+          ],
+          "type": "object"
+        },
+        "failureSemantics": {
+          "additionalProperties": false,
+          "properties": {
+            "artifactOnFailure": {
+              "const": false,
+              "type": "boolean"
+            },
+            "failClosed": {
+              "const": true,
+              "type": "boolean"
+            },
+            "stableErrorCodeRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "unsupportedFormatsRejectBeforeDecodeOrEncode": {
+              "const": true,
+              "type": "boolean"
+            },
+            "validResultRerunAllowed": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "failClosed",
+            "artifactOnFailure",
+            "validResultRerunAllowed",
+            "unsupportedFormatsRejectBeforeDecodeOrEncode",
+            "stableErrorCodeRequired"
+          ],
+          "type": "object"
+        },
+        "formatRowId": {
+          "const": "input:png",
+          "type": "string"
+        },
+        "formatTargetRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+              "type": "string"
+            },
+            "id": {
+              "const": "FT-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "profiles/format-target.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "frozenAt": {
+          "const": "2026-08-15T00:20:45.916Z",
+          "type": "string"
+        },
+        "gateBState": {
+          "const": "not-entered",
+          "type": "string"
+        },
+        "implementation": {
+          "additionalProperties": false,
+          "properties": {
+            "actualOutputBytesReopenRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "adapterRef": {
+              "const": null,
+              "type": "null"
+            },
+            "adapterSha256": {
+              "const": null,
+              "type": "null"
+            },
+            "executed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "fallbackAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "implementationState": {
+              "const": "not-installed",
+              "type": "string"
+            },
+            "installed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "namedHardware": {
+              "const": null,
+              "type": "null"
+            },
+            "passthroughAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "runnerRef": {
+              "const": null,
+              "type": "null"
+            }
+          },
+          "required": [
+            "implementationState",
+            "adapterRef",
+            "adapterSha256",
+            "runnerRef",
+            "namedHardware",
+            "installed",
+            "executed",
+            "passthroughAllowed",
+            "fallbackAllowed",
+            "actualOutputBytesReopenRequired"
+          ],
+          "type": "object"
+        },
+        "input": {
+          "additionalProperties": false,
+          "properties": {
+            "alphaMode": {
+              "const": "straight-unpremultiplied",
+              "type": "string"
+            },
+            "colorSpace": {
+              "const": "embedded-sRGB",
+              "type": "string"
+            },
+            "maxBytes": {
+              "const": 1048576,
+              "type": "integer"
+            },
+            "maxHeight": {
+              "const": 256,
+              "type": "integer"
+            },
+            "maxWidth": {
+              "const": 256,
+              "type": "integer"
+            },
+            "orientation": {
+              "const": 1,
+              "type": "integer"
+            },
+            "pixelLayout": {
+              "const": "RGBA8",
+              "type": "string"
+            },
+            "type": {
+              "const": "canonical-png-source-bytes",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "maxBytes",
+            "maxWidth",
+            "maxHeight",
+            "pixelLayout",
+            "colorSpace",
+            "orientation",
+            "alphaMode"
+          ],
+          "type": "object"
+        },
+        "operation": {
+          "const": "normalize",
+          "type": "string"
+        },
+        "output": {
+          "additionalProperties": false,
+          "properties": {
+            "alphaMode": {
+              "const": "straight-unpremultiplied",
+              "type": "string"
+            },
+            "colorSpace": {
+              "const": "embedded-sRGB",
+              "type": "string"
+            },
+            "mediaType": {
+              "const": "image/png",
+              "type": "string"
+            },
+            "metadataPolicy": {
+              "const": "strip-all-except-color-contract",
+              "type": "string"
+            },
+            "orientation": {
+              "const": 1,
+              "type": "integer"
+            },
+            "pixelLayout": {
+              "const": "RGBA8",
+              "type": "string"
+            },
+            "type": {
+              "const": "NormalizedImage.slice04.v0",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "mediaType",
+            "pixelLayout",
+            "colorSpace",
+            "orientation",
+            "alphaMode",
+            "metadataPolicy"
+          ],
+          "type": "object"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "qaProfileRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+              "type": "string"
+            },
+            "id": {
+              "const": "QA-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "preregistrations/qa-profile.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "recordVersion": {
+          "const": "0.4.0",
+          "type": "string"
+        },
+        "schemaVersion": {
+          "const": "capability-contract.slice04.v0",
+          "type": "string"
+        },
+        "status": {
+          "const": "metadata-only-source-resolved-non-gate-b",
+          "type": "string"
+        },
+        "suiteId": {
+          "const": "NORMALIZE-DELIVER",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "contractId",
+        "recordVersion",
+        "frozenAt",
+        "capabilityId",
+        "suiteId",
+        "operation",
+        "status",
+        "candidateLockRef",
+        "formatTargetRef",
+        "qaProfileRef",
+        "formatRowId",
+        "input",
+        "output",
+        "implementation",
+        "failureSemantics",
+        "productSupport",
+        "gateBState",
+        "c1State",
+        "evidenceBoundary",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "c1State": {
+          "const": "not-evaluated",
+          "type": "string"
+        },
+        "candidateLockRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+              "type": "string"
+            },
+            "id": {
+              "const": "REG-NORM-SHARP@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "candidate-locks/composite-sharp-win32-x64.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "capabilityId": {
+          "const": "CAP-02",
+          "type": "string"
+        },
+        "contentHash": {
+          "const": "8c2fef119a53af39c02108bde6ffd7e8390bebbd77a31d935734033da1c1cd7f",
+          "type": "string"
+        },
+        "contractId": {
+          "const": "CC-CAP02-EXPORT-PNG@0.4.0",
+          "type": "string"
+        },
+        "evidenceBoundary": {
+          "additionalProperties": false,
+          "properties": {
+            "c1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "e1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "g1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "o1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1Pipeline": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductRelease": {
+              "const": 0,
+              "type": "integer"
+            },
+            "r1ProductValidation": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseAllowlist": {
+              "const": "none",
+              "type": "string"
+            },
+            "releaseApproved": {
+              "const": 0,
+              "type": "integer"
+            },
+            "releaseRegistered": {
+              "const": 0,
+              "type": "integer"
+            },
+            "u1": {
+              "const": 0,
+              "type": "integer"
+            },
+            "v1": {
+              "const": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "c1",
+            "u1",
+            "e1",
+            "r1Pipeline",
+            "r1ProductValidation",
+            "r1ProductRelease",
+            "o1",
+            "g1",
+            "v1",
+            "releaseAllowlist",
+            "releaseRegistered",
+            "releaseApproved"
+          ],
+          "type": "object"
+        },
+        "failureSemantics": {
+          "additionalProperties": false,
+          "properties": {
+            "artifactOnFailure": {
+              "const": false,
+              "type": "boolean"
+            },
+            "failClosed": {
+              "const": true,
+              "type": "boolean"
+            },
+            "stableErrorCodeRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "unsupportedFormatsRejectBeforeDecodeOrEncode": {
+              "const": true,
+              "type": "boolean"
+            },
+            "validResultRerunAllowed": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "failClosed",
+            "artifactOnFailure",
+            "validResultRerunAllowed",
+            "unsupportedFormatsRejectBeforeDecodeOrEncode",
+            "stableErrorCodeRequired"
+          ],
+          "type": "object"
+        },
+        "formatRowId": {
+          "const": "output:png",
+          "type": "string"
+        },
+        "formatTargetRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "cbfce3cfd827082d69b29c3fafbc8f3c9e3a93d03a2dd9216ac0a38a6b0f7159",
+              "type": "string"
+            },
+            "id": {
+              "const": "FT-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "profiles/format-target.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "frozenAt": {
+          "const": "2026-08-15T00:20:45.916Z",
+          "type": "string"
+        },
+        "gateBState": {
+          "const": "not-entered",
+          "type": "string"
+        },
+        "implementation": {
+          "additionalProperties": false,
+          "properties": {
+            "actualOutputBytesReopenRequired": {
+              "const": true,
+              "type": "boolean"
+            },
+            "adapterRef": {
+              "const": null,
+              "type": "null"
+            },
+            "adapterSha256": {
+              "const": null,
+              "type": "null"
+            },
+            "executed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "fallbackAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "implementationState": {
+              "const": "not-installed",
+              "type": "string"
+            },
+            "installed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "namedHardware": {
+              "const": null,
+              "type": "null"
+            },
+            "passthroughAllowed": {
+              "const": false,
+              "type": "boolean"
+            },
+            "runnerRef": {
+              "const": null,
+              "type": "null"
+            }
+          },
+          "required": [
+            "implementationState",
+            "adapterRef",
+            "adapterSha256",
+            "runnerRef",
+            "namedHardware",
+            "installed",
+            "executed",
+            "passthroughAllowed",
+            "fallbackAllowed",
+            "actualOutputBytesReopenRequired"
+          ],
+          "type": "object"
+        },
+        "input": {
+          "additionalProperties": false,
+          "properties": {
+            "alphaMode": {
+              "const": "straight-unpremultiplied",
+              "type": "string"
+            },
+            "colorSpace": {
+              "const": "embedded-sRGB",
+              "type": "string"
+            },
+            "maxBytes": {
+              "const": 1048576,
+              "type": "integer"
+            },
+            "maxHeight": {
+              "const": 256,
+              "type": "integer"
+            },
+            "maxWidth": {
+              "const": 256,
+              "type": "integer"
+            },
+            "orientation": {
+              "const": 1,
+              "type": "integer"
+            },
+            "pixelLayout": {
+              "const": "RGBA8",
+              "type": "string"
+            },
+            "type": {
+              "const": "NormalizedImage.slice04.v0",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "maxBytes",
+            "maxWidth",
+            "maxHeight",
+            "pixelLayout",
+            "colorSpace",
+            "orientation",
+            "alphaMode"
+          ],
+          "type": "object"
+        },
+        "operation": {
+          "const": "export",
+          "type": "string"
+        },
+        "output": {
+          "additionalProperties": false,
+          "properties": {
+            "alphaMode": {
+              "const": "straight-unpremultiplied",
+              "type": "string"
+            },
+            "colorSpace": {
+              "const": "embedded-sRGB",
+              "type": "string"
+            },
+            "mediaType": {
+              "const": "image/png",
+              "type": "string"
+            },
+            "metadataPolicy": {
+              "const": "strip-all-except-color-contract",
+              "type": "string"
+            },
+            "orientation": {
+              "const": 1,
+              "type": "integer"
+            },
+            "pixelLayout": {
+              "const": "RGBA8",
+              "type": "string"
+            },
+            "type": {
+              "const": "DeliveryArtifact.slice04.v0",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "mediaType",
+            "pixelLayout",
+            "colorSpace",
+            "orientation",
+            "alphaMode",
+            "metadataPolicy"
+          ],
+          "type": "object"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "qaProfileRef": {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "const": "14e4c246989dda8907a6b0c118a586c94dd87ea221880d692ec7f7c405272986",
+              "type": "string"
+            },
+            "id": {
+              "const": "QA-NORMALIZE-DELIVER@0.4.0",
+              "type": "string"
+            },
+            "path": {
+              "const": "preregistrations/qa-profile.normalize-deliver.v0.4.0.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash"
+          ],
+          "type": "object"
+        },
+        "recordVersion": {
+          "const": "0.4.0",
+          "type": "string"
+        },
+        "schemaVersion": {
+          "const": "capability-contract.slice04.v0",
+          "type": "string"
+        },
+        "status": {
+          "const": "metadata-only-source-resolved-non-gate-b",
+          "type": "string"
+        },
+        "suiteId": {
+          "const": "NORMALIZE-DELIVER",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "contractId",
+        "recordVersion",
+        "frozenAt",
+        "capabilityId",
+        "suiteId",
+        "operation",
+        "status",
+        "candidateLockRef",
+        "formatTargetRef",
+        "qaProfileRef",
+        "formatRowId",
+        "input",
+        "output",
+        "implementation",
+        "failureSemantics",
+        "productSupport",
+        "gateBState",
+        "c1State",
+        "evidenceBoundary",
+        "contentHash"
+      ],
+      "type": "object"
+    }
+  ],
+  "title": "Slice 04 metadata-only capability contract"
+}

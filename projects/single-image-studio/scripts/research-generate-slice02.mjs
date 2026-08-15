@@ -15,7 +15,7 @@ import {
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 export const DEFAULT_SLICE02_ROOT = path.resolve(SCRIPT_DIR, "../research/slice-02");
 const ADAPTER_PATH = path.resolve(SCRIPT_DIR, "research-reference-adapters.mjs");
-const CREATED_AT = "2026-08-15T08:00:00.000Z";
+const CREATED_AT = "2026-08-14T18:41:55.000Z";
 const VERSION = "0.2.0";
 const SOURCE_REVISION = "local-procedural-slice-02-v0.2.0-seed-20260815";
 const RIGHTS_RECORD_ID = "rights.project-original-synthetic.slice-02.v1";
@@ -500,7 +500,7 @@ export async function generateSlice02({ sliceRoot = DEFAULT_SLICE02_ROOT } = {})
     schemaVersion: "suite-partition-plan.v0",
     preregistrationId: "partition-plan.slice-02.structural.v0",
     planVersion: VERSION,
-    frozenAt: "2026-08-15T07:45:00.000Z",
+    frozenAt: "2026-08-14T18:41:55.000Z",
     purpose: "Freeze contract and partition-isolation invariants before generating structural fixtures; not a C1 quality preregistration.",
     contractRefs: contracts.map((value) => `${value.capabilityContractId}@${value.contractVersion}`).sort(),
     suites: SUITES,

@@ -1,6 +1,6 @@
 {
   "claimBoundary": "Open structural policy fixtures only. They establish neither general format support nor C1, effect, product, operational, governance, value, or release evidence.",
-  "createdAt": "2026-08-15T10:00:00.000Z",
+  "createdAt": "2026-08-14T19:47:13.000Z",
   "evidenceStatus": {
     "level": "C1=0",
     "purpose": "open-format-policy-calibration-only"
@@ -954,7 +954,7 @@
     "version": "0.3.0"
   },
   "isolationPolicy": "Every fixture has a unique source-family ID, capture-session ID, and source SHA-256 across the two open calibration partitions; every asset is catalog-denied.",
-  "manifestHash": "be40336a35a1f593f135246fca4094263f2ba70e2c790b3985b60c7031a9b736",
+  "manifestHash": "5fdaea450650321ed27bf1cfdb6f2315b24ea7415c61938edfd1eb7557ca941b",
   "manifestVersion": "0.3.0",
   "partition": "defect/calibration",
   "profileRefs": [

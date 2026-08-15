@@ -110,7 +110,7 @@ test("Slice 03 validates one observer contract, fifteen no-support format rows, 
     formalHoldoutStatus: "not-created",
     observerAdapterHash: "99596ad7030ae8db2e9861d0dae1689448221ca7876ef94fbf9e04f5fdbbf0e3",
     observerContractHash: CANONICAL_SLICE03_OBSERVER_CONTRACT_HASH,
-    matrixHash: "57ade2ad28bb4ecae40941ca084990aafc8f3182348085a9ab20158bfb61503e",
+    matrixHash: "e1170570ff5b4d6a4b6100cd90d5a83e7001856f849324b135d2322238b79178",
     generatedSubsetTreeHash: CANONICAL_SLICE03_GENERATED_TREE_SHA256,
     schemaTreeHash: CANONICAL_SLICE03_SCHEMA_TREE_SHA256,
   });

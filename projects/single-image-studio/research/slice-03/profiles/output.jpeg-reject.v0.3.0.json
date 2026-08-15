@@ -20,14 +20,14 @@
   ],
   "formatId": "jpeg",
   "formatProfileId": "format-profile.output.jpeg-reject.v0.3.0",
-  "frozenAt": "2026-08-15T10:00:00.000Z",
+  "frozenAt": "2026-08-14T19:47:13.000Z",
   "implementationState": "not-implemented",
   "mediaTypes": [
     "image/jpeg"
   ],
   "policyState": "deferred-reject",
   "productSupport": false,
-  "profileHash": "56cadda61c58b05b54800a08565e9ba8dc9a6a0cc3776ab6f5937249f8dd0fa6",
+  "profileHash": "1202c31c7ed94713570b2f7699a186df36b2edd6632d56643374c72abf1c1f39",
   "profileVersion": "0.3.0",
   "rejectionCode": "S03_OUTPUT_JPEG_NOT_IMPLEMENTED",
   "schemaVersion": "slice03-format-profile.v0"

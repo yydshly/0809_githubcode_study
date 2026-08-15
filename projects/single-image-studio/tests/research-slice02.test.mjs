@@ -17,7 +17,7 @@ import { encodeRgbaPng, hashRecordWithout, stableStringify } from "../scripts/re
 import { DEFAULT_SLICE02_ROOT, generateSlice02 } from "../scripts/research-generate-slice02.mjs";
 import { validateJsonSchemaInstance, validateSlice02 } from "../scripts/research-validate-slice02.mjs";
 
-const CREATED_AT = "2026-08-15T08:00:00.000Z";
+const CREATED_AT = "2026-08-14T18:41:55.000Z";
 
 async function tempCopy() {
   const wrapper = await mkdtemp(path.join(tmpdir(), "single-image-slice02-copy-"));

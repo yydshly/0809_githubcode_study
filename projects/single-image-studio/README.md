@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01 研究基础设施、Slice 02 合同 / partition 隔离骨架与 Slice 03 格式 / observer / 密封仪式准备可运行；真实候选对测与 C1 取证尚未开始 |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02 / 03 参考设施可运行；自动测试覆盖工程约束、研究清单、合同、格式政策、隔离、密封仪式、资源与交互边界 |
+| 研究阶段 | Slice 01–03 研究设施与 Slice 04 候选来源锁 / 预注册 metadata 可验证；Gate B adapter、calibration 与 C1 取证尚未开始 |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–04 研究设施可运行；Slice 04 只验证候选来源、合同、QA、分母、预注册和 seal intent metadata，不执行图片 codec |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -105,6 +105,22 @@ npm.cmd run verify
 
 完整边界见 [research/SLICE_03_CONTRACT.md](research/SLICE_03_CONTRACT.md)，验收记录见 [research/SLICE_03_EVIDENCE.md](research/SLICE_03_EVIDENCE.md)。该切片没有扩展 `/` 或 `/research/` UI，也没有使用真实照片、模型权重或第三方图像依赖。
 
+## 验证 Slice 04 候选锁与预注册 metadata
+
+Slice 04 把 `REG-NORM-SHARP` 锁为 source-resolved 复合候选：Sharp `v0.35.3`、Windows x64 npm / native bundle、`sharp-libvips@1.3.2` 的 bundled libvips 来源与通知，以及上游 libvips `v8.18.3`。Sharp 与 bundled libvips 是一个候选，不是两个比较臂；standalone `REG-NORM-LIBVIPS` 仍为 `research-only/pending-freeze`。
+
+六个 npm registry tarball 只下载到仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256，随后删除；没有解包、执行、安装或保留，GitHub commits 只经官方页面 / API 解析，项目依赖也没有增加 Sharp / libvips。Slice 04 机器记录为 10 records / 7 schemas：1 candidate lock、15 行格式矩阵、2 份 metadata-only 合同、normalize / export 各 1 份五 partition plan、1 份 QA profile、2 份预注册和 1 份 seal intent。全部格式仍为 `productSupport=false`。
+
+```powershell
+npm.cmd run research:prepare
+node --test tests/research-slice04.test.mjs
+npm.cmd run verify
+```
+
+normalize / export 每项都计划 `30 dev/calibration + 30 holdout + 18 defect/calibration + 18 defect/holdout + event-driven-0 escape`；初始 C1 只计 sealed holdout 30 + sealed defect-holdout 18 = 48，open calibration 与 append-only escape 排除。有限来源必须 3 / 3 repeats 全过，每来源跨三次最多一次仅替代 no-result invalid。Slice 03 observer 与 seal 只作不兼容 design lineage / execution-envelope reference；operation artifact schema / oracle、runner、durable ledger、trusted authority、角色 assignment / approval 与所有像素均未创建，request 为 `not-issued-awaiting-custodian-bundle`，因此非 Gate B。
+
+完整边界见 [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md)，实际 hash 与验收结果见 [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md)。下一步必须另发明确切片，只做 operation artifact schema / independent oracle / gold、adapter、运行语义、named hardware、smoke 和开放 calibration；仍不得直接创建正式 holdout、扩 UI 或进入 Matting。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目当前没有运行时第三方依赖，也不依赖兄弟项目。
@@ -165,6 +181,8 @@ npm.cmd run verify
 | [research/SLICE_02_EVIDENCE.md](research/SLICE_02_EVIDENCE.md) | Slice 02 确定性生成、合同 / 资产 hash、隔离与负例验收记录 |
 | [research/SLICE_03_CONTRACT.md](research/SLICE_03_CONTRACT.md) | Slice 03 格式政策、字节级技术 observer 与仓库外密封仪式的冻结范围 |
 | [research/SLICE_03_EVIDENCE.md](research/SLICE_03_EVIDENCE.md) | Slice 03 矩阵 / profile、开放夹具、observer、密封仪式和 fail-closed 验收记录 |
+| [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md) | Slice 04 Sharp 复合候选来源锁、完整预注册与未签发 seal request 边界 |
+| [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md) | Slice 04 metadata 制品、上游 hash、负例和非 Gate B 验收记录 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

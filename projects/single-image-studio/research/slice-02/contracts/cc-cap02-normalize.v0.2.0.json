@@ -19,7 +19,7 @@
       "alpha"
     ]
   },
-  "contractHash": "3f90d1e3a5fda11d72947ae18b30c6e18c426397a606d14102176034c296f9af",
+  "contractHash": "c33134b759b4261ff25b51c03903ed2d13262b8222abfd4e4b009e94a9573d48",
   "contractVersion": "0.2.0",
   "eligibility": [
     "ImageAsset.v0 descriptor matches supplied bytes",
@@ -48,7 +48,7 @@
     "processingRegion": "local-only",
     "registryId": "REG-NORM-REFERENCE-RGBA8"
   },
-  "frozenAt": "2026-08-15T08:00:00.000Z",
+  "frozenAt": "2026-08-14T18:41:55.000Z",
   "governance": {
     "codeLicense": "project-repository-terms; external distribution not granted",
     "dataTerms": "project-original synthetic fixtures only; no user or third-party images",
