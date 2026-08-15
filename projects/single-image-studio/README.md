@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 results-zero definition 已于 `2026-08-15T18:03:39.680Z` 冻结：183 files、22 schemas、96 sources、288 planned attempts、results=0；central pins/runtime/regeneration 全通过。必须先提交推送本基线，才允许唯一 registered calibration；C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 唯一 registered calibration 已在首个 normalize attempt 关闭为 protocol failure：actual 1 / planned 288，export 0，output / artifact / oracle / summary 0；同版本不得重跑。下一步必须新建 Slice 11；C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -157,9 +157,9 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 [Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。[Gold identity](scripts/research-gateb-gold-identity-slice09.mjs)、[case context](scripts/research-gateb-case-context-slice09.mjs)、[actual-case driver](scripts/research-gateb-driver-slice09.mjs)、[durable operation runner](scripts/research-gateb-runner-slice09.mjs)、[registered admission](scripts/research-run-slice09.mjs)、[definition generator](scripts/research-generate-slice09.mjs) 和 [central validator](scripts/research-validate-slice09.mjs) 已实现。canonical definition 于 `2026-08-15T15:17:03.776Z` 冻结并推送；唯一 registered smoke 随后闭合为 186 files / 36 terminal results / 18 artifact closures。normalize / export 各 9 applicable artifact pass + 9 exact rejection pass，6 / 6 sources 均 3/3 deterministic，两项 Gate B decision 均为 pass。结果树 SHA-256 为 `2f6bc6c2d7490568db0facd8b2615f74294fbb6e1b3a09828bf7a654750cf451`。不得重跑；`calibrationAuthorized=false`、C1=0、productSupport=false，详见 [Slice 09 evidence](research/SLICE_09_EVIDENCE.md)。
 
-## Slice 10 open calibration scope and definition preview
+## Slice 10 open calibration 已 fail closed
 
-[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。normalize / export 各冻结 30 个 `dev/calibration` 与 18 个 `defect/calibration` sources，每来源 3 次，合计 96 / 288，零 retry / replacement。results-zero definition 于 `2026-08-15T18:03:39.680Z` 冻结为 183 files / 22 schemas，index content/file `1b0eca…bcbc` / `c2b7ae…b13c`，full tree `0250a7…d532`；central literal pins、fresh runtime 与 deterministic regeneration 全通过。case adapter 重开全部 96 个 Slice 05 records/bytes 与 48 个 independent gold，48 个 rejection worker-free；runtime-end observer 只读版本与依赖清单。没有 actual Sharp calibration 或 canonical result。必须先提交推送该 results-zero 基线，才允许唯一 registered invocation。
+[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。normalize / export 各冻结 48 sources × 3，合计 96 / 288，零 retry / replacement；results-zero definition 已先提交推送。唯一 registered invocation 随后在首个 normalize applicable request 以 `S10_EXPECTED_OUTPUT_INVALID` 停止：case driver 把完整 gold expected object 交给只接受 12 个 canonical output keys 的 Slice 07 raw adapter，故在启动 Sharp worker 前 fail closed。export 未启动，output / artifact / oracle / summary / runtime-end 均为 0。不可变 terminal 还把该路径错误记成 `workerInvoked=true`，central 因 `RESULT_WORKER_LIFECYCLE_INVALID` 拒绝整份结果。Slice 10 不得重跑；完整树 pins、时序与后续 Slice 11 边界见 [Slice 10 evidence](research/SLICE_10_EVIDENCE.md)。
 
 ## 运行 R0 工程探针
 
@@ -239,7 +239,8 @@ npm.cmd run verify
 | [research/SLICE_09_EVIDENCE.md](research/SLICE_09_EVIDENCE.md) | Slice 09 definition、唯一 registered Gate-B smoke、结果树、ledger、双 pass 与非产品边界 |
 | [research/slice-09/README.md](research/slice-09/README.md) | Slice 09 已冻结的 definition 与 registered result workspace |
 | [research/SLICE_10_CONTRACT.md](research/SLICE_10_CONTRACT.md) | Slice 10 开放 calibration 的 96-source / 288-attempt 分母、零重试、停止规则与非 C1 边界 |
-| [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 scope 与 deterministic definition preview workspace；正式 machine definition 与 results 尚未创建 |
+| [research/SLICE_10_EVIDENCE.md](research/SLICE_10_EVIDENCE.md) | Slice 10 唯一 registered invocation 的 4-file failure tree、协议根因、lifecycle 失真与禁止重跑边界 |
+| [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 已冻结的 results-zero machine definition workspace（保持其冻结时口径） |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -247,7 +248,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–09 的不可变 research-only 记录，以及 Slice 10 results-zero definition。Slice 09 两项 Gate B 均通过，但 Slice 10 calibration 尚未运行；这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖，以及 Slice 06–10 的不可变 research-only 记录。Slice 09 两项 Gate B 均通过；Slice 10 calibration 则在 1 / 288 后因 pre-worker protocol failure 关闭，不能形成候选质量结论。这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

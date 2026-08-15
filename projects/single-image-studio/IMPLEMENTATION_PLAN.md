@@ -8,7 +8,7 @@
 
 截至 2026-08-15，Slice 05 的唯一注册真实 smoke 已关闭为 non-pass，Slice 06 唯一 diagnostic 已定位缺 `sRGB` / 禁止 `pHYs`。Slice 07 新复合候选的唯一 registered smoke 也已闭合：36 / 36 terminal，18 / 18 applicable candidate outputs 全部通过独立 oracle，但 18 个 rejection 因 driver executor binding 漏传 frozen classification fields 而全部 non-pass。两项 Gate B 均 denied，calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0`–`@0.9.0` 或运行旧 calibration。Slice 10 results-zero definition 已于 `2026-08-15T18:03:39.680Z` 冻结：183 files / 22 schemas / 96 sources / 288 planned attempts / 0 results，index content/file `1b0eca…bcbc` / `c2b7ae…b13c`，full tree `0250a7…d532`。协议 7/7、definition 9/9、runner 7/7、case adapter 9/9、driver 5/5、observer 6/6，central 当前 6/6；literal pins、fresh runtime 与 deterministic regeneration 均通过。下一步只允许全量复验、提交并推送该 results-zero 基线；在 HEAD 等于 origin/main 前不得运行唯一 registered calibration。
+立即后续禁止重跑 `@0.5.0`–`@0.10.0` 或补跑旧 calibration。Slice 10 results-zero definition 已于 `2026-08-15T18:03:39.680Z` 冻结并先行推送；唯一 registered invocation 随后只终结首个 normalize applicable attempt，以 `S10_EXPECTED_OUTPUT_INVALID` 在 Sharp worker 前停止。根因是完整 gold expected 与 Slice 07 adapter 的 12-field expected schema 不兼容；export、output、artifact、oracle、summary 与 runtime-end 均为 0。terminal 同时错误记录 `workerInvoked=true`，central 以 `RESULT_WORKER_LIFECYCLE_INVALID` fail closed。结果树为 4 files / 6,919 bytes，SHA-256 `225847d125c58ee6affaa087746101d469d7ae04109504f0bd6781f593b9ee9e`。下一步只允许新建 Slice 11 / `@0.11.0`，冻结显式 expected 投影与真实 lifecycle，再走新的 results-zero definition、验证、提交和推送。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 

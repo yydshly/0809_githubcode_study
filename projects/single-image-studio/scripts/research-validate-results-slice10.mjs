@@ -124,9 +124,8 @@ function operationDirectories(allDirectories, operation) {
   const prefix = `${operation}/`;
   return new Set([...allDirectories].filter((entry) => entry.startsWith(prefix)).map((entry) => entry.slice(prefix.length)));
 }
-function directoriesForAllowedFiles(allowed, { partial = false } = {}) {
-  const result = new Set(["requests", "claims", "terminals", "closures"]);
-  if (partial) result.add(".staging");
+function directoriesForAllowedFiles(allowed) {
+  const result = new Set();
   for (const relativePath of allowed) {
     const parts = relativePath.split("/");
     for (let index = 1; index < parts.length; index += 1) result.add(parts.slice(0, index).join("/"));
@@ -191,6 +190,10 @@ function validateTerminal(pair, requestPair, item, issues, relativePath) {
   if (item.disposition === "rejection" && terminal.status === "pass"
     && terminal.actualStableErrorCode !== item.expectedStableErrorCode) {
     issues.push(issue("RESULT_REJECTION_CODE_INVALID", "rejection pass does not use its frozen exact code", relativePath));
+  }
+  if (terminal.reasonCode === "S10_EXPECTED_OUTPUT_INVALID"
+    && (terminal.workerInvoked !== false || terminal.workerExitConfirmed !== null)) {
+    issues.push(issue("RESULT_WORKER_LIFECYCLE_INVALID", "pre-worker expected-output validation was recorded as worker-invoked", relativePath));
   }
 }
 
@@ -426,9 +429,11 @@ async function validateOperation({ operation, files, directories, index, definit
   for (const relativePath of files.keys()) {
     if (!allowed.has(relativePath)) issues.push(issue("RESULT_EXTRA_FILE", "unregistered result file", resultPath(operation, relativePath)));
   }
-  const expectedDirectories = directoriesForAllowedFiles(allowed, { partial: !complete || Boolean(globalStop) });
+  const expectedDirectories = directoriesForAllowedFiles(allowed);
+  const permittedDirectories = new Set([...expectedDirectories, "requests", "claims", "terminals", "closures"]);
+  if (!complete || globalStop) permittedDirectories.add(".staging");
   for (const relativePath of directories) {
-    if (!expectedDirectories.has(relativePath)) issues.push(issue("RESULT_EXTRA_DIRECTORY", "unregistered result directory", resultPath(operation, relativePath)));
+    if (!permittedDirectories.has(relativePath)) issues.push(issue("RESULT_EXTRA_DIRECTORY", "unregistered result directory", resultPath(operation, relativePath)));
   }
   for (const relativePath of expectedDirectories) {
     if (!directories.has(relativePath)) issues.push(issue("RESULT_DIRECTORY_MISSING", "registered result directory is absent", resultPath(operation, relativePath)));

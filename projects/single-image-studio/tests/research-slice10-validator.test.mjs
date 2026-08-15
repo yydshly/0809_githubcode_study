@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -13,6 +14,7 @@ import {
 } from "../scripts/research-calibration-case-slice10.mjs";
 import { runSlice10CalibrationOperation } from "../scripts/research-calibration-runner-slice10.mjs";
 import { createSlice10RuntimeEndObserver } from "../scripts/research-runtime-observer-slice10.mjs";
+import { contentHashSlice10, stableStringifySlice10 } from "../scripts/research-calibration-protocol-slice10.mjs";
 
 const TEST_UTC = "2026-08-16T05:00:00.000Z";
 
@@ -94,15 +96,19 @@ test("noncanonical test-UTC definition cannot satisfy the frozen literal pins", 
   assert.equal(report.definitionRef, null);
 });
 
-test("canonical Slice 10 results-zero definition passes literal pins and fresh regeneration", async () => {
+test("canonical Slice 10 definition pins remain stable while the immutable failed result is rejected", async () => {
   const report = await validateSlice10Definition({ requirePins: true, recheckRuntime: true, regenerate: true });
-  assert.equal(report.valid, true, JSON.stringify(report.issues));
+  assert.equal(report.valid, false);
   assert.equal(report.pinsVerified, true);
   assert.equal(report.runtimeRechecked, true);
   assert.equal(report.regenerationVerified, true);
-  assert.equal(report.counts.files, 183);
-  assert.equal(report.counts.results, 0);
-  assert.equal(report.definitionRef.id, "DEFINITION-INDEX-SLICE10@0.10.0");
+  assert.equal(report.counts.files, 187);
+  assert.equal(report.counts.results, 4);
+  assert.equal(report.definitionRef, null);
+  assert.equal(report.postRun.state, "closed-protocol-uncertainty");
+  assert.equal(report.postRun.counts.attempts, 1);
+  assert.equal(report.postRun.counts.closures, 0);
+  assert.ok(report.issues.some((entry) => entry.code === "RESULT_WORKER_LIFECYCLE_INVALID"));
 });
 
 test("post-run validator preserves one closed global-stop prefix without inventing export or a summary", async () => {
@@ -130,6 +136,22 @@ test("post-run validator preserves one closed global-stop prefix without inventi
   assert.equal(report.postRun.counts.attempts, 1);
   assert.equal(report.postRun.reports.normalize.status, "protocol-failed");
   assert.equal(report.postRun.reports.export, undefined);
+  const terminalPath = path.join(root, "results", "open-calibration", "normalize", "terminals",
+    "request.s10.normalize.s10.normalize.dev.001.r1.a1.json");
+  const terminal = JSON.parse(await readFile(terminalPath));
+  terminal.reasonCode = "S10_EXPECTED_OUTPUT_INVALID";
+  terminal.workerInvoked = true;
+  terminal.contentHash = contentHashSlice10(terminal);
+  const terminalBytes = Buffer.from(`${stableStringifySlice10(terminal)}\n`);
+  await writeFile(terminalPath, terminalBytes);
+  const ledgerPath = path.join(root, "results", "open-calibration", "normalize", "ledger.ndjson");
+  const ledger = (await readFile(ledgerPath, "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+  ledger[1].payloadSha256 = createHash("sha256").update(terminalBytes).digest("hex");
+  ledger[1].contentHash = contentHashSlice10(ledger[1]);
+  await writeFile(ledgerPath, `${ledger.map(stableStringifySlice10).join("\n")}\n`);
+  const lifecycleLie = await validateSlice10Definition({ definitionRoot: root });
+  assert.equal(lifecycleLie.valid, false);
+  assert.ok(lifecycleLie.issues.some(({ code }) => code === "RESULT_WORKER_LIFECYCLE_INVALID"));
 });
 
 test("post-run validator reopens the complete 288-attempt closure and rejects output-byte tampering", async () => {

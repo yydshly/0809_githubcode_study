@@ -41,45 +41,32 @@ decisions pass. The result commit is
 `c91014c6bef8878277a8520d003b10684972087b`. It cannot be replayed;
 calibration remains separately forbidden and all evidence axes remain zero.
 
-Slice 10 is scope-frozen. Its contract plans two operation-specific open
-calibrations: normalize and export each use 30 `dev/calibration` plus 18
-`defect/calibration` public-synthetic sources, three repetitions per source,
-for 96 sources and 288 attempts in total. Retry and replacement are both zero.
-The strict admission, request, terminal and 48x3 summary protocol foundation is
-implemented and passes 7 / 7 fake-only tests. It rejects attempt two, missing or
-duplicate slots, partition or operation drift, generic rejection laundering and
-2-of-3 majority promotion. A separate definition-preview generator passes 9/9
-fake-only tests: two fixed-UTC temporary builds are byte-identical and contain
-22 strict schemas, 96 new source wrappers, 48 gold identities and four manifests.
-The preview now pins the complete runner, actual-case adapter, registered driver
-and durable runtime-end observer implementation bytes; only the central validator
-and formal results-zero materialization remain absent.
-They pin the actual Slice 05 open-synthetic bytes/records and immutable Slice 09
-dual-pass admission lineage without copying image bytes. A fake-only durable
-runner foundation passes 7/7 system-temp tests for one 48x3 operation,
-zero retry, per-file fsync, atomic prepared/rename/complete publication, a
-432-event hash-chain ledger, complete non-pass handling, global protocol stop
-and end-runtime drift refusal. An actual-case adapter foundation adds 9/9
-fake-only tests: it reopens all 96 immutable Slice 05 source records and bytes,
-all 48 independent gold identities, keeps all 48 rejection cases worker-free,
-and sends only applicable fake outputs through the independent PNG decoder. A
-registered-driver foundation passes 5/5 fake-only tests for central/Git/results-zero
-admission, two sequential operation runs, ordinary non-pass continuation and
-protocol global stop. A durable end-runtime observer passes 6/6 fake-only tests:
-after all operation terminals it inventories the package/native/runtime closure,
-requires byte-identical equality with the frozen start attestation, and publishes
-one distinct `runtime-end.json` with create-only and fsync semantics. Drift,
-replay, an invalid clock, or an image-processing boundary violation fail closed.
-It reads versions only and does not invoke an image pipeline. A central validator
-foundation passes 5/5 fake-only tests for deterministic full-tree regeneration,
-fresh runtime re-observation, forbidden results/extras, README pinning, and explicit
-literal-pin admission. The results-zero definition froze at
-`2026-08-15T18:03:39.680Z`: 183 files, 22 schemas, 96 sources, 288 planned
-attempts and zero results. Its index content/file hashes are `1b0ecac1…bcbc` /
-`c2b7ae16…b13c`, and its full-tree digest is `0250a743…d532`; pins, fresh
-runtime and deterministic regeneration pass. No canonical request/result,
-formal holdout, or copied image bytes exists. This baseline must be committed
-and pushed before the unique registered calibration invocation.
+Slice 10 froze and pushed a results-zero open-calibration definition at
+`2026-08-15T18:03:39.680Z`: 183 files, 22 schemas, 96 public-synthetic sources,
+288 planned attempts, no retry or replacement, and zero results. Its index
+content/file hashes are `1b0ecac1…bcbc` / `c2b7ae16…b13c`, and its full-tree
+digest is `0250a743…d532`; literal pins, fresh runtime and deterministic
+regeneration passed before execution.
+
+The sole registered invocation then closed on the first normalize applicable
+attempt with `S10_EXPECTED_OUTPUT_INVALID`. The case driver passed the complete
+gold expected object, including file, MIME and parent identity fields, to the
+Slice 07 raw adapter, whose exact validator accepts only twelve canonical output
+fields. It therefore failed before `spawnWorker()`: no Sharp child, candidate
+output, artifact, oracle result, summary or runtime-end record was created, and
+export never started. The immutable result contains one request, one claim, one
+terminal and two ledger events (4 files / 6,919 bytes; result-tree SHA-256
+`225847d1…ee9e`).
+
+The run also exposed a separate evidence-integrity defect: Slice 10's error
+mapping recorded `workerInvoked=true` for this pre-worker failure. The central
+post-run validator now rejects the immutable result with
+`RESULT_WORKER_LIFECYCLE_INVALID` while continuing to verify the frozen
+definition, record hashes, ledger chain and file tree. Slice 10 cannot be rerun
+or supplemented. Any correction must be a Slice 11 / `@0.11.0` definition with
+an explicit gold-to-adapter expected projection and truthful worker lifecycle.
+See [SLICE_10_EVIDENCE.md](SLICE_10_EVIDENCE.md). Formal holdout remains absent,
+all evidence axes remain zero, and `productSupport=false`.
 
 ## Evidence boundary
 

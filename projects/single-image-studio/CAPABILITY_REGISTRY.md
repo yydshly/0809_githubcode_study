@@ -541,7 +541,8 @@ release_status=planned
 4. Slice 07 唯一 36-attempt registered smoke 已关闭：applicable 18/18 通过，但 rejection 0/18 exact pass；两项 Gate B denied。不得重跑，任何 driver binding 修复必须进入新版本与新定义。
 5. Slice 08 results-zero definition 已提交推送；唯一 registered invocation 在首个 normalize applicable attempt 因 driver 把 `goldRecordId` 错读为 `id` 而 worker-free protocol-failed。partial tree 已封存为 1 request / 1 started event / 0 terminal，禁止修复后重跑；下一步必须新版本、新定义、新完整分母。
 6. Slice 09 唯一 registered smoke 已以 commit `c91014c6bef8878277a8520d003b10684972087b` 封存并推送；两项 Gate B pass，但不得重跑、补跑或从该开放 smoke 推导 C1 / productSupport。
-7. Slice 10 已冻结新的 calibration scope，并为 plan / prereg / runtime / denominator / stop rule / admission 边界建立 deterministic definition preview：normalize / export 各 48 sources × 3，总计 96 / 288，零 retry / replacement；16 schemas、96 source wrappers、48 gold identities 与 4 manifests 在双临时树闭合。durable runner foundation 也已在 fake-only 临时树闭合完整 144-slot operation 与 432-event ledger，但 registered actual driver、正式 machine definition 和 results 仍未创建，新定义提交推送前禁止 calibration。
-8. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
-9. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
+7. Slice 10 的 96-source / 288-attempt calibration definition 已冻结并推送；唯一 registered invocation 仅产生首个 normalize request / claim / terminal 与两事件 ledger。完整 gold expected 与 Slice 07 adapter 的 12-field expected schema不兼容，故 `S10_EXPECTED_OUTPUT_INVALID` 在 worker 前停止；export、output、artifact、oracle、summary 与 runtime-end 均为 0。terminal 又错误记录 `workerInvoked=true`，central 以 `RESULT_WORKER_LIFECYCLE_INVALID` 拒绝。4-file result tree SHA-256 为 `225847d125c58ee6affaa087746101d469d7ae04109504f0bd6781f593b9ee9e`；Slice 10 不得补跑。
+8. 下一步只能在 Slice 11 / `@0.11.0` 冻结 gold-to-adapter expected 投影和真实 worker lifecycle，重新建立完整分母、results-zero definition 与中央负例；在该基线提交推送前不得运行。
+9. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
+10. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
 10. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。
