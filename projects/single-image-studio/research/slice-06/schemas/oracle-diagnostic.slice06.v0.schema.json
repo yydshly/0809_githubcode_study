@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://single-image-studio.invalid/research/slice-06/schemas/oracle-diagnostic.slice06.v0.schema.json",
+  "title": "OracleDiagnostic.slice06.v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "oracleDiagnosticId", "recordClass", "artifactEligible", "mode", "operation", "requestRef", "attempt", "oracleRef", "candidateOutputObservationRef", "verification", "observedAt", "evidenceBoundary", "contentHash"],
+  "properties": {
+    "schemaVersion": { "const": "oracle-diagnostic.slice06.v0" },
+    "oracleDiagnosticId": { "$ref": "#/$defs/id" },
+    "recordClass": { "const": "independent-oracle-diagnostic-not-artifact" },
+    "artifactEligible": { "const": false },
+    "mode": { "const": "open-diagnostic" },
+    "operation": { "$ref": "#/$defs/operation" },
+    "requestRef": { "$ref": "#/$defs/hashRef" },
+    "attempt": { "$ref": "#/$defs/attempt" },
+    "oracleRef": { "$ref": "#/$defs/implementationRef" },
+    "candidateOutputObservationRef": { "$ref": "#/$defs/hashRef" },
+    "verification": { "$ref": "#/$defs/verification" },
+    "observedAt": { "$ref": "#/$defs/utc" },
+    "evidenceBoundary": { "$ref": "#/$defs/evidenceBoundary" },
+    "contentHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "id": { "type": "string", "minLength": 1, "maxLength": 240, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]*$" },
+    "utc": { "type": "string", "format": "date-time", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$" },
+    "operation": { "enum": ["normalize", "export"] },
+    "hashRef": {
+      "type": "object", "additionalProperties": false, "required": ["id", "contentHash"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "contentHash": { "$ref": "#/$defs/sha256" } }
+    },
+    "implementationRef": {
+      "type": "object", "additionalProperties": false, "required": ["id", "version", "implementationSha256"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "version": { "type": "string", "minLength": 1, "maxLength": 40 }, "implementationSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "attempt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["runId", "sourceId", "partition", "repetition", "attemptNumber", "idempotencyKey"],
+      "properties": {
+        "runId": { "$ref": "#/$defs/id" },
+        "sourceId": { "type": "string", "minLength": 1, "maxLength": 120, "pattern": "^[A-Za-z0-9][A-Za-z0-9@._-]*$" },
+        "partition": { "const": "diagnostic" },
+        "repetition": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "attemptNumber": { "const": 1 },
+        "idempotencyKey": { "$ref": "#/$defs/id" }
+      }
+    },
+    "expected": {
+      "type": "object", "additionalProperties": false,
+      "required": ["decodedPixelSha256", "width", "height", "pixelLayout", "colorSpace", "orientation", "alphaMode", "alphaPresent", "metadataPolicy", "pngFilterPolicy", "interlace", "animation"],
+      "properties": {
+        "decodedPixelSha256": { "$ref": "#/$defs/sha256" },
+        "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "pixelLayout": { "const": "RGBA8" },
+        "colorSpace": { "const": "embedded-sRGB" },
+        "orientation": { "const": 1 },
+        "alphaMode": { "const": "straight-unpremultiplied" },
+        "alphaPresent": { "type": "boolean" },
+        "metadataPolicy": { "const": "strip-all-except-color-contract" },
+        "pngFilterPolicy": { "const": "filter-0-only" },
+        "interlace": { "const": "forbidden" },
+        "animation": { "const": "forbidden" }
+      }
+    },
+    "actualBytes": {
+      "type": "object", "additionalProperties": false,
+      "required": ["mediaType", "byteLength", "fileSha256", "decodedPixelSha256"],
+      "properties": {
+        "mediaType": { "enum": ["image/png", "application/octet-stream"] },
+        "byteLength": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+        "fileSha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+        "decodedPixelSha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "facts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["width", "height", "pixelLayout", "colorSpace", "orientation", "alphaMode", "alphaPresent", "metadataPolicy", "pngFilterPolicy", "interlace", "animation", "chunkTypes", "filterTypes"],
+      "properties": {
+        "width": { "type": ["integer", "null"], "minimum": 1, "maximum": 256 },
+        "height": { "type": ["integer", "null"], "minimum": 1, "maximum": 256 },
+        "pixelLayout": { "enum": ["RGBA8", null] },
+        "colorSpace": { "enum": ["embedded-sRGB", null] },
+        "orientation": { "enum": [1, null] },
+        "alphaMode": { "enum": ["straight-unpremultiplied", null] },
+        "alphaPresent": { "type": ["boolean", "null"] },
+        "metadataPolicy": { "enum": ["strip-all-except-color-contract", null] },
+        "pngFilterPolicy": { "enum": ["filter-0-only", "noncanonical-filter-present", null] },
+        "interlace": { "enum": ["forbidden", null] },
+        "animation": { "enum": ["forbidden", null] },
+        "chunkTypes": { "type": "array", "items": { "type": "string", "pattern": "^[A-Za-z]{4}$" }, "maxItems": 87382 },
+        "filterTypes": { "type": "array", "items": { "type": "integer", "minimum": 0, "maximum": 4 }, "maxItems": 256 }
+      }
+    },
+    "finding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["code", "stage", "status", "expected", "actual", "message"],
+      "properties": {
+        "code": {
+          "enum": [
+            "S06_ORACLE_BYTES_EMPTY", "S06_ORACLE_BYTES_LIMIT_EXCEEDED", "S06_ORACLE_PNG_SIGNATURE_MISMATCH", "S06_ORACLE_PNG_CHUNK_TRUNCATED", "S06_ORACLE_PNG_CHUNK_TYPE_INVALID", "S06_ORACLE_PNG_CRC_MISMATCH", "S06_ORACLE_PNG_IHDR_INVALID", "S06_ORACLE_PNG_METHOD_MISMATCH", "S06_ORACLE_PNG_PIXEL_LAYOUT_MISMATCH", "S06_ORACLE_PNG_INTERLACE_FORBIDDEN", "S06_ORACLE_PNG_APNG_FORBIDDEN", "S06_ORACLE_PNG_UNKNOWN_CRITICAL", "S06_ORACLE_PNG_IDAT_INVALID", "S06_ORACLE_PNG_IEND_INVALID", "S06_ORACLE_PNG_TRAILING_BYTES", "S06_ORACLE_PNG_DECODE_FAILED", "S06_ORACLE_PNG_DECODE_LENGTH_MISMATCH", "S06_ORACLE_PNG_FILTER_INVALID", "S06_ORACLE_PNG_SRGB_REQUIRED", "S06_ORACLE_PNG_SRGB_INVALID", "S06_ORACLE_PNG_ICCP_FORBIDDEN", "S06_ORACLE_PNG_EXIF_FORBIDDEN", "S06_ORACLE_PNG_METADATA_FORBIDDEN", "S06_ORACLE_PNG_FILTER_POLICY_MISMATCH", "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH"
+          ]
+        },
+        "stage": { "enum": ["byte-envelope", "png-structure", "png-profile", "decoded-identity"] },
+        "status": { "const": "non-pass" },
+        "expected": { "type": ["string", "null"], "maxLength": 240 },
+        "actual": { "type": ["string", "null"], "maxLength": 240 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 240 }
+      }
+    },
+    "verification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schemaVersion", "verificationId", "operation", "overallStatus", "primaryCode", "expected", "actualBytes", "facts", "findings", "contentHash"],
+      "properties": {
+        "schemaVersion": { "const": "png-diagnostic-verification.slice06.v0" },
+        "verificationId": { "$ref": "#/$defs/id" },
+        "operation": { "$ref": "#/$defs/operation" },
+        "overallStatus": { "enum": ["pass", "non-pass"] },
+        "primaryCode": { "type": ["string", "null"], "minLength": 1, "maxLength": 240 },
+        "expected": { "$ref": "#/$defs/expected" },
+        "actualBytes": { "$ref": "#/$defs/actualBytes" },
+        "facts": { "$ref": "#/$defs/facts" },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" }, "maxItems": 32 },
+        "contentHash": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "evidenceBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["c1", "u1", "e1", "r1Pipeline", "r1ProductValidation", "r1ProductRelease", "o1", "g1", "v1", "releaseAllowlist", "releaseRegistered", "releaseApproved", "productSupport", "formalEvidence"],
+      "properties": {
+        "c1": { "const": 0 }, "u1": { "const": 0 }, "e1": { "const": 0 },
+        "r1Pipeline": { "const": 0 }, "r1ProductValidation": { "const": 0 }, "r1ProductRelease": { "const": 0 },
+        "o1": { "const": 0 }, "g1": { "const": 0 }, "v1": { "const": 0 },
+        "releaseAllowlist": { "const": "none" }, "releaseRegistered": { "const": 0 }, "releaseApproved": { "const": 0 },
+        "productSupport": { "const": false }, "formalEvidence": { "const": false }
+      }
+    }
+  }
+}

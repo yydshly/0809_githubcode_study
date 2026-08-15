@@ -1,0 +1,224 @@
+/*
+ * Slice 06 diagnostic candidate worker.
+ *
+ * This is the only Slice 06 module allowed to import Sharp. It accepts one
+ * closed IPC request, returns one bounded in-memory result and never writes an
+ * image or imports the independent oracle. The parent process owns policy,
+ * timeout, exit confirmation and diagnostic persistence.
+ */
+
+const PROTOCOL_VERSION = "sharp-worker.slice06.v0";
+const MAX_INPUT_BYTES = 1024 * 1024;
+const MAX_OUTPUT_BYTES = 1024 * 1024;
+const MAX_DIMENSION = 256;
+const MAX_PIXELS = MAX_DIMENSION * MAX_DIMENSION;
+const MAX_RAW_BYTES = MAX_PIXELS * 4;
+
+const REQUIRED_ENVIRONMENT = Object.freeze({
+  UV_THREADPOOL_SIZE: "1",
+  VIPS_CONCURRENCY: "1",
+  SHARP_IGNORE_GLOBAL_LIBVIPS: "1",
+  TZ: "UTC",
+  LANG: "C",
+  LC_ALL: "C",
+});
+
+// Keep the Slice 05 pixel-path settings intact for characterization. `effort`
+// is intentionally retained as lineage even though Sharp ignores it when
+// palette=false; changing candidate behaviour belongs to a later slice.
+const PNG_OPTIONS = Object.freeze({
+  progressive: false,
+  compressionLevel: 9,
+  adaptiveFiltering: false,
+  palette: false,
+  effort: 10,
+});
+
+const NORMALIZE_KEYS = Object.freeze(["protocolVersion", "attemptId", "operation", "inputBytes"]);
+const EXPORT_KEYS = Object.freeze(["protocolVersion", "attemptId", "operation", "rgba", "width", "height"]);
+
+function isPlainObject(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+function hasExactKeys(value, keys) {
+  if (!isPlainObject(value)) return false;
+  const actual = Object.keys(value);
+  return actual.length === keys.length && keys.every((key) => Object.hasOwn(value, key));
+}
+
+function validAttemptId(value) {
+  return typeof value === "string"
+    && /^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,199}$/u.test(value)
+    && !value.includes("..");
+}
+
+function asBuffer(value, maximumBytes) {
+  if (!(value instanceof Uint8Array) || value.byteLength < 1 || value.byteLength > maximumBytes) return null;
+  return Buffer.isBuffer(value) ? value : Buffer.from(value.buffer, value.byteOffset, value.byteLength);
+}
+
+function send(payload) {
+  if (typeof process.send !== "function" || !process.connected) {
+    process.exitCode = 1;
+    return;
+  }
+  process.send(payload, (error) => {
+    process.exitCode = error ? 1 : 0;
+    process.disconnect?.();
+  });
+}
+
+function fail(code, attemptId = "worker-startup", operation = "unknown") {
+  send({ protocolVersion: PROTOCOL_VERSION, attemptId, operation, status: "failed", code });
+}
+
+function environmentIsLocked() {
+  return Object.entries(REQUIRED_ENVIRONMENT).every(([key, value]) => process.env[key] === value);
+}
+
+function waitForBoundStartupFailure(code) {
+  let handled = false;
+  process.on("message", (request) => {
+    if (handled) return;
+    handled = true;
+    const attemptId = isPlainObject(request) && validAttemptId(request.attemptId)
+      ? request.attemptId
+      : "invalid-attempt";
+    const operation = isPlainObject(request) && new Set(["normalize", "export"]).has(request.operation)
+      ? request.operation
+      : "unknown";
+    fail(code, attemptId, operation);
+  });
+}
+
+if (!environmentIsLocked()) {
+  waitForBoundStartupFailure("S06_WORKER_RUNTIME_VERSION_MISMATCH");
+} else {
+  let sharp;
+  try {
+    ({ default: sharp } = await import("sharp"));
+  } catch {
+    waitForBoundStartupFailure("S06_WORKER_RUNTIME_VERSION_MISMATCH");
+  }
+
+  if (sharp) {
+    if (sharp.versions?.sharp !== "0.35.3") {
+      waitForBoundStartupFailure("S06_WORKER_RUNTIME_VERSION_MISMATCH");
+    } else {
+      sharp.concurrency(1);
+      sharp.cache(false);
+      sharp.simd(false);
+      const cache = sharp.cache();
+      const runtime = Object.freeze({
+        sharpVersion: sharp.versions.sharp,
+        nativeVersions: Object.freeze({ ...sharp.versions }),
+        nodeVersion: process.version,
+        platform: process.platform,
+        architecture: process.arch,
+        settings: Object.freeze({
+          concurrency: sharp.concurrency(),
+          cacheMemoryMaxMiB: cache.memory.max,
+          cacheFilesMax: cache.files.max,
+          cacheItemsMax: cache.items.max,
+          simd: sharp.simd(),
+          uvThreadpoolSize: process.env.UV_THREADPOOL_SIZE,
+          vipsConcurrency: process.env.VIPS_CONCURRENCY,
+          ignoreGlobalLibvips: process.env.SHARP_IGNORE_GLOBAL_LIBVIPS,
+        }),
+      });
+
+      let handled = false;
+      process.on("message", async (request) => {
+        if (handled) {
+          fail("S06_WORKER_PROTOCOL_INVALID");
+          return;
+        }
+        handled = true;
+        const attemptId = isPlainObject(request) && validAttemptId(request.attemptId)
+          ? request.attemptId
+          : "invalid-attempt";
+        const operation = isPlainObject(request) && typeof request.operation === "string"
+          ? request.operation
+          : "unknown";
+        if (!isPlainObject(request) || request.protocolVersion !== PROTOCOL_VERSION
+          || !validAttemptId(request.attemptId) || !new Set(["normalize", "export"]).has(request.operation)) {
+          fail("S06_WORKER_PROTOCOL_INVALID", attemptId, operation);
+          return;
+        }
+
+        const monotonicStartedAt = process.hrtime.bigint();
+        const usageStarted = process.resourceUsage();
+        let result;
+        try {
+          if (operation === "normalize") {
+            const inputBytes = hasExactKeys(request, NORMALIZE_KEYS)
+              ? asBuffer(request.inputBytes, MAX_INPUT_BYTES)
+              : null;
+            if (!inputBytes) {
+              fail("S06_WORKER_INPUT_INVALID", attemptId, operation);
+              return;
+            }
+            result = await sharp(inputBytes, {
+              failOn: "warning",
+              limitInputPixels: MAX_PIXELS,
+              sequentialRead: true,
+              animated: false,
+            }).toColourspace("srgb").png(PNG_OPTIONS).toBuffer({ resolveWithObject: true });
+          } else {
+            if (!hasExactKeys(request, EXPORT_KEYS)
+              || !Number.isInteger(request.width) || request.width < 1 || request.width > MAX_DIMENSION
+              || !Number.isInteger(request.height) || request.height < 1 || request.height > MAX_DIMENSION
+              || request.width * request.height > MAX_PIXELS) {
+              fail("S06_WORKER_INPUT_INVALID", attemptId, operation);
+              return;
+            }
+            const rgba = asBuffer(request.rgba, MAX_RAW_BYTES);
+            if (!rgba || rgba.length !== request.width * request.height * 4) {
+              fail("S06_WORKER_INPUT_INVALID", attemptId, operation);
+              return;
+            }
+            result = await sharp(rgba, {
+              raw: { width: request.width, height: request.height, channels: 4, premultiplied: false },
+              failOn: "warning",
+              limitInputPixels: MAX_PIXELS,
+              sequentialRead: true,
+              animated: false,
+            }).toColourspace("srgb").png(PNG_OPTIONS).toBuffer({ resolveWithObject: true });
+          }
+        } catch {
+          fail(operation === "normalize" ? "S06_SHARP_NORMALIZE_FAILED" : "S06_SHARP_EXPORT_FAILED", attemptId, operation);
+          return;
+        }
+
+        const outputBytes = asBuffer(result?.data, MAX_OUTPUT_BYTES);
+        const info = result?.info;
+        if (!outputBytes || !isPlainObject(info) || info.format !== "png"
+          || !Number.isInteger(info.width) || info.width < 1 || info.width > MAX_DIMENSION
+          || !Number.isInteger(info.height) || info.height < 1 || info.height > MAX_DIMENSION
+          || info.width * info.height > MAX_PIXELS || info.channels !== 4 || info.size !== outputBytes.length) {
+          fail("S06_WORKER_OUTPUT_INVALID", attemptId, operation);
+          return;
+        }
+
+        const usageFinished = process.resourceUsage();
+        send({
+          protocolVersion: PROTOCOL_VERSION,
+          attemptId,
+          operation,
+          status: "succeeded",
+          outputBytes,
+          runtime,
+          durationMs: Number((process.hrtime.bigint() - monotonicStartedAt) / 1_000_000n),
+          resourceUsage: {
+            maxRssKiB: usageFinished.maxRSS,
+            userCpuMicros: Math.max(0, usageFinished.userCPUTime - usageStarted.userCPUTime),
+            systemCpuMicros: Math.max(0, usageFinished.systemCPUTime - usageStarted.systemCPUTime),
+          },
+        });
+      });
+    }
+  }
+}

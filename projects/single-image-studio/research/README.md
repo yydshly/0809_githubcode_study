@@ -1,11 +1,11 @@
 # Single Image Studio research workspace
 
 This directory is the executable research workspace for Slice 01 through Slice
-05 and the docs-only scope workspace for Slice 06. Its image fixtures are small,
-deterministic, and project-original. Slice 05's only registered real smoke is
-closed non-pass, so its calibration is forbidden. Slice 06 currently adds only
-a two-stage diagnostic-characterization boundary; implementation, machine
-definition, fixtures, and results have not started. It is not a model benchmark,
+06. Its image fixtures are small, deterministic, and project-original. Slice
+05's only registered real smoke is closed non-pass, so its calibration is
+forbidden. Slice 06 now has a diagnostic-only protocol implementation and
+fake-only tests, but its machine definition, fixture wrappers, and results do
+not yet exist and no real Sharp image path has run. It is not a model benchmark,
 product dataset, completed codec evaluation, or capability claim.
 
 ## Evidence boundary
@@ -27,10 +27,11 @@ product dataset, completed codec evaluation, or capability claim.
 - Slice 05 runtime inventory imported Sharp only to read `sharp.versions`; it
   did not read, decode, encode, or transform image bytes. The later real Sharp
   smoke ran, but normalize and export both failed Gate B; no calibration ran.
-- Slice 06 is `scope-frozen / implementation-not-started /
-  diagnostic-characterization-not-run / Gate-B-no-authority /
-  calibration-forbidden`. It plans 8 public-synthetic regression source units
-  with 3 repetitions each, but no Slice 06 machine material or result exists.
+- Slice 06 is `scope-frozen / implementation-and-fake-protocol-tests-ready /
+  definition-not-frozen / diagnostic-characterization-not-run /
+  Gate-B-no-authority / calibration-forbidden`. Four isolated research scripts,
+  13 strict schemas and three fake-only test files exist; machine records,
+  fixture wrappers, fresh runtime / hardware observations and results do not.
 - `methodLabel` and `methodDetails` are delivered in the local catalog and only
   hidden by the review interface until unblinding. This is an interaction
   rehearsal, not adversary-resistant or independent reviewer blinding.
@@ -198,18 +199,23 @@ export closed at 9 pass / 9 non-pass. Both Gate B decisions are
 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md) for exact result-tree, summary,
 decision, ledger, and error-code pins.
 
-## Slice 06 scope-only diagnostic characterization
+## Slice 06 diagnostic protocol; definition still pending
 
 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md) freezes a diagnostic-only bridge,
-not a new Gate-B smoke. It plans new `@0.6.0` candidate / normalize / export
-contract identities and two operation-specific preregistrations. The exact
-planned denominator is 8 existing public-synthetic regression source units × 3
-repetitions = 24 attempts: three applicable Alpha shapes plus one preflight
-sentinel for each operation.
+not a new Gate-B smoke. Phase B implements a strict adapter, isolated worker,
+independent PNG diagnostic oracle and durable local runner. Three oracle-owned
+record schemas are stored on disk and the runner exports ten additional strict
+schema documents. The oracle / runner / runtime fake-only suites pass `42 / 42`;
+all four scripts pass syntax checks, and the independently audited ten-file set
+has SHA-256 `d7e83c8c5a70ce6929ab5d53be473f413f37abe4459a1bd810164e495d2ab76c`.
+No test invoked the real Sharp image path.
 
-The current [slice-06 workspace](slice-06/README.md) contains prose only. No
-machine record, schema, script, test, fixture wrapper, runtime observation,
-definition index, or result has been created. Any future candidate output must
+The planned machine identities remain uncreated: `REG-NORM-SHARP@0.6.0`, two
+operation contracts and preregistrations, fresh runtime / hardware records,
+eight public-synthetic regression wrappers, manifests and the definition index.
+The exact planned denominator remains 8 existing public-synthetic regression
+source units × 3 repetitions = 24 attempts: three applicable Alpha shapes plus
+one preflight sentinel for each operation. Any future candidate output must
 remain a non-product diagnostic specimen or quarantine with complete worker and
 independent-oracle records. Slice 06 cannot issue a Gate-B decision or authorize
 calibration; its closure can only inform candidate selection for a later slice.
@@ -265,4 +271,4 @@ form:
 The local server must serve only URLs listed in `assetAllowlist`. Files merely
 present under `fixtures/` are not automatically public.
 
-实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的 docs-only 诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)。
+实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)，Phase B 协议实现、hash 与 definition-not-frozen 边界见 [slice-06/README.md](slice-06/README.md)。
