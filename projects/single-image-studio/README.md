@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–05 保持各自历史边界；Slice 05 `@0.5.0` 唯一注册 smoke 已关闭为 non-pass、禁止重跑 / calibration。Slice 06 当前为 `scope-frozen / implementation-ready / definition-frozen / results-zero / diagnostic-characterization-not-run / Gate-B-no-authority / calibration-forbidden` |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 已冻结 7 个隔离研究脚本、26 份 strict schema、23 个非 index record、8 个 lineage wrapper 与 24 次计划分母，`results/` 不存在，也未运行真实 Sharp 图片路径。Slice 05 的 36 次 terminal attempt、72 个 ledger event 与 0 artifact，以及 Slice 06 的 definition / fake-only 测试都不构成 codec 能力或产品功能 |
+| 研究阶段 | Slice 01–05 保持各自历史边界；Slice 05 `@0.5.0` 唯一注册 smoke 已关闭为 non-pass、禁止重跑 / calibration。Slice 06 唯一注册 diagnostic characterization 已闭合为 `characterization-complete / Gate-B-no-authority / calibration-forbidden / non-C1 / non-product`；这只表示 24 个诊断闭包完整，不表示候选通过 |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -131,15 +131,15 @@ normalize summary 为 `6 pass / 12 non-pass`：9 次 applicable attempt 全部 `
 
 首次未注册调用因 sandbox `mkdir EPERM` 在任何 request / claim / result 之前停止；随后获批调用是唯一注册 smoke，不是根据结果选择的重跑。持久化记录只能证明 worker IPC 返回并通过严格响应校验的 output bytes，随后被 precommit independent oracle 拒绝；进程退出确认未持久化（`workerExitConfirmed=null`），具体 oracle 子因保持 unknown，不补猜也不重跑。当前版本的 normalize / export calibration 均被禁止。
 
-下一步不是修补或重跑 `@0.5.0`。Slice 06 已冻结 diagnostic-only `@0.6.0` candidate / contracts / preregistrations、fresh runtime / hardware、8 个 regression wrapper 与 results-zero definition；只有该精确定义所在提交保持 clean、已推送且通过 execution admission 后，才可在唯一注册 characterization 中持久化 output specimen、精确 oracle 子因和 worker / exit observation，并验证 normalize missing-sRGB 错误优先级。诊断闭合后由下一切片选择 / 修正 candidate，再另行冻结真正的 Gate-B smoke；诊断、smoke 与未来开放 calibration 都排除于 C1 分母，全部格式继续 `productSupport=false`。
+下一步不是修补或重跑 `@0.5.0` 或 `@0.6.0`。Slice 06 唯一注册 characterization 已确定：Sharp 输出的 RGBA8 像素、filter-0 与三次重复都稳定，但 18 / 18 applicable PNG 缺少所需 `sRGB` chunk，并额外带有合同禁止的 `pHYs` chunk。下一切片应据此选择新的复合 candidate（例如让 Sharp 只负责像素，再由候选自有、与 oracle 独立的 canonical PNG encoder 编码），重新冻结 candidate / contract / Gate-B plan / preregistration 后才运行新的 Gate-B smoke。诊断与未来 smoke 都排除于 C1，全部格式继续 `productSupport=false`。
 
 Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / request / receipt / result / EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。定义冻结、自动测试和这次失败的真实 smoke 都不能据此声称真实归一化、正式导出或产品能力；完整 pins、结果与限制见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)，全部证据轴继续为 0。
 
-## Slice 06 results-zero machine definition 已冻结
+## Slice 06 diagnostic characterization 已闭合
 
-[Slice 06 范围合同](research/SLICE_06_CONTRACT.md) 冻结的是一个两阶段桥接边界，不是新的 Gate-B smoke。Phase B 的 4 个协议脚本与 Phase C 的 generator / central validator / execution driver 已全部建立；canonical definition 于 `2026-08-15T08:17:06.288Z` 冻结，含 26 份 strict schema、23 个非 index machine record、8 个项目原创公开 synthetic lineage wrapper、8 个 source unit 与 24 次计划 attempt。definition index content / file SHA-256 为 `d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08` / `1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c`，51-file full-tree SHA-256 为 `19a42a2e63b73fb0971e7038e4470c02551dce9b0ddba2dfc87dd3e5780d47b3`。
+[Slice 06 范围合同](research/SLICE_06_CONTRACT.md) 冻结的是一个两阶段桥接边界，不是新的 Gate-B smoke。canonical definition 于 `2026-08-15T08:17:06.288Z` 冻结；随后唯一注册 invocation 顺序完成 normalize / export 各 12 次，共 24 次、零 replacement。post-run 树为 152 files / 34 directories / 583,198 bytes，SHA-256 `4c82a65083ccc1675a65d632010360d991171255ec5ef74b4a50092f701dd146`；完整事实与 pins 见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md)。
 
-冻结时 `results/` 不存在、复制图片 bytes 为 0，也没有运行真实 Sharp 图片管线。central adversarial suite 为 `31 / 31`，六套 Slice 06 测试合计 `95 / 95`，整仓 `npm.cmd run verify` 为 `323 / 323`；validator / generator / driver SHA-256 分别为 `1ea491a4cfeb1eed1bc55afb475cc4cedfa2d59e6f57203fb8deafed467c50c8`、`87b44cf2976198ab59ef049bb669783573fa4f7b576b9a5599cdef54c8a89f9a`、`bc4244c1922148fe1c36e4a9c76b7579c88753b6091fa986a8d8d9f4b8424a4c`。执行前必须先让该冻结定义成为 clean、已推送且 admission 通过的 Git 基线；完整边界与 pins 见 [Slice 06 workspace](research/slice-06/README.md)。
+两项 summary 都是 `characterization-complete`：各 `9` 个 oracle non-pass + `3` 个精确 worker-free preflight rejection，且 `inconclusive=0 / protocol-failed=0`。18 份 candidate output 均 `workerExitConfirmed=true`、telemetry 完整、bytes / pixels / classification / oracle outcome / runtime 三次一致；独立重开一致得到 `IHDR,pHYs,IDAT,IEND`、filter 仅为 `0`、像素 hash 与预期相同，primary code 均为 `S06_ORACLE_PNG_SRGB_REQUIRED`。这不产生 Gate B、calibration、artifact、C1 或产品支持。
 
 诊断只允许保存标记为非产品、排除于 Gate B 的 output specimen / quarantine，以及完整 worker observation、精确 independent-oracle 子因和 terminal closure。它没有 Gate B decision authority，`calibrationAuthorized=false` 固定不变；即使 24 次全部闭合，也只供下一切片选择或修正 candidate，并由下一切片另行冻结正式 Gate-B smoke。`@0.5.0` 不得重跑或进入 calibration；本切片不使用真实照片、第三方图片、模型权重，不创建 holdout / defect-holdout / escape，也不修改产品 UI / server。
 
@@ -208,6 +208,7 @@ npm.cmd run verify
 | [research/SLICE_05_CONTRACT.md](research/SLICE_05_CONTRACT.md) | Slice 05 operation-specific Gate B smoke 与开放 calibration 的历史范围冻结；不随当前进度原地改写 |
 | [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md) | Slice 05 machine definition、runtime closure、真实 smoke non-pass、hash、Gate B 拒绝与 calibration 禁止边界 |
 | [research/SLICE_06_CONTRACT.md](research/SLICE_06_CONTRACT.md) | Slice 06 新版本开放 diagnostic characterization、24 次计划分母、无 Gate B authority 与禁止 calibration 的范围冻结 |
+| [research/SLICE_06_EVIDENCE.md](research/SLICE_06_EVIDENCE.md) | Slice 06 唯一注册 diagnostic 的结果树、oracle 子因、determinism、ledger 与 non-capability 边界 |
 | [research/slice-06/README.md](research/slice-06/README.md) | Slice 06 Phase B protocol、Phase C results-zero definition、机器树 pins、fake-only 验收与未来 result 边界 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
@@ -216,7 +217,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、Slice 05 精确锁定的本地研究 codec 依赖，以及 Slice 06 隔离的 diagnostic protocol、results-zero machine definition、strict schemas 与 fake-only tests；Slice 06 没有新增依赖或复制图片 bytes，`results/` 不存在，也没有运行真实 Sharp 图片路径。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、Slice 05 精确锁定的本地研究 codec 依赖，以及 Slice 06 隔离的 diagnostic protocol、machine definition 与唯一注册 open-diagnostic results。结果仅含项目原创 synthetic lineage 的诊断衍生 bytes，全部位于 quarantine，不含 artifact / calibration / formal / holdout；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

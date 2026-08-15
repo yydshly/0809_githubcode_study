@@ -102,7 +102,7 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | --- | --- | --- | --- | --- | --- |
 | `REG-LOCAL-ASSET-INGEST` | 本地来源资产合同与入口 | `CAP-01` | 文件真实性、授权快照、hash 与父子版本 | `planned` | 冻结合同版本、持久化边界与治理验证 |
 | `REG-NORM-REFERENCE-RGBA8` | 本地 RGBA8 PNG 归一 / 导出参考适配器 | `CAP-02` | 冻结窄范围 `NormalizedImage` 与 `DeliveryArtifact` 合同并生成结构夹具 | `candidate`（非 Gate B） | 仅支持合成 fixture；正式格式矩阵、硬件 profile、质量预注册与独立 holdout |
-| `REG-NORM-SHARP` | Sharp + Windows x64 bundled libvips 复合候选 | `CAP-02`、`CAP-05` | 来源归一化、裁切、合成、导出 | `candidate`（Slice 05 closed non-pass；Slice 06 diagnostic definition frozen） | `@0.5.0` normalize / export 均 `denied-not-entered`、禁止重跑 / calibration；diagnostic-only `@0.6.0` machine identity 与 results-zero definition 已冻结，真实诊断未运行，且无 Gate B authority |
+| `REG-NORM-SHARP` | Sharp + Windows x64 bundled libvips 复合候选 | `CAP-02`、`CAP-05` | 来源归一化、裁切、合成、导出 | `candidate`（Slice 05 closed non-pass；Slice 06 diagnostic closed） | `@0.5.0` Gate B 双拒绝；diagnostic-only `@0.6.0` 唯一 characterization 已关闭：像素 / filter / determinism 正确，但 PNG 缺 `sRGB`、含禁止的 `pHYs`。两版本均禁止重跑 / calibration，且无 Gate B authority |
 | `REG-NORM-LIBVIPS` | standalone libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | standalone 构建选项、启用格式库、链接 / LGPL 交付方式与 artifact hash |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
 | `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
@@ -127,7 +127,7 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 
 ## `CapabilityContract` 解析表
 
-下表让研究态 `EffectDefinition.execution_dag` 能指向明确的冻结研究合同或合同占位，而不是只指向宽泛 CAP 域。Slice 02 已把 normalize、export、SourceCard.v0 与 Matting simple baseline 四行冻结为窄范围 reference `@0.2.0`；Slice 04 又为同一 PNG 范围新增两份绑定 `REG-NORM-SHARP@0.4.0` 的 metadata-only `@0.4.0` 合同及各自独立五 partition plan。Slice 05 再新增两份绑定实际 installed runtime candidate `REG-NORM-SHARP@0.5.0` 的 implementation-bound `@0.5.0` research contract；其唯一注册真实 smoke 已双双 non-pass，artifact 为 0。Slice 06 已冻结 diagnostic-only `@0.6.0` 的协议代码、fake-only tests 与两份 machine contract records，但真实诊断未运行，也没有 Gate B authority。`@0.5.0` 不替代 `@0.2.0` reference，不倒写 `@0.4.0` metadata；`@0.6.0` 也不能被效果解析为已验证能力。全部 C1 仍为 0。
+下表让研究态 `EffectDefinition.execution_dag` 能指向明确的冻结研究合同或合同占位，而不是只指向宽泛 CAP 域。Slice 02 / 04 保持 reference / metadata 合同；Slice 05 implementation-bound `@0.5.0` 的唯一 smoke 已双 non-pass、artifact 0。Slice 06 diagnostic-only `@0.6.0` 的唯一注册诊断也已关闭：18 / 18 applicable output 均为精确 `S06_ORACLE_PNG_SRGB_REQUIRED`，只证明闭包与子因，不产生 Gate B。`@0.5.0` 不替代 `@0.2.0` reference，不倒写 `@0.4.0` metadata；`@0.6.0` 也不能被效果解析为已验证能力。全部 C1 仍为 0。
 
 ```text
 contract_version=planned
@@ -302,7 +302,7 @@ release_status=planned
 | 硬件、成本、时延 | named CPU / Windows x64 environment 已冻结并运行过唯一注册 smoke，但所有 applicable 输出均被 oracle 拒绝、artifact 为 0，未形成有效性能样本；calibration 未运行，p50/p95、峰值 RAM、每百万像素耗时与 O1 仍为 `pending-benchmark` |
 | 取得 / 保留 | Slice 04 的六个 tarball hash-only 临时取得边界保持不变。Slice 05 后续只在 `package.json` 声明 exact devDependencies `sharp@0.35.3`、`@img/sharp-win32-x64@0.35.3` 并提交 lockfile v3；本地 installed allowlist 精确为 `sharp`、`@img/sharp-win32-x64`、`@img/colour`、`detect-libc`、`semver`，tree SHA-256 `a419af3606ca38f1878acb65d1ea273f0c129b0c156686b1e912bab1b167070e`。`node_modules/` 不提交；definition tree 只保留 inventory / native hashes，不复制第三方源码或二进制 |
 | 比较臂规则 | Sharp 与其 Windows x64 bundled libvips 是一个复合候选，不得算作两个独立比较臂；standalone libvips 由下一条独立登记且仍 pending-freeze |
-| 证据与状态 | `C1=0`。Slice 05 `@0.5.0` 为 `closed-non-pass`：唯一注册调用含 normalize / export 两个 operation run，共 36 attempts / 0 artifacts；两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。Slice 06 只授权计划 24 次 diagnostic characterization；Phase C definition 已冻结、results=0，真实诊断未运行。即使未来 characterization complete 也不产生 Gate B。formal holdout / trust / roles / EvidenceManifest 未建，任何格式仍为 `productSupport=false` |
+| 证据与状态 | `C1=0`。Slice 05 `@0.5.0` 为 `closed-non-pass`：36 attempts / 0 artifacts、Gate B 双拒绝。Slice 06 `@0.6.0` 的 24 次唯一 diagnostic 已 `characterization-complete`，但 18 个 applicable 全部 oracle non-pass；complete 仅表示闭包完整，不产生 Gate B。calibration / formal holdout / trust / roles / EvidenceManifest 未建，任何格式仍为 `productSupport=false` |
 
 ### `REG-NORM-LIBVIPS` — libvips
 
@@ -524,8 +524,8 @@ release_status=planned
 ## 下一次登记动作
 
 1. `REG-NORM-SHARP@0.5.0` 已在 Slice 05 关闭为 non-pass；不得选择性重跑、追加结果或进入 calibration。
-2. Slice 06 diagnostic-only `@0.6.0` 的 adapter / worker / oracle / runner / generator / validator / driver、26 份 strict schema、candidate / contracts / preregistrations、fresh runtime / hardware、8 个公开 synthetic regression wrapper 与 results-zero machine definition 已冻结。只有该精确定义所在提交 clean、已推送且通过 admission 后，才可运行一次 registered driver invocation；任何 drift、partial root 或 reconciliation unknown 都关闭该版本，不得补跑。
-3. Slice 06 没有 Gate B decision authority；诊断闭合后由下一切片选择 / 修正 candidate 并另行冻结 operation-specific Gate-B smoke。只有未来某项真正的 Gate-B smoke 全项通过，才可另行讨论该项开放 calibration；正式 holdout 继续 `not-created`。
+2. Slice 06 diagnostic-only `@0.6.0` 的唯一 registered invocation 已完成并封存；24 / 24 terminal、零 replacement，post-run tree 和 ledger 全闭合。该版本禁止补跑或选择性重跑。
+3. Slice 06 没有 Gate B decision authority；已确认 Sharp PNG encoder 的共同 profile 不符合合同。下一切片必须选择 / 修正 candidate 并重新冻结 operation-specific Gate-B smoke。只有未来真正的 Gate-B smoke 全项通过，才可另行讨论开放 calibration；正式 holdout 继续 `not-created`。
 4. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
 5. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
 6. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。

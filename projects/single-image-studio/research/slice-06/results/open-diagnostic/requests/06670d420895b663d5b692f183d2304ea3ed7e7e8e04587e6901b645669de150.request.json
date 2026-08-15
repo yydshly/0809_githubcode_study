@@ -1,0 +1,108 @@
+{
+  "adapterRef": {
+    "id": "ADAPTER-SHARP-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f",
+    "version": "0.6.0"
+  },
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.export.ec69ed400703b349.r1.a1",
+    "partition": "diagnostic",
+    "repetition": 1,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sourceId": "source.s06.export.diagnostic.003"
+  },
+  "candidateRef": {
+    "byteLength": 5111,
+    "contentHash": "e22388d65b8dfbf9a6aeed5eafe14a3d3bd9064f9a714d0efe4a86fc813dfbe7",
+    "fileSha256": "166e7589d7c9c28cb64c488411badbad40b8cace498d9892ff4de36ff5a7249e",
+    "id": "REG-NORM-SHARP@0.6.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.6.0.json"
+  },
+  "contentHash": "5283378c152874537181825680a26bf2351ce3f0ca544d5631f395d5dd246ee0",
+  "contractRef": {
+    "byteLength": 9732,
+    "contentHash": "5471c4bc78365099196b6b9283c49d270423a2c0221698dbef61842fb035692e",
+    "fileSha256": "1535fbdbdd4d2efae34fee8d30e2ef5ab52c78fc51423dafcf81b31f0fdb9326",
+    "id": "CC-CAP02-EXPORT-PNG@0.6.0",
+    "path": "contracts/cc-cap02-export-png.v0.6.0.json"
+  },
+  "createdAt": "2026-08-15T10:21:26.497Z",
+  "definitionRef": {
+    "byteLength": 31107,
+    "contentHash": "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+    "fileSha256": "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    "id": "DEFINITION-INDEX-SLICE06@0.6.0",
+    "path": "definition-index.v0.6.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "hardwareRef": {
+    "byteLength": 1697,
+    "contentHash": "eace9946f4134a6ab2fa0e849eae795eb45c2ca949aa0099155cb9cc22b84e84",
+    "fileSha256": "781b1505fed78402097138775908c062ac3c98ecfda1847210325ce9566ef7c2",
+    "id": "HARDWARE-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "hardware/hardware.win32-x64.v0.6.0.json"
+  },
+  "manifestRef": {
+    "byteLength": 7207,
+    "contentHash": "8a5848997828fb7b511e2bbab2fe195a37233425e7c3a38289b9d2456d6d9841",
+    "fileSha256": "61b38fca5729a282bd2b8a379a96efde1f57a74ac55a0316e3918eacacc87ac5",
+    "id": "FM-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "manifests/export-diagnostic.v0.6.0.json"
+  },
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "oracleRef": {
+    "id": "ORACLE-INDEPENDENT-PNG-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591",
+    "version": "0.6.0"
+  },
+  "preregistrationRef": {
+    "byteLength": 7574,
+    "contentHash": "818c882d7f7a853325674cce67b3b19e6267c7bc7c204ff82f4cefd58679ac8c",
+    "fileSha256": "c3348d2f342c231344bb7bf183104eb8906a669f2cb9c1b56753f8e8f92c2929",
+    "id": "PREREG-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "preregistrations/diagnostic-export-png.v0.6.0.json"
+  },
+  "requestId": "request.open-diagnostic.export.ec69ed400703b349.r1.a1",
+  "runtimeAttestationRef": {
+    "byteLength": 7133,
+    "contentHash": "521bb10670154d345e5a3ae1df5930485f783161f7cf0fc83204e891b5c7f6ab",
+    "fileSha256": "0817925872950b3a2ab1e2d0d4674e34eceadfc175188257d267f194557174d1",
+    "id": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0",
+    "path": "runtime/attestation.win32-x64.v0.6.0.json"
+  },
+  "schemaVersion": "local-run-request.slice06.v0",
+  "sourceRef": {
+    "byteLength": 4097,
+    "contentHash": "8386ebef69ad431603f629272458ba7fc29847a5da0e6dd8453bc7d9e98dd41d",
+    "fileSha256": "f97090b5ec0f7d169003d9536e929677ee117a9b0639af98c0dc106127755222",
+    "id": "lineage.source.s06.export.diagnostic.003",
+    "path": "sources/export-diagnostic/source.s06.export.diagnostic.003.json"
+  },
+  "workerRef": {
+    "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+    "version": "0.6.0"
+  }
+}

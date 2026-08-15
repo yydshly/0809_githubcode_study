@@ -1,0 +1,122 @@
+{
+  "artifactEligible": false,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.normalize.0bce551d06a694ab.r2.a1",
+    "partition": "diagnostic",
+    "repetition": 2,
+    "runId": "run.diagnostic.s06.normalize.v0.6.0",
+    "sourceId": "source.s06.normalize.diagnostic.001"
+  },
+  "candidateOutputObservationRef": {
+    "contentHash": "793ed818f9a82cf53a4855b4b948bfbce858a08d553a5c083e000db4e00665df",
+    "id": "candidate-output-observation.ca720461a4056efb673888cd311b29371e09cedb10e5bbcb82f8bcebb9a1ebb1"
+  },
+  "cleanup": {
+    "confirmedAt": null,
+    "stagingRemoved": null,
+    "state": "unknown"
+  },
+  "contentHash": "fdd63e3b5cf0ce5d0557c184c41a9d1e50aaba7a88f977f605cc7a6c6f89bea7",
+  "createdAt": "2026-08-15T10:21:25.069Z",
+  "diagnosticEnvelopeId": "diagnostic-envelope.ca720461a4056efb673888cd311b29371e09cedb10e5bbcb82f8bcebb9a1ebb1",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "mode": "open-diagnostic",
+  "operation": "normalize",
+  "oracleDiagnosticRef": {
+    "contentHash": "3567fa8de5ef487ba383f4608a91303b8492f0a59a53b7b2dca8c8ac861884c0",
+    "id": "oracle-diagnostic.ca720461a4056efb673888cd311b29371e09cedb10e5bbcb82f8bcebb9a1ebb1"
+  },
+  "outcomeClass": "oracle-nonpass",
+  "primaryCode": "S06_ORACLE_PNG_SRGB_REQUIRED",
+  "publication": {
+    "fileRoles": [],
+    "publishedAt": null,
+    "state": "not-published",
+    "transactionId": null
+  },
+  "recordClass": "durable-diagnostic-not-artifact",
+  "requestRef": {
+    "contentHash": "a751b96a448fcad4676421d5cedea881e9228ac570cbb54ea889f80704f0acf1",
+    "id": "request.open-diagnostic.normalize.0bce551d06a694ab.r2.a1"
+  },
+  "retention": {
+    "maxPerOutputBytes": 1048576,
+    "maxSessionBytes": 18874368,
+    "policyRef": {
+      "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+      "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0"
+    },
+    "reasonCode": "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+    "state": "retained"
+  },
+  "rights": {
+    "assetClass": "project-original-deterministic-synthetic-open-research-fixtures",
+    "candidateDerivativeRepositoryRetention": true,
+    "containsRealPerson": false,
+    "diagnosticPublicDisplay": true,
+    "modelWeightsUsed": false,
+    "realUserPhotosUsed": false,
+    "rightsRef": {
+      "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+      "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0"
+    },
+    "thirdPartyAssetsUsed": false
+  },
+  "schemaVersion": "diagnostic-envelope.slice06.v0",
+  "secondaryCodes": [
+    "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH",
+    "S06_ORACLE_PNG_METADATA_FORBIDDEN"
+  ],
+  "strictDecision": "non-pass",
+  "worker": {
+    "exit": {
+      "confirmed": true,
+      "exitCode": 0,
+      "signal": null,
+      "terminationRequested": false
+    },
+    "message": {
+      "payloadSha256": "13f49284f82fa9150d9a5d3fdf220407fc2439b8b4f74a7db2c430d34db22016",
+      "protocolVersion": "sharp-worker.slice06.v0",
+      "received": true,
+      "receivedAt": "2026-08-15T10:21:25.055Z",
+      "status": "succeeded"
+    },
+    "parentWall": {
+      "durationMs": 159,
+      "exitedAt": "2026-08-15T10:21:25.067Z",
+      "finishedAt": "2026-08-15T10:21:25.067Z",
+      "messageAt": "2026-08-15T10:21:25.055Z",
+      "startedAt": "2026-08-15T10:21:24.908Z"
+    },
+    "runtime": {
+      "matchesFrozen": true,
+      "payloadSha256": "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3"
+    },
+    "telemetry": {
+      "resourceUsage": {
+        "maxRssKiB": 48584,
+        "systemCpuMicros": 0,
+        "userCpuMicros": 0
+      },
+      "source": "worker-self-reported-not-hard-isolation",
+      "workerDurationMs": 2
+    }
+  }
+}

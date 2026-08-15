@@ -1,0 +1,138 @@
+{
+  "artifactEligible": false,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.export.022511f20daa0fe9.r3.a1",
+    "partition": "diagnostic",
+    "repetition": 3,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sourceId": "source.s06.export.diagnostic.001"
+  },
+  "candidateOutputObservationRef": {
+    "contentHash": "82163ca1d85fd553b3724a9b57641d98ca07689462ae32caaa444c494859ba5d",
+    "id": "candidate-output-observation.88107eac1936b6e9bdf8f8d937c87592ea6cac20ff04870f1cdaa23acbf4626a"
+  },
+  "contentHash": "4ab88441ab644959957db2f39982186ce60e3f45678e654ffc1b80d66b94d6a6",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "mode": "open-diagnostic",
+  "observedAt": "2026-08-15T10:21:27.249Z",
+  "operation": "export",
+  "oracleDiagnosticId": "oracle-diagnostic.88107eac1936b6e9bdf8f8d937c87592ea6cac20ff04870f1cdaa23acbf4626a",
+  "oracleRef": {
+    "id": "ORACLE-INDEPENDENT-PNG-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591",
+    "version": "0.6.0"
+  },
+  "recordClass": "independent-oracle-diagnostic-not-artifact",
+  "requestRef": {
+    "contentHash": "f9c1d0faa59b2d216fce2efdb5b4dce73b46567e3fefdee7bee14d6f124b4326",
+    "id": "request.open-diagnostic.export.022511f20daa0fe9.r3.a1"
+  },
+  "schemaVersion": "oracle-diagnostic.slice06.v0",
+  "verification": {
+    "actualBytes": {
+      "byteLength": 800,
+      "decodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+      "fileSha256": "8fb94ebbc655d666a36e8b3549c1b6d2aff5a30517175a200f1c738d6d37327c",
+      "mediaType": "image/png"
+    },
+    "contentHash": "42bb291c094fa63d4c527fc23e0a18b249e5d68c317e97d6f3c95d7ba5308aaf",
+    "expected": {
+      "alphaMode": "straight-unpremultiplied",
+      "alphaPresent": false,
+      "animation": "forbidden",
+      "colorSpace": "embedded-sRGB",
+      "decodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+      "height": 8,
+      "interlace": "forbidden",
+      "metadataPolicy": "strip-all-except-color-contract",
+      "orientation": 1,
+      "pixelLayout": "RGBA8",
+      "pngFilterPolicy": "filter-0-only",
+      "width": 24
+    },
+    "facts": {
+      "alphaMode": "straight-unpremultiplied",
+      "alphaPresent": false,
+      "animation": "forbidden",
+      "chunkTypes": [
+        "IHDR",
+        "pHYs",
+        "IDAT",
+        "IEND"
+      ],
+      "colorSpace": null,
+      "filterTypes": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "height": 8,
+      "interlace": "forbidden",
+      "metadataPolicy": null,
+      "orientation": 1,
+      "pixelLayout": "RGBA8",
+      "pngFilterPolicy": "filter-0-only",
+      "width": 24
+    },
+    "findings": [
+      {
+        "actual": "missing",
+        "code": "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "expected": "one valid sRGB before IDAT",
+        "message": "candidate output omits the required sRGB chunk",
+        "stage": "png-profile",
+        "status": "non-pass"
+      },
+      {
+        "actual": "pHYs",
+        "code": "S06_ORACLE_PNG_METADATA_FORBIDDEN",
+        "expected": "no ancillary metadata",
+        "message": "ancillary PNG chunk pHYs violates the metadata policy",
+        "stage": "png-profile",
+        "status": "non-pass"
+      },
+      {
+        "actual": "colorSpace:null",
+        "code": "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH",
+        "expected": "colorSpace:embedded-sRGB",
+        "message": "independent colorSpace fact differs from the frozen expected identity",
+        "stage": "decoded-identity",
+        "status": "non-pass"
+      },
+      {
+        "actual": "metadataPolicy:null",
+        "code": "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH",
+        "expected": "metadataPolicy:strip-all-except-color-contract",
+        "message": "independent metadataPolicy fact differs from the frozen expected identity",
+        "stage": "decoded-identity",
+        "status": "non-pass"
+      }
+    ],
+    "operation": "export",
+    "overallStatus": "non-pass",
+    "primaryCode": "S06_ORACLE_PNG_SRGB_REQUIRED",
+    "schemaVersion": "png-diagnostic-verification.slice06.v0",
+    "verificationId": "png-diagnostic.export.8fb94ebbc655d666a36e8b35"
+  }
+}

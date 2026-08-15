@@ -34,7 +34,7 @@ Layer 4  场景配方
 | `CAP-08` | QA 证据 | 分离离线证据 QA 与线上任务 QA；记录输入、执行、输出、指标、版本和失败，控制下载与发布 | `QAReport`、`RunManifest`、`EvidenceManifest` | Alpha / 边缘、像素保护、尺寸 / 色值、主体数量、must-keep、参考泄漏 | 每类效果的 QA profile、漂移监控、审核工具与证据回放 |
 | `CAP-09` | 编排推荐 | 以独立合同执行已选 DAG，或在当前 surface 的冻结 allowlist 中做资格过滤与可解释排序；管理任务、重试与失效传播 | `ExecutionPlan`、`RecommendationSet`；实际运行写入 `RunManifest` | `CAP-09.execute` 的确定性执行控制；后置 `CAP-09.recommend` 的硬资格与冻结规则 | Agent 路由、缓存、硬件选择、个性化、批量调度 |
 
-表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。尤其 `CAP-02` 的 Slice 05 canonical PNG normalize / export 开放研究已在真实 smoke 中双双 non-pass、Gate B `denied-not-entered`；[Slice 06](research/SLICE_06_CONTRACT.md) 只授权新的诊断表征范围。其 strict diagnostic protocol、fake-only tests 与 results-zero machine definition 已冻结，但真实诊断尚未运行，也没有 Gate B decision authority。JPEG / WebP 等行继续 fail closed，全部格式仍为 `productSupport=false`。
+表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。尤其 `CAP-02` 的 Slice 05 canonical PNG normalize / export 开放研究已在真实 smoke 中双双 non-pass、Gate B `denied-not-entered`；[Slice 06](research/SLICE_06_CONTRACT.md) 的唯一诊断也已关闭，只证明 Sharp 输出像素确定且正确，但 PNG 缺所需 `sRGB` 并带禁止的 `pHYs`。Slice 06 没有 Gate B decision authority，也没有 calibration / C1。JPEG / WebP 等行继续 fail closed，全部格式仍为 `productSupport=false`。
 
 ### 能力依赖原则
 
@@ -122,7 +122,7 @@ Slice 04 又为 `CAP-02` 冻结 `CC-CAP02-NORMALIZE-PNG@0.4.0` 与 `CC-CAP02-EXP
 
 Slice 05 没有覆盖上述历史记录，而是新增 `REG-NORM-SHARP@0.5.0` installed runtime candidate 与 `CC-CAP02-NORMALIZE-PNG@0.5.0` / `CC-CAP02-EXPORT-PNG@0.5.0` 两份 adapter-bound research contract。`NormalizedImage.slice04.v0` 与 `DeliveryArtifact.slice04.v0` strict schema、independent oracle / gold、adapter / isolated worker、named hardware、local runner、Gate B plan 及开放 manifest / preregistration 已在 `2026-08-15T04:23:38.389Z` 的 machine definition 中精确 pin。随后唯一注册真实 smoke 中，normalize 为 `6 pass / 12 non-pass`、export 为 `9 pass / 9 non-pass`；18 次 applicable attempt 全部 `S05_OUTPUT_ORACLE_REJECTED`，artifact 为 0，两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。该版本已经关闭，不得 calibration 或选择性重跑，仍不能被产品页面、效果 DAG 或下载路径解析为能力。完整证据见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
 
-Slice 06 Phase B 又为 diagnostic-only `@0.6.0` 边界实现 strict adapter、isolated worker、独立 PNG diagnostic oracle、durable runner 与 13 份 runtime protocol schema；Phase C 冻结 generator / validator / driver、另外 13 份 machine-record schema、`REG-NORM-SHARP@0.6.0`、两份 `CapabilityContract@0.6.0`、preregistration、fresh runtime / hardware、8 个 regression wrapper 与 results-zero definition index。中央对抗测试 `31 / 31`、Slice 06 六套 `95 / 95` 只证明定义、错误优先级、IPC / exit、诊断保留与持久化协议的一致性；`results/` 不存在，真实 Sharp 未运行，因此这些代码与 records 同样不能被效果 DAG、页面或下载路径解析为可执行能力。
+Slice 06 Phase B / C 为 diagnostic-only `@0.6.0` 建立 strict adapter、isolated worker、独立 PNG oracle、durable runner、26 份 schema、`REG-NORM-SHARP@0.6.0`、两份合同与 24-attempt preregistration。唯一注册诊断已闭合：每项 9 个 applicable oracle non-pass + 3 个 preflight rejection，18 份输出的 bytes / pixels / classification / runtime 都 3 / 3 一致，worker exit / telemetry 完整；独立重开均得到缺 `sRGB`、含 `pHYs`。这些结果只是 candidate selection diagnosis，不能被效果 DAG、页面或下载路径解析为可执行能力。完整证据见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md)。
 
 ### `EffectDefinition`
 
@@ -222,7 +222,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 当前不是同时实现九类能力，而是按依赖建立最小可验证纵切：
 
-1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 canonical PNG normalize / export 已双双 non-pass、Gate B 均拒绝进入，calibration 被禁止且 C1 仍为 0。Slice 06 的 `@0.6.0` diagnostic protocol 与 results-zero machine definition 已冻结；只有该精确定义所在提交 clean、已推送并通过 admission 后，才允许一次 registered driver invocation 以最多 24 次公开 synthetic regression attempt 保留精确失败诊断。诊断闭合后仍须由下一切片选择 / 修正 candidate 并另行冻结 Gate-B smoke。
+1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 Gate B 双拒绝，Slice 06 唯一 diagnostic 已定位 Sharp PNG profile 缺陷并关闭。下一切片必须选择 / 修正新的 candidate（优先评估 candidate-owned canonical PNG encoder），重新冻结合同、runtime 与 Gate-B smoke；calibration 与 C1 仍为 0。
 2. `CAP-03`：形成最小 `SourceCard`，只记录可验证字段，不伪造推荐分数。
 3. `CAP-04 + CAP-05 + CAP-08`：对测 Matting 并完成透明 / 纯色主体背景效果。
 4. `CAP-09.execute`：随第一条无界面管线冻结确定性执行控制、状态、fallback 和失效传播，但不参与像素质量结论。

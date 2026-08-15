@@ -1,0 +1,122 @@
+{
+  "artifactEligible": false,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.export.649084bb143bfd8c.r1.a1",
+    "partition": "diagnostic",
+    "repetition": 1,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sourceId": "source.s06.export.diagnostic.002"
+  },
+  "candidateOutputObservationRef": {
+    "contentHash": "fca1ba350f171dcf686297bc7fc680cd389eb470b3c6a9b149ff1d5281949784",
+    "id": "candidate-output-observation.6cadc2797040e4dd0ba5634e31cc15e8f0d35893a25e0ee4e31d078e24a8119d"
+  },
+  "cleanup": {
+    "confirmedAt": null,
+    "stagingRemoved": null,
+    "state": "unknown"
+  },
+  "contentHash": "d035318ad903454c6e5ac66b8dbc730228cac99fb81a4b01b1c1b7beeee47e15",
+  "createdAt": "2026-08-15T10:21:27.440Z",
+  "diagnosticEnvelopeId": "diagnostic-envelope.6cadc2797040e4dd0ba5634e31cc15e8f0d35893a25e0ee4e31d078e24a8119d",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "oracleDiagnosticRef": {
+    "contentHash": "b00a7ff5cefd56ad78794585e03cb8bddef43d7303ecb2e6ce4b7304b891980b",
+    "id": "oracle-diagnostic.6cadc2797040e4dd0ba5634e31cc15e8f0d35893a25e0ee4e31d078e24a8119d"
+  },
+  "outcomeClass": "oracle-nonpass",
+  "primaryCode": "S06_ORACLE_PNG_SRGB_REQUIRED",
+  "publication": {
+    "fileRoles": [],
+    "publishedAt": null,
+    "state": "not-published",
+    "transactionId": null
+  },
+  "recordClass": "durable-diagnostic-not-artifact",
+  "requestRef": {
+    "contentHash": "82083f55fdd5d868572617230c140b406d48a8ef5f9f0456db4f538252f0a489",
+    "id": "request.open-diagnostic.export.649084bb143bfd8c.r1.a1"
+  },
+  "retention": {
+    "maxPerOutputBytes": 1048576,
+    "maxSessionBytes": 18874368,
+    "policyRef": {
+      "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+      "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0"
+    },
+    "reasonCode": "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+    "state": "retained"
+  },
+  "rights": {
+    "assetClass": "project-original-deterministic-synthetic-open-research-fixtures",
+    "candidateDerivativeRepositoryRetention": true,
+    "containsRealPerson": false,
+    "diagnosticPublicDisplay": true,
+    "modelWeightsUsed": false,
+    "realUserPhotosUsed": false,
+    "rightsRef": {
+      "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+      "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0"
+    },
+    "thirdPartyAssetsUsed": false
+  },
+  "schemaVersion": "diagnostic-envelope.slice06.v0",
+  "secondaryCodes": [
+    "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH",
+    "S06_ORACLE_PNG_METADATA_FORBIDDEN"
+  ],
+  "strictDecision": "non-pass",
+  "worker": {
+    "exit": {
+      "confirmed": true,
+      "exitCode": 0,
+      "signal": null,
+      "terminationRequested": false
+    },
+    "message": {
+      "payloadSha256": "d6b35502e1e3b05d43297f319fb04f3d8aa0886d7f962673720b876abc7bb02b",
+      "protocolVersion": "sharp-worker.slice06.v0",
+      "received": true,
+      "receivedAt": "2026-08-15T10:21:27.423Z",
+      "status": "succeeded"
+    },
+    "parentWall": {
+      "durationMs": 156,
+      "exitedAt": "2026-08-15T10:21:27.438Z",
+      "finishedAt": "2026-08-15T10:21:27.438Z",
+      "messageAt": "2026-08-15T10:21:27.423Z",
+      "startedAt": "2026-08-15T10:21:27.282Z"
+    },
+    "runtime": {
+      "matchesFrozen": true,
+      "payloadSha256": "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3"
+    },
+    "telemetry": {
+      "resourceUsage": {
+        "maxRssKiB": 48496,
+        "systemCpuMicros": 0,
+        "userCpuMicros": 0
+      },
+      "source": "worker-self-reported-not-hard-isolation",
+      "workerDurationMs": 2
+    }
+  }
+}

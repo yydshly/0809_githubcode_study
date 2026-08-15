@@ -1,0 +1,26 @@
+{
+  "attemptCount": 12,
+  "contentHash": "cbba3c46c0fce26d9f9cf1de958241607783030e8049904e29ddadbf557b2743",
+  "definitionRef": {
+    "byteLength": 31107,
+    "contentHash": "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+    "fileSha256": "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    "id": "DEFINITION-INDEX-SLICE06@0.6.0",
+    "path": "definition-index.v0.6.0.json"
+  },
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "preregistrationRef": {
+    "byteLength": 7574,
+    "contentHash": "818c882d7f7a853325674cce67b3b19e6267c7bc7c204ff82f4cefd58679ac8c",
+    "fileSha256": "c3348d2f342c231344bb7bf183104eb8906a669f2cb9c1b56753f8e8f92c2929",
+    "id": "PREREG-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "preregistrations/diagnostic-export-png.v0.6.0.json"
+  },
+  "registeredAt": "2026-08-15T10:21:26.499Z",
+  "registeredRunId": "registered-run.export.dcc5f29492e44d2c",
+  "replacementAttemptCount": 0,
+  "runId": "run.diagnostic.s06.export.v0.6.0",
+  "schemaVersion": "registered-diagnostic-run.slice06.v0",
+  "sourceCount": 4
+}

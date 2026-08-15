@@ -1,0 +1,50 @@
+{
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.normalize.39d4c35ebbbf45de.r1.a1",
+    "partition": "diagnostic",
+    "repetition": 1,
+    "runId": "run.diagnostic.s06.normalize.v0.6.0",
+    "sourceId": "source.s06.normalize.diagnostic.004"
+  },
+  "contentHash": "0f6efcd6c106651cf3d3526c9391822d7890e1a304612ca7a2f5c9470e72e6c3",
+  "diagnosticEnvelopeRef": null,
+  "diagnosticFacts": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S06_INPUT_SRGB_REQUIRED",
+  "finishedAt": "2026-08-15T10:21:26.445Z",
+  "idempotencyKeyHash": "855faf2e83169f71cdb7af8e2cbe7b1233e7b52bb0d20e26fdfdee4d66d59352",
+  "mode": "open-diagnostic",
+  "operation": "normalize",
+  "publication": null,
+  "reasonCode": "S06_INPUT_SRGB_REQUIRED",
+  "requestRef": {
+    "contentHash": "b97c77cc2398646929bd6f40caf1d9683f8efedf678f291a4564e58727cd7d88",
+    "id": "request.open-diagnostic.normalize.39d4c35ebbbf45de.r1.a1"
+  },
+  "resultId": "result.855faf2e83169f71cdb7af8e2cbe7b1233e7b52bb0d20e26fdfdee4d66d59352",
+  "schemaVersion": "run-result.slice06.v0",
+  "startedAt": "2026-08-15T10:21:26.443Z",
+  "status": "characterized-preflight-rejection",
+  "workerFailureEnvelopeRef": null,
+  "workerInvoked": false
+}

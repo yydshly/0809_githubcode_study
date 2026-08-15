@@ -26,6 +26,7 @@ import {
   listSlice06Tree,
   sha256Slice06Validation,
   stableStringifySlice06Validation,
+  validateSlice06ClosedDiagnosticResults,
   validateSlice06Definition,
   validateSlice06DefinitionBoundary,
   validateSlice06ExecutionAdmission,
@@ -333,8 +334,7 @@ test("exact tree allowlist rejects extra files, forbidden result partitions and 
   await mkdir(path.join(resultRoot, "results", "open-diagnostic"), { recursive: true });
   await writeFile(path.join(resultRoot, "results", "open-diagnostic", "leak.json"), "{}\n");
   const resultReport = await validateMutation(resultRoot);
-  assertIssue(resultReport, "FORBIDDEN_DEFINITION_PATH");
-  assert.ok(resultReport.issues.some(({ code }) => code === "DEFINITION_DIRECTORY_ALLOWLIST_MISMATCH"));
+  assertIssue(resultReport, "RESULT_FILE_ALLOWLIST_MISMATCH");
 
   const linkRoot = await mutationRoot(t);
   const outside = path.join(path.dirname(linkRoot), "junction-target");
@@ -564,4 +564,61 @@ test("frozen Slice 06 definition passes central validation", { skip: !HAS_FROZEN
   assert.deepEqual(report.issues, []);
   assert.equal(report.valid, true);
   assert.equal(report.counts.generatedResults, 0);
+  assert.equal(report.diagnosticResults.present, true);
+  assert.equal(report.diagnosticResults.fileCount, 152);
+  assert.equal(report.diagnosticResults.directoryCount, 34);
+  assert.equal(report.diagnosticResults.treeSha256, "4c82a65083ccc1675a65d632010360d991171255ec5ef74b4a50092f701dd146");
+});
+
+test("registered diagnostic result closure reopens all bytes and recomputes summaries", { skip: !HAS_FROZEN_DEFINITION }, async () => {
+  const report = await validateSlice06ClosedDiagnosticResults({
+    sliceRoot: CANONICAL_SLICE_ROOT,
+    definitionRef: {
+      path: "definition-index.v0.6.0.json", id: "DEFINITION-INDEX-SLICE06@0.6.0",
+      contentHash: "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+      byteLength: 31107, fileSha256: "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    },
+  });
+  assert.deepEqual(report.issues, []);
+  assert.equal(report.valid, true);
+  assert.deepEqual(report.counts, { requests: 24, claims: 24, results: 24, ledgers: 2, summaries: 2, closes: 2, retainedOutputs: 18 });
+  for (const operation of ["normalize", "export"]) {
+    assert.equal(report.operations[operation].summary.statusCounts["characterized-oracle-non-pass"], 9);
+    assert.equal(report.operations[operation].summary.statusCounts["characterized-preflight-rejection"], 3);
+    assert.equal(report.operations[operation].summary.allOutputBytesDeterministic, true);
+    assert.equal(report.operations[operation].summary.allPixelsDeterministic, true);
+    assert.equal(report.operations[operation].summary.gateBDecisionAuthority, false);
+    assert.equal(report.operations[operation].summary.calibrationAuthorized, false);
+  }
+});
+
+test("post-run validator rejects retained-byte, ledger, summary and extra-file tampering", { skip: !HAS_FROZEN_DEFINITION }, async (t) => {
+  async function resultCopy(label) {
+    const parent = await temporaryDirectory(t, `single-image-studio-s06-postrun-${label}-`);
+    const root = path.join(parent, "slice-06");
+    await cp(CANONICAL_SLICE_ROOT, root, { recursive: true });
+    return root;
+  }
+
+  const bytesRoot = await resultCopy("bytes");
+  const outputPath = path.join(bytesRoot, "results", "open-diagnostic", "quarantine", "normalize", "source.s06.normalize.diagnostic.001", "r1", "candidate-output.bin");
+  const output = await readFile(outputPath); output[output.length - 1] ^= 1; await writeFile(outputPath, output);
+  assertIssue(await validateMutation(bytesRoot), "CANDIDATE_OUTPUT_BYTES_MISMATCH");
+
+  const ledgerRoot = await resultCopy("ledger");
+  const ledgerPath = path.join(ledgerRoot, "results", "open-diagnostic", "ledger", "normalize.ndjson");
+  const ledger = await readFile(ledgerPath, "utf8");
+  await writeFile(ledgerPath, ledger.replace('"sequence":1', '"sequence":2'), "utf8");
+  assertIssue(await validateMutation(ledgerRoot), "LEDGER_CHAIN_INVALID");
+
+  const summaryRoot = await resultCopy("summary");
+  const summaryPath = "results/open-diagnostic/summaries/normalize.diagnostic-summary.slice06.v0.json";
+  const summary = await readJson(summaryRoot, summaryPath);
+  summary.retainedOutputBytes += 1; summary.contentHash = contentHashSlice06Validation(summary);
+  await writeCanonical(summaryRoot, summaryPath, summary);
+  assertIssue(await validateMutation(summaryRoot), "DIAGNOSTIC_SUMMARY_INVALID");
+
+  const extraRoot = await resultCopy("extra");
+  await writeFile(path.join(extraRoot, "results", "open-diagnostic", "unregistered.json"), "{}\n", "utf8");
+  assertIssue(await validateMutation(extraRoot), "RESULT_FILE_ALLOWLIST_MISMATCH");
 });

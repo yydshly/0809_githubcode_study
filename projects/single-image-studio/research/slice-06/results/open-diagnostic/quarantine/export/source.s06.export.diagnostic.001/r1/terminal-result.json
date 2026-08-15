@@ -1,0 +1,80 @@
+{
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.export.022511f20daa0fe9.r1.a1",
+    "partition": "diagnostic",
+    "repetition": 1,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sourceId": "source.s06.export.diagnostic.001"
+  },
+  "contentHash": "fc3903dfb43767e478e6e718d9cdc66d8b0f2c5c63ca7866adcff99efb7dc86d",
+  "diagnosticEnvelopeRef": {
+    "contentHash": "0b025c34764672fd72ba7ccf7d4ace54cd83ec7a31810087cfe292dd01d5f8b2",
+    "id": "diagnostic-envelope.cb9c565c9056b3fd47a91e644ba5cf0080ffdaee618432dc1ecfb6ea359fbc90",
+    "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r1/diagnostic-envelope.json"
+  },
+  "diagnosticFacts": {
+    "candidateOutputByteLength": 800,
+    "candidateOutputDecodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+    "candidateOutputFileSha256": "8fb94ebbc655d666a36e8b3549c1b6d2aff5a30517175a200f1c738d6d37327c",
+    "oracleFindingCodes": [
+      "S06_ORACLE_EXPECTED_IDENTITY_MISMATCH",
+      "S06_ORACLE_PNG_METADATA_FORBIDDEN",
+      "S06_ORACLE_PNG_SRGB_REQUIRED"
+    ],
+    "oraclePrimaryCode": "S06_ORACLE_PNG_SRGB_REQUIRED",
+    "strictDecision": "non-pass",
+    "telemetryComplete": true,
+    "workerExitCode": 0,
+    "workerExitConfirmed": true,
+    "workerExitSignal": null,
+    "workerRuntimePayloadSha256": "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "applicable",
+  "expectedStableErrorCode": null,
+  "finishedAt": "2026-08-15T10:21:26.853Z",
+  "idempotencyKeyHash": "cb9c565c9056b3fd47a91e644ba5cf0080ffdaee618432dc1ecfb6ea359fbc90",
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "publication": {
+    "atomicDirectoryCommit": true,
+    "rolePaths": {
+      "candidateOutput": "quarantine/export/source.s06.export.diagnostic.001/r1/candidate-output.bin",
+      "candidateOutputObservation": "quarantine/export/source.s06.export.diagnostic.001/r1/candidate-output-observation.json",
+      "diagnosticEnvelope": "quarantine/export/source.s06.export.diagnostic.001/r1/diagnostic-envelope.json",
+      "oracleDiagnostic": "quarantine/export/source.s06.export.diagnostic.001/r1/oracle-diagnostic.json",
+      "terminalResult": "quarantine/export/source.s06.export.diagnostic.001/r1/terminal-result.json"
+    },
+    "rootRelativePath": "quarantine/export/source.s06.export.diagnostic.001/r1"
+  },
+  "reasonCode": "S06_OUTPUT_ORACLE_REJECTED",
+  "requestRef": {
+    "contentHash": "4b8546896a6d69dcf3286078d0cf4916e9793caa0cd2e6507094ea7631b31f04",
+    "id": "request.open-diagnostic.export.022511f20daa0fe9.r1.a1"
+  },
+  "resultId": "result.cb9c565c9056b3fd47a91e644ba5cf0080ffdaee618432dc1ecfb6ea359fbc90",
+  "schemaVersion": "run-result.slice06.v0",
+  "startedAt": "2026-08-15T10:21:26.675Z",
+  "status": "characterized-oracle-non-pass",
+  "workerFailureEnvelopeRef": null,
+  "workerInvoked": true
+}

@@ -1,0 +1,50 @@
+{
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.export.beec4ad9a06a99ff.r3.a1",
+    "partition": "diagnostic",
+    "repetition": 3,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sourceId": "source.s06.export.diagnostic.004"
+  },
+  "contentHash": "df0d0ea34a70c69a939d5f282f16a95b3444766259145925a716d55f549a372d",
+  "diagnosticEnvelopeRef": null,
+  "diagnosticFacts": null,
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "preflight-reject",
+  "expectedStableErrorCode": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+  "finishedAt": "2026-08-15T10:21:28.498Z",
+  "idempotencyKeyHash": "751505391ce1c22ebaf2459fa1712f9f60e4aba87a6e30a25f0b5f4a523ee1e5",
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "publication": null,
+  "reasonCode": "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+  "requestRef": {
+    "contentHash": "33acee6f6c4c52a795b71f1d1006412357b12836eaac19ea5a6df7830c257f57",
+    "id": "request.open-diagnostic.export.beec4ad9a06a99ff.r3.a1"
+  },
+  "resultId": "result.751505391ce1c22ebaf2459fa1712f9f60e4aba87a6e30a25f0b5f4a523ee1e5",
+  "schemaVersion": "run-result.slice06.v0",
+  "startedAt": "2026-08-15T10:21:28.496Z",
+  "status": "characterized-preflight-rejection",
+  "workerFailureEnvelopeRef": null,
+  "workerInvoked": false
+}

@@ -3,9 +3,10 @@
 This directory is the executable research workspace for Slice 01 through Slice
 06. Its image fixtures are small, deterministic, and project-original. Slice
 05's only registered real smoke is closed non-pass, so its calibration is
-forbidden. Slice 06 now has a frozen diagnostic-only results-zero machine
-definition and fake-only tests; its results do not exist and no real Sharp
-image path has run. It is not a model benchmark,
+forbidden. Slice 06 now has a frozen diagnostic-only definition and one closed
+registered result tree. The real Sharp path ran only for 18 public-synthetic
+applicable attempts; every output was quarantined and independently rejected.
+It is not a model benchmark,
 product dataset, completed codec evaluation, or capability claim.
 
 ## Evidence boundary
@@ -27,11 +28,10 @@ product dataset, completed codec evaluation, or capability claim.
 - Slice 05 runtime inventory imported Sharp only to read `sharp.versions`; it
   did not read, decode, encode, or transform image bytes. The later real Sharp
   smoke ran, but normalize and export both failed Gate B; no calibration ran.
-- Slice 06 is `scope-frozen / implementation-ready / definition-frozen /
-  results-zero / diagnostic-characterization-not-run /
-  Gate-B-no-authority / calibration-forbidden`. Four isolated research scripts,
-  three Phase C scripts, 26 strict schemas, 23 non-index machine records and
-  six fake-only test files exist; results do not.
+- Slice 06 is `characterization-complete / Gate-B-no-authority /
+  calibration-forbidden / non-C1 / non-product`. Its 24 terminal attempts,
+  84 ledger events and 18 quarantine outputs form one closed result tree; no
+  artifact, calibration or formal evidence exists.
 - `methodLabel` and `methodDetails` are delivered in the local catalog and only
   hidden by the review interface until unblinding. This is an interaction
   rehearsal, not adversary-resistant or independent reviewer blinding.
@@ -199,7 +199,7 @@ export closed at 9 pass / 9 non-pass. Both Gate B decisions are
 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md) for exact result-tree, summary,
 decision, ledger, and error-code pins.
 
-## Slice 06 diagnostic protocol and frozen results-zero definition
+## Slice 06 closed diagnostic characterization
 
 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md) freezes a diagnostic-only bridge,
 not a new Gate-B smoke. Phase B implements a strict adapter, isolated worker,
@@ -219,18 +219,20 @@ including this README. The definition index content / file SHA-256 values are
 the full-tree SHA-256 is
 `19a42a2e63b73fb0971e7038e4470c02551dce9b0ddba2dfc87dd3e5780d47b3`.
 The tree has two manifests, eight public-synthetic lineage wrappers, eight
-source units and 24 planned attempts, but zero copied image bytes and zero
-results. Central adversarial tests pass `31 / 31`, all six Slice 06 suites pass
-`95 / 95`, and full repository verification passes `323 / 323`.
+source units and 24 planned attempts, with zero copied image bytes at freeze.
+The one registered invocation later completed all 24 attempts with zero
+replacement. Its closed result tree has 152 files, 34 directories, 583,198
+bytes and SHA-256
+`4c82a65083ccc1675a65d632010360d991171255ec5ef74b4a50092f701dd146`.
 
-The exact denominator remains 8 existing public-synthetic regression source
-units × 3 repetitions = 24 attempts: three applicable Alpha shapes plus one
-preflight sentinel for each operation. The definition commit must be clean,
-pushed and admitted before the one registered driver invocation. Any candidate
-output must remain a non-product diagnostic specimen or quarantine with complete
-worker and independent-oracle records. Slice 06 cannot issue a Gate-B decision
-or authorize calibration; its closure can only inform candidate selection for a
-later slice.
+Normalize and export each closed with nine deterministic oracle non-passes and
+three exact worker-free preflight rejections. All 18 applicable outputs reopened
+to the expected pixels and filter 0, but contained `IHDR,pHYs,IDAT,IEND`: the
+required `sRGB` chunk was missing and `pHYs` violated the metadata policy. Every
+primary code is `S06_ORACLE_PNG_SRGB_REQUIRED`; worker exits and telemetry are
+complete. See [SLICE_06_EVIDENCE.md](SLICE_06_EVIDENCE.md). Slice 06 cannot
+issue a Gate-B decision or authorize calibration; it is closed and cannot be
+rerun. A later slice must version and freeze a new candidate before Gate-B smoke.
 
 ## Commands
 

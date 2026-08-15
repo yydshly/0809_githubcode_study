@@ -1,0 +1,51 @@
+{
+  "calibrationAuthorized": false,
+  "calibrationState": "not-created-by-scope",
+  "closeId": "characterization-close.export.1b60c9f1a9404972",
+  "closedAt": "2026-08-15T10:21:28.605Z",
+  "contentHash": "ec715e13e01d0d0d752c34b9510318ab8386707ff3769cd6fffc265ba9d18ce6",
+  "definitionRef": {
+    "byteLength": 31107,
+    "contentHash": "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+    "fileSha256": "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    "id": "DEFINITION-INDEX-SLICE06@0.6.0",
+    "path": "definition-index.v0.6.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "gateBDecisionAuthority": false,
+  "gateBState": "not-entered-diagnostic-only",
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "outcome": "characterization-complete",
+  "resultTree": {
+    "fileCount": 75,
+    "sha256": "1765145d451cc35bfc18127b86254bb6c3257fef45906e749ba5a54b74b98b82",
+    "totalBytes": 287427
+  },
+  "schemaVersion": "characterization-close.slice06.v0",
+  "summaryRef": {
+    "byteLength": 16355,
+    "contentHash": "1b60c9f1a9404972b2f5079d14bb31f715135f936f958ee17945fb0a1da829a0",
+    "fileSha256": "a381f5f5928211d0a7ce72329aa60b944af58c4ecbc1d5c907362a6a89e22c4b",
+    "id": "diagnostic-summary.export.dcc5f29492e44d2c",
+    "path": "summaries/export.diagnostic-summary.slice06.v0.json"
+  }
+}

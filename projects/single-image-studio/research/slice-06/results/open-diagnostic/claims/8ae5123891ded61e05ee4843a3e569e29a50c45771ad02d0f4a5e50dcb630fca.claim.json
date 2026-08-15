@@ -1,0 +1,21 @@
+{
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.normalize.0c545433717271e2.r1.a1",
+    "partition": "diagnostic",
+    "repetition": 1,
+    "runId": "run.diagnostic.s06.normalize.v0.6.0",
+    "sourceId": "source.s06.normalize.diagnostic.003"
+  },
+  "claimId": "claim.8ae5123891ded61e05ee4843a3e569e29a50c45771ad02d0f4a5e50dcb630fca",
+  "claimedAt": "2026-08-15T10:21:24.581Z",
+  "contentHash": "b983b71947d1652e1a98ecfbee2a85e993541d24d460435881c9f8c3761f385e",
+  "idempotencyKeyHash": "8ae5123891ded61e05ee4843a3e569e29a50c45771ad02d0f4a5e50dcb630fca",
+  "mode": "open-diagnostic",
+  "operation": "normalize",
+  "requestRef": {
+    "contentHash": "67335c198e78b9a06f5706ce4cd71e6b9136ecc1d2c677962683bd03408cd4f0",
+    "id": "request.open-diagnostic.normalize.0c545433717271e2.r1.a1"
+  },
+  "schemaVersion": "idempotency-claim.slice06.v0"
+}

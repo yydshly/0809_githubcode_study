@@ -1,0 +1,395 @@
+{
+  "allClassificationsDeterministic": true,
+  "allOracleOutcomesDeterministic": true,
+  "allOutputBytesDeterministic": true,
+  "allPixelsDeterministic": true,
+  "allWorkerRuntimesDeterministic": true,
+  "calibrationAuthorized": false,
+  "caseResults": [
+    {
+      "classificationDeterministic": true,
+      "closureComplete": true,
+      "decodedPixelSha256s": [
+        "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+        "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+        "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d"
+      ],
+      "effectiveResultRefs": [
+        {
+          "contentHash": "fc3903dfb43767e478e6e718d9cdc66d8b0f2c5c63ca7866adcff99efb7dc86d",
+          "id": "result.cb9c565c9056b3fd47a91e644ba5cf0080ffdaee618432dc1ecfb6ea359fbc90",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r1/terminal-result.json"
+        },
+        {
+          "contentHash": "71042e2f6578bced0d30cedcda6fd26775e9063493d4660935039b9ad09e04d9",
+          "id": "result.c24d76e4954e9d0a139e356d5039156c0715a2005484a42934f46c472edb3bb2",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r2/terminal-result.json"
+        },
+        {
+          "contentHash": "5cc6a57efa51453ce0b7bbc5507ff3cb8d46aad51b587e7be1b45170b66bc32c",
+          "id": "result.88107eac1936b6e9bdf8f8d937c87592ea6cac20ff04870f1cdaa23acbf4626a",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r3/terminal-result.json"
+        }
+      ],
+      "exitConfirmedAll": true,
+      "expectedDisposition": "applicable",
+      "invalidatedResultRefs": [],
+      "oracleOutcomeDeterministic": true,
+      "oraclePrimaryCodes": [
+        "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "S06_ORACLE_PNG_SRGB_REQUIRED"
+      ],
+      "outputByteLengths": [
+        800,
+        800,
+        800
+      ],
+      "outputBytesDeterministic": true,
+      "outputFileSha256s": [
+        "8fb94ebbc655d666a36e8b3549c1b6d2aff5a30517175a200f1c738d6d37327c",
+        "8fb94ebbc655d666a36e8b3549c1b6d2aff5a30517175a200f1c738d6d37327c",
+        "8fb94ebbc655d666a36e8b3549c1b6d2aff5a30517175a200f1c738d6d37327c"
+      ],
+      "pixelDeterministic": true,
+      "rawResultRefs": [
+        {
+          "contentHash": "fc3903dfb43767e478e6e718d9cdc66d8b0f2c5c63ca7866adcff99efb7dc86d",
+          "id": "result.cb9c565c9056b3fd47a91e644ba5cf0080ffdaee618432dc1ecfb6ea359fbc90",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r1/terminal-result.json"
+        },
+        {
+          "contentHash": "71042e2f6578bced0d30cedcda6fd26775e9063493d4660935039b9ad09e04d9",
+          "id": "result.c24d76e4954e9d0a139e356d5039156c0715a2005484a42934f46c472edb3bb2",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r2/terminal-result.json"
+        },
+        {
+          "contentHash": "5cc6a57efa51453ce0b7bbc5507ff3cb8d46aad51b587e7be1b45170b66bc32c",
+          "id": "result.88107eac1936b6e9bdf8f8d937c87592ea6cac20ff04870f1cdaa23acbf4626a",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.001/r3/terminal-result.json"
+        }
+      ],
+      "sourceId": "source.s06.export.diagnostic.001",
+      "statuses": [
+        "characterized-oracle-non-pass",
+        "characterized-oracle-non-pass",
+        "characterized-oracle-non-pass"
+      ],
+      "strictDecisions": [
+        "non-pass",
+        "non-pass",
+        "non-pass"
+      ],
+      "telemetryCompleteAll": true,
+      "workerRuntimeDeterministic": true,
+      "workerRuntimePayloadSha256s": [
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3",
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3",
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3"
+      ]
+    },
+    {
+      "classificationDeterministic": true,
+      "closureComplete": true,
+      "decodedPixelSha256s": [
+        "6384cb99d73381f3b43ffc2a2143692ba716350acd0bf736624be08f7b9e1731",
+        "6384cb99d73381f3b43ffc2a2143692ba716350acd0bf736624be08f7b9e1731",
+        "6384cb99d73381f3b43ffc2a2143692ba716350acd0bf736624be08f7b9e1731"
+      ],
+      "effectiveResultRefs": [
+        {
+          "contentHash": "e6e6d110801f7b933d6f11f05061affe8798b853e55df1e39a093ec1938f1ec3",
+          "id": "result.6cadc2797040e4dd0ba5634e31cc15e8f0d35893a25e0ee4e31d078e24a8119d",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r1/terminal-result.json"
+        },
+        {
+          "contentHash": "c0f057f36d62e61a430d73cdebce59ccb5aabb1df5b0cce8f0b82e1fccdb80bf",
+          "id": "result.c30e26a0efe6602db80bb46e75fb7237aa4a16209991768c80a411594067d738",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r2/terminal-result.json"
+        },
+        {
+          "contentHash": "953426ff39e62e50a19e676e267346d4bb6dcbc0f0a1b2c33534bf3db0267821",
+          "id": "result.2b57b8b42b7d932d5fac45bbdf2516583a0576d3c4994152233e7ab89a41769d",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r3/terminal-result.json"
+        }
+      ],
+      "exitConfirmedAll": true,
+      "expectedDisposition": "applicable",
+      "invalidatedResultRefs": [],
+      "oracleOutcomeDeterministic": true,
+      "oraclePrimaryCodes": [
+        "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "S06_ORACLE_PNG_SRGB_REQUIRED"
+      ],
+      "outputByteLengths": [
+        1043,
+        1043,
+        1043
+      ],
+      "outputBytesDeterministic": true,
+      "outputFileSha256s": [
+        "731639bd00c61b0c64edb0bd457cff2d37b4b881d89a74726b0be015913226a9",
+        "731639bd00c61b0c64edb0bd457cff2d37b4b881d89a74726b0be015913226a9",
+        "731639bd00c61b0c64edb0bd457cff2d37b4b881d89a74726b0be015913226a9"
+      ],
+      "pixelDeterministic": true,
+      "rawResultRefs": [
+        {
+          "contentHash": "e6e6d110801f7b933d6f11f05061affe8798b853e55df1e39a093ec1938f1ec3",
+          "id": "result.6cadc2797040e4dd0ba5634e31cc15e8f0d35893a25e0ee4e31d078e24a8119d",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r1/terminal-result.json"
+        },
+        {
+          "contentHash": "c0f057f36d62e61a430d73cdebce59ccb5aabb1df5b0cce8f0b82e1fccdb80bf",
+          "id": "result.c30e26a0efe6602db80bb46e75fb7237aa4a16209991768c80a411594067d738",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r2/terminal-result.json"
+        },
+        {
+          "contentHash": "953426ff39e62e50a19e676e267346d4bb6dcbc0f0a1b2c33534bf3db0267821",
+          "id": "result.2b57b8b42b7d932d5fac45bbdf2516583a0576d3c4994152233e7ab89a41769d",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r3/terminal-result.json"
+        }
+      ],
+      "sourceId": "source.s06.export.diagnostic.002",
+      "statuses": [
+        "characterized-oracle-non-pass",
+        "characterized-oracle-non-pass",
+        "characterized-oracle-non-pass"
+      ],
+      "strictDecisions": [
+        "non-pass",
+        "non-pass",
+        "non-pass"
+      ],
+      "telemetryCompleteAll": true,
+      "workerRuntimeDeterministic": true,
+      "workerRuntimePayloadSha256s": [
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3",
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3",
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3"
+      ]
+    },
+    {
+      "classificationDeterministic": true,
+      "closureComplete": true,
+      "decodedPixelSha256s": [
+        "2ed8bd693af92a89f5d825ba88c46eb1b1c8f2489a3a294a132ea77591cb7a72",
+        "2ed8bd693af92a89f5d825ba88c46eb1b1c8f2489a3a294a132ea77591cb7a72",
+        "2ed8bd693af92a89f5d825ba88c46eb1b1c8f2489a3a294a132ea77591cb7a72"
+      ],
+      "effectiveResultRefs": [
+        {
+          "contentHash": "77d1d1e9f43c609b380803d12b7d941c8c97286ac72d136f4e9dd0b69256176e",
+          "id": "result.06670d420895b663d5b692f183d2304ea3ed7e7e8e04587e6901b645669de150",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.003/r1/terminal-result.json"
+        },
+        {
+          "contentHash": "523d65db608d233d29a5fd5cacae45291db9b1df1a6620f318c513921612874d",
+          "id": "result.1d7f6a41b4378e65482260c291d103c242bd2b4c2b9fb9a8b691b07ccdc9183c",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.003/r2/terminal-result.json"
+        },
+        {
+          "contentHash": "98ce5340078bd2ddefb182e1180217e6c783b8ea43ae93150ba89807cf69cb8a",
+          "id": "result.2f57df4c298b2e57bf8d8b2841c71e4cd5184b9f1d560cd2ec8dd4a23a02898e",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.003/r3/terminal-result.json"
+        }
+      ],
+      "exitConfirmedAll": true,
+      "expectedDisposition": "applicable",
+      "invalidatedResultRefs": [],
+      "oracleOutcomeDeterministic": true,
+      "oraclePrimaryCodes": [
+        "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "S06_ORACLE_PNG_SRGB_REQUIRED",
+        "S06_ORACLE_PNG_SRGB_REQUIRED"
+      ],
+      "outputByteLengths": [
+        790,
+        790,
+        790
+      ],
+      "outputBytesDeterministic": true,
+      "outputFileSha256s": [
+        "84b515b35836a10a53921fedc091ca8ab86d93a3e8b82d2d353e6dadba155464",
+        "84b515b35836a10a53921fedc091ca8ab86d93a3e8b82d2d353e6dadba155464",
+        "84b515b35836a10a53921fedc091ca8ab86d93a3e8b82d2d353e6dadba155464"
+      ],
+      "pixelDeterministic": true,
+      "rawResultRefs": [
+        {
+          "contentHash": "77d1d1e9f43c609b380803d12b7d941c8c97286ac72d136f4e9dd0b69256176e",
+          "id": "result.06670d420895b663d5b692f183d2304ea3ed7e7e8e04587e6901b645669de150",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.003/r1/terminal-result.json"
+        },
+        {
+          "contentHash": "523d65db608d233d29a5fd5cacae45291db9b1df1a6620f318c513921612874d",
+          "id": "result.1d7f6a41b4378e65482260c291d103c242bd2b4c2b9fb9a8b691b07ccdc9183c",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.003/r2/terminal-result.json"
+        },
+        {
+          "contentHash": "98ce5340078bd2ddefb182e1180217e6c783b8ea43ae93150ba89807cf69cb8a",
+          "id": "result.2f57df4c298b2e57bf8d8b2841c71e4cd5184b9f1d560cd2ec8dd4a23a02898e",
+          "relativePath": "quarantine/export/source.s06.export.diagnostic.003/r3/terminal-result.json"
+        }
+      ],
+      "sourceId": "source.s06.export.diagnostic.003",
+      "statuses": [
+        "characterized-oracle-non-pass",
+        "characterized-oracle-non-pass",
+        "characterized-oracle-non-pass"
+      ],
+      "strictDecisions": [
+        "non-pass",
+        "non-pass",
+        "non-pass"
+      ],
+      "telemetryCompleteAll": true,
+      "workerRuntimeDeterministic": true,
+      "workerRuntimePayloadSha256s": [
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3",
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3",
+        "dbeba889048bc7e9200b99ab0e710b1365c292be267d9bab982e67afad8e8be3"
+      ]
+    },
+    {
+      "classificationDeterministic": true,
+      "closureComplete": true,
+      "decodedPixelSha256s": [
+        null,
+        null,
+        null
+      ],
+      "effectiveResultRefs": [
+        {
+          "contentHash": "8f15b0830a38ae4eed4f70c5e116bb5e4cc6405a480c975e3d4a3667c203c72b",
+          "id": "result.073d2b80aa6e90718aebec0bc6bdc5712a110a18b9adee597774e601eb4cc87d",
+          "relativePath": "records/073d2b80aa6e90718aebec0bc6bdc5712a110a18b9adee597774e601eb4cc87d.result.json"
+        },
+        {
+          "contentHash": "a1e4fca1767bc11ab0c4c51667e2e8f841ff6bbe578bc3297d03c5730e43af55",
+          "id": "result.d74d18764088dd8b5ec10c5cfca72f41327aaac7558b310764298e9e89189abb",
+          "relativePath": "records/d74d18764088dd8b5ec10c5cfca72f41327aaac7558b310764298e9e89189abb.result.json"
+        },
+        {
+          "contentHash": "df0d0ea34a70c69a939d5f282f16a95b3444766259145925a716d55f549a372d",
+          "id": "result.751505391ce1c22ebaf2459fa1712f9f60e4aba87a6e30a25f0b5f4a523ee1e5",
+          "relativePath": "records/751505391ce1c22ebaf2459fa1712f9f60e4aba87a6e30a25f0b5f4a523ee1e5.result.json"
+        }
+      ],
+      "exitConfirmedAll": true,
+      "expectedDisposition": "preflight-reject",
+      "invalidatedResultRefs": [],
+      "oracleOutcomeDeterministic": true,
+      "oraclePrimaryCodes": [
+        "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+        "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+        "S06_EXPORT_NORMALIZED_ARTIFACT_INVALID"
+      ],
+      "outputByteLengths": [
+        null,
+        null,
+        null
+      ],
+      "outputBytesDeterministic": true,
+      "outputFileSha256s": [
+        null,
+        null,
+        null
+      ],
+      "pixelDeterministic": null,
+      "rawResultRefs": [
+        {
+          "contentHash": "8f15b0830a38ae4eed4f70c5e116bb5e4cc6405a480c975e3d4a3667c203c72b",
+          "id": "result.073d2b80aa6e90718aebec0bc6bdc5712a110a18b9adee597774e601eb4cc87d",
+          "relativePath": "records/073d2b80aa6e90718aebec0bc6bdc5712a110a18b9adee597774e601eb4cc87d.result.json"
+        },
+        {
+          "contentHash": "a1e4fca1767bc11ab0c4c51667e2e8f841ff6bbe578bc3297d03c5730e43af55",
+          "id": "result.d74d18764088dd8b5ec10c5cfca72f41327aaac7558b310764298e9e89189abb",
+          "relativePath": "records/d74d18764088dd8b5ec10c5cfca72f41327aaac7558b310764298e9e89189abb.result.json"
+        },
+        {
+          "contentHash": "df0d0ea34a70c69a939d5f282f16a95b3444766259145925a716d55f549a372d",
+          "id": "result.751505391ce1c22ebaf2459fa1712f9f60e4aba87a6e30a25f0b5f4a523ee1e5",
+          "relativePath": "records/751505391ce1c22ebaf2459fa1712f9f60e4aba87a6e30a25f0b5f4a523ee1e5.result.json"
+        }
+      ],
+      "sourceId": "source.s06.export.diagnostic.004",
+      "statuses": [
+        "characterized-preflight-rejection",
+        "characterized-preflight-rejection",
+        "characterized-preflight-rejection"
+      ],
+      "strictDecisions": [
+        null,
+        null,
+        null
+      ],
+      "telemetryCompleteAll": true,
+      "workerRuntimeDeterministic": true,
+      "workerRuntimePayloadSha256s": [
+        null,
+        null,
+        null
+      ]
+    }
+  ],
+  "contentHash": "1b60c9f1a9404972b2f5079d14bb31f715135f936f958ee17945fb0a1da829a0",
+  "definitionRef": {
+    "byteLength": 31107,
+    "contentHash": "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+    "fileSha256": "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    "id": "DEFINITION-INDEX-SLICE06@0.6.0",
+    "path": "definition-index.v0.6.0.json"
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "calibrationAuthorized": false,
+    "e1": 0,
+    "excludedFromGateB": true,
+    "formal": false,
+    "g1": 0,
+    "gateBDecisionAuthority": false,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "exitConfirmedAll": true,
+  "finishedAt": "2026-08-15T10:21:28.506Z",
+  "gateBDecisionAuthority": false,
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "overallStatus": "characterization-complete",
+  "preregistrationRef": {
+    "byteLength": 7574,
+    "contentHash": "818c882d7f7a853325674cce67b3b19e6267c7bc7c204ff82f4cefd58679ac8c",
+    "fileSha256": "c3348d2f342c231344bb7bf183104eb8906a669f2cb9c1b56753f8e8f92c2929",
+    "id": "PREREG-DIAGNOSTIC-EXPORT-PNG@0.6.0",
+    "path": "preregistrations/diagnostic-export-png.v0.6.0.json"
+  },
+  "recordedAttemptCount": 12,
+  "registeredAttemptCount": 12,
+  "registeredSourceCount": 4,
+  "replacementAttemptCount": 0,
+  "retainedOutputBytes": 7899,
+  "runId": "run.diagnostic.s06.export.v0.6.0",
+  "schemaVersion": "diagnostic-summary.slice06.v0",
+  "startedAt": "2026-08-15T10:21:26.675Z",
+  "statusCounts": {
+    "characterized-oracle-non-pass": 9,
+    "characterized-oracle-pass": 0,
+    "characterized-preflight-rejection": 3,
+    "inconclusive": 0,
+    "protocol-failed": 0
+  },
+  "summaryId": "diagnostic-summary.export.dcc5f29492e44d2c",
+  "telemetryCompleteAll": true
+}

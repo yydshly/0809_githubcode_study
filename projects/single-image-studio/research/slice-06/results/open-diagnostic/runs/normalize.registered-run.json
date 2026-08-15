@@ -1,0 +1,26 @@
+{
+  "attemptCount": 12,
+  "contentHash": "c232388afb8cad247dea2ea8588c5bf4df8a667b278d85ee61b3cdca680aa354",
+  "definitionRef": {
+    "byteLength": 31107,
+    "contentHash": "d537199c8bc6147761da297daeddb03e1ff837a83c8d2c57af29c9e5b9b67e08",
+    "fileSha256": "1cb934a1d870a62e9ccb706e3c21dcdbb54de55f027a325e31230ac4bf3cb20c",
+    "id": "DEFINITION-INDEX-SLICE06@0.6.0",
+    "path": "definition-index.v0.6.0.json"
+  },
+  "mode": "open-diagnostic",
+  "operation": "normalize",
+  "preregistrationRef": {
+    "byteLength": 7634,
+    "contentHash": "3a7d58c35171e22eef01b3fa5f475660bfec61e9a5d4fbbad49e7c008755f867",
+    "fileSha256": "c42a03d334be6cccfbf20c267e24588c7882a45be737315d9f6608f34693d9e1",
+    "id": "PREREG-DIAGNOSTIC-NORMALIZE-PNG@0.6.0",
+    "path": "preregistrations/diagnostic-normalize-png.v0.6.0.json"
+  },
+  "registeredAt": "2026-08-15T10:21:24.498Z",
+  "registeredRunId": "registered-run.normalize.5ee39e637c9ecbe3",
+  "replacementAttemptCount": 0,
+  "runId": "run.diagnostic.s06.normalize.v0.6.0",
+  "schemaVersion": "registered-diagnostic-run.slice06.v0",
+  "sourceCount": 4
+}

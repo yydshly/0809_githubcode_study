@@ -1,0 +1,95 @@
+{
+  "adapterRef": {
+    "id": "ADAPTER-SHARP-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f",
+    "version": "0.6.0"
+  },
+  "artifactEligible": false,
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "idempotency.slice06.open-diagnostic.export.649084bb143bfd8c.r3.a1",
+    "partition": "diagnostic",
+    "repetition": 3,
+    "runId": "run.diagnostic.s06.export.v0.6.0",
+    "sourceId": "source.s06.export.diagnostic.002"
+  },
+  "bytes": {
+    "byteLength": 1043,
+    "fileSha256": "731639bd00c61b0c64edb0bd457cff2d37b4b881d89a74726b0be015913226a9",
+    "mediaType": "application/octet-stream",
+    "relativePath": "quarantine/export/source.s06.export.diagnostic.002/r3/candidate-output.bin"
+  },
+  "candidateOutputObservationId": "candidate-output-observation.2b57b8b42b7d932d5fac45bbdf2516583a0576d3c4994152233e7ab89a41769d",
+  "candidateRef": {
+    "contentHash": "e22388d65b8dfbf9a6aeed5eafe14a3d3bd9064f9a714d0efe4a86fc813dfbe7",
+    "id": "REG-NORM-SHARP@0.6.0"
+  },
+  "contentHash": "99e6fed0c7e984137e0205959187c18cc1b0cb576f370ec10d1398a51956ecf1",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "hardwareRef": {
+    "contentHash": "eace9946f4134a6ab2fa0e849eae795eb45c2ca949aa0099155cb9cc22b84e84",
+    "id": "HARDWARE-WIN32-X64-DIAGNOSTIC@0.6.0"
+  },
+  "mode": "open-diagnostic",
+  "operation": "export",
+  "producedAt": "2026-08-15T10:21:27.855Z",
+  "producerRef": {
+    "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+    "version": "0.6.0"
+  },
+  "recordClass": "diagnostic-candidate-output-not-artifact",
+  "requestRef": {
+    "contentHash": "3572b4aea216c8f965341d37be320f2b5bcc5d7d5ab80620f0d77534784e0e6e",
+    "id": "request.open-diagnostic.export.649084bb143bfd8c.r3.a1"
+  },
+  "retention": {
+    "maxPerOutputBytes": 1048576,
+    "maxSessionBytes": 18874368,
+    "policyRef": {
+      "contentHash": "87a5728adf6c3f7c2b39f91714486497fcf4bb53f7ba12f1e5a58a0f2e0f5017",
+      "id": "RETENTION-OPEN-DIAGNOSTIC@0.6.0"
+    },
+    "reasonCode": "S06_DIAGNOSTIC_RETENTION_AUTHORIZED_OPEN_SYNTHETIC",
+    "state": "retained"
+  },
+  "rights": {
+    "assetClass": "project-original-deterministic-synthetic-open-research-fixtures",
+    "candidateDerivativeRepositoryRetention": true,
+    "containsRealPerson": false,
+    "diagnosticPublicDisplay": true,
+    "modelWeightsUsed": false,
+    "realUserPhotosUsed": false,
+    "rightsRef": {
+      "contentHash": "bf1ff6da384db5a514d13f93073497b55ed549b13709cb3032332f8caaa4edf7",
+      "id": "RIGHTS-SLICE05-OPEN-SYNTHETIC-REUSE@0.6.0"
+    },
+    "thirdPartyAssetsUsed": false
+  },
+  "runtimeRef": {
+    "contentHash": "521bb10670154d345e5a3ae1df5930485f783161f7cf0fc83204e891b5c7f6ab",
+    "id": "RUNTIME-SHARP-WIN32-X64-DIAGNOSTIC@0.6.0"
+  },
+  "schemaVersion": "candidate-output-observation.slice06.v0",
+  "strictDecision": "non-pass",
+  "workerRef": {
+    "id": "WORKER-SHARP-DIAGNOSTIC@0.6.0",
+    "implementationSha256": "0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c",
+    "version": "0.6.0"
+  }
+}

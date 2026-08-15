@@ -5,9 +5,23 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import {
+  buildSlice06DiagnosticSummary,
   SLICE06_RUNNER_RECORD_SCHEMAS,
   SLICE06_RUNNER_SCHEMA_PATHS,
+  validateSlice06CharacterizationClose,
+  validateSlice06DiagnosticSummary,
+  validateSlice06RegisteredRun,
+  validateSlice06RunClaim,
+  validateSlice06RunEvent,
+  validateSlice06RunRequest,
+  validateSlice06RunResult,
 } from "./research-run-slice06.mjs";
+import {
+  validateCandidateOutputObservationSlice06,
+  validateDiagnosticEnvelopeSlice06,
+  validateOracleDiagnosticSlice06,
+  verifyOutputBytesSlice06,
+} from "./research-diagnostic-png-oracle-slice06.mjs";
 import {
   SLICE06_COMMIT_PINS,
   SLICE06_DEFINITION_IDS,
@@ -28,6 +42,7 @@ const DEFAULT_PROJECT_ROOT = path.resolve(SCRIPT_DIR, "..");
 export const DEFAULT_SLICE06_DEFINITION_ROOT = path.join(DEFAULT_PROJECT_ROOT, "research", "slice-06");
 export const SLICE06_DEFINITION_INDEX_PATH = "definition-index.v0.6.0.json";
 export const SLICE06_DEFINITION_README_PATH = "README.md";
+export const SLICE06_REGISTERED_RESULTS_PATH = "results/open-diagnostic";
 
 // Filled only after the complete results-zero tree, generator, validator and README
 // are stable. Null production pins deliberately fail closed when requirePins=true.
@@ -716,13 +731,257 @@ function expectedDirectoriesForFiles(files) {
   return [...directories].sort(compareText);
 }
 
+function addValidationFailure(issues, code, location, validator, value) {
+  try { validator(value); }
+  catch (error) { issue(issues, code, location, error instanceof Error ? error.message : String(error)); }
+}
+
+async function registeredResultsExist(sliceRoot) {
+  try { return (await lstat(path.join(sliceRoot, ...SLICE06_REGISTERED_RESULTS_PATH.split("/")))).isDirectory(); }
+  catch (error) { if (error?.code === "ENOENT") return false; throw error; }
+}
+
+async function readResultJson(resultsRoot, relativePath, issues) {
+  try {
+    const loaded = await readCanonicalJson(resultsRoot, relativePath);
+    if (loaded.value.contentHash !== contentHashSlice06Validation(loaded.value)) {
+      issue(issues, "RESULT_CONTENT_HASH_MISMATCH", `${relativePath}.contentHash`, "result record self-hash differs");
+    }
+    return loaded;
+  } catch (error) {
+    addThrownIssue(issues, "RESULT_JSON_INVALID", relativePath, error);
+    return null;
+  }
+}
+
+function sameAttempt(left, right) { return deepEqual(left, right); }
+function sameShortRef(ref, record, idField) {
+  return isRecord(ref) && ref.id === record?.[idField] && ref.contentHash === record?.contentHash;
+}
+
+export async function validateSlice06ClosedDiagnosticResults({ sliceRoot = DEFAULT_SLICE06_DEFINITION_ROOT, definitionRef } = {}) {
+  const issues = [];
+  const resolvedSliceRoot = path.resolve(sliceRoot);
+  const resultsRoot = path.join(resolvedSliceRoot, ...SLICE06_REGISTERED_RESULTS_PATH.split("/"));
+  if (!await registeredResultsExist(resolvedSliceRoot)) return { present: false, valid: true, issues: [], fileCount: 0, directoryCount: 0, totalBytes: 0, treeSha256: null };
+  const tree = await listSlice06Tree(resultsRoot);
+  issues.push(...tree.issues.map((entry) => ({ ...entry, code: `RESULT_${entry.code}` })));
+  const records = new Map();
+  const bytesByPath = new Map();
+  for (const relativePath of tree.files) {
+    try { bytesByPath.set(relativePath, await readFile(path.join(resultsRoot, ...relativePath.split("/")))); }
+    catch (error) { addThrownIssue(issues, "RESULT_FILE_READ_FAILED", relativePath, error); continue; }
+    if (relativePath.endsWith(".json")) {
+      const loaded = await readResultJson(resultsRoot, relativePath, issues);
+      if (loaded) records.set(relativePath, loaded.value);
+    } else if (!relativePath.endsWith(".bin") && !relativePath.endsWith(".ndjson")) {
+      issue(issues, "RESULT_EXTENSION_FORBIDDEN", relativePath, "only registered JSON, NDJSON and diagnostic .bin files are allowed");
+    }
+  }
+
+  const expectedFiles = new Set();
+  const terminalByKey = new Map();
+  const terminalPathByKey = new Map();
+  const requestByKey = new Map();
+  const operations = {};
+  for (const operation of ["normalize", "export"]) {
+    const runPath = `runs/${operation}.registered-run.json`;
+    const summaryPath = `summaries/${operation}.diagnostic-summary.slice06.v0.json`;
+    const closePath = `closes/${operation}.characterization-close.slice06.v0.json`;
+    const ledgerPath = `ledger/${operation}.ndjson`;
+    [runPath, summaryPath, closePath, ledgerPath].forEach((entry) => expectedFiles.add(entry));
+    const run = records.get(runPath); const summary = records.get(summaryPath); const close = records.get(closePath);
+    addValidationFailure(issues, "REGISTERED_RUN_INVALID", runPath, validateSlice06RegisteredRun, run);
+    addValidationFailure(issues, "DIAGNOSTIC_SUMMARY_INVALID", summaryPath, validateSlice06DiagnosticSummary, summary);
+    addValidationFailure(issues, "CHARACTERIZATION_CLOSE_INVALID", closePath, validateSlice06CharacterizationClose, close);
+    if (definitionRef && (!deepEqual(run?.definitionRef, definitionRef) || !deepEqual(summary?.definitionRef, definitionRef) || !deepEqual(close?.definitionRef, definitionRef))) {
+      issue(issues, "RESULT_DEFINITION_REF_MISMATCH", operation, "run, summary and close must bind the frozen definition index");
+    }
+    operations[operation] = { run, summary, close, runPath, summaryPath, closePath, ledgerPath, operationFiles: new Set([runPath, summaryPath, ledgerPath]), requests: [], terminals: [], terminalPaths: [] };
+  }
+
+  for (const [relativePath, request] of records) {
+    if (!relativePath.startsWith("requests/")) continue;
+    addValidationFailure(issues, "RUN_REQUEST_INVALID", relativePath, validateSlice06RunRequest, request);
+    const key = relativePath.match(/^requests\/([0-9a-f]{64})\.request\.json$/u)?.[1];
+    if (!key || key !== sha256Slice06Validation(Buffer.from(request?.attempt?.idempotencyKey ?? "", "utf8"))) {
+      issue(issues, "REQUEST_PATH_IDENTITY_MISMATCH", relativePath, "request filename must derive from the idempotency key"); continue;
+    }
+    if (requestByKey.has(key)) issue(issues, "REQUEST_IDENTITY_DUPLICATE", relativePath, key);
+    requestByKey.set(key, request); expectedFiles.add(relativePath);
+    operations[request.operation]?.requests.push(request); operations[request.operation]?.operationFiles.add(relativePath);
+    if (definitionRef && !deepEqual(request.definitionRef, definitionRef)) issue(issues, "REQUEST_DEFINITION_REF_MISMATCH", relativePath, "request definition ref differs");
+  }
+  if (requestByKey.size !== 24 || operations.normalize.requests.length !== 12 || operations.export.requests.length !== 12) {
+    issue(issues, "REQUEST_DENOMINATOR_INVALID", "requests", "exactly 12 requests per operation and 24 total are required");
+  }
+
+  for (const [key, request] of requestByKey) {
+    const requestPath = `requests/${key}.request.json`;
+    const claimPath = `claims/${key}.claim.json`;
+    expectedFiles.add(claimPath); operations[request.operation].operationFiles.add(claimPath);
+    const claim = records.get(claimPath);
+    addValidationFailure(issues, "RUN_CLAIM_INVALID", claimPath, validateSlice06RunClaim, claim);
+    if (!sameAttempt(claim?.attempt, request.attempt) || !sameShortRef(claim?.requestRef, request, "requestId") || claim?.operation !== request.operation) {
+      issue(issues, "CLAIM_REQUEST_BINDING_INVALID", claimPath, "claim must bind the exact request and attempt");
+    }
+    const applicable = request.expectedDisposition === "applicable";
+    const terminalPath = applicable
+      ? `quarantine/${request.operation}/${request.attempt.sourceId}/r${request.attempt.repetition}/terminal-result.json`
+      : `records/${key}.result.json`;
+    expectedFiles.add(terminalPath); operations[request.operation].operationFiles.add(terminalPath);
+    const terminal = records.get(terminalPath);
+    addValidationFailure(issues, "RUN_RESULT_INVALID", terminalPath, validateSlice06RunResult, terminal);
+    terminalByKey.set(key, terminal); terminalPathByKey.set(key, terminalPath);
+    operations[request.operation].terminals.push(terminal); operations[request.operation].terminalPaths.push(terminalPath);
+    if (!sameAttempt(terminal?.attempt, request.attempt) || !sameShortRef(terminal?.requestRef, request, "requestId")
+      || terminal?.expectedDisposition !== request.expectedDisposition || terminal?.expectedStableErrorCode !== request.expectedStableErrorCode) {
+      issue(issues, "RESULT_REQUEST_BINDING_INVALID", terminalPath, "terminal result must bind the exact request, attempt and expected disposition");
+    }
+    if (!applicable) {
+      if (terminal?.status !== "characterized-preflight-rejection" || terminal?.workerInvoked !== false
+        || terminal?.reasonCode !== request.expectedStableErrorCode || terminal?.publication !== null) {
+        issue(issues, "PREFLIGHT_RESULT_INVALID", terminalPath, "sentinel must be an exact worker-free preflight rejection");
+      }
+      continue;
+    }
+    const root = `quarantine/${request.operation}/${request.attempt.sourceId}/r${request.attempt.repetition}`;
+    const paths = {
+      bytes: `${root}/candidate-output.bin`, observation: `${root}/candidate-output-observation.json`,
+      oracle: `${root}/oracle-diagnostic.json`, envelope: `${root}/diagnostic-envelope.json`, terminal: terminalPath,
+    };
+    Object.values(paths).forEach((entry) => { expectedFiles.add(entry); operations[request.operation].operationFiles.add(entry); });
+    const observation = records.get(paths.observation); const oracle = records.get(paths.oracle); const envelope = records.get(paths.envelope);
+    addValidationFailure(issues, "OUTPUT_OBSERVATION_INVALID", paths.observation, validateCandidateOutputObservationSlice06, observation);
+    addValidationFailure(issues, "ORACLE_DIAGNOSTIC_INVALID", paths.oracle, validateOracleDiagnosticSlice06, oracle);
+    addValidationFailure(issues, "DIAGNOSTIC_ENVELOPE_INVALID", paths.envelope, validateDiagnosticEnvelopeSlice06, envelope);
+    const outputBytes = bytesByPath.get(paths.bytes);
+    if (!outputBytes || observation?.bytes?.relativePath !== paths.bytes || observation?.bytes?.byteLength !== outputBytes?.byteLength
+      || observation?.bytes?.fileSha256 !== sha256Slice06Validation(outputBytes ?? Buffer.alloc(0))) {
+      issue(issues, "CANDIDATE_OUTPUT_BYTES_MISMATCH", paths.bytes, "retained bytes must match the observation identity");
+    }
+    if (!sameAttempt(observation?.attempt, request.attempt) || !sameAttempt(oracle?.attempt, request.attempt) || !sameAttempt(envelope?.attempt, request.attempt)
+      || !sameShortRef(observation?.requestRef, request, "requestId") || !sameShortRef(oracle?.requestRef, request, "requestId") || !sameShortRef(envelope?.requestRef, request, "requestId")
+      || !sameShortRef(oracle?.candidateOutputObservationRef, observation, "candidateOutputObservationId")
+      || !sameShortRef(envelope?.candidateOutputObservationRef, observation, "candidateOutputObservationId")
+      || !sameShortRef(envelope?.oracleDiagnosticRef, oracle, "oracleDiagnosticId")) {
+      issue(issues, "DIAGNOSTIC_CROSSLINK_INVALID", root, "diagnostic records must cross-bind the same request, attempt, observation and oracle");
+    }
+    const expectedPublication = {
+      rootRelativePath: root, atomicDirectoryCommit: true,
+      rolePaths: { candidateOutput: paths.bytes, candidateOutputObservation: paths.observation, oracleDiagnostic: paths.oracle, diagnosticEnvelope: paths.envelope, terminalResult: paths.terminal },
+    };
+    if (!deepEqual(terminal?.publication, expectedPublication)
+      || terminal?.diagnosticEnvelopeRef?.id !== envelope?.diagnosticEnvelopeId || terminal?.diagnosticEnvelopeRef?.contentHash !== envelope?.contentHash
+      || terminal?.diagnosticEnvelopeRef?.relativePath !== paths.envelope || terminal?.diagnosticFacts?.candidateOutputFileSha256 !== observation?.bytes?.fileSha256
+      || terminal?.diagnosticFacts?.oraclePrimaryCode !== oracle?.verification?.primaryCode || terminal?.reasonCode !== "S06_OUTPUT_ORACLE_REJECTED") {
+      issue(issues, "TERMINAL_DIAGNOSTIC_BINDING_INVALID", terminalPath, "terminal result must retain the exact diagnostic closure");
+    }
+    if (outputBytes && oracle?.verification?.expected) {
+      try {
+        const recomputed = verifyOutputBytesSlice06({ operation: request.operation, bytes: outputBytes, expected: oracle.verification.expected });
+        if (!deepEqual(recomputed, oracle.verification)) issue(issues, "ORACLE_RECOMPUTE_MISMATCH", paths.oracle, "independent oracle result differs when reopened from retained bytes");
+      } catch (error) { addThrownIssue(issues, "ORACLE_RECOMPUTE_FAILED", paths.oracle, error); }
+    }
+  }
+
+  for (const operation of ["normalize", "export"]) {
+    const state = operations[operation];
+    const ledgerBytes = bytesByPath.get(state.ledgerPath);
+    let events = [];
+    try {
+      const text = ledgerBytes?.toString("utf8") ?? "";
+      if (!text.endsWith("\n")) throw new Error("ledger lacks final newline");
+      events = text.trimEnd().split("\n").map((line) => JSON.parse(line));
+    } catch (error) { addThrownIssue(issues, "LEDGER_PARSE_INVALID", state.ledgerPath, error); }
+    let previous = "0".repeat(64); let priorTime = null;
+    const eventTypesByKey = new Map();
+    for (const [index, event] of events.entries()) {
+      addValidationFailure(issues, "RUN_EVENT_INVALID", `${state.ledgerPath}:${index + 1}`, validateSlice06RunEvent, event);
+      if (event.sequence !== index + 1 || event.previousEventHash !== previous || event.operation !== operation
+        || (priorTime !== null && Date.parse(event.occurredAt) < priorTime)) {
+        issue(issues, "LEDGER_CHAIN_INVALID", `${state.ledgerPath}:${index + 1}`, "sequence, predecessor, operation and time must form one append-only chain");
+      }
+      previous = event.contentHash; priorTime = Date.parse(event.occurredAt);
+      const key = event.idempotencyKeyHash;
+      const request = requestByKey.get(key);
+      if (!request || !sameAttempt(event.attempt, request.attempt) || !sameShortRef(event.requestRef, request, "requestId")) {
+        issue(issues, "LEDGER_REQUEST_BINDING_INVALID", `${state.ledgerPath}:${index + 1}`, "event must bind a registered request");
+      }
+      const list = eventTypesByKey.get(key) ?? []; list.push(event.eventType); eventTypesByKey.set(key, list);
+      if (event.eventType === "attempt-terminal") {
+        const terminal = terminalByKey.get(key);
+        if (event.status !== terminal?.status || event.reasonCode !== terminal?.reasonCode) issue(issues, "LEDGER_TERMINAL_MISMATCH", `${state.ledgerPath}:${index + 1}`, "terminal event differs from terminal record");
+      }
+    }
+    if (events.length !== 42) issue(issues, "LEDGER_EVENT_COUNT_INVALID", state.ledgerPath, `${events.length} != 42`);
+    for (const request of state.requests) {
+      const key = sha256Slice06Validation(Buffer.from(request.attempt.idempotencyKey, "utf8"));
+      const expected = request.expectedDisposition === "applicable"
+        ? ["attempt-registered", "closure-publication-intent", "closure-publication-complete", "attempt-terminal"]
+        : ["attempt-registered", "attempt-terminal"];
+      if (!deepEqual(eventTypesByKey.get(key), expected)) issue(issues, "LEDGER_ATTEMPT_SEQUENCE_INVALID", `${state.ledgerPath}.${key}`, "attempt event sequence differs from the frozen protocol");
+    }
+    if (state.run?.attemptCount !== 12 || state.run?.sourceCount !== 4 || state.run?.replacementAttemptCount !== 0) issue(issues, "REGISTERED_RUN_DENOMINATOR_INVALID", state.runPath, "run must preserve 4x3 and zero replacements");
+    if (state.summary) {
+      try {
+        const rebuilt = buildSlice06DiagnosticSummary({
+          operation, requests: state.requests, terminalResults: state.terminals, terminalPaths: state.terminalPaths,
+          startedAt: state.summary.startedAt, finishedAt: state.summary.finishedAt,
+        });
+        if (!deepEqual(rebuilt, state.summary)) issue(issues, "SUMMARY_RECOMPUTE_MISMATCH", state.summaryPath, "summary differs from all 12 terminal results");
+      } catch (error) { addThrownIssue(issues, "SUMMARY_RECOMPUTE_FAILED", state.summaryPath, error); }
+      if (state.summary.overallStatus !== "characterization-complete" || state.summary.statusCounts?.["characterized-oracle-non-pass"] !== 9
+        || state.summary.statusCounts?.["characterized-preflight-rejection"] !== 3 || state.summary.statusCounts?.inconclusive !== 0
+        || state.summary.statusCounts?.["protocol-failed"] !== 0 || state.summary.gateBDecisionAuthority !== false || state.summary.calibrationAuthorized !== false) {
+        issue(issues, "SUMMARY_OUTCOME_BOUNDARY_INVALID", state.summaryPath, "actual characterization must remain complete, non-Gate-B and non-calibration");
+      }
+    }
+    let operationDigest = { records: [], sha256: null };
+    try { operationDigest = await digestSlice06Tree(resultsRoot, [...state.operationFiles]); }
+    catch (error) { addThrownIssue(issues, "CHARACTERIZATION_TREE_READ_FAILED", operation, error); }
+    const totalBytes = operationDigest.records.reduce((sum, entry) => sum + entry.byteLength, 0);
+    const summaryBytes = bytesByPath.get(state.summaryPath);
+    if (state.close?.resultTree?.fileCount !== state.operationFiles.size || state.close?.resultTree?.totalBytes !== totalBytes
+      || state.close?.resultTree?.sha256 !== operationDigest.sha256 || state.close?.summaryRef?.path !== state.summaryPath
+      || state.close?.summaryRef?.contentHash !== state.summary?.contentHash || state.close?.summaryRef?.byteLength !== summaryBytes?.byteLength
+      || state.close?.summaryRef?.fileSha256 !== sha256Slice06Validation(summaryBytes ?? Buffer.alloc(0))) {
+      issue(issues, "CHARACTERIZATION_CLOSE_TREE_INVALID", state.closePath, "close must pin the exact operation result tree and summary");
+    }
+  }
+
+  const sortedExpected = [...expectedFiles].sort(compareText);
+  if (!deepEqual(tree.files, sortedExpected)) issue(issues, "RESULT_FILE_ALLOWLIST_MISMATCH", SLICE06_REGISTERED_RESULTS_PATH, "result tree contains missing or extra files");
+  const expectedDirectories = expectedDirectoriesForFiles(sortedExpected);
+  if (!deepEqual(tree.directories, expectedDirectories)) issue(issues, "RESULT_DIRECTORY_ALLOWLIST_MISMATCH", SLICE06_REGISTERED_RESULTS_PATH, "result tree contains missing, extra, empty or staging directories");
+  if (tree.files.some((entry) => /(?:^|\/)(?:artifacts|calibration|formal|holdout|defect-holdout|escape)(?:\/|$)/u.test(entry))) {
+    issue(issues, "RESULT_FORBIDDEN_PATH", SLICE06_REGISTERED_RESULTS_PATH, "diagnostic results cannot contain product, calibration or formal evidence paths");
+  }
+  const digest = await digestSlice06Tree(resultsRoot, tree.files);
+  const totalBytes = digest.records.reduce((sum, entry) => sum + entry.byteLength, 0);
+  return {
+    present: true, valid: issues.length === 0, issues, root: resultsRoot,
+    fileCount: tree.files.length, directoryCount: tree.directories.length, totalBytes, treeSha256: digest.sha256,
+    counts: { requests: requestByKey.size, claims: tree.files.filter((entry) => entry.startsWith("claims/")).length, results: terminalByKey.size, ledgers: 2, summaries: 2, closes: 2, retainedOutputs: tree.files.filter((entry) => entry.endsWith("candidate-output.bin")).length },
+    operations: Object.fromEntries(["normalize", "export"].map((operation) => [operation, { summary: operations[operation].summary, close: operations[operation].close }])),
+  };
+}
+
 async function readDefinitionSnapshot({ sliceRoot, projectRoot, pins, requirePins }) {
   const issues = [];
   const resolvedSliceRoot = path.resolve(sliceRoot);
   const resolvedProjectRoot = path.resolve(projectRoot);
-  const tree = await listSlice06Tree(resolvedSliceRoot);
-  issues.push(...tree.issues);
-  for (const relativePath of [...tree.files, ...tree.directories]) {
+  const fullFilesystemTree = await listSlice06Tree(resolvedSliceRoot);
+  issues.push(...fullFilesystemTree.issues);
+  const isRegisteredResultPath = (relativePath) => relativePath === "results"
+    || relativePath === SLICE06_REGISTERED_RESULTS_PATH || relativePath.startsWith(`${SLICE06_REGISTERED_RESULTS_PATH}/`);
+  const tree = {
+    ...fullFilesystemTree,
+    files: fullFilesystemTree.files.filter((relativePath) => !isRegisteredResultPath(relativePath)),
+    directories: fullFilesystemTree.directories.filter((relativePath) => !isRegisteredResultPath(relativePath)),
+  };
+  for (const relativePath of [...fullFilesystemTree.files, ...fullFilesystemTree.directories]) {
+    if (isRegisteredResultPath(relativePath)) continue;
     if (/(?:^|\/)(?:results|artifacts|calibration|holdout|formal-holdout|defect-holdout|escape|secret|formal)(?:\/|$)/iu.test(relativePath)) {
       issue(issues, "FORBIDDEN_DEFINITION_PATH", relativePath, "results, artifacts, calibration, formal, holdout, escape and secret material are absent at definition freeze");
     }
@@ -808,7 +1067,7 @@ async function readDefinitionSnapshot({ sliceRoot, projectRoot, pins, requirePin
   const fullTree = await digestSlice06Tree(resolvedSliceRoot, expectedFiles.filter((relativePath) => tree.files.includes(relativePath)));
   checkLiteral(issues, "FULL_TREE_PIN_MISMATCH", "pins.fullTreeSha256", fullTree.sha256, pins.fullTreeSha256, requirePins);
   return {
-    issues, sliceRoot: resolvedSliceRoot, projectRoot: resolvedProjectRoot, tree, index, indexFile, descriptorByPath,
+    issues, sliceRoot: resolvedSliceRoot, projectRoot: resolvedProjectRoot, tree, fullFilesystemTree, index, indexFile, descriptorByPath,
     jsonByPath, bytesByPath, schemasByPath, readmeFile, descendantTreeSha256, schemaTreeSha256, fullTreeSha256: fullTree.sha256,
   };
 }
@@ -1405,7 +1664,16 @@ async function verifyTwoTempRegeneration(snapshot, inventory) {
     await generateSlice06({ sliceRoot: first, projectRoot: snapshot.projectRoot, frozenAt: snapshot.index.frozenAt, runtimeInventory: inventory });
     await generateSlice06({ sliceRoot: second, projectRoot: snapshot.projectRoot, frozenAt: snapshot.index.frozenAt, runtimeInventory: inventory });
     for (const entry of await compareSlice06TreesByteForByte(first, second)) issues.push({ ...entry, code: `TWIN_${entry.code}` });
-    for (const entry of await compareSlice06TreesByteForByte(first, snapshot.sliceRoot)) issues.push({ ...entry, code: `CANONICAL_${entry.code}` });
+    const generatedTree = await listSlice06Tree(first);
+    if (!deepEqual(generatedTree.files, snapshot.tree.files) || !deepEqual(generatedTree.directories, snapshot.tree.directories)) {
+      issue(issues, "CANONICAL_REGEN_FILE_SET_MISMATCH", ".", "regenerated definition-only tree differs from the frozen definition subset");
+    }
+    for (const relativePath of generatedTree.files.filter((entry) => snapshot.tree.files.includes(entry))) {
+      const [generatedBytes, canonicalBytes] = await Promise.all([
+        readFile(path.join(first, ...relativePath.split("/"))), readFile(path.join(snapshot.sliceRoot, ...relativePath.split("/"))),
+      ]);
+      if (!generatedBytes.equals(canonicalBytes)) issue(issues, "CANONICAL_REGEN_BYTES_MISMATCH", relativePath, "regenerated definition bytes differ");
+    }
   } catch (error) {
     addThrownIssue(issues, "REGENERATION_FAILED", ".", error);
   } finally {
@@ -1465,6 +1733,8 @@ export async function validateSlice06Definition({
   if (regenerate && inventory) snapshot.issues.push(...await verifyTwoTempRegeneration(snapshot, inventory));
 
   const definitionRef = recordRefFor(snapshot, SLICE06_DEFINITION_INDEX_PATH);
+  const diagnosticResults = await validateSlice06ClosedDiagnosticResults({ sliceRoot: snapshot.sliceRoot, definitionRef });
+  snapshot.issues.push(...diagnosticResults.issues);
   const pinCodes = new Set(["DEFINITION_PIN_MISSING", "DEFINITION_FREEZE_MISMATCH", "DEFINITION_INDEX_CONTENT_PIN_MISMATCH", "DEFINITION_INDEX_FILE_PIN_MISMATCH", "DESCENDANT_TREE_PIN_MISMATCH", "SCHEMA_TREE_PIN_MISMATCH", "README_PIN_MISMATCH", "FULL_TREE_PIN_MISMATCH", "GENERATOR_PIN_MISMATCH"]);
   const runtimeCodes = new Set(["RUNTIME_RECHECK_FAILED", "RUNTIME_FRESH_INVENTORY_DRIFT", "RUNTIME_CANDIDATE_LINEAGE_INVALID", "HARDWARE_FRESH_OBSERVATION_INVALID"]);
   const regenFailed = snapshot.issues.some(({ code }) => code === "REGENERATION_FAILED" || code.startsWith("TWIN_") || code.startsWith("CANONICAL_"));
@@ -1488,6 +1758,7 @@ export async function validateSlice06Definition({
       definitionIndexFileSha256: snapshot.indexFile.fileSha256,
     },
     references: { internalRecords: references.recordsById.size, externalRecords: references.externalByPath.size },
+    diagnosticResults,
   };
 }
 export async function assertSlice06Definition(options = {}) {
