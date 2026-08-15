@@ -16,14 +16,17 @@ The implementation consists of a strict diagnostic adapter, an isolated worker,
 an independent Node-builtins PNG diagnostic oracle and a durable local runner.
 Three oracle-owned schemas are stored in this directory; the runner exports ten
 additional strict schema documents for Phase C to materialize dynamically.
-There are three fake-only test files. The oracle, runner and runtime suites pass
-`13 / 13 + 14 / 14 + 15 / 15 = 42 / 42`; all four scripts pass `node --check`.
-The full project `npm.cmd run verify` passes `270 / 270` tests.
+There are three fake-only test files. After the pre-definition lifecycle and
+reconciliation hardening patch, the oracle, runner and runtime suites pass
+`13 / 13 + 18 / 18 + 15 / 15 = 46 / 46`; all four scripts pass `node --check`.
+The earlier Phase B baseline passed the full project `npm.cmd run verify` at
+`270 / 270`; a fresh full-project count will be recorded after the Phase C
+results-zero definition is frozen.
 An independent read-only audit found `P1 / P2 / P3 = 0 / 0 / 0` and all 13
 schema definitions recursively closed with exact Slice 06 `$id` values.
 
 The deterministic set digest is
-`d7e83c8c5a70ce6929ab5d53be473f413f37abe4459a1bd810164e495d2ab76c`,
+`b6371a5c09a9c834dc24f508df672b5c26adfd65684cadc6401108b12c4f0da4`,
 computed from binary-sorted `path<TAB>sha256<LF>` records for these ten files:
 
 | File | SHA-256 |
@@ -33,10 +36,10 @@ computed from binary-sorted `path<TAB>sha256<LF>` records for these ten files:
 | [oracle-diagnostic schema](schemas/oracle-diagnostic.slice06.v0.schema.json) | `25e8caa36b17487cef802dc0b254c20e5037c8137590f25b948e89bc311aecd7` |
 | [diagnostic adapter](../../scripts/research-diagnostic-adapter-slice06.mjs) | `b442df039238fa919052b02fca88e7fa5010a632e66360849df98f3c2221534f` |
 | [diagnostic PNG oracle](../../scripts/research-diagnostic-png-oracle-slice06.mjs) | `7780f218b4630f1b56e2f63b46986fb12dae553ca5cc6b1a74f00665c2dca591` |
-| [diagnostic runner](../../scripts/research-run-slice06.mjs) | `d63128722d2cd236a70203e093ad53d7ac4cc46c3968162896a081eb39f347bf` |
+| [diagnostic runner](../../scripts/research-run-slice06.mjs) | `92126b90afa4a9b68e5fe4ee1db7c11dc2eab8f9246dc1421bd06eb1db26e665` |
 | [isolated Sharp worker](../../scripts/research-sharp-worker-slice06.mjs) | `0a7ef0bee97b67a4c67d02fa59c17b6cedff04c31e23bf14b252bfaeca1de38c` |
 | [oracle fake-only tests](../../tests/research-slice06-oracle.test.mjs) | `a406beec762adf8def17400495350d725020f010e9dac8f4b1ef4f911649c73f` |
-| [runner fake-only tests](../../tests/research-slice06-runner.test.mjs) | `4d5be6f5eff6aa06d636d545ddb0b9ce70c1d6625d6052c74a3c86fbe53c9286` |
+| [runner fake-only tests](../../tests/research-slice06-runner.test.mjs) | `d3975370af48382901a99598e7bba54507a4b042c92ebf43173a4a0f063ff03e` |
 | [runtime fake-only tests](../../tests/research-slice06-runtime.test.mjs) | `77ad006163f9e1f72d0c3d4f6cc5b013ad907a08d7bd8eafa5e561a5daaee100` |
 
 These checks construct only in-memory synthetic PNG bytes and system-temporary

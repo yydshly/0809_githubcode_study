@@ -137,7 +137,7 @@ Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / 
 
 ## Slice 06 诊断协议已就绪，machine definition 待冻结
 
-[Slice 06 范围合同](research/SLICE_06_CONTRACT.md) 冻结的是一个两阶段桥接边界，不是新的 Gate-B smoke。Phase B 已实现 4 个隔离研究脚本、3 份落盘 oracle record schema、runner 动态导出的 10 份 strict schema document 与 3 组 fake-only tests；oracle / runner / runtime 合计 `42 / 42`，4 个脚本语法检查通过，独立审计 `P1 / P2 / P3 = 0 / 0 / 0`。这批实现没有运行真实 Sharp 图片管线，10-file deterministic set SHA-256 为 `d7e83c8c5a70ce6929ab5d53be473f413f37abe4459a1bd810164e495d2ab76c`。
+[Slice 06 范围合同](research/SLICE_06_CONTRACT.md) 冻结的是一个两阶段桥接边界，不是新的 Gate-B smoke。Phase B 已实现 4 个隔离研究脚本、3 份落盘 oracle record schema、runner 动态导出的 10 份 strict schema document 与 3 组 fake-only tests；pre-definition lifecycle patch 后 oracle / runner / runtime 合计 `46 / 46`，4 个脚本语法检查通过，独立审计 `P1 / P2 / P3 = 0 / 0 / 0`。这批实现没有运行真实 Sharp 图片管线，10-file deterministic set SHA-256 为 `b6371a5c09a9c834dc24f508df672b5c26adfd65684cadc6401108b12c4f0da4`。
 
 新的 `REG-NORM-SHARP@0.6.0`、normalize / export 两份 `CapabilityContract@0.6.0`、两份 operation-specific diagnostic preregistration、fresh runtime / hardware、8 个项目原创公开 synthetic regression wrapper、manifests 与 definition index 仍未创建。Phase C 必须先为这些 machine identities 建立并冻结 results-zero definition，完成验证、提交和推送；之后才允许对 8 个 lineage source 各运行 3 次，共 24 次唯一注册 characterization。完整实现边界与逐文件 hash 见 [Slice 06 workspace](research/slice-06/README.md)。
 

@@ -302,7 +302,7 @@ release_status=planned
 | 硬件、成本、时延 | named CPU / Windows x64 environment 已冻结并运行过唯一注册 smoke，但所有 applicable 输出均被 oracle 拒绝、artifact 为 0，未形成有效性能样本；calibration 未运行，p50/p95、峰值 RAM、每百万像素耗时与 O1 仍为 `pending-benchmark` |
 | 取得 / 保留 | Slice 04 的六个 tarball hash-only 临时取得边界保持不变。Slice 05 后续只在 `package.json` 声明 exact devDependencies `sharp@0.35.3`、`@img/sharp-win32-x64@0.35.3` 并提交 lockfile v3；本地 installed allowlist 精确为 `sharp`、`@img/sharp-win32-x64`、`@img/colour`、`detect-libc`、`semver`，tree SHA-256 `a419af3606ca38f1878acb65d1ea273f0c129b0c156686b1e912bab1b167070e`。`node_modules/` 不提交；definition tree 只保留 inventory / native hashes，不复制第三方源码或二进制 |
 | 比较臂规则 | Sharp 与其 Windows x64 bundled libvips 是一个复合候选，不得算作两个独立比较臂；standalone libvips 由下一条独立登记且仍 pending-freeze |
-| 证据与状态 | `C1=0`。Slice 05 `@0.5.0` 为 `closed-non-pass`：唯一注册调用含 normalize / export 两个 operation run，共 36 attempts / 0 artifacts；两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。Slice 06 仅授权计划 24 次 diagnostic characterization；当前 Phase B fake-only `42 / 42`、definition / results `not-created`。即使未来 characterization complete 也不产生 Gate B。formal holdout / trust / roles / EvidenceManifest 未建，任何格式仍为 `productSupport=false` |
+| 证据与状态 | `C1=0`。Slice 05 `@0.5.0` 为 `closed-non-pass`：唯一注册调用含 normalize / export 两个 operation run，共 36 attempts / 0 artifacts；两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。Slice 06 仅授权计划 24 次 diagnostic characterization；pre-definition lifecycle patch 后 Phase B fake-only `46 / 46`、definition / results `not-created`。即使未来 characterization complete 也不产生 Gate B。formal holdout / trust / roles / EvidenceManifest 未建，任何格式仍为 `productSupport=false` |
 
 ### `REG-NORM-LIBVIPS` — libvips
 

@@ -17,6 +17,10 @@ const TERMINAL_STATUSES = Object.freeze([
   "protocol-failed",
   "inconclusive",
 ]);
+const RECONCILIATION_UNKNOWN_CODES = new Set([
+  "S06_PUBLICATION_RECONCILIATION_UNKNOWN",
+  "S06_WORKER_RECONCILIATION_UNKNOWN",
+]);
 const OUTPUT_FILENAMES = Object.freeze({
   bytes: "candidate-output.bin",
   observation: "candidate-output-observation.json",
@@ -485,9 +489,14 @@ export function validateSlice06RunResult(record) {
     exactKeys(record.workerFailureEnvelopeRef, ["id", "contentHash", "relativePath"], code, "workerFailureEnvelopeRef");
     assertId(record.workerFailureEnvelopeRef.id, code, "workerFailureEnvelopeRef.id"); assertSha(record.workerFailureEnvelopeRef.contentHash, code, "workerFailureEnvelopeRef.contentHash");
     assertSafeRelativePath(record.workerFailureEnvelopeRef.relativePath, code, "workerFailureEnvelopeRef.relativePath");
-    if (!record.workerInvoked || record.status !== "protocol-failed" || record.diagnosticEnvelopeRef !== null) fail(code, "worker failure envelope status invalid");
+    const expectedStatus = RECONCILIATION_UNKNOWN_CODES.has(record.reasonCode) ? "inconclusive" : "protocol-failed";
+    if (!record.workerInvoked || record.status !== expectedStatus || record.diagnosticEnvelopeRef !== null) fail(code, "worker failure envelope status invalid");
   }
   if (record.status === "protocol-failed" && record.workerInvoked && record.workerFailureEnvelopeRef === null) fail(code, "spawned worker failure must retain its observation envelope");
+  if (record.status === "inconclusive" && record.workerInvoked
+    && (record.workerFailureEnvelopeRef === null || !RECONCILIATION_UNKNOWN_CODES.has(record.reasonCode))) {
+    fail(code, "spawned inconclusive result must be an exact reconciliation-unknown worker failure");
+  }
   if (record.workerFailureEnvelopeRef !== null && record.publication !== null) fail(code, "worker failure cannot masquerade as an output closure");
   if (record.status === "characterized-preflight-rejection" && (record.workerInvoked || record.reasonCode !== record.expectedStableErrorCode)) {
     fail(code, "preflight rejection must be exact and worker-free");
@@ -734,6 +743,8 @@ function validateExecutionBindings(request, execution, terminalDraft) {
     .filter((findingCode) => findingCode !== oracle.verification.primaryCode).filter((findingCode, index, values) => values.indexOf(findingCode) === index).sort(), code, "envelope secondaryCodes");
   assertSame(envelope.rights, output.rights, code, "envelope.rights");
   assertSame(envelope.retention, output.retention, code, "envelope.retention");
+  assertSame(envelope.publication, { state: "not-published", transactionId: null, publishedAt: null, fileRoles: [] }, code, "envelope precommit publication");
+  assertSame(envelope.cleanup, { state: "unknown", stagingRemoved: null, confirmedAt: null }, code, "envelope precommit cleanup");
   validateSlice06WorkerObservation(execution.workerObservation);
   assertSame(envelope.worker, execution.workerObservation, code, "envelope.worker");
   assertNotBefore(terminalDraft.startedAt, request.createdAt, code, "request/result start");
@@ -841,7 +852,8 @@ async function publishWorkerFailureClosure({ resultsRoot, request, reasonCode, w
   validateSlice06WorkerFailureEnvelope(envelope);
   assertNotBefore(workerObservation.parentWall.startedAt, request.createdAt, "S06_WORKER_FAILURE_ENVELOPE_INVALID", "request/worker start");
   const terminal = withHash({
-    ...terminalDraft, status: "protocol-failed", reasonCode, workerInvoked: true,
+    ...terminalDraft, status: RECONCILIATION_UNKNOWN_CODES.has(reasonCode) ? "inconclusive" : "protocol-failed",
+    reasonCode, workerInvoked: true,
     diagnosticEnvelopeRef: null,
     workerFailureEnvelopeRef: { id: envelope.workerFailureEnvelopeId, contentHash: envelope.contentHash, relativePath: paths.envelope },
     diagnosticFacts: null, publication: null,
@@ -1283,7 +1295,9 @@ export function validateSlice06DiagnosticSummary(record) {
       } else {
         if (decision !== null || caseResult.oraclePrimaryCodes[index] === null || caseResult.outputByteLengths[index] !== null || caseResult.outputFileSha256s[index] !== null
           || caseResult.decodedPixelSha256s[index] !== null || caseResult.workerRuntimePayloadSha256s[index] !== null) fail(code, "worker-free terminal tuple mismatch");
-        expectedPaths = [standalonePath];
+        expectedPaths = RECONCILIATION_UNKNOWN_CODES.has(caseResult.oraclePrimaryCodes[index])
+          ? [standalonePath, `failures/${record.operation}/${caseResult.sourceId}/r${repetition}/terminal-result.json`]
+          : [standalonePath];
       }
       if (!expectedPaths.includes(ref.relativePath)) fail(code, "result ref path does not bind operation/source/repetition/status");
     }

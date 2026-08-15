@@ -205,7 +205,8 @@ decision, ledger, and error-code pins.
 not a new Gate-B smoke. Phase B implements a strict adapter, isolated worker,
 independent PNG diagnostic oracle and durable local runner. Three oracle-owned
 record schemas are stored on disk and the runner exports ten additional strict
-schema documents. The oracle / runner / runtime fake-only suites pass `42 / 42`;
+schema documents. After the pre-definition lifecycle patch, the oracle / runner /
+runtime fake-only suites pass `46 / 46`;
 all four scripts pass syntax checks, and the independently audited ten-file set
 has SHA-256 `d7e83c8c5a70ce6929ab5d53be473f413f37abe4459a1bd810164e495d2ab76c`.
 No test invoked the real Sharp image path.

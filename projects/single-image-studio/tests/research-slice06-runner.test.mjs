@@ -16,6 +16,7 @@ import {
   requestIdSlice06,
   validateSlice06DiagnosticSummary,
   validateSlice06RunRequest,
+  validateSlice06RunResult,
 } from "../scripts/research-run-slice06.mjs";
 
 const HASH_A = "a".repeat(64);
@@ -128,7 +129,10 @@ function fakeExecution(request, startedAt, { tamperAttempt = false, varyBytes = 
     outcomeClass: strictDecision === "pass" ? "oracle-pass" : "oracle-nonpass", primaryCode, secondaryCodes: [],
     candidateOutputObservationRef: { id: outputObservation.candidateOutputObservationId, contentHash: outputObservation.contentHash },
     oracleDiagnosticRef: { id: oracleDiagnostic.oracleDiagnosticId, contentHash: oracleDiagnostic.contentHash },
-    worker: observation, rights, retention, createdAt: startedAt, contentHash: HASH_A,
+    worker: observation, rights, retention,
+    publication: { state: "not-published", transactionId: null, publishedAt: null, fileRoles: [] },
+    cleanup: { state: "unknown", stagingRemoved: null, confirmedAt: null },
+    createdAt: startedAt, contentHash: HASH_A,
   };
   return {
     status: strictDecision === "pass" ? "oracle-pass-diagnostic" : "oracle-non-pass-diagnostic",
@@ -279,6 +283,36 @@ test("Slice 06 runner preserves spawned failure observation, stops without retry
   assert.deepEqual((await readdir(failureRoot)).sort(), ["terminal-result.json", "worker-failure-envelope.json", "worker-observation.json"]);
   assert.equal(await exists(path.join(resultsRoot, "specimens")), false);
   assert.equal(await exists(path.join(resultsRoot, "quarantine")), false);
+  const laundered = structuredClone(run.terminalResults[0]);
+  laundered.status = "inconclusive";
+  laundered.contentHash = contentHashSlice06(laundered);
+  assert.throws(() => validateSlice06RunResult(laundered), { code: "S06_RUN_RESULT_INVALID" });
+});
+
+test("Slice 06 runner classifies only exact reconciliation-unknown worker failures as inconclusive", async (t) => {
+  for (const reasonCode of ["S06_PUBLICATION_RECONCILIATION_UNKNOWN", "S06_WORKER_RECONCILIATION_UNKNOWN"]) {
+    await t.test(reasonCode, async () => {
+      const resultsRoot = await mkdtemp(path.join(tmpdir(), "sis-s06-worker-reconcile-"));
+      let calls = 0;
+      const runner = createSlice06DiagnosticRunner({ resultsRoot, validators, clock: clock() });
+      const run = await runner.runOperation({
+        operation: "normalize", requests: requestsFor(),
+        execute: async ({ startedAt }) => {
+          calls += 1;
+          throw Object.assign(new Error("reconciliation unknown"), { reasonCode, code: reasonCode, workerObservation: workerObservation(startedAt) });
+        },
+      });
+      assert.equal(calls, 1);
+      assert.equal(run.terminalResults[0].status, "inconclusive");
+      assert.equal(run.terminalResults[0].reasonCode, reasonCode);
+      assert.notEqual(run.terminalResults[0].workerFailureEnvelopeRef, null);
+      assert.equal(run.terminalResults.slice(1).every(({ status, workerInvoked }) => status === "inconclusive" && workerInvoked === false), true);
+      assert.equal(run.summary.overallStatus, "inconclusive");
+      assert.equal(run.summary.statusCounts.inconclusive, 12);
+      assert.equal(validateSlice06RunResult(run.terminalResults[0]), true);
+      assert.equal(await exists(path.join(resultsRoot, "failures", "normalize", "applicable-alpha", "r1", "terminal-result.json")), true);
+    });
+  }
 });
 
 test("Slice 06 runner rejects replay-mixed records and retains the invoked worker observation", async () => {
@@ -292,6 +326,29 @@ test("Slice 06 runner rejects replay-mixed records and retains the invoked worke
   assert.equal(run.terminalResults[0].reasonCode, "S06_DIAGNOSTIC_CLOSURE_BINDING_MISMATCH");
   assert.notEqual(run.terminalResults[0].workerFailureEnvelopeRef, null);
   assert.equal(await exists(path.join(resultsRoot, "specimens")), false);
+});
+
+test("Slice 06 runner rejects a rehashed executor envelope that claims publication before atomic commit", async () => {
+  const resultsRoot = await mkdtemp(path.join(tmpdir(), "sis-s06-precommit-launder-"));
+  const runner = createSlice06DiagnosticRunner({ resultsRoot, validators, clock: clock() });
+  const run = await runner.runOperation({
+    operation: "normalize", requests: requestsFor(),
+    execute: async ({ request, startedAt }) => {
+      const execution = fakeExecution(request, startedAt);
+      execution.diagnosticEnvelope.publication = {
+        state: "committed", transactionId: "forged-before-runner-commit", publishedAt: startedAt,
+        fileRoles: ["candidate-output-bytes", "candidate-output-observation", "oracle-diagnostic", "diagnostic-envelope", "result"],
+      };
+      execution.diagnosticEnvelope.cleanup = { state: "confirmed", stagingRemoved: true, confirmedAt: startedAt };
+      execution.diagnosticEnvelope.contentHash = contentHashSlice06(execution.diagnosticEnvelope);
+      return execution;
+    },
+  });
+  assert.equal(run.terminalResults[0].status, "protocol-failed");
+  assert.equal(run.terminalResults[0].reasonCode, "S06_DIAGNOSTIC_CLOSURE_BINDING_MISMATCH");
+  assert.notEqual(run.terminalResults[0].workerFailureEnvelopeRef, null);
+  assert.equal(await exists(path.join(resultsRoot, "specimens")), false);
+  assert.equal(await exists(path.join(resultsRoot, "quarantine")), false);
 });
 
 test("Slice 06 runner fails hard after a committed closure if completion recording is interrupted", async () => {

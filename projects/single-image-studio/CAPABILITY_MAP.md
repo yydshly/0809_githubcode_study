@@ -122,7 +122,7 @@ Slice 04 又为 `CAP-02` 冻结 `CC-CAP02-NORMALIZE-PNG@0.4.0` 与 `CC-CAP02-EXP
 
 Slice 05 没有覆盖上述历史记录，而是新增 `REG-NORM-SHARP@0.5.0` installed runtime candidate 与 `CC-CAP02-NORMALIZE-PNG@0.5.0` / `CC-CAP02-EXPORT-PNG@0.5.0` 两份 adapter-bound research contract。`NormalizedImage.slice04.v0` 与 `DeliveryArtifact.slice04.v0` strict schema、independent oracle / gold、adapter / isolated worker、named hardware、local runner、Gate B plan 及开放 manifest / preregistration 已在 `2026-08-15T04:23:38.389Z` 的 machine definition 中精确 pin。随后唯一注册真实 smoke 中，normalize 为 `6 pass / 12 non-pass`、export 为 `9 pass / 9 non-pass`；18 次 applicable attempt 全部 `S05_OUTPUT_ORACLE_REJECTED`，artifact 为 0，两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。该版本已经关闭，不得 calibration 或选择性重跑，仍不能被产品页面、效果 DAG 或下载路径解析为能力。完整证据见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
 
-Slice 06 Phase B 又为计划中的 diagnostic-only `@0.6.0` 边界实现了 strict adapter、isolated worker、独立 PNG diagnostic oracle、durable runner 与 13 份 strict schema；fake-only `42 / 42` 只证明错误优先级、IPC / exit、诊断保留与持久化协议的一致性。`REG-NORM-SHARP@0.6.0`、两份 `CapabilityContract@0.6.0`、preregistration、fresh runtime / hardware、8 个 regression wrapper、definition index 和 results 尚未创建；因此这些代码同样不能被效果 DAG、页面或下载路径解析为可执行能力。
+Slice 06 Phase B 又为计划中的 diagnostic-only `@0.6.0` 边界实现了 strict adapter、isolated worker、独立 PNG diagnostic oracle、durable runner 与 13 份 strict schema；pre-definition lifecycle patch 后 fake-only `46 / 46` 只证明错误优先级、IPC / exit、诊断保留与持久化协议的一致性。`REG-NORM-SHARP@0.6.0`、两份 `CapabilityContract@0.6.0`、preregistration、fresh runtime / hardware、8 个 regression wrapper、definition index 和 results 尚未创建；因此这些代码同样不能被效果 DAG、页面或下载路径解析为可执行能力。
 
 ### `EffectDefinition`
 
