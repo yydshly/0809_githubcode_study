@@ -11,6 +11,7 @@ import {
   digestSlice10Files,
   sha256Slice10Definition,
 } from "./research-generate-slice10.mjs";
+import { validateSlice10PostRun } from "./research-validate-results-slice10.mjs";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const PROJECT_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
@@ -58,13 +59,14 @@ function inspectSchema(node, location, issues) {
 
 async function enumerateTree(root) {
   const files = new Map();
+  const directories = new Set();
   const walk = async (directory, prefix = "") => {
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
       const absolutePath = path.join(directory, entry.name);
       const stat = await lstat(absolutePath);
       if (stat.isSymbolicLink()) throw Object.assign(new Error(`link forbidden: ${relativePath}`), { code: "TREE_LINK_FORBIDDEN" });
-      if (entry.isDirectory()) await walk(absolutePath, relativePath);
+      if (entry.isDirectory()) { directories.add(relativePath); await walk(absolutePath, relativePath); }
       else if (entry.isFile()) files.set(relativePath, await readFile(absolutePath));
       else throw Object.assign(new Error(`special file forbidden: ${relativePath}`), { code: "TREE_SPECIAL_FILE_FORBIDDEN" });
     }
@@ -74,7 +76,22 @@ async function enumerateTree(root) {
     throw Object.assign(new Error("definition root cannot be a link or junction"), { code: "TREE_LINK_FORBIDDEN" });
   }
   await walk(resolved);
+  Object.defineProperty(files, "directories", { value: directories, enumerable: false });
   return files;
+}
+
+function directoriesForFiles(files) {
+  const result = new Set();
+  for (const relativePath of files.keys()) {
+    const parts = relativePath.split("/");
+    for (let index = 1; index < parts.length; index += 1) result.add(parts.slice(0, index).join("/"));
+  }
+  return result;
+}
+
+function compareDirectories(actual, expected, issues) {
+  for (const relativePath of actual) if (!expected.has(relativePath)) issues.push(issue("TREE_EXTRA_DIRECTORY", "unregistered directory", relativePath));
+  for (const relativePath of expected) if (!actual.has(relativePath)) issues.push(issue("TREE_DIRECTORY_MISSING", "registered directory missing", relativePath));
 }
 
 function compareFileMaps(actual, expected, issues) {
@@ -114,11 +131,30 @@ export async function validateSlice10Definition({
   try { actual = await enumerateTree(definitionRoot); } catch (error) {
     return Object.freeze({ valid: false, issues: [issue(error?.code ?? "TREE_READ_FAILED", error.message)], definitionRef: null, postRun: null });
   }
-  if ([...actual.keys()].some((entry) => entry === "results" || entry.startsWith("results/"))) {
-    issues.push(issue("RESULTS_PRESENT_AT_DEFINITION", "results are forbidden in a results-zero definition"));
+  const resultPrefix = "results/open-calibration/";
+  const resultFiles = new Map();
+  const definitionFiles = new Map();
+  const resultDirectories = new Set();
+  const definitionDirectories = new Set();
+  for (const [relativePath, bytes] of actual) {
+    if (relativePath.startsWith(resultPrefix)) resultFiles.set(relativePath.slice(resultPrefix.length), bytes);
+    else if (relativePath === "results" || relativePath.startsWith("results/")) {
+      issues.push(issue("RESULTS_PATH_UNREGISTERED", "only results/open-calibration is registered", relativePath));
+    } else definitionFiles.set(relativePath, bytes);
   }
-  const indexBytes = actual.get(SLICE10_PREVIEW_PATHS.definition);
-  const readmeBytes = actual.get("README.md");
+  for (const relativePath of actual.directories ?? []) {
+    if (relativePath === "results" || relativePath === "results/open-calibration") continue;
+    if (relativePath.startsWith(resultPrefix)) resultDirectories.add(relativePath.slice(resultPrefix.length));
+    else if (relativePath.startsWith("results/")) issues.push(issue("RESULTS_PATH_UNREGISTERED", "only results/open-calibration is registered", relativePath));
+    else definitionDirectories.add(relativePath);
+  }
+  const hasResultsDirectory = (actual.directories ?? new Set()).has("results")
+    || (actual.directories ?? new Set()).has("results/open-calibration");
+  if (hasResultsDirectory && resultFiles.size === 0) {
+    issues.push(issue("RESULTS_EMPTY_ROOT_FORBIDDEN", "a registered result root cannot be empty or partial-without-files", "results/open-calibration"));
+  }
+  const indexBytes = definitionFiles.get(SLICE10_PREVIEW_PATHS.definition);
+  const readmeBytes = definitionFiles.get("README.md");
   if (!indexBytes || !readmeBytes) {
     issues.push(issue("DEFINITION_ROOT_INCOMPLETE", "definition index and README are required"));
     return Object.freeze({ valid: false, issues, definitionRef: null, postRun: null });
@@ -141,7 +177,8 @@ export async function validateSlice10Definition({
       expectedBuild = await buildSlice10DefinitionPreview({ frozenAt: index.frozenAt, readmeBytes });
       const expected = new Map(expectedBuild.fileMap);
       expected.set("README.md", Buffer.from(readmeBytes));
-      compareFileMaps(actual, expected, issues);
+      compareFileMaps(definitionFiles, expected, issues);
+      compareDirectories(definitionDirectories, directoriesForFiles(expected), issues);
     } catch (error) {
       issues.push(issue("REGENERATION_FAILED", error.message));
     }
@@ -152,10 +189,14 @@ export async function validateSlice10Definition({
     || index.counts?.copiedImageBytes !== 0 || index.schemaPaths?.length !== 22 || !index.runnerRef) {
     issues.push(issue("DEFINITION_SEMANTICS_INVALID", "preview denominator or zero-result boundary is invalid"));
   }
-  if (canonicalBytesSlice10(index).length !== indexBytes.length || index.contentHash !== expectedBuild?.index?.contentHash) {
+  const indexDraft = structuredClone(index);
+  delete indexDraft.contentHash;
+  const directIndexContentHash = sha256Slice10Definition(canonicalBytesSlice10(indexDraft));
+  if (!indexBytes.equals(canonicalBytesSlice10(index)) || index.contentHash !== directIndexContentHash
+    || (expectedBuild !== null && index.contentHash !== expectedBuild.index.contentHash)) {
     issues.push(issue("DEFINITION_INDEX_HASH_INVALID", "definition index hash differs from regeneration"));
   }
-  const schemaFiles = new Map([...actual].filter(([entry]) => entry.startsWith("schemas/")));
+  const schemaFiles = new Map([...definitionFiles].filter(([entry]) => entry.startsWith("schemas/")));
   const observedPins = {
     frozenAt: index.frozenAt,
     generatorSha256: index.generatorSha256,
@@ -163,20 +204,36 @@ export async function validateSlice10Definition({
     indexFileSha256: sha256(indexBytes),
     descendantTreeSha256: index.descendantTreeSha256,
     schemaTreeSha256: digestSlice10Files(schemaFiles),
-    fullTreeSha256: digestSlice10Files(actual),
+    fullTreeSha256: digestSlice10Files(definitionFiles),
   };
   const pinsVerified = Object.entries(FINAL_PINS).every(([key, value]) => observedPins[key] === value);
   if (requirePins && !pinsVerified) issues.push(issue("FINAL_PINS_MISMATCH", "formal definition literal pins do not match"));
+  const definitionIssueCount = issues.length;
+  let postRun = null;
+  if (resultFiles.size > 0 && expectedBuild) {
+    let candidate = null;
+    try { candidate = JSON.parse(definitionFiles.get(index.candidateRef.path)); } catch {
+      issues.push(issue("POSTRUN_CANDIDATE_INVALID", "frozen candidate cannot be reopened"));
+    }
+    if (candidate) {
+      try {
+        postRun = await validateSlice10PostRun({ resultFiles, resultDirectories, definitionFiles, index, projectRoot: PROJECT_ROOT, candidate });
+        issues.push(...postRun.issues);
+      } catch (error) {
+        issues.push(issue(error?.code ?? "POSTRUN_VALIDATION_FAILED", error.message));
+      }
+    }
+  }
   const definitionRef = issues.length === 0 ? recordRef(indexBytes, index) : null;
   return Object.freeze({
     valid: issues.length === 0,
     issues: Object.freeze(issues),
     definitionRef,
-    postRun: null,
-    counts: Object.freeze({ files: actual.size, schemas: index.schemaPaths?.length ?? 0, sources: index.counts?.sources ?? 0, results: 0 }),
+    postRun,
+    counts: Object.freeze({ files: actual.size, schemas: index.schemaPaths?.length ?? 0, sources: index.counts?.sources ?? 0, results: resultFiles.size }),
     descendantTreeSha256: expectedBuild ? digestSlice10Files(new Map([...expectedBuild.fileMap].filter(([entry]) => entry !== SLICE10_PREVIEW_PATHS.definition))) : null,
     runtimeRechecked: Boolean(recheckRuntime && expectedBuild),
-    regenerationVerified: Boolean(regenerate && expectedBuild && issues.length === 0),
+    regenerationVerified: Boolean(regenerate && expectedBuild && definitionIssueCount === 0),
     pinsVerified,
     frozenAt: index.frozenAt,
     indexContentHash: index.contentHash,

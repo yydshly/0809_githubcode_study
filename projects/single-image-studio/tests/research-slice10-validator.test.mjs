@@ -6,6 +6,13 @@ import test from "node:test";
 
 import { SLICE10_PREVIEW_PATHS, buildSlice10DefinitionPreview } from "../scripts/research-generate-slice10.mjs";
 import { validateSlice10Definition } from "../scripts/research-validate-slice10.mjs";
+import {
+  createSlice10CalibrationAttemptExecutor,
+  loadSlice10OperationDefinitionCases,
+  verifySlice10FinalOutput,
+} from "../scripts/research-calibration-case-slice10.mjs";
+import { runSlice10CalibrationOperation } from "../scripts/research-calibration-runner-slice10.mjs";
+import { createSlice10RuntimeEndObserver } from "../scripts/research-runtime-observer-slice10.mjs";
 
 const TEST_UTC = "2026-08-16T05:00:00.000Z";
 
@@ -45,15 +52,26 @@ test("central validator rejects one changed machine byte and synchronized index 
   assert.ok(report.issues.some((entry) => entry.code === "TREE_BYTES_MISMATCH"));
 });
 
-test("central validator rejects extra files and every results subtree", async () => {
+test("central validator rejects extra files and an unregistered result shape", async () => {
   const { root } = await materializedPreview();
   await writeFile(path.join(root, "extra.txt"), "extra");
   await mkdir(path.join(root, "results", "open-calibration"), { recursive: true });
   await writeFile(path.join(root, "results", "open-calibration", "fake.json"), "{}\n");
   const report = await validateSlice10Definition({ definitionRoot: root });
   assert.equal(report.valid, false);
-  assert.ok(report.issues.some((entry) => entry.code === "RESULTS_PRESENT_AT_DEFINITION"));
+  assert.ok(report.issues.some((entry) => entry.code === "RESULT_OPERATION_EXTRA"));
+  assert.ok(report.issues.some((entry) => entry.code === "RESULT_NORMALIZE_MISSING"));
   assert.ok(report.issues.some((entry) => entry.code === "TREE_EXTRA_FILE"));
+});
+
+test("central validator rejects empty result and unregistered definition directories", async () => {
+  const { root } = await materializedPreview();
+  await mkdir(path.join(root, "results", "open-calibration"), { recursive: true });
+  await mkdir(path.join(root, "rogue-empty-directory"));
+  const report = await validateSlice10Definition({ definitionRoot: root });
+  assert.equal(report.valid, false);
+  assert.ok(report.issues.some((entry) => entry.code === "RESULTS_EMPTY_ROOT_FORBIDDEN"));
+  assert.ok(report.issues.some((entry) => entry.code === "TREE_EXTRA_DIRECTORY"));
 });
 
 test("central validator pins the reviewed README outside the generated self-hash graph", async () => {
@@ -85,4 +103,79 @@ test("canonical Slice 10 results-zero definition passes literal pins and fresh r
   assert.equal(report.counts.files, 183);
   assert.equal(report.counts.results, 0);
   assert.equal(report.definitionRef.id, "DEFINITION-INDEX-SLICE10@0.10.0");
+});
+
+test("post-run validator preserves one closed global-stop prefix without inventing export or a summary", async () => {
+  const { root, built } = await materializedPreview();
+  const { index } = built;
+  const candidate = JSON.parse(built.fileMap.get(index.candidateRef.path));
+  const worker = candidate.implementationRefs.find(({ id }) => id === "WORKER-SHARP-RAW@0.10.0");
+  const workerRef = { id: worker.id, version: "0.10.0", path: worker.path, implementationSha256: worker.sha256 };
+  const loaded = await loadSlice10OperationDefinitionCases({ projectRoot: path.resolve("."), index, fileMap: built.fileMap, operation: "normalize" });
+  const contractRef = index.contractRefs.find(({ id }) => id === "CC-CAP02-NORMALIZE-PNG@0.10.0");
+  const preregistrationRef = index.preregistrationRefs.find(({ id }) => id === "PREREG-OPEN-CALIBRATION-NORMALIZE-PNG@0.10.0");
+  let tick = 0;
+  const now = () => new Date(Date.UTC(2026, 7, 16, 5, 0, 0, tick++)).toISOString();
+  await runSlice10CalibrationOperation({
+    resultsRoot: path.join(root, "results", "open-calibration", "normalize"), operation: "normalize", cases: loaded.cases,
+    refs: { admissionRef: index.admissionLineageRef, candidateRef: index.candidateRef, contractRef, preregistrationRef, runtimeRef: index.runtimeRef, workerRef },
+    executeAttempt: async () => { throw Object.assign(new Error("frozen runtime drift"), { code: "S10_RUNTIME_DRIFT" }); },
+    verifyRuntimeEnd: async () => { throw new Error("must not be called"); },
+    now,
+  });
+  const report = await validateSlice10Definition({ definitionRoot: root });
+  assert.equal(report.valid, true, JSON.stringify(report.issues));
+  assert.equal(report.postRun.state, "closed-protocol-uncertainty");
+  assert.equal(report.postRun.counts.operationRuns, 1);
+  assert.equal(report.postRun.counts.attempts, 1);
+  assert.equal(report.postRun.reports.normalize.status, "protocol-failed");
+  assert.equal(report.postRun.reports.export, undefined);
+});
+
+test("post-run validator reopens the complete 288-attempt closure and rejects output-byte tampering", async () => {
+  const { root, built } = await materializedPreview();
+  const index = built.index;
+  const runtime = JSON.parse(built.fileMap.get(index.runtimeRef.path));
+  const candidate = JSON.parse(built.fileMap.get(index.candidateRef.path));
+  const worker = candidate.implementationRefs.find(({ id }) => id === "WORKER-SHARP-RAW@0.10.0");
+  const workerRef = { id: worker.id, version: "0.10.0", path: worker.path, implementationSha256: worker.sha256 };
+  const context = { index, runtime, candidate };
+  let tick = 0;
+  const now = () => new Date(Date.UTC(2026, 7, 16, 6, 0, 0, tick++)).toISOString();
+  const inventory = JSON.parse(runtime.inventoryCanonicalJson);
+  const observeRuntimeEnd = createSlice10RuntimeEndObserver({ inventoryProvider: async () => structuredClone(inventory), now });
+  for (const operation of ["normalize", "export"]) {
+    const loaded = await loadSlice10OperationDefinitionCases({ projectRoot: path.resolve("."), index, fileMap: built.fileMap, operation });
+    const outputByAttempt = new Map();
+    for (const item of loaded.cases) for (let repetition = 1; repetition <= 3; repetition += 1) {
+      outputByAttempt.set(`request.s10.${operation}.${item.sourceRef.id}.r${repetition}.a1`, loaded.casesBySourceId.get(item.sourceRef.id).sourceBytes);
+    }
+    const rawExecutor = { async execute({ attemptId }) { return { outputBytes: outputByAttempt.get(attemptId) }; } };
+    const executeAttempt = createSlice10CalibrationAttemptExecutor({ casesBySourceId: loaded.casesBySourceId, rawExecutor });
+    const contractRef = index.contractRefs.find(({ id }) => id === `CC-CAP02-${operation.toUpperCase()}-PNG@0.10.0`);
+    const preregistrationRef = index.preregistrationRefs.find(({ id }) => id === `PREREG-OPEN-CALIBRATION-${operation.toUpperCase()}-PNG@0.10.0`);
+    await runSlice10CalibrationOperation({
+      resultsRoot: path.join(root, "results", "open-calibration", operation), operation, cases: loaded.cases,
+      refs: { admissionRef: index.admissionLineageRef, candidateRef: index.candidateRef, contractRef, preregistrationRef, runtimeRef: index.runtimeRef, workerRef },
+      executeAttempt,
+      verifyRuntimeEnd: (args) => observeRuntimeEnd({ context, ...args }),
+      now,
+    });
+  }
+  const report = await validateSlice10Definition({ definitionRoot: root });
+  assert.equal(report.valid, true, JSON.stringify(report.issues));
+  assert.equal(report.postRun.valid, true);
+  assert.equal(report.postRun.state, "closed-complete");
+  assert.equal(report.postRun.counts.attempts, 288);
+  assert.equal(report.postRun.counts.closures, 144);
+  assert.equal(report.postRun.reports.normalize.status, "calibration-complete-pass");
+  assert.equal(report.postRun.reports.export.status, "calibration-complete-pass");
+  const outputPath = path.join(root, "results", "open-calibration", "normalize", "closures",
+    "request.s10.normalize.s10.normalize.dev.001.r1.a1", "output.png");
+  const bytes = await readFile(outputPath);
+  bytes[bytes.length - 1] ^= 1;
+  await writeFile(outputPath, bytes);
+  const tampered = await validateSlice10Definition({ definitionRoot: root });
+  assert.equal(tampered.valid, false);
+  assert.ok(tampered.issues.some(({ code }) => ["S10_OUTPUT_ORACLE_REJECTED", "RESULT_ARTIFACT_BINDING_INVALID", "RESULT_PUBLICATION_BINDING_INVALID"].includes(code)));
 });
