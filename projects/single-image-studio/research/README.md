@@ -23,17 +23,19 @@ field. The immutable partial tree has one request, one started event and no
 terminal/output/decision. Slice 08 is closed protocol-failed and cannot be
 replayed.
 
-Slice 09 is scope-frozen; its gold identity, closed case context, actual-case
-driver, durable runner, registered admission, definition generator and central
-validator are fake-tested 33 / 33. They read actual immutable normalize/export
+Slice 09 has a frozen results-zero definition; its gold identity, closed case
+context, actual-case driver, durable runner, registered admission, definition
+generator and central validator are tested 34 / 34. They read actual immutable normalize/export
 Slice 05 gold records and bind `goldRecordId`, content/file/pixel identity,
 source and manifest without guessing a generic `.id` field. The complete durable
 runner writes only system-temporary fake closure trees and validates requests,
 claims, ledger events, identity-bound closures, summaries and decisions. The
-generator and validator also produce and independently rebuild results-zero
-previews with 18 schemas, 12 sources, six gold identities and zero copied image
-bytes. The canonical definition, runtime observation and request/result/decision
-do not exist yet; real Sharp execution and calibration remain forbidden.
+generator and validator independently rebuild the canonical definition with 18
+schemas, 12 sources, six gold identities, 36 planned attempts, zero copied image
+bytes and zero results. It froze at `2026-08-15T15:17:03.776Z` in commit
+`36d92844a2ea58113567a24482e5297ba8cdd9ab`. Runtime attestation exists inside
+the definition; request/result/decision records do not. Real Sharp execution and
+calibration remain forbidden until the one-time registered admission succeeds.
 
 ## Evidence boundary
 
@@ -341,4 +343,4 @@ form:
 The local server must serve only URLs listed in `assetAllowlist`. Files merely
 present under `fixtures/` are not automatically public.
 
-实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)；Slice 07 的闭合结果见 [SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md)；Slice 08 的 partial protocol failure 见 [SLICE_08_EVIDENCE.md](SLICE_08_EVIDENCE.md)；下一新版本范围见 [SLICE_09_CONTRACT.md](SLICE_09_CONTRACT.md)。
+实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)；Slice 07 的闭合结果见 [SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md)；Slice 08 的 partial protocol failure 见 [SLICE_08_EVIDENCE.md](SLICE_08_EVIDENCE.md)；Slice 09 的范围与 definition-freeze 事实分别见 [SLICE_09_CONTRACT.md](SLICE_09_CONTRACT.md) 和 [SLICE_09_EVIDENCE.md](SLICE_09_EVIDENCE.md)。

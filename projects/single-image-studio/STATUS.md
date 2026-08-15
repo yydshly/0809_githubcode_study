@@ -20,7 +20,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 08 已不可重放地 protocol-failed；Slice 09 results-zero definition tooling 已 fake-tested | `Slice 09: scope-frozen / definition-tooling-fake-tested / definition-not-created / Gate-B-smoke-not-run / calibration-forbidden / non-C1 / non-product` | 七套定向测试 33 / 33；registered admission、generator 与 central validator 已验证 18 schemas / 12 sources / 6 gold identities / 36 planned attempts / 0 copied bytes / 0 results，但尚未取真实 UTC 冻结 definition，不运行 Sharp |
+| 研究阶段 | Slice 08 已不可重放地 protocol-failed；Slice 09 results-zero definition 已冻结并推送 | `Slice 09: definition-frozen / results-zero / Gate-B-smoke-not-run / calibration-forbidden / non-C1 / non-product` | 定义提交 `36d92844a2ea58113567a24482e5297ba8cdd9ab`；18 schemas / 12 sources / 6 gold identities / 36 planned attempts / 0 copied bytes / 0 results；定向 34 / 34、全量 427 / 427，尚未运行 Sharp |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -30,7 +30,7 @@
 | Slice 06 诊断结果 | 唯一 registered invocation 已关闭；post-run validator 逐 byte 重算通过 | 152 files / 34 dirs / 583,198 bytes；24 requests + 24 claims + 24 results；84 ledger events；18 quarantine outputs；2 summaries + 2 closes；0 artifact / calibration / formal / holdout | result-tree SHA-256 `4c82a65083ccc1675a65d632010360d991171255ec5ef74b4a50092f701dd146`；normalize summary `70f80c7a…1900f`，export `1b60c9f1…829a0`；两项均 `9 oracle-non-pass + 3 preflight-pass`，Gate B authority=false、calibration=false、全部证据轴=0。详见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md) |
 | Slice 07 Gate-B 结果 | 唯一 registered smoke 已关闭；两项均 denied | 150 files；36 requests/results；18 closures；result tree `80b242de…cf9c` | normalize/export 各 9 pass + 9 non-pass；applicable 18/18 oracle pass，rejection 0/18 exact pass，实际码均 `ERR_INVALID_ARG_TYPE`；calibration=false。详见 [Slice 07 result evidence](research/SLICE_07_RESULT_EVIDENCE.md) |
 | Slice 08 结果 | 唯一 invocation 已关闭为 incomplete protocol failure | result tree `2dd9e53f…da0d6`；2 files / 3,779 bytes；normalize first request + started event；0 terminal / output / closure / oracle / summary / decision；export 未启动 | driver 错把 Slice 05 `goldRecordId` 读取为 `id`，在 worker 前 fail closed；中央验证 partial tree 为 0 issues，但没有 Gate B decision，calibration=false；详见 [Slice 08 evidence](research/SLICE_08_EVIDENCE.md) |
-| Slice 09 实现 | identity、context、actual driver、durable runner、registered admission、generator 与 central validator 已实现；canonical definition / result 未创建 | targeted `33 / 33`；full verify `426 / 426`；计划 12 sources / 36 attempts；actual results `0` | 预览 definition 含 18 schemas、12 新 source lineage、6 独立 identity refs；manifest 只存 `{path,id}` locator，index 单独 pin 完整 identity，消除 manifest↔identity hash 环；fresh runtime、双树重生、额外文件 / 空目录 / result root / 自哈希漂移均 fail closed |
+| Slice 09 定义 | canonical results-zero definition 已冻结、提交并推送；registered smoke 尚未运行 | frozen `2026-08-15T15:17:03.776Z`；full tree `a1c06dc0…bc6b1`；12 sources / 36 planned attempts；actual results `0` | manifest 只存 `{path,id}` locator，index 单独 pin 完整 identity；fresh runtime、双树重生、额外文件 / 空目录 / result root / 自哈希漂移均 fail closed。详见 [Slice 09 evidence](research/SLICE_09_EVIDENCE.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
@@ -109,11 +109,12 @@
 8. **已完成 Slice 06 Phase B / C 定义与唯一 registered diagnostic**：冻结定义所在提交先推送并在 clean admission 下通过，随后一次 invocation 顺序完成 normalize / export 共 24 attempts、零 replacement。18 个 applicable output 的 bytes、pixels、classification、oracle outcome、worker runtime 都 3 / 3 一致，exit 与 telemetry 完整；两项 sentinel 各 3 / 3 精确拒绝。post-run validator 对 152-file tree、84-event ledger、所有交叉引用与独立 oracle 重算为 0 issues。
 9. **Slice 07 唯一 registered smoke 已关闭，不得重跑 Slice 05–07**：36 / 36 terminal，18 个 applicable 全部通过 candidate + independent oracle；18 个 rejection 因 driver 未传递 frozen classification fields 而统一得到 `ERR_INVALID_ARG_TYPE`。两项 Gate B 均 denied，calibration=false。任何修复必须新版本、新定义、新注册结果。
 10. **Slice 08 已关闭为 protocol-failed，不得重跑**：results-zero definition 于 `2026-08-15T13:37:23.038Z` 冻结并以 commit `a8bcbe57278c7fd2620c16b39f1a939a1e3ccf89` 推送。唯一 registered invocation 写入首个 normalize request 与 `attempt-started` 后，actual-case driver 因把 Slice 05 的 `goldRecordId` 错读为 `id` 而在 worker 前抛出 `S08_CASE_MATERIAL_INVALID`。partial tree 为 2 files / 3,779 bytes，SHA-256 `2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6`；0 terminal / output / decision，export 未启动。central validator 对该不可重放 partial tree 返回 0 issues；这只证明失败记录一致，不是 Gate B pass。任何修复必须进入新版本、新定义和新完整分母，calibration 继续禁止。
-11. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
-12. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
-13. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
-14. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
-15. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
+11. **Slice 09 results-zero definition 已冻结并推送**：于 `2026-08-15T15:17:03.776Z` 冻结，definition commit `36d92844a2ea58113567a24482e5297ba8cdd9ab`，full-tree SHA-256 `a1c06dc040987b74ff457ec7e4670bfe5a081f6f99f50a4a695b3a8fb65bc6b1`。18 schemas、12 sources、6 gold identities、36 planned attempts、0 copied bytes、0 results 均由 central validator 与双树重生核对。下一步只允许 clean/pushed admission 后的一次 registered open smoke；当前仍未运行 Sharp，calibration 禁止。
+12. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
+13. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
+14. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
+15. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
+16. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
 16. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
 
 手机 / 平板产品、其他桌面浏览器、多图逐张、多图合集、商品套件、自由画布、公共部署以及未经独立验证的官方证件 profile 继续后置。

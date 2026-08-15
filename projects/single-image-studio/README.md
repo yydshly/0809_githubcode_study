@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–08 保持各自不可改写的历史边界；Slice 08 在首个 worker 前 protocol-failed 并已关闭。Slice 09 identity、driver、durable runner、registered admission、results-zero generator 与 central validator 已通过 33 / 33 fake-only tests；canonical definition / result 仍为 0，calibration、C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–08 保持各自不可改写的历史边界；Slice 08 在首个 worker 前 protocol-failed 并已关闭。Slice 09 results-zero definition 已于 `2026-08-15T15:17:03.776Z` 冻结并以 commit `36d92844a2ea58113567a24482e5297ba8cdd9ab` 推送；真实 smoke 尚未运行，calibration、C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -153,9 +153,9 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 [Slice 08 范围合同](research/SLICE_08_CONTRACT.md) 版本化 runner → driver 的 closed `caseContext` 边界。results-zero definition 于 `2026-08-15T13:37:23.038Z` 冻结并推送；唯一 registered invocation 随后写入首个 normalize request 与 `attempt-started`，但 actual-case driver 把 Slice 05 gold 的 `goldRecordId` 错读为 `id`，因此以 `S08_CASE_MATERIAL_INVALID` 在 Sharp worker 前停止。不可重放的 partial tree 只有 2 files / 3,779 bytes，SHA-256 `2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6`；terminal、output、closure、oracle、summary、decision 均为 0，export 未启动。中央验证能重开 request 与 sole ledger event 并返回 0 issues，但没有 Gate B decision，calibration 继续禁止。任何修复必须进入新版本；详见 [Slice 08 evidence](research/SLICE_08_EVIDENCE.md)。
 
-## Slice 09 只冻结新 gold identity 范围
+## Slice 09 results-zero definition 已冻结
 
-[Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。当前已实现 [gold identity](scripts/research-gateb-gold-identity-slice09.mjs)、[case context](scripts/research-gateb-case-context-slice09.mjs)、[actual-case driver](scripts/research-gateb-driver-slice09.mjs)、[durable operation runner](scripts/research-gateb-runner-slice09.mjs)、[registered admission](scripts/research-run-slice09.mjs)、[definition generator](scripts/research-generate-slice09.mjs) 和 [central validator](scripts/research-validate-slice09.mjs)，七套 fake-only 测试 33 / 33。预览 definition 精确包含 18 schemas、12 source lineage、6 gold identities 与 36 planned attempts；manifest locator 与 index full ref 分层消除了 identity / manifest hash 环，fresh runtime、双树重生、atomic publication、ledger 和自哈希 laundering 均 fail closed。canonical definition、request、result 和 decision 仍未创建，真实 Sharp 与 calibration 均禁止。
+[Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。[Gold identity](scripts/research-gateb-gold-identity-slice09.mjs)、[case context](scripts/research-gateb-case-context-slice09.mjs)、[actual-case driver](scripts/research-gateb-driver-slice09.mjs)、[durable operation runner](scripts/research-gateb-runner-slice09.mjs)、[registered admission](scripts/research-run-slice09.mjs)、[definition generator](scripts/research-generate-slice09.mjs) 和 [central validator](scripts/research-validate-slice09.mjs) 已实现。canonical definition 于 `2026-08-15T15:17:03.776Z` 冻结并推送，精确包含 18 schemas、12 source lineage、6 gold identities、36 planned attempts、0 copied bytes 与 0 results；full-tree SHA-256 为 `a1c06dc040987b74ff457ec7e4670bfe5a081f6f99f50a4a695b3a8fb65bc6b1`。七套定向测试 34 / 34，全量验证 427 / 427。request、result 与 decision 尚未创建，真实 Sharp 与 calibration 仍禁止；详见 [Slice 09 evidence](research/SLICE_09_EVIDENCE.md)。
 
 ## 运行 R0 工程探针
 
@@ -232,7 +232,8 @@ npm.cmd run verify
 | [research/SLICE_08_EVIDENCE.md](research/SLICE_08_EVIDENCE.md) | Slice 08 results-zero definition 与已封存 partial protocol-failure 的 UTC、tree pins、分母、验证和硬停止 |
 | [research/slice-08/README.md](research/slice-08/README.md) | Slice 08 typed protocol / runner / definition tooling workspace 与定义前硬停止 |
 | [research/SLICE_09_CONTRACT.md](research/SLICE_09_CONTRACT.md) | Slice 09 gold identity、新 36-attempt 分母与禁止重放的 scope-only 合同 |
-| [research/slice-09/README.md](research/slice-09/README.md) | Slice 09 完整 results-zero definition tooling 已 fake-tested，但尚未冻结 / 运行的工作区边界 |
+| [research/SLICE_09_EVIDENCE.md](research/SLICE_09_EVIDENCE.md) | Slice 09 results-zero definition 的 UTC、commit、tree pins、分母、验证与执行前边界 |
+| [research/slice-09/README.md](research/slice-09/README.md) | Slice 09 已冻结的 results-zero definition 与唯一 registered smoke 前硬停止 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -240,7 +241,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06 diagnostic closure、Slice 07 已关闭的研究结果，以及 Slice 08 research-only protocol / runner / definition / partial failure record。Slice 08 没有 terminal result 或 Gate B decision；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06 diagnostic closure、Slice 07 已关闭的研究结果、Slice 08 partial failure record，以及 Slice 09 results-zero definition。Slice 09 尚无 request、result 或 Gate B decision；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。
