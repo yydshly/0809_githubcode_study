@@ -16,6 +16,8 @@ Slice 08 Phase A–C 只新增本地原创 typed case-context、actual-case driv
 
 Slice 09 Phase A–C 只新增本地原创范围、gold identity / case context / actual driver / durable runner / registered admission / definition generator / central validator。它们只 import Node builtins 与既有项目内 candidate / oracle / inventory validators，以仓库中真实 Slice 05 normalize / export gold JSON 及系统临时 fake closure / definition tree 做注入式测试。canonical results-zero definition 于 `2026-08-15T15:17:03.776Z` 冻结并推送，只新增 12 个 lineage wrapper、6 个 identity record 与合同 / 计划 / schema / runtime metadata，复制图片 bytes 为 0。随后唯一 registered smoke 仅处理这些既有项目原创 public-synthetic bytes，保留 18 份 candidate output 与对应本地原创证据记录；没有新增 dependency / upstream package / 第三方代码或资产、真实图片、模型或权重，也没有 calibration、formal holdout 或产品 result。
 
+Slice 10 当前只新增本地原创 scope-only 合同与 workspace README。它计划在未来的新机器定义中以新 identity 引用既有项目原创 public-synthetic bytes / independent normalized inputs / gold facts，不复制图片 bytes，也不把 Slice 05–09 的 request / result / pass 拼入新分母。当前没有新增 dependency、runtime artifact、第三方代码或资产、真实图片、模型、权重、calibration result、formal holdout 或产品接线；任何 Sharp calibration 必须等 results-zero definition 提交并推送后才可运行。
+
 ## 本地原创范围
 
 本目录的产品定义、能力矩阵、候选收敛、第一版流程、研究计划、路线图和未来实现为新的本地工作。前序项目只提供问题背景与能力研究线索，不作为运行时依赖。

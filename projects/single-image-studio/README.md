@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–08 保持各自不可改写的历史边界。Slice 09 唯一 registered open smoke 已关闭并以 commit `c91014c6bef8878277a8520d003b10684972087b` 推送：normalize / export 均 18 / 18 pass、两项 Gate B 均 pass；calibration 尚未授权，C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope-only 合同已冻结：计划 normalize / export 各 48 sources × 3，共 96 / 288；implementation、definition 与 results 尚未创建，新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -157,6 +157,10 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 [Slice 09 合同](research/SLICE_09_CONTRACT.md) 要求 production runner / resolver / driver 只通过 closed、self-hashed `goldIdentity` 使用真实 `goldRecordId`，并绑定 content / file / pixel / source / manifest identity；明确禁止 `.id` fallback。[Gold identity](scripts/research-gateb-gold-identity-slice09.mjs)、[case context](scripts/research-gateb-case-context-slice09.mjs)、[actual-case driver](scripts/research-gateb-driver-slice09.mjs)、[durable operation runner](scripts/research-gateb-runner-slice09.mjs)、[registered admission](scripts/research-run-slice09.mjs)、[definition generator](scripts/research-generate-slice09.mjs) 和 [central validator](scripts/research-validate-slice09.mjs) 已实现。canonical definition 于 `2026-08-15T15:17:03.776Z` 冻结并推送；唯一 registered smoke 随后闭合为 186 files / 36 terminal results / 18 artifact closures。normalize / export 各 9 applicable artifact pass + 9 exact rejection pass，6 / 6 sources 均 3/3 deterministic，两项 Gate B decision 均为 pass。结果树 SHA-256 为 `2f6bc6c2d7490568db0facd8b2615f74294fbb6e1b3a09828bf7a654750cf451`。不得重跑；`calibrationAuthorized=false`、C1=0、productSupport=false，详见 [Slice 09 evidence](research/SLICE_09_EVIDENCE.md)。
 
+## Slice 10 open calibration scope-only
+
+[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` 项目原创 public-synthetic sources，每来源 3 次，合计 96 sources / 288 attempts；固定零 retry、零 replacement 和 source-level 3 / 3。当前仅范围冻结：implementation、machine definition、fresh runtime observation、request、result、summary 与 formal holdout 均未创建。必须先完成 fake-only tooling、results-zero definition freeze、提交与推送，才允许唯一 registered open calibration。即使 calibration 双 pass，也只允许下一切片评审 formal-holdout preregistration，不产生 C1、O1、productSupport 或 Release Gate。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -234,6 +238,8 @@ npm.cmd run verify
 | [research/SLICE_09_CONTRACT.md](research/SLICE_09_CONTRACT.md) | Slice 09 gold identity、新 36-attempt 分母与禁止重放的 scope-only 合同 |
 | [research/SLICE_09_EVIDENCE.md](research/SLICE_09_EVIDENCE.md) | Slice 09 definition、唯一 registered Gate-B smoke、结果树、ledger、双 pass 与非产品边界 |
 | [research/slice-09/README.md](research/slice-09/README.md) | Slice 09 已冻结的 definition 与 registered result workspace |
+| [research/SLICE_10_CONTRACT.md](research/SLICE_10_CONTRACT.md) | Slice 10 开放 calibration 的 96-source / 288-attempt 分母、零重试、停止规则与非 C1 边界 |
+| [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 scope-only workspace；machine definition 与 results 尚未创建 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -241,7 +247,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖，以及 Slice 06–09 的不可变 research-only 记录。Slice 09 两项 Gate B 均通过，但这不是 calibration、formal holdout、C1 或产品支持；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–09 的不可变 research-only 记录，以及 Slice 10 scope-only 合同。Slice 09 两项 Gate B 均通过，但 Slice 10 calibration 尚未运行；这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

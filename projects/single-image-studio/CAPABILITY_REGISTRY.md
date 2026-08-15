@@ -1,7 +1,7 @@
 # 基础能力候选注册表
 
 > 状态：当前规范（研究注册表）  
-> 最后核对：2026-08-15
+> 最后核对：2026-08-16
 > 当前结论：以下条目均未取得 `C1`。Slice 04 只把六个 npm registry tarball 临时下载到仓库内未提交的 `.tmp/slice04-artifacts` 计算 SHA-256 后删除；没有解包、执行、安装或保留，GitHub commits 只经官方页面 / API 解析，因而没有第三方代码、二进制、模型权重或资产进入项目制品或依赖。
 
 本文是基础能力候选的唯一决策账本。它记录“可以研究什么、为什么尚不能发布”，不代表依赖已安装、模型已接入或能力已经成立。来源及第三方边界见 [UPSTREAM.md](./UPSTREAM.md)，能力定义见 [CAPABILITY_MAP.md](./CAPABILITY_MAP.md)，证据门槛见 [EVIDENCE_AND_RELEASE.md](./EVIDENCE_AND_RELEASE.md)。
@@ -106,6 +106,7 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | `REG-NORM-SHARP-CANONICAL-PNG` | Sharp RGBA8 pixel stage + 项目原创 canonical PNG encoder | `CAP-02` | canonical PNG normalize / export | `closed-non-pass/Gate-B-denied` | 36/36 terminal；18 applicable 全过 oracle，18 rejection 因 driver binding 缺陷全部 non-pass；禁止重跑与 calibration，须新版本 |
 | `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | 相同像素 / encoder 架构 + versioned typed case-context | `CAP-02` | canonical PNG normalize / export | `closed-protocol-failed` | definition 已冻结推送；唯一 invocation 因 `goldRecordId` 被错读为 `id` 在 worker 前关闭，1 request / 1 started / 0 terminal，无 Gate B decision，禁止重跑 |
 | `REG-NORM-SHARP-CANONICAL-PNG@0.9.0` | 相同像素 / encoder 架构 + versioned gold identity | `CAP-02` | canonical PNG normalize / export | `closed-Gate-B-pass/research-only` | result commit `c91014c6bef8878277a8520d003b10684972087b`；36 / 36 terminal pass，normalize/export 各 9 applicable + 9 exact rejection pass、6 / 6 sources 3/3 deterministic；calibration=false、C1=0、非产品支持 |
+| `REG-NORM-SHARP-CANONICAL-PNG@0.10.0` | Slice 09 像素 / encoder lineage + 新 open-calibration protocol identity | `CAP-02` | canonical PNG normalize / export | `planned/scope-frozen` | 计划 normalize/export 各 48 sources × 3，共 96/288；零 retry/replacement。implementation、definition、runtime observation、results 与 formal holdout 均 not-created；非 C1、非产品支持 |
 | `REG-NORM-LIBVIPS` | standalone libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | standalone 构建选项、启用格式库、链接 / LGPL 交付方式与 artifact hash |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
 | `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
@@ -162,6 +163,8 @@ release_status=planned
 | `CC-CAP02-EXPORT-PNG@0.8.0` | `CAP-02` | independent normalized input → future delivery artifact binding | closed not-run-after-global-stop `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | normalize 协议失败后 export 未启动；无 terminal / output / decision，Gate B 无决定、calibration=false、C1=0；任何修复必须新版本与新完整分母 |
 | `CC-CAP02-NORMALIZE-PNG@0.9.0` | `CAP-02` | canonical PNG source → normalized artifact binding | closed Gate-B pass `REG-NORM-SHARP-CANONICAL-PNG@0.9.0` | contract `contentHash=9788a9cb9c9c539f502a2f01695be3f74d0a70868b44f6807561a8eb39d3fee5`；18 / 18 pass，9 applicable artifact + 9 exact rejection，decision `gateBPassed=true`；calibration=false、C1=0 |
 | `CC-CAP02-EXPORT-PNG@0.9.0` | `CAP-02` | independent normalized input → delivery artifact binding | closed Gate-B pass `REG-NORM-SHARP-CANONICAL-PNG@0.9.0` | contract `contentHash=4bfd1de8baa2d312f68e208a1dc982b45e05c6ee252dbdfbc76085765544794e`；18 / 18 pass，9 applicable artifact + 9 exact rejection，decision `gateBPassed=true`；calibration=false、C1=0 |
+| `CC-CAP02-NORMALIZE-PNG@0.10.0` | `CAP-02` | project-original open synthetic canonical PNG → future normalized artifact binding | planned `REG-NORM-SHARP-CANONICAL-PNG@0.10.0` | scope-only；48 sources / 144 attempts、3/3、零 retry/replacement；contract machine record与结果尚未创建，C1=0 |
+| `CC-CAP02-EXPORT-PNG@0.10.0` | `CAP-02` | independent open synthetic normalized input → future delivery artifact binding | planned `REG-NORM-SHARP-CANONICAL-PNG@0.10.0` | scope-only；48 sources / 144 attempts、3/3、零 retry/replacement；contract machine record与结果尚未创建，C1=0 |
 | `CC-CAP03-SOURCE-CARD-V0@0.2.0` | `CAP-03` | `NormalizedImage` → `SourceCard.v0` | `REG-SOURCE-CARD-REFERENCE-V0` | v0 字段、每字段 observer/confidence/unknown reason 已冻结；当前仅技术字段可观测，其余必须 unknown，C1=0 |
 | `CC-CAP04-DETECT@planned` | `CAP-04` | `NormalizedImage` + 目标类别 → `SubjectMap` | `REG-DETECT-GROUNDING-DINO` 或后续登记候选 | 主体数量 / 类别 / 框与拒绝边界待冻结；错误主体不得静默进入 Matting |
 | `CC-CAP04-SEGMENT@planned` | `CAP-04` | `NormalizedImage` + `SubjectMap` + prompt → `SubjectMap` | `REG-SEG-SAM2` 或后续登记候选 | 输出是区域，不等于连续 Alpha；失败回到重新选主体或拒绝 |
@@ -538,7 +541,7 @@ release_status=planned
 4. Slice 07 唯一 36-attempt registered smoke 已关闭：applicable 18/18 通过，但 rejection 0/18 exact pass；两项 Gate B denied。不得重跑，任何 driver binding 修复必须进入新版本与新定义。
 5. Slice 08 results-zero definition 已提交推送；唯一 registered invocation 在首个 normalize applicable attempt 因 driver 把 `goldRecordId` 错读为 `id` 而 worker-free protocol-failed。partial tree 已封存为 1 request / 1 started event / 0 terminal，禁止修复后重跑；下一步必须新版本、新定义、新完整分母。
 6. Slice 09 唯一 registered smoke 已以 commit `c91014c6bef8878277a8520d003b10684972087b` 封存并推送；两项 Gate B pass，但不得重跑、补跑或从该开放 smoke 推导 C1 / productSupport。
-7. 下一步若进入开放 calibration，必须新切片冻结 calibration plan / prereg / runtime / denominator / threshold / stop rule / admission，并保持与 formal holdout 分离；当前 `calibrationAuthorized=false`。
+7. Slice 10 已 scope-only 冻结新的 calibration plan / prereg / runtime / denominator / stop rule / admission 边界：normalize / export 各 48 sources × 3，总计 96 / 288，零 retry / replacement；implementation、machine definition 和 results 仍未创建，新定义提交推送前禁止 calibration。
 8. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
 9. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
 10. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。

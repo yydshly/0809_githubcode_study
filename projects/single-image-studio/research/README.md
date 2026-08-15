@@ -1,7 +1,7 @@
 # Single Image Studio research workspace
 
 This directory is the executable research workspace for Slice 01 through Slice
-09. Its image fixtures are small, deterministic, and project-original. Slice
+10. Its image fixtures are small, deterministic, and project-original. Slice
 05's only registered real smoke is closed non-pass, so its calibration is
 forbidden. Slice 06 now has a frozen diagnostic-only definition and one closed
 registered result tree. The real Sharp path ran only for 18 public-synthetic
@@ -40,6 +40,15 @@ and export each passed 9 applicable + 9 exact rejection attempts, and both Gate-
 decisions pass. The result commit is
 `c91014c6bef8878277a8520d003b10684972087b`. It cannot be replayed;
 calibration remains separately forbidden and all evidence axes remain zero.
+
+Slice 10 is scope-frozen only. Its contract plans two operation-specific open
+calibrations: normalize and export each use 30 `dev/calibration` plus 18
+`defect/calibration` public-synthetic sources, three repetitions per source,
+for 96 sources and 288 attempts in total. Retry and replacement are both zero.
+No Slice 10 implementation, machine definition, runtime observation, request,
+result, calibration summary, formal holdout, or copied image bytes exists yet.
+The scope commit must be pushed before fake-only tooling begins, and a separate
+results-zero definition must be frozen and pushed before any Sharp calibration.
 
 ## Evidence boundary
 

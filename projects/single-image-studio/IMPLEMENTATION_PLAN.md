@@ -8,7 +8,7 @@
 
 截至 2026-08-15，Slice 05 的唯一注册真实 smoke 已关闭为 non-pass，Slice 06 唯一 diagnostic 已定位缺 `sRGB` / 禁止 `pHYs`。Slice 07 新复合候选的唯一 registered smoke 也已闭合：36 / 36 terminal，18 / 18 applicable candidate outputs 全部通过独立 oracle，但 18 个 rejection 因 driver executor binding 漏传 frozen classification fields 而全部 non-pass。两项 Gate B 均 denied，calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0`–`@0.9.0` 或运行旧 calibration。Slice 08 在首个 normalize attempt 的 worker 前因 gold 主键读取错误而 protocol-failed；Slice 09 以新 gold-identity boundary 修复该问题。其 results-zero definition 于 `2026-08-15T15:17:03.776Z` 冻结并推送，随后唯一 registered open smoke 形成 36 / 36 terminal pass、18 artifact closures 与两项 Gate-B pass，结果 commit 为 `c91014c6bef8878277a8520d003b10684972087b`。这只完成开放 research Gate B：`calibrationAuthorized=false`、C1=0、productSupport=false。下一步必须另行冻结 Slice 10 calibration 范围、分母、阈值、runtime、stop rule 与 admission；在新定义提交推送前不得运行 calibration。
+立即后续禁止重跑 `@0.5.0`–`@0.9.0` 或运行旧 calibration。Slice 08 在首个 normalize attempt 的 worker 前因 gold 主键读取错误而 protocol-failed；Slice 09 以新 gold-identity boundary 修复该问题。其 results-zero definition 于 `2026-08-15T15:17:03.776Z` 冻结并推送，随后唯一 registered open smoke 形成 36 / 36 terminal pass、18 artifact closures 与两项 Gate-B pass，结果 commit 为 `c91014c6bef8878277a8520d003b10684972087b`。这只完成开放 research Gate B：`calibrationAuthorized=false`、C1=0、productSupport=false。[Slice 10 calibration 范围](research/SLICE_10_CONTRACT.md) 现已 scope-only 冻结为 normalize / export 各 48 sources × 3、合计 96 / 288，零 retry / replacement；implementation、definition、runtime observation 与 results 仍未创建，在新定义提交推送前不得运行 calibration。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 
