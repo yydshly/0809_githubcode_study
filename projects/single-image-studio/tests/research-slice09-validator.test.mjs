@@ -76,9 +76,21 @@ test("self-rehashed index promotion and locator replay still differ from determi
   assert.ok(replay.issues.some((entry) => entry.code === "S09_FILE_BYTES_MISMATCH"));
 });
 
-test("pins remain fail-closed until one canonical freeze is explicitly materialized", async () => {
+test("a noncanonical preview cannot satisfy the frozen literal pins", async () => {
   const root = await preview();
   const report = await validateSlice09Definition({ definitionRoot: root, requirePins: true, recheckRuntime: false, regenerate: false });
   assert.equal(report.valid, false);
-  assert.equal(report.issues.filter((entry) => entry.code === "S09_PIN_NOT_FROZEN").length, 8);
+  assert.equal(report.issues.some((entry) => entry.code === "S09_PIN_MISMATCH"), true);
+  assert.equal(report.issues.some((entry) => entry.code === "S09_PIN_NOT_FROZEN"), false);
+});
+
+test("canonical production definition passes literal pins, runtime recheck and twin regeneration", async () => {
+  const report = await validateSlice09Definition();
+  assert.equal(report.valid, true);
+  assert.deepEqual(report.issues, []);
+  assert.equal(report.pinsVerified, true);
+  assert.equal(report.runtimeRechecked, true);
+  assert.equal(report.regenerationVerified, true);
+  assert.equal(report.counts.generatedResults, 0);
+  assert.equal(report.postRun, null);
 });

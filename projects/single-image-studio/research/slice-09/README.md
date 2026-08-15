@@ -1,7 +1,6 @@
 # Slice 09 workspace
 
-Current state: `scope-frozen / definition-tooling-fake-tested /
-definition-not-created / Gate-B-smoke-not-run /
+Current state: `definition-frozen / results-zero / Gate-B-smoke-not-run /
 calibration-forbidden / non-C1 / non-product`.
 
 The governing scope is [SLICE_09_CONTRACT.md](../SLICE_09_CONTRACT.md). Slice 09
@@ -66,11 +65,12 @@ identity locators while the definition index separately pins all six immutable
 identity refs; this removes the manifest/identity hash cycle without weakening
 offline closure. The validator rejects extra files, empty directories,
 unregistered result roots, self-hashed promotion, locator replay and unfrozen
-literal pins. The repository-wide `npm.cmd run verify` passes `426 / 426`. No
-canonical definition has been materialized.
+literal pins. The repository-wide `npm.cmd run verify` passes `426 / 426` before
+the canonical definition freeze.
 
-No Slice 09 machine definition, runtime observation, fixture copy, canonical
-request, result, decision,
+This README is the human-readable boundary pinned by the canonical results-zero
+definition. That definition contains metadata records and immutable references
+only; it copies no image bytes and contains no request, result, decision,
 calibration, formal material, model weight, third-party image, real-user image
-or product integration exists. Real Sharp execution remains forbidden until a
-future results-zero definition is independently validated, committed and pushed.
+or product integration. Real Sharp execution remains forbidden until the
+definition is independently validated, committed and pushed.

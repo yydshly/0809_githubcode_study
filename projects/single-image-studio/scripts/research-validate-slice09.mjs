@@ -16,14 +16,14 @@ const DEFAULT_ROOT = path.join(PROJECT_ROOT, "research", "slice-09");
 
 // Filled only after the canonical results-zero tree is materialized.
 export const SLICE09_FROZEN_PINS = Object.freeze({
-  frozenAt: null,
-  definitionIndexContentHash: null,
-  definitionIndexFileSha256: null,
-  descendantTreeSha256: null,
-  schemaTreeSha256: null,
-  fullTreeSha256: null,
-  readmeSha256: null,
-  generatorSha256: null,
+  frozenAt: "2026-08-15T15:17:03.776Z",
+  definitionIndexContentHash: "57de0c3d91d1945af61e052d8efda35dbe4dbb19714149e21dd17f949d8a00dd",
+  definitionIndexFileSha256: "1303bdeca50a69918b58444efd0a540c20ee8eaf98c565b857fcae54112906c0",
+  descendantTreeSha256: "6523a3f9618bf18f669561a4789f4b23162d848402bc465ce94e1a783d7c597c",
+  schemaTreeSha256: "1809f69199c9308c2799d8755892ed64e4fa60948827d516a5ab87b020cc83bf",
+  fullTreeSha256: "a1c06dc040987b74ff457ec7e4670bfe5a081f6f99f50a4a695b3a8fb65bc6b1",
+  readmeSha256: "8c3a306cd090e4c117ad3ab77878575eb663358e609a31a1dd201ac75fbf7f48",
+  generatorSha256: "3e1ac2c7cfe34c053281394b4451a6d594d1dd43f73a4943231889b7f62c75c9",
 });
 
 function sha256(bytes) { return createHash("sha256").update(bytes).digest("hex"); }
