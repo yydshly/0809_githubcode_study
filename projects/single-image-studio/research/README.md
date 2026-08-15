@@ -1,13 +1,20 @@
 # Single Image Studio research workspace
 
 This directory is the executable research workspace for Slice 01 through Slice
-06. Its image fixtures are small, deterministic, and project-original. Slice
+08. Its image fixtures are small, deterministic, and project-original. Slice
 05's only registered real smoke is closed non-pass, so its calibration is
 forbidden. Slice 06 now has a frozen diagnostic-only definition and one closed
 registered result tree. The real Sharp path ran only for 18 public-synthetic
 applicable attempts; every output was quarantined and independently rejected.
 It is not a model benchmark,
 product dataset, completed codec evaluation, or capability claim.
+
+Slice 07 is immutable closed history: its 18 applicable attempts passed the
+candidate and independent oracle, while all 18 rejection attempts failed exact
+classification because the runner omitted frozen case fields. Slice 08 is now
+scope-frozen only. It will version that callback boundary and, after fake-only
+tests plus a pushed results-zero definition, evaluate a complete new 36-attempt
+denominator. No Slice 08 implementation, definition or result exists yet.
 
 ## Evidence boundary
 
@@ -315,4 +322,4 @@ form:
 The local server must serve only URLs listed in `assetAllowlist`. Files merely
 present under `fixtures/` are not automatically public.
 
-实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)，Phase B 协议实现、Phase C results-zero definition 与 pins 见 [slice-06/README.md](slice-06/README.md)。
+实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)；Slice 06 的诊断授权见 [SLICE_06_CONTRACT.md](SLICE_06_CONTRACT.md)；Slice 07 的闭合结果见 [SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md)；下一版本的范围见 [SLICE_08_CONTRACT.md](SLICE_08_CONTRACT.md)。

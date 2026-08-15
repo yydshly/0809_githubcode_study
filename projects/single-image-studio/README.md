@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–05 保持各自历史边界；Slice 05 `@0.5.0` 唯一注册 smoke 已关闭为 non-pass、禁止重跑 / calibration。Slice 06 唯一注册 diagnostic characterization 已闭合为 `characterization-complete / Gate-B-no-authority / calibration-forbidden / non-C1 / non-product`；这只表示 24 个诊断闭包完整，不表示候选通过 |
+| 研究阶段 | Slice 01–07 保持各自不可改写的历史边界；Slice 07 applicable 18 / 18 通过、rejection 0 / 18 exact pass，Gate B 双拒绝。Slice 08 typed case-context scope 已冻结，implementation / definition / result 均未创建；calibration、C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -149,6 +149,10 @@ Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / 
 
 Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke 已闭合：36 / 36 terminal，normalize / export 各 9 pass + 9 non-pass。18 / 18 applicable attempts 的 canonical PNG 全部通过 independent oracle；18 个 rejection 因 driver executor binding 漏传分类字段而全部得到 `ERR_INVALID_ARG_TYPE`，不是候选像素或 encoder 失败。两项 Gate B 均 `denied-closed-non-pass`，calibration 禁止，不得重跑。详见 [Slice 07 result evidence](research/SLICE_07_RESULT_EVIDENCE.md)。
 
+## Slice 08 typed case-context 范围已冻结
+
+[Slice 08 范围合同](research/SLICE_08_CONTRACT.md) 只版本化 runner → driver 的 case-context 边界：disposition、exact expected code、source / manifest hash 与 attempt identity 必须作为一个 closed immutable object 传递并交叉复核。candidate pixels、canonical encoder 与 independent oracle profile 不变。Slice 08 不会只补跑 Slice 07 的失败项；它计划用新 ID 完整执行 12 个公开 synthetic sources × 3，共 36 attempts。当前没有 Slice 08 implementation、machine definition 或 result；在 results-zero definition 提交并推送前禁止真实 Sharp 图片执行。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -220,6 +224,8 @@ npm.cmd run verify
 | [research/SLICE_07_EVIDENCE.md](research/SLICE_07_EVIDENCE.md) | Slice 07 results-zero definition pins、计数、校验与证据边界 |
 | [research/SLICE_07_RESULT_EVIDENCE.md](research/SLICE_07_RESULT_EVIDENCE.md) | Slice 07 唯一 registered smoke、Gate-B 双拒绝与 driver binding 根因 |
 | [research/slice-07/README.md](research/slice-07/README.md) | Slice 07 frozen definition workspace 与执行前硬停止 |
+| [research/SLICE_08_CONTRACT.md](research/SLICE_08_CONTRACT.md) | Slice 08 typed case-context、新 36-attempt 分母与禁止选择性补跑的 scope-only 合同 |
+| [research/slice-08/README.md](research/slice-08/README.md) | Slice 08 scope-only workspace 与定义前硬停止 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -227,7 +233,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、Slice 05 精确锁定的本地研究 codec 依赖、Slice 06 隔离的 diagnostic closure，以及 Slice 07 results-zero machine definition。Slice 07 尚无真实结果，且未运行其 Sharp 图片路径；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06 diagnostic closure、Slice 07 已关闭的研究结果，以及 Slice 08 scope-only 文档。Slice 08 尚无实现、定义或结果；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。
