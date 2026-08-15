@@ -1,0 +1,381 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalEvidence": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "hashRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "nullableSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "packageName": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "scopeDirectoryName": {
+      "pattern": "^@[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/hardware-profile.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "environment": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu": {
+          "additionalProperties": false,
+          "properties": {
+            "logicalProcessors": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "models": {
+              "items": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "models",
+            "logicalProcessors"
+          ],
+          "type": "object"
+        },
+        "memory": {
+          "additionalProperties": false,
+          "properties": {
+            "totalBytes": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "totalBytes"
+          ],
+          "type": "object"
+        },
+        "node": {
+          "additionalProperties": false,
+          "properties": {
+            "abi": {
+              "pattern": "^[0-9]+$",
+              "type": "string"
+            },
+            "napi": {
+              "pattern": "^[0-9]+$",
+              "type": "string"
+            },
+            "version": {
+              "pattern": "^v[0-9]+",
+              "type": "string"
+            }
+          },
+          "required": [
+            "version",
+            "abi",
+            "napi"
+          ],
+          "type": "object"
+        },
+        "npm": {
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+",
+              "type": "string"
+            }
+          },
+          "required": [
+            "version"
+          ],
+          "type": "object"
+        },
+        "os": {
+          "additionalProperties": false,
+          "properties": {
+            "architecture": {
+              "const": "x64",
+              "type": "string"
+            },
+            "platform": {
+              "const": "win32",
+              "type": "string"
+            },
+            "release": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "version": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "platform",
+            "release",
+            "version",
+            "architecture"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "os",
+        "cpu",
+        "memory",
+        "node",
+        "npm"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "hardwareProfileId": {
+      "const": "HARDWARE-WIN32-X64@0.5.0",
+      "type": "string"
+    },
+    "privacyBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "hostnameRecorded": {
+          "const": false,
+          "type": "boolean"
+        },
+        "serialRecorded": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "hostnameRecorded",
+        "serialRecorded"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.5.0",
+      "type": "string"
+    },
+    "runtimeAttestationRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "hardware-profile.slice05.v0",
+      "type": "string"
+    },
+    "stateAtDefinitionFreeze": {
+      "const": "observed-and-pinned-not-a-portability-claim",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "hardwareProfileId",
+    "recordVersion",
+    "runtimeAttestationRef",
+    "environment",
+    "privacyBoundary",
+    "stateAtDefinitionFreeze",
+    "evidenceBoundary",
+    "frozenAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,408 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalEvidence": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "hashRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "nullableSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "packageName": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "scopeDirectoryName": {
+      "pattern": "^@[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/source-provenance.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateIndependence": {
+      "additionalProperties": false,
+      "properties": {
+        "candidateAuthorIds": {
+          "items": {
+            "const": "role.candidate-implementation-author",
+            "type": "string"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "candidateDependencyUsed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "candidateOutputUsed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "candidateProduced": {
+          "const": false,
+          "type": "boolean"
+        },
+        "fixtureAuthorIds": {
+          "items": {
+            "const": "role.fixture-gold-author",
+            "type": "string"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "candidateProduced",
+        "candidateOutputUsed",
+        "candidateDependencyUsed",
+        "candidateAuthorIds",
+        "fixtureAuthorIds"
+      ],
+      "type": "object"
+    },
+    "captureSessionId": {
+      "$ref": "#/$defs/id"
+    },
+    "categoryId": {
+      "$ref": "#/$defs/id"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "expectedDisposition": {
+      "enum": [
+        "artifact-required",
+        "rejection-required"
+      ],
+      "type": "string"
+    },
+    "expectedStableErrorCode": {
+      "pattern": "^S05_[A-Z0-9_]+$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "generatorRef": {
+      "$ref": "#/$defs/implementationRef"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ],
+      "type": "string"
+    },
+    "partition": {
+      "enum": [
+        "smoke",
+        "dev/calibration",
+        "defect/calibration"
+      ],
+      "type": "string"
+    },
+    "rawAsset": {
+      "additionalProperties": false,
+      "properties": {
+        "alphaPresent": {
+          "type": "boolean"
+        },
+        "byteLength": {
+          "maximum": 1048577,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "decodedPixelSha256": {
+          "$ref": "#/$defs/nullableSha256"
+        },
+        "defectId": {
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "height": {
+          "maximum": 512,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "intentionallyInvalid": {
+          "type": "boolean"
+        },
+        "mime": {
+          "enum": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "application/octet-stream"
+          ],
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "sourceDeclarationDecodedPixelSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "width": {
+          "maximum": 512,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "mime",
+        "byteLength",
+        "fileSha256",
+        "decodedPixelSha256",
+        "sourceDeclarationDecodedPixelSha256",
+        "width",
+        "height",
+        "alphaPresent",
+        "intentionallyInvalid",
+        "defectId"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.5.0",
+      "type": "string"
+    },
+    "rightsRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "source-provenance.slice05.v0",
+      "type": "string"
+    },
+    "sourceFamilyId": {
+      "$ref": "#/$defs/id"
+    },
+    "sourceId": {
+      "$ref": "#/$defs/id"
+    },
+    "sourceProvenanceId": {
+      "$ref": "#/$defs/id"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "sourceProvenanceId",
+    "sourceId",
+    "recordVersion",
+    "operation",
+    "partition",
+    "categoryId",
+    "expectedDisposition",
+    "expectedStableErrorCode",
+    "sourceFamilyId",
+    "captureSessionId",
+    "rightsRef",
+    "generatorRef",
+    "candidateIndependence",
+    "rawAsset",
+    "evidenceBoundary",
+    "frozenAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

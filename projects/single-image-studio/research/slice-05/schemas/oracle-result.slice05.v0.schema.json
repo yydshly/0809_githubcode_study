@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/oracle-result.slice05.v0.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "oracle-result.slice05.v0" },
+    "oracleResultId": { "$ref": "#/$defs/id" },
+    "oracleRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "const": "ORACLE-INDEPENDENT-PNG@0.5.0" },
+        "implementationSha256": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["id", "implementationSha256"]
+    },
+    "operation": { "type": "string", "enum": ["normalize", "export"] },
+    "artifactRef": { "$ref": "#/$defs/hashRef" },
+    "goldRecordRef": { "$ref": "#/$defs/hashRef" },
+    "actualBytes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relativePath": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)\\.(?:/|$))(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._/-]+$" },
+        "byteLength": { "type": "integer", "minimum": 0, "maximum": 1073741824 },
+        "fileSha256": { "$ref": "#/$defs/sha256" },
+        "decodedPixelSha256": { "$ref": "#/$defs/nullableSha256" }
+      },
+      "required": ["relativePath", "byteLength", "fileSha256", "decodedPixelSha256"]
+    },
+    "facts": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "mime": { "type": "string", "const": "image/png" },
+        "byteLength": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "fileSha256": { "$ref": "#/$defs/sha256" },
+        "decodedPixelSha256": { "$ref": "#/$defs/sha256" },
+        "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "pixelLayout": { "type": "string", "const": "RGBA8" },
+        "colorSpace": { "type": "string", "const": "embedded-sRGB" },
+        "orientation": { "type": "integer", "const": 1 },
+        "alphaMode": { "type": "string", "const": "straight-unpremultiplied" },
+        "alphaPresent": { "type": "boolean" },
+        "metadataPolicy": { "type": "string", "const": "strip-all-except-color-contract" },
+        "pngFilterPolicy": { "type": "string", "enum": ["filter-0-only", "noncanonical-filter-present"] },
+        "interlace": { "type": "string", "const": "forbidden" },
+        "animation": { "type": "string", "const": "forbidden" }
+      },
+      "required": ["mime", "byteLength", "fileSha256", "decodedPixelSha256", "width", "height", "pixelLayout", "colorSpace", "orientation", "alphaMode", "alphaPresent", "metadataPolicy", "pngFilterPolicy", "interlace", "animation"]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 21,
+      "maxItems": 21,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "checkId": { "type": "string", "enum": ["independent-oracle", "operation-binding", "source-binding", "partition-binding", "parent-identity", "independent-decode", "mime-signature", "dimensions", "orientation", "embedded-srgb", "rgba8", "straight-alpha", "alpha-presence", "metadata-policy", "png-filter-policy", "interlace", "animation", "byte-length", "file-sha256", "decoded-pixel-sha256", "gold-provenance"] },
+          "expected": { "type": "string", "minLength": 1 },
+          "actual": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["pass", "non-pass", "unknown"] },
+          "reason": { "type": ["string", "null"], "minLength": 1 }
+        },
+        "required": ["checkId", "expected", "actual", "status", "reason"]
+      }
+    },
+    "overallStatus": { "type": "string", "enum": ["pass", "non-pass"] },
+    "evidenceBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "productSupport": { "type": "boolean", "const": false },
+        "gateBState": { "type": "string", "const": "oracle-only-not-entered" },
+        "c1": { "type": "integer", "const": 0 },
+        "u1": { "type": "integer", "const": 0 },
+        "e1": { "type": "integer", "const": 0 },
+        "r1": { "type": "integer", "const": 0 },
+        "o1": { "type": "integer", "const": 0 },
+        "g1": { "type": "integer", "const": 0 },
+        "v1": { "type": "integer", "const": 0 }
+      },
+      "required": ["productSupport", "gateBState", "c1", "u1", "e1", "r1", "o1", "g1", "v1"]
+    },
+    "observedAt": { "$ref": "#/$defs/utc" },
+    "contentHash": { "$ref": "#/$defs/sha256" }
+  },
+  "required": ["schemaVersion", "oracleResultId", "oracleRef", "operation", "artifactRef", "goldRecordRef", "actualBytes", "facts", "checks", "overallStatus", "evidenceBoundary", "observedAt", "contentHash"],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "nullableSha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$" },
+    "utc": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "hashRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "contentHash": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["id", "contentHash"]
+    }
+  }
+}

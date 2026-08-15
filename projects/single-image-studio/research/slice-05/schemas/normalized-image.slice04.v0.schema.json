@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/normalized-image.slice04.v0.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "normalized-image.slice04.v0" },
+    "artifactId": { "$ref": "#/$defs/id" },
+    "operation": { "type": "string", "const": "normalize" },
+    "parent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceAssetId": { "$ref": "#/$defs/id" },
+        "sourceFileSha256": { "$ref": "#/$defs/sha256" },
+        "sourceDecodedPixelSha256": { "$ref": "#/$defs/sha256" },
+        "sourceManifestSha256": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["sourceAssetId", "sourceFileSha256", "sourceDecodedPixelSha256", "sourceManifestSha256"]
+    },
+    "capabilityContractRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "const": "CC-CAP02-NORMALIZE-PNG@0.5.0" },
+        "contentHash": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["id", "contentHash"]
+    },
+    "candidateRef": { "$ref": "#/$defs/candidateRef" },
+    "adapterRef": { "$ref": "#/$defs/implementationRef" },
+    "producerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string", "enum": ["candidate-adapter", "independent-fixture-generator"] },
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "$ref": "#/$defs/id" },
+        "implementationSha256": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["kind", "id", "version", "implementationSha256"]
+    },
+    "runtimeRef": { "$ref": "#/$defs/hashRef" },
+    "hardwareRef": { "$ref": "#/$defs/hashRef" },
+    "attempt": { "$ref": "#/$defs/attempt" },
+    "bytes": { "$ref": "#/$defs/bytes" },
+    "image": { "$ref": "#/$defs/image" },
+    "createdAt": { "$ref": "#/$defs/utc" },
+    "contentHash": { "$ref": "#/$defs/sha256" }
+  },
+  "required": ["schemaVersion", "artifactId", "operation", "parent", "capabilityContractRef", "candidateRef", "adapterRef", "producerRef", "runtimeRef", "hardwareRef", "attempt", "bytes", "image", "createdAt", "contentHash"],
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$" },
+    "utc": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "candidateRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "const": "REG-NORM-SHARP@0.5.0" },
+        "contentHash": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["id", "contentHash"]
+    },
+    "hashRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "contentHash": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["id", "contentHash"]
+    },
+    "implementationRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "$ref": "#/$defs/id" },
+        "implementationSha256": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["id", "version", "implementationSha256"]
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "runId": { "$ref": "#/$defs/id" },
+        "sourceId": { "$ref": "#/$defs/id" },
+        "partition": { "type": "string", "enum": ["smoke", "dev/calibration", "defect/calibration"] },
+        "repetition": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "attemptNumber": { "type": "integer", "minimum": 1, "maximum": 2 },
+        "idempotencyKey": { "$ref": "#/$defs/id" }
+      },
+      "required": ["runId", "sourceId", "partition", "repetition", "attemptNumber", "idempotencyKey"]
+    },
+    "bytes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "relativePath": { "type": "string", "minLength": 1, "maxLength": 512, "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)\\.(?:/|$))(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._/-]+$" },
+        "mime": { "type": "string", "const": "image/png" },
+        "byteLength": { "type": "integer", "minimum": 1, "maximum": 1048576 },
+        "fileSha256": { "$ref": "#/$defs/sha256" },
+        "decodedPixelSha256": { "$ref": "#/$defs/sha256" }
+      },
+      "required": ["relativePath", "mime", "byteLength", "fileSha256", "decodedPixelSha256"]
+    },
+    "image": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "pixelLayout": { "type": "string", "const": "RGBA8" },
+        "colorSpace": { "type": "string", "const": "embedded-sRGB" },
+        "orientation": { "type": "integer", "const": 1 },
+        "alphaMode": { "type": "string", "const": "straight-unpremultiplied" },
+        "alphaPresent": { "type": "boolean" },
+        "metadataPolicy": { "type": "string", "const": "strip-all-except-color-contract" },
+        "pngFilterPolicy": { "type": "string", "const": "filter-0-only" },
+        "interlace": { "type": "string", "const": "forbidden" },
+        "animation": { "type": "string", "const": "forbidden" }
+      },
+      "required": ["width", "height", "pixelLayout", "colorSpace", "orientation", "alphaMode", "alphaPresent", "metadataPolicy", "pngFilterPolicy", "interlace", "animation"]
+    }
+  }
+}

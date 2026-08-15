@@ -1,0 +1,1096 @@
+{
+  "candidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "contentHash": "07b5a4ac1fd5e87c3c1d90f9eefd9ae1f97cdb5abbe816b59272397b8cd6ee7a",
+  "contractRefs": [
+    {
+      "byteLength": 5544,
+      "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+      "fileSha256": "78a7842095cd877bfa7b3388d4f960b5f37612a7827a9d763d19a947247dd068",
+      "id": "CC-CAP02-NORMALIZE-PNG@0.5.0",
+      "path": "contracts/cc-cap02-normalize-png.v0.5.0.json"
+    }
+  ],
+  "counts": {
+    "applicableSources": 18,
+    "byOperation": [
+      {
+        "applicableSources": 18,
+        "operation": "normalize",
+        "rejectionSources": 12,
+        "totalSources": 30
+      }
+    ],
+    "rejectionSources": 12,
+    "repetitionsPerSource": 3,
+    "totalPlannedAttempts": 90,
+    "totalSources": 30
+  },
+  "entries": [
+    {
+      "captureSessionId": "session.s05.normalize.dev.001",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "ae8ba21c46cf6a707bef2366b2f4cd9b8c622f37d2046c97b4b33d94a8960cf1",
+        "fileSha256": "cfaf6a37a90dbba6bd4012bdd0a76bcd392990c97a9f5d4ed4ea7cef33bbc2ff",
+        "id": "gold.raw.s05.normalize.dev.001",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.001.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 737,
+        "decodedPixelSha256": "d33372e8b609c77d8d27362dbaad626ae98d03d91d3b76388eb472daa66d4050",
+        "fileSha256": "2e91afeb0adac22a12f10663819d767aee4554f8730dd538733d61a0d916b0f8",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.001.png",
+        "sourceDeclarationDecodedPixelSha256": "d33372e8b609c77d8d27362dbaad626ae98d03d91d3b76388eb472daa66d4050"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.001",
+      "sourceId": "raw.s05.normalize.dev.001",
+      "sourceProvenanceRef": {
+        "byteLength": 2321,
+        "contentHash": "5bdacfc822f2a44efc5720d5936dac4b6bee433a5889998cd7ddc11d96edb72b",
+        "fileSha256": "4ebc47bf58b9dbcb40ac904166403cb392482a40245da90f55d3b545db5249dc",
+        "id": "provenance.raw.s05.normalize.dev.001",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.001.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.002",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1709,
+        "contentHash": "b724e2ca3c103544ec14bd64e7a3e8ff83a30dac11374d03822fc1d1c188e512",
+        "fileSha256": "4bb24a576fb72e7031107134e71671a2bb698583d252227586b829ba512d688f",
+        "id": "gold.raw.s05.normalize.dev.002",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.002.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1511,
+        "decodedPixelSha256": "3f0ff805f5b3c418522318ed2790d9e8b179afa8fea7b4e58370afc63431e63e",
+        "fileSha256": "a9f0870594e89a6da9e23f682ae13f53c4c8fc61d786186f79a0b56d0040102e",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.002.png",
+        "sourceDeclarationDecodedPixelSha256": "3f0ff805f5b3c418522318ed2790d9e8b179afa8fea7b4e58370afc63431e63e"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.002",
+      "sourceId": "raw.s05.normalize.dev.002",
+      "sourceProvenanceRef": {
+        "byteLength": 2323,
+        "contentHash": "20aec4af25adf010f464b160985a88105afb5a7763d0540f4915917b8b07f4fe",
+        "fileSha256": "dc891b228323c23a5dfe1ef4c88e00f5cff86fb52df750918b0bbfa07edafbb9",
+        "id": "provenance.raw.s05.normalize.dev.002",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.002.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.003",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1709,
+        "contentHash": "c00c3ca4ec29401407a0127285ca36040a7aca13d59351b9deb851aa58fdc7d8",
+        "fileSha256": "009f33fe258c8611df8c9fb97e6eb88045a280662e33bd701c5e07f7160f6616",
+        "id": "gold.raw.s05.normalize.dev.003",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.003.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 703,
+        "decodedPixelSha256": "98605289e78359deda1cbafdf6839ceb43c1b75ad36eb775df1bdaf303aaaa03",
+        "fileSha256": "2046364fb265b4bca5a008b9c9114da957d3939c9743bed9d50aea4a5cc182c7",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.003.png",
+        "sourceDeclarationDecodedPixelSha256": "98605289e78359deda1cbafdf6839ceb43c1b75ad36eb775df1bdaf303aaaa03"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.003",
+      "sourceId": "raw.s05.normalize.dev.003",
+      "sourceProvenanceRef": {
+        "byteLength": 2322,
+        "contentHash": "a0a7b451cb1abb4c30a6fbce4803883de8a9174e3fa00d3a397cb814731c04d0",
+        "fileSha256": "7b5a0fa50e3c9ad6d49d5310ecf6144fc697d35c586366c91d4ee4b4fb6f04d8",
+        "id": "provenance.raw.s05.normalize.dev.003",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.003.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.004",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1709,
+        "contentHash": "7d849e0a8e82ae8c11f7861db22a48d922ae8af33a68a69360c706b156abdbf0",
+        "fileSha256": "90e3b1d4d8b21fc092b4486fcb5a1eb0724c15e282a0b806602c855f014b15bd",
+        "id": "gold.raw.s05.normalize.dev.004",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.004.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 954,
+        "decodedPixelSha256": "cd1b1380c295fb373aebc038f0a1420e4aedfb480c26728e7c1093237346fcce",
+        "fileSha256": "43ad633ceb72a59ce16ffdeca047e63a251ebfa463eac0a6b1ed4720bad9c148",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.004.png",
+        "sourceDeclarationDecodedPixelSha256": "cd1b1380c295fb373aebc038f0a1420e4aedfb480c26728e7c1093237346fcce"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.004",
+      "sourceId": "raw.s05.normalize.dev.004",
+      "sourceProvenanceRef": {
+        "byteLength": 2322,
+        "contentHash": "26a4bd56e11a47fd906932f4aca648195e518c93e1e6e18917e96bcc5fc864bc",
+        "fileSha256": "d435c3da27f920646ccfa06f5196b0e7e26ac467b3e592a0782df298ca84cd6a",
+        "id": "provenance.raw.s05.normalize.dev.004",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.004.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.005",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1709,
+        "contentHash": "bab510e5e84c3c271a142078e5961c62061b2636e92d6ee8477dd0484ebb7b66",
+        "fileSha256": "ed3c25777b3d962e20a27fc60dcefa5b63a6fc48198231461e2909d85ded4e2b",
+        "id": "gold.raw.s05.normalize.dev.005",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.005.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1372,
+        "decodedPixelSha256": "8c5c4dcb314ea3423c7e4f89e6a9dd94a07cbb42e59548e2ccb58851bb595db9",
+        "fileSha256": "12e80ba4cccf83d7e01760104b28f62df6e2ded181e126a751d8e175141b4b1f",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.005.png",
+        "sourceDeclarationDecodedPixelSha256": "8c5c4dcb314ea3423c7e4f89e6a9dd94a07cbb42e59548e2ccb58851bb595db9"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.005",
+      "sourceId": "raw.s05.normalize.dev.005",
+      "sourceProvenanceRef": {
+        "byteLength": 2323,
+        "contentHash": "e821feeaa7b3b76d7622cf951d86b8cc6884c44df6bd3ff9c53497ee11aa110d",
+        "fileSha256": "d1b5927c8eaf227699a6e67d740a456a6caed44e42431a16ab683ab2edc2481c",
+        "id": "provenance.raw.s05.normalize.dev.005",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.005.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.006",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1709,
+        "contentHash": "f71f892105b4a72fa93b0935ebab82023dea0f0f2ae4203ea49fa381d4a2ec2d",
+        "fileSha256": "ed684ab155141008de515af70a063716553ed438eb9d824bcb81395230428433",
+        "id": "gold.raw.s05.normalize.dev.006",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.006.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 833,
+        "decodedPixelSha256": "9d92a4fecb5e11e4166c4ae2eecde4d5365b834d7ba22e5ebd1bc2e63d97ba1b",
+        "fileSha256": "e375acbeb5adcf5babe7bc7748af9b0068c0ab9b722d666340a99e501f8e53fe",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.006.png",
+        "sourceDeclarationDecodedPixelSha256": "9d92a4fecb5e11e4166c4ae2eecde4d5365b834d7ba22e5ebd1bc2e63d97ba1b"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.006",
+      "sourceId": "raw.s05.normalize.dev.006",
+      "sourceProvenanceRef": {
+        "byteLength": 2322,
+        "contentHash": "ba8e1c590d5ab563cb79e40795d7b137f46573af90bbee9e1bb3fd4f4f93d6fe",
+        "fileSha256": "183f180821efab703110a5a2664f51814f6ebda397307393e591e94475772db8",
+        "id": "provenance.raw.s05.normalize.dev.006",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.006.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.007",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1707,
+        "contentHash": "ece7a1144fefb85fb6c28a0944d3dd99a2670c07a65b6d7d4f8ea435957322c1",
+        "fileSha256": "ff3aa1b98224360be880136887ec7f66c5106ee0bf06dfcacddf96eda5c666d0",
+        "id": "gold.raw.s05.normalize.dev.007",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.007.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 599,
+        "decodedPixelSha256": "a2e9ece76a91802adc1ea16c3f6b85c20b66a51916173d5754a5bfbee0022627",
+        "fileSha256": "156525dd19f7cc442744e6103c09dd204d691d40038a137976eb1894dbe0d533",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.007.png",
+        "sourceDeclarationDecodedPixelSha256": "a2e9ece76a91802adc1ea16c3f6b85c20b66a51916173d5754a5bfbee0022627"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.007",
+      "sourceId": "raw.s05.normalize.dev.007",
+      "sourceProvenanceRef": {
+        "byteLength": 2327,
+        "contentHash": "59226f5fd014593fbec6d932160bc72e662582d5cdd5e3b29ff40d51031bd76d",
+        "fileSha256": "22ef1c0aa989f7aad209152b64edd9b0ab7cd448828b856b0326a32afb2febda",
+        "id": "provenance.raw.s05.normalize.dev.007",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.007.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.008",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "28db9873919c14a0ceb365818089796a2da1c141111c0f172f67976a76b5eabc",
+        "fileSha256": "c310e77881e1a936dc31ba2576cb2fbae0092da595b66dfc8ae112f119b803b3",
+        "id": "gold.raw.s05.normalize.dev.008",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.008.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1323,
+        "decodedPixelSha256": "f473ca44a282ef7222ab2db7212946e6dc38f96c74f9effc991dd30fa9d45fd1",
+        "fileSha256": "99fec3a16a0ff23a7c6f21385af6c101125784be71825177f02338d46ae6610a",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.008.png",
+        "sourceDeclarationDecodedPixelSha256": "f473ca44a282ef7222ab2db7212946e6dc38f96c74f9effc991dd30fa9d45fd1"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.008",
+      "sourceId": "raw.s05.normalize.dev.008",
+      "sourceProvenanceRef": {
+        "byteLength": 2329,
+        "contentHash": "6520c4a3e64f185823b8f5b6ec65f6644955287ddded45c92aa72588f4df0ed4",
+        "fileSha256": "9bc4ec13686862d5e6e5d1777702d93d84099447a5381f953a012a474b7d392f",
+        "id": "provenance.raw.s05.normalize.dev.008",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.008.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.009",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1707,
+        "contentHash": "8903d8f27b8dafa04c7b58967d42e1bb9d78a72525449de57edf546c54bd873b",
+        "fileSha256": "6f668fd4bd7c52b8202655a1e20079e25eaa381ec1b8193ae684f3035ff657be",
+        "id": "gold.raw.s05.normalize.dev.009",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.009.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 411,
+        "decodedPixelSha256": "0f3bad18eddbce07e23fa8f7e7977d2ec9b4b0e9e8973330db5a8cfe5051bb8b",
+        "fileSha256": "b11a49b022811d5c2fa1f697402d887b7507d3176a2059f8cf349a2830a6cbb3",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.009.png",
+        "sourceDeclarationDecodedPixelSha256": "0f3bad18eddbce07e23fa8f7e7977d2ec9b4b0e9e8973330db5a8cfe5051bb8b"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.009",
+      "sourceId": "raw.s05.normalize.dev.009",
+      "sourceProvenanceRef": {
+        "byteLength": 2327,
+        "contentHash": "114635f6f938fbaebe7b6e2d8223f9ce4cdc7923cb17c179bfedc36e890492f6",
+        "fileSha256": "3ae082059960db38a062a161794fc0bea50efd085e1666067604654c3306526b",
+        "id": "provenance.raw.s05.normalize.dev.009",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.009.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.010",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "ce30ffaa0bdc76d9f49f775483bb369304056547268817c9e5b45f3d789e041f",
+        "fileSha256": "a03f83ee992d3a6d5bc8ad984272fb2bff76421cac3a87c28ce4e157dde576d9",
+        "id": "gold.raw.s05.normalize.dev.010",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.010.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1861,
+        "decodedPixelSha256": "49f467582b70d3cfbd22ba6369d18ec451205cd46d48668c889b438da6957619",
+        "fileSha256": "ff9b1025fa01d57da3bc19086bcdd53edee137bc2839140034e07551c35bea1f",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.010.png",
+        "sourceDeclarationDecodedPixelSha256": "49f467582b70d3cfbd22ba6369d18ec451205cd46d48668c889b438da6957619"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.010",
+      "sourceId": "raw.s05.normalize.dev.010",
+      "sourceProvenanceRef": {
+        "byteLength": 2329,
+        "contentHash": "9962de0cb928d1311577aa2d0c90703f56c64890dbd5c561a6eb97442a05571c",
+        "fileSha256": "816552d76123ce452b36bfcc7971eb2938f7b7f1bda20815f8f237c5c0192354",
+        "id": "provenance.raw.s05.normalize.dev.010",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.010.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.011",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1707,
+        "contentHash": "89bb7774a3a990d6ce6f3d0a37dc4e141c1ce8e49345f9f4b63462488ea8b771",
+        "fileSha256": "a96a0608d24a422afaaf6409b750d09f6a7f74883c658b4d9d424baf85be6ee6",
+        "id": "gold.raw.s05.normalize.dev.011",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.011.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 665,
+        "decodedPixelSha256": "29600339309ada55b343e700c2b5b7e68736ddd922c65a649473a72c50db78ec",
+        "fileSha256": "6597d0cd4f655bd06ef7a29de030312280aeef2bfbb41d0cdedd1aea74599180",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.011.png",
+        "sourceDeclarationDecodedPixelSha256": "29600339309ada55b343e700c2b5b7e68736ddd922c65a649473a72c50db78ec"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.011",
+      "sourceId": "raw.s05.normalize.dev.011",
+      "sourceProvenanceRef": {
+        "byteLength": 2327,
+        "contentHash": "fa678b1b47a7a2240d29febb62e8604d2980279b6090e12aa3418f0fb868058e",
+        "fileSha256": "130d9acbbb5c93e8bf1488bd5b790c896538d5bacfef2c593ba1b9f81b91a6af",
+        "id": "provenance.raw.s05.normalize.dev.011",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.011.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.012",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "6e52d6365d999efc189bbb9c643da2c69d986a3267f8b9f75363f4b333bbf2c3",
+        "fileSha256": "f76d7768f94aa2dd13a60bdd5e44879815aa5cbf2862ab6179920f3c649d0d2a",
+        "id": "gold.raw.s05.normalize.dev.012",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.012.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 571,
+        "decodedPixelSha256": "e84a0b65f42bbf82ee157a01641d8fe47aaaba5b2b46936acbf30ea2af53c1f0",
+        "fileSha256": "a22d975e09ab521ef5ee98c7c74614f432bc0898cb4abcfb2f2ca68b344f9be0",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.012.png",
+        "sourceDeclarationDecodedPixelSha256": "e84a0b65f42bbf82ee157a01641d8fe47aaaba5b2b46936acbf30ea2af53c1f0"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.012",
+      "sourceId": "raw.s05.normalize.dev.012",
+      "sourceProvenanceRef": {
+        "byteLength": 2328,
+        "contentHash": "bb59218b5141bee4336f634914f235a09a1b2e6c913501b6d014bf333a6fc9d3",
+        "fileSha256": "a43410af05c93002e41992c0142b2fe9ab22145ab7754d59ecd1701e0a5ae859",
+        "id": "provenance.raw.s05.normalize.dev.012",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.012.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.013",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1707,
+        "contentHash": "a3f9d9afc08a714962d8ded7e7d8f8bf4eb05fc23201c5f2bcea10537148f603",
+        "fileSha256": "fcd5f3757ceb421d6d8f283f9b3bc25ebdce7fbbd765f86c32233b232629dacc",
+        "id": "gold.raw.s05.normalize.dev.013",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.013.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 754,
+        "decodedPixelSha256": "42cc0340c0b9d16dfc95e19d2530a459eaf9429d7492552690fe3914c651de89",
+        "fileSha256": "2b41d6987368f13ac93dce6378664fb47691b67cdb82ec2928f40228cceddac7",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.013.png",
+        "sourceDeclarationDecodedPixelSha256": "42cc0340c0b9d16dfc95e19d2530a459eaf9429d7492552690fe3914c651de89"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.013",
+      "sourceId": "raw.s05.normalize.dev.013",
+      "sourceProvenanceRef": {
+        "byteLength": 2325,
+        "contentHash": "caddc880ef4d8a4d0ce18c951c12863b3511abe404b44606fd3a0b6792d217d5",
+        "fileSha256": "d8572ed91efb0b30eb25b2b312385590829001fdbbc14cf8a52658ad7e073656",
+        "id": "provenance.raw.s05.normalize.dev.013",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.013.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.014",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1707,
+        "contentHash": "406cb3c17587e270e46a60e6625aa07899a8fc2b73222a33bad745169c555929",
+        "fileSha256": "8afe9594472ec59b948114b9e3b84797da22485cf85ac0dc54a0055026b16890",
+        "id": "gold.raw.s05.normalize.dev.014",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.014.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 871,
+        "decodedPixelSha256": "40338f379c4e2825991dbc4c20b39f8b54c4cdd4799e0780b8c0b34f46430eef",
+        "fileSha256": "ee093762c7f7ed9096f6637e69746811c37cd56276218e3eb4add5ea0ad26ad9",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.014.png",
+        "sourceDeclarationDecodedPixelSha256": "40338f379c4e2825991dbc4c20b39f8b54c4cdd4799e0780b8c0b34f46430eef"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.014",
+      "sourceId": "raw.s05.normalize.dev.014",
+      "sourceProvenanceRef": {
+        "byteLength": 2325,
+        "contentHash": "08f927661f13dcaa51139c0488e261a7e9e52763c40b2922372ca98e3eabf2c2",
+        "fileSha256": "971984334b4c66e7e112072094a0a3aa813bc9288c7910f083d061caf5ad10fd",
+        "id": "provenance.raw.s05.normalize.dev.014",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.014.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.015",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "3d21d786a410d2b8b5e3f26972054300a22d25eb2bd7dfba581fc9bc8acc7ab9",
+        "fileSha256": "7ba659a6378b51962e9e935ecdff8bde4ae477085e6ef0097ed68f40b3b20464",
+        "id": "gold.raw.s05.normalize.dev.015",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.015.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 980,
+        "decodedPixelSha256": "58559519a22e146e7f007da7f13f909d05e2ed50caa72bf251a3f48218bedfac",
+        "fileSha256": "d8a6c2c25944685963ec54cfddc1e9f68230d0dd05c07fbefae6ce51d3d7a8eb",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.015.png",
+        "sourceDeclarationDecodedPixelSha256": "58559519a22e146e7f007da7f13f909d05e2ed50caa72bf251a3f48218bedfac"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.015",
+      "sourceId": "raw.s05.normalize.dev.015",
+      "sourceProvenanceRef": {
+        "byteLength": 2326,
+        "contentHash": "5b687db32057052d1e8346a3cfb9507e647cf43ee5327e81d9cd96dfbf3a8dc3",
+        "fileSha256": "ea2b6effba877f389719a0ed171b95e8af3e0f2f2145e4756fd78af5ed7f55a0",
+        "id": "provenance.raw.s05.normalize.dev.015",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.015.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.016",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "43f648eaeff0803711c50e18ee95b5a73253feab1406c6cba8a75d1b8fa1339c",
+        "fileSha256": "47fd2c623d45e1675d64d8ec9ae4cb37f2d833b4d5a504293d1182f86a9fdfd5",
+        "id": "gold.raw.s05.normalize.dev.016",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.016.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 698,
+        "decodedPixelSha256": "ebe3b4908813fcd72f95382fcc3ed8e46542717e21a8188b754548d7b55da071",
+        "fileSha256": "d5d97f91e1627bdb82105c673791899fdbf733227a1ff271de79a0d3a0b9bbb6",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.016.png",
+        "sourceDeclarationDecodedPixelSha256": "ebe3b4908813fcd72f95382fcc3ed8e46542717e21a8188b754548d7b55da071"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.016",
+      "sourceId": "raw.s05.normalize.dev.016",
+      "sourceProvenanceRef": {
+        "byteLength": 2326,
+        "contentHash": "15e9c07460e0a018a1e9f7a7ccfb3169768bd261cec50fb274133b05bfa8e34b",
+        "fileSha256": "e8c9328be0c5fe848703e0b87cb26dac7f944f10bfeaeae9019fbf41e0d27eaa",
+        "id": "provenance.raw.s05.normalize.dev.016",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.016.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.017",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "16f126c042a34efc4cc0eff21facdb424423e7e7ea39ff2c8402f7280807c8cc",
+        "fileSha256": "0d525db7207490c1b3f8fa219cfae836355accb805352eade4fa8127b2d83bdc",
+        "id": "gold.raw.s05.normalize.dev.017",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.017.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1260,
+        "decodedPixelSha256": "8558bc9de16c79a3e7a583400f072d4cadd6679c2271223213ef65769f60773d",
+        "fileSha256": "9852d366c4ae5af30deb3e80e988f67e361fe57204f64982a427fcdcf7434f29",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.017.png",
+        "sourceDeclarationDecodedPixelSha256": "8558bc9de16c79a3e7a583400f072d4cadd6679c2271223213ef65769f60773d"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.017",
+      "sourceId": "raw.s05.normalize.dev.017",
+      "sourceProvenanceRef": {
+        "byteLength": 2327,
+        "contentHash": "0f6b18238edff680747fac5936daf419f6d231f1fa193240e4d3d9e62c8b9a93",
+        "fileSha256": "e1717a2963154c94b9a27fb31bcf198dcfc0c7796a815d498e0f792956afb71f",
+        "id": "provenance.raw.s05.normalize.dev.017",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.017.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.018",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1708,
+        "contentHash": "a368e65c4f3ad6bdd4541358ea2b119f855dd35a69a9d02636226698013f20a2",
+        "fileSha256": "1208b220f7aab592bba18757e198bd0b064aeb208c63f4eb0e185aacd7d23c2e",
+        "id": "gold.raw.s05.normalize.dev.018",
+        "path": "gold/normalize-dev/gold.raw.s05.normalize.dev.018.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1684,
+        "decodedPixelSha256": "eb75075a9d02a60f2b50fe816770b8dd29aed78c8447278484862d14be4e6158",
+        "fileSha256": "df7d242493d88adb5e6472685c3b1c68746313eaba3a112a4cff7ee77ed17e13",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.018.png",
+        "sourceDeclarationDecodedPixelSha256": "eb75075a9d02a60f2b50fe816770b8dd29aed78c8447278484862d14be4e6158"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.018",
+      "sourceId": "raw.s05.normalize.dev.018",
+      "sourceProvenanceRef": {
+        "byteLength": 2327,
+        "contentHash": "1a987af3a290f26a9339a833c93a0d65478630049cf026bf8aeac4f9b5598ef5",
+        "fileSha256": "bb4f21e2967dc432867ecfc0e24829c236ddb1a61b79130daf542bf6bcefdf6c",
+        "id": "provenance.raw.s05.normalize.dev.018",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.018.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.019",
+      "categoryId": "container-signature-or-crc-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.idat-crc-mismatch",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 622,
+        "decodedPixelSha256": null,
+        "fileSha256": "542c939e0ae570d6d6b7a46d8881cf095787d59fb76dd0a591f978e79a6e7778",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.019.png",
+        "sourceDeclarationDecodedPixelSha256": "bcd21ddbfa4cfb2dc16bf7e4f1af7e2dc20fefbbf81130cc69cf0dba3c8f3809"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.019",
+      "sourceId": "raw.s05.normalize.dev.019",
+      "sourceProvenanceRef": {
+        "byteLength": 2316,
+        "contentHash": "68acd0444ce6af54c9770d8e3336b5c77e72b37f6119335a10a540279aa995a6",
+        "fileSha256": "d971c2af5139ff760a012ad26ca428c4ae467c8f27592f8130f4e1056df97f27",
+        "id": "provenance.raw.s05.normalize.dev.019",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.019.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.020",
+      "categoryId": "container-signature-or-crc-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.idat-crc-mismatch",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 611,
+        "decodedPixelSha256": null,
+        "fileSha256": "7209115ae8ca9fc11a990413ea216dc3c7eda636bacaa5149effb7071c170c73",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.020.png",
+        "sourceDeclarationDecodedPixelSha256": "80422a071efe50ce05fe048f33d1913b4078256deef0f04f9a0c6d8a365e16a1"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.020",
+      "sourceId": "raw.s05.normalize.dev.020",
+      "sourceProvenanceRef": {
+        "byteLength": 2315,
+        "contentHash": "420e25d25850ead96c6b77996068ebd6f7a21f0ce786575a41b100653d1f5b74",
+        "fileSha256": "098d5f86148c3e407531af0035f34986d717c65dfc587acbdb916d88ccfc37be",
+        "id": "provenance.raw.s05.normalize.dev.020",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.020.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.021",
+      "categoryId": "container-signature-or-crc-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.idat-crc-mismatch",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 636,
+        "decodedPixelSha256": null,
+        "fileSha256": "721f19b4ed01b9069a6f4dd38f9514fb91d59a10830abe4df80bf42e0172283e",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.021.png",
+        "sourceDeclarationDecodedPixelSha256": "6453b97e3477cfdf027317468a16a5a21305cda6794842a669bdf73859c2cf2c"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.021",
+      "sourceId": "raw.s05.normalize.dev.021",
+      "sourceProvenanceRef": {
+        "byteLength": 2315,
+        "contentHash": "6a8132c9e07f66354930722cb239a3def481f72db757f7b2478459e85252014e",
+        "fileSha256": "df3118aadc1932ff817cc34fa18c008bc30204c804896aded3e448e983eb4626",
+        "id": "provenance.raw.s05.normalize.dev.021",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.021.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.022",
+      "categoryId": "container-signature-or-crc-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.idat-crc-mismatch",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 686,
+        "decodedPixelSha256": null,
+        "fileSha256": "e0e62531ed8e4d026c59baae1e53b27d0f1e9e831cbc5805bae8f36d592f8b5b",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.022.png",
+        "sourceDeclarationDecodedPixelSha256": "e7370a243dea7f820f7d6e551b2aa89f5e3630054cf2e4201a7ae3694fd938a5"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.022",
+      "sourceId": "raw.s05.normalize.dev.022",
+      "sourceProvenanceRef": {
+        "byteLength": 2315,
+        "contentHash": "438ea14673061020b3f1b2427c6a8f32d75c8bf9005323d44d1e3182c1958061",
+        "fileSha256": "4792abed17e5db88dea59ae70b40d48a66cffdcd6f410af282ffaf9c01d87c0b",
+        "id": "provenance.raw.s05.normalize.dev.022",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.022.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.023",
+      "categoryId": "pixel-layout-color-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.missing-srgb-chunk",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 960,
+        "decodedPixelSha256": null,
+        "fileSha256": "922b727f81888080ef41dd3973d116d43774f585419d124e596e4f0af2daa585",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.023.png",
+        "sourceDeclarationDecodedPixelSha256": "bc4faa5b4130eea833083d7847074dc637414a2fecf965c0febacab6bf212299"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.023",
+      "sourceId": "raw.s05.normalize.dev.023",
+      "sourceProvenanceRef": {
+        "byteLength": 2322,
+        "contentHash": "1349019923d81748fe8b57a2948a30b5009f94d197d32d7a20577d93611e5fa9",
+        "fileSha256": "b6b0fbd47e8fe4e7a38acaca972a9f7ed9486ac8eb86c32b2836a24b253af6cc",
+        "id": "provenance.raw.s05.normalize.dev.023",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.023.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.024",
+      "categoryId": "pixel-layout-color-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.missing-srgb-chunk",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 596,
+        "decodedPixelSha256": null,
+        "fileSha256": "936ebda0f2805088506c292bc52dac1933084fb593f9f363916272b8fdd85b70",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.024.png",
+        "sourceDeclarationDecodedPixelSha256": "276f5d48bd842ad90a9c50f6aa30dfc5b8ff1944446c6b710b1b727f5e27e583"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.024",
+      "sourceId": "raw.s05.normalize.dev.024",
+      "sourceProvenanceRef": {
+        "byteLength": 2320,
+        "contentHash": "dbbf6f0918fde5d1319a54640bafcb65b52d9daa991364ddfd52b4d2b6a3f011",
+        "fileSha256": "9ba0b436395dec41558d30609774278418bf2e6f8b86fe91df050c23754bbe39",
+        "id": "provenance.raw.s05.normalize.dev.024",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.024.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.025",
+      "categoryId": "pixel-layout-color-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.missing-srgb-chunk",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 739,
+        "decodedPixelSha256": null,
+        "fileSha256": "6f6cf3837aad80e419ddc7fff6c358059bcbf42817a6f4b84dd7646e4fdaca7c",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.025.png",
+        "sourceDeclarationDecodedPixelSha256": "e695a2cb7e1a1158deda2352ce0487d91fedf556b7ed15fe8014457447fe08d8"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.025",
+      "sourceId": "raw.s05.normalize.dev.025",
+      "sourceProvenanceRef": {
+        "byteLength": 2321,
+        "contentHash": "02a3bca22be50b226e6799a11a72844972bef302d5e6c021a4fa9b464caa09d3",
+        "fileSha256": "02893f68998450989e09f9828d6cd32ae80010a8be2978b48bf48c32f8ca6c82",
+        "id": "provenance.raw.s05.normalize.dev.025",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.025.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.026",
+      "categoryId": "pixel-layout-color-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.missing-srgb-chunk",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 428,
+        "decodedPixelSha256": null,
+        "fileSha256": "ba7fee3625de6ea07eae37871e605be3f0fea591f32a7556dc0f97dc03a36018",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.026.png",
+        "sourceDeclarationDecodedPixelSha256": "e84b7cc3db25db3c07aac68581cdee7e9babd18b432dbdf7114dbe7b4bf40379"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.026",
+      "sourceId": "raw.s05.normalize.dev.026",
+      "sourceProvenanceRef": {
+        "byteLength": 2321,
+        "contentHash": "e0e83382e2dbda74c3ed783c05c6de24e3e411abbeb74b1d990fe05eac736d79",
+        "fileSha256": "da7149c65502f2281d034da98d3936ab956860e4cc2683f562e8ef47311a4070",
+        "id": "provenance.raw.s05.normalize.dev.026",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.026.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.027",
+      "categoryId": "resource-limit-or-unsupported-format",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.unsupported-jpeg",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 38,
+        "decodedPixelSha256": null,
+        "fileSha256": "1e7e1a933342560d53d213bfbf987ca3a7e4c1455efd5dc6b406406a77f622c0",
+        "mime": "image/jpeg",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.027.jpg",
+        "sourceDeclarationDecodedPixelSha256": "1a9b18badd437961915b7ca88de37223cbe3cef578fe0f077a91a6c9c11713ff"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.027",
+      "sourceId": "raw.s05.normalize.dev.027",
+      "sourceProvenanceRef": {
+        "byteLength": 2335,
+        "contentHash": "3f3e1ebf02a18ad85ef9ebce1e75a7435b356160026486130773916e53ba6c70",
+        "fileSha256": "14a79c8d1ca3020acb0a3731409bb7881270c6fdb22d5a2172213003812d9192",
+        "id": "provenance.raw.s05.normalize.dev.027",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.027.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.028",
+      "categoryId": "resource-limit-or-unsupported-format",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.unsupported-webp",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 36,
+        "decodedPixelSha256": null,
+        "fileSha256": "70f4856bc83c38b55773b49327ff6dcbe3c3d58ab3fe1caf05d4b851b3164eeb",
+        "mime": "image/webp",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.028.webp",
+        "sourceDeclarationDecodedPixelSha256": "1ab2c686331a62041f9d7734ad0c33f2f6c074ead71006140b509d5c3e5f7a2d"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.028",
+      "sourceId": "raw.s05.normalize.dev.028",
+      "sourceProvenanceRef": {
+        "byteLength": 2335,
+        "contentHash": "f1fb3d77c72d00eaa0da84ed206b714c92f7d37a08c3bae59efde08860f33c56",
+        "fileSha256": "1fcafa5f009e11fdf3bbf65cf0523940fcf61b5524bb5e986e04a4e4a83f4a69",
+        "id": "provenance.raw.s05.normalize.dev.028",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.028.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.029",
+      "categoryId": "resource-limit-or-unsupported-format",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.unsupported-octet-stream",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 46,
+        "decodedPixelSha256": null,
+        "fileSha256": "394e18e8e95838f48d644c584800b081d19630badd42d5f09b202b1863024503",
+        "mime": "application/octet-stream",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.029.bin",
+        "sourceDeclarationDecodedPixelSha256": "4b53cc2f41fe5c9e13886e45bf39899d5451ecbe9644c7d99f7ef9b5cc1c7363"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.029",
+      "sourceId": "raw.s05.normalize.dev.029",
+      "sourceProvenanceRef": {
+        "byteLength": 2356,
+        "contentHash": "df59a1e89c99a84c31455a583a6151cca6fefa3b0c7d0c7f9f72d81a7c00f8b4",
+        "fileSha256": "794fea64a6f83aa0cdd29743bf9ec83443bd6cf7ecb03aa6aaa53ba3fcfa8fbc",
+        "id": "provenance.raw.s05.normalize.dev.029",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.029.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.dev.030",
+      "categoryId": "resource-limit-or-unsupported-format",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.byte-limit-plus-one",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1048577,
+        "decodedPixelSha256": null,
+        "fileSha256": "3d77a1040ea12d63992635a824d9aebffbbe7153d16f820201e1efe7bec251a1",
+        "mime": "image/png",
+        "path": "assets/open/normalize-dev/raw.s05.normalize.dev.030.png",
+        "sourceDeclarationDecodedPixelSha256": "bc1f73aba63c66eab65645f71448584ee54f81b145a02850125a1f3a659fbc17"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.dev.030",
+      "sourceId": "raw.s05.normalize.dev.030",
+      "sourceProvenanceRef": {
+        "byteLength": 2342,
+        "contentHash": "324a8433a93c9b8c091d396230ab05bd1bb96b8f24065dd4b75a6f7f29d620bb",
+        "fileSha256": "238cec02560d672efb32d6958643feca81c79cf9e3534fb0980e55d511c11d87",
+        "id": "provenance.raw.s05.normalize.dev.030",
+        "path": "sources/normalize-dev/raw.s05.normalize.dev.030.json"
+      }
+    }
+  ],
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "formalBoundary": {
+    "c1Eligible": false,
+    "formal": false,
+    "holdoutMaterial": false
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "gateBPrerequisite": "operation-specific-gate-b-pass-required-not-yet-met",
+  "isolation": {
+    "captureSessionIdsUniqueAcrossDefinitionTree": true,
+    "exactRawAssetHashReuseForbidden": true,
+    "operationSpecificFamiliesAndSessions": true,
+    "priorSliceFixtureReuseForbidden": true,
+    "sourceFamilyIdsUniqueAcrossDefinitionTree": true
+  },
+  "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-DEV-CALIBRATION@0.5.0",
+  "manifestKind": "open-calibration",
+  "manifestVersion": "0.5.0",
+  "operationScope": [
+    "normalize"
+  ],
+  "partition": "dev/calibration",
+  "rightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "rights/open-synthetic.v0.5.0.json"
+  },
+  "schemaVersion": "fixture-manifest.slice05.v0",
+  "stateAtDefinitionFreeze": "created-open-registered-not-run"
+}

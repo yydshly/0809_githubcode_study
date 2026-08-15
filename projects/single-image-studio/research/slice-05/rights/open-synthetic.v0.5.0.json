@@ -1,0 +1,44 @@
+{
+  "assetClass": "project-original-deterministic-synthetic-open-research-fixtures",
+  "authorIds": [
+    "role.fixture-gold-author"
+  ],
+  "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "permissions": {
+    "fixtureRedistribution": true,
+    "permissionBasis": "project-original-authorship",
+    "publicDisplay": true,
+    "repositoryStorage": true,
+    "researchModification": true
+  },
+  "provenance": {
+    "candidateOutputUsedToDefineGold": false,
+    "containsRealPerson": false,
+    "generatedLocally": true,
+    "generatorId": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "generatorImplementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "modelWeightsUsed": false,
+    "realUserPhotosUsed": false,
+    "thirdPartyAssetsUsed": false
+  },
+  "recordVersion": "0.5.0",
+  "rightsRecordId": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+  "schemaVersion": "rights-record.slice05.v0"
+}

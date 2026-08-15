@@ -1,0 +1,613 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalEvidence": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "hashRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "nullableSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "packageName": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "scopeDirectoryName": {
+      "pattern": "^@[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/capability-contract.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifactSchemaRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "$ref": "#/$defs/fileRef"
+          },
+          "role": {
+            "enum": [
+              "input-normalized-image",
+              "output-normalized-image",
+              "output-delivery-artifact"
+            ],
+            "type": "string"
+          },
+          "schemaVersion": {
+            "enum": [
+              "normalized-image.slice04.v0",
+              "delivery-artifact.slice04.v0"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "schemaVersion",
+          "file"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "calibrationStateAtDefinitionFreeze": {
+      "const": "blocked-until-this-operation-gate-b-passes",
+      "type": "string"
+    },
+    "candidateRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "capabilityId": {
+      "const": "CAP-02",
+      "type": "string"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "contractId": {
+      "enum": [
+        "CC-CAP02-NORMALIZE-PNG@0.5.0",
+        "CC-CAP02-EXPORT-PNG@0.5.0"
+      ],
+      "type": "string"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "failureSemantics": {
+      "additionalProperties": false,
+      "properties": {
+        "artifactOnFailure": {
+          "const": false,
+          "type": "boolean"
+        },
+        "failClosed": {
+          "const": true,
+          "type": "boolean"
+        },
+        "stableErrorCodeRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "unknownIsNonPass": {
+          "const": true,
+          "type": "boolean"
+        },
+        "unsupportedFormatsRejectBeforeCandidateWorker": {
+          "const": true,
+          "type": "boolean"
+        },
+        "validResultRerunAllowed": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "failClosed",
+        "stableErrorCodeRequired",
+        "artifactOnFailure",
+        "validResultRerunAllowed",
+        "unsupportedFormatsRejectBeforeCandidateWorker",
+        "unknownIsNonPass"
+      ],
+      "type": "object"
+    },
+    "formalDefectHoldoutStatusAtDefinitionFreeze": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "formalEscapeStatusAtDefinitionFreeze": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "formalHoldoutStatusAtDefinitionFreeze": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "gateBStateAtDefinitionFreeze": {
+      "const": "not-evaluated",
+      "type": "string"
+    },
+    "implementation": {
+      "additionalProperties": false,
+      "properties": {
+        "adapterRef": {
+          "$ref": "#/$defs/implementationRef"
+        },
+        "atomicCommitRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "fallbackAllowed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "imagePipelineExecutedByDefinitionGenerator": {
+          "const": false,
+          "type": "boolean"
+        },
+        "independentOracleRef": {
+          "$ref": "#/$defs/implementationRef"
+        },
+        "independentReopenRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "isolatedWorkerRequired": {
+          "const": true,
+          "type": "boolean"
+        },
+        "passthroughAllowed": {
+          "const": false,
+          "type": "boolean"
+        },
+        "state": {
+          "const": "installed-definition-only-not-admitted",
+          "type": "string"
+        },
+        "workerRef": {
+          "$ref": "#/$defs/implementationRef"
+        }
+      },
+      "required": [
+        "state",
+        "adapterRef",
+        "workerRef",
+        "independentOracleRef",
+        "isolatedWorkerRequired",
+        "independentReopenRequired",
+        "passthroughAllowed",
+        "fallbackAllowed",
+        "atomicCommitRequired",
+        "imagePipelineExecutedByDefinitionGenerator"
+      ],
+      "type": "object"
+    },
+    "inputProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "alphaMode": {
+          "const": "straight-unpremultiplied",
+          "type": "string"
+        },
+        "animation": {
+          "const": "forbidden",
+          "type": "string"
+        },
+        "colorSpace": {
+          "const": "embedded-sRGB",
+          "type": "string"
+        },
+        "interlace": {
+          "const": "forbidden",
+          "type": "string"
+        },
+        "maxBytes": {
+          "const": 1048576,
+          "type": "integer"
+        },
+        "maxHeight": {
+          "const": 256,
+          "type": "integer"
+        },
+        "maxWidth": {
+          "const": 256,
+          "type": "integer"
+        },
+        "metadataPolicy": {
+          "const": "strip-all-except-color-contract",
+          "type": "string"
+        },
+        "mime": {
+          "const": "image/png",
+          "type": "string"
+        },
+        "orientation": {
+          "const": 1,
+          "type": "integer"
+        },
+        "pixelLayout": {
+          "const": "RGBA8",
+          "type": "string"
+        },
+        "pngFilterPolicy": {
+          "const": "filter-0-only",
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "mime",
+        "maxBytes",
+        "maxWidth",
+        "maxHeight",
+        "pixelLayout",
+        "colorSpace",
+        "orientation",
+        "alphaMode",
+        "metadataPolicy",
+        "pngFilterPolicy",
+        "interlace",
+        "animation"
+      ],
+      "type": "object"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ],
+      "type": "string"
+    },
+    "outputProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "alphaMode": {
+          "const": "straight-unpremultiplied",
+          "type": "string"
+        },
+        "animation": {
+          "const": "forbidden",
+          "type": "string"
+        },
+        "colorSpace": {
+          "const": "embedded-sRGB",
+          "type": "string"
+        },
+        "interlace": {
+          "const": "forbidden",
+          "type": "string"
+        },
+        "maxBytes": {
+          "const": 1048576,
+          "type": "integer"
+        },
+        "maxHeight": {
+          "const": 256,
+          "type": "integer"
+        },
+        "maxWidth": {
+          "const": 256,
+          "type": "integer"
+        },
+        "metadataPolicy": {
+          "const": "strip-all-except-color-contract",
+          "type": "string"
+        },
+        "mime": {
+          "const": "image/png",
+          "type": "string"
+        },
+        "orientation": {
+          "const": 1,
+          "type": "integer"
+        },
+        "pixelLayout": {
+          "const": "RGBA8",
+          "type": "string"
+        },
+        "pngFilterPolicy": {
+          "const": "filter-0-only",
+          "type": "string"
+        },
+        "type": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "mime",
+        "maxBytes",
+        "maxWidth",
+        "maxHeight",
+        "pixelLayout",
+        "colorSpace",
+        "orientation",
+        "alphaMode",
+        "metadataPolicy",
+        "pngFilterPolicy",
+        "interlace",
+        "animation"
+      ],
+      "type": "object"
+    },
+    "recordVersion": {
+      "const": "0.5.0",
+      "type": "string"
+    },
+    "runnerRecordSchemaRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "$ref": "#/$defs/fileRef"
+          },
+          "role": {
+            "enum": [
+              "local-run-request",
+              "terminal-run-result",
+              "independent-oracle-result"
+            ],
+            "type": "string"
+          },
+          "schemaVersion": {
+            "enum": [
+              "local-run-request.slice05.v0",
+              "run-result.slice05.v0",
+              "oracle-result.slice05.v0"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "schemaVersion",
+          "file"
+        ],
+        "type": "object"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "runtimeAttestationRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "capability-contract.slice05.v0",
+      "type": "string"
+    },
+    "sourceSlice04ContractRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "suiteId": {
+      "const": "NORMALIZE-DELIVER",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "contractId",
+    "recordVersion",
+    "capabilityId",
+    "suiteId",
+    "operation",
+    "sourceSlice04ContractRef",
+    "candidateRef",
+    "runtimeAttestationRef",
+    "artifactSchemaRefs",
+    "runnerRecordSchemaRefs",
+    "inputProfile",
+    "outputProfile",
+    "implementation",
+    "failureSemantics",
+    "gateBStateAtDefinitionFreeze",
+    "calibrationStateAtDefinitionFreeze",
+    "formalHoldoutStatusAtDefinitionFreeze",
+    "formalDefectHoldoutStatusAtDefinitionFreeze",
+    "formalEscapeStatusAtDefinitionFreeze",
+    "evidenceBoundary",
+    "frozenAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

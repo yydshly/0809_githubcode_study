@@ -7,14 +7,21 @@
     "dev": "node --watch server/server.mjs",
     "start": "node server/server.mjs",
     "mobile": "node scripts/mobile-preview.mjs",
-    "research:generate": "node scripts/research-generate-fixtures.mjs && node scripts/research-generate-slice02.mjs && node scripts/research-generate-slice03.mjs && node scripts/research-generate-slice04.mjs",
-    "research:validate": "node scripts/research-validate-fixtures.mjs && node scripts/research-validate-slice02.mjs && node scripts/research-validate-slice03.mjs && node scripts/research-validate-slice04.mjs",
+    "research:generate": "node scripts/research-generate-fixtures.mjs && node scripts/research-generate-slice02.mjs && node scripts/research-generate-slice03.mjs && node scripts/research-generate-slice04.mjs && node scripts/research-generate-slice05.mjs",
+    "research:validate": "node scripts/research-validate-fixtures.mjs && node scripts/research-validate-slice02.mjs && node scripts/research-validate-slice03.mjs && node scripts/research-validate-slice04.mjs && node scripts/research-validate-slice05.mjs",
     "research:prepare": "npm run research:generate && npm run research:validate",
+    "research:smoke:slice05": "node scripts/research-run-slice05.mjs --smoke",
+    "research:calibrate:normalize:slice05": "node scripts/research-run-slice05.mjs --calibration normalize",
+    "research:calibrate:export:slice05": "node scripts/research-run-slice05.mjs --calibration export",
     "test": "node --test",
-    "check": "node --check server/server.mjs && node --check scripts/mobile-preview.mjs && node --check scripts/research-generate-fixtures.mjs && node --check scripts/research-validate-fixtures.mjs && node --check scripts/research-reference-adapters.mjs && node --check scripts/research-generate-slice02.mjs && node --check scripts/research-validate-slice02.mjs && node --check scripts/research-generate-slice03.mjs && node --check scripts/research-reference-adapters-slice03.mjs && node --check scripts/research-seal-ceremony-slice03.mjs && node --check scripts/research-validate-slice03.mjs && node --check scripts/research-generate-slice04.mjs && node --check scripts/research-validate-slice04.mjs && node --check web/main.js && node --check web/runtime-identity.js && node --check web/research/app.js && node --check web/research/research-fixtures.js",
+    "check": "node --check server/server.mjs && node --check scripts/mobile-preview.mjs && node --check scripts/research-generate-fixtures.mjs && node --check scripts/research-validate-fixtures.mjs && node --check scripts/research-reference-adapters.mjs && node --check scripts/research-generate-slice02.mjs && node --check scripts/research-validate-slice02.mjs && node --check scripts/research-generate-slice03.mjs && node --check scripts/research-reference-adapters-slice03.mjs && node --check scripts/research-seal-ceremony-slice03.mjs && node --check scripts/research-validate-slice03.mjs && node --check scripts/research-generate-slice04.mjs && node --check scripts/research-validate-slice04.mjs && node --check scripts/research-inventory-sharp-slice05.mjs && node --check scripts/research-independent-png-oracle-slice05.mjs && node --check scripts/research-sharp-adapter-slice05.mjs && node --check scripts/research-sharp-worker-slice05.mjs && node --check scripts/research-slice05-fault-worker.mjs && node --check scripts/research-generate-slice05.mjs && node --check scripts/research-run-slice05.mjs && node --check scripts/research-validate-slice05.mjs && node --check web/main.js && node --check web/runtime-identity.js && node --check web/research/app.js && node --check web/research/research-fixtures.js",
     "verify": "npm run research:validate && npm test && npm run check"
   },
   "engines": {
     "node": ">=22"
+  },
+  "devDependencies": {
+    "@img/sharp-win32-x64": "0.35.3",
+    "sharp": "0.35.3"
   }
 }

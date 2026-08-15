@@ -1,0 +1,47 @@
+{
+  "contentHash": "0c2ab040330d759f2fb3ea78310502e42a354f9241bdeb000f6d87bf7b566a5e",
+  "expected": {
+    "alphaMode": "straight-unpremultiplied",
+    "alphaPresent": true,
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "decodedPixelSha256": "1ba8ada3b07158359efeb65f2859b6bc5f949d32cc8b69e024f0f6edb5810239",
+    "fileSha256": null,
+    "height": 14,
+    "interlace": "forbidden",
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "parentIdentity": {
+      "artifactSha256": null,
+      "decodedPixelSha256": "1ba8ada3b07158359efeb65f2859b6bc5f949d32cc8b69e024f0f6edb5810239",
+      "fileSha256": "248ee0a4aa6a1ff334e33dc48c5cb74b7aa3fed969a64baa5ba21d9e593271da",
+      "id": "raw.s05.normalize.smoke.003",
+      "manifestSha256": "9c3eb1bdaac43cdadb4d9db273e0c5a9e501d02ec4a4c0f38c83077c5e66cff8"
+    },
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "width": 10
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "goldRecordId": "gold.raw.s05.normalize.smoke.003",
+  "operation": "normalize",
+  "partition": "smoke",
+  "provenance": {
+    "authorIds": [
+      "role.fixture-gold-author"
+    ],
+    "candidateAuthorIds": [
+      "role.candidate-implementation-author"
+    ],
+    "candidateDependencyUsed": false,
+    "candidateOutputUsed": false,
+    "candidateProduced": false,
+    "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "kind": "project-original-procedural",
+    "producerId": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "producerVersion": "0.5.0"
+  },
+  "schemaVersion": "gold-record.slice05.v0",
+  "sourceId": "raw.s05.normalize.smoke.003"
+}

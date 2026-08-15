@@ -1,0 +1,47 @@
+{
+  "contentHash": "8927aa5196c081e4191716c683c9dabe6f96cacaf3877c19599bda49ffa91714",
+  "expected": {
+    "alphaMode": "straight-unpremultiplied",
+    "alphaPresent": true,
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "decodedPixelSha256": "1ae859c75ba5b2a893c39c780b1ccca66260beaa4d8bd7dc5da8a958e26393cc",
+    "fileSha256": null,
+    "height": 9,
+    "interlace": "forbidden",
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "parentIdentity": {
+      "artifactSha256": "1efe6eacff9cb177f2ee0816ad1d2b06fd254d136b02968511911f9e16d576a9",
+      "decodedPixelSha256": "1ae859c75ba5b2a893c39c780b1ccca66260beaa4d8bd7dc5da8a958e26393cc",
+      "fileSha256": "f846793c1a4def04ecc487189cec83bdd316943339e21dece384d7fe1c38724f",
+      "id": "normalized.s05.export.dev.014",
+      "manifestSha256": "415e41c930385d6129d46bacc5b7b42c13177ef2da57dbfbc2b13800aac079c0"
+    },
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "width": 18
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "goldRecordId": "gold.normalized.s05.export.dev.014",
+  "operation": "export",
+  "partition": "dev/calibration",
+  "provenance": {
+    "authorIds": [
+      "role.fixture-gold-author"
+    ],
+    "candidateAuthorIds": [
+      "role.candidate-implementation-author"
+    ],
+    "candidateDependencyUsed": false,
+    "candidateOutputUsed": false,
+    "candidateProduced": false,
+    "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "kind": "project-original-procedural",
+    "producerId": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "producerVersion": "0.5.0"
+  },
+  "schemaVersion": "gold-record.slice05.v0",
+  "sourceId": "normalized.s05.export.dev.014"
+}

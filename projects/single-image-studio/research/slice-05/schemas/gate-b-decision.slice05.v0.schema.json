@@ -1,0 +1,285 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/gate-b-decision.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "calibrationAuthorized": {
+      "type": "boolean"
+    },
+    "conjunctResults": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidenceRefs": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "byteLength": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "contentHash": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "fileSha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "id": {
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+                  "type": "string"
+                },
+                "path": {
+                  "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "id",
+                "contentHash",
+                "byteLength",
+                "fileSha256"
+              ],
+              "type": "object"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "gateId": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "non-pass",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "gateId",
+          "status",
+          "evidenceRefs"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "decidedAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "calibration-ready",
+        "denied-not-entered"
+      ]
+    },
+    "decisionId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "e1": {
+          "const": 0
+        },
+        "formalEvidence": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "gateBPlanRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "productSupport": {
+      "const": false
+    },
+    "schemaVersion": {
+      "const": "gate-b-decision.slice05.v0"
+    },
+    "smokeSummaryRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "decisionId",
+    "operation",
+    "definitionRef",
+    "gateBPlanRef",
+    "smokeSummaryRef",
+    "conjunctResults",
+    "decision",
+    "calibrationAuthorized",
+    "productSupport",
+    "evidenceBoundary",
+    "decidedAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,444 @@
+{
+  "candidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "contentHash": "2f8a889d87ca3e66829b47d204d41973f9b495a1770eeb871f393155bf9630f2",
+  "crossOperationAggregationAllowed": false,
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "formalPartitionsCreatedAtDefinitionFreeze": false,
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "gateBPlanId": "GATE-B-SMOKE-NORMALIZE-EXPORT@0.5.0",
+  "goldRecordSchemaRef": {
+    "byteLength": 4078,
+    "fileSha256": "2ff58e7332c056f71d263a4b19301bbef699ca84a01c30046ac903e698c06a2e",
+    "path": "schemas/gold-record.slice05.v0.schema.json"
+  },
+  "hardwareRef": {
+    "byteLength": 1566,
+    "contentHash": "634ec49c338b7cff36b0d012070620b1b8b38cc9031cdc54f678619ade35528b",
+    "fileSha256": "c9b4070a6219c91cccdb03a02496adc0f555e09d80a5dedde87c2717ebd47fbf",
+    "id": "HARDWARE-WIN32-X64@0.5.0",
+    "path": "hardware/hardware.win32-x64.v0.5.0.json"
+  },
+  "implementationRefs": [
+    {
+      "ref": {
+        "id": "ADAPTER-SHARP-NORMALIZE-EXPORT@0.5.0",
+        "implementationSha256": "ea521c4de76e18a0dae844686498b5d908fb0434eb9b8eeafffdfccbd57b71b1",
+        "path": "scripts/research-sharp-adapter-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "candidate-adapter"
+    },
+    {
+      "ref": {
+        "id": "WORKER-SHARP-ISOLATED@0.5.0",
+        "implementationSha256": "888a1a85896e2c6495e103d64555b494556b627212d3b303528279e7994d1989",
+        "path": "scripts/research-sharp-worker-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "candidate-worker"
+    },
+    {
+      "ref": {
+        "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+        "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+        "path": "scripts/research-independent-png-oracle-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "independent-oracle"
+    },
+    {
+      "ref": {
+        "id": "INVENTORY-SHARP-RUNTIME@0.5.0",
+        "implementationSha256": "557cdc0a965db10878a8deb647f4e1774acfdac5790f3050ac46b2b7d6b9ec3c",
+        "path": "scripts/research-inventory-sharp-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "runtime-inventory"
+    },
+    {
+      "ref": {
+        "id": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+        "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+        "path": "scripts/research-generate-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "independent-fixture-generator"
+    },
+    {
+      "ref": {
+        "id": "RUNNER-LOCAL-OPEN@0.5.0",
+        "implementationSha256": "8cd2c220780aa257c1251825c9212c600f6b5144257e539bc32a7723fe6a8db8",
+        "path": "scripts/research-run-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "local-open-runner"
+    },
+    {
+      "ref": {
+        "id": "WORKER-FAULT-SEMANTICS@0.5.0",
+        "implementationSha256": "c4f1898a99a4ad927532210f0452709e971406fa2ef1ec1a9f82ce8bd556e028",
+        "path": "scripts/research-slice05-fault-worker.mjs",
+        "version": "0.5.0"
+      },
+      "role": "fault-semantics-worker"
+    }
+  ],
+  "operationPlans": [
+    {
+      "applicableSources": 3,
+      "calibrationAdmissionOnPass": "only-this-operation-open-calibration-may-run",
+      "cases": [
+        {
+          "categoryId": "canonical-opaque-source-png",
+          "expectedDisposition": "artifact-required",
+          "expectedStableErrorCode": null,
+          "sourceId": "raw.s05.normalize.smoke.001"
+        },
+        {
+          "categoryId": "canonical-partial-alpha-source-png",
+          "expectedDisposition": "artifact-required",
+          "expectedStableErrorCode": null,
+          "sourceId": "raw.s05.normalize.smoke.002"
+        },
+        {
+          "categoryId": "canonical-alpha-holes-source-png",
+          "expectedDisposition": "artifact-required",
+          "expectedStableErrorCode": null,
+          "sourceId": "raw.s05.normalize.smoke.003"
+        },
+        {
+          "categoryId": "container-signature-or-crc-invalid",
+          "expectedDisposition": "rejection-required",
+          "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+          "sourceId": "raw.s05.normalize.smoke.004"
+        },
+        {
+          "categoryId": "pixel-layout-color-or-metadata-invalid",
+          "expectedDisposition": "rejection-required",
+          "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+          "sourceId": "raw.s05.normalize.smoke.005"
+        },
+        {
+          "categoryId": "resource-limit-or-unsupported-format",
+          "expectedDisposition": "rejection-required",
+          "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+          "sourceId": "raw.s05.normalize.smoke.006"
+        }
+      ],
+      "conjunctiveGates": [
+        {
+          "gateId": "gate-b.normalize.definition-integrity",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "definition index, schemas, manifests, records, and assets match every frozen byte pin"
+        },
+        {
+          "gateId": "gate-b.normalize.runtime-integrity",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "runtime attestation, package closure, installed tree, native hashes, and actual versions match"
+        },
+        {
+          "gateId": "gate-b.normalize.implementation-integrity",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "adapter, worker, independent oracle, runner, fault worker, and hardware profile match their pins"
+        },
+        {
+          "gateId": "gate-b.normalize.source-isolation",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all smoke sources retain operation-specific unique family, session, source, and raw-byte identities"
+        },
+        {
+          "gateId": "gate-b.normalize.applicable-success",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all three applicable sources produce independently reopened conforming artifacts in all three repetitions"
+        },
+        {
+          "gateId": "gate-b.normalize.rejection-correctness",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all three rejection sources return their exact registered stable error with no artifact in all three repetitions"
+        },
+        {
+          "gateId": "gate-b.normalize.repeat-determinism",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all three planned repetitions agree without voting or valid-outcome reruns"
+        },
+        {
+          "gateId": "gate-b.normalize.fault-semantics",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "timeout, worker crash, cancellation, unknown reconciliation, and atomic-commit faults fail closed"
+        },
+        {
+          "gateId": "gate-b.normalize.oracle-independence",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "candidate implementation hashes remain distinct from the independent oracle and gold producer"
+        },
+        {
+          "gateId": "gate-b.normalize.zero-ambiguous-outcomes",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "failure, timeout, cancellation, missing, and unknown counts are all zero for the clean smoke run"
+        },
+        {
+          "gateId": "gate-b.normalize.no-cross-operation-aggregation",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "this operation passes on its own and receives no credit from the other operation"
+        },
+        {
+          "gateId": "gate-b.normalize.no-capability-promotion",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "smoke admission remains open research only and leaves every evidence axis at zero"
+        }
+      ],
+      "contractRef": {
+        "byteLength": 5544,
+        "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+        "fileSha256": "78a7842095cd877bfa7b3388d4f960b5f37612a7827a9d763d19a947247dd068",
+        "id": "CC-CAP02-NORMALIZE-PNG@0.5.0",
+        "path": "contracts/cc-cap02-normalize-png.v0.5.0.json"
+      },
+      "initialGateBState": "not-evaluated",
+      "operation": "normalize",
+      "passRule": "every-conjunct-must-pass-with-no-aggregation-no-majority-and-no-valid-outcome-rerun",
+      "rejectionSources": 3,
+      "repetitionsPerSource": 3,
+      "smokeManifestRef": {
+        "byteLength": 11858,
+        "contentHash": "792c7f641d26a9d5a30bb612e780683da8f58631ba56c46dedd717d7be1fb956",
+        "fileSha256": "3aebda4055b08716560b8370d6a5c2806615cb28062c7210ac9ff470e5d63ebf",
+        "id": "FM-NORMALIZE-DELIVER-NORMALIZE-SMOKE@0.5.0",
+        "path": "manifests/normalize-smoke.v0.5.0.json"
+      },
+      "sourceCount": 6
+    },
+    {
+      "applicableSources": 3,
+      "calibrationAdmissionOnPass": "only-this-operation-open-calibration-may-run",
+      "cases": [
+        {
+          "categoryId": "valid-opaque-normalized-artifact",
+          "expectedDisposition": "artifact-required",
+          "expectedStableErrorCode": null,
+          "sourceId": "normalized.s05.export.smoke.001"
+        },
+        {
+          "categoryId": "valid-partial-alpha-normalized-artifact",
+          "expectedDisposition": "artifact-required",
+          "expectedStableErrorCode": null,
+          "sourceId": "normalized.s05.export.smoke.002"
+        },
+        {
+          "categoryId": "valid-alpha-holes-normalized-artifact",
+          "expectedDisposition": "artifact-required",
+          "expectedStableErrorCode": null,
+          "sourceId": "normalized.s05.export.smoke.003"
+        },
+        {
+          "categoryId": "normalized-artifact-shape-or-contract-invalid",
+          "expectedDisposition": "rejection-required",
+          "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+          "sourceId": "normalized.s05.export.smoke.004"
+        },
+        {
+          "categoryId": "parent-identity-file-or-pixel-hash-invalid",
+          "expectedDisposition": "rejection-required",
+          "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+          "sourceId": "normalized.s05.export.smoke.005"
+        },
+        {
+          "categoryId": "color-alpha-or-metadata-invalid",
+          "expectedDisposition": "rejection-required",
+          "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+          "sourceId": "normalized.s05.export.smoke.006"
+        }
+      ],
+      "conjunctiveGates": [
+        {
+          "gateId": "gate-b.export.definition-integrity",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "definition index, schemas, manifests, records, and assets match every frozen byte pin"
+        },
+        {
+          "gateId": "gate-b.export.runtime-integrity",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "runtime attestation, package closure, installed tree, native hashes, and actual versions match"
+        },
+        {
+          "gateId": "gate-b.export.implementation-integrity",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "adapter, worker, independent oracle, runner, fault worker, and hardware profile match their pins"
+        },
+        {
+          "gateId": "gate-b.export.source-isolation",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all smoke sources retain operation-specific unique family, session, source, and raw-byte identities"
+        },
+        {
+          "gateId": "gate-b.export.applicable-success",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all three applicable sources produce independently reopened conforming artifacts in all three repetitions"
+        },
+        {
+          "gateId": "gate-b.export.rejection-correctness",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all three rejection sources return their exact registered stable error with no artifact in all three repetitions"
+        },
+        {
+          "gateId": "gate-b.export.repeat-determinism",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "all three planned repetitions agree without voting or valid-outcome reruns"
+        },
+        {
+          "gateId": "gate-b.export.fault-semantics",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "timeout, worker crash, cancellation, unknown reconciliation, and atomic-commit faults fail closed"
+        },
+        {
+          "gateId": "gate-b.export.oracle-independence",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "candidate implementation hashes remain distinct from the independent oracle and gold producer"
+        },
+        {
+          "gateId": "gate-b.export.zero-ambiguous-outcomes",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "failure, timeout, cancellation, missing, and unknown counts are all zero for the clean smoke run"
+        },
+        {
+          "gateId": "gate-b.export.no-cross-operation-aggregation",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "this operation passes on its own and receives no credit from the other operation"
+        },
+        {
+          "gateId": "gate-b.export.no-capability-promotion",
+          "initialState": "not-evaluated",
+          "passRequired": true,
+          "requirement": "smoke admission remains open research only and leaves every evidence axis at zero"
+        }
+      ],
+      "contractRef": {
+        "byteLength": 5851,
+        "contentHash": "9158ec6b07c3a877976fa48c5001a9f3c65ef746d5d1a99dca74696d58c1d278",
+        "fileSha256": "c994b2307e8fc44a5078f864a3ac0c2d91c5a103967e29befee4640456074903",
+        "id": "CC-CAP02-EXPORT-PNG@0.5.0",
+        "path": "contracts/cc-cap02-export-png.v0.5.0.json"
+      },
+      "initialGateBState": "not-evaluated",
+      "operation": "export",
+      "passRule": "every-conjunct-must-pass-with-no-aggregation-no-majority-and-no-valid-outcome-rerun",
+      "rejectionSources": 3,
+      "repetitionsPerSource": 3,
+      "smokeManifestRef": {
+        "byteLength": 14522,
+        "contentHash": "83450daf67bf38c92cb5d92487ff541de36082e0b45433d4853523d5efcd286f",
+        "fileSha256": "086c2d4bbda038f2026ce71848d834bdf7368cac46438e3e254127c697c9fd19",
+        "id": "FM-NORMALIZE-DELIVER-EXPORT-SMOKE@0.5.0",
+        "path": "manifests/export-smoke.v0.5.0.json"
+      },
+      "sourceCount": 6
+    }
+  ],
+  "recordVersion": "0.5.0",
+  "resultSchemaRefs": [
+    {
+      "byteLength": 12670,
+      "fileSha256": "3867366da991596465d83024ad31c4bf7118508fbc282ac919a998c3c9fb4a6a",
+      "path": "schemas/local-run-request.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 2536,
+      "fileSha256": "560156a8d66b1c81a8fd3df1ae7506d13eb4ea4131c2a0a1aac45404dd7a32b0",
+      "path": "schemas/idempotency-claim.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 5689,
+      "fileSha256": "3f1d39b89ee06b00223fc798cb92a5f5e2b0975eb7f8b487af2cebbe23763db9",
+      "path": "schemas/run-event.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 17031,
+      "fileSha256": "a404bfe77c229897f01b5a0abc6448cea216b1a7bb2dae92a8abef8c297330da",
+      "path": "schemas/run-result.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 5259,
+      "fileSha256": "e8a72b48b8207f68ccfeaa6d4538bc948b1a2bf7ef6102777692d860a8355822",
+      "path": "schemas/fault-semantics-result.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 6975,
+      "fileSha256": "11c99591b5eadd4c7794e237fa9fa8da6d2f9ee6c68ff74cb96d14baa45effdf",
+      "path": "schemas/smoke-session-audit.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 13645,
+      "fileSha256": "210dec33d7844af2de0fb9463e25fdeb9c0813857e8431ce062159e78da56163",
+      "path": "schemas/smoke-summary.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 6754,
+      "fileSha256": "2f0e20e288f1aed0803ec3c0638f01227ce5ac19d60efeab853618604b368de4",
+      "path": "schemas/gate-b-decision.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 9475,
+      "fileSha256": "cf000ccf0016e8b3b2f301e37d1d7b3e5d259469b46f042fcbdafef0504857d0",
+      "path": "schemas/calibration-admission.slice05.v0.schema.json"
+    },
+    {
+      "byteLength": 22212,
+      "fileSha256": "e69416df13632602965a85c3def13aaf14e20f8bdbc0412f2374ecd96485d1d7",
+      "path": "schemas/calibration-summary.slice05.v0.schema.json"
+    }
+  ],
+  "resultsStateAtDefinitionFreeze": "not-created",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "gate-b-smoke-plan.slice05.v0",
+  "smokeCountsAsCapabilityEvidence": false
+}

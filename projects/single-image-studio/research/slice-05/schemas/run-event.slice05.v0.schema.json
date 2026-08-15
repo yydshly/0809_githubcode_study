@@ -1,0 +1,232 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/run-event.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptNumber": {
+          "maximum": 2,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "idempotencyKey": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "smoke",
+            "dev/calibration",
+            "defect/calibration"
+          ]
+        },
+        "repetition": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "sourceId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId",
+        "sourceId",
+        "partition",
+        "repetition",
+        "attemptNumber",
+        "idempotencyKey"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "eventId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "eventType": {
+      "enum": [
+        "attempt-started",
+        "attempt-terminal",
+        "existing-terminal-returned",
+        "conflict-rejected",
+        "claim-reconciled",
+        "publication-intent",
+        "publication-complete",
+        "publication-reconciliation-unknown"
+      ]
+    },
+    "idempotencyKeyHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "smoke",
+        "calibration"
+      ]
+    },
+    "occurredAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "previousEventHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "publication": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "files": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "byteLength": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "canonicalPath": {
+                    "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+                    "type": "string"
+                  },
+                  "fileSha256": {
+                    "pattern": "^[0-9a-f]{64}$",
+                    "type": "string"
+                  },
+                  "role": {
+                    "enum": [
+                      "artifact-bytes",
+                      "artifact-record",
+                      "oracle",
+                      "result"
+                    ]
+                  },
+                  "stagedPath": {
+                    "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "role",
+                  "stagedPath",
+                  "canonicalPath",
+                  "byteLength",
+                  "fileSha256"
+                ],
+                "type": "object"
+              },
+              "maxItems": 4,
+              "minItems": 4,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "stagingDirectory": {
+              "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+              "type": "string"
+            },
+            "transactionId": {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "transactionId",
+            "stagingDirectory",
+            "files"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reasonCode": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "run-event.slice05.v0"
+    },
+    "sequence": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "status": {
+      "oneOf": [
+        {
+          "enum": [
+            "pass",
+            "nonpass",
+            "invalid-no-result",
+            "timeout",
+            "cancelled",
+            "unknown-reconciliation",
+            "started",
+            "existing"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "sequence",
+    "previousEventHash",
+    "eventType",
+    "requestRef",
+    "idempotencyKeyHash",
+    "mode",
+    "operation",
+    "attempt",
+    "status",
+    "reasonCode",
+    "publication",
+    "occurredAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

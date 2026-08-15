@@ -1,0 +1,113 @@
+{
+  "admissionRule": "only-the-matching-operation-gate-b-plan-may-admit-these-open-calibration-runs",
+  "calibrationManifestRefs": [
+    {
+      "byteLength": 49812,
+      "contentHash": "07b5a4ac1fd5e87c3c1d90f9eefd9ae1f97cdb5abbe816b59272397b8cd6ee7a",
+      "fileSha256": "24db63148e59ef5362e3450bbc167b18b3d36bdbbe3684b15f205c1084aa6252",
+      "id": "FM-NORMALIZE-DELIVER-NORMALIZE-DEV-CALIBRATION@0.5.0",
+      "path": "manifests/normalize-dev.v0.5.0.json"
+    },
+    {
+      "byteLength": 30419,
+      "contentHash": "bce45a34550d8c4f9ad49fc306a7ad4bfc171be9ed15ca9db1c7ec50ca1369dc",
+      "fileSha256": "c625b5a92aa09d62683fd70c60b0ba13462b8d559f6830a9966a553f71922304",
+      "id": "FM-NORMALIZE-DELIVER-NORMALIZE-DEFECT-CALIBRATION@0.5.0",
+      "path": "manifests/normalize-defect.v0.5.0.json"
+    }
+  ],
+  "candidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "contentHash": "b825a2e52a5ed3727d4f27952b0515e43cfa2194fcfab0d459400b0c2943c115",
+  "contractRef": {
+    "byteLength": 5544,
+    "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+    "fileSha256": "78a7842095cd877bfa7b3388d4f960b5f37612a7827a9d763d19a947247dd068",
+    "id": "CC-CAP02-NORMALIZE-PNG@0.5.0",
+    "path": "contracts/cc-cap02-normalize-png.v0.5.0.json"
+  },
+  "crossOperationGateAggregationAllowed": false,
+  "denominators": {
+    "defectCalibration": {
+      "applicableControls": 6,
+      "rejectionDefects": 12,
+      "sources": 18
+    },
+    "devCalibration": {
+      "applicable": 18,
+      "rejection": 12,
+      "sources": 30
+    },
+    "repetitionsPerSource": 3,
+    "totalPlannedAttempts": 144,
+    "totalSources": 48
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "formalBoundary": {
+    "c1Denominator": 0,
+    "defectHoldoutAtDefinitionFreeze": "not-created",
+    "escapeAtDefinitionFreeze": "not-created",
+    "formalRunsAllowed": false,
+    "holdoutAtDefinitionFreeze": "not-created"
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "gateBSmokePlanRef": {
+    "byteLength": 18087,
+    "contentHash": "2f8a889d87ca3e66829b47d204d41973f9b495a1770eeb871f393155bf9630f2",
+    "fileSha256": "9468fa36d3c6e6bfc5069346e9759c0e0e78f0a82402029b738d89141ade9531",
+    "id": "GATE-B-SMOKE-NORMALIZE-EXPORT@0.5.0",
+    "path": "plans/gate-b-smoke.v0.5.0.json"
+  },
+  "goldRecordSchemaRef": {
+    "byteLength": 4078,
+    "fileSha256": "2ff58e7332c056f71d263a4b19301bbef699ca84a01c30046ac903e698c06a2e",
+    "path": "schemas/gold-record.slice05.v0.schema.json"
+  },
+  "independentOracleRef": {
+    "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+    "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+    "path": "scripts/research-independent-png-oracle-slice05.mjs",
+    "version": "0.5.0"
+  },
+  "openPartitionPlanRef": {
+    "byteLength": 16538,
+    "contentHash": "07896b0e9c9e2fc9bb8caa79f9a219875e2dc935d8d05ba86664b1e7ffcb9344",
+    "fileSha256": "83feee14ccd8b39d19dfad2a6806b6b2cbeaaed0a170eafb0c11dfd4346a748e",
+    "id": "PP-NORMALIZE-PNG@0.5.0",
+    "path": "plans/open-partition-normalize.v0.5.0.json"
+  },
+  "operation": "normalize",
+  "outcomeRule": "all-three-repetitions-of-every-registered-source-must-pass-with-zero-false-allow-false-reject-failure-timeout-cancellation-missing-or-unknown",
+  "preregistrationId": "PREREG-CALIBRATION-NORMALIZE-PNG@0.5.0",
+  "recordVersion": "0.5.0",
+  "rerunRule": "no-valid-outcome-rerun-and-at-most-one-predeclared-no-result-replacement-per-source-across-three-repetitions",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "calibration-preregistration.slice05.v0",
+  "stateAtDefinitionFreeze": "preregistered-open-gate-b-blocked"
+}

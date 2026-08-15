@@ -1,0 +1,157 @@
+{
+  "artifactSchemaRefs": [
+    {
+      "file": {
+        "byteLength": 5752,
+        "fileSha256": "d35a0680ecc20f1be45db42c04bcba53febd71aba5b4bc7cd7c7ed9e5c28bf1f",
+        "path": "schemas/normalized-image.slice04.v0.schema.json"
+      },
+      "role": "output-normalized-image",
+      "schemaVersion": "normalized-image.slice04.v0"
+    }
+  ],
+  "calibrationStateAtDefinitionFreeze": "blocked-until-this-operation-gate-b-passes",
+  "candidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "capabilityId": "CAP-02",
+  "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+  "contractId": "CC-CAP02-NORMALIZE-PNG@0.5.0",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "failureSemantics": {
+    "artifactOnFailure": false,
+    "failClosed": true,
+    "stableErrorCodeRequired": true,
+    "unknownIsNonPass": true,
+    "unsupportedFormatsRejectBeforeCandidateWorker": true,
+    "validResultRerunAllowed": false
+  },
+  "formalDefectHoldoutStatusAtDefinitionFreeze": "not-created",
+  "formalEscapeStatusAtDefinitionFreeze": "not-created",
+  "formalHoldoutStatusAtDefinitionFreeze": "not-created",
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "gateBStateAtDefinitionFreeze": "not-evaluated",
+  "implementation": {
+    "adapterRef": {
+      "id": "ADAPTER-SHARP-NORMALIZE-EXPORT@0.5.0",
+      "implementationSha256": "ea521c4de76e18a0dae844686498b5d908fb0434eb9b8eeafffdfccbd57b71b1",
+      "path": "scripts/research-sharp-adapter-slice05.mjs",
+      "version": "0.5.0"
+    },
+    "atomicCommitRequired": true,
+    "fallbackAllowed": false,
+    "imagePipelineExecutedByDefinitionGenerator": false,
+    "independentOracleRef": {
+      "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+      "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+      "path": "scripts/research-independent-png-oracle-slice05.mjs",
+      "version": "0.5.0"
+    },
+    "independentReopenRequired": true,
+    "isolatedWorkerRequired": true,
+    "passthroughAllowed": false,
+    "state": "installed-definition-only-not-admitted",
+    "workerRef": {
+      "id": "WORKER-SHARP-ISOLATED@0.5.0",
+      "implementationSha256": "888a1a85896e2c6495e103d64555b494556b627212d3b303528279e7994d1989",
+      "path": "scripts/research-sharp-worker-slice05.mjs",
+      "version": "0.5.0"
+    }
+  },
+  "inputProfile": {
+    "alphaMode": "straight-unpremultiplied",
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "interlace": "forbidden",
+    "maxBytes": 1048576,
+    "maxHeight": 256,
+    "maxWidth": 256,
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "type": "canonical-png-source-bytes"
+  },
+  "operation": "normalize",
+  "outputProfile": {
+    "alphaMode": "straight-unpremultiplied",
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "interlace": "forbidden",
+    "maxBytes": 1048576,
+    "maxHeight": 256,
+    "maxWidth": 256,
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "type": "NormalizedImage.slice04.v0"
+  },
+  "recordVersion": "0.5.0",
+  "runnerRecordSchemaRefs": [
+    {
+      "file": {
+        "byteLength": 12670,
+        "fileSha256": "3867366da991596465d83024ad31c4bf7118508fbc282ac919a998c3c9fb4a6a",
+        "path": "schemas/local-run-request.slice05.v0.schema.json"
+      },
+      "role": "local-run-request",
+      "schemaVersion": "local-run-request.slice05.v0"
+    },
+    {
+      "file": {
+        "byteLength": 17031,
+        "fileSha256": "a404bfe77c229897f01b5a0abc6448cea216b1a7bb2dae92a8abef8c297330da",
+        "path": "schemas/run-result.slice05.v0.schema.json"
+      },
+      "role": "terminal-run-result",
+      "schemaVersion": "run-result.slice05.v0"
+    },
+    {
+      "file": {
+        "byteLength": 5532,
+        "fileSha256": "74d696c0da29758585d68b4bb2d2a3f150b88413f128ce2918e756eb27b10c52",
+        "path": "schemas/oracle-result.slice05.v0.schema.json"
+      },
+      "role": "independent-oracle-result",
+      "schemaVersion": "oracle-result.slice05.v0"
+    }
+  ],
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "capability-contract.slice05.v0",
+  "sourceSlice04ContractRef": {
+    "byteLength": 2534,
+    "contentHash": "534ba211e44d1ef669c75cb130c3e1e3cd63dff7be61dd246853dd72d1ebdeca",
+    "fileSha256": "f4a1585d8709f8493332013d1f88b42d8cad924adfec9b60e08d2c934f6e7671",
+    "id": "CC-CAP02-NORMALIZE-PNG@0.4.0",
+    "path": "research/slice-04/contracts/cc-cap02-normalize-png.v0.4.0.json"
+  },
+  "suiteId": "NORMALIZE-DELIVER"
+}

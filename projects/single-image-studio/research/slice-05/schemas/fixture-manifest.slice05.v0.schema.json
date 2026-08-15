@@ -1,0 +1,803 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalEvidence": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "hashRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "manifestEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "captureSessionId": {
+          "$ref": "#/$defs/id"
+        },
+        "categoryId": {
+          "$ref": "#/$defs/id"
+        },
+        "expectedDisposition": {
+          "enum": [
+            "artifact-required",
+            "rejection-required"
+          ],
+          "type": "string"
+        },
+        "expectedStableErrorCode": {
+          "pattern": "^S05_[A-Z0-9_]+$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "goldRecordRef": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/recordRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "injectedDefect": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "defectId": {
+                  "$ref": "#/$defs/id"
+                },
+                "exactlyOneInjectedDefect": {
+                  "const": true,
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "defectId",
+                "exactlyOneInjectedDefect"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "normalizedArtifactRef": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "byteLength": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "contentHash": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "fileSha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "id": {
+                  "$ref": "#/$defs/id"
+                },
+                "path": {
+                  "$ref": "#/$defs/relativePath"
+                },
+                "producerKind": {
+                  "const": "independent-fixture-generator",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "id",
+                "contentHash",
+                "byteLength",
+                "fileSha256",
+                "producerKind"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operation": {
+          "enum": [
+            "normalize",
+            "export"
+          ],
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "smoke",
+            "dev/calibration",
+            "defect/calibration"
+          ],
+          "type": "string"
+        },
+        "rawAsset": {
+          "additionalProperties": false,
+          "properties": {
+            "byteLength": {
+              "maximum": 1048577,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "decodedPixelSha256": {
+              "$ref": "#/$defs/nullableSha256"
+            },
+            "fileSha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "mime": {
+              "enum": [
+                "image/png",
+                "image/jpeg",
+                "image/webp",
+                "application/octet-stream"
+              ],
+              "type": "string"
+            },
+            "path": {
+              "$ref": "#/$defs/relativePath"
+            },
+            "sourceDeclarationDecodedPixelSha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "path",
+            "mime",
+            "byteLength",
+            "fileSha256",
+            "decodedPixelSha256",
+            "sourceDeclarationDecodedPixelSha256"
+          ],
+          "type": "object"
+        },
+        "repetitions": {
+          "const": 3,
+          "type": "integer"
+        },
+        "sourceFamilyId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceProvenanceRef": {
+          "$ref": "#/$defs/recordRef"
+        }
+      },
+      "required": [
+        "sourceId",
+        "operation",
+        "partition",
+        "categoryId",
+        "expectedDisposition",
+        "expectedStableErrorCode",
+        "sourceFamilyId",
+        "captureSessionId",
+        "repetitions",
+        "sourceProvenanceRef",
+        "rawAsset",
+        "normalizedArtifactRef",
+        "goldRecordRef",
+        "injectedDefect"
+      ],
+      "type": "object"
+    },
+    "nullableSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "packageName": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "scopeDirectoryName": {
+      "pattern": "^@[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/fixture-manifest.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "contractRefs": {
+      "items": {
+        "$ref": "#/$defs/recordRef"
+      },
+      "maxItems": 1,
+      "minItems": 1,
+      "type": "array"
+    },
+    "counts": {
+      "additionalProperties": false,
+      "properties": {
+        "applicableSources": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "byOperation": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "applicableSources": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "operation": {
+                "enum": [
+                  "normalize",
+                  "export"
+                ],
+                "type": "string"
+              },
+              "rejectionSources": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "totalSources": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "operation",
+              "totalSources",
+              "applicableSources",
+              "rejectionSources"
+            ],
+            "type": "object"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "rejectionSources": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "repetitionsPerSource": {
+          "const": 3,
+          "type": "integer"
+        },
+        "totalPlannedAttempts": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "totalSources": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "totalSources",
+        "applicableSources",
+        "rejectionSources",
+        "repetitionsPerSource",
+        "totalPlannedAttempts",
+        "byOperation"
+      ],
+      "type": "object"
+    },
+    "entries": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "captureSessionId": {
+            "$ref": "#/$defs/id"
+          },
+          "categoryId": {
+            "$ref": "#/$defs/id"
+          },
+          "expectedDisposition": {
+            "enum": [
+              "artifact-required",
+              "rejection-required"
+            ],
+            "type": "string"
+          },
+          "expectedStableErrorCode": {
+            "pattern": "^S05_[A-Z0-9_]+$",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "goldRecordRef": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/recordRef"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "injectedDefect": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "defectId": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "exactlyOneInjectedDefect": {
+                    "const": true,
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "defectId",
+                  "exactlyOneInjectedDefect"
+                ],
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "normalizedArtifactRef": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "byteLength": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "contentHash": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "fileSha256": {
+                    "$ref": "#/$defs/sha256"
+                  },
+                  "id": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "path": {
+                    "$ref": "#/$defs/relativePath"
+                  },
+                  "producerKind": {
+                    "const": "independent-fixture-generator",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "path",
+                  "id",
+                  "contentHash",
+                  "byteLength",
+                  "fileSha256",
+                  "producerKind"
+                ],
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "partition": {
+            "enum": [
+              "smoke",
+              "dev/calibration",
+              "defect/calibration"
+            ],
+            "type": "string"
+          },
+          "rawAsset": {
+            "additionalProperties": false,
+            "properties": {
+              "byteLength": {
+                "maximum": 1048577,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "decodedPixelSha256": {
+                "$ref": "#/$defs/nullableSha256"
+              },
+              "fileSha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "mime": {
+                "enum": [
+                  "image/png",
+                  "image/jpeg",
+                  "image/webp",
+                  "application/octet-stream"
+                ],
+                "type": "string"
+              },
+              "path": {
+                "$ref": "#/$defs/relativePath"
+              },
+              "sourceDeclarationDecodedPixelSha256": {
+                "$ref": "#/$defs/sha256"
+              }
+            },
+            "required": [
+              "path",
+              "mime",
+              "byteLength",
+              "fileSha256",
+              "decodedPixelSha256",
+              "sourceDeclarationDecodedPixelSha256"
+            ],
+            "type": "object"
+          },
+          "repetitions": {
+            "const": 3,
+            "type": "integer"
+          },
+          "sourceFamilyId": {
+            "$ref": "#/$defs/id"
+          },
+          "sourceId": {
+            "$ref": "#/$defs/id"
+          },
+          "sourceProvenanceRef": {
+            "$ref": "#/$defs/recordRef"
+          }
+        },
+        "required": [
+          "sourceId",
+          "operation",
+          "partition",
+          "categoryId",
+          "expectedDisposition",
+          "expectedStableErrorCode",
+          "sourceFamilyId",
+          "captureSessionId",
+          "repetitions",
+          "sourceProvenanceRef",
+          "rawAsset",
+          "normalizedArtifactRef",
+          "goldRecordRef",
+          "injectedDefect"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "formalBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1Eligible": {
+          "const": false,
+          "type": "boolean"
+        },
+        "formal": {
+          "const": false,
+          "type": "boolean"
+        },
+        "holdoutMaterial": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "formal",
+        "c1Eligible",
+        "holdoutMaterial"
+      ],
+      "type": "object"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "gateBPrerequisite": {
+      "enum": [
+        "this-manifest-evaluates-gate-b",
+        "operation-specific-gate-b-pass-required-not-yet-met"
+      ],
+      "type": "string"
+    },
+    "isolation": {
+      "additionalProperties": false,
+      "properties": {
+        "captureSessionIdsUniqueAcrossDefinitionTree": {
+          "const": true,
+          "type": "boolean"
+        },
+        "exactRawAssetHashReuseForbidden": {
+          "const": true,
+          "type": "boolean"
+        },
+        "operationSpecificFamiliesAndSessions": {
+          "const": true,
+          "type": "boolean"
+        },
+        "priorSliceFixtureReuseForbidden": {
+          "const": true,
+          "type": "boolean"
+        },
+        "sourceFamilyIdsUniqueAcrossDefinitionTree": {
+          "const": true,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "operationSpecificFamiliesAndSessions",
+        "sourceFamilyIdsUniqueAcrossDefinitionTree",
+        "captureSessionIdsUniqueAcrossDefinitionTree",
+        "exactRawAssetHashReuseForbidden",
+        "priorSliceFixtureReuseForbidden"
+      ],
+      "type": "object"
+    },
+    "manifestId": {
+      "$ref": "#/$defs/id"
+    },
+    "manifestKind": {
+      "enum": [
+        "gate-b-smoke",
+        "open-calibration"
+      ],
+      "type": "string"
+    },
+    "manifestVersion": {
+      "const": "0.5.0",
+      "type": "string"
+    },
+    "operationScope": {
+      "items": {
+        "enum": [
+          "normalize",
+          "export"
+        ],
+        "type": "string"
+      },
+      "maxItems": 1,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "partition": {
+      "enum": [
+        "smoke",
+        "dev/calibration",
+        "defect/calibration"
+      ],
+      "type": "string"
+    },
+    "rightsRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "fixture-manifest.slice05.v0",
+      "type": "string"
+    },
+    "stateAtDefinitionFreeze": {
+      "const": "created-open-registered-not-run",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "manifestId",
+    "manifestVersion",
+    "manifestKind",
+    "operationScope",
+    "partition",
+    "stateAtDefinitionFreeze",
+    "candidateRef",
+    "contractRefs",
+    "rightsRef",
+    "gateBPrerequisite",
+    "counts",
+    "entries",
+    "isolation",
+    "formalBoundary",
+    "evidenceBoundary",
+    "frozenAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

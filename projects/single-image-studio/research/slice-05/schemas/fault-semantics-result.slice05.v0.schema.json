@@ -1,0 +1,224 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/fault-semantics-result.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allPass": {
+      "type": "boolean"
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "e1": {
+          "const": 0
+        },
+        "formalEvidence": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "faultResultId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "observedAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "runtimeAttestationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "inventoryPayloadSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256",
+        "inventoryPayloadSha256"
+      ],
+      "type": "object"
+    },
+    "scenarios": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "actualStatus": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+            "type": "string"
+          },
+          "exitConfirmed": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          },
+          "expectedStatus": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+            "type": "string"
+          },
+          "mode": {
+            "enum": [
+              "timeout-hang",
+              "cancel-hang",
+              "exit-before-result",
+              "malformed-result",
+              "reported-reconciliation-unknown",
+              "atomic-commit-conflict"
+            ]
+          },
+          "pass": {
+            "type": "boolean"
+          },
+          "scenarioId": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scenarioId",
+          "mode",
+          "expectedStatus",
+          "actualStatus",
+          "exitConfirmed",
+          "pass"
+        ],
+        "type": "object"
+      },
+      "maxItems": 6,
+      "minItems": 6,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "schemaVersion": {
+      "const": "fault-semantics-result.slice05.v0"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "faultResultId",
+    "definitionRef",
+    "runtimeAttestationRef",
+    "scenarios",
+    "allPass",
+    "observedAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

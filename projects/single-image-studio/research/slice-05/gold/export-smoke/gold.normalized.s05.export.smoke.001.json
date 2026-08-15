@@ -1,0 +1,47 @@
+{
+  "contentHash": "78a181cc98de135d8440fb4c643e7d44faf7f91f49e818c37bbda3a65240c0e6",
+  "expected": {
+    "alphaMode": "straight-unpremultiplied",
+    "alphaPresent": false,
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "decodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+    "fileSha256": null,
+    "height": 8,
+    "interlace": "forbidden",
+    "metadataPolicy": "strip-all-except-color-contract",
+    "mime": "image/png",
+    "orientation": 1,
+    "parentIdentity": {
+      "artifactSha256": "59749df2a27d63391ac6a8fdb986126856fa99d846571fa7ab49d77d4a459d5a",
+      "decodedPixelSha256": "bbc41256a04bc2a1fc3b2192d861471706b301433b79fe2c8170ad732cae139d",
+      "fileSha256": "8cd86f42a1b1decc565cde76b62a489ac65536ba456a7e48bd9226e8585165a8",
+      "id": "normalized.s05.export.smoke.001",
+      "manifestSha256": "96abef10094503010e5989b708a8c13cc941d1a467a5cbd8b805f6efe16488a6"
+    },
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "width": 24
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "goldRecordId": "gold.normalized.s05.export.smoke.001",
+  "operation": "export",
+  "partition": "smoke",
+  "provenance": {
+    "authorIds": [
+      "role.fixture-gold-author"
+    ],
+    "candidateAuthorIds": [
+      "role.candidate-implementation-author"
+    ],
+    "candidateDependencyUsed": false,
+    "candidateOutputUsed": false,
+    "candidateProduced": false,
+    "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "kind": "project-original-procedural",
+    "producerId": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "producerVersion": "0.5.0"
+  },
+  "schemaVersion": "gold-record.slice05.v0",
+  "sourceId": "normalized.s05.export.smoke.001"
+}

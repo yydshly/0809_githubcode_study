@@ -1,0 +1,68 @@
+{
+  "adapterRef": {
+    "id": "ADAPTER-SHARP-NORMALIZE-EXPORT@0.5.0",
+    "implementationSha256": "ea521c4de76e18a0dae844686498b5d908fb0434eb9b8eeafffdfccbd57b71b1",
+    "version": "0.5.0"
+  },
+  "artifactId": "normalized.s05.export.dev.029",
+  "attempt": {
+    "attemptNumber": 1,
+    "idempotencyKey": "fixture-generation.normalized.s05.export.dev.029.r1.a1",
+    "partition": "dev/calibration",
+    "repetition": 1,
+    "runId": "fixture-generation.normalized.s05.export.dev.029",
+    "sourceId": "raw.s05.export.dev.029"
+  },
+  "bytes": {
+    "byteLength": 1024,
+    "decodedPixelSha256": "c925c9d93049b8c89daee81f967c903ecd618da64c54091ab5b02575e80997ec",
+    "fileSha256": "a0dc5a34b736a9aa28f5fe8b9bf41f87570711b8378270667df30e1e3b02dd68",
+    "mime": "image/png",
+    "relativePath": "assets/open/export-dev/raw.s05.export.dev.029.png"
+  },
+  "candidateRef": {
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "id": "REG-NORM-SHARP@0.5.0"
+  },
+  "capabilityContractRef": {
+    "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+    "id": "CC-CAP02-NORMALIZE-PNG@0.5.0"
+  },
+  "contentHash": "4a89aa228165fe34c1520004f72e6534756de9b3c70cda90b00c8f7ba780a4ea",
+  "createdAt": "2026-08-15T04:23:38.389Z",
+  "hardwareRef": {
+    "contentHash": "634ec49c338b7cff36b0d012070620b1b8b38cc9031cdc54f678619ade35528b",
+    "id": "HARDWARE-WIN32-X64@0.5.0"
+  },
+  "image": {
+    "alphaMode": "straight-unpremultiplied",
+    "alphaPresent": true,
+    "animation": "forbidden",
+    "colorSpace": "embedded-sRGB",
+    "height": 12,
+    "interlace": "forbidden",
+    "metadataPolicy": "retain-all-metadata",
+    "orientation": 1,
+    "pixelLayout": "RGBA8",
+    "pngFilterPolicy": "filter-0-only",
+    "width": 21
+  },
+  "operation": "normalize",
+  "parent": {
+    "sourceAssetId": "raw.s05.export.dev.029",
+    "sourceDecodedPixelSha256": "c925c9d93049b8c89daee81f967c903ecd618da64c54091ab5b02575e80997ec",
+    "sourceFileSha256": "a0dc5a34b736a9aa28f5fe8b9bf41f87570711b8378270667df30e1e3b02dd68",
+    "sourceManifestSha256": "03044c9fe721fcd9297afc063f711ee67e81ead168206197c5e5340670d08fa7"
+  },
+  "producerRef": {
+    "id": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "kind": "independent-fixture-generator",
+    "version": "0.5.0"
+  },
+  "runtimeRef": {
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0"
+  },
+  "schemaVersion": "normalized-image.slice04.v0"
+}

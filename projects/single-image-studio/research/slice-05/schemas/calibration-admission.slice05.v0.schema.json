@@ -1,0 +1,401 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/calibration-admission.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "admissionId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "admittedAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "calibrationPreregistrationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "decision": {
+      "const": "admitted-open-calibration"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "e1": {
+          "const": 0
+        },
+        "formalEvidence": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "gateBDecisionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "gateBPlanRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "manifestRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "byteLength": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "contentHash": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "fileSha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+            "type": "string"
+          },
+          "path": {
+            "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "path",
+          "id",
+          "contentHash",
+          "byteLength",
+          "fileSha256"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "runtimeStartObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "attestedProjectionCanonicalJson": {
+          "oneOf": [
+            {
+              "maxLength": 1048576,
+              "minLength": 2,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attestedProjectionSha256": {
+          "oneOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inventoryCanonicalJson": {
+          "oneOf": [
+            {
+              "maxLength": 4194304,
+              "minLength": 2,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inventoryCanonicalSha256": {
+          "oneOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "inventoryPayloadSha256": {
+          "oneOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issue": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "code": {
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+                  "type": "string"
+                },
+                "location": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "message": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "code",
+                "location",
+                "message"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "matchesFrozen": {
+          "type": "boolean"
+        },
+        "observedAt": {
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "observed",
+            "unavailable"
+          ]
+        }
+      },
+      "required": [
+        "observedAt",
+        "status",
+        "inventoryCanonicalJson",
+        "inventoryCanonicalSha256",
+        "inventoryPayloadSha256",
+        "attestedProjectionCanonicalJson",
+        "attestedProjectionSha256",
+        "matchesFrozen",
+        "issue"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "calibration-admission.slice05.v0"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "admissionId",
+    "operation",
+    "definitionRef",
+    "gateBPlanRef",
+    "gateBDecisionRef",
+    "calibrationPreregistrationRef",
+    "manifestRefs",
+    "runtimeStartObservation",
+    "decision",
+    "admittedAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

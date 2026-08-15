@@ -1,0 +1,391 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalEvidence": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "hashRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "nullableSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "packageName": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "scopeDirectoryName": {
+      "pattern": "^@[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/candidate-lock.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateKind": {
+      "const": "installed-sharp-win32-x64-runtime-closure",
+      "type": "string"
+    },
+    "candidateLockId": {
+      "const": "REG-NORM-SHARP@0.5.0",
+      "type": "string"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "implementationRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "candidateDependency": {
+            "type": "boolean"
+          },
+          "ref": {
+            "$ref": "#/$defs/implementationRef"
+          },
+          "role": {
+            "enum": [
+              "candidate-adapter",
+              "candidate-worker",
+              "independent-oracle",
+              "runtime-inventory",
+              "independent-fixture-generator"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "ref",
+          "candidateDependency"
+        ],
+        "type": "object"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "type": "array"
+    },
+    "prohibitedClaims": {
+      "items": {
+        "enum": [
+          "product-capability",
+          "formal-c1",
+          "holdout-evidence",
+          "release-support"
+        ],
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 4,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "recordVersion": {
+      "const": "0.5.0",
+      "type": "string"
+    },
+    "runtimeAttestationRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "runtimeClosure": {
+      "additionalProperties": false,
+      "properties": {
+        "installedTreeSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "installedVersionCount": {
+          "const": 28,
+          "type": "integer"
+        },
+        "nativeArtifactCount": {
+          "const": 3,
+          "type": "integer"
+        },
+        "packageLockSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "slice04PackagingMetadataErratumCount": {
+          "const": 9,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "packageLockSha256",
+        "installedTreeSha256",
+        "nativeArtifactCount",
+        "installedVersionCount",
+        "slice04PackagingMetadataErratumCount"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "candidate-lock.slice05.v0",
+      "type": "string"
+    },
+    "sourceCandidateMetadataRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "stateAtDefinitionFreeze": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration": {
+          "const": "blocked-until-operation-specific-gate-b-pass",
+          "type": "string"
+        },
+        "execution": {
+          "const": "candidate-pipeline-not-run",
+          "type": "string"
+        },
+        "gateA": {
+          "const": "runtime-closure-resolved",
+          "type": "string"
+        },
+        "gateB": {
+          "const": "not-evaluated",
+          "type": "string"
+        },
+        "installation": {
+          "const": "installed-and-inventoried",
+          "type": "string"
+        }
+      },
+      "required": [
+        "installation",
+        "execution",
+        "gateA",
+        "gateB",
+        "calibration"
+      ],
+      "type": "object"
+    },
+    "targetPlatform": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu": {
+          "const": "x64",
+          "type": "string"
+        },
+        "libc": {
+          "const": "not-applicable",
+          "type": "string"
+        },
+        "os": {
+          "const": "win32",
+          "type": "string"
+        }
+      },
+      "required": [
+        "os",
+        "cpu",
+        "libc"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "candidateLockId",
+    "recordVersion",
+    "candidateKind",
+    "sourceCandidateMetadataRef",
+    "runtimeAttestationRef",
+    "implementationRefs",
+    "runtimeClosure",
+    "targetPlatform",
+    "stateAtDefinitionFreeze",
+    "prohibitedClaims",
+    "evidenceBoundary",
+    "frozenAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

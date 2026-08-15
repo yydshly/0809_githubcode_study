@@ -1,0 +1,283 @@
+{
+  "candidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "contentHash": "792c7f641d26a9d5a30bb612e780683da8f58631ba56c46dedd717d7be1fb956",
+  "contractRefs": [
+    {
+      "byteLength": 5544,
+      "contentHash": "48c3a5ec40798289ed66605ffdd80d08acdb8c8910540727a5f4ed08574beb01",
+      "fileSha256": "78a7842095cd877bfa7b3388d4f960b5f37612a7827a9d763d19a947247dd068",
+      "id": "CC-CAP02-NORMALIZE-PNG@0.5.0",
+      "path": "contracts/cc-cap02-normalize-png.v0.5.0.json"
+    }
+  ],
+  "counts": {
+    "applicableSources": 3,
+    "byOperation": [
+      {
+        "applicableSources": 3,
+        "operation": "normalize",
+        "rejectionSources": 3,
+        "totalSources": 6
+      }
+    ],
+    "rejectionSources": 3,
+    "repetitionsPerSource": 3,
+    "totalPlannedAttempts": 18,
+    "totalSources": 6
+  },
+  "entries": [
+    {
+      "captureSessionId": "session.s05.normalize.smoke.001",
+      "categoryId": "canonical-opaque-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1705,
+        "contentHash": "f2270159b2f8b196e66b209c6e3b0a50268636838423d7c4adbc96a51e7b05a6",
+        "fileSha256": "b10bc9fd7172c54869bc9822c90640723335c9c3bce9b63d18b2f95cf9ca7e85",
+        "id": "gold.raw.s05.normalize.smoke.001",
+        "path": "gold/normalize-smoke/gold.raw.s05.normalize.smoke.001.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "smoke",
+      "rawAsset": {
+        "byteLength": 1276,
+        "decodedPixelSha256": "ee281e2bea46172bcf9e0a3f55cb244d30c3e08fdb37c82d8603c8157c9e285f",
+        "fileSha256": "5b6e518805a8b7f02debee2a367a9eeadda11c29e83dd7ef7ed17f2c149d8f8d",
+        "mime": "image/png",
+        "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.001.png",
+        "sourceDeclarationDecodedPixelSha256": "ee281e2bea46172bcf9e0a3f55cb244d30c3e08fdb37c82d8603c8157c9e285f"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.smoke.001",
+      "sourceId": "raw.s05.normalize.smoke.001",
+      "sourceProvenanceRef": {
+        "byteLength": 2325,
+        "contentHash": "5e28c6c43fd1da077cfcbed1a932af0ad7a5e55630e8b342b12a901678cdcc4c",
+        "fileSha256": "235e8ae7417266535be86740381b3a7029800f8670834f49c545c7dee0ecbcd0",
+        "id": "provenance.raw.s05.normalize.smoke.001",
+        "path": "sources/normalize-smoke/raw.s05.normalize.smoke.001.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.smoke.002",
+      "categoryId": "canonical-partial-alpha-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1704,
+        "contentHash": "aa3c75f6d1fa945c114dd31e672bce05a73037e3d2cbebb066161a9aafc7f2e4",
+        "fileSha256": "14f8f318975901385e5a23ccd0ea52195423c733a7f9b568a82e7b4e2c57a7c3",
+        "id": "gold.raw.s05.normalize.smoke.002",
+        "path": "gold/normalize-smoke/gold.raw.s05.normalize.smoke.002.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "smoke",
+      "rawAsset": {
+        "byteLength": 1035,
+        "decodedPixelSha256": "cbe7e8f4cf08cd859a040c77e7163246a0de03fdae25a11be6d4a0d91967d7c4",
+        "fileSha256": "238682f8f88bc29c227dc7fa9a3b66bfd80cccf065ef85b61604305eda260131",
+        "mime": "image/png",
+        "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.002.png",
+        "sourceDeclarationDecodedPixelSha256": "cbe7e8f4cf08cd859a040c77e7163246a0de03fdae25a11be6d4a0d91967d7c4"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.smoke.002",
+      "sourceId": "raw.s05.normalize.smoke.002",
+      "sourceProvenanceRef": {
+        "byteLength": 2331,
+        "contentHash": "fa5d896c670ffe7d3ee1a83a58f8a5f26af89f5c5db3c0539c99486859d68575",
+        "fileSha256": "7cc653ad3062d52d491b20a2204b57513f1ac496d59e64612e3c696096e9e61a",
+        "id": "provenance.raw.s05.normalize.smoke.002",
+        "path": "sources/normalize-smoke/raw.s05.normalize.smoke.002.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.smoke.003",
+      "categoryId": "canonical-alpha-holes-source-png",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1704,
+        "contentHash": "0c2ab040330d759f2fb3ea78310502e42a354f9241bdeb000f6d87bf7b566a5e",
+        "fileSha256": "f4b96bc82cdbf231a8ec9056d94377fa88282141413a56500abfd2e052ea35fb",
+        "id": "gold.raw.s05.normalize.smoke.003",
+        "path": "gold/normalize-smoke/gold.raw.s05.normalize.smoke.003.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "smoke",
+      "rawAsset": {
+        "byteLength": 626,
+        "decodedPixelSha256": "1ba8ada3b07158359efeb65f2859b6bc5f949d32cc8b69e024f0f6edb5810239",
+        "fileSha256": "248ee0a4aa6a1ff334e33dc48c5cb74b7aa3fed969a64baa5ba21d9e593271da",
+        "mime": "image/png",
+        "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.003.png",
+        "sourceDeclarationDecodedPixelSha256": "1ba8ada3b07158359efeb65f2859b6bc5f949d32cc8b69e024f0f6edb5810239"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.smoke.003",
+      "sourceId": "raw.s05.normalize.smoke.003",
+      "sourceProvenanceRef": {
+        "byteLength": 2328,
+        "contentHash": "9c3eb1bdaac43cdadb4d9db273e0c5a9e501d02ec4a4c0f38c83077c5e66cff8",
+        "fileSha256": "ac7c8aa2895a17f66f5d0ca5bf071a52ad059e7d7c6b2906f3a824e7ff2cbe1c",
+        "id": "provenance.raw.s05.normalize.smoke.003",
+        "path": "sources/normalize-smoke/raw.s05.normalize.smoke.003.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.smoke.004",
+      "categoryId": "container-signature-or-crc-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_CRC_MISMATCH",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.idat-crc-mismatch",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "smoke",
+      "rawAsset": {
+        "byteLength": 476,
+        "decodedPixelSha256": null,
+        "fileSha256": "ff274b6676457e568b3b4ae34a86127c79267a39f9c783e1ea18eeabf9318281",
+        "mime": "image/png",
+        "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.004.png",
+        "sourceDeclarationDecodedPixelSha256": "45715d83e1db3934428fcbeb79445bf431bee39864546f5f9e46d6195090684e"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.smoke.004",
+      "sourceId": "raw.s05.normalize.smoke.004",
+      "sourceProvenanceRef": {
+        "byteLength": 2317,
+        "contentHash": "87818fc1cbb525fa976a63a992bdf50bbfdbc3ad8075dae44f041f2d43c7192d",
+        "fileSha256": "9d269d40ec4d122390fcad094b3b4d2604b74cc7ab20574b903df983cada3829",
+        "id": "provenance.raw.s05.normalize.smoke.004",
+        "path": "sources/normalize-smoke/raw.s05.normalize.smoke.004.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.smoke.005",
+      "categoryId": "pixel-layout-color-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_INPUT_SRGB_REQUIRED",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.missing-srgb-chunk",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "smoke",
+      "rawAsset": {
+        "byteLength": 947,
+        "decodedPixelSha256": null,
+        "fileSha256": "0d6cb2635753325fb150e75cfd134d5f3b1fe58a5734fe385bbf5f385fae8ad7",
+        "mime": "image/png",
+        "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.005.png",
+        "sourceDeclarationDecodedPixelSha256": "941fa9f3307c34e10ff2384fd299b2df14f8d76f324b6940c509ee8c1a1db8bc"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.smoke.005",
+      "sourceId": "raw.s05.normalize.smoke.005",
+      "sourceProvenanceRef": {
+        "byteLength": 2324,
+        "contentHash": "10e85649cb8451eb2db3a6f8518e56acf7a27a335647a4e870ee6cbf96088e62",
+        "fileSha256": "47fe77d79c3759778ad6c0f9c3154600ed00fea09ac382e2ae2d3e27764727b2",
+        "id": "provenance.raw.s05.normalize.smoke.005",
+        "path": "sources/normalize-smoke/raw.s05.normalize.smoke.005.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.normalize.smoke.006",
+      "categoryId": "resource-limit-or-unsupported-format",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_NORMALIZE_SOURCE_DECLARATION_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.unsupported-jpeg",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": null,
+      "operation": "normalize",
+      "partition": "smoke",
+      "rawAsset": {
+        "byteLength": 38,
+        "decodedPixelSha256": null,
+        "fileSha256": "0304bbf97ab5288d574170f18a373bbf06539d82a6cdc05b7fefa2207aaadcaf",
+        "mime": "image/jpeg",
+        "path": "assets/open/normalize-smoke/raw.s05.normalize.smoke.006.jpg",
+        "sourceDeclarationDecodedPixelSha256": "bd202b258480933a15d98014889ec9b46b228f93f8d45afdb4770c2d7e09c52a"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.normalize.smoke.006",
+      "sourceId": "raw.s05.normalize.smoke.006",
+      "sourceProvenanceRef": {
+        "byteLength": 2336,
+        "contentHash": "e84d6bf4330a1c6a09d436c0f870cf38791c1eea5ef06c52b2b08ab65b87d473",
+        "fileSha256": "7363699b7c32bd2cb6c0801cf61ec79cbdccbf57ec852bf90935c0a94c281902",
+        "id": "provenance.raw.s05.normalize.smoke.006",
+        "path": "sources/normalize-smoke/raw.s05.normalize.smoke.006.json"
+      }
+    }
+  ],
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "formalBoundary": {
+    "c1Eligible": false,
+    "formal": false,
+    "holdoutMaterial": false
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "gateBPrerequisite": "this-manifest-evaluates-gate-b",
+  "isolation": {
+    "captureSessionIdsUniqueAcrossDefinitionTree": true,
+    "exactRawAssetHashReuseForbidden": true,
+    "operationSpecificFamiliesAndSessions": true,
+    "priorSliceFixtureReuseForbidden": true,
+    "sourceFamilyIdsUniqueAcrossDefinitionTree": true
+  },
+  "manifestId": "FM-NORMALIZE-DELIVER-NORMALIZE-SMOKE@0.5.0",
+  "manifestKind": "gate-b-smoke",
+  "manifestVersion": "0.5.0",
+  "operationScope": [
+    "normalize"
+  ],
+  "partition": "smoke",
+  "rightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "rights/open-synthetic.v0.5.0.json"
+  },
+  "schemaVersion": "fixture-manifest.slice05.v0",
+  "stateAtDefinitionFreeze": "created-open-registered-not-run"
+}

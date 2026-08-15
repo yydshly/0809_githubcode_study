@@ -1,0 +1,455 @@
+{
+  "$defs": {
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "e1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "formalEvidence": {
+          "const": false,
+          "type": "boolean"
+        },
+        "g1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "o1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "productSupport": {
+          "const": false,
+          "type": "boolean"
+        },
+        "r1Pipeline": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductRelease": {
+          "const": 0,
+          "type": "integer"
+        },
+        "r1ProductValidation": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseAllowlist": {
+          "const": "none",
+          "type": "string"
+        },
+        "releaseApproved": {
+          "const": 0,
+          "type": "integer"
+        },
+        "releaseRegistered": {
+          "const": 0,
+          "type": "integer"
+        },
+        "u1": {
+          "const": 0,
+          "type": "integer"
+        },
+        "v1": {
+          "const": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "fileRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "hashRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "id": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "implementationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "implementationSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "version": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "path",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "nullableSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "packageName": {
+      "pattern": "^(?:@[a-z0-9][a-z0-9._-]*/)?[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "recordRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "fileSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "relativePath": {
+      "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9@._-]+(?:/[A-Za-z0-9@._-]+)*$",
+      "type": "string"
+    },
+    "scopeDirectoryName": {
+      "pattern": "^@[a-z0-9][a-z0-9._-]*$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "utc": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    }
+  },
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/gate-b-smoke-plan.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "candidateRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "contentHash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "crossOperationAggregationAllowed": {
+      "const": false,
+      "type": "boolean"
+    },
+    "evidenceBoundary": {
+      "$ref": "#/$defs/evidenceBoundary"
+    },
+    "formalPartitionsCreatedAtDefinitionFreeze": {
+      "const": false,
+      "type": "boolean"
+    },
+    "frozenAt": {
+      "$ref": "#/$defs/utc"
+    },
+    "gateBPlanId": {
+      "const": "GATE-B-SMOKE-NORMALIZE-EXPORT@0.5.0",
+      "type": "string"
+    },
+    "goldRecordSchemaRef": {
+      "$ref": "#/$defs/fileRef"
+    },
+    "hardwareRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "implementationRefs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "$ref": "#/$defs/implementationRef"
+          },
+          "role": {
+            "enum": [
+              "candidate-adapter",
+              "candidate-worker",
+              "independent-oracle",
+              "runtime-inventory",
+              "independent-fixture-generator",
+              "local-open-runner",
+              "fault-semantics-worker"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "ref"
+        ],
+        "type": "object"
+      },
+      "maxItems": 7,
+      "minItems": 7,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "operationPlans": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "applicableSources": {
+            "const": 3,
+            "type": "integer"
+          },
+          "calibrationAdmissionOnPass": {
+            "const": "only-this-operation-open-calibration-may-run",
+            "type": "string"
+          },
+          "cases": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "categoryId": {
+                  "$ref": "#/$defs/id"
+                },
+                "expectedDisposition": {
+                  "enum": [
+                    "artifact-required",
+                    "rejection-required"
+                  ],
+                  "type": "string"
+                },
+                "expectedStableErrorCode": {
+                  "pattern": "^S05_[A-Z0-9_]+$",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sourceId": {
+                  "$ref": "#/$defs/id"
+                }
+              },
+              "required": [
+                "sourceId",
+                "categoryId",
+                "expectedDisposition",
+                "expectedStableErrorCode"
+              ],
+              "type": "object"
+            },
+            "maxItems": 6,
+            "minItems": 6,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "conjunctiveGates": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "gateId": {
+                  "$ref": "#/$defs/id"
+                },
+                "initialState": {
+                  "const": "not-evaluated",
+                  "type": "string"
+                },
+                "passRequired": {
+                  "const": true,
+                  "type": "boolean"
+                },
+                "requirement": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "gateId",
+                "requirement",
+                "initialState",
+                "passRequired"
+              ],
+              "type": "object"
+            },
+            "maxItems": 12,
+            "minItems": 12,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "contractRef": {
+            "$ref": "#/$defs/recordRef"
+          },
+          "initialGateBState": {
+            "const": "not-evaluated",
+            "type": "string"
+          },
+          "operation": {
+            "enum": [
+              "normalize",
+              "export"
+            ],
+            "type": "string"
+          },
+          "passRule": {
+            "const": "every-conjunct-must-pass-with-no-aggregation-no-majority-and-no-valid-outcome-rerun",
+            "type": "string"
+          },
+          "rejectionSources": {
+            "const": 3,
+            "type": "integer"
+          },
+          "repetitionsPerSource": {
+            "const": 3,
+            "type": "integer"
+          },
+          "smokeManifestRef": {
+            "$ref": "#/$defs/recordRef"
+          },
+          "sourceCount": {
+            "const": 6,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "operation",
+          "contractRef",
+          "smokeManifestRef",
+          "sourceCount",
+          "applicableSources",
+          "rejectionSources",
+          "repetitionsPerSource",
+          "initialGateBState",
+          "conjunctiveGates",
+          "cases",
+          "passRule",
+          "calibrationAdmissionOnPass"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 2,
+      "type": "array"
+    },
+    "recordVersion": {
+      "const": "0.5.0",
+      "type": "string"
+    },
+    "resultSchemaRefs": {
+      "items": {
+        "$ref": "#/$defs/fileRef"
+      },
+      "maxItems": 10,
+      "minItems": 10,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resultsStateAtDefinitionFreeze": {
+      "const": "not-created",
+      "type": "string"
+    },
+    "runtimeAttestationRef": {
+      "$ref": "#/$defs/recordRef"
+    },
+    "schemaVersion": {
+      "const": "gate-b-smoke-plan.slice05.v0",
+      "type": "string"
+    },
+    "smokeCountsAsCapabilityEvidence": {
+      "const": false,
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "gateBPlanId",
+    "recordVersion",
+    "candidateRef",
+    "runtimeAttestationRef",
+    "hardwareRef",
+    "implementationRefs",
+    "resultSchemaRefs",
+    "goldRecordSchemaRef",
+    "operationPlans",
+    "crossOperationAggregationAllowed",
+    "smokeCountsAsCapabilityEvidence",
+    "formalPartitionsCreatedAtDefinitionFreeze",
+    "resultsStateAtDefinitionFreeze",
+    "evidenceBoundary",
+    "frozenAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

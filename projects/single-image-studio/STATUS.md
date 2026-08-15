@@ -20,13 +20,13 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 05 范围已冻结；implementation 尚未开始 | `scope-frozen / implementation-not-started` | 范围自包含 [Slice 05 合同](research/SLICE_05_CONTRACT.md) 的 Git commit 起生效；机器预注册、fixture、artifact schema / oracle、adapter、named hardware、smoke 与 calibration 均尚未建立。normalize / export 必须分别通过 Gate B smoke 后才能各自运行开放 30 + 18 calibration；这不构成格式支持或能力证据 |
+| 研究阶段 | Slice 05 机器定义已冻结；执行尚未开始 | `definition-frozen / Gate-B-not-evaluated / calibration-not-started` | [Slice 05 合同](research/SLICE_05_CONTRACT.md) 保留范围冻结时的历史状态；当前 `@0.5.0` 定义树已于 `2026-08-15T04:23:38.389Z` 封口。真实 Sharp smoke 尚未运行，normalize / export 必须分别通过自己的 Gate B 后才能各自运行开放 30 + 18 calibration；这不构成格式支持或能力证据 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
 | Slice 03 无界面研究设施 | 可运行的格式 / observer / 密封仪式演练 | 1 observer contract；15 format rows / 15 profiles；2 manifests；25 fixtures / 25 assets；6 seal schemas | 所有格式行均 `productSupport=false`；只使用开放项目原创校准夹具，正式 holdout 为 `not-created`，mock rehearsal 不构成密封证据 |
 | Slice 04 metadata 研究设施 | 候选来源锁 / 预注册可验证 | 1 candidate lock；15 format rows；2 contracts；2 operation-specific five-partition plans；1 QA profile；2 preregistrations；1 seal intent | 10 records / 7 schemas，仅 metadata；normalize / export 每项 lifecycle 为 30 / 30 / 18 / 18 / 0，初始 C1 只计 sealed 30 + 18 = 48；artifact schema / oracle、runner、durable ledger、trust、角色 assignment / approval 均未建，全部格式 `productSupport=false`，非 Gate B |
-| Slice 05 范围合同 | 范围已冻结，未实施 | 1 human-readable scope contract；machine records `0`；fixtures / runs `0` | 只授权 canonical PNG normalize / export 的 operation-specific Gate B 准备、smoke 与通过后的开放 calibration；当前没有安装或执行 codec，没有 machine prereg freeze、Gate B 决定或 calibration 结果，正式 holdout / defect-holdout / escape 全部禁止且保持 `not-created` |
+| Slice 05 定义基线 | 定义已冻结，未执行 | 25 schemas；6 manifests；108 source records / raw assets；54 normalized inputs；54 gold；results `0` | 已冻结 installed runtime candidate、两份 `@0.5.0` contract、独立 oracle / gold、adapter / worker、named hardware、runner 协议、Gate B plan 与两份开放 calibration 预注册；index `contentHash=d914d75e…5c271`，完整树 `108812d4…218f2`。真实 Sharp smoke、Gate B 决定与 calibration 均未发生；详见 [Slice 05 定义冻结证据](research/SLICE_05_EVIDENCE.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
@@ -88,6 +88,7 @@
 - 浏览器、设备、文件、色彩与测试分层见 [QUALITY_AND_COMPATIBILITY.md](QUALITY_AND_COMPATIBILITY.md)。
 - 部署、版本迁移、灰度、回滚与恢复见 [DEPLOYMENT_RELEASE_AND_RECOVERY.md](DEPLOYMENT_RELEASE_AND_RECOVERY.md)。
 - 第三方来源及本地原创边界见 [UPSTREAM.md](UPSTREAM.md)。
+- Slice 05 机器定义、runtime、fixtures、hash 与非证据边界见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)。
 
 “证件照”“商品图”“旧照修复”等不是与 Matting、合成并列的底层能力，而是场景配方。普通报名头像可以在基础能力成熟后研究；任何官方证件 profile 仍需单独绑定地区、签发机关、证件类型、提交渠道、规则版本和官方来源，不属于当前发布承诺。
 
@@ -98,14 +99,15 @@
 3. **已完成 Slice 02 合同 / 隔离层**：冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0`、`CC-CAP03-SOURCE-CARD-V0@0.2.0` 与 `CC-CAP04-MATTE-SIMPLE@0.2.0`；加入无第三方依赖的本地参考适配器，并为两套 suite 建立 dev、holdout、defect/calibration、defect/holdout、escape 结构夹具。所有合同仍为 C1=0；仓库可见 holdout 只演练隔离，不能复用为质量证据。
 4. **已完成 Slice 03 格式 / observer / 密封仪式准备层**：按 [Slice 03 范围合同](research/SLICE_03_CONTRACT.md) 冻结 15 行 `NORMALIZE-DELIVER` 格式政策矩阵、逐行 profile、独立 normalized-bytes technical observer，以及仓库外密封仪式 schema / mock rehearsal；只建立项目原创 `dev/calibration`、`defect/calibration` 格式夹具。JPEG / WebP 仍为 probe 后拒绝，所有格式行均 `productSupport=false`；正式 holdout 保持 `not-created`。验收见 [Slice 03 证据记录](research/SLICE_03_EVIDENCE.md)。
 5. **已完成 Slice 04 候选锁 / 预注册 metadata 层**：按 [Slice 04 范围合同](research/SLICE_04_CONTRACT.md) 锁定 Sharp `v0.35.3`、Windows x64 npm / native bundle、`sharp-libvips@1.3.2` bundled libvips 来源与 libvips `v8.18.3` 上游边界；六个 npm registry tarball 只在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256 后删除，没有解包、执行、安装或保留。Slice 04 冻结 15 行格式矩阵、两份 metadata-only 合同、normalize / export 两份各自 30 / 30 / 18 / 18 / 0 的 lifecycle plan、QA、两份预注册和 seal intent；每项初始 C1 只计 sealed 48，3 / 3 repeats 必须全过。Slice 03 observer / seal 仅作 design / envelope reference；正式 oracle、runner、durable ledger、trust、角色 assignment / approval 与所有像素仍为 `not-created`，验收见 [Slice 04 证据记录](research/SLICE_04_EVIDENCE.md)。
-6. **已冻结 Slice 05 Gate B / 开放 calibration 范围，implementation 尚未开始**：范围以 [Slice 05 合同](research/SLICE_05_CONTRACT.md) 为准，并自包含该文件的 Git commit 起生效；尚未发生 machine prereg freeze。后续只允许为已锁复合候选创建 normalize / export artifact schema 与独立 oracle / gold、实现 adapter、冻结执行位置 / named hardware / 资源与运行语义，并对两项 operation 分别完成 codec smoke。只有某一 operation 的 Gate B smoke 全项通过后，才可运行该 operation 的项目原创开放 `dev/calibration=30` 与 `defect/calibration=18`；smoke 与开放 calibration 均不能升级能力。该切片不得创建正式 holdout / defect-holdout / escape，不得扩 UI、Matting、真实照片或模型权重；candidate / QA / 阈值若因 calibration 改变，必须发布新版本与新预注册。
-7. **再后续才可建立正式 bundle**：最终 candidate、合同、QA、阈值、分母、指标与停止规则经 calibration 后重新冻结并通过独立审计，才由独立 custodian 在仓库外建立真正密封的 `NORMALIZE-DELIVER` holdout / defect-holdout；随后 external pins / isolation audit 完成，才能签发绑定具体 bundle 的一次性 request 并运行。Slice 04 的 request 只是 policy/template，状态固定为 `not-issued-awaiting-custodian-bundle`。
-8. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
-9. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
-10. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
-11. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
-12. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
-13. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
+6. **已完成 Slice 05 定义冻结**：按 [Slice 05 合同](research/SLICE_05_CONTRACT.md) 建立 `REG-NORM-SHARP@0.5.0` installed runtime closure、normalize / export 两份 `@0.5.0` contract、25 份 strict schema、6 份 operation-specific manifest、108 个项目原创来源、54 份 export input artifact、54 份 independent gold、adapter / isolated worker、independent oracle、named hardware、local runner / fault semantics、Gate B plan 与两份开放 calibration 预注册。机器定义于 `2026-08-15T04:23:38.389Z` 冻结，definition index `contentHash=d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271`；canonical `results/` 不存在，实际 Sharp 像素管线没有运行，验收见 [Slice 05 定义冻结证据](research/SLICE_05_EVIDENCE.md)。
+7. **立即下一步只提交 / 推送定义基线，再运行 operation-specific smoke**：先让 exact pins 获得不可变 Git baseline，再从该 baseline 运行真实 Sharp smoke，并分别形成 normalize / export 的 Gate B 决定。只有某一 operation 的全部 Gate B conjunct 通过后，才可运行该 operation 的项目原创开放 `dev/calibration=30` 与 `defect/calibration=18`；另一项不得继承。smoke 与开放 calibration 均不能升级能力，也不得创建正式 holdout / defect-holdout / escape。
+8. **再后续才可建立正式 bundle**：最终 candidate、合同、QA、阈值、分母、指标与停止规则经 calibration 后重新冻结并通过独立审计，才由独立 custodian 在仓库外建立真正密封的 `NORMALIZE-DELIVER` holdout / defect-holdout；随后 external pins / isolation audit 完成，才能签发绑定具体 bundle 的一次性 request 并运行。Slice 04 的 request 只是 policy/template，状态固定为 `not-issued-awaiting-custodian-bundle`。
+9. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
+10. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
+11. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
+12. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
+13. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
+14. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
 
 手机 / 平板产品、其他桌面浏览器、多图逐张、多图合集、商品套件、自由画布、公共部署以及未经独立验证的官方证件 profile 继续后置。
 

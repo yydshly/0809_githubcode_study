@@ -10,7 +10,7 @@
 | 记录日期 | 2026-08-12 |
 | 前序许可 | 本地原创研究，许可证待定；第三方边界按下方固定研究账本审计 |
 
-本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留，GitHub commits 只经官方页面 / API 解析，项目依赖未改变。
+本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留，GitHub commits 只经官方页面 / API 解析，当时项目依赖未改变。随后 Slice 05 为同一复合候选新增 exact research-only devDependencies 与 lockfile，安装目录 `node_modules/` 仍不提交，并以 runtime attestation 精确锁定实际 package / native closure；这不是模型、图片资产、产品 runtime 或格式支持。
 
 ## 本地原创范围
 
@@ -46,11 +46,11 @@
 
 ## 基础能力候选官方来源账本
 
-下表以 `observed_at=2026-08-14` 的研究入口为基线，不是已安装依赖。无法可靠取得不可变边界的条目继续写 `pending-resolution`；不得以 `main`、`master`、`latest` 或浮动包版本替代。Slice 04 只将 Sharp 复合候选更新为 `observed_at=2026-08-15` 的精确边界；其他候选状态不随之升级。首次安装前须在 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 补齐精确 commit/tag、包版本、checkpoint 文件名、原始下载 URL 与 SHA-256。
+下表以 `observed_at=2026-08-14` 的研究入口为基线；除 Slice 05 明确记录的 Sharp Windows x64 research closure 外，不表示依赖已安装。无法可靠取得不可变边界的条目继续写 `pending-resolution`；不得以 `main`、`master`、`latest` 或浮动包版本替代。Slice 04 将 Sharp 复合候选更新为 `observed_at=2026-08-15` 的精确来源边界，Slice 05 再固定其本地 installed closure；其他候选状态不随之升级。首次安装其他候选前须在 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 补齐精确 commit/tag、包版本、checkpoint 文件名、原始下载 URL 与 SHA-256。
 
 | Registry ID | 官方来源 | 代码 / package 许可 | 权重 / 服务边界 | 本地复制 |
 | --- | --- | --- | --- | --- |
-| `REG-NORM-SHARP` | [lovell/sharp v0.35.3](https://github.com/lovell/sharp/releases/tag/v0.35.3)、commit `1018449164723ba0203c1beffaba0e21f7829c18`、npm `sharp@0.35.3` 与 Windows x64 bundles | `sharp` Apache-2.0；`@img/sharp-libvips-win32-x64` LGPL-3.0-or-later；`@img/sharp-win32-x64` Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo LGPL-2.1-or-later；实际第三方通知逐项保留 | 无模型；`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6` 与 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 作为同一复合候选；非 Gate B | 无；临时 npm tarball 已删除 |
+| `REG-NORM-SHARP` | [lovell/sharp v0.35.3](https://github.com/lovell/sharp/releases/tag/v0.35.3)、commit `1018449164723ba0203c1beffaba0e21f7829c18`、npm `sharp@0.35.3` 与 Windows x64 bundles | `sharp` Apache-2.0；`@img/sharp-libvips-win32-x64` LGPL-3.0-or-later；`@img/sharp-win32-x64` Apache-2.0 AND LGPL-3.0-or-later；上游 libvips repo LGPL-2.1-or-later；实际第三方通知逐项保留 | 无模型；`sharp-libvips@1.3.2` / commit `4da6d14c0d59866adfb9d8cf52bcaa53846dc4f6` 与 libvips `v8.18.3` / commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626` 作为同一复合候选；Gate B 未评估 | Slice 05 提交 exact dependency declaration / lockfile / inventory；本地 `node_modules/` 不提交，真实 Sharp smoke 未运行 |
 | `REG-NORM-LIBVIPS` | [libvips v8.18.3](https://github.com/libvips/libvips/releases/tag/v8.18.3)、commit `3664cfc5dc2c5661288f5bf5a85ccc51c64c1626`、[libvips.org](https://www.libvips.org/) | LGPL-2.1-or-later | 该 source ref 已用于 Sharp bundled 来源追踪；standalone 构建、格式库、链接与交付边界仍未锁，继续 pending-freeze | 无 |
 | `REG-VISION-OPENCV` | [opencv/opencv](https://github.com/opencv/opencv)、[OpenCV license](https://opencv.org/license/) | OpenCV 4.5.0 起主体为 Apache-2.0 | 核心原语无权重；数据文件、可选模块和第三方组件另审 | 无 |
 | `REG-DETECT-GROUNDING-DINO` | [IDEA-Research/GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) | Apache-2.0 | checkpoint 许可、训练数据、依赖与哈希未锁定，`research-only` | 无 |
@@ -90,11 +90,33 @@ Slice 04 的 candidate lock、两份 metadata-only 合同、QA、normalize / exp
 | `detect-libc@2.1.2` | Apache-2.0 | [detect-libc-2.1.2.tgz](https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz) | 7776 | `270dec0fc06cff86481da8af2dd8f18dee6b602790b14ef0e1c2c18d7da39427` |
 | `semver@7.8.5` | ISC | [semver-7.8.5.tgz](https://registry.npmjs.org/semver/-/semver-7.8.5.tgz) | 29399 | `d85045d4300d7d57c891336b95df532e73f34c22ffcd222452b6d08b9d127d5d` |
 
-这些 npm tarball 只用于来源 hash：下载位置是仓库内未提交的 `.tmp/slice04-artifacts`，hash 后已删除；没有解包、运行、动态加载、安装或提交。`package.json` / lockfile 没有增加 Sharp 或 libvips。`versions.properties` 与 `THIRD-PARTY-NOTICES.md` 的内容只作为 Windows x64 bundled libvips 的来源 / 许可 metadata 被锁定，没有从 tarball 复制第三方文件进项目。package metadata 分别声明 `sharp@0.35.3=Apache-2.0`、`@img/sharp-libvips-win32-x64@1.3.2=LGPL-3.0-or-later`、`@img/sharp-win32-x64@0.35.3=Apache-2.0 AND LGPL-3.0-or-later`；上游 libvips repo 为 LGPL-2.1-or-later。THIRD-PARTY-NOTICES 解释 bundled LGPLv3 条目使用上游 v2 / v2.1 的 any-later 条款，不能把这些声明压成一个笼统许可证。
+这些 npm tarball 在 Slice 04 只用于来源 hash：下载位置是仓库内未提交的 `.tmp/slice04-artifacts`，hash 后已删除；当时没有解包、运行、动态加载、安装或提交，`package.json` / lockfile 也没有增加 Sharp 或 libvips。`versions.properties` 与 `THIRD-PARTY-NOTICES.md` 的内容只作为 Windows x64 bundled libvips 的来源 / 许可 metadata 被锁定，没有从 tarball 复制第三方文件进项目。package metadata 分别声明 `sharp@0.35.3=Apache-2.0`、`@img/sharp-libvips-win32-x64@1.3.2=LGPL-3.0-or-later`、`@img/sharp-win32-x64@0.35.3=Apache-2.0 AND LGPL-3.0-or-later`；上游 libvips repo 为 LGPL-2.1-or-later。THIRD-PARTY-NOTICES 解释 bundled LGPLv3 条目使用上游 v2 / v2.1 的 any-later 条款，不能把这些声明压成一个笼统许可证。
 
 candidate lock 将 `versions.properties` 的 28 个 native component version 与 `THIRD-PARTY-NOTICES.md` 的逐组件 `usedUnder` 声明一一锁定。为独立核对来源，两份 commit-fixed official raw metadata 只临时取回到仓库根未提交的 `.tmp/slice04-metadata-audit`，计算后整目录删除，未提交或保留：`versions.properties` 为 599 bytes / SHA-256 `cebb421de9568ae3ce8cfd66be62c3da53c2d549232c2e4327d9a9f97276c237`；`THIRD-PARTY-NOTICES.md` 为 4230 bytes / SHA-256 `25ffcfa69e28b1913ced27ec778b90f24911a1bb3021253577e8b0af55db0d49`。这不是 GitHub source archive 或 libvips tarball 下载，也不改变六个 npm tarball 的独立 `.tmp/slice04-artifacts` 边界。
 
 Sharp 与其 bundled libvips 只能作为一个 `REG-NORM-SHARP` 复合候选。把同一 bundle 的 libvips 另计为 standalone `REG-NORM-LIBVIPS` 对照会产生伪独立性，严格禁止。standalone 路径仍须另行锁定构建选项、启用的格式库、artifact hash、动态 / 静态链接和 LGPL 交付方式。
+
+### Slice 05 installed runtime 与定义冻结边界
+
+Slice 05 只为本地开放研究在 `package.json` 声明 exact devDependencies `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3`，并提交 lockfile v3；`package.json` / `package-lock.json` SHA-256 分别为 `8040895e4ed38f38b354a6e7431e5763027d3c8e15713d0dd5562b5a69dfdedb` 与 `16963d711f878ea6295a278310e3aad579d099a60f1b5e73a6a91d26dc485a2c`。lockfile 包含 npm optional platform metadata 不等于这些平台包实际安装；runtime inventory 对 Windows x64 的实际 installed closure fail closed。
+
+实际 allowlist 精确为：
+
+| Installed package | Version | Package license boundary |
+| --- | --- | --- |
+| `sharp` | `0.35.3` | Apache-2.0 |
+| `@img/sharp-win32-x64` | `0.35.3` | Apache-2.0 AND LGPL-3.0-or-later；包含被逐 file pin 的 Windows native / libvips files |
+| `@img/colour` | `1.1.0` | MIT |
+| `detect-libc` | `2.1.2` | Apache-2.0 |
+| `semver` | `7.8.5` | ISC |
+
+installed tree SHA-256 为 `a419af3606ca38f1878acb65d1ea273f0c129b0c156686b1e912bab1b167070e`。三份 native file 的 SHA-256 分别为：`libvips-42.dll=6d8ec83a826a1b46ef25a670501fd186475568dd3e48893cb4f756d0f2f428d8`、`libvips-cpp-8.18.3.dll=d6eb3395e6f7799c9e2c997aba38068f1ab0684dc08a853013dbe528649306b9`、`sharp-win32-x64-0.35.3.node=45dbb968dff27a1e8d8870d2a34e6f5418fa2a1a4fe27a7ed13ab2fb3f895468`。额外 package、WASM、native、exe、archive 或 symlink / junction 会由 inventory 拒绝；本地生成的 `node_modules/` 不进入 Git。
+
+actual `versions.json` 与 `sharp.versions` 的 28 项 runtime version 精确一致。它们与 Slice 04 packaging metadata 在 `archive`、`expat`、`ffi`、`glib`、`heif`、`pango`、`rsvg`、`tiff`、`uhdr` 九项存在如实登记的非致命版本差异；Slice 05 不用旧 metadata 覆盖 actual runtime，也不原地修改 Slice 04。runtime attestation `contentHash=8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47`，完整边界见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
+
+inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调用 candidate pipeline。定义树中的 108 个 raw fixture、54 个 `NormalizedImage` input 与 54 个 gold 均为项目原创 deterministic synthetic assets，由不依赖 Sharp 的 generator / oracle 建立；没有真实照片、用户上传、第三方样片、模型或权重。真实 Sharp smoke、Gate B 与 calibration 仍未运行，因此安装与 definition freeze 不能转写为格式支持或能力证据。
+
+作为单独的动态安全观测，`npm.cmd audit --omit=optional --json` 在 `2026-08-15T04:40:58.503Z` 至 `2026-08-15T04:41:00.846Z` 返回 exit code 0 / `auditReportVersion=2`；当时 `info/low/moderate/high/critical/total` vulnerability counts 全为 0，dependency metadata 为 `prod=1 / dev=32 / optional=27 / peer=0 / peerOptional=0 / total=32`。npm advisory 结果是 live-at-that-time、non-frozen、non-Gate 的外部状态，不进入 Slice 05 canonical pins，也不能替代许可证 / notices / provenance 审计或 G1。
 
 ## 市场官方研究入口
 
@@ -138,7 +160,7 @@ Sharp 与其 bundled libvips 只能作为一个 `REG-NORM-SHARP` 复合候选。
 2026-08-14 核对的官方文档支持以下规划判断：
 
 - GPT Image 2 的官方模型页列出不可变 snapshot `gpt-image-2-2026-04-21`；研究和运行记录不得只写浮动别名 `gpt-image-2`。
-- 当前 `server/server.mjs` 仍以浮动别名调用 R0 探针。本轮未修改该旧任务 / OpenAI 调用路径或正式产品 UI；Slice 02 / 03 的本地 reference adapter、validator 与密封仪式 helper 只处理项目原创合成研究夹具或临时 mock metadata，Slice 04 又只提交 Sharp 复合候选的来源锁与预注册 metadata。项目仍不包含第三方代码、图片、模型或权重；正式实验前必须把 R0 调用改用 snapshot，并由新的运行证据取代旧探针记录。
+- 当前 `server/server.mjs` 仍以浮动别名调用 R0 探针。本轮未修改该旧任务 / OpenAI 调用路径或正式产品 UI；Slice 02 / 03 的本地 reference adapter、validator 与密封仪式 helper 只处理项目原创合成研究夹具或临时 mock metadata，Slice 04 只提交 Sharp 复合候选的来源锁与预注册 metadata，Slice 05 则新增 exact research-only Sharp dependency declaration / lockfile 与本地 synthetic definition。项目不包含第三方图片、模型或权重，`node_modules/` 不提交；正式 OpenAI 实验前必须把 R0 调用改用 snapshot，并由新的运行证据取代旧探针记录。
 - Image API 支持生成、整图编辑、一个或多个参考图，以及带 mask 的局部编辑。
 - GPT Image 的 mask 是通过提示引导模型编辑的输入，模型不保证完全精确地遵循 mask 形状；因此 masked edit 不是像素级抠图、前景锁定或 mask 外零改动证据。
 - `gpt-image-2` 当前不支持 `background: "transparent"`。透明 PNG 必须由本项目独立的分割 / Alpha Matting 与确定性 RGBA 合成链产生，不能把生成模型输出白底或近似主体边缘当成透明背景。

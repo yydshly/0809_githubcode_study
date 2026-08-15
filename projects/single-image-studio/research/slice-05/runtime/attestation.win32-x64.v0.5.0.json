@@ -1,0 +1,304 @@
+{
+  "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+  "environment": {
+    "cpu": {
+      "logicalProcessors": 32,
+      "models": [
+        "13th Gen Intel(R) Core(TM) i9-13980HX"
+      ]
+    },
+    "memory": {
+      "totalBytes": 16779960320
+    },
+    "node": {
+      "abi": "127",
+      "napi": "10",
+      "version": "v22.15.0"
+    },
+    "npm": {
+      "version": "10.9.2"
+    },
+    "os": {
+      "architecture": "x64",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "version": "Windows 11 Home China"
+    }
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "executionBoundary": {
+    "candidatePipelineInvoked": false,
+    "hostnameRecorded": false,
+    "imageBytesRead": false,
+    "imageDecoded": false,
+    "imageEncoded": false,
+    "serialRecorded": false,
+    "sharpImportedForVersionsOnly": true
+  },
+  "gateBStateAtDefinitionFreeze": "not-evaluated",
+  "installedClosure": {
+    "allowlist": [
+      "@img/colour",
+      "@img/sharp-win32-x64",
+      "detect-libc",
+      "semver",
+      "sharp"
+    ],
+    "fileCount": 122,
+    "ignoredEmptyScopeDirectories": [
+      "@emnapi"
+    ],
+    "nativeArtifacts": [
+      {
+        "byteLength": 18406400,
+        "expectedSha256": "6d8ec83a826a1b46ef25a670501fd186475568dd3e48893cb4f756d0f2f428d8",
+        "path": "node_modules/@img/sharp-win32-x64/lib/libvips-42.dll",
+        "sha256": "6d8ec83a826a1b46ef25a670501fd186475568dd3e48893cb4f756d0f2f428d8"
+      },
+      {
+        "byteLength": 333312,
+        "expectedSha256": "d6eb3395e6f7799c9e2c997aba38068f1ab0684dc08a853013dbe528649306b9",
+        "path": "node_modules/@img/sharp-win32-x64/lib/libvips-cpp-8.18.3.dll",
+        "sha256": "d6eb3395e6f7799c9e2c997aba38068f1ab0684dc08a853013dbe528649306b9"
+      },
+      {
+        "byteLength": 442368,
+        "expectedSha256": "45dbb968dff27a1e8d8870d2a34e6f5418fa2a1a4fe27a7ed13ab2fb3f895468",
+        "path": "node_modules/@img/sharp-win32-x64/lib/sharp-win32-x64-0.35.3.node",
+        "sha256": "45dbb968dff27a1e8d8870d2a34e6f5418fa2a1a4fe27a7ed13ab2fb3f895468"
+      }
+    ],
+    "packages": [
+      {
+        "name": "@img/colour",
+        "packageJsonSha256": "bc38c5097693ed53b91c32f35fb0a52569736c7854ba2eb6d080f3252071f75c",
+        "path": "node_modules/@img/colour",
+        "version": "1.1.0"
+      },
+      {
+        "name": "@img/sharp-win32-x64",
+        "packageJsonSha256": "230a4c229515fba8160b12804155435c41e84fa8392793e966f7292648e04299",
+        "path": "node_modules/@img/sharp-win32-x64",
+        "version": "0.35.3"
+      },
+      {
+        "name": "detect-libc",
+        "packageJsonSha256": "ee88e5b954fdf3a8480b1d01ef767d68d8ca2c6da269f58c5cf1c5550e9aa2a7",
+        "path": "node_modules/detect-libc",
+        "version": "2.1.2"
+      },
+      {
+        "name": "semver",
+        "packageJsonSha256": "7c94cb7f2a53c27b20d76386ec144c062894dbcc909cfabd0f728c37874b1776",
+        "path": "node_modules/semver",
+        "version": "7.8.5"
+      },
+      {
+        "name": "sharp",
+        "packageJsonSha256": "0f3a7e7eb4f22978dfde46e6c7c6ecf3b86b43e33c3d366de88b334b4610c3ff",
+        "path": "node_modules/sharp",
+        "version": "0.35.3"
+      }
+    ],
+    "treeSha256": "a419af3606ca38f1878acb65d1ea273f0c129b0c156686b1e912bab1b167070e"
+  },
+  "inventoryRef": {
+    "id": "INVENTORY-SHARP-RUNTIME@0.5.0",
+    "implementationSha256": "557cdc0a965db10878a8deb647f4e1774acfdac5790f3050ac46b2b7d6b9ec3c",
+    "inventoryPayloadSha256": "4fa94c4c225c8ec18abe2751cf4b2344bb643377750503df45a3c65bcfcd0972",
+    "path": "scripts/research-inventory-sharp-slice05.mjs",
+    "version": "0.5.0"
+  },
+  "packageLock": {
+    "expectedSha256": "16963d711f878ea6295a278310e3aad579d099a60f1b5e73a6a91d26dc485a2c",
+    "lockfileVersion": 3,
+    "path": "package-lock.json",
+    "pins": [
+      {
+        "integrity": "sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==",
+        "name": "@img/colour",
+        "resolved": "https://registry.npmjs.org/@img/colour/-/colour-1.1.0.tgz",
+        "version": "1.1.0"
+      },
+      {
+        "integrity": "sha512-D4y1vNeZrIIJCN+uHaWVtH86B+aCrdMYYjicy9pXHvbGZeGYLLSd3wdVuC37FxVXlU1ARsk84eKWfWMXGYEqvA==",
+        "name": "@img/sharp-win32-x64",
+        "resolved": "https://registry.npmjs.org/@img/sharp-win32-x64/-/sharp-win32-x64-0.35.3.tgz",
+        "version": "0.35.3"
+      },
+      {
+        "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",
+        "name": "detect-libc",
+        "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+        "version": "2.1.2"
+      },
+      {
+        "integrity": "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==",
+        "name": "semver",
+        "resolved": "https://registry.npmjs.org/semver/-/semver-7.8.5.tgz",
+        "version": "7.8.5"
+      },
+      {
+        "integrity": "sha512-ej0zVHuZGHCiABXcNxeYhpRnPNPAcvbG8RMdBAhDAxLKkCRVSpK3Iyu7qbqw3JMzoj0REeM6f3tJLtVwl0023Q==",
+        "name": "sharp",
+        "resolved": "https://registry.npmjs.org/sharp/-/sharp-0.35.3.tgz",
+        "version": "0.35.3"
+      }
+    ],
+    "sha256": "16963d711f878ea6295a278310e3aad579d099a60f1b5e73a6a91d26dc485a2c"
+  },
+  "packageManifest": {
+    "exactDevDependencies": {
+      "@img/sharp-win32-x64": "0.35.3",
+      "sharp": "0.35.3"
+    },
+    "path": "package.json",
+    "sha256": "8040895e4ed38f38b354a6e7431e5763027d3c8e15713d0dd5562b5a69dfdedb"
+  },
+  "recordVersion": "0.5.0",
+  "recordedAt": "2026-08-15T04:23:38.389Z",
+  "runtimeAttestationId": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+  "runtimeCandidateId": "REG-NORM-SHARP@0.5.0",
+  "schemaVersion": "runtime-attestation-record.slice05.v0",
+  "sourceCandidateMetadataRef": {
+    "contentHash": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+    "fileSha256": "f4699666bbd57f750448a298b7a87f5dc379ce6744a54aaf651d14693087d778",
+    "id": "REG-NORM-SHARP@0.4.0",
+    "path": "research/slice-04/candidate-locks/composite-sharp-win32-x64.v0.4.0.json"
+  },
+  "versions": {
+    "installed": {
+      "aom": "3.14.1",
+      "archive": "3.8.7",
+      "cairo": "1.18.4",
+      "cgif": "0.5.3",
+      "exif": "0.6.26",
+      "expat": "2.8.1",
+      "ffi": "3.5.2",
+      "fontconfig": "2.18.1",
+      "freetype": "2.14.3",
+      "fribidi": "1.0.16",
+      "glib": "2.89.0",
+      "harfbuzz": "14.2.1",
+      "heif": "1.23.0",
+      "highway": "1.4.0",
+      "imagequant": "2.4.1",
+      "lcms": "2.19.1",
+      "mozjpeg": "0826579",
+      "pango": "1.57.1",
+      "pixman": "0.46.4",
+      "png": "1.6.58",
+      "proxy-libintl": "0.5",
+      "rsvg": "2.62.3",
+      "tiff": "732665c",
+      "uhdr": "13a058f",
+      "vips": "8.18.3",
+      "webp": "1.6.0",
+      "xml2": "2.15.3",
+      "zlib-ng": "2.3.3"
+    },
+    "installedVersionsJsonSha256": "5155cd67e4f2e5df99e26d2919458a21dbb8236eca2ca632d896dd49ba9c42fc",
+    "sharpRuntime": {
+      "aom": "3.14.1",
+      "archive": "3.8.7",
+      "cairo": "1.18.4",
+      "cgif": "0.5.3",
+      "exif": "0.6.26",
+      "expat": "2.8.1",
+      "ffi": "3.5.2",
+      "fontconfig": "2.18.1",
+      "freetype": "2.14.3",
+      "fribidi": "1.0.16",
+      "glib": "2.89.0",
+      "harfbuzz": "14.2.1",
+      "heif": "1.23.0",
+      "highway": "1.4.0",
+      "imagequant": "2.4.1",
+      "lcms": "2.19.1",
+      "mozjpeg": "0826579",
+      "pango": "1.57.1",
+      "pixman": "0.46.4",
+      "png": "1.6.58",
+      "proxy-libintl": "0.5",
+      "rsvg": "2.62.3",
+      "sharp": "0.35.3",
+      "tiff": "732665c",
+      "uhdr": "13a058f",
+      "vips": "8.18.3",
+      "webp": "1.6.0",
+      "xml2": "2.15.3",
+      "zlib-ng": "2.3.3"
+    },
+    "slice04PackagingMetadataErratum": [
+      {
+        "componentId": "archive",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "3.8.7",
+        "slice04PackagingMetadataVersion": "3.8.8"
+      },
+      {
+        "componentId": "expat",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "2.8.1",
+        "slice04PackagingMetadataVersion": "2.8.2"
+      },
+      {
+        "componentId": "ffi",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "3.5.2",
+        "slice04PackagingMetadataVersion": "3.6.0"
+      },
+      {
+        "componentId": "glib",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "2.89.0",
+        "slice04PackagingMetadataVersion": "2.89.1"
+      },
+      {
+        "componentId": "heif",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "1.23.0",
+        "slice04PackagingMetadataVersion": "1.23.1"
+      },
+      {
+        "componentId": "pango",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "1.57.1",
+        "slice04PackagingMetadataVersion": "1.58.0"
+      },
+      {
+        "componentId": "rsvg",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "2.62.3",
+        "slice04PackagingMetadataVersion": "2.62.90"
+      },
+      {
+        "componentId": "tiff",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "732665c",
+        "slice04PackagingMetadataVersion": "d01a94b"
+      },
+      {
+        "componentId": "uhdr",
+        "disposition": "reported-nonfatal-packaging-metadata-difference",
+        "installedRuntimeVersion": "13a058f",
+        "slice04PackagingMetadataVersion": "1acdbed"
+      }
+    ]
+  }
+}

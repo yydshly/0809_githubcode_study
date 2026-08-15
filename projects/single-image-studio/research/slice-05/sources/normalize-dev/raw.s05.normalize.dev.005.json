@@ -1,0 +1,68 @@
+{
+  "candidateIndependence": {
+    "candidateAuthorIds": [
+      "role.candidate-implementation-author"
+    ],
+    "candidateDependencyUsed": false,
+    "candidateOutputUsed": false,
+    "candidateProduced": false,
+    "fixtureAuthorIds": [
+      "role.fixture-gold-author"
+    ]
+  },
+  "captureSessionId": "session.s05.normalize.dev.005",
+  "categoryId": "canonical-opaque-source-png",
+  "contentHash": "e821feeaa7b3b76d7622cf951d86b8cc6884c44df6bd3ff9c53497ee11aa110d",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "artifact-required",
+  "expectedStableErrorCode": null,
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "generatorRef": {
+    "id": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "path": "scripts/research-generate-slice05.mjs",
+    "version": "0.5.0"
+  },
+  "operation": "normalize",
+  "partition": "dev/calibration",
+  "rawAsset": {
+    "alphaPresent": false,
+    "byteLength": 1372,
+    "decodedPixelSha256": "8c5c4dcb314ea3423c7e4f89e6a9dd94a07cbb42e59548e2ccb58851bb595db9",
+    "defectId": null,
+    "fileSha256": "12e80ba4cccf83d7e01760104b28f62df6e2ded181e126a751d8e175141b4b1f",
+    "height": 15,
+    "intentionallyInvalid": false,
+    "mime": "image/png",
+    "path": "assets/open/normalize-dev/raw.s05.normalize.dev.005.png",
+    "sourceDeclarationDecodedPixelSha256": "8c5c4dcb314ea3423c7e4f89e6a9dd94a07cbb42e59548e2ccb58851bb595db9",
+    "width": 24
+  },
+  "recordVersion": "0.5.0",
+  "rightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "rights/open-synthetic.v0.5.0.json"
+  },
+  "schemaVersion": "source-provenance.slice05.v0",
+  "sourceFamilyId": "family.s05.normalize.dev.005",
+  "sourceId": "raw.s05.normalize.dev.005",
+  "sourceProvenanceId": "provenance.raw.s05.normalize.dev.005"
+}

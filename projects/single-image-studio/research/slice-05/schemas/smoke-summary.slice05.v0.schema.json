@@ -1,0 +1,558 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/smoke-summary.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allApplicableSourcesDeterministic": {
+      "type": "boolean"
+    },
+    "allRegisteredAttemptsPass": {
+      "type": "boolean"
+    },
+    "allRegisteredAttemptsTerminal": {
+      "type": "boolean"
+    },
+    "cancelledCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "caseResults": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "allPass": {
+            "type": "boolean"
+          },
+          "allTerminal": {
+            "type": "boolean"
+          },
+          "decodedPixelSha256": {
+            "oneOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deterministic": {
+            "type": "boolean"
+          },
+          "effectiveResultRefs": {
+            "items": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "byteLength": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "contentHash": {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    "fileSha256": {
+                      "pattern": "^[0-9a-f]{64}$",
+                      "type": "string"
+                    },
+                    "id": {
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+                      "type": "string"
+                    },
+                    "path": {
+                      "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "id",
+                    "contentHash",
+                    "byteLength",
+                    "fileSha256"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "maxItems": 3,
+            "minItems": 3,
+            "type": "array"
+          },
+          "expectedDisposition": {
+            "enum": [
+              "applicable",
+              "preflight-reject"
+            ]
+          },
+          "fileSha256": {
+            "oneOf": [
+              {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "invalidatedResultRefs": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "byteLength": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "contentHash": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "fileSha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "id": {
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+                  "type": "string"
+                },
+                "path": {
+                  "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "id",
+                "contentHash",
+                "byteLength",
+                "fileSha256"
+              ],
+              "type": "object"
+            },
+            "maxItems": 1,
+            "type": "array"
+          },
+          "partition": {
+            "const": "smoke"
+          },
+          "passCount": {
+            "maximum": 3,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "repetitions": {
+            "const": 3
+          },
+          "sourceId": {
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+            "type": "string"
+          },
+          "terminalCount": {
+            "maximum": 3,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sourceId",
+          "partition",
+          "expectedDisposition",
+          "repetitions",
+          "terminalCount",
+          "passCount",
+          "allTerminal",
+          "allPass",
+          "deterministic",
+          "fileSha256",
+          "decodedPixelSha256",
+          "effectiveResultRefs",
+          "invalidatedResultRefs"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "evidenceBoundary": {
+      "additionalProperties": false,
+      "properties": {
+        "c1": {
+          "const": 0
+        },
+        "e1": {
+          "const": 0
+        },
+        "formalEvidence": {
+          "const": false
+        },
+        "g1": {
+          "const": 0
+        },
+        "o1": {
+          "const": 0
+        },
+        "productSupport": {
+          "const": false
+        },
+        "r1Pipeline": {
+          "const": 0
+        },
+        "r1ProductRelease": {
+          "const": 0
+        },
+        "r1ProductValidation": {
+          "const": 0
+        },
+        "releaseAllowlist": {
+          "const": "none"
+        },
+        "releaseApproved": {
+          "const": 0
+        },
+        "releaseRegistered": {
+          "const": 0
+        },
+        "u1": {
+          "const": 0
+        },
+        "v1": {
+          "const": 0
+        }
+      },
+      "required": [
+        "productSupport",
+        "formalEvidence",
+        "c1",
+        "u1",
+        "e1",
+        "r1Pipeline",
+        "r1ProductValidation",
+        "r1ProductRelease",
+        "o1",
+        "g1",
+        "v1",
+        "releaseAllowlist",
+        "releaseRegistered",
+        "releaseApproved"
+      ],
+      "type": "object"
+    },
+    "failureCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "falseAllowCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "falseRejectCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "faultSemanticsAllPass": {
+      "type": "boolean"
+    },
+    "faultSemanticsRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "finishedAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "invalidNoResultCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "manifestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "missingAttemptCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "nonPassAttemptCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "oracleNonpassCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "overallStatus": {
+      "enum": [
+        "all-pass",
+        "non-pass",
+        "inconclusive"
+      ]
+    },
+    "passAttemptCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "recordedAttemptCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "registeredAttemptCount": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "registeredCaseCount": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "replacementAttemptCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "runtimeAttestationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "inventoryPayloadSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256",
+        "inventoryPayloadSha256"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "smoke-summary.slice05.v0"
+    },
+    "sessionAuditRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "startedAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "summaryId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "terminalAttemptCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "timeoutCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "unknownReconciliationCount": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "unregisteredTerminalCount": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "summaryId",
+    "operation",
+    "definitionRef",
+    "manifestRef",
+    "runtimeAttestationRef",
+    "sessionAuditRef",
+    "faultSemanticsRef",
+    "registeredCaseCount",
+    "registeredAttemptCount",
+    "recordedAttemptCount",
+    "replacementAttemptCount",
+    "terminalAttemptCount",
+    "missingAttemptCount",
+    "passAttemptCount",
+    "nonPassAttemptCount",
+    "falseAllowCount",
+    "falseRejectCount",
+    "failureCount",
+    "oracleNonpassCount",
+    "unregisteredTerminalCount",
+    "invalidNoResultCount",
+    "timeoutCount",
+    "cancelledCount",
+    "unknownReconciliationCount",
+    "allRegisteredAttemptsTerminal",
+    "allRegisteredAttemptsPass",
+    "allApplicableSourcesDeterministic",
+    "faultSemanticsAllPass",
+    "caseResults",
+    "overallStatus",
+    "startedAt",
+    "finishedAt",
+    "evidenceBoundary",
+    "contentHash"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,68 @@
+{
+  "candidateIndependence": {
+    "candidateAuthorIds": [
+      "role.candidate-implementation-author"
+    ],
+    "candidateDependencyUsed": false,
+    "candidateOutputUsed": false,
+    "candidateProduced": false,
+    "fixtureAuthorIds": [
+      "role.fixture-gold-author"
+    ]
+  },
+  "captureSessionId": "session.s05.export.defect.007",
+  "categoryId": "injected-normalized-artifact-shape-or-contract-defect",
+  "contentHash": "8437bb105cb2af95d32e3b28dce300a078d6a9079aaa9248cfc690f7d0f880a3",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "expectedDisposition": "rejection-required",
+  "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "generatorRef": {
+    "id": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+    "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+    "path": "scripts/research-generate-slice05.mjs",
+    "version": "0.5.0"
+  },
+  "operation": "export",
+  "partition": "defect/calibration",
+  "rawAsset": {
+    "alphaPresent": false,
+    "byteLength": 569,
+    "decodedPixelSha256": "8b958c13c7c91d24428413ff419b8a328fa55f8ebd96d5946551755dd25a092c",
+    "defectId": null,
+    "fileSha256": "5e9b5a516ac8f3d65c7906bbc861756db7043cb3cf103a90bb1dd9296968f814",
+    "height": 9,
+    "intentionallyInvalid": false,
+    "mime": "image/png",
+    "path": "assets/open/export-defect/raw.s05.export.defect.007.png",
+    "sourceDeclarationDecodedPixelSha256": "8b958c13c7c91d24428413ff419b8a328fa55f8ebd96d5946551755dd25a092c",
+    "width": 14
+  },
+  "recordVersion": "0.5.0",
+  "rightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "rights/open-synthetic.v0.5.0.json"
+  },
+  "schemaVersion": "source-provenance.slice05.v0",
+  "sourceFamilyId": "family.s05.export.defect.007",
+  "sourceId": "raw.s05.export.defect.007",
+  "sourceProvenanceId": "provenance.raw.s05.export.defect.007"
+}

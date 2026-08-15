@@ -1,0 +1,1306 @@
+{
+  "candidateRef": {
+    "byteLength": 3900,
+    "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+    "fileSha256": "c117dc0717d436ef82a5102aa21885e80eca3acdd23c38a706dd1bd730c4c30e",
+    "id": "REG-NORM-SHARP@0.5.0",
+    "path": "candidate-locks/composite-sharp-win32-x64.v0.5.0.json"
+  },
+  "contentHash": "1139c316250e5040b740bb8ea49b757c66c7e5fcad46c895d979b323749b6daf",
+  "contractRefs": [
+    {
+      "byteLength": 5851,
+      "contentHash": "9158ec6b07c3a877976fa48c5001a9f3c65ef746d5d1a99dca74696d58c1d278",
+      "fileSha256": "c994b2307e8fc44a5078f864a3ac0c2d91c5a103967e29befee4640456074903",
+      "id": "CC-CAP02-EXPORT-PNG@0.5.0",
+      "path": "contracts/cc-cap02-export-png.v0.5.0.json"
+    }
+  ],
+  "counts": {
+    "applicableSources": 18,
+    "byOperation": [
+      {
+        "applicableSources": 18,
+        "operation": "export",
+        "rejectionSources": 12,
+        "totalSources": 30
+      }
+    ],
+    "rejectionSources": 12,
+    "repetitionsPerSource": 3,
+    "totalPlannedAttempts": 90,
+    "totalSources": 30
+  },
+  "entries": [
+    {
+      "captureSessionId": "session.s05.export.dev.001",
+      "categoryId": "valid-opaque-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1780,
+        "contentHash": "9061c2a0309900dd70811d053806ba0c090122406aaf9afa5fa97d8018276874",
+        "fileSha256": "371ad6870c0c2ee0408ed4b46b12fa7fcf74ce0f3a14210be5b24360343fa230",
+        "id": "gold.normalized.s05.export.dev.001",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.001.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2614,
+        "contentHash": "364c152ad2ef6ee80fcbfa70dc4167ce356e12e38cdc841c0b31f474e17532a9",
+        "fileSha256": "7c577ec8281577edf83899bfda877966bc6e18c5728f12b4bc9809119493a2f2",
+        "id": "normalized.s05.export.dev.001",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.001.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1142,
+        "decodedPixelSha256": "cfad7ccbfeef3b0595924b5d17c6f32c4adfb62576e2c54980e2082387bace97",
+        "fileSha256": "629ae48e9c05666b36d236015c211d8aba85ee70057ac55f76e296250d9a49cf",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.001.png",
+        "sourceDeclarationDecodedPixelSha256": "cfad7ccbfeef3b0595924b5d17c6f32c4adfb62576e2c54980e2082387bace97"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.001",
+      "sourceId": "normalized.s05.export.dev.001",
+      "sourceProvenanceRef": {
+        "byteLength": 2307,
+        "contentHash": "166b1e6747ded68e88e3b2e07267d6827d03af94bff0cd0e9b461b0bf76ac3cd",
+        "fileSha256": "3d8819560356fd4f426adea06ae42ed10c7596a23149d592ae0f0f3aba885110",
+        "id": "provenance.raw.s05.export.dev.001",
+        "path": "sources/export-dev/raw.s05.export.dev.001.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.002",
+      "categoryId": "valid-opaque-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1780,
+        "contentHash": "94680d79fec3cc4633678e415a61bdcfddea0121e82efb903d29b3951373f221",
+        "fileSha256": "27f7b2f2a677bfa78f60a1bbc557a038f78dadfa15af7b4df4f06c6a8c60d9b7",
+        "id": "gold.normalized.s05.export.dev.002",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.002.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2614,
+        "contentHash": "d289f5f6c585aafabc5107079dd0a42e26184a427cf99d2721a5c0f764a41f10",
+        "fileSha256": "f753e5c3795fe721d7b50b95c17adf4953d51e6a89c1e48e2553049109368197",
+        "id": "normalized.s05.export.dev.002",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.002.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1074,
+        "decodedPixelSha256": "3610ab3070cb9c1438d4b9bc7c0941fcbbb1da6cfa55c08c47d1a9b56cf6311a",
+        "fileSha256": "0c2c4ad4549d1a5da872966fbd4a7835c81707fdfadb9a4f106686969895dce3",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.002.png",
+        "sourceDeclarationDecodedPixelSha256": "3610ab3070cb9c1438d4b9bc7c0941fcbbb1da6cfa55c08c47d1a9b56cf6311a"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.002",
+      "sourceId": "normalized.s05.export.dev.002",
+      "sourceProvenanceRef": {
+        "byteLength": 2307,
+        "contentHash": "e63b2a44936c21f089ecfa5686a34aa4ad23e9b862ebe16d40778855e995103e",
+        "fileSha256": "2fbcd2703684023e7f652a197bc2ccad9027031382235ee6aa1898acafeb2bca",
+        "id": "provenance.raw.s05.export.dev.002",
+        "path": "sources/export-dev/raw.s05.export.dev.002.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.003",
+      "categoryId": "valid-opaque-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1780,
+        "contentHash": "436523fc0ac4ddaa53a09bf544d28bb11ab33413f6425a821704ac84946a9216",
+        "fileSha256": "c062dd5273ba11dd117e404172c87890116291664ef933f89ad4815ba422cae0",
+        "id": "gold.normalized.s05.export.dev.003",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.003.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "2a25a348a8e0ab9e57dc30ffa78fd70e554bfb9a984161c833fd18a1e9647cc1",
+        "fileSha256": "41fe238da52dada528f837a8c76b62ed22c1eddf25ad969242d7422436827776",
+        "id": "normalized.s05.export.dev.003",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.003.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 897,
+        "decodedPixelSha256": "65ed7066d7c0e682a46a1101de293408d802fea71e652bd0df7705ba224cfa6d",
+        "fileSha256": "179983a18a8ef2b44f60eb416b80e1496d8e3a3fd16dbacc109825004cf1c8f3",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.003.png",
+        "sourceDeclarationDecodedPixelSha256": "65ed7066d7c0e682a46a1101de293408d802fea71e652bd0df7705ba224cfa6d"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.003",
+      "sourceId": "normalized.s05.export.dev.003",
+      "sourceProvenanceRef": {
+        "byteLength": 2306,
+        "contentHash": "76638c9c811e197c4dcd17ab6d0bb224c15685a2cf08763c8a2aa84e264ab75b",
+        "fileSha256": "f4b05e9899d9a9fc82c8693c93845aa461617b99e6a4e7eabdeea2d2ecf49fd7",
+        "id": "provenance.raw.s05.export.dev.003",
+        "path": "sources/export-dev/raw.s05.export.dev.003.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.004",
+      "categoryId": "valid-opaque-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1780,
+        "contentHash": "804bc5031295e22c829bcea4726253de8dede60556aecba2a150cb815d1e2dfb",
+        "fileSha256": "d9a64e702296f5af0f22c50a97ee23cc9d643aeb9bf9af745393e5bff78c24ca",
+        "id": "gold.normalized.s05.export.dev.004",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.004.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2614,
+        "contentHash": "0873b654fe4d638764bbae6b29e2820be0693b356aa433d63737cf3123d3f672",
+        "fileSha256": "4ca5dd491371156708fa91d7d65f137b52fe0b1a82431a1ad83292ca0444b3e3",
+        "id": "normalized.s05.export.dev.004",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.004.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1189,
+        "decodedPixelSha256": "90ed4bc2eab2f1c1fdc4cdea9ad1862cc7838f5d20ae68c58778666af5a185ad",
+        "fileSha256": "d17265a76c286dddf79b81f9d2e168507400a27e6a8483fe713014faa22933fa",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.004.png",
+        "sourceDeclarationDecodedPixelSha256": "90ed4bc2eab2f1c1fdc4cdea9ad1862cc7838f5d20ae68c58778666af5a185ad"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.004",
+      "sourceId": "normalized.s05.export.dev.004",
+      "sourceProvenanceRef": {
+        "byteLength": 2307,
+        "contentHash": "5c988c69c38145357cdf89aaa468152cafe9dc372a4cf2599ee21e3fad5577e6",
+        "fileSha256": "091997b5588508bd9f6179218f9bbaf7bb51807aa2418c77f6e2e5e7650bb4e9",
+        "id": "provenance.raw.s05.export.dev.004",
+        "path": "sources/export-dev/raw.s05.export.dev.004.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.005",
+      "categoryId": "valid-opaque-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1780,
+        "contentHash": "8ea0207d28d00d24b37c2abd935e7887a6b2c1414c69806f42459106c8a152fe",
+        "fileSha256": "cbaed78e8443b56c6453830b2d8b56238b799214a06334eea08ee72238b635f6",
+        "id": "gold.normalized.s05.export.dev.005",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.005.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2614,
+        "contentHash": "55db00a6c3df298d9a596b3aaca0c395b36663ebebd35cebe85488b8577caefb",
+        "fileSha256": "d06dde1f8936182db6d78889ace54dfb5e26eca181d53ce660136156cc946933",
+        "id": "normalized.s05.export.dev.005",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.005.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1250,
+        "decodedPixelSha256": "fa34720b8c58c5828564161ad483444d158179522ae0775e9aa9c1d5eef7569b",
+        "fileSha256": "c97b878df7873e0ab43ff30528eb13930cf3c285c569d7b965825e314815a154",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.005.png",
+        "sourceDeclarationDecodedPixelSha256": "fa34720b8c58c5828564161ad483444d158179522ae0775e9aa9c1d5eef7569b"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.005",
+      "sourceId": "normalized.s05.export.dev.005",
+      "sourceProvenanceRef": {
+        "byteLength": 2307,
+        "contentHash": "bdb9bcc33322e86527d25884e56af855e35e516b3654b81da220559bfa133ddd",
+        "fileSha256": "8db5b467be4204937a28ee349f8c91438e8246093072cc05306822b32f0fb40b",
+        "id": "provenance.raw.s05.export.dev.005",
+        "path": "sources/export-dev/raw.s05.export.dev.005.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.006",
+      "categoryId": "valid-opaque-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "d246b9e00d441e96f0e0551c701df54b895eb26511ae89fd582e886eab79b4ef",
+        "fileSha256": "b67fa15ce72a10558c8b68f4ba58eeb56dd7a2f3315ed16757d6cfd400f6b482",
+        "id": "gold.normalized.s05.export.dev.006",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.006.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2612,
+        "contentHash": "c5404b267bf508139433ef9323fd0d0b4ec832cda649c4338ce50218aeed5a3f",
+        "fileSha256": "489a763651176a59418738fa5f7753845604f3d5d6643e36d10e00fd0033f68e",
+        "id": "normalized.s05.export.dev.006",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.006.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 716,
+        "decodedPixelSha256": "fc5d4546b1bbbf09ef1426c9aa85dc0418e2cd1dc2a501f524febb995a3c4e3a",
+        "fileSha256": "29737da47abdbb6113cc60b096abd65b27409c252d3d207dbe5de066737d5144",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.006.png",
+        "sourceDeclarationDecodedPixelSha256": "fc5d4546b1bbbf09ef1426c9aa85dc0418e2cd1dc2a501f524febb995a3c4e3a"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.006",
+      "sourceId": "normalized.s05.export.dev.006",
+      "sourceProvenanceRef": {
+        "byteLength": 2305,
+        "contentHash": "2bcb7b65196e9ef62374263ed4cceea76ae7f74da0c70900ac25b760936ea248",
+        "fileSha256": "16cdaa477c13653eb9962cc87c21fe6442308fd0ed482f7515673283abf83636",
+        "id": "provenance.raw.s05.export.dev.006",
+        "path": "sources/export-dev/raw.s05.export.dev.006.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.007",
+      "categoryId": "valid-partial-alpha-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "fab83bcd411260265a2bb9b0bdd0faff05a7ccebe55cb0d138f6f6c1085d25fe",
+        "fileSha256": "ccd4c4c77b2a31f138d1e825c3585c7a7c0ec766eac3bd0aa07224aae4eb4750",
+        "id": "gold.normalized.s05.export.dev.007",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.007.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "e3b9c40c212e405f1dfdd717b2dfae9f75685bd34dc80fa6356a6966ae6d1c40",
+        "fileSha256": "0946cd45270d4519e4a878a4f04ed49a27592c14584cabe0fdf23932fdf3a1b3",
+        "id": "normalized.s05.export.dev.007",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.007.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1827,
+        "decodedPixelSha256": "a4e22f9918c998731541843ccc365e20c68f7d117e9e861e26d8c3fbb38eabec",
+        "fileSha256": "4cde11e21528f5d022ad3971ce16c351de75b03a8edb3aa73ccedf3f76065f7e",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.007.png",
+        "sourceDeclarationDecodedPixelSha256": "a4e22f9918c998731541843ccc365e20c68f7d117e9e861e26d8c3fbb38eabec"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.007",
+      "sourceId": "normalized.s05.export.dev.007",
+      "sourceProvenanceRef": {
+        "byteLength": 2313,
+        "contentHash": "987f569b60dd8775d099ac62d17b8c85557c9fd112164995ff270d29db74f4d2",
+        "fileSha256": "c8eb59d9e9e7472439a3d95a087e94d9d1d3c94f25a318980d723aef17132f0a",
+        "id": "provenance.raw.s05.export.dev.007",
+        "path": "sources/export-dev/raw.s05.export.dev.007.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.008",
+      "categoryId": "valid-partial-alpha-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "62a5e3b64c915cd2a61de2f1b9028c7067141190f3891799d3a071e54b97a7e7",
+        "fileSha256": "96dce6916fb7a3d2f11902fdfcf6cd63af3a60932d89b968273d3f7ca1422e6a",
+        "id": "gold.normalized.s05.export.dev.008",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.008.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "299fb664acf0861f7764edc08bf3070b50170a3df3e6c7625d0c945e1c711073",
+        "fileSha256": "51214b700328b3f32dd379d4dd14db8d523c01eb2a3d92870bbeb7f95377b0be",
+        "id": "normalized.s05.export.dev.008",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.008.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1249,
+        "decodedPixelSha256": "7d8aa4d882f9a7bdacf91b463e51133eeeff490f5dff3570015dcb5bff19e09f",
+        "fileSha256": "207c6827551246df2d2b357d3803162d4aa3df4efb1f7f821bfca5bd0056c314",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.008.png",
+        "sourceDeclarationDecodedPixelSha256": "7d8aa4d882f9a7bdacf91b463e51133eeeff490f5dff3570015dcb5bff19e09f"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.008",
+      "sourceId": "normalized.s05.export.dev.008",
+      "sourceProvenanceRef": {
+        "byteLength": 2313,
+        "contentHash": "bd5e1bdf4b9ecb9acbd988efd3c074808f754bcb6b316f66d59d3f7600281ada",
+        "fileSha256": "3a97ce9676282d40a50d07925a003aaae4468eb299a6b3a1de4c53b85fb3762e",
+        "id": "provenance.raw.s05.export.dev.008",
+        "path": "sources/export-dev/raw.s05.export.dev.008.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.009",
+      "categoryId": "valid-partial-alpha-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "59bec2e14670db5e16b220f0894369f88db25acfef78d0ec1a6eba3e154dfba2",
+        "fileSha256": "be070c9e0b3d6b93bfdb69723ea05fe06399fdee53e1ff196d7e9130d194e3b9",
+        "id": "gold.normalized.s05.export.dev.009",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.009.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2612,
+        "contentHash": "d00ea71facdbfa9d2c0a6c20f678c09473526954075e81ce2ad36c92cf842c92",
+        "fileSha256": "06c563ffbe3afd4bf1135b049ce04e1f02deb9501d366149d9dbc50cfee5b3d0",
+        "id": "normalized.s05.export.dev.009",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.009.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 982,
+        "decodedPixelSha256": "f75931d75da21a5e7533b6358c64094628f77764baadcb2e8869a3abc272916b",
+        "fileSha256": "a8b3388c86408f1570c03620c2d75e74cb1debe093745fe4bde0e5b4bb826255",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.009.png",
+        "sourceDeclarationDecodedPixelSha256": "f75931d75da21a5e7533b6358c64094628f77764baadcb2e8869a3abc272916b"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.009",
+      "sourceId": "normalized.s05.export.dev.009",
+      "sourceProvenanceRef": {
+        "byteLength": 2312,
+        "contentHash": "5288f45ee00156e003a85ee2a3bad9dbd05094624856ee51d40a04eae6e56cd1",
+        "fileSha256": "a4261b0b4761e1fd3570f73316cbe557ac1624b398eba9e2a7b4806477d9bc25",
+        "id": "provenance.raw.s05.export.dev.009",
+        "path": "sources/export-dev/raw.s05.export.dev.009.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.010",
+      "categoryId": "valid-partial-alpha-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "786166ab0c814e14f1161d54b085836ac0ddcad00582fbbb81c9c5aa03ff4fab",
+        "fileSha256": "29a4881af8ab55fb0c97fe9dfaf716b26e271c8e15f41d8c4275e83c9ff02cf7",
+        "id": "gold.normalized.s05.export.dev.010",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.010.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "920ba99346da21ceadc2867fba35e40e1e8e704e5068f82db80a9f324a3c3782",
+        "fileSha256": "d636f510191fc4a9026fee2c1e5a2a9494e12a98a0528112615c97080cd82bc0",
+        "id": "normalized.s05.export.dev.010",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.010.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1116,
+        "decodedPixelSha256": "4d1634b299739a686f3ed1d275c2184e6c79d8de8abd8ba7e2ef517e64d7428c",
+        "fileSha256": "1a9c8cdf9794ca50db27bf701bc868f8bcc36bfb6aea39040d8bd2034174114f",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.010.png",
+        "sourceDeclarationDecodedPixelSha256": "4d1634b299739a686f3ed1d275c2184e6c79d8de8abd8ba7e2ef517e64d7428c"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.010",
+      "sourceId": "normalized.s05.export.dev.010",
+      "sourceProvenanceRef": {
+        "byteLength": 2313,
+        "contentHash": "61885997daf1834164374d772c45a5e95382518dc2dc7598534b8287b544aa1d",
+        "fileSha256": "8c00f06ecaf147b616e9add4baac9bd2649ab8fa838c2d9e722dac207a17a22f",
+        "id": "provenance.raw.s05.export.dev.010",
+        "path": "sources/export-dev/raw.s05.export.dev.010.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.011",
+      "categoryId": "valid-partial-alpha-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1778,
+        "contentHash": "1c5cb11057acfd5484393412ebf9caa70a44db57c77168d2c41c40750a1039b4",
+        "fileSha256": "08896b47a8252427104f7f8d665abfabf81e5b9b5fce9c422c395857524fbea4",
+        "id": "gold.normalized.s05.export.dev.011",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.011.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2611,
+        "contentHash": "b9d8e721500af4387c1ead69547c81de8e005fcbc97266fa7f32955d94b399f0",
+        "fileSha256": "4b7a6e20bdabe757b104418f5f3d97f63ae31f89a7992e9242bafe7fdc9fe6cc",
+        "id": "normalized.s05.export.dev.011",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.011.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 609,
+        "decodedPixelSha256": "6d6b955193ad6315df2935bc679874afcc8dc103f735cedaa769a2964197d2b1",
+        "fileSha256": "a7b0e9e5cfe66408c84027888cebf70cb101189059ab860500a90d5db623b5bd",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.011.png",
+        "sourceDeclarationDecodedPixelSha256": "6d6b955193ad6315df2935bc679874afcc8dc103f735cedaa769a2964197d2b1"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.011",
+      "sourceId": "normalized.s05.export.dev.011",
+      "sourceProvenanceRef": {
+        "byteLength": 2311,
+        "contentHash": "96ce84de04c96a3abacf65c89575312a8ac2280b59333537f1eadeb028eab1cb",
+        "fileSha256": "b40b3dc1d762cc518d1b73cc4d71eebd5e3a2943bce206ca3b4e7ad4923fe1f0",
+        "id": "provenance.raw.s05.export.dev.011",
+        "path": "sources/export-dev/raw.s05.export.dev.011.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.012",
+      "categoryId": "valid-partial-alpha-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "758d317c8396f8a165c58e2db41f05226f836d88af362a58e9e548528ba7795e",
+        "fileSha256": "18b3bdbbe6574ed8c894ae7b472aa173a87ef83c4dd18a2ee5697281aa675b2f",
+        "id": "gold.normalized.s05.export.dev.012",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.012.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "391cc3e300bfdb4bbc475a3e61821e2245363282558459b511f814c69810d080",
+        "fileSha256": "49adc5e39f82d9563573a927b646daa1237151ffd9be185d858a6f007007843a",
+        "id": "normalized.s05.export.dev.012",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.012.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1662,
+        "decodedPixelSha256": "5b476877cf06041dc9ab784b8c585fb4dec7814db84b0eae68c4c9bd3a6d0f93",
+        "fileSha256": "9b0f221d820bc4c8b93e607923ac421b14e3ed1b296dd11adb23c92aece1313f",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.012.png",
+        "sourceDeclarationDecodedPixelSha256": "5b476877cf06041dc9ab784b8c585fb4dec7814db84b0eae68c4c9bd3a6d0f93"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.012",
+      "sourceId": "normalized.s05.export.dev.012",
+      "sourceProvenanceRef": {
+        "byteLength": 2313,
+        "contentHash": "c0281492e97d31e544f99f6f634d653b512827356e163197302d978b21f91841",
+        "fileSha256": "b964ffcf9c932bad2a67a456e8136e0e97a57fc5f85e85b08d6a230676665df4",
+        "id": "provenance.raw.s05.export.dev.012",
+        "path": "sources/export-dev/raw.s05.export.dev.012.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.013",
+      "categoryId": "valid-alpha-holes-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1778,
+        "contentHash": "e802140aaf34b95df5152c74e828300031f064be7d2a6c8ae393042be65bcf36",
+        "fileSha256": "3d555ad927af8a026baa444f465372a41bb093f8a251c8f78172ce7e31d80cd4",
+        "id": "gold.normalized.s05.export.dev.013",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.013.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2611,
+        "contentHash": "6d868e2fdf21e3e0d573fa74790bf0b5f28c0247ca5809a99cf1707fefb3360f",
+        "fileSha256": "78586218c6403b59d75dcdeb5dbac2540286471c7de545d599ba025be612e2ec",
+        "id": "normalized.s05.export.dev.013",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.013.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 739,
+        "decodedPixelSha256": "099ae2d0942be66b068f5b2cae79fe734023d6b080aeb3dd594ad1db720d64d5",
+        "fileSha256": "f76d34110ee61765a9dda8ad55b08c00a39703447b1701153c47be6303dea3b8",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.013.png",
+        "sourceDeclarationDecodedPixelSha256": "099ae2d0942be66b068f5b2cae79fe734023d6b080aeb3dd594ad1db720d64d5"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.013",
+      "sourceId": "normalized.s05.export.dev.013",
+      "sourceProvenanceRef": {
+        "byteLength": 2309,
+        "contentHash": "992bf0ad6ed5f8dcfc5528cae799474168360487bc7bc45d432ef50734d77bdb",
+        "fileSha256": "c64e2333f76df5322824b48dee417c7a41b6cf4b1869aebcab4f422e87e63a56",
+        "id": "provenance.raw.s05.export.dev.013",
+        "path": "sources/export-dev/raw.s05.export.dev.013.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.014",
+      "categoryId": "valid-alpha-holes-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1778,
+        "contentHash": "8927aa5196c081e4191716c683c9dabe6f96cacaf3877c19599bda49ffa91714",
+        "fileSha256": "36b7a49e1eed5c1f6bfeac57b419709798b214715e8253e7ff04610d23ee1643",
+        "id": "gold.normalized.s05.export.dev.014",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.014.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2611,
+        "contentHash": "1efe6eacff9cb177f2ee0816ad1d2b06fd254d136b02968511911f9e16d576a9",
+        "fileSha256": "fcd2e08cde243edc84388f63d58ca71b2b860c04436ff05272e4ee3983c1f9b0",
+        "id": "normalized.s05.export.dev.014",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.014.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 700,
+        "decodedPixelSha256": "1ae859c75ba5b2a893c39c780b1ccca66260beaa4d8bd7dc5da8a958e26393cc",
+        "fileSha256": "f846793c1a4def04ecc487189cec83bdd316943339e21dece384d7fe1c38724f",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.014.png",
+        "sourceDeclarationDecodedPixelSha256": "1ae859c75ba5b2a893c39c780b1ccca66260beaa4d8bd7dc5da8a958e26393cc"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.014",
+      "sourceId": "normalized.s05.export.dev.014",
+      "sourceProvenanceRef": {
+        "byteLength": 2309,
+        "contentHash": "415e41c930385d6129d46bacc5b7b42c13177ef2da57dbfbc2b13800aac079c0",
+        "fileSha256": "fe740825728ce856f351fa4c71effcef9d63e7446e68f1102f2485faa277a18c",
+        "id": "provenance.raw.s05.export.dev.014",
+        "path": "sources/export-dev/raw.s05.export.dev.014.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.015",
+      "categoryId": "valid-alpha-holes-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "1e2f8ed2513a0f69cf35c85087f497856f17781c62348abe38b3acba6d4392ee",
+        "fileSha256": "0b155f73e827176cbb3350789b3b213712340a5a255287ec499b697261f989e0",
+        "id": "gold.normalized.s05.export.dev.015",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.015.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "2c0db6d0f486cb51017d4538995a40955942be0beb60e5ed117bb42bde5f786f",
+        "fileSha256": "26bc6d46187072c7a4712558273bdb052f1c8b6c524fafd30a1fbaeec8fdd4c4",
+        "id": "normalized.s05.export.dev.015",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.015.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1316,
+        "decodedPixelSha256": "ebc188958345b163f0315853e57adf0d4278f3d808be1379c952278e95d94022",
+        "fileSha256": "1dea31f0db0f45b6dfc0a3abc2c32c8ffd82e3133f14d01914c9cdbe44e19001",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.015.png",
+        "sourceDeclarationDecodedPixelSha256": "ebc188958345b163f0315853e57adf0d4278f3d808be1379c952278e95d94022"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.015",
+      "sourceId": "normalized.s05.export.dev.015",
+      "sourceProvenanceRef": {
+        "byteLength": 2311,
+        "contentHash": "ac09a54c5906452ba21261f314746cad05ef6dabacf0d6d9cb9ba8cc563d52fb",
+        "fileSha256": "ef6b874e0fe322929393e30cf87061309e7d42fcf6bc55cc2bf7eb7d55525e35",
+        "id": "provenance.raw.s05.export.dev.015",
+        "path": "sources/export-dev/raw.s05.export.dev.015.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.016",
+      "categoryId": "valid-alpha-holes-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1779,
+        "contentHash": "b924a36ddadf440cf1355a328afae8f9810da961a44cdf560f3184e40a1ed948",
+        "fileSha256": "2ce69484e8e54dbfbb0acf9f32a488647d7aadb0ddbf5c9048e3f547fb5628ae",
+        "id": "gold.normalized.s05.export.dev.016",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.016.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "212cf01b53bd77b3abe1a8e08ac1d94f5b5164f881b201006e8836110b2fc0a4",
+        "fileSha256": "4531a4e78cb77be4ef80cada231bd4059cb7a8468c856cf443e1469dfd7b5499",
+        "id": "normalized.s05.export.dev.016",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.016.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1609,
+        "decodedPixelSha256": "00c96d99710caae26da61fe297d2765fe267da4549bacebd5d001af1b6f8ae08",
+        "fileSha256": "b431e3fc9d99e57cbe84cbf3485dd81dfeb8e2a244e5b5ac2becaec8c6874b53",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.016.png",
+        "sourceDeclarationDecodedPixelSha256": "00c96d99710caae26da61fe297d2765fe267da4549bacebd5d001af1b6f8ae08"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.016",
+      "sourceId": "normalized.s05.export.dev.016",
+      "sourceProvenanceRef": {
+        "byteLength": 2311,
+        "contentHash": "9fd60db59496ed2b2e7bc5e52e9acb17c8153e427c95ca2536bab414a700ff22",
+        "fileSha256": "9800c6aec22384ef100f1f7d6f419eb83ebfb63f600275738d9ab63c369bda97",
+        "id": "provenance.raw.s05.export.dev.016",
+        "path": "sources/export-dev/raw.s05.export.dev.016.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.017",
+      "categoryId": "valid-alpha-holes-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1778,
+        "contentHash": "c1501675b7d8d0ca9e9e4d7c79fc0f610f5b0b66515cff87a67d8980d9691244",
+        "fileSha256": "27c576e8707c24c915bd2938b1d7cf5085b50cf0d6ee83fffba73feca3f8f8ba",
+        "id": "gold.normalized.s05.export.dev.017",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.017.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2611,
+        "contentHash": "1d58784901466ec27013be142b7e7732cd6c239de753a2e0c8dd2b5cbb20c8d4",
+        "fileSha256": "027cb8aec34e19dce8075057a977e44c0cb50a889f48799b676efc53a69bc728",
+        "id": "normalized.s05.export.dev.017",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.017.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 441,
+        "decodedPixelSha256": "0aaf39403b95a04cb7a77e2202e412091f70167338db7e33a1a4660fdeee3f2e",
+        "fileSha256": "ae654bebc9a9a6096678f3566bccb65431a4fd2df397681a77002a4613702fc7",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.017.png",
+        "sourceDeclarationDecodedPixelSha256": "0aaf39403b95a04cb7a77e2202e412091f70167338db7e33a1a4660fdeee3f2e"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.017",
+      "sourceId": "normalized.s05.export.dev.017",
+      "sourceProvenanceRef": {
+        "byteLength": 2309,
+        "contentHash": "6e6d91fe46aac535f7efe35fb667ba731276895fdab4a76cfc7af5131b45f834",
+        "fileSha256": "7d2ee99fa1080c5c211e56e0e4736282591ba519caa0f0623933624c1eb6fef9",
+        "id": "provenance.raw.s05.export.dev.017",
+        "path": "sources/export-dev/raw.s05.export.dev.017.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.018",
+      "categoryId": "valid-alpha-holes-normalized-artifact",
+      "expectedDisposition": "artifact-required",
+      "expectedStableErrorCode": null,
+      "goldRecordRef": {
+        "byteLength": 1778,
+        "contentHash": "56ef55a2ee72ddb0d2ee285a99c01be2d2906b9763e8076043cd29ea3c33576d",
+        "fileSha256": "cb6615dfb413e7db49191cf47982b67ae475e09afeaedb2c6bd3e78e3972d8f5",
+        "id": "gold.normalized.s05.export.dev.018",
+        "path": "gold/export-dev/gold.normalized.s05.export.dev.018.json"
+      },
+      "injectedDefect": null,
+      "normalizedArtifactRef": {
+        "byteLength": 2611,
+        "contentHash": "ea059f2d7fc750a3fd29c3369ce0ba9939976fd01d8c2addc61ed73e431d4b0d",
+        "fileSha256": "7a5111b459bb29f76c850d3c1c41ca238dcb744ef4273dcf58d452ee04dbc9ae",
+        "id": "normalized.s05.export.dev.018",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.018.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 671,
+        "decodedPixelSha256": "a19166dbd95f3ae5285d757f818920ea1e3ef65c35299a7d0ab61f79749c66e4",
+        "fileSha256": "306e77233eabaf01641bd566d22cf1570d464783237011958ea30342cdcb608a",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.018.png",
+        "sourceDeclarationDecodedPixelSha256": "a19166dbd95f3ae5285d757f818920ea1e3ef65c35299a7d0ab61f79749c66e4"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.018",
+      "sourceId": "normalized.s05.export.dev.018",
+      "sourceProvenanceRef": {
+        "byteLength": 2309,
+        "contentHash": "64770b374786f37421673116e75109218725c4b8e920a1e55c110a34fd16d16c",
+        "fileSha256": "7366ae12707db55968790d144c6d525f7b2f756f2bb20c2f7e1bf22878f49fbc",
+        "id": "provenance.raw.s05.export.dev.018",
+        "path": "sources/export-dev/raw.s05.export.dev.018.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.019",
+      "categoryId": "normalized-artifact-shape-or-contract-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-schema-version-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2618,
+        "contentHash": "c36a57e127ded26e70ac352b518fae481c607f4e27eb4f0bee9417d7de128520",
+        "fileSha256": "91476772d46fdd2d798870713bf15e90abdf1a57ee9df3fef5b80de0734d6fd3",
+        "id": "normalized.s05.export.dev.019",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.019.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 927,
+        "decodedPixelSha256": "2439d87dd6f932b726f2f9f2eb838931a3f97dcc8584129a722d770c1ef19580",
+        "fileSha256": "73d1e03347ec89c6b4e0f4c48959d34c2326811c8f8c67a59ed89509f57666c8",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.019.png",
+        "sourceDeclarationDecodedPixelSha256": "2439d87dd6f932b726f2f9f2eb838931a3f97dcc8584129a722d770c1ef19580"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.019",
+      "sourceId": "normalized.s05.export.dev.019",
+      "sourceProvenanceRef": {
+        "byteLength": 2356,
+        "contentHash": "339ac44a90f86841127e9b9ed029fe9ecf287e961ab55dd6c0713575662778b2",
+        "fileSha256": "c10a778a43047d9282eecf7356ec3471ea0dc9d791095eb3acf6f5b37e03de5a",
+        "id": "provenance.raw.s05.export.dev.019",
+        "path": "sources/export-dev/raw.s05.export.dev.019.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.020",
+      "categoryId": "normalized-artifact-shape-or-contract-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-schema-version-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2617,
+        "contentHash": "a11cf745c37f45904215141ec5310be0531755a7715380eadde9ed038db5699a",
+        "fileSha256": "800d7b00ff0033c3af9e902b4d8398866a9380b87a9dfcdf82563dfc91b8ab68",
+        "id": "normalized.s05.export.dev.020",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.020.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 765,
+        "decodedPixelSha256": "2e0ae59bedc46ee1bd564a199556c5a0584bd99620efe5105dbc52556cfe4493",
+        "fileSha256": "4c3ace817644c4ad474fef581e0b1326c4c8046d01483349cb9883ca85eeefc1",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.020.png",
+        "sourceDeclarationDecodedPixelSha256": "2e0ae59bedc46ee1bd564a199556c5a0584bd99620efe5105dbc52556cfe4493"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.020",
+      "sourceId": "normalized.s05.export.dev.020",
+      "sourceProvenanceRef": {
+        "byteLength": 2355,
+        "contentHash": "81e6647e0c5ccbd2686bbe47dc36e2903dad57e2b553aac016ff3fa76e08d2b9",
+        "fileSha256": "957e884e58eb27f78dec8408894b6494d4bb85410695516855215eae75142419",
+        "id": "provenance.raw.s05.export.dev.020",
+        "path": "sources/export-dev/raw.s05.export.dev.020.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.021",
+      "categoryId": "normalized-artifact-shape-or-contract-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-schema-version-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2617,
+        "contentHash": "68b8207ed75114400e26619a468292149aefe6dfca1e0ca6718bec692069dbc3",
+        "fileSha256": "da01efc19ce33754d1bce2fb50fdaaccfaf9ff132cf44c4bf46ec573bdb4774b",
+        "id": "normalized.s05.export.dev.021",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.021.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 846,
+        "decodedPixelSha256": "2e6caaafee7d74f0a5cef4fc7da8125e7dce094a36712f6c3ff1ca9407600824",
+        "fileSha256": "613a9003466be8222df8adde525ad704c994ce162dbbbf9c01e8e9924abf73cd",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.021.png",
+        "sourceDeclarationDecodedPixelSha256": "2e6caaafee7d74f0a5cef4fc7da8125e7dce094a36712f6c3ff1ca9407600824"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.021",
+      "sourceId": "normalized.s05.export.dev.021",
+      "sourceProvenanceRef": {
+        "byteLength": 2355,
+        "contentHash": "00a44d9f933c681e50b56c70c4b9310b2c22f9c6aff4e75d7c2ba4b1f00a302c",
+        "fileSha256": "5c1e0d8b49557e6fe8224a3cd695257e63bb43019b66e9ee014a2ab6a20e7c70",
+        "id": "provenance.raw.s05.export.dev.021",
+        "path": "sources/export-dev/raw.s05.export.dev.021.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.022",
+      "categoryId": "normalized-artifact-shape-or-contract-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-schema-version-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2617,
+        "contentHash": "c0ad30bf8c9182edcddfd88ecfc2bcccd943583b33c9c7cca7f62474d714019b",
+        "fileSha256": "debffa844b00b4b8a53c5b914ffb7028fb9b8aa013423ca77c446ba1b908bfef",
+        "id": "normalized.s05.export.dev.022",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.022.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 450,
+        "decodedPixelSha256": "52f7371706c90adb12b4a78f0d69da55f593732ec955881b2d98954c774b3507",
+        "fileSha256": "5ffb03c7dc12457415fe91f630b22384f7bb8105e42e3c61429d7c9bce281d6c",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.022.png",
+        "sourceDeclarationDecodedPixelSha256": "52f7371706c90adb12b4a78f0d69da55f593732ec955881b2d98954c774b3507"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.022",
+      "sourceId": "normalized.s05.export.dev.022",
+      "sourceProvenanceRef": {
+        "byteLength": 2355,
+        "contentHash": "a314fcd18ef34e1a4f861e8f84044dd1ae6a8e4f44becd5f20fad5ecf21ec4ee",
+        "fileSha256": "06100b024d877dbd80d90fc940240616753de7922b2d8ddd0afe22b31cbd2142",
+        "id": "provenance.raw.s05.export.dev.022",
+        "path": "sources/export-dev/raw.s05.export.dev.022.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.023",
+      "categoryId": "parent-identity-file-or-pixel-hash-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.parent-pixel-hash-chain-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2613,
+        "contentHash": "7e22ef37261b0be43762bc30cc49a68fbdce1f2615c69e8edf29741c8a455a9a",
+        "fileSha256": "3082dcfb72ca94595aca2bdd96845dc9935b6d4c576ac477b42bde955e959a8d",
+        "id": "normalized.s05.export.dev.023",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.023.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 792,
+        "decodedPixelSha256": "ad94c4218a318f2b57d375618aada242350cd20629b09ff7423d2f7eea7ae7bc",
+        "fileSha256": "b603b05e9d62f3d890dda9407005dd19a24008bc0a10bacd66917e36e87e4c97",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.023.png",
+        "sourceDeclarationDecodedPixelSha256": "ad94c4218a318f2b57d375618aada242350cd20629b09ff7423d2f7eea7ae7bc"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.023",
+      "sourceId": "normalized.s05.export.dev.023",
+      "sourceProvenanceRef": {
+        "byteLength": 2353,
+        "contentHash": "508525ed1a253e746e9a742de9c299b04d8e63d6b274e018042b90f73661b102",
+        "fileSha256": "acbd8fa02900602138a4881f819c85afa99a3498666296a3aefc9940845be891",
+        "id": "provenance.raw.s05.export.dev.023",
+        "path": "sources/export-dev/raw.s05.export.dev.023.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.024",
+      "categoryId": "parent-identity-file-or-pixel-hash-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.parent-pixel-hash-chain-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2611,
+        "contentHash": "7ddc044132e63d9a2be2b839e8eb521374bb2440b8d57b518a6ceb2b5ac1d239",
+        "fileSha256": "697104f02fe6b0ff5229dfac7239e6afa5bccf9b16d562fe0db3db9e8b5e4a16",
+        "id": "normalized.s05.export.dev.024",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.024.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 675,
+        "decodedPixelSha256": "cb707b055dea72cb4e95f85d8cdf039556443b10fe43d5d9ae95cf6836679709",
+        "fileSha256": "6c7e427c9c6973c83bef1361f730296bc8ff59cc3f3d676bb438294d4cbf86a8",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.024.png",
+        "sourceDeclarationDecodedPixelSha256": "cb707b055dea72cb4e95f85d8cdf039556443b10fe43d5d9ae95cf6836679709"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.024",
+      "sourceId": "normalized.s05.export.dev.024",
+      "sourceProvenanceRef": {
+        "byteLength": 2351,
+        "contentHash": "c114bb318324fab14a0ae93deb2b4bebbae18edb1d9f40ceaa09e12d5fbf7417",
+        "fileSha256": "712b126f53022f8e943e175ec153b5b9318603734045835d28df89e4f91d3faf",
+        "id": "provenance.raw.s05.export.dev.024",
+        "path": "sources/export-dev/raw.s05.export.dev.024.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.025",
+      "categoryId": "parent-identity-file-or-pixel-hash-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.parent-pixel-hash-chain-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2612,
+        "contentHash": "d039684279b30b035ad244486f5a69b49fa5d093a590569700103ab3fd3a3d5f",
+        "fileSha256": "0c8f7091e61dd55dc54f6f9a1b8d5f769c82de2dba9228226f4bb5174dcfd211",
+        "id": "normalized.s05.export.dev.025",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.025.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 730,
+        "decodedPixelSha256": "8a7409927a296843a4d9638396502cb64f647f132641bf258a37713d03119d49",
+        "fileSha256": "66552067ec8663b568d324ed7b141bbf6e803f3d8e5f2ce3e1dc1731b1cc4fee",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.025.png",
+        "sourceDeclarationDecodedPixelSha256": "8a7409927a296843a4d9638396502cb64f647f132641bf258a37713d03119d49"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.025",
+      "sourceId": "normalized.s05.export.dev.025",
+      "sourceProvenanceRef": {
+        "byteLength": 2352,
+        "contentHash": "eaa3cf0f0fefd573f905ae0757c7e26a79e05902dd337eef5ec760228309b445",
+        "fileSha256": "573a38f32b3b3f1bca7fe3e2669d30fd437b557db5926b272243df4a9e1b3505",
+        "id": "provenance.raw.s05.export.dev.025",
+        "path": "sources/export-dev/raw.s05.export.dev.025.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.026",
+      "categoryId": "parent-identity-file-or-pixel-hash-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.parent-pixel-hash-chain-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2614,
+        "contentHash": "91a3a4a830730ab6a56dd26a71f79327b527cbf7d41d19a3c2435df17d7ffbfd",
+        "fileSha256": "071338581ea0b92efb63ad75894d80e358712e923e780b7b6e6fb6f2e665a3d1",
+        "id": "normalized.s05.export.dev.026",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.026.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1241,
+        "decodedPixelSha256": "ca6083b012258c038ce8027afcf7945b72f692a2be6333bff4305c36ab06d68f",
+        "fileSha256": "53bdb9dc9875d42d2f505ed7840c010413ba15e0d719f6b298878ec6e4cfaf18",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.026.png",
+        "sourceDeclarationDecodedPixelSha256": "ca6083b012258c038ce8027afcf7945b72f692a2be6333bff4305c36ab06d68f"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.026",
+      "sourceId": "normalized.s05.export.dev.026",
+      "sourceProvenanceRef": {
+        "byteLength": 2354,
+        "contentHash": "c0a827e9163974ace484d749da1133294ad5a3b4bcdf2a6f9e6e4ae0f19031bc",
+        "fileSha256": "69137a7b23d1d9242bc2855baae5cda2cd7dc97a5806e46c2b8dbf0e82e298e7",
+        "id": "provenance.raw.s05.export.dev.026",
+        "path": "sources/export-dev/raw.s05.export.dev.026.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.027",
+      "categoryId": "color-alpha-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-metadata-policy-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2602,
+        "contentHash": "c1480f571fe1da35f32f084ca58b327b25ebd6f1acc3bc619951407a0386642f",
+        "fileSha256": "177e03087be2746bd7b09f5f165d0fe07d4fd8f6a767dab2d5222c2a171ae4ab",
+        "id": "normalized.s05.export.dev.027",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.027.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1536,
+        "decodedPixelSha256": "0117bd54cbc5149b45d7320c77e18a9e5ae398bc1542d9952712381f6b6c8714",
+        "fileSha256": "e793af1c6a1027edaaa49050bbe90344a2e2e843aab93719c1bec0711bc044c4",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.027.png",
+        "sourceDeclarationDecodedPixelSha256": "0117bd54cbc5149b45d7320c77e18a9e5ae398bc1542d9952712381f6b6c8714"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.027",
+      "sourceId": "normalized.s05.export.dev.027",
+      "sourceProvenanceRef": {
+        "byteLength": 2343,
+        "contentHash": "19ca12ad77d14ab9862ec9076f0fa556868ed85da708ed1b1e670e63dcecd257",
+        "fileSha256": "ff5a8519a5cb1a1a16f195cca6a5fe9f92cc3f6bfe545c819e528cdd50e76877",
+        "id": "provenance.raw.s05.export.dev.027",
+        "path": "sources/export-dev/raw.s05.export.dev.027.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.028",
+      "categoryId": "color-alpha-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-metadata-policy-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2600,
+        "contentHash": "52cd4821d0a8625f19d234745a6afcd37b519fac379d6ebab218ac8b57755f70",
+        "fileSha256": "e6983f3efb968ae283aa788021542e26d23b1262dc50cc5f18891a080a2a2013",
+        "id": "normalized.s05.export.dev.028",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.028.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 963,
+        "decodedPixelSha256": "9a0bfbac1a8f9137ed68a017bc8adae46b7b2617ee5ecad3ab5405bb28680f93",
+        "fileSha256": "20c54a4abf3d310e5567e8bda4fa388c3376fe2635be143fa0421888e6c59f1a",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.028.png",
+        "sourceDeclarationDecodedPixelSha256": "9a0bfbac1a8f9137ed68a017bc8adae46b7b2617ee5ecad3ab5405bb28680f93"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.028",
+      "sourceId": "normalized.s05.export.dev.028",
+      "sourceProvenanceRef": {
+        "byteLength": 2341,
+        "contentHash": "d96ca740a0632769956a0e6488e914987cdf4e7e125d7d7f3caa9380c75709e4",
+        "fileSha256": "61ce66f6b9de23cbb6b0320ddc22964bbf5900db04939efa600a1e4587d69cb0",
+        "id": "provenance.raw.s05.export.dev.028",
+        "path": "sources/export-dev/raw.s05.export.dev.028.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.029",
+      "categoryId": "color-alpha-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-metadata-policy-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2601,
+        "contentHash": "4a89aa228165fe34c1520004f72e6534756de9b3c70cda90b00c8f7ba780a4ea",
+        "fileSha256": "0c3926ebf734fa2249ff8a457a8c2539a78d0a250cdb35ad0d502d0f8aa1ca38",
+        "id": "normalized.s05.export.dev.029",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.029.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1024,
+        "decodedPixelSha256": "c925c9d93049b8c89daee81f967c903ecd618da64c54091ab5b02575e80997ec",
+        "fileSha256": "a0dc5a34b736a9aa28f5fe8b9bf41f87570711b8378270667df30e1e3b02dd68",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.029.png",
+        "sourceDeclarationDecodedPixelSha256": "c925c9d93049b8c89daee81f967c903ecd618da64c54091ab5b02575e80997ec"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.029",
+      "sourceId": "normalized.s05.export.dev.029",
+      "sourceProvenanceRef": {
+        "byteLength": 2342,
+        "contentHash": "03044c9fe721fcd9297afc063f711ee67e81ead168206197c5e5340670d08fa7",
+        "fileSha256": "6ec0dcc1227f3bef0469fd0daaebb6a8c39090f361fd5fbbada43c59af4b4575",
+        "id": "provenance.raw.s05.export.dev.029",
+        "path": "sources/export-dev/raw.s05.export.dev.029.json"
+      }
+    },
+    {
+      "captureSessionId": "session.s05.export.dev.030",
+      "categoryId": "color-alpha-or-metadata-invalid",
+      "expectedDisposition": "rejection-required",
+      "expectedStableErrorCode": "S05_EXPORT_NORMALIZED_ARTIFACT_INVALID",
+      "goldRecordRef": null,
+      "injectedDefect": {
+        "defectId": "single-defect.normalized-metadata-policy-invalid",
+        "exactlyOneInjectedDefect": true
+      },
+      "normalizedArtifactRef": {
+        "byteLength": 2602,
+        "contentHash": "6517b15973cd75d8a729dd682f50c60d81d333507d348c1c79b0f71e431511ef",
+        "fileSha256": "ff39b3e42a648a559d24369f0e310fe0896f35397e7fd4f0ce03c68d93b0eca8",
+        "id": "normalized.s05.export.dev.030",
+        "path": "artifacts/normalized-inputs/export-dev/normalized.s05.export.dev.030.json",
+        "producerKind": "independent-fixture-generator"
+      },
+      "operation": "export",
+      "partition": "dev/calibration",
+      "rawAsset": {
+        "byteLength": 1296,
+        "decodedPixelSha256": "7760a4ed75d8dc09503a8cee0fc51570079acf97bf9daad289743382f5533532",
+        "fileSha256": "1642b08d218292a7acce5ecb53616419b8071d876a9de0ffa5887c87b964c602",
+        "mime": "image/png",
+        "path": "assets/open/export-dev/raw.s05.export.dev.030.png",
+        "sourceDeclarationDecodedPixelSha256": "7760a4ed75d8dc09503a8cee0fc51570079acf97bf9daad289743382f5533532"
+      },
+      "repetitions": 3,
+      "sourceFamilyId": "family.s05.export.dev.030",
+      "sourceId": "normalized.s05.export.dev.030",
+      "sourceProvenanceRef": {
+        "byteLength": 2343,
+        "contentHash": "a254318e58bac8a6bd27b74b356fac9ea4534817ff509f3b9ce42a367b9f0aa5",
+        "fileSha256": "ce60f89558827fca9b9aa45c2a922b41719f60fc93a2cb05fae4317e3c48353d",
+        "id": "provenance.raw.s05.export.dev.030",
+        "path": "sources/export-dev/raw.s05.export.dev.030.json"
+      }
+    }
+  ],
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "formalBoundary": {
+    "c1Eligible": false,
+    "formal": false,
+    "holdoutMaterial": false
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "gateBPrerequisite": "operation-specific-gate-b-pass-required-not-yet-met",
+  "isolation": {
+    "captureSessionIdsUniqueAcrossDefinitionTree": true,
+    "exactRawAssetHashReuseForbidden": true,
+    "operationSpecificFamiliesAndSessions": true,
+    "priorSliceFixtureReuseForbidden": true,
+    "sourceFamilyIdsUniqueAcrossDefinitionTree": true
+  },
+  "manifestId": "FM-NORMALIZE-DELIVER-EXPORT-DEV-CALIBRATION@0.5.0",
+  "manifestKind": "open-calibration",
+  "manifestVersion": "0.5.0",
+  "operationScope": [
+    "export"
+  ],
+  "partition": "dev/calibration",
+  "rightsRef": {
+    "byteLength": 1312,
+    "contentHash": "fb49eb91058d4e2b355b5dc83c45125e0523bcfbc1ac19d951622565e1d11beb",
+    "fileSha256": "afa997d4b52394b635dc3549b3eb12921268d0b302d410565b8bbef2015159e4",
+    "id": "RIGHTS-OPEN-SYNTHETIC@0.5.0",
+    "path": "rights/open-synthetic.v0.5.0.json"
+  },
+  "schemaVersion": "fixture-manifest.slice05.v0",
+  "stateAtDefinitionFreeze": "created-open-registered-not-run"
+}

@@ -1,0 +1,112 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/idempotency-claim.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptNumber": {
+          "maximum": 2,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "idempotencyKey": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "smoke",
+            "dev/calibration",
+            "defect/calibration"
+          ]
+        },
+        "repetition": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "sourceId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId",
+        "sourceId",
+        "partition",
+        "repetition",
+        "attemptNumber",
+        "idempotencyKey"
+      ],
+      "type": "object"
+    },
+    "claimId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "claimedAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "idempotencyKeyHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "smoke",
+        "calibration"
+      ]
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "requestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "idempotency-claim.slice05.v0"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "claimId",
+    "requestRef",
+    "idempotencyKeyHash",
+    "mode",
+    "operation",
+    "attempt",
+    "claimedAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

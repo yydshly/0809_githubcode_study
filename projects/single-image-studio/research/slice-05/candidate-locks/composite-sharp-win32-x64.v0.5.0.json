@@ -1,0 +1,115 @@
+{
+  "candidateKind": "installed-sharp-win32-x64-runtime-closure",
+  "candidateLockId": "REG-NORM-SHARP@0.5.0",
+  "contentHash": "bdd132233878decdf009919927290f1ba230d449f564d1b454966a33134acc8c",
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "implementationRefs": [
+    {
+      "candidateDependency": true,
+      "ref": {
+        "id": "ADAPTER-SHARP-NORMALIZE-EXPORT@0.5.0",
+        "implementationSha256": "ea521c4de76e18a0dae844686498b5d908fb0434eb9b8eeafffdfccbd57b71b1",
+        "path": "scripts/research-sharp-adapter-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "candidate-adapter"
+    },
+    {
+      "candidateDependency": true,
+      "ref": {
+        "id": "WORKER-SHARP-ISOLATED@0.5.0",
+        "implementationSha256": "888a1a85896e2c6495e103d64555b494556b627212d3b303528279e7994d1989",
+        "path": "scripts/research-sharp-worker-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "candidate-worker"
+    },
+    {
+      "candidateDependency": false,
+      "ref": {
+        "id": "ORACLE-INDEPENDENT-PNG@0.5.0",
+        "implementationSha256": "c8c3bda622cf22be6b27ebfdb683d597f8d1f4a1b07742b40a80ba6175bf029c",
+        "path": "scripts/research-independent-png-oracle-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "independent-oracle"
+    },
+    {
+      "candidateDependency": false,
+      "ref": {
+        "id": "INVENTORY-SHARP-RUNTIME@0.5.0",
+        "implementationSha256": "557cdc0a965db10878a8deb647f4e1774acfdac5790f3050ac46b2b7d6b9ec3c",
+        "path": "scripts/research-inventory-sharp-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "runtime-inventory"
+    },
+    {
+      "candidateDependency": false,
+      "ref": {
+        "id": "GEN-INDEPENDENT-OPEN-PNG@0.5.0",
+        "implementationSha256": "bb636fc7cc9ab98c569a0d8d05ad0c27eaecbe6121762c2e19921258b25ff18d",
+        "path": "scripts/research-generate-slice05.mjs",
+        "version": "0.5.0"
+      },
+      "role": "independent-fixture-generator"
+    }
+  ],
+  "prohibitedClaims": [
+    "product-capability",
+    "formal-c1",
+    "holdout-evidence",
+    "release-support"
+  ],
+  "recordVersion": "0.5.0",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "runtimeClosure": {
+    "installedTreeSha256": "a419af3606ca38f1878acb65d1ea273f0c129b0c156686b1e912bab1b167070e",
+    "installedVersionCount": 28,
+    "nativeArtifactCount": 3,
+    "packageLockSha256": "16963d711f878ea6295a278310e3aad579d099a60f1b5e73a6a91d26dc485a2c",
+    "slice04PackagingMetadataErratumCount": 9
+  },
+  "schemaVersion": "candidate-lock.slice05.v0",
+  "sourceCandidateMetadataRef": {
+    "byteLength": 12123,
+    "contentHash": "773c2a403a9cbeb418e6c1deb4ff7f6599165f444061e205a7a510376aeb1046",
+    "fileSha256": "f4699666bbd57f750448a298b7a87f5dc379ce6744a54aaf651d14693087d778",
+    "id": "REG-NORM-SHARP@0.4.0",
+    "path": "research/slice-04/candidate-locks/composite-sharp-win32-x64.v0.4.0.json"
+  },
+  "stateAtDefinitionFreeze": {
+    "calibration": "blocked-until-operation-specific-gate-b-pass",
+    "execution": "candidate-pipeline-not-run",
+    "gateA": "runtime-closure-resolved",
+    "gateB": "not-evaluated",
+    "installation": "installed-and-inventoried"
+  },
+  "targetPlatform": {
+    "cpu": "x64",
+    "libc": "not-applicable",
+    "os": "win32"
+  }
+}

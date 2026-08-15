@@ -1,0 +1,60 @@
+{
+  "contentHash": "634ec49c338b7cff36b0d012070620b1b8b38cc9031cdc54f678619ade35528b",
+  "environment": {
+    "cpu": {
+      "logicalProcessors": 32,
+      "models": [
+        "13th Gen Intel(R) Core(TM) i9-13980HX"
+      ]
+    },
+    "memory": {
+      "totalBytes": 16779960320
+    },
+    "node": {
+      "abi": "127",
+      "napi": "10",
+      "version": "v22.15.0"
+    },
+    "npm": {
+      "version": "10.9.2"
+    },
+    "os": {
+      "architecture": "x64",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "version": "Windows 11 Home China"
+    }
+  },
+  "evidenceBoundary": {
+    "c1": 0,
+    "e1": 0,
+    "formalEvidence": false,
+    "g1": 0,
+    "o1": 0,
+    "productSupport": false,
+    "r1Pipeline": 0,
+    "r1ProductRelease": 0,
+    "r1ProductValidation": 0,
+    "releaseAllowlist": "none",
+    "releaseApproved": 0,
+    "releaseRegistered": 0,
+    "u1": 0,
+    "v1": 0
+  },
+  "frozenAt": "2026-08-15T04:23:38.389Z",
+  "hardwareProfileId": "HARDWARE-WIN32-X64@0.5.0",
+  "privacyBoundary": {
+    "hostnameRecorded": false,
+    "serialRecorded": false
+  },
+  "recordVersion": "0.5.0",
+  "runtimeAttestationRef": {
+    "byteLength": 10043,
+    "contentHash": "8cc1073efbe5458aec8c49091554337061d64ebfa0fdb2654e0f3b2f89c18e47",
+    "fileSha256": "acb3ba370b05c252ec6c4b2f237c10f54d8f31fa4c5cc75d98145ed8e5e80dc3",
+    "id": "RUNTIME-SHARP-WIN32-X64@0.5.0",
+    "path": "runtime/attestation.win32-x64.v0.5.0.json"
+  },
+  "schemaVersion": "hardware-profile.slice05.v0",
+  "stateAtDefinitionFreeze": "observed-and-pinned-not-a-portability-claim"
+}

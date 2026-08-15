@@ -1,0 +1,501 @@
+{
+  "$id": "https://single-image-studio.invalid/research/slice-05/schemas/local-run-request.slice05.v0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapterRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "implementationSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attemptNumber": {
+          "maximum": 2,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "idempotencyKey": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "partition": {
+          "enum": [
+            "smoke",
+            "dev/calibration",
+            "defect/calibration"
+          ]
+        },
+        "repetition": {
+          "maximum": 3,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "runId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "sourceId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runId",
+        "sourceId",
+        "partition",
+        "repetition",
+        "attemptNumber",
+        "idempotencyKey"
+      ],
+      "type": "object"
+    },
+    "contentHash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "contractRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+      "type": "string"
+    },
+    "definitionRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "expectedDisposition": {
+      "enum": [
+        "applicable",
+        "preflight-reject"
+      ]
+    },
+    "expectedStableErrorCode": {
+      "pattern": "^S05_[A-Z0-9_]+$",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "goldRecordRef": {
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "byteLength": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "contentHash": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "fileSha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+              "type": "string"
+            },
+            "path": {
+              "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash",
+            "byteLength",
+            "fileSha256"
+          ],
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "manifestEntryRef": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "entryIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sourceId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "entryIndex",
+        "sourceId",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "manifestRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256"
+      ],
+      "type": "object"
+    },
+    "mode": {
+      "enum": [
+        "smoke",
+        "calibration"
+      ]
+    },
+    "operation": {
+      "enum": [
+        "normalize",
+        "export"
+      ]
+    },
+    "oracleRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "implementationSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "implementationSha256"
+      ],
+      "type": "object"
+    },
+    "requestId": {
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+      "type": "string"
+    },
+    "runtimeAttestationRef": {
+      "additionalProperties": false,
+      "properties": {
+        "byteLength": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "contentHash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "fileSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "inventoryPayloadSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "path": {
+          "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "id",
+        "contentHash",
+        "byteLength",
+        "fileSha256",
+        "inventoryPayloadSha256"
+      ],
+      "type": "object"
+    },
+    "schemaVersion": {
+      "const": "local-run-request.slice05.v0"
+    },
+    "sourceIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "normalizedArtifactRef": {
+          "oneOf": [
+            {
+              "additionalProperties": false,
+              "properties": {
+                "byteLength": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "contentHash": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "fileSha256": {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                "id": {
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+                  "type": "string"
+                },
+                "path": {
+                  "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+                  "type": "string"
+                },
+                "producerKind": {
+                  "const": "independent-fixture-generator"
+                }
+              },
+              "required": [
+                "path",
+                "id",
+                "contentHash",
+                "byteLength",
+                "fileSha256",
+                "producerKind"
+              ],
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rawAssetRef": {
+          "additionalProperties": false,
+          "properties": {
+            "byteLength": {
+              "maximum": 1048577,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "decodedPixelSha256": {
+              "oneOf": [
+                {
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "fileSha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "mime": {
+              "enum": [
+                "image/png",
+                "image/jpeg",
+                "image/webp",
+                "application/octet-stream"
+              ]
+            },
+            "path": {
+              "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+              "type": "string"
+            },
+            "sourceDeclarationDecodedPixelSha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "mime",
+            "byteLength",
+            "fileSha256",
+            "decodedPixelSha256",
+            "sourceDeclarationDecodedPixelSha256"
+          ],
+          "type": "object"
+        },
+        "sourceId": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+          "type": "string"
+        },
+        "sourceProvenanceRef": {
+          "additionalProperties": false,
+          "properties": {
+            "byteLength": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "contentHash": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "fileSha256": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,255}$",
+              "type": "string"
+            },
+            "path": {
+              "pattern": "^(?!/)(?!.*//)(?!.*(?:^|/)(?:\\.|\\.\\.)(?:/|$))(?!.*\\\\)(?!.*:)[A-Za-z0-9._@/-]+$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "id",
+            "contentHash",
+            "byteLength",
+            "fileSha256"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "sourceId",
+        "sourceProvenanceRef",
+        "rawAssetRef",
+        "normalizedArtifactRef"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "requestId",
+    "mode",
+    "operation",
+    "definitionRef",
+    "contractRef",
+    "manifestRef",
+    "manifestEntryRef",
+    "goldRecordRef",
+    "runtimeAttestationRef",
+    "adapterRef",
+    "oracleRef",
+    "attempt",
+    "expectedDisposition",
+    "expectedStableErrorCode",
+    "sourceIdentity",
+    "createdAt",
+    "contentHash"
+  ],
+  "type": "object"
+}

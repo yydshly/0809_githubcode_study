@@ -8,8 +8,8 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–04 已完成各自冻结边界；Slice 05 仅完成范围冻结，状态为 `scope-frozen / implementation-not-started`；Gate B adapter、smoke、开放 calibration 与 C1 取证尚未开始 |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–04 研究设施可运行；Slice 05 当前只有 human-readable scope contract，没有 machine prereg、fixture、adapter、codec 执行或 calibration 结果 |
+| 研究阶段 | Slice 01–04 已完成各自冻结边界；Slice 05 已于 `2026-08-15T04:23:38.389Z` 完成 machine definition freeze，状态为 `definition-frozen / Gate-B-not-evaluated / calibration-not-started`；真实 Sharp smoke 与 C1 取证尚未开始 |
+| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 05 已冻结 runtime inventory、contracts、adapter / oracle / runner 协议与项目原创开放 fixtures，但 canonical results 为 0，不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
@@ -119,19 +119,28 @@ npm.cmd run verify
 
 normalize / export 每项都计划 `30 dev/calibration + 30 holdout + 18 defect/calibration + 18 defect/holdout + event-driven-0 escape`；初始 C1 只计 sealed holdout 30 + sealed defect-holdout 18 = 48，open calibration 与 append-only escape 排除。有限来源必须 3 / 3 repeats 全过，每来源跨三次最多一次仅替代 no-result invalid。Slice 03 observer 与 seal 只作不兼容 design lineage / execution-envelope reference；operation artifact schema / oracle、runner、durable ledger、trusted authority、角色 assignment / approval 与所有像素均未创建，request 为 `not-issued-awaiting-custodian-bundle`，因此非 Gate B。
 
-完整边界见 [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md)，实际 hash 与验收结果见 [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md)。后续边界现已由 [Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 明确冻结；implementation 仍未开始。
+完整边界见 [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md)，实际 hash 与验收结果见 [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md)。后续边界由 [Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 冻结；该合同保留当时 `implementation-not-started` 的历史事实，当前进度见 [Slice 05 定义冻结证据](research/SLICE_05_EVIDENCE.md)。
 
-## Slice 05 范围冻结
+## Slice 05 定义冻结
 
-[Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 已将下一步收窄为 canonical PNG 的 normalize / export 两项独立 operation。该范围自包含合同文件的 Git commit 起生效；当前只完成 scope freeze，尚未发生机器预注册冻结，也没有安装或执行 Sharp、创建 fixture / artifact schema / oracle、实现 adapter、命名硬件、运行 smoke 或 calibration。
+[Slice 05 范围合同](research/SLICE_05_CONTRACT.md) 将范围收窄为 canonical PNG 的 normalize / export 两项独立 operation；该合同不原地改写。当前新的 `@0.5.0` machine definition 已于 `2026-08-15T04:23:38.389Z` 冻结：25 份 strict schema、6 份 operation-specific manifest、108 份 source record / raw open asset、54 份 export `NormalizedImage` 输入和 54 份 independent gold。definition index `contentHash` 为 `d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271`，完整 368-file tree SHA-256 为 `108812d4eec84fa3037f8540d8fb273748982beb5e5f28a07eb7cda93e1218f2`。
 
-实现顺序必须按 operation 分开：先冻结 artifact / independent oracle / gold、adapter、执行环境、运行语义、开放 fixture manifest 与 machine preregistration，再完成实际 input / output / failure smoke。只有某项 operation 的 Gate B smoke 全项通过，才可运行该项开放 `dev/calibration=30` 与 `defect/calibration=18`；另一项不能继承其结果。smoke 与开放 calibration 均排除于未来 C1 分母，全部格式继续 `productSupport=false`。
+定义树还 pin `REG-NORM-SHARP@0.5.0` installed runtime closure、normalize / export 两份 `CapabilityContract@0.5.0`、独立 oracle / gold、candidate adapter / isolated worker、named hardware、local runner / fault semantics、Gate B plan 和两份开放 calibration preregistration。runtime inventory 只导入 Sharp 读取版本，没有处理图片；真实 Sharp smoke 未运行，Gate B 仍为 `not-evaluated`，calibration 仍为 `not-started`，canonical `results/` 不存在。
 
-Slice 05 明确禁止创建正式 holdout、defect-holdout、escape、bundle、request、receipt、formal result 或 EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。当前及实施后的本切片都不能据此声称真实归一化、正式导出或产品能力；全部证据轴继续为 0。
+下一步必须先提交并推送 exact definition baseline，再从该 baseline 运行 operation-specific smoke：
+
+```powershell
+node scripts/research-validate-slice05.mjs
+npm.cmd run research:smoke:slice05
+```
+
+smoke runner 必须分别形成 normalize / export 的 terminal summary 与 Gate B decision。只有某项 operation 的全部 Gate B conjunct 通过，才可运行该项开放 `dev/calibration=30` 与 `defect/calibration=18`；另一项不能继承其结果。smoke 与开放 calibration 均排除于未来 C1 分母，全部格式继续 `productSupport=false`。
+
+Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / request / receipt / result / EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。定义冻结和自动测试不能据此声称真实归一化、正式导出或产品能力；完整 pins、测试与限制见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)，全部证据轴继续为 0。
 
 ## 运行 R0 工程探针
 
-需要 Node.js 22 或更高版本。本项目当前没有运行时第三方依赖，也不依赖兄弟项目。
+需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
 
 ```powershell
 cd projects/single-image-studio
@@ -191,7 +200,8 @@ npm.cmd run verify
 | [research/SLICE_03_EVIDENCE.md](research/SLICE_03_EVIDENCE.md) | Slice 03 矩阵 / profile、开放夹具、observer、密封仪式和 fail-closed 验收记录 |
 | [research/SLICE_04_CONTRACT.md](research/SLICE_04_CONTRACT.md) | Slice 04 Sharp 复合候选来源锁、完整预注册与未签发 seal request 边界 |
 | [research/SLICE_04_EVIDENCE.md](research/SLICE_04_EVIDENCE.md) | Slice 04 metadata 制品、上游 hash、负例和非 Gate B 验收记录 |
-| [research/SLICE_05_CONTRACT.md](research/SLICE_05_CONTRACT.md) | Slice 05 operation-specific Gate B smoke 与开放 calibration 的冻结范围；当前 implementation 尚未开始 |
+| [research/SLICE_05_CONTRACT.md](research/SLICE_05_CONTRACT.md) | Slice 05 operation-specific Gate B smoke 与开放 calibration 的历史范围冻结；不随当前进度原地改写 |
+| [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md) | Slice 05 machine definition、runtime closure、fixtures、hash、测试与 Gate-B-not-evaluated 边界 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -199,7 +209,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具和独立研究审阅 surface；不扩正式产品页面、任务卡，不下载模型 / 权重，也不引入运行时第三方依赖。
+- 当前只增加研究设施、项目原创合成夹具与 Slice 05 精确锁定的本地研究 codec 依赖；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

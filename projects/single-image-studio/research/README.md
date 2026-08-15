@@ -1,11 +1,11 @@
 # Single Image Studio research workspace
 
-This directory is the executable research workspace for Slice 01 through Slice 04
-and the frozen scope record for Slice 05. Its image fixtures are small,
-deterministic, and project-original; Slice 04 adds only source-lock and
-preregistration metadata, while Slice 05 currently adds only a human-readable
-scope contract. It is not a model benchmark, product dataset, codec installation,
-or capability claim.
+This directory is the executable research workspace for Slice 01 through Slice
+05. Its image fixtures are small, deterministic, and project-original. Slice 04
+adds only source-lock and preregistration metadata; Slice 05 adds a frozen local
+definition baseline for two operation-specific Sharp smoke decisions and gated
+open calibration. It is not a model benchmark, product dataset, completed codec
+evaluation, or capability claim.
 
 ## Evidence boundary
 
@@ -18,10 +18,13 @@ or capability claim.
   matting quality, user value, reliability, governance, or release readiness.
 - Slice 04 does not decode, normalize, encode, benchmark, or calibrate an image.
   Its source-resolved Sharp record is a non-Gate-B candidate, not format support.
-- Slice 05 is `scope-frozen / implementation-not-started`. Its scope becomes
-  effective with the Git commit that contains `SLICE_05_CONTRACT.md`; no machine
-  preregistration, fixture, artifact schema, oracle, adapter, smoke, or
-  calibration record exists yet.
+- Slice 05 is now `definition-frozen / Gate-B-not-evaluated /
+  calibration-not-started`. Its historical scope contract is unchanged; the
+  `@0.5.0` machine definition froze at `2026-08-15T04:23:38.389Z` and has zero
+  canonical results.
+- Slice 05 runtime inventory imported Sharp only to read `sharp.versions`; it
+  did not read, decode, encode, or transform image bytes. Real Sharp smoke and
+  all calibration remain unrun.
 - `methodLabel` and `methodDetails` are delivered in the local catalog and only
   hidden by the review interface until unblinding. This is an interaction
   rehearsal, not adversary-resistant or independent reviewer blinding.
@@ -119,8 +122,10 @@ slice-04/
 The six npm registry tarballs were downloaded only to the uncommitted
 repository-local `.tmp/slice04-artifacts` directory for SHA-256 calculation,
 then deleted without unpacking, execution, installation, or retention. No
-GitHub source archive was downloaded, and no third-party package is installed
-in this project. Every format row remains
+GitHub source archive was downloaded, and Slice 04 itself did not install a
+third-party package. Slice 05 later added an exact research-only dependency
+declaration and separately inventoried installed closure; that later fact does
+not rewrite the Slice 04 record. Every format row remains
 `productSupport=false`.
 
 Normalize and export each have an operation-specific 30 / 30 / 18 / 18 / 0
@@ -132,28 +137,50 @@ partition and operation oracle remains `not-created`, and the seal envelope is
 not runnable; the request state is `not-issued-awaiting-custodian-bundle`. See
 [SLICE_04_EVIDENCE.md](SLICE_04_EVIDENCE.md) for actual hashes and validation.
 
-## Slice 05 scope freeze
+## Slice 05 definition freeze
 
-[SLICE_05_CONTRACT.md](SLICE_05_CONTRACT.md) freezes the next implementation
-boundary without implementing it. Only canonical PNG normalize and export are
-in scope. They have separate Gate B decisions: an operation may run open
-calibration only after its own artifact / independent-oracle / adapter /
-hardware / runtime prerequisites are frozen and every required smoke case
-passes.
+[SLICE_05_CONTRACT.md](SLICE_05_CONTRACT.md) preserves the historical scope
+freeze. The current machine definition is rooted at
+`slice-05/definition-index.v0.5.0.json` and frozen at
+`2026-08-15T04:23:38.389Z`. It pins the installed Windows x64 Sharp runtime,
+normalize / export contracts, strict artifact and result schemas, independent
+oracle / gold, adapter / worker, named hardware, local runner / fault semantics,
+Gate B smoke plan, open partition plans, preregistrations, rights and every
+fixture byte. See [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md) for exact hashes
+and checks.
 
-The planned open partitions are operation-specific:
+```text
+slice-05/
+├─ definition-index.v0.5.0.json  # closed DAG root; results absent at freeze
+├─ runtime/                      # actual installed closure attestation
+├─ candidate-locks/              # REG-NORM-SHARP@0.5.0
+├─ contracts/                    # normalize/export @0.5.0
+├─ hardware/                     # named win32-x64 profile; no hostname/serial
+├─ plans/                        # separate Gate B and open partition plans
+├─ preregistrations/             # blocked until each operation Gate B passes
+├─ manifests/                    # 2 smoke + 4 open calibration manifests
+├─ assets/open/                  # 108 project-original raw fixtures
+├─ sources/                      # 108 provenance records
+├─ artifacts/normalized-inputs/  # 54 independent export inputs
+├─ gold/                         # 54 independent applicable/control records
+├─ rights/                       # open synthetic rights boundary
+└─ schemas/                      # 25 strict schemas
+```
+
+The frozen open partitions are operation-specific:
 
 - normalize: 30 `dev/calibration` + 18 `defect/calibration` sources;
 - export: 30 `dev/calibration` + 18 `defect/calibration` sources;
 - three planned repetitions per source, for 96 sources / 288 planned runs in
   the complete open plan.
 
-Those numbers are authorization limits and future machine-preregistration
-targets, not existing files or frozen machine denominators. Smoke cases are
-separate and cannot enter them. Formal holdout, defect-holdout, escape, bundle,
-request, receipt, formal result, and EvidenceManifest material remain forbidden
-and `not-created`. Every format remains `productSupport=false`, and every
-evidence axis remains 0.
+Those 96 calibration sources and their 288 planned repetitions are now frozen
+machine denominators, but they have not been run. Two additional independent
+smoke manifests contain 6 normalize and 6 export sources, also with three
+planned repetitions; smoke cases cannot enter calibration. Formal holdout,
+defect-holdout, escape, bundle, request, receipt, formal result, and
+EvidenceManifest material remain forbidden and `not-created`. Every format
+remains `productSupport=false`, and every evidence axis remains 0.
 
 ## Commands
 
@@ -168,12 +195,30 @@ node scripts/research-generate-slice03.mjs
 node scripts/research-validate-slice03.mjs
 node scripts/research-generate-slice04.mjs
 node scripts/research-validate-slice04.mjs
+node scripts/research-generate-slice05.mjs
+node scripts/research-validate-slice05.mjs
 node --test tests/research-*.test.mjs
 ```
 
-Slice 05 currently has no generator, validator, runner, fixture, or execution
-command. Adding a command before its machine records and prerequisites are
-frozen would exceed the current `implementation-not-started` state.
+The Slice 05 generator produced the frozen canonical bytes above. Re-running it
+is only a deterministic definition-integrity check before results exist; it
+refuses to erase or overwrite a `results/` tree. Any semantic change requires a
+new version and freeze, not regeneration of the current record.
+
+After the exact definition baseline is committed and pushed, actual smoke is:
+
+```powershell
+npm.cmd run research:smoke:slice05
+```
+
+This command must still produce separate normalize / export summaries and Gate
+B decisions. Run neither calibration command unless that operation's own Gate B
+decision is all-pass:
+
+```powershell
+npm.cmd run research:calibrate:normalize:slice05
+npm.cmd run research:calibrate:export:slice05
+```
 
 The generators are deterministic. Re-running them rewrites only their declared
 assets and JSON records. The validators recompute every SHA-256,
@@ -181,9 +226,9 @@ checks PNG dimensions, requires exact versioned fields, validates rights and
 partition bindings, rejects family/session leakage across partitions, and
 requires the review catalog to expose only Slice 01 `public-synthetic`
 allowlisted assets. Slice 02 and Slice 03 assets are always `catalog-denied`;
-Slice 04 contains no image asset at all and must not add catalog entries.
-Slice 05 currently contains only its scope contract and exposes no catalog or
-runtime asset.
+Slice 04 contains no image asset at all and must not add catalog entries. Slice
+05 open assets are not present in the Slice 01 catalog allowlist and are never
+served by that review catalog or the product runtime.
 
 ## Serving contract
 
@@ -197,4 +242,4 @@ form:
 The local server must serve only URLs listed in `assetAllowlist`. Files merely
 present under `fixtures/` are not automatically public.
 
-实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。
+实现范围和覆盖矩阵见 [SLICE_01_CONTRACT.md](SLICE_01_CONTRACT.md)，自动化、HTTP 与真实浏览器验收结果见 [SLICE_01_EVIDENCE.md](SLICE_01_EVIDENCE.md)。Slice 05 的实时定义冻结事实与非能力边界见 [SLICE_05_EVIDENCE.md](SLICE_05_EVIDENCE.md)。
