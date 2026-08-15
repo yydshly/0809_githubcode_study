@@ -234,6 +234,22 @@ complete. See [SLICE_06_EVIDENCE.md](SLICE_06_EVIDENCE.md). Slice 06 cannot
 issue a Gate-B decision or authorize calibration; it is closed and cannot be
 rerun. A later slice must version and freeze a new candidate before Gate-B smoke.
 
+## Slice 07 scope-only canonical PNG candidate
+
+[SLICE_07_CONTRACT.md](SLICE_07_CONTRACT.md) selects the next candidate boundary
+without implementing or running it. Sharp will return decoded / processed RGBA8
+pixels; a project-original candidate encoder will emit only
+`IHDR,sRGB,IDAT,IEND` with filter 0. The independent oracle remains a separate
+consumer of final bytes and cannot generate, repair, or share implementation
+with candidate output.
+
+The future smoke denominator is normalize and export × (three applicable +
+three rejection sources) × three repetitions = 36 attempts. Both
+operation-specific Gate-B decisions must pass before a later slice can consider
+open calibration. At this scope-only stage there is no Slice 07 implementation,
+schema, machine definition, fixture wrapper, runtime observation, result,
+decision, artifact or product integration. See [slice-07/README.md](slice-07/README.md).
+
 ## Commands
 
 Run from `projects/single-image-studio` with Node.js 22 or newer:

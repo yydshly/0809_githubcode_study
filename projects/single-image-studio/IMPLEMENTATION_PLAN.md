@@ -6,9 +6,9 @@
 
 当前代码可以作为上传校验、任务快照、服务代理、错误状态和下载契约的参考实现，但所有用户可见结果仍要用新的能力与证据重新取得。不得因自动测试通过、页面可点击或本地滤镜有输出，就提前标记 C1、U1、E1、R1-pipeline、R1-product、O1、G1 或 V1。
 
-截至 2026-08-15，Slice 02–04 已完成 reference contracts、格式政策、开放夹具与 Sharp source lock；Slice 05 的唯一注册真实 smoke 已关闭为 non-pass、Gate B 双拒绝、artifact 0、calibration 禁止。Slice 06 按 [范围合同](research/SLICE_06_CONTRACT.md) 冻结 Phase B protocol 与 Phase C definition 后，唯一注册 diagnostic characterization 已完整闭合：24 / 24 terminal、零 replacement、18 份 candidate output 全部像素与 bytes 确定，但 independent oracle 一致报告缺 `sRGB` 且含禁止的 `pHYs`。该结果只允许下一切片选择新 candidate；WP3、Gate B、calibration 与任何 C1 判定仍未开始。
+截至 2026-08-15，Slice 02–04 已完成 reference contracts、格式政策、开放夹具与 Sharp source lock；Slice 05 的唯一注册真实 smoke 已关闭为 non-pass、Gate B 双拒绝、artifact 0、calibration 禁止。Slice 06 按 [范围合同](research/SLICE_06_CONTRACT.md) 冻结 Phase B protocol 与 Phase C definition 后，唯一注册 diagnostic characterization 已完整闭合：24 / 24 terminal、零 replacement、18 份 candidate output 全部像素与 bytes 确定，但 independent oracle 一致报告缺 `sRGB` 且含禁止的 `pHYs`。Slice 07 已据此完成新复合候选的 scope-only 选择；WP3、Gate B、calibration 与任何 C1 判定仍未开始。
 
-立即后续禁止重跑 `@0.5.0` 或运行其 calibration。先以新的 `@0.6.0` candidate / contracts / diagnostic preregistrations 持久化 output specimen、worker observation、exit state 与精确 oracle 子因，并验证 normalize missing-sRGB 的新错误优先级；这一阶段没有 Gate B decision authority。只有诊断闭合并由下一切片据此选择 / 修正候选后，才可另行冻结真正的 operation-specific Gate-B smoke。进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。Slice 04 的完成边界与验证结果见 [范围合同](research/SLICE_04_CONTRACT.md) 和 [证据记录](research/SLICE_04_EVIDENCE.md)；Slice 05 的历史硬边界与当前定义 / smoke 事实分别见 [范围合同](research/SLICE_05_CONTRACT.md) 和 [证据](research/SLICE_05_EVIDENCE.md)。
+立即后续禁止重跑 `@0.5.0` / `@0.6.0` 或运行旧 calibration。[Slice 07 范围合同](research/SLICE_07_CONTRACT.md) 已选择新的复合 candidate 边界：Sharp 只负责 decode / pixel processing，项目原创 candidate-owned canonical PNG encoder 负责写出固定 `IHDR,sRGB,IDAT,IEND`、filter-0 profile，independent oracle 只重开验收且不得参与生成。先实现并冻结 results-zero definition，再以 12 个公开 synthetic lineage source、每个 3 次的 36-attempt operation-specific smoke 评估 Gate B；两项都通过前 calibration 继续禁止。进入 Matting 候选、`MATTE-REAL`、真实照片、模型权重或产品 UI 仍需另行明确授权。
 
 首轮实施与证据只覆盖冻结的 Windows 桌面 Chromium 环境。Chrome / Edge 精确版本、`1280 × 720` 与 `1440 × 900` 视口、键盘 / 鼠标 / 缩放范围由 CompatibilityProfile 冻结；手机、平板、Safari、Firefox、iPhone / HEIC 和完整响应式产品不进入本计划的首轮 R1-product、O1 或 V1。
 

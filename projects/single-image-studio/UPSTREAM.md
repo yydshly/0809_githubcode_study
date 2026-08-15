@@ -116,13 +116,15 @@ actual `versions.json` 与 `sharp.versions` 的 28 项 runtime version 精确一
 
 inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调用 candidate pipeline。定义树中的 108 个 raw fixture、54 个 `NormalizedImage` input 与 54 个 gold 均为项目原创 deterministic synthetic assets，由不依赖 Sharp 的 generator / oracle 建立；没有真实照片、用户上传、第三方样片、模型或权重。
 
-定义冻结后的唯一注册真实 smoke 于 `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` 运行。normalize / export 各自 18 次 attempt，分别只有 6 / 9 次 pass；18 次 applicable attempt 全部以 `S05_OUTPUT_ORACLE_REJECTED` 结束，artifact 为 0，两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。该结果不改变任何 upstream、package license 或 provenance 结论，也不构成格式支持；当前版本禁止 calibration。durable result 没有持久化 oracle 的具体拒绝子因，因此保持 unknown，不从 package metadata 或运行环境反推。后续必须使用新的 candidate / contract / preregistration；Slice 06 先保留 worker / oracle 精确诊断与验证 normalize sRGB 拒绝优先级，下一切片再据结果选择 / 修正 candidate 并冻结 Gate-B smoke。完整结果 pins 见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
+定义冻结后的唯一注册真实 smoke 于 `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` 运行。normalize / export 各自 18 次 attempt，分别只有 6 / 9 次 pass；18 次 applicable attempt 全部以 `S05_OUTPUT_ORACLE_REJECTED` 结束，artifact 为 0，两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。该结果不改变任何 upstream、package license 或 provenance 结论，也不构成格式支持；当前版本禁止 calibration。durable result 没有持久化 oracle 的具体拒绝子因，因此保持 unknown，不从 package metadata 或运行环境反推。后续必须使用新的 candidate / contract / preregistration；Slice 06 已保留精确诊断并关闭，Slice 07 只在新的 scope 中选择复合 candidate。完整结果 pins 见 [Slice 05 evidence](./research/SLICE_05_EVIDENCE.md)。
 
 作为单独的动态安全观测，`npm.cmd audit --omit=optional --json` 在 `2026-08-15T04:40:58.503Z` 至 `2026-08-15T04:41:00.846Z` 返回 exit code 0 / `auditReportVersion=2`；当时 `info/low/moderate/high/critical/total` vulnerability counts 全为 0，dependency metadata 为 `prod=1 / dev=32 / optional=27 / peer=0 / peerOptional=0 / total=32`。npm advisory 结果是 live-at-that-time、non-frozen、non-Gate 的外部状态，不进入 Slice 05 canonical pins，也不能替代许可证 / notices / provenance 审计或 G1。
 
 ### Slice 06 diagnostic protocol lineage 与资产边界
 
 [Slice 06 范围合同](./research/SLICE_06_CONTRACT.md) 只允许 diagnostic-only `REG-NORM-SHARP@0.6.0`，其 source metadata 继续引用 Slice 04 `@0.4.0`，closed-non-pass lineage 指向 Slice 05 `@0.5.0`。Phase B / C 的 adapter、worker、oracle、runner、generator、validator、driver 与 26 份 schema 都是本地原创实现；没有新增 npm dependency。fresh runtime / hardware records 于 `2026-08-15T08:17:06.288Z` 冻结，随后唯一诊断运行只读取既有项目原创 synthetic bytes。18 份 Sharp 输出均在独立 oracle 下因缺 `sRGB` 且带 `pHYs` non-pass；这不改变任何 upstream license 或 provenance 结论。
+
+[Slice 07 范围合同](./research/SLICE_07_CONTRACT.md) 当前只选择 `REG-NORM-SHARP-CANONICAL-PNG@0.7.0` 的架构，不新增或复制第三方代码：Sharp / bundled libvips 的 upstream 与许可 lineage 保持原精确版本；计划中的 canonical PNG encoder 必须是项目原创 candidate 组件，仅可使用许可明确的现有运行时 / Node builtins，并与独立 oracle / reference encoder 实现隔离。Phase A 没有新增 dependency、runtime artifact、图片资产或结果；未来若 encoder 引入任何新 package，必须先在本文件登记 exact source / version / integrity / license 并重新冻结范围。
 
 冻结的 8 个 source unit wrapper 只引用 Slice 05 已提交的项目原创 public-synthetic bytes / rights / gold facts，使用新 Slice 06 identity 并声明 `regressionLineageRef` / `independenceClaim=false`。运行后 18 份 candidate output 已按授权保留为非产品 quarantine，合计 16,782 bytes；没有第三方图片、真实照片、模型 / checkpoint、artifact、calibration、正式 holdout、defect-holdout 或 escape，也不进入 catalog 或正式证据路径。完整运行事实见 [Slice 06 evidence](./research/SLICE_06_EVIDENCE.md)。
 
