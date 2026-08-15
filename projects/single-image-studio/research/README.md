@@ -17,9 +17,11 @@ driver, definition generator and central validator. Its six fake-only suites
 pass 28 / 28, including a complete temporary 36-attempt result closure and
 independent PNG/oracle reopening. Its results-zero definition froze at
 `2026-08-15T13:37:23.038Z` with 16 schemas, 23 records, 12 sources and zero
-results. After that definition is committed and pushed, one registered smoke
-will evaluate the complete new denominator. No registered Slice 08 result
-exists yet.
+results. Its single registered invocation then stopped before Sharp on the
+first normalize attempt because the actual-case driver read the wrong gold ID
+field. The immutable partial tree has one request, one started event and no
+terminal/output/decision. Slice 08 is closed protocol-failed and cannot be
+replayed.
 
 ## Evidence boundary
 

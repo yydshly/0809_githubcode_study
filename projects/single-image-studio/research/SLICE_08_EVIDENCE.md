@@ -2,8 +2,8 @@
 
 ## Outcome
 
-Slice 08 is `definition-frozen / results-zero / Gate-B-smoke-not-run /
-calibration-forbidden / non-C1 / non-product`.
+Slice 08 is `closed-protocol-failed / incomplete-registered-result /
+Gate-B-no-decision / calibration-forbidden / non-C1 / non-product`.
 
 The implementation-only baseline was committed and pushed as
 `7ed6ad2eab829e5d801f13ff534042ae187e0982` before the canonical definition
@@ -62,7 +62,7 @@ Implementation SHA-256 values at definition freeze:
 - durable operation runner: `bd9b40dbe9fe923f20289716d28073f5c629ccde1acfd1f716ff9bbb63d28f9e`
 - registered driver: `e586c8b57ac683333169cf512a7691180d79d6ab6cbdd98e0edf357265daab09`
 - central validator after definition pins:
-  `2f8bb7d25133cdb2745075611241aa67ba8705350644492feb65dca8fe47ca37`
+  `8ebfcc73b430fb639c5ff1530bb4d3385cd0e08283c6712aac83055984d1ce5a`
 
 At definition freeze, the six Slice 08 fake-only suites passed `28 / 28`. A
 post-freeze canonical production-path test raises the current targeted total to
@@ -84,12 +84,61 @@ made its runtime manifest incompatible with the immutable Slice 05 runtime
 baseline. That uncommitted candidate tree was declared invalid and removed in
 full. The unrelated package change was reverted before the final UTC above was
 captured. The final tree passes both Slice 05 and Slice 08 fresh-runtime checks;
-there is one retained canonical definition and no partial or competing result.
+at that definition checkpoint there was one retained canonical definition and
+no partial or competing result.
 
-## Next hard stop
+## Registered result
 
-The definition must be validated, committed and pushed with a clean
-`HEAD == origin/main` before the single registered command may run. The result
-tree must then be preserved even if it is non-pass. No same-version replay,
-selective retry, calibration, formal holdout, product/UI/server wiring, real-user
-photo, third-party image, model weight or license-unclear asset is authorized.
+The definition commit `a8bcbe57278c7fd2620c16b39f1a939a1e3ccf89` was
+pushed and admitted with a clean worktree and exact `HEAD == origin/main`.
+The single registered command then began normalize and durably wrote the first
+request plus its `attempt-started` event. Before any Sharp worker call, the
+actual-case material boundary rejected the applicable gold binding with
+`S08_CASE_MATERIAL_INVALID`.
+
+Static source review identifies the protocol defect: the driver compared
+`material.gold.id`, while the frozen Slice 05 gold record exposes
+`goldRecordId`. The CLI error is process evidence rather than a field in the
+partial tree. The durable tree itself proves the narrower fact that the first
+frozen request started and never obtained a terminal event.
+
+The immutable partial result tree contains:
+
+- interval start: `2026-08-15T13:49:37.781Z`
+- operation: normalize only
+- first attempt: `s08.normalize.s08.normalize.applicable.001.r1`
+- files: `2`; directories beneath `results/`: `6`; bytes: `3,779`
+- request file SHA-256:
+  `11ce0f7cee51e35f4539ac91b1089e8b06f5631253623c1aa4975c2a45d20042`
+- ledger file SHA-256:
+  `d5940e9beef3c361fa46f0b0a3af6a7872d1330f5c2be7d256d87f7698bda954`
+- ledger tail / sole event content hash:
+  `90dc6acb388451c48dc0743cf2aeccb7f0c68f4fdf2388f62ccd49b68724f51b`
+- result-tree SHA-256:
+  `2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6`
+- terminal results: `0`
+- output bytes / closure / oracle / summary / decision: `0`
+- export started: `false`
+- Sharp worker invoked: `false`
+
+The central validator reopens the request, reconstructs its exact frozen typed
+context, validates the one-event hash chain, pins the complete partial tree and
+returns `valid=true` with `postRun.status=protocol-failed-incomplete`. This means
+the failure evidence is internally consistent; it is not a Gate B pass.
+
+After sealing this partial tree, the six current Slice 08 suites pass `20 / 20`
+and the repository-wide `npm.cmd run verify` passes `393 / 393`, including the
+canonical definition, immutable partial-tree pin, fresh-runtime check,
+deterministic regeneration and syntax checks. The lower current targeted count
+reflects consolidated top-level tests; the definition-freeze `28 / 28` and
+post-freeze `29 / 29` figures above remain historical observations from their
+respective checkpoints.
+
+## Final hard stop
+
+Slice 08 is closed and must not be replayed after fixing the driver. There is no
+Gate B decision and calibration remains forbidden. Any repair requires a new
+candidate/contract/protocol/preregistration/definition version and a new complete
+denominator. No selective retry, formal holdout, product/UI/server wiring,
+real-user photo, third-party image, model weight or license-unclear asset is
+authorized. Every evidence axis and Release Gate remains zero.

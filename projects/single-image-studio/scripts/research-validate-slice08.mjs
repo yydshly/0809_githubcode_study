@@ -24,7 +24,7 @@ export const SLICE08_FROZEN_PINS = Object.freeze({
   readmeSha256: "4dd57e7e6035209e9bfaea1a8a6ec8fc082b9f129e57fc31b8f14c886dced7f3",
   generatorSha256: "d46ba04d6bbcc21604baba9906c14c67cb79cb7f331f1919e78d47a64951c23b",
 });
-export const SLICE08_POSTRUN_TREE_SHA256 = null;
+export const SLICE08_POSTRUN_TREE_SHA256 = "2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6";
 
 function stable(value) {
   if (Array.isArray(value)) return value.map(stable);
@@ -180,6 +180,43 @@ function expectedCases(manifest, index, operation) {
 }
 
 async function readJson(file) { return JSON.parse(await readFile(file, "utf8")); }
+
+async function validatePartialProtocolFailure({ root, manifest, index, issues, registry, schemaByVersion }) {
+  const issueCount = issues.length;
+  const opRoot = path.join(root, "results", "open-smoke", "normalize");
+  const directories = new Set();
+  const files = await enumerate(opRoot, "", new Map(), directories);
+  const attemptId = "s08.normalize.s08.normalize.applicable.001.r1";
+  const requestPath = `requests/${attemptId}.json`;
+  const expectedFiles = new Set(["ledger.ndjson", requestPath]);
+  const expectedDirectories = new Set([".staging", "closures", "records", "requests"]);
+  if (!same([...files.keys()].sort(), [...expectedFiles].sort()) || !same([...directories].sort(), [...expectedDirectories].sort())) {
+    add(issues, "PARTIAL_RESULT_TREE_SHAPE_INVALID", "results/open-smoke/normalize", "protocol-failed tree must retain exactly one request, one ledger event and four empty runner directories");
+  }
+  let request = null;
+  try {
+    request = JSON.parse(files.get(requestPath));
+    const requestSchema = schemaByVersion.get(request.schemaVersion);
+    validateInstance(request, requestSchema, requestPath, issues, registry, requestSchema);
+    validateSlice08CaseContext(request.caseContext);
+    const expected = expectedCases(manifest, index, "normalize").get(attemptId);
+    if (request.contentHash !== selfHash(request) || !same(request.caseContext, expected)) add(issues, "PARTIAL_REQUEST_BINDING_INVALID", requestPath, "partial request differs from the first frozen attempt");
+  } catch (error) { add(issues, "PARTIAL_REQUEST_INVALID", requestPath, error.message); }
+  let ledgerTail = null;
+  try {
+    const lines = files.get("ledger.ndjson").toString("utf8").trim().split("\n");
+    if (lines.length !== 1) throw new Error("partial ledger must contain exactly one event");
+    const event = JSON.parse(lines[0]);
+    const eventSchema = schemaByVersion.get(event.schemaVersion);
+    validateInstance(event, eventSchema, "ledger.ndjson:1", issues, registry, eventSchema);
+    if (event.sequence !== 1 || event.previousEventHash !== null || event.eventType !== "attempt-started" || event.attemptId !== attemptId
+      || event.payloadSha256 !== sha256(files.get(requestPath)) || event.contentHash !== selfHash(event)) throw new Error("started event does not bind the retained request");
+    ledgerTail = event.contentHash;
+  } catch (error) { add(issues, "PARTIAL_LEDGER_INVALID", "ledger.ndjson", error.message); }
+  return { valid: issues.length === issueCount, status: "protocol-failed-incomplete", operation: "normalize", attemptId,
+    requestCount: request ? 1 : 0, terminalCount: 0, closureCount: 0, decisionCount: 0, exportStarted: false,
+    gateBPassed: false, calibrationAuthorized: false, ledgerTail };
+}
 
 async function validateOperationResults({ root, operation, manifest, index, issues, registry, schemaByVersion }) {
   const opRoot = path.join(root, "results", "open-smoke", operation);
@@ -410,8 +447,16 @@ export async function validateSlice08Definition({ definitionRoot = DEFAULT_ROOT,
     if (SLICE08_POSTRUN_TREE_SHA256 === null) add(issues, "POSTRUN_PIN_MISSING", "results/open-smoke", "registered result tree has not been frozen");
     else if (postRunDigest !== SLICE08_POSTRUN_TREE_SHA256) add(issues, "POSTRUN_TREE_MISMATCH", "results/open-smoke", "result tree differs from immutable pin");
     try {
-      postRun = { treeSha256: postRunDigest, operations: {} };
-      for (const operation of ["normalize", "export"]) postRun.operations[operation] = await validateOperationResults({ root: definitionRoot, operation, manifest: manifests[operation], index, issues, registry, schemaByVersion });
+      const partialPaths = [
+        "results/open-smoke/normalize/ledger.ndjson",
+        "results/open-smoke/normalize/requests/s08.normalize.s08.normalize.applicable.001.r1.json",
+      ];
+      if (same([...resultPaths].sort(), partialPaths)) {
+        postRun = { treeSha256: postRunDigest, ...await validatePartialProtocolFailure({ root: definitionRoot, manifest: manifests.normalize, index, issues, registry, schemaByVersion }) };
+      } else {
+        postRun = { treeSha256: postRunDigest, status: "complete", operations: {} };
+        for (const operation of ["normalize", "export"]) postRun.operations[operation] = await validateOperationResults({ root: definitionRoot, operation, manifest: manifests[operation], index, issues, registry, schemaByVersion });
+      }
     } catch (error) { add(issues, "POSTRUN_VALIDATION_FAILED", "results/open-smoke", error.message); postRun = { treeSha256: postRunDigest, valid: false }; }
   }
   const actualPins = { frozenAt: index.frozenAt, definitionContentHash: index.contentHash, definitionFileSha256: sha256(indexBytes),

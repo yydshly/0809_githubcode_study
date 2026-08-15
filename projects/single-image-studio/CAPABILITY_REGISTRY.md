@@ -157,8 +157,8 @@ release_status=planned
 | `CC-CAP02-EXPORT-PNG@0.6.0` | `CAP-02` | frozen independent `NormalizedImage` lineage → `DeliveryArtifact.slice04.v0` contract facts | frozen diagnostic-only `REG-NORM-SHARP@0.6.0` | machine record `contentHash=5471c4bc78365099196b6b9283c49d270423a2c0221698dbef61842fb035692e`；计划 3 applicable + 1 invalid-artifact sentinel × 3；results=0，output 只可保存为 diagnostic specimen，不发布 artifact；`gateBDecisionAuthority=false`、`calibrationAuthorized=false`、C1=0 |
 | `CC-CAP02-NORMALIZE-PNG@0.7.0` | `CAP-02` | canonical PNG source → future `NormalizedImage` v0.7 binding | closed `REG-NORM-SHARP-CANONICAL-PNG@0.7.0` | 9 / 9 applicable pass、0 / 9 rejection exact pass；decision denied，calibration=false，C1=0 |
 | `CC-CAP02-EXPORT-PNG@0.7.0` | `CAP-02` | independent normalized input → future `DeliveryArtifact` v0.7 binding | closed `REG-NORM-SHARP-CANONICAL-PNG@0.7.0` | 9 / 9 applicable pass、0 / 9 rejection exact pass；decision denied，calibration=false，C1=0 |
-| `CC-CAP02-NORMALIZE-PNG@0.8.0` | `CAP-02` | canonical PNG source → future normalized artifact binding | planned `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | scope-only；typed rejection context 与新 results-zero definition 待实现，C1=0 |
-| `CC-CAP02-EXPORT-PNG@0.8.0` | `CAP-02` | independent normalized input → future delivery artifact binding | planned `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | scope-only；typed rejection context 与新 results-zero definition 待实现，C1=0 |
+| `CC-CAP02-NORMALIZE-PNG@0.8.0` | `CAP-02` | canonical PNG source → future normalized artifact binding | closed protocol-failed `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | definition 已冻结；唯一 invocation 在首个 normalize applicable attempt 的 worker 前以 `S08_CASE_MATERIAL_INVALID` 停止，0 terminal / output / decision；Gate B 无决定、calibration=false、C1=0，禁止同版本重跑 |
+| `CC-CAP02-EXPORT-PNG@0.8.0` | `CAP-02` | independent normalized input → future delivery artifact binding | closed not-run-after-global-stop `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | normalize 协议失败后 export 未启动；无 terminal / output / decision，Gate B 无决定、calibration=false、C1=0；任何修复必须新版本与新完整分母 |
 | `CC-CAP03-SOURCE-CARD-V0@0.2.0` | `CAP-03` | `NormalizedImage` → `SourceCard.v0` | `REG-SOURCE-CARD-REFERENCE-V0` | v0 字段、每字段 observer/confidence/unknown reason 已冻结；当前仅技术字段可观测，其余必须 unknown，C1=0 |
 | `CC-CAP04-DETECT@planned` | `CAP-04` | `NormalizedImage` + 目标类别 → `SubjectMap` | `REG-DETECT-GROUNDING-DINO` 或后续登记候选 | 主体数量 / 类别 / 框与拒绝边界待冻结；错误主体不得静默进入 Matting |
 | `CC-CAP04-SEGMENT@planned` | `CAP-04` | `NormalizedImage` + `SubjectMap` + prompt → `SubjectMap` | `REG-SEG-SAM2` 或后续登记候选 | 输出是区域，不等于连续 Alpha；失败回到重新选主体或拒绝 |
@@ -533,7 +533,7 @@ release_status=planned
 2. Slice 06 diagnostic-only `@0.6.0` 的唯一 registered invocation 已完成并封存；24 / 24 terminal、零 replacement，post-run tree 和 ledger 全闭合。该版本禁止补跑或选择性重跑。
 3. Slice 06 没有 Gate B decision authority；已确认 Sharp PNG encoder 的共同 profile 不符合合同。其结果只作不可变 lineage，正式 holdout 继续 `not-created`。
 4. Slice 07 唯一 36-attempt registered smoke 已关闭：applicable 18/18 通过，但 rejection 0/18 exact pass；两项 Gate B denied。不得重跑，任何 driver binding 修复必须进入新版本与新定义。
-5. Slice 08 typed case-context、actual-case driver、durable runner、registered driver、definition generator 与 central validator 已 fake-only 28 / 28；results-zero definition 已冻结为 12 sources / 36 attempts / 0 results，下一步必须提交推送后才运行唯一完整 smoke，不得只补跑旧 rejection。
+5. Slice 08 results-zero definition 已提交推送；唯一 registered invocation 在首个 normalize applicable attempt 因 driver 把 `goldRecordId` 错读为 `id` 而 worker-free protocol-failed。partial tree 已封存为 1 request / 1 started event / 0 terminal，禁止修复后重跑；下一步必须新版本、新定义、新完整分母。
 6. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
 6. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
 7. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。

@@ -12,7 +12,7 @@
 
 本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留。随后 Slice 05 为同一复合候选新增 exact research-only devDependencies 与 lockfile，并以 runtime attestation 精确锁定实际 package / native closure。Slice 06 Phase A–C 新增本地原创 diagnostic protocol 与 results-zero definition；其唯一注册运行随后仅处理既有项目原创 public-synthetic regression bytes，并保留 18 份 candidate derivative quarantine。没有新增依赖、取得或复制第三方代码 / 资产、真实图片、模型或权重，也没有创建 artifact、calibration 或产品 result。
 
-Slice 08 Phase A–C 只新增本地原创 typed case-context、actual-case driver、durable runner、registered driver、definition generator、central validator 与范围文档。fake-only tests 使用内存 records / functions、项目原创 tiny PNG 与系统临时 fake result tree，不新增 dependency、upstream package、第三方代码 / 图片 / 模型 / 权重，也未 fork Sharp worker。results-zero definition 只写入 12 个指向既有 Slice 05 / 07 项目原创 public-synthetic material 的 lineage wrapper，复制图片 bytes 为 0，registered result 为 0。候选像素与 encoder 架构继续精确引用 Slice 07；任何依赖或 native drift 都要求停止并重新冻结。
+Slice 08 Phase A–C 只新增本地原创 typed case-context、actual-case driver、durable runner、registered driver、definition generator、central validator 与范围文档。fake-only tests 使用内存 records / functions、项目原创 tiny PNG 与系统临时 fake result tree，不新增 dependency、upstream package、第三方代码 / 图片 / 模型 / 权重。results-zero definition 只写入 12 个指向既有 Slice 05 / 07 项目原创 public-synthetic material 的 lineage wrapper，复制图片 bytes 为 0。唯一 registered invocation 随后在首个 attempt 的 Sharp worker 前因本地 gold ID protocol bug 关闭；只新增 1 request 与 1 ledger event，没有输出、第三方资产、terminal 或 decision。
 
 ## 本地原创范围
 

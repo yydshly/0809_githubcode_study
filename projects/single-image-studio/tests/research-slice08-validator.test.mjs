@@ -20,7 +20,12 @@ test("frozen canonical definition passes literal pins, fresh runtime and regener
   assert.equal(report.pinsVerified, true);
   assert.equal(report.runtimeRechecked, true);
   assert.equal(report.regenerationVerified, true);
-  assert.equal(report.postRun, null);
+  assert.equal(report.postRun.status, "protocol-failed-incomplete");
+  assert.equal(report.postRun.requestCount, 1);
+  assert.equal(report.postRun.terminalCount, 0);
+  assert.equal(report.postRun.exportStarted, false);
+  assert.equal(report.postRun.gateBPassed, false);
+  assert.equal(report.postRun.calibrationAuthorized, false);
 });
 
 async function freshDefinition() {
@@ -93,7 +98,7 @@ test("external lineage, implementation and exact reference drift are rejected", 
   assert.ok(codes.has("CONTENT_HASH_MISMATCH"));
 });
 
-test("a complete fake post-run closure is fully audited and blocked only until its tree pin is frozen", async () => {
+test("a complete fake post-run closure is fully audited but cannot replace the immutable partial result tree", async () => {
   const root = await freshDefinition();
   const index = await json(path.join(root, "definition-index.v0.8.0.json"));
   const manifests = {
@@ -124,7 +129,7 @@ test("a complete fake post-run closure is fully audited and blocked only until i
   const report = await validateSlice08Definition({ definitionRoot: root, requirePins: false, recheckRuntime: true, regenerate: true });
   assert.equal(report.postRun.operations.normalize.terminalCount, 18);
   assert.equal(report.postRun.operations.export.terminalCount, 18);
-  assert.deepEqual(report.issues.map((entry) => entry.code), ["POSTRUN_PIN_MISSING"]);
+  assert.deepEqual(report.issues.map((entry) => entry.code), ["POSTRUN_TREE_MISMATCH"]);
   const outputPath = path.join(root, "results", "open-smoke", "normalize", "closures", "s08.normalize.s08.normalize.applicable.001.r1", "output.png");
   const output = await readFile(outputPath);
   output[output.length - 1] ^= 1;
