@@ -12,7 +12,7 @@ const H = "a".repeat(64);
 const REF = (id, pathValue = `${id}.json`) => ({ byteLength: 10, contentHash: H, fileSha256: H, id, path: pathValue });
 let tick = 0;
 const clock = () => new Date(Date.UTC(2026, 7, 16, 2, 0, 0, tick++)).toISOString();
-const runtimeStable = async () => true;
+const runtimeStable = async ({ operation }) => REF(`RUNTIME-END-${operation.toUpperCase()}@0.10.0`, `runtime-end/${operation}.json`);
 
 function assertRecursivelyClosed(node, location = "$") {
   if (!node || typeof node !== "object") return;
@@ -32,7 +32,7 @@ function refs(operation) {
     admissionRef: REF(`admission.${operation}`), candidateRef: REF("REG-NORM-SHARP-CANONICAL-PNG@0.10.0"),
     contractRef: REF(`CC-CAP02-${operation.toUpperCase()}-PNG@0.10.0`),
     preregistrationRef: REF(`PREREG-OPEN-CALIBRATION-${operation.toUpperCase()}-PNG@0.10.0`),
-    runtimeRef: REF("RUNTIME-SHARP-CANONICAL-PNG@0.10.0"), runtimeEndRef: REF("RUNTIME-END@0.10.0"),
+    runtimeRef: REF("RUNTIME-SHARP-CANONICAL-PNG@0.10.0"),
     workerRef: { id: "WORKER-SHARP-RAW@0.10.0", version: "0.10.0", path: "scripts/worker.mjs", implementationSha256: H },
   };
 }
@@ -94,6 +94,7 @@ test("one operation closes all 48x3 attempts with zero retry and deterministic a
   assert.equal(result.terminalInputs.length, 144);
   assert.equal(result.summary.passAttemptCount, 144);
   assert.equal(result.summary.replacementAttemptCount, 0);
+  assert.equal(result.summary.runtimeEndRef.id, "RUNTIME-END-NORMALIZE@0.10.0");
   assert.equal(result.summary.caseResults.length, 48);
   assert.equal(result.summary.caseResults.every((entry) => entry.allThreePass), true);
   assert.equal((await readdir(path.join(root, "requests"))).length, 144);

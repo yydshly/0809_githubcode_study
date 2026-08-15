@@ -209,7 +209,7 @@ export async function runSlice10CalibrationOperation({
     fail("S10_RUNNER_INPUT_INVALID", "executor, runtime-end verifier and refs required");
   }
   validateCases(operation, cases);
-  for (const key of ["admissionRef", "candidateRef", "contractRef", "preregistrationRef", "runtimeRef", "runtimeEndRef"]) validateRef(refs[key], key);
+  for (const key of ["admissionRef", "candidateRef", "contractRef", "preregistrationRef", "runtimeRef"]) validateRef(refs[key], key);
   exact(refs.workerRef, ["id", "implementationSha256", "path", "version"], "S10_RUNNER_INPUT_INVALID", "workerRef");
   await assertUnusedRoot(resultsRoot);
   await mkdir(path.dirname(resultsRoot), { recursive: true });
@@ -330,12 +330,18 @@ export async function runSlice10CalibrationOperation({
     }
   }
   if (globalStop) return Object.freeze({ status: globalStop.status, globalStop, terminalInputs: Object.freeze(terminalInputs), summary: null, ledgerTail: previousEventHash });
-  if (await verifyRuntimeEnd(Object.freeze({ runtimeStartRef: refs.runtimeRef, runtimeEndRef: refs.runtimeEndRef })) !== true) {
+  const runtimeEndRef = await verifyRuntimeEnd(Object.freeze({
+    operation, runtimeStartRef: refs.runtimeRef, operationResultsRoot: resultsRoot,
+  }));
+  try { validateRef(runtimeEndRef, "runtimeEndRef"); } catch (cause) {
     fail("S10_RUNTIME_END_DRIFT", "runtime end observation did not match the frozen start observation");
+  }
+  if (runtimeEndRef.id === refs.runtimeRef.id && runtimeEndRef.contentHash === refs.runtimeRef.contentHash) {
+    fail("S10_RUNTIME_END_DRIFT", "runtime end observation must be a distinct post-run record");
   }
   const summary = buildSlice10CalibrationSummary({
     operation, admissionRef: refs.admissionRef, preregistrationRef: refs.preregistrationRef,
-    runtimeEndRef: refs.runtimeEndRef,
+    runtimeEndRef,
     registeredCases: cases.map((item) => ({
       sourceId: item.sourceRef.id, partition: item.partition, disposition: item.disposition,
       expectedStableErrorCode: item.expectedStableErrorCode, manifestContentHash: item.manifestRef.contentHash,

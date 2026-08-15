@@ -59,8 +59,11 @@ zero retry, per-file fsync, atomic prepared/rename/complete publication, a
 and end-runtime drift refusal. An actual-case adapter foundation adds 9/9
 fake-only tests: it reopens all 96 immutable Slice 05 source records and bytes,
 all 48 independent gold identities, keeps all 48 rejection cases worker-free,
-and sends only applicable fake outputs through the independent PNG decoder.
-It has no executable registered driver. No materialized machine definition, canonical request/result,
+and sends only applicable fake outputs through the independent PNG decoder. A
+registered-driver foundation passes 5/5 fake-only tests for central/Git/results-zero
+admission, two sequential operation runs, ordinary non-pass continuation and
+protocol global stop. It remains non-executable until a durable end-runtime
+observer and central validator exist. No materialized machine definition, canonical request/result,
 formal holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
 before any Sharp calibration.
 
