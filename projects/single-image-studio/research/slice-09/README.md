@@ -1,7 +1,7 @@
 # Slice 09 workspace
 
-Current state: `scope-frozen / identity-context-driver-fake-tested /
-durable-runner-not-started / definition-not-created / Gate-B-smoke-not-run /
+Current state: `scope-frozen / identity-context-driver-runner-fake-tested /
+definition-not-created / Gate-B-smoke-not-run /
 calibration-forbidden / non-C1 / non-product`.
 
 The governing scope is [SLICE_09_CONTRACT.md](../SLICE_09_CONTRACT.md). Slice 09
@@ -35,8 +35,21 @@ exclusion, byte/manifest/source drift and Slice 08 replay rejection. Tests use
 only injected executors; they do not start the Sharp worker. After this Phase B
 addition, the repository-wide `npm.cmd run verify` passes `407 / 407`.
 
-No Slice 09 durable runner, machine definition, runtime observation, fixture
-copy, request, result, decision,
+Phase C adds
+[`research-gateb-runner-slice09.mjs`](../../scripts/research-gateb-runner-slice09.mjs).
+Its source SHA-256 is
+`3b7da7d9113412a04e76b3029cefd1c62d26548130cfdfea353bd4d28f44e391`.
+The runner exports eight strict Slice 09 schemas and durably binds 18 requests,
+18 claims, a canonical hash-chain ledger, nine worker-free rejection terminals,
+nine atomic applicable closures, one summary and one decision per operation.
+Its fake-only suite passes 5 / 5; the four Slice 09 suites together pass 19 / 19.
+Self-rehashed gold identity, summary and ledger drift, generic rejection errors,
+partial roots and second invocation all fail closed. The tests write only to
+system temporary directories and do not start Sharp. After adding the runner,
+the repository-wide `npm.cmd run verify` passes `412 / 412`.
+
+No Slice 09 machine definition, runtime observation, fixture copy, canonical
+request, result, decision,
 calibration, formal material, model weight, third-party image, real-user image
 or product integration exists. Real Sharp execution remains forbidden until a
 future results-zero definition is independently validated, committed and pushed.
