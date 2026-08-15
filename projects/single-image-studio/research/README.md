@@ -23,11 +23,12 @@ field. The immutable partial tree has one request, one started event and no
 terminal/output/decision. Slice 08 is closed protocol-failed and cannot be
 replayed.
 
-Slice 09 is scope-frozen only. It will version the gold-record identity boundary
-so production code binds the frozen `goldRecordId`, content/file/pixel identity,
-source and manifest without guessing a generic `.id` field. No Slice 09 code,
-machine definition, runtime observation, request, result or decision exists yet;
-real Sharp execution and calibration remain forbidden.
+Slice 09 is scope-frozen and its first gold-identity layer is fake-tested 6 / 6.
+It reads an actual immutable Slice 05 gold record and binds the frozen
+`goldRecordId`, content/file/pixel identity, source and manifest without guessing
+a generic `.id` field. The complete case context, actual driver, durable runner,
+machine definition, runtime observation, request, result and decision do not
+exist yet; real Sharp execution and calibration remain forbidden.
 
 ## Evidence boundary
 

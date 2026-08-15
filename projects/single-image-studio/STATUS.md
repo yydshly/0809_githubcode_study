@@ -20,7 +20,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 08 已不可重放地 protocol-failed；Slice 09 只冻结新版本范围 | `Slice 09: scope-frozen / implementation-not-started / definition-not-created / Gate-B-smoke-not-run / calibration-forbidden / non-C1 / non-product` | 修复 gold identity 边界必须新建完整 12-source / 36-attempt 分母；当前不运行 Sharp、不创建结果 |
+| 研究阶段 | Slice 08 已不可重放地 protocol-failed；Slice 09 gold identity 底层已 fake-tested | `Slice 09: scope-frozen / identity-layer-fake-tested / driver-runner-not-started / definition-not-created / Gate-B-smoke-not-run / calibration-forbidden / non-C1 / non-product` | 直接以真实 Slice 05 `goldRecordId` shape 验证 6 / 6；尚未建立完整 driver / runner / definition，不运行 Sharp、不创建结果 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -30,7 +30,7 @@
 | Slice 06 诊断结果 | 唯一 registered invocation 已关闭；post-run validator 逐 byte 重算通过 | 152 files / 34 dirs / 583,198 bytes；24 requests + 24 claims + 24 results；84 ledger events；18 quarantine outputs；2 summaries + 2 closes；0 artifact / calibration / formal / holdout | result-tree SHA-256 `4c82a65083ccc1675a65d632010360d991171255ec5ef74b4a50092f701dd146`；normalize summary `70f80c7a…1900f`，export `1b60c9f1…829a0`；两项均 `9 oracle-non-pass + 3 preflight-pass`，Gate B authority=false、calibration=false、全部证据轴=0。详见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md) |
 | Slice 07 Gate-B 结果 | 唯一 registered smoke 已关闭；两项均 denied | 150 files；36 requests/results；18 closures；result tree `80b242de…cf9c` | normalize/export 各 9 pass + 9 non-pass；applicable 18/18 oracle pass，rejection 0/18 exact pass，实际码均 `ERR_INVALID_ARG_TYPE`；calibration=false。详见 [Slice 07 result evidence](research/SLICE_07_RESULT_EVIDENCE.md) |
 | Slice 08 结果 | 唯一 invocation 已关闭为 incomplete protocol failure | result tree `2dd9e53f…da0d6`；2 files / 3,779 bytes；normalize first request + started event；0 terminal / output / closure / oracle / summary / decision；export 未启动 | driver 错把 Slice 05 `goldRecordId` 读取为 `id`，在 worker 前 fail closed；中央验证 partial tree 为 0 issues，但没有 Gate B decision，calibration=false；详见 [Slice 08 evidence](research/SLICE_08_EVIDENCE.md) |
-| Slice 09 范围 | scope-only；implementation / definition / result 均未创建 | 计划 12 sources / 36 attempts；actual results `0` | 新 `goldIdentity` 必须精确绑定 `goldRecordId` / content / file / pixel / source / manifest；不允许 `.id` fallback，不允许拼接旧结果；详见 [Slice 09 contract](research/SLICE_09_CONTRACT.md) |
+| Slice 09 实现 | gold identity 底层已实现；其余 implementation / definition / result 未创建 | identity tests `6 / 6`；full verify `399 / 399`；计划 12 sources / 36 attempts；actual results `0` | closed self-hashed identity 精确绑定 `goldRecordId` / content / file / pixel / source / manifest；真实 gold 无 `.id`，fallback / dual-key / drift / rejection-gold 均 fail closed；详见 [Slice 09 contract](research/SLICE_09_CONTRACT.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
