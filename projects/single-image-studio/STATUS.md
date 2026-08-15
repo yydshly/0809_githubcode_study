@@ -20,13 +20,14 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | Slice 05 唯一注册 smoke 已闭合为 non-pass | `definition-frozen / smoke-closed-non-pass / Gate-B-denied-not-entered / calibration-forbidden` | [Slice 05 合同](research/SLICE_05_CONTRACT.md) 保留范围冻结时的历史状态；`@0.5.0` 定义树于 `2026-08-15T04:23:38.389Z` 封口，随后唯一注册的真实 Sharp smoke 于 `2026-08-15T04:52:05.490Z` 至 `2026-08-15T04:52:10.426Z` 运行。normalize 与 export 均被自己的 Gate B 拒绝，`calibrationAuthorized=false`；不得 calibration 或选择性重跑，也不构成格式支持或能力证据 |
+| 研究阶段 | Slice 06 诊断范围已冻结，实现尚未开始 | `scope-frozen / implementation-not-started / diagnostic-characterization-not-run / Gate-B-no-authority / calibration-forbidden` | Slice 05 `@0.5.0` 继续保持 `smoke-closed-non-pass / Gate-B-denied-not-entered`，不得重跑或 calibration；[Slice 06 合同](research/SLICE_06_CONTRACT.md) 只授权未来以新 `@0.6.0` 身份运行 24 次开放诊断表征，再由下一切片选择 candidate 并另行冻结 Gate-B smoke |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
 | Slice 03 无界面研究设施 | 可运行的格式 / observer / 密封仪式演练 | 1 observer contract；15 format rows / 15 profiles；2 manifests；25 fixtures / 25 assets；6 seal schemas | 所有格式行均 `productSupport=false`；只使用开放项目原创校准夹具，正式 holdout 为 `not-created`，mock rehearsal 不构成密封证据 |
 | Slice 04 metadata 研究设施 | 候选来源锁 / 预注册可验证 | 1 candidate lock；15 format rows；2 contracts；2 operation-specific five-partition plans；1 QA profile；2 preregistrations；1 seal intent | 10 records / 7 schemas，仅 metadata；normalize / export 每项 lifecycle 为 30 / 30 / 18 / 18 / 0，初始 C1 只计 sealed 30 + 18 = 48；artifact schema / oracle、runner、durable ledger、trust、角色 assignment / approval 均未建，全部格式 `productSupport=false`，非 Gate B |
 | Slice 05 定义与 smoke | 定义已冻结；真实 smoke 已关闭且未过门 | definition：25 schemas / 6 manifests / 108 sources / 54 inputs / 54 gold；smoke：36 attempts、116 files、0 artifacts | normalize `6 pass / 12 non-pass`，export `9 pass / 9 non-pass`；两项 applicable attempts 共 18 次均以 `S05_OUTPUT_ORACLE_REJECTED` 结束，normalize 另有 3 次预期 `S05_INPUT_SRGB_REQUIRED`、实际 `S05_INPUT_CHUNK_PROFILE_INVALID`。两份 Gate B decision 均为 `denied-not-entered`，calibration 禁止；详见 [Slice 05 定义与真实 smoke 证据](research/SLICE_05_EVIDENCE.md) |
+| Slice 06 scope-only | 只冻结两阶段诊断边界 | planned：8 public-synthetic regression source units × 3 = 24 attempts；当前 machine records / scripts / tests / fixtures / results 均为 0 | normalize / export 各自 3 个 applicable Alpha 形态 + 1 个 preflight sentinel；新 `@0.6.0` candidate / contracts / preregistrations 尚未创建。本切片没有 Gate B decision authority，不创建 calibration、artifact、正式 holdout 或产品接线 |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
@@ -89,6 +90,7 @@
 - 部署、版本迁移、灰度、回滚与恢复见 [DEPLOYMENT_RELEASE_AND_RECOVERY.md](DEPLOYMENT_RELEASE_AND_RECOVERY.md)。
 - 第三方来源及本地原创边界见 [UPSTREAM.md](UPSTREAM.md)。
 - Slice 05 机器定义、runtime、真实 smoke non-pass、hash 与非证据边界见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)。
+- Slice 06 两阶段 diagnostic characterization 授权、24 次计划分母与禁止边界见 [research/SLICE_06_CONTRACT.md](research/SLICE_06_CONTRACT.md)。
 
 “证件照”“商品图”“旧照修复”等不是与 Matting、合成并列的底层能力，而是场景配方。普通报名头像可以在基础能力成熟后研究；任何官方证件 profile 仍需单独绑定地区、签发机关、证件类型、提交渠道、规则版本和官方来源，不属于当前发布承诺。
 
@@ -101,13 +103,14 @@
 5. **已完成 Slice 04 候选锁 / 预注册 metadata 层**：按 [Slice 04 范围合同](research/SLICE_04_CONTRACT.md) 锁定 Sharp `v0.35.3`、Windows x64 npm / native bundle、`sharp-libvips@1.3.2` bundled libvips 来源与 libvips `v8.18.3` 上游边界；六个 npm registry tarball 只在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256 后删除，没有解包、执行、安装或保留。Slice 04 冻结 15 行格式矩阵、两份 metadata-only 合同、normalize / export 两份各自 30 / 30 / 18 / 18 / 0 的 lifecycle plan、QA、两份预注册和 seal intent；每项初始 C1 只计 sealed 48，3 / 3 repeats 必须全过。Slice 03 observer / seal 仅作 design / envelope reference；正式 oracle、runner、durable ledger、trust、角色 assignment / approval 与所有像素仍为 `not-created`，验收见 [Slice 04 证据记录](research/SLICE_04_EVIDENCE.md)。
 6. **已完成 Slice 05 定义冻结**：按 [Slice 05 合同](research/SLICE_05_CONTRACT.md) 建立 `REG-NORM-SHARP@0.5.0` installed runtime closure、normalize / export 两份 `@0.5.0` contract、25 份 strict schema、6 份 operation-specific manifest、108 个项目原创来源、54 份 export input artifact、54 份 independent gold、adapter / isolated worker、independent oracle、named hardware、local runner / fault semantics、Gate B plan 与两份开放 calibration 预注册。机器定义于 `2026-08-15T04:23:38.389Z` 冻结，definition index `contentHash=d914d75e54bb9b5e175f774038d41235ebeb6dc5daf4b5235d76b3caf4d5c271`；冻结时 `results/` 不存在，定义验收见 [Slice 05 证据](research/SLICE_05_EVIDENCE.md)。
 7. **Slice 05 已关闭为 non-pass，禁止 calibration**：定义基线提交 / 推送后，唯一注册的真实 smoke 形成 36 份 request、36 份 claim、36 份 terminal result 与 72 个 durable ledger event，但没有 artifact。normalize `6/18` pass、export `9/18` pass；两份 Gate B decision 均为 `denied-not-entered`、`calibrationAuthorized=false`。真实 smoke review 为 `P1/P2/P3=0/2/0`：两项 P2 分别是 generic oracle rejection 的诊断 / 确定性留存缺口，以及 normalize missing-sRGB error code 与预注册不符。首次未注册调用因 sandbox `mkdir EPERM` 在任何 request / claim / result 前停止；后续获批调用是唯一注册 smoke，不是选择性重跑。durable 证据只允许结论“worker IPC 返回并通过严格响应校验的 output bytes，随后被 precommit independent oracle 拒绝”；进程退出确认未持久化（`workerExitConfirmed=null`），具体 oracle 子因保持 unknown，不猜测、不重跑。
-8. **下一步必须发布新版本，而不是修补或重跑 `@0.5.0`**：新 candidate / contract / preregistration 必须纠正输出 profile 与 normalize sRGB rejection code，并持久化足以定位 worker / oracle 失败的诊断；重新冻结后从头运行新版本 smoke。只有未来新版本的某项 operation 全部 Gate B conjunct 通过，才可运行该项开放 calibration。再往后的正式 bundle 仍须等待 calibration 后的最终版本与独立审计；Slice 04 的 request 只是 policy/template，状态固定为 `not-issued-awaiting-custodian-bundle`。
-9. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
-10. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
-11. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
-12. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
-13. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
-14. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
+8. **已冻结 Slice 06 scope-only 两阶段边界**：按 [Slice 06 合同](research/SLICE_06_CONTRACT.md) 计划新的 `REG-NORM-SHARP@0.6.0`、两份 `CapabilityContract@0.6.0` 与两份 operation-specific diagnostic preregistration；只允许 8 个既有公开 synthetic lineage source × 3 = 24 次 characterization。当前实现、machine definition 与结果均未开始，Phase A 不授权 Sharp 图片调用。
+9. **下一步先做诊断，不直接重启 Gate B**：提交 / 推送实现与 fake protocol tests 后，以 fresh runtime inventory 冻结 results-0 定义，再为 normalize / export 各运行一次注册 characterization。该切片只需保存 output specimen、exact oracle 子因、worker observation 与 exit state；没有 Gate B decision authority，始终 `calibrationAuthorized=false`。诊断闭合后由下一切片选择 / 修正 candidate，并另行冻结 Gate-B smoke；不得修补或重跑 `@0.5.0`。
+10. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
+11. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
+12. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
+13. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
+14. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
+15. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
 
 手机 / 平板产品、其他桌面浏览器、多图逐张、多图合集、商品套件、自由画布、公共部署以及未经独立验证的官方证件 profile 继续后置。
 

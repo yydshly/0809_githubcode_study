@@ -34,7 +34,7 @@ Layer 4  场景配方
 | `CAP-08` | QA 证据 | 分离离线证据 QA 与线上任务 QA；记录输入、执行、输出、指标、版本和失败，控制下载与发布 | `QAReport`、`RunManifest`、`EvidenceManifest` | Alpha / 边缘、像素保护、尺寸 / 色值、主体数量、must-keep、参考泄漏 | 每类效果的 QA profile、漂移监控、审核工具与证据回放 |
 | `CAP-09` | 编排推荐 | 以独立合同执行已选 DAG，或在当前 surface 的冻结 allowlist 中做资格过滤与可解释排序；管理任务、重试与失效传播 | `ExecutionPlan`、`RecommendationSet`；实际运行写入 `RunManifest` | `CAP-09.execute` 的确定性执行控制；后置 `CAP-09.recommend` 的硬资格与冻结规则 | Agent 路由、缓存、硬件选择、个性化、批量调度 |
 
-表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。尤其 `CAP-02` 的 Slice 05 canonical PNG normalize / export 开放研究已在真实 smoke 中双双 non-pass、Gate B `denied-not-entered`；JPEG / WebP 等行也继续 fail closed，全部格式仍为 `productSupport=false`。
+表中的“首批研究重点”是待验证范围，不是当前产品格式或能力清单。尤其 `CAP-02` 的 Slice 05 canonical PNG normalize / export 开放研究已在真实 smoke 中双双 non-pass、Gate B `denied-not-entered`；[Slice 06](research/SLICE_06_CONTRACT.md) 只冻结新的诊断表征范围，没有 Gate B decision authority。JPEG / WebP 等行继续 fail closed，全部格式仍为 `productSupport=false`。
 
 ### 能力依赖原则
 
@@ -220,7 +220,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 当前不是同时实现九类能力，而是按依赖建立最小可验证纵切：
 
-1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 canonical PNG normalize / export 定义虽已冻结，但实际 smoke 已双双 non-pass、Gate B 均拒绝进入，calibration 被禁止且 C1 仍为 0。后续只能用新的 candidate / contract / preregistration 版本重新开始。
+1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 canonical PNG normalize / export 已双双 non-pass、Gate B 均拒绝进入，calibration 被禁止且 C1 仍为 0。Slice 06 只允许新的 `@0.6.0` diagnostic characterization，以 24 次公开 synthetic regression attempt 保留精确失败诊断；诊断闭合后仍须由下一切片选择 / 修正 candidate 并另行冻结 Gate-B smoke。
 2. `CAP-03`：形成最小 `SourceCard`，只记录可验证字段，不伪造推荐分数。
 3. `CAP-04 + CAP-05 + CAP-08`：对测 Matting 并完成透明 / 纯色主体背景效果。
 4. `CAP-09.execute`：随第一条无界面管线冻结确定性执行控制、状态、fallback 和失效传播，但不参与像素质量结论。
