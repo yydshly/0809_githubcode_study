@@ -12,9 +12,10 @@ product dataset, completed codec evaluation, or capability claim.
 Slice 07 is immutable closed history: its 18 applicable attempts passed the
 candidate and independent oracle, while all 18 rejection attempts failed exact
 classification because the runner omitted frozen case fields. Slice 08 is now
-scope-frozen only. It will version that callback boundary and, after fake-only
-tests plus a pushed results-zero definition, evaluate a complete new 36-attempt
-denominator. No Slice 08 implementation, definition or result exists yet.
+scope-frozen with a fake-tested typed protocol. Its production callback shape,
+self-hashed case context, strict schema closure, exact-code routing and worker-free rejection tests pass
+9 / 9. After a pushed results-zero definition it will evaluate a complete new
+36-attempt denominator. No Slice 08 machine definition or result exists yet.
 
 ## Evidence boundary
 

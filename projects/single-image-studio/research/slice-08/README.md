@@ -1,6 +1,6 @@
 # Slice 08 workspace
 
-Current state: `scope-frozen / implementation-not-started /
+Current state: `scope-frozen / typed-protocol-fake-tested /
 definition-not-created / Gate-B-smoke-not-run / calibration-forbidden /
 non-C1 / non-product`.
 
@@ -18,8 +18,20 @@ units three times: normalize and export each contain three applicable and three
 rejection sources, for 36 new attempts. Slice 07 passes cannot be spliced into
 the Slice 08 decision.
 
-No Slice 08 implementation, schema, machine definition, fixture wrapper, runtime
-observation, result, decision, calibration, formal holdout, product integration,
-or real-user asset exists at this scope-only stage. Real Sharp image execution is
-forbidden until a results-zero definition has been validated, committed, and
-pushed.
+Phase B adds the project-original
+[`research-gateb-case-context-slice08.mjs`](../../scripts/research-gateb-case-context-slice08.mjs)
+and its fake-only
+[`research-slice08-case-context.test.mjs`](../../tests/research-slice08-case-context.test.mjs).
+Their SHA-256 values are respectively
+`3bc4520b11c51c48ad4795caf27543a96f9bc43902c2925a03f3896ad9f825ba`
+and `1833c5b69c8f4fd76e30392052f0bcb1191d39017e56316e99df3265536ef181`.
+The targeted suite passes `9 / 9` and exercises recursive schema closure, the production callback shape,
+closed self-hashed contexts, operation/source/code laundering, generic errors,
+worker-touched rejection, old-S07 replay and the complete 36-attempt denominator.
+It uses fake functions and in-memory records only; it does not fork Sharp or
+create canonical repository results. Both new files pass `node --check`.
+
+No Slice 08 machine definition, fixture wrapper, fresh runtime observation,
+registered result, decision, calibration, formal holdout, product integration,
+or real-user asset exists. Real Sharp image execution remains forbidden until a
+results-zero definition has been validated, committed, and pushed.

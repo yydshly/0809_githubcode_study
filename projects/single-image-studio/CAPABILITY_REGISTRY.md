@@ -104,7 +104,7 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | `REG-NORM-REFERENCE-RGBA8` | 本地 RGBA8 PNG 归一 / 导出参考适配器 | `CAP-02` | 冻结窄范围 `NormalizedImage` 与 `DeliveryArtifact` 合同并生成结构夹具 | `candidate`（非 Gate B） | 仅支持合成 fixture；正式格式矩阵、硬件 profile、质量预注册与独立 holdout |
 | `REG-NORM-SHARP` | Sharp + Windows x64 bundled libvips 复合候选 | `CAP-02`、`CAP-05` | 来源归一化、裁切、合成、导出 | `candidate`（Slice 05 closed non-pass；Slice 06 diagnostic closed） | `@0.5.0` Gate B 双拒绝；diagnostic-only `@0.6.0` 唯一 characterization 已关闭：像素 / filter / determinism 正确，但 PNG 缺 `sRGB`、含禁止的 `pHYs`。两版本均禁止重跑 / calibration，且无 Gate B authority |
 | `REG-NORM-SHARP-CANONICAL-PNG` | Sharp RGBA8 pixel stage + 项目原创 canonical PNG encoder | `CAP-02` | canonical PNG normalize / export | `closed-non-pass/Gate-B-denied` | 36/36 terminal；18 applicable 全过 oracle，18 rejection 因 driver binding 缺陷全部 non-pass；禁止重跑与 calibration，须新版本 |
-| `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | 相同像素 / encoder 架构 + versioned typed case-context | `CAP-02` | canonical PNG normalize / export | `planned/scope-frozen` | 只冻结 runner→driver closed context 与完整新 36-attempt 分母；implementation、definition、result 尚未创建，非 Gate B |
+| `REG-NORM-SHARP-CANONICAL-PNG@0.8.0` | 相同像素 / encoder 架构 + versioned typed case-context | `CAP-02` | canonical PNG normalize / export | `candidate/pending-definition` | runner→driver closed context fake-only 9 / 9；完整新 36-attempt 分母已冻结，machine definition / result 尚未创建，非 Gate B |
 | `REG-NORM-LIBVIPS` | standalone libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | standalone 构建选项、启用格式库、链接 / LGPL 交付方式与 artifact hash |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
 | `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
@@ -533,7 +533,7 @@ release_status=planned
 2. Slice 06 diagnostic-only `@0.6.0` 的唯一 registered invocation 已完成并封存；24 / 24 terminal、零 replacement，post-run tree 和 ledger 全闭合。该版本禁止补跑或选择性重跑。
 3. Slice 06 没有 Gate B decision authority；已确认 Sharp PNG encoder 的共同 profile 不符合合同。其结果只作不可变 lineage，正式 holdout 继续 `not-created`。
 4. Slice 07 唯一 36-attempt registered smoke 已关闭：applicable 18/18 通过，但 rejection 0/18 exact pass；两项 Gate B denied。不得重跑，任何 driver binding 修复必须进入新版本与新定义。
-5. Slice 08 scope-only 已冻结：先实现并以 fake tests 验证 typed case-context，再冻结 / 推送完整新 36-attempt results-zero definition；不得只补跑旧 rejection。
+5. Slice 08 typed case-context 已 fake-only 9 / 9；下一步冻结 / 推送完整新 36-attempt results-zero definition，不得只补跑旧 rejection。
 6. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
 6. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
 7. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。
