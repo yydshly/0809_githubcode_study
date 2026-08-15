@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 protocol + durable operation foundation 已通过 37 / 37 fake-only tests，machine definition / results 尚未创建。C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 results-zero definition 已冻结，含 96 sources / 288 planned attempts，42 / 42 fake-only tests通过，真实 calibration 尚未运行。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -163,7 +163,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 11 scope 已冻结
 
-[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修 gold-to-adapter projection 与真实 worker lifecycle。projection、versioned adapter、case executor、strict lifecycle record，以及 versioned request / terminal / ledger / summary runner 已实现。durable attempt bridge 先持久 request / claim，再为 applicable、rejection 或 failure 原子发布不同的严格 closure；只有发布完成才会进入下一 slot，post-rename 不确定性必须全局停止。operation 层以 288-event fsynced publication hash chain、runtime start/end observation 与 atomic final close 收口每个 48×3 operation。37 / 37 fake-only tests 覆盖完整临时文件树，不调用 Sharp。canonical 96-source / 288-attempt machine definition、request、result仍未创建；central validator 与 results-zero definition 分别提交推送前，禁止真实 calibration。
+[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修 gold-to-adapter projection 与真实 worker lifecycle。projection、versioned adapter、case executor、strict lifecycle record、durable attempt / operation runner、registered driver 与 central validator 已实现。results-zero definition 于 `2026-08-15T23:01:50.529Z` 冻结：23 schemas、96 source wrappers / 288 attempts、48 gold identities、4 manifests、0 copied image bytes、0 results；full tree SHA-256 为 `d33d254a78eec2a96b2abdb98891fd94279359b4a7e7bf0bb6d0505779a2e90c`。42 / 42 Slice 11 fake-only tests 不调用 Sharp。definition commit 推送且工作树 clean 前，禁止唯一 registered calibration。精确 pins 与执行边界见 [Slice 11 evidence](research/SLICE_11_EVIDENCE.md)。
 
 ## 运行 R0 工程探针
 
