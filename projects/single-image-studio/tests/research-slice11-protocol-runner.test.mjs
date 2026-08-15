@@ -221,3 +221,54 @@ test("a truthful pre-worker protocol failure writes one terminal and globally st
   assert.equal(result.lifecycles[0].stage, "preflight-not-started");
   assert.equal(result.lifecycles[0].workerInvoked, false);
 });
+
+test("durability hooks are awaited before every execution and before advancing to the next slot", async () => {
+  let executions = 0;
+  let publications = 0;
+  const base = fakeExecutor();
+  const result = await runSlice11CalibrationOperation({ operation: "normalize", cases: cases(), refs: refs("normalize"),
+    executeAttempt: async (context) => {
+      assert.equal(executions, publications);
+      executions += 1;
+      return base(context);
+    },
+    hooks: {
+      beforeAttempt: async ({ request }) => { assert.equal(request.attempt.attemptNumber, 1); },
+      afterAttempt: async ({ request, terminal }) => {
+        assert.equal(terminal.requestRef.id, request.requestId);
+        await Promise.resolve();
+        publications += 1;
+      },
+    }, now: () => UTC });
+  assert.equal(result.status, "calibration-complete-pass");
+  assert.equal(executions, 144);
+  assert.equal(publications, 144);
+});
+
+test("a durability hook failure stops globally without invoking or advancing another slot", async () => {
+  let executions = 0;
+  const beforeCause = Object.assign(new Error("claim exists"), { code: "S11_CLAIM_RECONCILIATION_UNKNOWN" });
+  await assert.rejects(runSlice11CalibrationOperation({ operation: "normalize", cases: cases(), refs: refs("normalize"),
+    executeAttempt: async () => { executions += 1; return fakeExecutor()(); },
+    hooks: { beforeAttempt: async () => { throw beforeCause; } }, now: () => UTC }), (error) => {
+    assert.equal(error.code, "S11_BEFORE_ATTEMPT_DURABILITY_FAILED");
+    assert.equal(error.cause, beforeCause);
+    assert.equal(error.partial.requests.length, 0);
+    assert.equal(error.partial.globalStop.reasonCode, beforeCause.code);
+    return true;
+  });
+  assert.equal(executions, 0);
+
+  const afterCause = Object.assign(new Error("rename uncertain"), { code: "S11_PUBLICATION_RECONCILIATION_UNKNOWN" });
+  await assert.rejects(runSlice11CalibrationOperation({ operation: "normalize", cases: cases(), refs: refs("normalize"),
+    executeAttempt: async (context) => { executions += 1; return fakeExecutor()(context); },
+    hooks: { afterAttempt: async () => { throw afterCause; } }, now: () => UTC }), (error) => {
+    assert.equal(error.code, "S11_AFTER_ATTEMPT_DURABILITY_FAILED");
+    assert.equal(error.cause, afterCause);
+    assert.equal(error.partial.requests.length, 1);
+    assert.equal(error.partial.terminals.length, 1);
+    assert.equal(error.partial.globalStop.reasonCode, afterCause.code);
+    return true;
+  });
+  assert.equal(executions, 1);
+});

@@ -9,8 +9,10 @@ import {
   claimSlice11CalibrationRequest,
   createSlice11RuntimeObservation,
   publishSlice11ApplicableClosure,
+  publishSlice11TerminalClosure,
   validateSlice11ApplicableClosure,
   validateSlice11RuntimeObservation,
+  validateSlice11TerminalClosure,
 } from "../scripts/research-calibration-durable-slice11.mjs";
 import { createSlice11WorkerLifecycle } from "../scripts/research-calibration-lifecycle-slice11.mjs";
 import {
@@ -38,17 +40,22 @@ const EXIT = Object.freeze({
   stage: "exit-confirmed", workerInvoked: true, workerExitConfirmed: true, ipcMessageReceived: true,
   exitCode: 0, signal: null, timedOut: false, cancelled: false, observationSha256: "b".repeat(64),
 });
+const PREFLIGHT = Object.freeze({
+  stage: "preflight-not-started", workerInvoked: false, workerExitConfirmed: null, ipcMessageReceived: false,
+  exitCode: null, signal: null, timedOut: false, cancelled: false, observationSha256: null,
+});
 
 function hash(label) { return sha256Slice11(Buffer.from(label)); }
 function ref(id, relativePath = `records/${id}.json`) {
   return Object.freeze({ id, path: relativePath, byteLength: 100, contentHash: hash(`content:${id}`), fileSha256: hash(`file:${id}`) });
 }
-function request({ createdAt = UTC, idempotencyKey = hash("request-idempotency") } = {}) {
+function request({ createdAt = UTC, idempotencyKey = hash("request-idempotency"), disposition = "applicable" } = {}) {
+  const applicable = disposition === "applicable";
   return createSlice11CalibrationRequest({
     requestId: "request.s11.normalize.source.s11.001.r1.a1", operation: "normalize",
     attempt: { sourceId: "source.s11.001", partition: "dev/calibration", repetition: 1, attemptNumber: 1 },
-    disposition: "applicable", expectedStableErrorCode: null, sourceRef: ref("source.s11.001"),
-    manifestRef: ref("manifest.s11.normalize.dev"), goldIdentityRef: ref("gold.s11.001"),
+    disposition, expectedStableErrorCode: applicable ? null : "S11_SOURCE_REJECTION_EXPECTED", sourceRef: ref("source.s11.001"),
+    manifestRef: ref("manifest.s11.normalize.dev"), goldIdentityRef: applicable ? ref("gold.s11.001") : null,
     candidateRef: ref("REG-NORM-SHARP-CANONICAL-PNG@0.11.0"),
     contractRef: ref("CC-CAP02-NORMALIZE-PNG@0.11.0"), runtimeRef: ref("RUNTIME-SHARP@0.11.0"),
     workerRef: { id: "ADAPTER-SHARP-CANONICAL-PNG@0.11.0", version: "0.11.0",
@@ -94,8 +101,8 @@ function assertClosed(schema) {
   }
 }
 
-test("Slice 11 durable layer exports four exact-id recursively closed schemas", () => {
-  assert.equal(Object.keys(SLICE11_DURABLE_SCHEMA_DOCUMENTS).length, 4);
+test("Slice 11 durable layer exports five exact-id recursively closed schemas", () => {
+  assert.equal(Object.keys(SLICE11_DURABLE_SCHEMA_DOCUMENTS).length, 5);
   for (const [relativePath, schema] of Object.entries(SLICE11_DURABLE_SCHEMA_DOCUMENTS)) {
     assert.equal(schema.$id, `https://single-image-studio.invalid/research/slice-11/${relativePath}`);
     assertClosed(schema);
@@ -146,6 +153,54 @@ test("applicable closure publishes six files only after intent and validates byt
     projection: values.projection, lifecycle: values.lifecycle, terminal: values.terminal });
   assert.deepEqual(verified.outputBytes, values.outputBytes);
   assert.equal(verified.publication.contentHash, result.publication.contentHash);
+});
+
+test("worker-free rejection publishes only lifecycle, terminal and a derived publication record", async (t) => {
+  const root = await tempRoot(t);
+  const currentRequest = request({ disposition: "rejection" });
+  const lifecycle = createSlice11WorkerLifecycle({ lifecycleId: `lifecycle.${currentRequest.requestId}`,
+    attemptId: currentRequest.requestId, operation: "normalize", projection: null, lifecycle: PREFLIGHT, recordedAt: UTC });
+  const terminal = createSlice11CalibrationTerminal({ terminalId: `terminal.${currentRequest.requestId}`,
+    operation: "normalize", disposition: "rejection", requestRef: contentRefSlice11(currentRequest, "requestId"),
+    status: "pass", actualStableErrorCode: currentRequest.expectedStableErrorCode, reasonCode: null,
+    expectedProjectionRef: null, workerLifecycleRef: contentRefSlice11(lifecycle, "lifecycleId"),
+    outputFileSha256: null, outputByteLength: null, oracleFactsSha256: null, startedAt: UTC, finishedAt: UTC,
+  }, { request: currentRequest, projection: null, lifecycle });
+  const events = [];
+  const result = await publishSlice11TerminalClosure({ operationRoot: root, request: currentRequest, lifecycle, terminal,
+    preparedAt: UTC, appendPublicationIntent: async (value) => events.push(["intent", value.contentHash]),
+    appendPublicationComplete: async (value) => events.push(["complete", value.contentHash]) });
+  assert.equal(result.publication.closureKind, "rejection-pass");
+  assert.deepEqual(events.map(([kind]) => kind), ["intent", "complete"]);
+  assert.deepEqual((await readdirNames(result.destination)).sort(),
+    ["publication.json", "terminal.json", "worker-lifecycle.json"]);
+  assert.equal((await validateSlice11TerminalClosure({ operationRoot: root, request: currentRequest,
+    lifecycle, terminal })).publication.contentHash, result.publication.contentHash);
+});
+
+test("pre-worker failure publishes a terminal-only closure and rejects a self-rehashed kind rewrite", async (t) => {
+  const root = await tempRoot(t);
+  const currentRequest = request();
+  const terminal = createSlice11CalibrationTerminal({ terminalId: `terminal.${currentRequest.requestId}`,
+    operation: "normalize", disposition: "applicable", requestRef: contentRefSlice11(currentRequest, "requestId"),
+    status: "protocol-failed", actualStableErrorCode: null, reasonCode: "S11_WORKER_LIFECYCLE_MISSING",
+    expectedProjectionRef: null, workerLifecycleRef: null, outputFileSha256: null, outputByteLength: null,
+    oracleFactsSha256: null, startedAt: UTC, finishedAt: UTC,
+  }, { request: currentRequest, projection: null, lifecycle: null });
+  const result = await publishSlice11TerminalClosure({ operationRoot: root, request: currentRequest, terminal,
+    preparedAt: UTC, appendPublicationIntent: async () => {}, appendPublicationComplete: async () => {} });
+  assert.equal(result.publication.closureKind, "failure-terminal-only");
+  assert.deepEqual((await readdirNames(result.destination)).sort(), ["publication.json", "terminal.json"]);
+  assert.equal((await validateSlice11TerminalClosure({ operationRoot: root, request: currentRequest, terminal }))
+    .publication.contentHash, result.publication.contentHash);
+
+  const publicationPath = path.join(result.destination, "publication.json");
+  const tampered = JSON.parse(await readFile(publicationPath, "utf8"));
+  tampered.closureKind = "failure-with-lifecycle";
+  tampered.contentHash = contentHashProtocolSlice11(tampered);
+  await writeFile(publicationPath, `${stableStringifySlice11(tampered)}\n`);
+  await assert.rejects(validateSlice11TerminalClosure({ operationRoot: root, request: currentRequest, terminal }),
+    (error) => error.code === "S11_TERMINAL_PUBLICATION_INVALID");
 });
 
 async function readdirNames(directory) {

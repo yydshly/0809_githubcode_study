@@ -22,6 +22,10 @@ const SHA_RE = /^[a-f0-9]{64}$/u;
 const ID_RE = /^[A-Za-z0-9][A-Za-z0-9._:@/-]{0,199}$/u;
 const CONTENT_REF_KEYS = Object.freeze(["contentHash", "id"]);
 const ENTRY_ROLES = Object.freeze(["output-bytes", "expected-projection", "worker-lifecycle", "oracle-facts", "terminal"]);
+const TERMINAL_PUBLICATION_KEYS = Object.freeze([
+  "closureKind", "contentHash", "entries", "evidenceBoundary", "preparedAt", "publicationId",
+  "publicationState", "requestRef", "schemaVersion",
+]);
 
 export class Slice11DurableError extends Error {
   constructor(code, message, options = {}) {
@@ -279,6 +283,81 @@ function createPublication({ request, projection, lifecycle, terminal, oracle, o
   return Object.freeze(record);
 }
 
+function terminalClosureKind({ request, projection, lifecycle, terminal }) {
+  if (request.disposition === "rejection" && terminal.status === "pass") {
+    if (projection !== null || lifecycle === null) fail("S11_TERMINAL_PUBLICATION_INVALID", "rejection pass requires lifecycle only");
+    return "rejection-pass";
+  }
+  if (!["non-pass", "protocol-failed", "inconclusive"].includes(terminal.status)) {
+    fail("S11_TERMINAL_PUBLICATION_INVALID", "terminal-only publication cannot contain an applicable pass");
+  }
+  if (projection !== null && lifecycle !== null) return "failure-with-projection-lifecycle";
+  if (projection === null && lifecycle !== null) return "failure-with-lifecycle";
+  if (projection === null && lifecycle === null) return "failure-terminal-only";
+  fail("S11_TERMINAL_PUBLICATION_INVALID", "projection cannot exist without lifecycle");
+}
+
+function terminalPublicationValues({ request, projection, lifecycle, terminal }) {
+  const root = `closures/${request.requestId}`;
+  const values = [];
+  if (projection !== null) values.push({ role: "expected-projection", name: "expected-projection.json",
+    bytes: canonicalBytes(projection), contentRef: contentRefSlice11(projection, "projectionId") });
+  if (lifecycle !== null) values.push({ role: "worker-lifecycle", name: "worker-lifecycle.json",
+    bytes: canonicalBytes(lifecycle), contentRef: contentRefSlice11(lifecycle, "lifecycleId") });
+  values.push({ role: "terminal", name: "terminal.json", bytes: canonicalBytes(terminal),
+    contentRef: contentRefSlice11(terminal, "terminalId") });
+  return values.map((value) => ({ ...value, relativePath: `${root}/${value.name}` }));
+}
+
+export function validateSlice11TerminalPublication(record, { request, projection = null, lifecycle = null, terminal } = {}) {
+  const code = "S11_TERMINAL_PUBLICATION_INVALID";
+  exact(record, TERMINAL_PUBLICATION_KEYS, code, "terminal publication");
+  if (record.schemaVersion !== "calibration-terminal-publication.slice11.v0"
+    || record.publicationState !== "prepared-not-committed" || !Array.isArray(record.entries)) {
+    fail(code, "terminal publication identity/state invalid");
+  }
+  id(record.publicationId, code, "publicationId");
+  contentRef(record.requestRef, code, "requestRef");
+  utc(record.preparedAt, code, "preparedAt");
+  validateSlice11CalibrationRequest(request);
+  if (projection !== null) validateExpectedProjectionSlice11(projection);
+  if (lifecycle !== null) validateSlice11WorkerLifecycle(lifecycle);
+  validateSlice11CalibrationTerminal(terminal, { request, projection, lifecycle });
+  const expectedKind = terminalClosureKind({ request, projection, lifecycle, terminal });
+  const expected = terminalPublicationValues({ request, projection, lifecycle, terminal });
+  if (record.closureKind !== expectedKind || record.entries.length !== expected.length
+    || record.publicationId !== `terminal-publication.${request.requestId}`
+    || record.requestRef.id !== request.requestId || record.requestRef.contentHash !== request.contentHash) {
+    fail(code, "terminal publication/request/kind binding invalid");
+  }
+  record.entries.forEach((entry, index) => {
+    const item = expected[index];
+    validateEntry(entry, code, item.role, item.relativePath);
+    if (entry.contentRef.id !== item.contentRef.id || entry.contentRef.contentHash !== item.contentRef.contentHash
+      || entry.byteLength !== item.bytes.length || entry.fileSha256 !== sha256Slice11(item.bytes)) {
+      fail(code, "terminal publication record/file binding mismatch");
+    }
+  });
+  evidence(record.evidenceBoundary, code);
+  selfHash(record, code);
+  return true;
+}
+
+function createTerminalPublication({ request, projection, lifecycle, terminal, preparedAt }) {
+  const closureKind = terminalClosureKind({ request, projection, lifecycle, terminal });
+  const values = terminalPublicationValues({ request, projection, lifecycle, terminal });
+  const record = withHash({
+    schemaVersion: "calibration-terminal-publication.slice11.v0",
+    publicationId: `terminal-publication.${request.requestId}`, closureKind,
+    requestRef: contentRefSlice11(request, "requestId"), publicationState: "prepared-not-committed",
+    entries: values.map(({ role, relativePath, bytes, contentRef: ref }) => ({
+      role, relativePath, ...fileIdentity(bytes), contentRef: ref,
+    })), preparedAt, evidenceBoundary: structuredClone(SLICE11_EVIDENCE_BOUNDARY),
+  });
+  validateSlice11TerminalPublication(record, { request, projection, lifecycle, terminal });
+  return Object.freeze(record);
+}
+
 async function durableBytes(filePath, bytes) {
   const handle = await open(filePath, "wx");
   try { await handle.writeFile(bytes); await handle.sync(); } finally { await handle.close(); }
@@ -322,6 +401,66 @@ export async function claimSlice11CalibrationRequest({ operationRoot, request, c
     catch (cause) { fail("S11_CLAIM_RECONCILIATION_UNKNOWN", "existing claim is unreadable or conflicts", { cause }); }
     return Object.freeze({ status: "existing-claim-no-execution-authority", claim: Object.freeze(existing), claimPath });
   }
+}
+
+export async function persistSlice11CalibrationRequest({ operationRoot, request } = {}) {
+  validateSlice11CalibrationRequest(request);
+  const root = await ensureSafeRoot(operationRoot);
+  const requestsRoot = childPath(root, "requests");
+  await mkdir(requestsRoot, { recursive: true });
+  const requestPath = childPath(requestsRoot, `${request.requestId}.json`);
+  const bytes = canonicalBytes(request);
+  try {
+    await durableBytes(requestPath, bytes);
+    await syncDirectory(requestsRoot);
+    return Object.freeze({ status: "persisted", request, requestPath });
+  } catch (error) {
+    if (error?.code !== "EEXIST") throw error;
+    let existing;
+    try {
+      existing = JSON.parse(await readFile(requestPath, "utf8"));
+      validateSlice11CalibrationRequest(existing);
+      if (stableStringifySlice11(existing) !== stableStringifySlice11(request)) throw new Error("request bytes conflict");
+    } catch (cause) {
+      fail("S11_REQUEST_RECONCILIATION_UNKNOWN", "existing request is unreadable or conflicts", { cause });
+    }
+    return Object.freeze({ status: "existing-request-no-execution-authority", request: Object.freeze(existing), requestPath });
+  }
+}
+
+export function createSlice11DurableAttemptHooks({
+  operationRoot, now = () => new Date().toISOString(), appendPublicationIntent, appendPublicationComplete,
+  publicationHooksForRequest = () => ({}),
+} = {}) {
+  if (!path.isAbsolute(operationRoot ?? "") || typeof now !== "function"
+    || typeof appendPublicationIntent !== "function" || typeof appendPublicationComplete !== "function"
+    || typeof publicationHooksForRequest !== "function") {
+    fail("S11_DURABLE_HOOKS_INVALID", "durable attempt hook inputs invalid");
+  }
+  return Object.freeze({
+    beforeAttempt: async ({ request }) => {
+      const persisted = await persistSlice11CalibrationRequest({ operationRoot, request });
+      if (persisted.status !== "persisted") {
+        fail("S11_REQUEST_ALREADY_PERSISTED", "existing request never grants execution authority");
+      }
+      const claimed = await claimSlice11CalibrationRequest({ operationRoot, request, claimedAt: now() });
+      if (claimed.status !== "claimed") fail("S11_REQUEST_ALREADY_CLAIMED", "existing claim never grants execution authority");
+    },
+    afterAttempt: async ({ request, terminal, lifecycle, projection, execution }) => {
+      const common = {
+        operationRoot, request, terminal, lifecycle, projection, preparedAt: now(),
+        appendPublicationIntent, appendPublicationComplete,
+        hooks: publicationHooksForRequest(request),
+      };
+      if (request.disposition === "applicable" && terminal.status === "pass") {
+        if (!plain(execution) || !(execution.outputBytes instanceof Uint8Array) || !plain(execution.oracleFacts)) {
+          fail("S11_DURABLE_EXECUTION_CLOSURE_INVALID", "applicable pass lost output/oracle material before publication");
+        }
+        return publishSlice11ApplicableClosure({ ...common, outputBytes: execution.outputBytes, oracleFacts: execution.oracleFacts });
+      }
+      return publishSlice11TerminalClosure(common);
+    },
+  });
 }
 
 export async function publishSlice11ApplicableClosure({
@@ -414,6 +553,91 @@ export async function validateSlice11ApplicableClosure({ operationRoot, request,
   return Object.freeze({ publication, oracle: Object.freeze(storedOracle), outputBytes: output });
 }
 
+export async function publishSlice11TerminalClosure({
+  operationRoot, request, projection = null, lifecycle = null, terminal, preparedAt,
+  appendPublicationIntent, appendPublicationComplete, hooks = {},
+} = {}) {
+  const code = "S11_TERMINAL_PUBLICATION_INVALID";
+  validateSlice11CalibrationRequest(request);
+  if (projection !== null) validateExpectedProjectionSlice11(projection);
+  if (lifecycle !== null) validateSlice11WorkerLifecycle(lifecycle);
+  validateSlice11CalibrationTerminal(terminal, { request, projection, lifecycle });
+  if (typeof appendPublicationIntent !== "function" || typeof appendPublicationComplete !== "function" || !plain(hooks)) {
+    fail(code, "terminal publication callbacks/hooks invalid");
+  }
+  const publication = createTerminalPublication({ request, projection, lifecycle, terminal, preparedAt });
+  const values = terminalPublicationValues({ request, projection, lifecycle, terminal });
+  const root = await ensureSafeRoot(operationRoot);
+  const closuresRoot = childPath(root, "closures");
+  const stagingRoot = childPath(root, ".staging");
+  await mkdir(closuresRoot, { recursive: true });
+  await mkdir(stagingRoot, { recursive: true });
+  const stage = childPath(stagingRoot, request.requestId);
+  const destination = childPath(closuresRoot, request.requestId);
+  for (const target of [stage, destination]) {
+    try { await lstat(target); fail("S11_PUBLICATION_ALREADY_EXISTS", "attempt closure path already exists"); }
+    catch (error) { if (error?.code !== "ENOENT") throw error; }
+  }
+  await mkdir(stage);
+  let renameCommitted = false;
+  try {
+    for (const { name, bytes } of values) await durableBytes(childPath(stage, name), bytes);
+    await durableBytes(childPath(stage, "publication.json"), canonicalBytes(publication));
+    await syncDirectory(stage);
+    await hooks.afterPrepared?.({ stage, publication });
+    await appendPublicationIntent(publication);
+    await hooks.beforeRename?.({ stage, destination, publication });
+    await rename(stage, destination);
+    renameCommitted = true;
+    await hooks.afterRename?.({ destination, publication });
+    await syncDirectory(closuresRoot);
+    await appendPublicationComplete(publication);
+    try { if ((await readdir(stagingRoot)).length === 0) await rmdir(stagingRoot); } catch { /* validated on close */ }
+    return Object.freeze({ publication, destination });
+  } catch (cause) {
+    if (renameCommitted) fail("S11_PUBLICATION_RECONCILIATION_UNKNOWN", "terminal closure committed before publication completion",
+      { cause, committed: true });
+    try { await rm(stage, { recursive: true, force: true }); } catch { /* original error remains authoritative */ }
+    try { if ((await readdir(stagingRoot)).length === 0) await rmdir(stagingRoot); } catch { /* original error remains authoritative */ }
+    fail(cause?.code?.startsWith?.("S11_") ? cause.code : "S11_PUBLICATION_COMMIT_FAILED", "terminal closure was not committed", { cause });
+  }
+}
+
+export async function validateSlice11TerminalClosure({
+  operationRoot, request, projection = null, lifecycle = null, terminal,
+} = {}) {
+  const root = await ensureSafeRoot(operationRoot);
+  const destination = childPath(root, "closures", request.requestId);
+  const values = terminalPublicationValues({ request, projection, lifecycle, terminal });
+  const expected = [...values.map(({ name }) => name), "publication.json"].sort();
+  const entries = await readdir(destination, { withFileTypes: true });
+  if (entries.some((entry) => !entry.isFile()) || entries.map(({ name }) => name).sort().join("\0") !== expected.join("\0")) {
+    fail("S11_TERMINAL_CLOSURE_INVALID", "terminal closure file set is not exact");
+  }
+  const stored = new Map();
+  for (const { name } of values) stored.set(name, JSON.parse(await readFile(childPath(destination, name), "utf8")));
+  const publication = JSON.parse(await readFile(childPath(destination, "publication.json"), "utf8"));
+  if (projection !== null && stableStringifySlice11(stored.get("expected-projection.json")) !== stableStringifySlice11(projection)) {
+    fail("S11_TERMINAL_CLOSURE_INVALID", "stored projection differs from supplied identity");
+  }
+  if (lifecycle !== null && stableStringifySlice11(stored.get("worker-lifecycle.json")) !== stableStringifySlice11(lifecycle)) {
+    fail("S11_TERMINAL_CLOSURE_INVALID", "stored lifecycle differs from supplied identity");
+  }
+  const storedTerminal = stored.get("terminal.json");
+  if (stableStringifySlice11(storedTerminal) !== stableStringifySlice11(terminal)) {
+    fail("S11_TERMINAL_CLOSURE_INVALID", "stored terminal differs from supplied identity");
+  }
+  validateSlice11TerminalPublication(publication, { request, projection, lifecycle, terminal: storedTerminal });
+  for (const entry of publication.entries) {
+    const name = entry.relativePath.split("/").at(-1);
+    const bytes = await readFile(childPath(destination, name));
+    if (bytes.length !== entry.byteLength || sha256Slice11(bytes) !== entry.fileSha256) {
+      fail("S11_TERMINAL_CLOSURE_INVALID", "terminal closure file identity mismatch");
+    }
+  }
+  return Object.freeze({ publication });
+}
+
 const text = { type: "string", minLength: 1, maxLength: 200000 };
 const hex = { type: "string", pattern: "^[a-f0-9]{64}$" };
 const contentRefSchema = { type: "object", additionalProperties: false, required: [...CONTENT_REF_KEYS], properties: { contentHash: hex, id: text } };
@@ -450,6 +674,16 @@ export const SLICE11_DURABLE_SCHEMA_DOCUMENTS = Object.freeze({
       type: "object", additionalProperties: false, required: [...ENTRY_KEYS], properties: {
         role: { enum: [...ENTRY_ROLES] }, relativePath: text, byteLength: { type: "integer", minimum: 1, maximum: 1048576 },
         fileSha256: hex, contentRef: contentRefSchema,
+    } } }, preparedAt: { type: "string", format: "date-time" }, evidenceBoundary: evidenceSchema, contentHash: hex,
+  }),
+  "schemas/calibration-terminal-publication.slice11.v0.schema.json": schema("calibration-terminal-publication.slice11.v0", TERMINAL_PUBLICATION_KEYS, {
+    schemaVersion: { const: "calibration-terminal-publication.slice11.v0" }, publicationId: text,
+    closureKind: { enum: ["rejection-pass", "failure-with-projection-lifecycle", "failure-with-lifecycle", "failure-terminal-only"] },
+    requestRef: contentRefSchema, publicationState: { const: "prepared-not-committed" },
+    entries: { type: "array", minItems: 1, maxItems: 3, items: {
+      type: "object", additionalProperties: false, required: [...ENTRY_KEYS], properties: {
+        role: { enum: ["expected-projection", "worker-lifecycle", "terminal"] }, relativePath: text,
+        byteLength: { type: "integer", minimum: 1, maximum: 1048576 }, fileSha256: hex, contentRef: contentRefSchema,
       } } }, preparedAt: { type: "string", format: "date-time" }, evidenceBoundary: evidenceSchema, contentHash: hex,
   }),
 });

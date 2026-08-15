@@ -50,6 +50,13 @@ function payloadHash(value) {
   return sha256Slice11(Buffer.from(`${stableStringifySlice11(value)}\n`, "utf8"));
 }
 
+function validateHooks(hooks) {
+  if (!plain(hooks) || Object.keys(hooks).some((key) => !["afterAttempt", "beforeAttempt"].includes(key))
+    || [hooks.beforeAttempt, hooks.afterAttempt].some((value) => value !== undefined && typeof value !== "function")) {
+    fail("S11_RUNNER_HOOKS_INVALID", "runner hooks must be a closed pair of optional functions");
+  }
+}
+
 function validateCases(operation, cases) {
   const code = "S11_RUNNER_DENOMINATOR_INVALID";
   if (!["normalize", "export"].includes(operation) || !Array.isArray(cases) || cases.length !== 48) {
@@ -122,8 +129,11 @@ function partialResult(state, globalStop = null) {
   });
 }
 
-export async function runSlice11CalibrationOperation({ operation, cases, refs, executeAttempt, now = () => new Date().toISOString() } = {}) {
+export async function runSlice11CalibrationOperation({
+  operation, cases, refs, executeAttempt, hooks = {}, now = () => new Date().toISOString(),
+} = {}) {
   if (typeof executeAttempt !== "function" || typeof now !== "function") fail("S11_RUNNER_INPUT_INVALID", "executor and clock are required");
+  validateHooks(hooks);
   validateCases(operation, cases);
   validateRefs(operation, refs);
   const state = { requests: [], lifecycles: [], projections: [], terminals: [], terminalInputs: [], ledger: [] };
@@ -143,14 +153,24 @@ export async function runSlice11CalibrationOperation({ operation, cases, refs, e
   for (const item of cases) {
     for (let repetition = 1; repetition <= 3; repetition += 1) {
       const request = makeRequest({ operation, item, repetition, refs, createdAt: instant(now) });
+      try { await hooks.beforeAttempt?.(Object.freeze({ request })); }
+      catch (cause) {
+        fail("S11_BEFORE_ATTEMPT_DURABILITY_FAILED", "attempt was not admitted to execution", {
+          cause, partial: partialResult(state, Object.freeze({ status: "inconclusive",
+            reasonCode: typeof cause?.code === "string" ? cause.code : "S11_DURABILITY_UNCLASSIFIED_FAILURE",
+            requestRef: contentRefSlice11(request, "requestId") })),
+        });
+      }
       state.requests.push(request);
       append("attempt-started", request, null, instant(now));
       const startedAt = instant(now);
       let lifecycle = null;
       let projection = null;
+      let execution = null;
       let terminal;
       try {
         const result = await executeAttempt(Object.freeze({ request }));
+        execution = result;
         if (item.disposition === "rejection") {
           exact(result, ["actualStableErrorCode", "expectedProjection", "kind", "workerLifecycle"], "S11_EXECUTION_PROTOCOL_INVALID", "rejection result");
           if (result.kind !== "rejection-pass" || result.actualStableErrorCode !== item.expectedStableErrorCode
@@ -208,6 +228,16 @@ export async function runSlice11CalibrationOperation({ operation, cases, refs, e
       state.terminals.push(terminal);
       state.terminalInputs.push({ request, terminal, lifecycle, projection });
       append("attempt-terminal", request, terminal, instant(now));
+      try {
+        await hooks.afterAttempt?.(Object.freeze({ request, terminal, lifecycle, projection, execution }));
+      } catch (cause) {
+        const globalStop = Object.freeze({ status: "inconclusive",
+          reasonCode: typeof cause?.code === "string" ? cause.code : "S11_DURABILITY_UNCLASSIFIED_FAILURE",
+          requestRef: contentRefSlice11(request, "requestId") });
+        fail("S11_AFTER_ATTEMPT_DURABILITY_FAILED", "attempt closure did not reach a durable terminal state", {
+          cause, partial: partialResult(state, globalStop),
+        });
+      }
       if (["protocol-failed", "inconclusive"].includes(terminal.status)) {
         validateSlice11Ledger(state.ledger);
         const globalStop = Object.freeze({ status: terminal.status, reasonCode: terminal.reasonCode,
