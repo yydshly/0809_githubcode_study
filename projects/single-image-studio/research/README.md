@@ -255,6 +255,14 @@ path was invoked. Canonical result, decision, artifact and product integration r
 not created. See [SLICE_07_EVIDENCE.md](SLICE_07_EVIDENCE.md) and
 [slice-07/README.md](slice-07/README.md).
 
+The one registered Slice 07 smoke is now closed. All 18 applicable attempts
+passed the candidate and independent oracle, while all 18 rejection attempts
+closed non-pass with `ERR_INVALID_ARG_TYPE` because the registered driver did
+not receive its frozen classification fields. Both Gate-B decisions are denied
+and calibration remains forbidden. See
+[SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md); this version cannot
+be rerun.
+
 ## Commands
 
 Run from `projects/single-image-studio` with Node.js 22 or newer:

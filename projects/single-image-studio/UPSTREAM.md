@@ -126,6 +126,8 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 
 [Slice 07 范围合同](./research/SLICE_07_CONTRACT.md) 与 [definition evidence](./research/SLICE_07_EVIDENCE.md) 冻结 `REG-NORM-SHARP-CANONICAL-PNG@0.7.0` 的架构，不新增或复制第三方代码：Sharp / bundled libvips 的 upstream 与许可 lineage 保持原精确版本；canonical PNG encoder 是项目原创 candidate 组件，只 import Node `zlib`，并与独立 oracle / reference encoder 实现隔离。raw worker 只通过已经锁定的 `sharp@0.35.3` 产生 RGBA8；adapter / runner 只使用 Node builtins。results-zero definition 新增的只是 JSON schemas、lineage refs、runtime metadata 与治理记录，没有新增 dependency、runtime artifact、图片资产或 canonical result；测试仅使用内存 synthetic bytes、fake child process 与系统临时 result tree，未 fork 真实 worker或调用 Sharp 图片路径。
 
+唯一注册 Slice 07 smoke 后续确实调用了上述已锁定的本地 Sharp runtime，但没有下载、升级或新增 upstream package。18 个 applicable outputs 全部通过 independent oracle；Gate-B 双拒绝来自项目自有 driver 的字段绑定缺陷，而非 upstream 版本或许可变化。精确结果见 [Slice 07 result evidence](./research/SLICE_07_RESULT_EVIDENCE.md)。
+
 冻结的 8 个 source unit wrapper 只引用 Slice 05 已提交的项目原创 public-synthetic bytes / rights / gold facts，使用新 Slice 06 identity 并声明 `regressionLineageRef` / `independenceClaim=false`。运行后 18 份 candidate output 已按授权保留为非产品 quarantine，合计 16,782 bytes；没有第三方图片、真实照片、模型 / checkpoint、artifact、calibration、正式 holdout、defect-holdout 或 escape，也不进入 catalog 或正式证据路径。完整运行事实见 [Slice 06 evidence](./research/SLICE_06_EVIDENCE.md)。
 
 ## 市场官方研究入口

@@ -124,7 +124,7 @@ Slice 05 没有覆盖上述历史记录，而是新增 `REG-NORM-SHARP@0.5.0` in
 
 Slice 06 Phase B / C 为 diagnostic-only `@0.6.0` 建立 strict adapter、isolated worker、独立 PNG oracle、durable runner、26 份 schema、`REG-NORM-SHARP@0.6.0`、两份合同与 24-attempt preregistration。唯一注册诊断已闭合：每项 9 个 applicable oracle non-pass + 3 个 preflight rejection，18 份输出的 bytes / pixels / classification / runtime 都 3 / 3 一致，worker exit / telemetry 完整；独立重开均得到缺 `sRGB`、含 `pHYs`。这些结果只是 candidate selection diagnosis，不能被效果 DAG、页面或下载路径解析为可执行能力。完整证据见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md)。
 
-Slice 07 已冻结 `REG-NORM-SHARP-CANONICAL-PNG@0.7.0` 的 results-zero definition：Sharp decode / pixel processing 与项目原创 canonical PNG encoder 组成候选，encoder 只允许 `IHDR,sRGB,IDAT,IEND`、filter 0；独立 oracle 与生产 encoder 实现隔离。定义含 16 schemas、23 non-index records 与 normalize / export 各 6 sources × 3 repetitions；真实 Sharp 图片路径及 result 均未创建。Gate B、calibration、C1 与产品支持仍为 0 / false。见 [Slice 07 evidence](research/SLICE_07_EVIDENCE.md)。
+Slice 07 的唯一 registered smoke 已关闭：18 / 18 applicable attempts 的 Sharp RGBA8 + 项目原创 canonical PNG encoder 输出均通过 independent oracle；18 个 rejection 因 driver binding 漏传分类字段而全部 non-pass。两项 Gate B denied，calibration、C1 与产品支持仍为 0 / false。见 [Slice 07 result evidence](research/SLICE_07_RESULT_EVIDENCE.md)。
 
 ### `EffectDefinition`
 
@@ -224,7 +224,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 当前不是同时实现九类能力，而是按依赖建立最小可验证纵切：
 
-1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 Gate B 双拒绝，Slice 06 唯一 diagnostic 已定位 Sharp PNG profile 缺陷并关闭。Slice 07 已冻结 candidate-owned canonical PNG encoder 复合候选的 results-zero definition；Gate-B smoke 尚未运行，calibration 与 C1 仍为 0。
+1. `CAP-01 + CAP-02`：Slice 05 Gate B 双拒绝，Slice 06 diagnostic 已定位 Sharp PNG profile 缺陷；Slice 07 applicable 路径全过，但 rejection driver protocol 失配导致 Gate B 再次双拒绝。须新版本，calibration 与 C1 仍为 0。
 2. `CAP-03`：形成最小 `SourceCard`，只记录可验证字段，不伪造推荐分数。
 3. `CAP-04 + CAP-05 + CAP-08`：对测 Matting 并完成透明 / 纯色主体背景效果。
 4. `CAP-09.execute`：随第一条无界面管线冻结确定性执行控制、状态、fallback 和失效传播，但不参与像素质量结论。

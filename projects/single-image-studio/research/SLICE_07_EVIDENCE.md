@@ -57,8 +57,8 @@ Sharp image path.
 
 `C1/U1/E1/R1/O1/G1/V1` remain `0`; Release Gate remains `none / 0 / 0`;
 `productSupport=false`; calibration, formal holdout, real-user photos, model
-weights, UI and server integration remain absent. After this exact definition
-baseline is committed and pushed, the next authorized action is the single
-registered 36-attempt open Gate-B smoke. Any definition, runtime,
-implementation, source, schema or Git-admission drift must stop that run rather
-than regenerate or silently widen the baseline.
+weights, UI and server integration remain absent. This exact definition was
+committed and pushed as `d056390`; its registered smoke subsequently closed
+without Gate-B authorization. See
+[SLICE_07_RESULT_EVIDENCE.md](SLICE_07_RESULT_EVIDENCE.md). Slice 07 must not be
+rerun or rewritten; a later version is required for corrected evaluation.

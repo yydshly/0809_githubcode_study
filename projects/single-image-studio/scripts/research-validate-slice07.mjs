@@ -6,9 +6,9 @@ import { fileURLToPath } from "node:url";
 import {
   SLICE07_SCHEMA_DOCUMENTS,
   buildSlice07Definition,
-  treeDigestSlice07,
 } from "./research-generate-slice07.mjs";
 import { decodeIndependentPngSlice05 } from "./research-independent-png-oracle-slice05.mjs";
+import { validateSlice07GateBOperationTree } from "./research-gateb-runner-slice07.mjs";
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const PROJECT_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
@@ -28,6 +28,7 @@ export const SLICE07_FROZEN_PINS = Object.freeze({
   readmeSha256: "94d1269e820ab45b773283782b8c198cd1d0285b0b934db113667e5a4563b5f6",
   generatorSha256: "c42837da0347980f468e4c26107c94242e76ac0751218ed15014d6e358659f1d",
 });
+export const SLICE07_POSTRUN_TREE_SHA256 = "80b242de729df5e5974c90c0342d2e10e9609559aae5f3c2e1162afb4f1ccf9c";
 
 function sha256(bytes) { return createHash("sha256").update(bytes).digest("hex"); }
 function stable(value) {
@@ -141,6 +142,67 @@ function discoverRefs(value, refs = []) {
   return refs;
 }
 
+async function validateRegisteredResults({ definitionRoot, resultPaths, sourceById, issues }) {
+  const allowed = /^(?:results\/open-smoke\/(?:normalize|export)\/).+/u;
+  for (const relative of resultPaths) if (!allowed.test(relative)) issue(issues, "RESULT_PATH_UNREGISTERED", relative, "only the frozen open-smoke operation roots are allowed");
+  const report = { valid: true, operations: {}, applicablePasses: 0, rejectionExactPasses: 0, rejectionNonPasses: 0 };
+  for (const operation of ["normalize", "export"]) {
+    const operationRoot = path.join(definitionRoot, "results", "open-smoke", operation);
+    const operationValidation = await validateSlice07GateBOperationTree({ resultsRoot: operationRoot, operation });
+    report.operations[operation] = operationValidation;
+    if (!operationValidation.valid) issue(issues, "RESULT_OPERATION_INVALID", operation, operationValidation.issues.join(","));
+    const requests = new Map();
+    const ledgerEvents = (await readFile(path.join(operationRoot, "ledger.ndjson"), "utf8")).trim().split("\n").map((line) => JSON.parse(line));
+    const startedByAttempt = new Map(ledgerEvents.filter((event) => event.eventType === "attempt-started").map((event) => [event.attemptId, event]));
+    const terminalByAttempt = new Map(ledgerEvents.filter((event) => event.eventType === "attempt-terminal").map((event) => [event.attemptId, event]));
+    const operationFiles = resultPaths.filter((name) => name.startsWith(`results/open-smoke/${operation}/`));
+    for (const relative of operationFiles.filter((name) => /\/requests\/[^/]+\.json$/u.test(name))) {
+      const value = JSON.parse(await readFile(path.join(definitionRoot, ...relative.split("/")), "utf8"));
+      requests.set(value.attemptId, value);
+      if (startedByAttempt.get(value.attemptId)?.payloadSha256 !== sha256(Buffer.from(`${JSON.stringify(stable(value))}\n`, "utf8"))) {
+        issue(issues, "REQUEST_LEDGER_BINDING_INVALID", relative, "attempt-started does not bind the durable request bytes");
+      }
+    }
+    const resultRelatives = operationFiles.filter((name) => /\/records\/[^/]+\.json$/u.test(name) || /\/closures\/[^/]+\/result\.json$/u.test(name));
+    for (const relative of resultRelatives) {
+      const result = JSON.parse(await readFile(path.join(definitionRoot, ...relative.split("/")), "utf8"));
+      const request = requests.get(result.attemptId);
+      if (!request) { issue(issues, "RESULT_REQUEST_MISSING", relative, "terminal result lacks its request"); continue; }
+      if (terminalByAttempt.get(result.attemptId)?.payloadSha256 !== sha256(Buffer.from(`${JSON.stringify(stable(result))}\n`, "utf8"))) {
+        issue(issues, "RESULT_LEDGER_BINDING_INVALID", relative, "attempt-terminal does not bind the durable result bytes");
+      }
+      if (result.disposition === "rejection") {
+        const expectedStatus = result.actualCode === request.expectedStableErrorCode && result.workerExitConfirmed === false ? "pass" : "non-pass";
+        if (result.status !== expectedStatus || result.closureRef !== null) issue(issues, "REJECTION_RESULT_DERIVATION_INVALID", relative, "rejection status is not derived from the frozen expected code");
+        if (result.status === "pass") report.rejectionExactPasses += 1;
+        else report.rejectionNonPasses += 1;
+        continue;
+      }
+      if (result.status !== "pass" || result.closureRef === null) continue;
+      const closureDirectory = path.dirname(path.join(definitionRoot, ...relative.split("/")));
+      const output = await readFile(path.join(closureDirectory, "output.png"));
+      const oracle = JSON.parse(await readFile(path.join(closureDirectory, "oracle.json"), "utf8"));
+      const closure = JSON.parse(await readFile(path.join(closureDirectory, "closure.json"), "utf8"));
+      const decoded = decodeIndependentPngSlice05(output);
+      const source = sourceById.get(result.sourceId);
+      const gold = source?.goldRecordPath ? JSON.parse(await readFile(path.join(PROJECT_ROOT, "research", "slice-05", ...source.goldRecordPath.split("/")), "utf8")) : null;
+      const expected = gold?.expected;
+      const oracleExpected = { fileSha256: decoded.fileSha256, decodedPixelSha256: decoded.decodedPixelSha256, width: decoded.width, height: decoded.height, chunkTypes: decoded.chunkTypes };
+      if (JSON.stringify(stable(oracle)) !== JSON.stringify(stable(oracleExpected))
+        || closure.oracleFactsSha256 !== sha256(Buffer.from(`${JSON.stringify(stable(oracle))}\n`, "utf8"))
+        || closure.outputByteLength !== output.length || closure.outputFileSha256 !== decoded.fileSha256
+        || closure.decodedPixelSha256 !== decoded.decodedPixelSha256 || result.fileSha256 !== decoded.fileSha256
+        || !decoded.filter0Only || JSON.stringify(decoded.chunkTypes) !== JSON.stringify(["IHDR", "sRGB", "IDAT", "IEND"])
+        || !expected || decoded.decodedPixelSha256 !== expected.decodedPixelSha256
+        || decoded.width !== expected.width || decoded.height !== expected.height) {
+        issue(issues, "APPLICABLE_OUTPUT_REOPEN_INVALID", relative, "persisted candidate output does not reproduce its oracle/gold closure");
+      } else report.applicablePasses += 1;
+    }
+  }
+  report.valid = !issues.some((entry) => entry.code.startsWith("RESULT_") || entry.code.startsWith("REJECTION_") || entry.code.startsWith("APPLICABLE_"));
+  return report;
+}
+
 export async function validateSlice07Definition({
   definitionRoot = DEFAULT_ROOT,
   requirePins = true,
@@ -148,11 +210,12 @@ export async function validateSlice07Definition({
   regenerate = true,
 } = {}) {
   const issues = [];
-  let files;
-  try { files = await enumerate(definitionRoot); } catch (error) {
+  let allFiles;
+  try { allFiles = await enumerate(definitionRoot); } catch (error) {
     return { valid: false, issues: [{ code: "TREE_READ_FAILED", location: definitionRoot, message: error.message }], definitionRef: null };
   }
-  if (files.has("results") || [...files.keys()].some((name) => name.startsWith("results/"))) issue(issues, "RESULTS_PRESENT", "results", "definition freeze requires results absent");
+  const resultPaths = [...allFiles.keys()].filter((name) => name.startsWith("results/"));
+  const files = new Map([...allFiles].filter(([name]) => !name.startsWith("results/")));
   const indexBytes = files.get("definition-index.v0.7.0.json");
   if (!indexBytes) return { valid: false, issues: [{ code: "DEFINITION_INDEX_MISSING", location: "definition-index.v0.7.0.json", message: "missing" }], definitionRef: null };
   let index;
@@ -259,6 +322,18 @@ export async function validateSlice07Definition({
   for (const operation of ["normalize", "export"]) {
     if (operationCounts[operation].applicable !== 3 || operationCounts[operation].rejection !== 3) issue(issues, "SOURCE_DENOMINATOR_INVALID", operation, "requires three applicable and three rejection sources");
   }
+  let postRun = null;
+  if (resultPaths.length > 0) {
+    const postRunTreeSha256 = digestSubset(allFiles, (name) => name.startsWith("results/"));
+    if (postRunTreeSha256 !== SLICE07_POSTRUN_TREE_SHA256) issue(issues, "POSTRUN_TREE_MISMATCH", "results/open-smoke", "registered result tree differs from its immutable post-run pin");
+    try {
+      postRun = await validateRegisteredResults({ definitionRoot, resultPaths, sourceById: new Map(sourceRecords.map(([, entry]) => [entry.value.sourceId, entry.value])), issues });
+      postRun.treeSha256 = postRunTreeSha256;
+    } catch (error) {
+      issue(issues, "POSTRUN_VALIDATION_FAILED", "results/open-smoke", error.message);
+      postRun = { valid: false, treeSha256: postRunTreeSha256 };
+    }
+  }
   if (index.descendantFileCount !== files.size - 2) issue(issues, "DESCENDANT_COUNT_MISMATCH", "definition-index", "descendant count excludes index and README");
   const descendants = new Map([...files].filter(([name]) => name !== "README.md" && name !== "definition-index.v0.7.0.json"));
   if (index.descendantTreeSha256 !== digestSubset(descendants, () => true)) issue(issues, "DESCENDANT_TREE_MISMATCH", "definition-index", "descendant digest mismatch");
@@ -268,7 +343,7 @@ export async function validateSlice07Definition({
     || index.resultProtocol.replacements !== 0 || index.resultsState !== "not-created" || index.copiedImageBytes !== 0) {
     issue(issues, "DEFINITION_SEMANTICS_INVALID", "definition-index", "denominator/results boundary differs from Slice 07 contract");
   }
-  const fullDigest = (await treeDigestSlice07(definitionRoot)).sha256;
+  const fullDigest = digestSubset(files, () => true);
   const schemaDigest = digestSubset(files, (name) => name.startsWith("schemas/"));
   if (requirePins) {
     for (const [key, value] of Object.entries(SLICE07_FROZEN_PINS)) if (value === null) issue(issues, "FROZEN_PIN_MISSING", key, "formal validation pin not filled");
@@ -290,6 +365,7 @@ export async function validateSlice07Definition({
     pinsVerified: requirePins && issues.every((entry) => !entry.code.startsWith("FROZEN_PIN")),
     runtimeRechecked: Boolean(rebuilt && recheckRuntime),
     regenerationVerified: Boolean(rebuilt && regenerate && !issues.some((entry) => entry.code === "GENERATED_BYTES_MISMATCH")),
+    postRun,
   };
 }
 

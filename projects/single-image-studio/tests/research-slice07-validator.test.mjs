@@ -1,14 +1,17 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import { materializeSlice07Definition } from "../scripts/research-generate-slice07.mjs";
 import { validateSlice07Definition } from "../scripts/research-validate-slice07.mjs";
 
 const FIXED_UTC = "2026-08-15T00:00:00.000Z";
+const PROJECT_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const CANONICAL_ROOT = path.join(PROJECT_ROOT, "research", "slice-07");
 
 function stable(value) {
   if (Array.isArray(value)) return value.map(stable);
@@ -58,7 +61,7 @@ test("formal validation verifies every literal freeze pin", async () => {
   assert.equal(report.regenerationVerified, true);
 });
 
-test("extra files and result material are rejected", async (t) => {
+test("extra files and unregistered result material are rejected", async (t) => {
   const root = await canonicalRoot(t);
   await writeFile(path.join(root, "rogue.txt"), "rogue\n");
   let report = await validateSlice07Definition({ definitionRoot: root, requirePins: false, recheckRuntime: false, regenerate: true });
@@ -66,7 +69,7 @@ test("extra files and result material are rejected", async (t) => {
   await mkdir(path.join(root, "results"), { recursive: true });
   await writeFile(path.join(root, "results", "fake.json"), "{}\n");
   report = await validateSlice07Definition({ definitionRoot: root, requirePins: false, recheckRuntime: false, regenerate: true });
-  assert.ok(codes(report).has("RESULTS_PRESENT"));
+  assert.ok(codes(report).has("RESULT_PATH_UNREGISTERED"));
 });
 
 test("unsupported schema keywords fail closed", async (t) => {
@@ -100,4 +103,17 @@ test("self-rehashed denominator changes remain invalid", async (t) => {
   await rewriteRecord(root, "definition-index.v0.7.0.json", (value) => { value.resultProtocol.plannedAttempts = 35; });
   const report = await validateSlice07Definition({ definitionRoot: root, requirePins: false, recheckRuntime: false, regenerate: true });
   assert.ok(codes(report).has("DEFINITION_SEMANTICS_INVALID"));
+});
+
+test("registered post-run bytes are independently reopened and tree-pinned", async (t) => {
+  const root = await mkdtemp(path.join(tmpdir(), "s07-postrun-tamper-"));
+  await cp(CANONICAL_ROOT, root, { recursive: true });
+  const target = path.join(root, "results", "open-smoke", "normalize", "closures", "s07.normalize.source.s07.normalize.smoke.001.r1", "output.png");
+  const bytes = await readFile(target);
+  bytes[bytes.length - 1] ^= 1;
+  await writeFile(target, bytes);
+  const report = await validateSlice07Definition({ definitionRoot: root, requirePins: true, recheckRuntime: false, regenerate: true });
+  assert.equal(report.valid, false);
+  assert.ok(codes(report).has("POSTRUN_TREE_MISMATCH"));
+  assert.ok(codes(report).has("POSTRUN_VALIDATION_FAILED") || codes(report).has("APPLICABLE_OUTPUT_REOPEN_INVALID"));
 });
