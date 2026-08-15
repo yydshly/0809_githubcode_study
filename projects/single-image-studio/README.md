@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 exact projection + lifecycle adapter foundation 已通过 7 / 7 fake-only tests，machine definition / results 尚未创建。C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–10 保持各自不可改写的历史边界。Slice 10 唯一 calibration 在 1 / 288 后 protocol-failed；Slice 11 exact projection、lifecycle record 与 case executor foundation 已通过 13 / 13 fake-only tests，machine definition / results 尚未创建。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -163,7 +163,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 11 scope 已冻结
 
-[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修两项协议：从完整 gold identity 生成并哈希绑定 adapter 所需的 exact 12-field expected，以及按实际 preflight / spawn / IPC / exit 事件派生 worker lifecycle。投影器与 versioned adapter foundation 已实现并通过 7 / 7 fake-only tests，不调用 Sharp；它能区分 pre-worker failure、spawn attempted、IPC received 与 confirmed exit，并保留旧错误码 lineage。新身份的 96-source / 288-attempt machine definition、request、result仍未创建；完整 fake-only 协议和 results-zero definition 分别提交推送前，禁止真实 calibration。
+[Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修两项协议：从完整 gold identity 生成并哈希绑定 adapter 所需的 exact 12-field expected，以及按实际 preflight / spawn / IPC / exit 事件派生 worker lifecycle。投影器、versioned adapter、strict lifecycle record 与 generic case executor 已实现并通过 13 / 13 fake-only tests，不调用 Sharp；case 层把完整 gold 只交给 versioned adapter，并精确绑定 request、source、partition、disposition 与错误码。新身份的 96-source / 288-attempt machine definition、request、result仍未创建；完整 runner 协议和 results-zero definition 分别提交推送前，禁止真实 calibration。
 
 ## 运行 R0 工程探针
 
@@ -246,7 +246,7 @@ npm.cmd run verify
 | [research/SLICE_10_EVIDENCE.md](research/SLICE_10_EVIDENCE.md) | Slice 10 唯一 registered invocation 的 4-file failure tree、协议根因、lifecycle 失真与禁止重跑边界 |
 | [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 已冻结的 results-zero machine definition workspace（保持其冻结时口径） |
 | [research/SLICE_11_CONTRACT.md](research/SLICE_11_CONTRACT.md) | Slice 11 expected projection、worker lifecycle、新 96 / 288 分母与非 C1 边界 |
-| [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 当前仅 scope-only 的研究 workspace 与执行前硬停止 |
+| [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 当前 Phase B foundation 状态、尚未 materialize 的研究 workspace 与执行前硬停止 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -254,7 +254,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–10 的不可变 research-only 记录，以及 Slice 11 scope-only 文档。Slice 09 两项 Gate B 均通过；Slice 10 calibration 在 1 / 288 后因 pre-worker protocol failure 关闭；Slice 11 尚未实现或运行。这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖、Slice 06–10 的不可变 research-only 记录，以及 Slice 11 的 fake-only protocol foundation。Slice 09 两项 Gate B 均通过；Slice 10 calibration 在 1 / 288 后因 pre-worker protocol failure 关闭；Slice 11 尚未 materialize definition 或运行。这不是 formal holdout、C1 或产品支持。不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

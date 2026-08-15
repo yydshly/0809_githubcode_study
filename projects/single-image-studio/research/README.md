@@ -68,16 +68,18 @@ an explicit gold-to-adapter expected projection and truthful worker lifecycle.
 See [SLICE_10_EVIDENCE.md](SLICE_10_EVIDENCE.md). Formal holdout remains absent,
 all evidence axes remain zero, and `productSupport=false`.
 
-Slice 11 is scope-frozen, and its first fake-only protocol foundation is now
-implemented. It creates a new `@0.11.0` identity for exactly two corrections:
-a content-addressed projection
-from the complete gold identity to the adapter's twelve canonical expected
-fields, and worker lifecycle derived from actual preflight, spawn, IPC and exit
-events. Seven fake-only tests cover deterministic reconstruction, strict schema,
-semantic rehash laundering, no-worker preflight failure, spawn failure, clean
-message-plus-exit and worker-declared failure. They do not invoke Sharp. Slice 11
-still has no machine definition, request, result or calibration; its future
-96-source / 288-attempt population retains zero retry and replacement. See
+Slice 11 is scope-frozen, and its fake-only projection, case and lifecycle
+foundation is now implemented. It creates a new `@0.11.0` identity for exactly
+two corrections: a content-addressed projection from the complete gold identity
+to the adapter's twelve canonical expected fields, and worker lifecycle derived
+from actual preflight, spawn, IPC and exit events. The generic case executor
+passes the complete gold object only to the versioned adapter, binds every
+request to frozen case material, and keeps rejection cases worker-free. Thirteen
+fake-only tests cover deterministic reconstruction, strict schemas, semantic
+rehash laundering, lifecycle records, request rebinding, worker-free rejection
+and successful candidate closure. They do not invoke Sharp. Slice 11 still has
+no machine definition, request, result or calibration; its future 96-source /
+288-attempt population retains zero retry and replacement. See
 [SLICE_11_CONTRACT.md](SLICE_11_CONTRACT.md).
 
 ## Evidence boundary
