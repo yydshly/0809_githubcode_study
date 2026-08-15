@@ -131,7 +131,7 @@ normalize summary 为 `6 pass / 12 non-pass`：9 次 applicable attempt 全部 `
 
 首次未注册调用因 sandbox `mkdir EPERM` 在任何 request / claim / result 之前停止；随后获批调用是唯一注册 smoke，不是根据结果选择的重跑。持久化记录只能证明 worker IPC 返回并通过严格响应校验的 output bytes，随后被 precommit independent oracle 拒绝；进程退出确认未持久化（`workerExitConfirmed=null`），具体 oracle 子因保持 unknown，不补猜也不重跑。当前版本的 normalize / export calibration 均被禁止。
 
-下一步不是修补或重跑 `@0.5.0` 或 `@0.6.0`。Slice 06 唯一注册 characterization 已确定：Sharp 输出的 RGBA8 像素、filter-0 与三次重复都稳定，但 18 / 18 applicable PNG 缺少所需 `sRGB` chunk，并额外带有合同禁止的 `pHYs` chunk。[Slice 07](research/SLICE_07_CONTRACT.md) 已据此冻结新复合候选的范围：Sharp 只负责 decode / pixel processing，项目原创 candidate-owned encoder 写出 fixed canonical PNG，independent oracle 只负责重开验收。当前只完成 scope，implementation / definition / smoke 均未开始。
+下一步不是修补或重跑 `@0.5.0` 或 `@0.6.0`。Slice 06 唯一注册 characterization 已确定：Sharp 输出的 RGBA8 像素、filter-0 与三次重复都稳定，但 18 / 18 applicable PNG 缺少所需 `sRGB` chunk，并额外带有合同禁止的 `pHYs` chunk。[Slice 07](research/SLICE_07_CONTRACT.md) 已据此冻结新复合候选的范围：Sharp 只负责 decode / pixel processing，项目原创 candidate-owned encoder 写出 fixed canonical PNG，independent oracle 只负责重开验收。当前 scope 与 fake-tested implementation protocol 已完成；definition / smoke 尚未开始。
 
 Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / request / receipt / result / EvidenceManifest，也不扩产品 UI、server 运行路径、Matting、真实照片或模型权重。定义冻结、自动测试和这次失败的真实 smoke 都不能据此声称真实归一化、正式导出或产品能力；完整 pins、结果与限制见 [research/SLICE_05_EVIDENCE.md](research/SLICE_05_EVIDENCE.md)，全部证据轴继续为 0。
 
@@ -147,7 +147,7 @@ Slice 05 继续禁止正式 holdout、defect-holdout、escape、formal bundle / 
 
 [Slice 07 范围合同](research/SLICE_07_CONTRACT.md) 计划 `REG-NORM-SHARP-CANONICAL-PNG@0.7.0`：worker 返回 RGBA8 与尺寸，候选自有 encoder 只写 `IHDR,sRGB,IDAT,IEND`、filter 0，不得调用 Sharp PNG encoder 后再 patch，也不得复用 independent oracle / reference encoder。normalize / export 各冻结 3 applicable + 3 rejection sources、每个 3 次，共 36 attempts；两项 Gate B 都 pass 后，才可在后续切片讨论 calibration。
 
-Slice 07 的第一项实现已落盘：项目原创 canonical PNG encoder 经 independent Slice 05 oracle 的内存 synthetic tests `5 / 5`，确认固定 chunks、filter 0、RGBA / Alpha identity 与三次 byte determinism。Sharp raw worker、adapter、runner、schema、machine definition、fixture wrapper、runtime observation、result 或 decision 仍未创建；results-zero definition 提交 / 推送前不得运行真实 Sharp 图片路径。formal holdout、真实照片、模型权重、产品 UI / server 与全部证据轴仍保持未创建或 0。
+Slice 07 的 fake-tested implementation protocol 已落盘：项目原创 canonical PNG encoder、只返回 RGBA8 的隔离 Sharp worker、要求合法 IPC + clean exit 的 adapter，以及固定每 operation `6 sources × 3`、原子发布闭包与 hash-chain ledger 的 durable runner。encoder / runtime / runner 定向组合为 `25 / 25`；6 份 runner schema 递归 closed。全部正例仍只使用内存 synthetic bytes、fake child process 与系统临时 result tree，未 fork 真实 worker。machine definition、fixture wrapper、fresh runtime observation、canonical result 或 decision 仍未创建；results-zero definition 提交 / 推送前不得运行真实 Sharp 图片路径。formal holdout、真实照片、模型权重、产品 UI / server 与全部证据轴仍保持未创建或 0。
 
 ## 运行 R0 工程探针
 
@@ -217,7 +217,7 @@ npm.cmd run verify
 | [research/SLICE_06_EVIDENCE.md](research/SLICE_06_EVIDENCE.md) | Slice 06 唯一注册 diagnostic 的结果树、oracle 子因、determinism、ledger 与 non-capability 边界 |
 | [research/slice-06/README.md](research/slice-06/README.md) | Slice 06 Phase B protocol、Phase C results-zero definition、机器树 pins、fake-only 验收与未来 result 边界 |
 | [research/SLICE_07_CONTRACT.md](research/SLICE_07_CONTRACT.md) | Slice 07 Sharp 像素处理 + candidate-owned canonical PNG encoder、36-attempt Gate-B smoke 与禁止 calibration 的 scope-only 冻结 |
-| [research/slice-07/README.md](research/slice-07/README.md) | Slice 07 当前 not-created 状态、候选 / oracle 分离与实施顺序 |
+| [research/slice-07/README.md](research/slice-07/README.md) | Slice 07 fake-tested implementation、候选 / oracle 分离与下一步 definition 顺序 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
@@ -225,7 +225,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、Slice 05 精确锁定的本地研究 codec 依赖、Slice 06 隔离的 diagnostic closure，以及 Slice 07 scope-only 候选设计。Slice 07 尚无实现或结果；Slice 06 结果仅含项目原创 synthetic lineage 的诊断衍生 bytes，全部位于 quarantine，不含 artifact / calibration / formal / holdout；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- 当前只增加研究设施、项目原创合成夹具、Slice 05 精确锁定的本地研究 codec 依赖、Slice 06 隔离的 diagnostic closure，以及 Slice 07 fake-tested candidate protocol。Slice 07 尚无 machine definition 或真实结果，且未运行其 Sharp 图片路径；Slice 06 结果仅含项目原创 synthetic lineage 的诊断衍生 bytes，全部位于 quarantine，不含 artifact / calibration / formal / holdout；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

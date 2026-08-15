@@ -124,7 +124,7 @@ Slice 05 没有覆盖上述历史记录，而是新增 `REG-NORM-SHARP@0.5.0` in
 
 Slice 06 Phase B / C 为 diagnostic-only `@0.6.0` 建立 strict adapter、isolated worker、独立 PNG oracle、durable runner、26 份 schema、`REG-NORM-SHARP@0.6.0`、两份合同与 24-attempt preregistration。唯一注册诊断已闭合：每项 9 个 applicable oracle non-pass + 3 个 preflight rejection，18 份输出的 bytes / pixels / classification / runtime 都 3 / 3 一致，worker exit / telemetry 完整；独立重开均得到缺 `sRGB`、含 `pHYs`。这些结果只是 candidate selection diagnosis，不能被效果 DAG、页面或下载路径解析为可执行能力。完整证据见 [Slice 06 evidence](research/SLICE_06_EVIDENCE.md)。
 
-Slice 07 已冻结新候选范围：`REG-NORM-SHARP-CANONICAL-PNG@0.7.0` 将把 Sharp decode / pixel processing 与项目原创 canonical PNG encoder 组合为一个候选，encoder 只允许 `IHDR,sRGB,IDAT,IEND`、filter 0；独立 oracle 与生产 encoder 必须实现隔离。首个 encoder 增量已通过内存 independent-oracle tests `5/5`，但 Sharp raw worker、adapter、runner、definition 与 result 均未创建。计划 normalize / export 各 6 sources × 3 repetitions，Gate B、calibration、C1 与产品支持仍为 0 / false。见 [Slice 07 contract](research/SLICE_07_CONTRACT.md)。
+Slice 07 已冻结新候选范围：`REG-NORM-SHARP-CANONICAL-PNG@0.7.0` 将 Sharp decode / pixel processing 与项目原创 canonical PNG encoder 组合为一个候选，encoder 只允许 `IHDR,sRGB,IDAT,IEND`、filter 0；独立 oracle 与生产 encoder 实现隔离。encoder、Sharp raw worker、adapter、durable runner 与 6 份动态 strict schema 已通过 fake-only 组合 `25/25`，但 definition 与 result 均未创建，真实 Sharp 图片路径未运行。计划 normalize / export 各 6 sources × 3 repetitions，Gate B、calibration、C1 与产品支持仍为 0 / false。见 [Slice 07 contract](research/SLICE_07_CONTRACT.md)。
 
 ### `EffectDefinition`
 
@@ -224,7 +224,7 @@ Matting → 自然增强 → 对象消除 → 扩图 → 重打光 → 超分 �
 
 当前不是同时实现九类能力，而是按依赖建立最小可验证纵切：
 
-1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 Gate B 双拒绝，Slice 06 唯一 diagnostic 已定位 Sharp PNG profile 缺陷并关闭。Slice 07 已冻结 candidate-owned canonical PNG encoder 复合候选范围并完成 encoder 首个 fake-tested 增量；worker / adapter / runner、definition 与 Gate-B smoke 尚未开始，calibration 与 C1 仍为 0。
+1. `CAP-01 + CAP-02`：先固定来源、归一输入和交付产物；Slice 05 Gate B 双拒绝，Slice 06 唯一 diagnostic 已定位 Sharp PNG profile 缺陷并关闭。Slice 07 已冻结 candidate-owned canonical PNG encoder 复合候选范围并完成 fake-tested encoder / worker / adapter / runner protocol；definition 与 Gate-B smoke 尚未开始，calibration 与 C1 仍为 0。
 2. `CAP-03`：形成最小 `SourceCard`，只记录可验证字段，不伪造推荐分数。
 3. `CAP-04 + CAP-05 + CAP-08`：对测 Matting 并完成透明 / 纯色主体背景效果。
 4. `CAP-09.execute`：随第一条无界面管线冻结确定性执行控制、状态、fallback 和失效传播，但不参与像素质量结论。

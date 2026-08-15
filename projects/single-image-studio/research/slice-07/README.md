@@ -1,7 +1,7 @@
 # Slice 07 workspace
 
-Current state: `scope-frozen / implementation-in-progress / encoder-ready /
-worker-adapter-runner-not-created / definition-not-frozen / Gate-B-smoke-not-run /
+Current state: `scope-frozen / implementation-ready / fake-tested-runtime-protocol /
+definition-not-frozen / Gate-B-smoke-not-run /
 calibration-forbidden / non-C1 / non-product`.
 
 The governing scope is [SLICE_07_CONTRACT.md](../SLICE_07_CONTRACT.md). Slice 07
@@ -16,21 +16,36 @@ three rejection sources, for 36 planned attempts total. Normalize and export
 receive separate decisions. Both must pass before a later slice may even
 consider open calibration; Slice 07 itself does not authorize calibration.
 
-The first implementation increment adds the project-original
+The implementation adds the project-original
 [`research-canonical-png-encoder-slice07.mjs`](../../scripts/research-canonical-png-encoder-slice07.mjs)
-and its independent-oracle tests. Source / test SHA-256 values are
+plus an isolated raw-RGBA worker, adapter and durable operation runner:
+
+- [`research-sharp-raw-worker-slice07.mjs`](../../scripts/research-sharp-raw-worker-slice07.mjs), SHA-256 `4ce6b725d509e35328c6826f1a7345c34b2582d2df19a9cb4b6115b8990f30bd`;
+- [`research-gateb-adapter-slice07.mjs`](../../scripts/research-gateb-adapter-slice07.mjs), SHA-256 `88c0543204fe4f28c564cd945d952e20b7f455c589d4c6ab0ce6a49e1d2af61e`;
+- [`research-gateb-runner-slice07.mjs`](../../scripts/research-gateb-runner-slice07.mjs), SHA-256 `6decec76a29cfe922b0718950503e027e51e67386442c0f91809e3c7af8a71f8`.
+
+The encoder source / test SHA-256 values are
 `cf71ddd2de336f6ea8092030c43f220c49804f30798e09f9e4aaf4e8e93c5d78` /
 `ca61b62d878fa8d43d490a17f940ce65b67d233b6503a46df4131f7aa8ed8011`;
-the targeted suite passes `5 / 5`. Three alpha-shape fixtures reopen with only
+the encoder suite passes `5 / 5`. Three alpha-shape fixtures reopen with only
 `IHDR,sRGB,IDAT,IEND`, filter 0 and exact RGBA identity, and three independent
-encodes have fixed byte hashes. The full project verify passes `330 / 330`, and
-the new script / test pass explicit `node --check`. Tests use in-memory
-synthetic bytes only and do not invoke Sharp.
+encodes have fixed byte hashes. The runtime and runner tests add fake child-process
+message / exit ordering, timeout / reconciliation, exact 6-source × 3 denominator,
+atomic pass and candidate-non-pass publication, hash-chain ledger, tamper rejection,
+and six recursively closed dynamic schemas. The combined targeted suites pass
+`25 / 25`; runtime test SHA-256 is
+`8ef8fb459723ae52104698d0674dee4ea1e3d117376572d99076b6bc85747ca0`,
+and runner test SHA-256 is
+`559619d0d6769f6dd8cc70446f91252555ad6c2824b8c95168c813750e880ca6`.
+Tests use in-memory synthetic bytes, fake child processes and system-temporary
+result trees only. They do not fork the real worker or invoke Sharp.
+The full project `npm.cmd run verify` passes `350 / 350`; the five new files
+also pass explicit `node --check`, and `git diff --check` is clean.
 
-No Slice 07 worker, adapter, runner, schema, machine record, fixture wrapper,
-runtime observation, result, decision, artifact, formal holdout, UI or server
-integration exists yet. Do not create a freeze timestamp until the remaining
-implementation and adversarial tests are stable. Do not run the Sharp image
+No Slice 07 machine definition, canonical schema file, machine record, fixture
+wrapper, fresh runtime observation, result, decision, artifact, formal holdout,
+UI or server integration exists yet. Do not create a freeze timestamp until the
+definition generator, validator, driver and adversarial tests are stable. Do not run the Sharp image
 path until a results-zero definition commit has been validated, committed, and
 pushed.
 
