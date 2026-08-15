@@ -151,7 +151,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 08 typed case-context 范围已冻结
 
-[Slice 08 范围合同](research/SLICE_08_CONTRACT.md) 只版本化 runner → driver 的 case-context 边界：disposition、exact expected code、source / manifest hash 与 attempt identity 必须作为一个 closed immutable object 传递并交叉复核。该 typed protocol 已以 production callback shape 完成 fake-only `9 / 9`；strict schema closure、generic error、worker-touched rejection、跨 operation 洗白和旧 S07 replay 均 fail closed。candidate pixels、canonical encoder 与 independent oracle profile 不变。Slice 08 不会只补跑 Slice 07 的失败项；它计划用新 ID 完整执行 12 个公开 synthetic sources × 3，共 36 attempts。当前没有 Slice 08 machine definition 或 result；在 results-zero definition 提交并推送前禁止真实 Sharp 图片执行。
+[Slice 08 范围合同](research/SLICE_08_CONTRACT.md) 只版本化 runner → driver 的 case-context 边界：disposition、exact expected code、source / manifest hash 与 attempt identity 必须作为一个 closed immutable object 传递并交叉复核。typed protocol 与 actual-case driver 的 fake-only suites 已 `12 / 12`；strict schema closure、generic error、worker-touched rejection、source bytes / gold drift、跨 operation 洗白和旧 S07 replay 均 fail closed。candidate pixels、canonical encoder 与 independent oracle profile 不变。Slice 08 不会只补跑 Slice 07 的失败项；它计划用新 ID 完整执行 12 个公开 synthetic sources × 3，共 36 attempts。当前没有 Slice 08 machine definition 或 result；在 results-zero definition 提交并推送前禁止真实 Sharp 图片执行。
 
 ## 运行 R0 工程探针
 

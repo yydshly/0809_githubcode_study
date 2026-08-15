@@ -20,14 +20,19 @@ the Slice 08 decision.
 
 Phase B adds the project-original
 [`research-gateb-case-context-slice08.mjs`](../../scripts/research-gateb-case-context-slice08.mjs)
-and its fake-only
-[`research-slice08-case-context.test.mjs`](../../tests/research-slice08-case-context.test.mjs).
-Their SHA-256 values are respectively
-`3bc4520b11c51c48ad4795caf27543a96f9bc43902c2925a03f3896ad9f825ba`
-and `1833c5b69c8f4fd76e30392052f0bcb1191d39017e56316e99df3265536ef181`.
-The targeted suite passes `9 / 9` and exercises recursive schema closure, the production callback shape,
+and [`research-gateb-driver-slice08.mjs`](../../scripts/research-gateb-driver-slice08.mjs),
+with fake-only tests
+[`research-slice08-case-context.test.mjs`](../../tests/research-slice08-case-context.test.mjs)
+and [`research-slice08-driver.test.mjs`](../../tests/research-slice08-driver.test.mjs).
+Their SHA-256 values are `3bc4520b11c51c48ad4795caf27543a96f9bc43902c2925a03f3896ad9f825ba`,
+`530e1ac963bb55f0252b1f8cb4030c481dd1d117fade3f17e3c51453e6ddd607`,
+`1833c5b69c8f4fd76e30392052f0bcb1191d39017e56316e99df3265536ef181`
+and `72fd8446195d697bace1420cdbe7568b9c3841eb23388a3475e767d146c532e5`.
+The targeted suites pass `12 / 12` and exercise recursive schema closure, the production callback shape,
 closed self-hashed contexts, operation/source/code laundering, generic errors,
 worker-touched rejection, old-S07 replay and the complete 36-attempt denominator.
+The actual-case layer additionally binds source bytes / hashes and gold records;
+rejection material cannot load gold and cannot invoke the raw worker.
 It uses fake functions and in-memory records only; it does not fork Sharp or
 create canonical repository results. Both new files pass `node --check`.
 
