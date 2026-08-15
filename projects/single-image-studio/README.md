@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope 已冻结，协议基础 7/7、机器定义预览 9/9；16 strict schemas、96 source wrappers、48 gold identities 与 4 manifests 已在双临时树确定性验证，但未写入正式 definition。durable runner 与 results 尚未创建，新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–09 保持各自不可改写的历史边界。Slice 10 开放 calibration scope 已冻结：协议 7/7、机器定义预览 9/9、durable runner foundation 7/7。runner 在系统临时目录证明完整 48×3、零重试、原子 publication、432-event ledger 与 runtime-end hard-stop；registered driver、actual adapter 接线、正式 definition 和 results 尚未创建，新定义提交推送前禁止 calibration，C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -159,7 +159,7 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 ## Slice 10 open calibration scope and definition preview
 
-[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` 项目原创 public-synthetic sources，每来源 3 次，合计 96 sources / 288 attempts；固定零 retry、零 replacement 和 source-level 3 / 3。[Calibration protocol](scripts/research-calibration-protocol-slice10.mjs) 已建立严格 admission / request / terminal / summary 记录并以 7/7 fake-only tests 验证零 replacement、完整分母与失败不洗白。[Definition preview generator](scripts/research-generate-slice10.mjs) 另以 9/9 测试证明两个固定 UTC 临时构建逐字节一致：16 strict schemas、96 个全新 source / family / session identity、48 个 applicable gold identity、4 份 operation×partition manifest，全部只按实际 hash 引用 Slice 05 的项目原创开放材料，并固定 Slice 09 双 Gate-B pass lineage；复制图片与 results 均为 0。该 generator 没有 materialization CLI，runner、正式 machine definition、request、result 与 formal holdout 仍未创建。必须先完成 runner、中央 validator、results-zero definition freeze、提交与推送，才允许唯一 registered open calibration。即使 calibration 双 pass，也只允许下一切片评审 formal-holdout preregistration，不产生 C1、O1、productSupport 或 Release Gate。
+[Slice 10 合同](research/SLICE_10_CONTRACT.md) 新建 `@0.10.0` calibration identity，不改写 Slice 09。计划 normalize / export 各使用 30 个 `dev/calibration` 与 18 个 `defect/calibration` 项目原创 public-synthetic sources，每来源 3 次，合计 96 sources / 288 attempts；固定零 retry、零 replacement 和 source-level 3 / 3。[Calibration protocol](scripts/research-calibration-protocol-slice10.mjs) 已建立严格 admission / request / terminal / summary 记录并以 7/7 fake-only tests 验证零 replacement、完整分母与失败不洗白。[Definition preview generator](scripts/research-generate-slice10.mjs) 另以 9/9 测试证明两个固定 UTC 临时构建逐字节一致：16 strict schemas、96 个全新 source / family / session identity、48 个 applicable gold identity、4 份 operation×partition manifest；复制图片与 results 均为 0。[Durable calibration runner foundation](scripts/research-calibration-runner-slice10.mjs) 再以 7/7 fake-only tests 在系统临时树闭合 144 attempts、432 ledger events、pass publication / complete non-pass、protocol global stop 与 runtime-end drift hard-stop。它逐文件 fsync，stage 内只声明 prepared，rename 后 ledger 才证明 commit；没有 actual Sharp 调用或 canonical result。registered driver、actual adapter 接线、吸收最终 runner hash 的正式 machine definition 与 formal holdout 仍未创建。必须先完成这些 tooling、中央 validator、results-zero definition freeze、提交与推送，才允许唯一 registered open calibration。
 
 ## 运行 R0 工程探针
 

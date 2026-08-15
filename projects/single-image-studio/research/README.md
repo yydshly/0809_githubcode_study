@@ -52,9 +52,13 @@ duplicate slots, partition or operation drift, generic rejection laundering and
 fake-only tests: two fixed-UTC temporary builds are byte-identical and contain
 16 strict schemas, 96 new source wrappers, 48 gold identities and four manifests.
 They pin the actual Slice 05 open-synthetic bytes/records and immutable Slice 09
-dual-pass admission lineage without copying image bytes. No durable Slice 10
-runner, materialized machine definition, canonical request/result, formal
-holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
+dual-pass admission lineage without copying image bytes. A fake-only durable
+runner foundation now passes 7/7 system-temp tests for one 48x3 operation,
+zero retry, per-file fsync, atomic prepared/rename/complete publication, a
+432-event hash-chain ledger, complete non-pass handling, global protocol stop
+and end-runtime drift refusal. It has no actual adapter wiring or executable
+registered driver. No materialized machine definition, canonical request/result,
+formal holdout, or copied image bytes exists yet. A separate results-zero definition must be frozen and pushed
 before any Sharp calibration.
 
 ## Evidence boundary
