@@ -20,6 +20,8 @@ Slice 10 新增的 scope、协议、definition、runner、case adapter、driver�
 
 Slice 11 新增的 scope 合同、expected projector、versioned lifecycle adapter、strict lifecycle record、generic case executor、durable attempt / operation runner、registered driver、definition generator、central validator与 tests 均为本地原创研究代码；没有新增 dependency、upstream package、第三方代码 / 图片 / 模型 / 权重或产品接线。canonical definition只引用既有项目原创 public-synthetic material。唯一 registered invocation 在任何 request / Sharp worker /像素处理前因本地 canonical JSON SHA 换行口径不一致 fail closed，只保留两份 startup records；这不改变任何 upstream、许可或产品支持状态。
 
+SourceCard.v0 + MATTE-SIMPLE 纵向 baseline 同样完全使用仓库内原创程序化 `MATTE-GT` 场景、现有无第三方依赖的 Node reference adapter 与固定颜色距离算法。它不引入新 dependency、upstream code、图片、模型或权重；3 份 predicted matte 与报告均为本地 research-only 衍生物，受原 synthetic disclosure、非再分发与 C1=0 边界约束。
+
 ## 本地原创范围
 
 本目录的产品定义、能力矩阵、候选收敛、第一版流程、研究计划、路线图和未来实现为新的本地工作。前序项目只提供问题背景与能力研究线索，不作为运行时依赖。

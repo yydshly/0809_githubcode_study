@@ -110,13 +110,13 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | `REG-NORM-SHARP-CANONICAL-PNG@0.11.0` | Slice 10 immutable failure lineage + versioned expected projection / truthful lifecycle | `CAP-02` | canonical PNG normalize / export | `closed-startup-runtime-drift` | 唯一 invocation 在 0 / 288 attempts 处因 canonical JSON SHA 换行口径不一致停止；2 records、0 request / worker / pixel / terminal / export；central validator封闭结果并拒绝 replay，非 C1、非产品支持 |
 | `REG-NORM-LIBVIPS` | standalone libvips | `CAP-02`、`CAP-05` | 低内存确定性图像处理 | `research-only/pending-freeze` | standalone 构建选项、启用格式库、链接 / LGPL 交付方式与 artifact hash |
 | `REG-VISION-OPENCV` | OpenCV | `CAP-03`、`CAP-05`、`CAP-08` | 质量指标、几何、蒙版与 QA | `research-only/pending-freeze` | 精确 tag/commit、启用模块与第三方组件清单 |
-| `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `candidate`（非 Gate B） | 只有技术字段可观测；质量、主体、内容 observer 与真实分母未建立 |
+| `REG-SOURCE-CARD-REFERENCE-V0` | 本地 SourceCard.v0 结构参考适配器 | `CAP-03` | 冻结字段、observer、confidence 与 unknown policy | `executed-synthetic-baseline`（非 Gate B） | 3 个 MATTE-GT dev/calibration 场景技术字段已 byte-backed；质量、主体、内容仍 explicit unknown，非 C1 / 产品支持 |
 | `REG-SOURCE-CARD-TECHNICAL-S03` | Slice 03 独立 byte-backed 技术 observer | `CAP-03` | 从 normalized bytes 重开并核对父产物身份；源格式与 normalized 事实分栏 | `candidate`（非 Gate B） | 仅开放合成 calibration PNG；不是完整 SourceCard、图片理解、生产 decoder 或格式支持 |
 | `REG-DETECT-GROUNDING-DINO` | Grounding DINO | `CAP-03`、`CAP-04` | 开放词汇主体检测 | `research-only` | checkpoint 许可、哈希、训练数据与依赖审计 |
 | `REG-SEG-SAM2` | SAM 2.1 | `CAP-04` | 点击/框提示分割与人工修正 | `research-only/pending-freeze` | 精确 commit、checkpoint 选择/哈希、硬件实测 |
 | `REG-MATTE-BIREFNET` | BiRefNet | `CAP-04` | 通用高分辨率主体分割/Matting 候选 | `research-only` | 官方权重许可与哈希未锁定 |
 | `REG-MATTE-MODNET` | MODNet | `CAP-04` | 人像 Matting 基线 | `research-only/pending-freeze` | 精确 commit、checkpoint 文件/哈希、真实图对测 |
-| `REG-BASELINE-MATTE-SIMPLE` | 本地颜色距离 Matting 简单基线 | `CAP-04` | 证明复杂候选相对简单方法的增益，不作为产品 fallback | `candidate`（非 Gate B） | 只覆盖已知均匀背景合成图；真实分母、质量预注册与独立 holdout 未建立 |
+| `REG-BASELINE-MATTE-SIMPLE` | 本地颜色距离 Matting 简单基线 | `CAP-04` | 证明复杂候选相对简单方法的增益，不作为产品 fallback | `executed-research-lower-bound` | 固定 10/88；3 个原创 synthetic 场景中 hard/hole exact，soft-edge MAE 6.9314 / IoU@128 0.92227；不可冒充通用 Matting 或产品 fallback |
 | `REG-LOCAL-EDGE-REFINE` | 本地边缘净化适配器 | `CAP-04` | 前景颜色去污染、孔洞与 Alpha / premultiply 语义 | `planned` | 冻结算法、参数、底层原语和多底 QA |
 | `REG-LOCAL-MATTE-CORRECTION` | 本地擦除 / 恢复修正工具 | `CAP-04` | 版本化用户修正与 `MatteRevision` | `planned` | 冻结交互操作、次数 / 面积、父版本与重验 |
 | `REG-LOCAL-NATURAL-ENHANCE` | 本地非生成自然增强适配器 | `CAP-06` | 限幅光色 / 噪声 / 轻度清晰度与 no-op | `planned` | 冻结算法图、参数上限、底层库版本与 QA |

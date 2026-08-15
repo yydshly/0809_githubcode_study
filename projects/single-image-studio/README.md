@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | Slice 01–11 保持各自不可改写的历史边界。Slice 11 唯一 invocation 因 runtime JSON 哈希换行口径错误在 0 / 288 attempts 处 fail closed；未调用 Sharp 像素路径。停止新增 normalize/export runner slice，转回 SourceCard.v0 与 Matting baseline。C1 与产品支持仍为 0 |
+| 研究阶段 | normalize/export runner 循环已停止；SourceCard.v0 + MATTE-SIMPLE 已在 3 个原创 synthetic dev/calibration fixture 上形成第一条纵向结果。硬边/孔洞 exact，软边 MAE 6.93，baseline 只作下限。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -165,6 +165,10 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 [Slice 11 合同](research/SLICE_11_CONTRACT.md) 建立 `@0.11.0` 新身份，只修 gold-to-adapter projection 与真实 worker lifecycle。results-zero definition 于 `2026-08-15T23:01:50.529Z` 冻结并以 commit `33f24395e9ad2cd672d156a6f491e02118a62ed1` 推送。唯一 registered invocation 只产生 operation claim 与 runtime start observation，随后因 canonical JSON SHA 的末尾换行口径不一致而以 `S11_RUNTIME_START_DRIFT` 停止；actual request / attempt / worker / pixel / terminal / export 均为 0。两文件 result tree SHA-256 为 `a638a17afa69ab41015181b61ef7a64fa58e9057a9f64f7bc29bfe2f35dd3689`。central validator 将该形状封闭并拒绝 replay；43 / 43 Slice 11 tests 与 522 / 522 全量测试通过。精确 pins 与执行边界见 [Slice 11 evidence](research/SLICE_11_EVIDENCE.md)。
 
+## SourceCard.v0 + Matting baseline 纵向结果
+
+现有 3 个项目原创 `MATTE-GT dev/calibration` 场景已通过同一条研究路径生成严格 `NormalizedImage`、`SourceCard.v0`、fixture-known `SubjectMap` 与 `AlphaMatte.v0`。SourceCard 只确认 byte-backed 技术事实，语义观察保持 explicit unknown。固定 10/88 的 color-distance baseline 对 hard-edge 与 interior-hole 完全一致；soft-edge MAE 为 `6.93140625`、IoU@128 为 `0.922269839`，视觉上明显把羽化边缘变硬。因此它只作为比较下限，不是产品 fallback。完整报告、文件 hash 与非证据边界见 [SourceCard + Matting baseline evidence](research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md)。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -247,6 +251,7 @@ npm.cmd run verify
 | [research/slice-10/README.md](research/slice-10/README.md) | Slice 10 已冻结的 results-zero machine definition workspace（保持其冻结时口径） |
 | [research/SLICE_11_CONTRACT.md](research/SLICE_11_CONTRACT.md) | Slice 11 expected projection、worker lifecycle、新 96 / 288 分母与非 C1 边界 |
 | [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 冻结 definition workspace；运行后的不可变 startup-failure 事实见外部 evidence |
+| [research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md](research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md) | 3 个原创合成场景的 SourceCard.v0 + MATTE-SIMPLE 纵向报告与精确指标 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

@@ -203,6 +203,18 @@ function renderFixture(fixture) {
   return { source, alpha, foreground, compositeBlack: black, compositeWhite: white, compositeSaturated: saturated };
 }
 
+export function buildResearchFixturePixels() {
+  return FIXTURES.map((fixture) => {
+    const rendered = renderFixture(fixture);
+    return {
+      fixture: structuredClone(fixture),
+      width: FIXTURE_DEFINITION.width,
+      height: FIXTURE_DEFINITION.height,
+      rendered: Object.fromEntries(Object.entries(rendered).map(([role, rgba]) => [role, new Uint8Array(rgba)])),
+    };
+  });
+}
+
 function sha256(bytes) {
   return createHash("sha256").update(bytes).digest("hex");
 }

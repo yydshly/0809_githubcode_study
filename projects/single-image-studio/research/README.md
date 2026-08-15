@@ -68,6 +68,14 @@ an explicit gold-to-adapter expected projection and truthful worker lifecycle.
 See [SLICE_10_EVIDENCE.md](SLICE_10_EVIDENCE.md). Formal holdout remains absent,
 all evidence axes remain zero, and `productSupport=false`.
 
+The first direct SourceCard.v0 + MATTE-SIMPLE vertical baseline is recorded in
+[SOURCECARD_MATTING_BASELINE_EVIDENCE.md](SOURCECARD_MATTING_BASELINE_EVIDENCE.md).
+It rebuilds the three original procedural scenes, verifies their frozen manifest
+hashes, constructs strict sRGB normalized inputs, keeps all unsupported SourceCard
+semantics explicit `unknown`, and compares the fixed 10/88 color-distance matte
+against ground truth. Binary hard-edge and hole cases are exact; the soft-edge
+case has MAE `6.93140625`, confirming that this is only a research lower bound.
+
 Slice 11 is scope-frozen, and its fake-only projection, case, lifecycle and pure
 protocol-runner foundation is now implemented. It creates a new `@0.11.0` identity for exactly
 two corrections: a content-addressed projection from the complete gold identity
