@@ -1,4 +1,11 @@
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
+import {
+  commitMaskStroke,
+  composeCorrectedPixels,
+  composeSolidBackgroundPixels,
+  createMaskCorrectionHistory,
+  rebuildCorrectionMask,
+} from "./mask-correction.js";
 
 function canvasToBlob(canvas, mime, quality) {
   return new Promise((resolve, reject) => {
@@ -74,6 +81,63 @@ async function diagnoseFormat({ documentRef, createBitmap, mime }) {
   });
 }
 
+function alphaPlane(rgba) {
+  const alpha = new Uint8ClampedArray(rgba.length / 4);
+  for (let pixel = 0; pixel < alpha.length; pixel += 1) alpha[pixel] = rgba[pixel * 4 + 3];
+  return alpha;
+}
+
+async function encodeAndVerifyPixels({ documentRef, createBitmap, pixels, width, height, mime }) {
+  const canvas = documentRef.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { alpha: true, colorSpace: "srgb" });
+  if (!context) throw new Error("浏览器没有提供蒙版诊断用 2D Canvas context");
+  const imageData = context.createImageData(width, height);
+  imageData.data.set(pixels);
+  context.putImageData(imageData, 0, 0);
+  const blob = await canvasToBlob(canvas, mime, mime === "image/jpeg" ? 0.92 : undefined);
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  const metadata = inspectOutputMetadata(bytes, mime);
+  const reopened = await reopenPixels(documentRef, createBitmap, blob);
+  if (reopened.width !== width || reopened.height !== height) throw new Error("蒙版诊断重开尺寸与编码尺寸不同");
+  const verification = verifyPixelRoundTrip({ expected: pixels, actual: reopened.pixels, width, height, mime });
+  return { byteLength: bytes.length, markers: metadata.markers, verification };
+}
+
+async function diagnoseMaskCorrection({ documentRef, createBitmap }) {
+  const width = 32;
+  const height = 24;
+  const source = new Uint8ClampedArray(width * height * 4);
+  const result = new Uint8ClampedArray(width * height * 4);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const offset = (y * width + x) * 4;
+      source.set([210, 90 + (x % 40), 45 + (y % 30), 255], offset);
+      const inside = x >= 7 && x <= 25 && y >= 4 && y <= 20;
+      result.set([205, 82, 48, inside ? 255 : 0], offset);
+    }
+  }
+  let history = createMaskCorrectionHistory({ width, height, initialAlpha: alphaPlane(result) });
+  history = commitMaskStroke(history, { tool: "erase", radius: 0.06, points: [{ x: 0.5, y: 0.5 }] });
+  history = commitMaskStroke(history, { tool: "keep", radius: 0.05, points: [{ x: 0.12, y: 0.12 }] });
+  const mask = rebuildCorrectionMask(history);
+  const corrected = composeCorrectedPixels({ sourcePixels: source, resultPixels: result, mask, width, height });
+  const solid = composeSolidBackgroundPixels({ foregroundPixels: corrected, background: [245, 241, 232], width, height });
+  const transparentOutput = await encodeAndVerifyPixels({ documentRef, createBitmap, pixels: corrected, width, height, mime: "image/png" });
+  const solidOutput = await encodeAndVerifyPixels({ documentRef, createBitmap, pixels: solid, width, height, mime: "image/jpeg" });
+  return Object.freeze({
+    name: "蒙版修正 + 双格式导出",
+    transparentBytes: transparentOutput.byteLength,
+    solidBytes: solidOutput.byteLength,
+    pngMarkers: transparentOutput.markers,
+    jpegMarkers: solidOutput.markers,
+    correctedStrokes: history.index,
+    transparentPixels: transparentOutput.verification.transparentPixels,
+    solidOpaquePixels: solidOutput.verification.opaquePixels,
+  });
+}
+
 export async function runBrowserDiagnostics({
   documentRef = document,
   createBitmap = createImageBitmap,
@@ -87,6 +151,11 @@ export async function runBrowserDiagnostics({
     } catch (error) {
       results.push({ status: "fail", value: { name: mime, error: error instanceof Error ? error.message : String(error) } });
     }
+  }
+  try {
+    results.push({ status: "pass", value: await diagnoseMaskCorrection({ documentRef, createBitmap }) });
+  } catch (error) {
+    results.push({ status: "fail", value: { name: "蒙版修正 + 双格式导出", error: error instanceof Error ? error.message : String(error) } });
   }
   return Object.freeze({
     passed: results.every((result) => result.status === "pass"),
@@ -112,7 +181,9 @@ function renderReport(documentRef, report) {
     outcome.textContent = result.status === "pass" ? "通过" : "失败";
     outcome.dataset.result = result.status;
     detail.textContent = result.status === "pass"
-      ? `${result.value.byteLength} bytes；markers ${result.value.markers.join(", ")}；RGB MAE ${result.value.meanAbsoluteRgbError.toFixed(3)}`
+      ? (result.value.mime
+        ? `${result.value.byteLength} bytes；markers ${result.value.markers.join(", ")}；RGB MAE ${result.value.meanAbsoluteRgbError.toFixed(3)}`
+        : `${result.value.correctedStrokes} 笔；透明 PNG ${result.value.transparentBytes} bytes；纯色 JPEG ${result.value.solidBytes} bytes；透明像素 ${result.value.transparentPixels}；JPEG 不透明像素 ${result.value.solidOpaquePixels}`)
       : result.value.error;
     row.append(name, outcome, detail);
     return row;
