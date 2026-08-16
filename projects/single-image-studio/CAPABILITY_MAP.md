@@ -43,6 +43,7 @@ Layer 4  场景配方
 - `CAP-03` 只产生可审计信号；`CAP-09` 才负责把信号转换为资格、排序和计划。
 - `CAP-04` 的区域产物可以被 `CAP-05` 和 `CAP-07` 共用，但生成模型的近似 mask 服从不能反向证明 Alpha Matting 成立。
 - 当前 SourceCard + MATTE-SIMPLE 纵向 baseline 只覆盖 3 个项目原创 synthetic dev/calibration 场景：技术字段可验证，语义字段仍 unknown；hard-edge / hole exact，soft-edge MAE `6.93140625`。它固定比较下限，但不增加 C1 或产品支持。
+- `SCO-EXPOSURE-SIGNALS@0.1.0` 新增的是亮度分布 signal，不是自然图片“曝光正确/错误”裁决；在自然图校准前，SourceCard 的 `quality.exposure` 仍保持 unknown。
 - `CAP-05` 是确定性合成层；安全前景像素需要锁定时，不得由 `CAP-07` 替代。
 - `CAP-06` 若会生成不存在的细节，必须在合同中标记为重建，不得继续以“保真增强”发布。
 - 所有处理能力必须把运行与结果交给 `CAP-08`；离线证据 QA 可以使用真值指标，线上任务 QA 不得假设真实上传存在真值；没有任务级 `QAReport` 的文件不能解锁正式下载。

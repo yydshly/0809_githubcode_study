@@ -76,6 +76,12 @@ semantics explicit `unknown`, and compares the fixed 10/88 color-distance matte
 against ground truth. Binary hard-edge and hole cases are exact; the soft-edge
 case has MAE `6.93140625`, confirming that this is only a research lower bound.
 
+The next bounded increment is recorded in
+[SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md](SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md).
+It adds deterministic opaque-image luminance signals while keeping the semantic
+`quality.exposure` field unknown. It also registers exact MODNet and RVM source
+and license boundaries; both selected model artifacts remain not downloaded.
+
 Slice 11 is scope-frozen, and its fake-only projection, case, lifecycle and pure
 protocol-runner foundation is now implemented. It creates a new `@0.11.0` identity for exactly
 two corrections: a content-addressed projection from the complete gold identity

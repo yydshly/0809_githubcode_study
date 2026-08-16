@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "source-card-exposure-observation.v0.schema.json",
+  "title": "Single Image Studio SourceCard exposure-signal observation v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "observationId", "parentNormalizedImageId", "observerContractRef", "input", "metrics", "exposureSignal", "sourceCardProjection", "createdAt", "evidenceBoundary", "contentHash"],
+  "properties": {
+    "schemaVersion": { "const": "source-card-exposure-observation.v0" },
+    "observationId": { "$ref": "#/$defs/string" },
+    "parentNormalizedImageId": { "$ref": "#/$defs/string" },
+    "observerContractRef": { "const": "SCO-EXPOSURE-SIGNALS@0.1.0" },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mime", "width", "height", "orientation", "colorProfile", "alphaPresent", "fileSha256", "pixelSha256"],
+      "properties": {
+        "mime": { "const": "image/png" },
+        "width": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 256 },
+        "orientation": { "const": 1 },
+        "colorProfile": { "const": "srgb" },
+        "alphaPresent": { "const": false },
+        "fileSha256": { "$ref": "#/$defs/sha256" },
+        "pixelSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metricDefinition", "sampleCount", "meanLuma", "p01Luma", "p50Luma", "p99Luma", "shadowPixelFraction", "highlightPixelFraction"],
+      "properties": {
+        "metricDefinition": { "const": "y-prime-integer-rec709-v0.1.0" },
+        "sampleCount": { "type": "integer", "minimum": 1, "maximum": 65536 },
+        "meanLuma": { "type": "number", "minimum": 0, "maximum": 255 },
+        "p01Luma": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "p50Luma": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "p99Luma": { "type": "integer", "minimum": 0, "maximum": 255 },
+        "shadowPixelFraction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "highlightPixelFraction": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "exposureSignal": { "enum": ["shadow-heavy", "balanced", "highlight-heavy", "mixed-extremes"] },
+    "sourceCardProjection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "value", "reason"],
+      "properties": {
+        "field": { "const": "quality.exposure" },
+        "value": { "const": "unknown" },
+        "reason": { "const": "natural-image-calibration-not-frozen" }
+      }
+    },
+    "createdAt": { "$ref": "#/$defs/dateTime" },
+    "evidenceBoundary": { "$ref": "#/$defs/evidenceBoundary" },
+    "contentHash": { "$ref": "#/$defs/sha256" }
+  },
+  "$defs": {
+    "string": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "dateTime": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "evidenceBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["c1", "u1", "e1", "r1Pipeline", "r1ProductValidation", "r1ProductRelease", "o1", "g1", "v1", "productSupport"],
+      "properties": {
+        "c1": { "const": 0 }, "u1": { "const": 0 }, "e1": { "const": 0 },
+        "r1Pipeline": { "const": 0 }, "r1ProductValidation": { "const": 0 }, "r1ProductRelease": { "const": 0 },
+        "o1": { "const": 0 }, "g1": { "const": 0 }, "v1": { "const": 0 }, "productSupport": { "const": false }
+      }
+    }
+  }
+}

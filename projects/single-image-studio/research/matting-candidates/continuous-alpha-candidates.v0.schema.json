@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "continuous-alpha-candidates.v0.schema.json",
+  "title": "Single Image Studio continuous-alpha candidate registry v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "registryId", "observedAt", "candidates", "executionBoundary", "evidenceBoundary"],
+  "properties": {
+    "schemaVersion": { "const": "continuous-alpha-candidates.v0" },
+    "registryId": { "const": "REGISTRY-MATTE-CONTINUOUS-ALPHA@0.1.0" },
+    "observedAt": { "const": "2026-08-16" },
+    "candidates": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["registryId", "name", "officialRepository", "sourceRef", "scope", "output", "license", "selectedArtifact", "admissionState", "restrictions"],
+        "properties": {
+          "registryId": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "officialRepository": { "type": "string", "pattern": "^https://github.com/" },
+          "sourceRef": {
+            "type": "object", "additionalProperties": false,
+            "required": ["kind", "name", "commit"],
+            "properties": {
+              "kind": { "enum": ["branch", "tag"] }, "name": { "type": "string", "minLength": 1 },
+              "commit": { "type": "string", "pattern": "^[a-f0-9]{40}$" }
+            }
+          },
+          "scope": { "type": "string", "minLength": 1 },
+          "output": { "const": "continuous-alpha-matte" },
+          "license": {
+            "type": "object", "additionalProperties": false,
+            "required": ["spdx", "coverage", "officialEvidence", "productBoundary"],
+            "properties": {
+              "spdx": { "enum": ["Apache-2.0", "GPL-3.0-only"] },
+              "coverage": { "type": "string", "minLength": 1 },
+              "officialEvidence": { "type": "string", "pattern": "^https://github.com/" },
+              "productBoundary": { "type": "string", "minLength": 1 }
+            }
+          },
+          "selectedArtifact": {
+            "type": "object", "additionalProperties": false,
+            "required": ["fileName", "officialUrl", "acquisitionState", "sha256"],
+            "properties": {
+              "fileName": { "type": "string", "minLength": 1 },
+              "officialUrl": { "type": "string", "minLength": 1 },
+              "acquisitionState": { "const": "not-downloaded" },
+              "sha256": { "const": "pending-acquisition" }
+            }
+          },
+          "admissionState": { "const": "registered-license-resolved-artifact-not-acquired" },
+          "restrictions": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+        }
+      }
+    },
+    "executionBoundary": { "const": "no clone, package install, model download, inference, product wiring, or natural-image run" },
+    "evidenceBoundary": { "$ref": "#/$defs/evidenceBoundary" }
+  },
+  "$defs": {
+    "evidenceBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["c1", "u1", "e1", "r1Pipeline", "r1ProductValidation", "r1ProductRelease", "o1", "g1", "v1", "productSupport"],
+      "properties": {
+        "c1": { "const": 0 }, "u1": { "const": 0 }, "e1": { "const": 0 },
+        "r1Pipeline": { "const": 0 }, "r1ProductValidation": { "const": 0 }, "r1ProductRelease": { "const": 0 },
+        "o1": { "const": 0 }, "g1": { "const": 0 }, "v1": { "const": 0 }, "productSupport": { "const": false }
+      }
+    }
+  }
+}

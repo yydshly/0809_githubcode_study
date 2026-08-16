@@ -66,7 +66,8 @@ SourceCard.v0 + MATTE-SIMPLE 纵向 baseline 同样完全使用仓库内原创�
 | `REG-DETECT-GROUNDING-DINO` | [IDEA-Research/GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) | Apache-2.0 | checkpoint 许可、训练数据、依赖与哈希未锁定，`research-only` | 无 |
 | `REG-SEG-SAM2` | [facebookresearch/sam2](https://github.com/facebookresearch/sam2) | Apache-2.0；可选 `cc_torch` 为 BSD-3-Clause | 官方 README 明确 checkpoints、demo 与训练代码为 Apache-2.0；具体 SAM 2.1 文件与哈希待锁定 | 无 |
 | `REG-MATTE-BIREFNET` | [ZhengPeng7/BiRefNet](https://github.com/ZhengPeng7/BiRefNet) | MIT | 基础权重文件级许可与哈希未锁定；第三方 `briaai/RMBG-2.0` 明示仅非商业，判为 `no-go` | 无 |
-| `REG-MATTE-MODNET` | [ZHKKKe/MODNet](https://github.com/ZHKKKe/MODNet) | Apache-2.0 | README 明确代码、模型与 demo（`doc/gif` 除外）为 Apache-2.0；checkpoint 与哈希待锁定 | 无 |
+| `REG-MATTE-MODNET@0.1.0` | [ZHKKKe/MODNet commit `28165a451e4610c9d77cfdf925a94610bb2810fb`](https://github.com/ZHKKKe/MODNet/tree/28165a451e4610c9d77cfdf925a94610bb2810fb) | Apache-2.0 | 官方 README 明确代码、模型与 demo（`doc/gif` 除外）为 Apache-2.0；已选 `modnet_photographic_portrait_matting.ckpt`，但未下载、SHA pending | 无 |
+| `REG-MATTE-RVM-MOBILENETV3@0.1.0` | [PeterL1n/RobustVideoMatting v1.0.0 / `17d1774b032fd503bfe53c57d295db719f9e3da1`](https://github.com/PeterL1n/RobustVideoMatting/tree/17d1774b032fd503bfe53c57d295db719f9e3da1) | GPL-3.0 | 官方 release 的 `rvm_mobilenetv3.pth` 未下载、SHA pending；任何产品分发先做 GPL / derivative / source-offer review | 无 |
 | `REG-RESTORE-REAL-ESRGAN` | [xinntao/Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) | BSD-3-Clause | release 权重、BasicSR/GFPGAN/facexlib 与 NCNN 交付物逐项待审，`research-only` | 无 |
 | `REG-RESTORE-RESTORMER` | [swz30/Restormer](https://github.com/swz30/Restormer) | MIT | Google Drive 预训练权重的文件级许可与哈希待锁定，`research-only` | 无 |
 | `REG-INPAINT-LAMA` | [advimman/lama](https://github.com/advimman/lama) | Apache-2.0 | 旧分发链接与当前镜像并存；artifact 一致性、许可与哈希待锁定，`research-only` | 无 |

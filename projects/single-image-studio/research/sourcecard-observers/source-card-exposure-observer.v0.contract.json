@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "source-card-observer-contract.v0",
+  "contractId": "SCO-EXPOSURE-SIGNALS@0.1.0",
+  "status": "research-only-synthetic-calibration",
+  "input": "NormalizedImage.v0 opaque RGBA8 sRGB closed-profile PNG",
+  "output": "SourceCardExposureObservation.v0",
+  "algorithm": {
+    "luma": "Y'=(54R+183G+19B+128)>>8",
+    "percentile": "sorted nearest-lower index floor((N-1)*q)",
+    "shadow": "Y'<=16",
+    "highlight": "Y'>=239",
+    "classification": "mixed if both extreme fractions >=0.25; else median <=64 shadow-heavy; else median >=192 highlight-heavy; else balanced"
+  },
+  "projectionPolicy": "quality.exposure remains unknown until a separately frozen natural-image calibration exists",
+  "nonGoals": [
+    "scene-intent or aesthetic exposure judgment",
+    "transparent-image assessment",
+    "person, identity, age, sensitive-attribute, OCR, or content inference",
+    "product support, C1, release, or automatic correction"
+  ]
+}

@@ -45,4 +45,4 @@ The baseline exactly recovers the two binary-alpha geometries but visibly harden
 
 ## Next product-relevant step
 
-Do not tune this baseline into a hidden product algorithm. Next, freeze a small SourceCard observer increment for one genuinely useful field group, and register at least two licensed continuous-alpha Matting candidates against this same public-synthetic denominator plus a separately governed natural-image research set. The simple baseline remains the fixed lower bound.
+Do not tune this baseline into a hidden product algorithm. The next increment is now recorded in [SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md](SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md): objective exposure signals are frozen without upgrading the semantic SourceCard field, and MODNet plus RVM are registered without downloading weights. The simple baseline remains the fixed lower bound.

@@ -20,7 +20,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | normalize/export runner 循环已停止；SourceCard.v0 + MATTE-SIMPLE 纵向 baseline 已运行 | `MATTE-GT dev/calibration: 3 synthetic cases / research lower bound / non-C1 / non-product` | SourceCard 技术字段可验证、语义字段保持 unknown；hard-edge 与 hole MAE=0，soft-edge MAE=6.9314 / IoU@128=0.92227。下一步是有用 observer 增量与至少两个连续 Alpha 候选，不创建 Slice 12 |
+| 研究阶段 | 已回到 SourceCard + Matting 主线：纵向 baseline 与 exposure-signal observer 已运行，两个连续 Alpha 候选已登记 | `3 MATTE-GT + 4 exposure calibration / MODNet + RVM not-downloaded / non-C1 / non-product` | SourceCard 技术字段与客观亮度分布可复算，但 `quality.exposure` 仍 unknown；simple matte 仍是下限。下一步先冻结候选中立评测合同与公开分母，不创建 Slice 12、不下载权重 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -34,6 +34,7 @@
 | Slice 10 结果 | definition freeze `2026-08-15T18:03:39.680Z`；result tree `225847…ee9e`；4 files / 6,919 bytes | planned 96 / 288；actual normalize 1 terminal、export 0；pass 0 / protocol-failed 1 | `S10_EXPECTED_OUTPUT_INVALID` 在 worker 前触发；terminal 又错误记录 `workerInvoked=true`，central 以 `RESULT_WORKER_LIFECYCLE_INVALID` 拒绝。详见 [Slice 10 evidence](research/SLICE_10_EVIDENCE.md) |
 | Slice 11 结果 | `@0.11.0`；definition freeze `2026-08-15T23:01:50.529Z` | planned 96 / 288；actual attempts 0；normalize startup failure，export 未启动 | 两文件结果树 SHA-256 `a638a17a…d3689`；相同 runtime JSON 因 freeze 不含换行、start check 含换行而误判 drift；central validator 将该精确形状封闭并拒绝 replay。详见 [evidence](research/SLICE_11_EVIDENCE.md) |
 | SourceCard + Matting baseline | 3 个项目原创 `MATTE-GT dev/calibration` fixture | SourceCard technical 已知、quality/subject/content unknown；MATTE-SIMPLE 固定 10/88 | 4-file result tree `64227c66…04999`；hard/hole exact，soft-edge 明显硬化；只作 comparison lower bound。详见 [evidence](research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md) |
+| SourceCard exposure signals + Matting candidates | 4 个原创亮度 calibration + 3 个 MATTE-GT 应用；2 candidates | exposure signal 4/4；MODNet Apache-2.0、RVM GPL-3.0；两份权重均未下载 | `quality.exposure` 继续 unknown；候选只完成精确来源/许可/运行禁区登记，C1 与产品支持不变。详见 [evidence](research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
