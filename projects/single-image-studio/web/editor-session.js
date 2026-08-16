@@ -8,12 +8,13 @@ function orientedDimensions(width, height, orientation) {
 
 function centeredCrop(width, height, targetRatio) {
   const sourceRatio = width / height;
+  const unit = (value) => Math.round(value * 1_000_000_000_000) / 1_000_000_000_000;
   if (sourceRatio > targetRatio) {
-    const cropWidth = targetRatio / sourceRatio;
-    return { x: (1 - cropWidth) / 2, y: 0, width: cropWidth, height: 1 };
+    const cropWidth = unit(targetRatio / sourceRatio);
+    return { x: unit((1 - cropWidth) / 2), y: 0, width: cropWidth, height: 1 };
   }
-  const cropHeight = sourceRatio / targetRatio;
-  return { x: 0, y: (1 - cropHeight) / 2, width: 1, height: cropHeight };
+  const cropHeight = unit(sourceRatio / targetRatio);
+  return { x: 0, y: unit((1 - cropHeight) / 2), width: 1, height: cropHeight };
 }
 
 function ratioContract(value, width, height) {
@@ -46,10 +47,14 @@ export function editStateFromSettings({ sourceWidth, sourceHeight, sourceOrienta
   if (!Number.isInteger(sourceOrientation) || sourceOrientation < 1 || sourceOrientation > 8) {
     throw new RangeError("来源 orientation 必须为 1–8");
   }
+  const rotation = integerSetting(settings.rotation, 0, "旋转角度");
   const oriented = orientedDimensions(sourceWidth, sourceHeight, sourceOrientation);
-  const ratio = ratioContract(settings.ratio, oriented.width, oriented.height);
+  const transformed = rotation === 90 || rotation === 270
+    ? { width: oriented.height, height: oriented.width }
+    : oriented;
+  const ratio = ratioContract(settings.ratio, transformed.width, transformed.height);
   return createEditState({
-    rotation: integerSetting(settings.rotation, 0, "旋转角度"),
+    rotation,
     flipHorizontal: settings.flipHorizontal === true || settings.flipHorizontal === "on",
     flipVertical: settings.flipVertical === true || settings.flipVertical === "on",
     crop: ratio.crop,

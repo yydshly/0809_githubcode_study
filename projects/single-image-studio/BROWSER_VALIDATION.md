@@ -9,8 +9,10 @@
 
 - 本地“保真整理”已经改走 `editor-session.js` → `editor-canvas-renderer-v1`，页面表单可提交比例、旋转、翻转、亮度、对比度、饱和度、PNG / JPEG 与 JPEG 底色。
 - 新增 [浏览器输出诊断页](web/browser-diagnostics.html)：它只在内存生成项目原创 synthetic pixels，不读取用户图片、不访问网络；会用浏览器 Canvas 编码 PNG / JPEG，再执行 metadata 扫描、独立重开和像素合同核验。
-- 当前产品自动测试为 `15 files / 100 tests`，动态语法检查覆盖 `165` 个脚本。
+- 当前产品自动测试为 `16 files / 105 tests`，动态语法检查覆盖 `167` 个脚本。工作区会实时显示参数预览，并提供撤销、重做和重置；该结论目前只有代码与自动测试支持。
 - 本轮任务环境没有暴露浏览器技能要求的可控 Chrome / Edge 入口，因此诊断页尚未形成真实浏览器观察记录。代码存在、Node 测试通过和真实浏览器通过是三件不同的事；本文件仍只声明前两项。
+
+可复现运行基线（`2026-08-16T07:59:19.752Z`）：在项目目录执行 `npm.cmd start`，canonical server 为 `http://127.0.0.1:4177/`。同一 server 返回主页面与 `/browser-diagnostics.html`，两者 HTTP 200；主页面响应包含 `editor-workspace`。这只证明路由和静态交付可运行，不证明控件布局、键盘路径、Canvas 像素或下载在浏览器中通过。
 
 ## 已验证
 

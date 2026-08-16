@@ -27,3 +27,21 @@ test("visible output copy distinguishes engineering validation from content qual
   assert.match(main, /未执行内容质量检查/);
   assert.match(resultDownload, /内容质量检查尚未实现/);
 });
+
+test("local editor workspace exposes preview, history and strict-render controls without claiming cutout", () => {
+  for (const id of [
+    "editor-workspace",
+    "editor-preview-frame",
+    "editor-preview-image",
+    "editor-undo",
+    "editor-redo",
+    "editor-reset",
+  ]) {
+    assert.match(html, new RegExp(`id="${id}"`));
+  }
+  assert.match(html, /预览用于编辑反馈/);
+  assert.match(main, /createEditorWorkspace/);
+  assert.match(main, /editor-output-validation-v1/);
+  assert.match(main, /revokeIfBlob\(processed\.url\)/);
+  assert.doesNotMatch(main, /processFaithful\(\{ sourceUrl/);
+});

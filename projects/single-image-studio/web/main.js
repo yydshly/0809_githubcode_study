@@ -1,5 +1,15 @@
 import { ApiClientError, createApiClient } from "./api-client.js";
 import { runLocalEditor } from "./editor-session.js";
+import {
+  createEditorWorkspace,
+  editorPreviewPresentation,
+  editorSettings,
+  redoEditorWorkspace,
+  resetEditorWorkspace,
+  undoEditorWorkspace,
+  updateEditorWorkspace,
+} from "./editor-workspace.js";
+import { readImageOrientation } from "./image-orientation.js";
 import { createDemoImage, decodeImage } from "./local-processing.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { createRuntimeId } from "./runtime-identity.js";
@@ -29,6 +39,9 @@ const elements = {
   configSection: $("#config-section"), backToTasks: $("#back-to-tasks-button"), configTitle: $("#config-title"),
   configDescription: $("#config-description"), configPreserve: $("#config-preserve"), configChange: $("#config-change"),
   settingsForm: $("#settings-form"), settingsFields: $("#settings-fields"), runButton: $("#run-button"), runNote: $("#run-note"),
+  editorWorkspace: $("#editor-workspace"), editorPreviewFrame: $("#editor-preview-frame"), editorPreviewImage: $("#editor-preview-image"),
+  editorPreviewSummary: $("#editor-preview-summary"), editorHistorySummary: $("#editor-history-summary"),
+  editorUndo: $("#editor-undo"), editorRedo: $("#editor-redo"), editorReset: $("#editor-reset"),
   resultSection: $("#result-section"), resultTitle: $("#result-title"), resultSummary: $("#result-summary"),
   resultImage: $("#result-image"), referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
@@ -42,10 +55,10 @@ const TASK_COPY = Object.freeze({
     title: "保真整理",
     badge: "本地可用",
     kind: "utility",
-    description: "校正比例与整体色调，不重建主体，也不上传图片。",
-    longDescription: "用浏览器画布完成居中裁切、缩放、色调和编码。这是当前 R0 可执行的本地路径，尚不是完整交互编辑器。",
+    description: "校正比例、方向与整体光色，不重建主体，也不上传图片。",
+    longDescription: "用本地编辑工作区预览比例、旋转、翻转和整体光色，再从原始解码结果严格导出。这是当前可执行的基础编辑路径，可拖裁切框与自定义尺寸仍在后续范围。",
     preserve: "不主动生成新主体或物件；居中裁切可能移除画面边缘",
-    change: "画面比例、整体色调与输出格式",
+    change: "画面比例、方向、整体光色与输出格式",
     output: "PNG / JPEG",
     referenceTitle: "保真整理参考",
     referenceCopy: "参考的是清晰、克制的编辑原则：不补画、不换主体，只整理画布与整体光色。",
@@ -96,6 +109,7 @@ let sourceUrl = null;
 let tasks = [];
 let selectedTask = null;
 let currentResult = null;
+let editorWorkspace = null;
 let activeController = null;
 let toastTimer = null;
 
@@ -145,6 +159,13 @@ function clearResult() {
   currentResult = null;
 }
 
+function clearEditorWorkspace() {
+  editorWorkspace = null;
+  elements.editorWorkspace.hidden = true;
+  elements.editorPreviewImage.removeAttribute("src");
+  elements.editorPreviewImage.removeAttribute("style");
+}
+
 function stopActiveRequest() {
   activeController?.abort();
   activeController = null;
@@ -156,6 +177,7 @@ function cancelCurrentSource() {
   const previousDetached = machine.detachedRunIds;
   stopActiveRequest();
   clearResult();
+  clearEditorWorkspace();
   revokeIfBlob(sourceUrl);
   sourceUrl = null;
   source = null;
@@ -205,10 +227,18 @@ async function acceptSource(file) {
   try {
     stopActiveRequest();
     const prepared = await prepareSourceFile(file);
+    const sourceOrientation = readImageOrientation(new Uint8Array(await file.arrayBuffer()), file.type);
     clearResult();
+    clearEditorWorkspace();
     revokeIfBlob(sourceUrl);
     sourceUrl = URL.createObjectURL(file);
-    source = { file, ...prepared };
+    source = {
+      file,
+      ...prepared,
+      rawWidth: prepared.width,
+      rawHeight: prepared.height,
+      sourceOrientation,
+    };
     selectedTask = null;
     tasks = [];
     dispatch(STUDIO_EVENTS.SELECT_SOURCE, { source: prepared });
@@ -336,6 +366,8 @@ function selectTask(taskId) {
   elements.configPreserve.textContent = selectedTask.preserve;
   elements.configChange.textContent = selectedTask.change;
   renderSettings(selectedTask);
+  if (selectedTask.id === "UT-TUNE") initializeEditorWorkspace();
+  else clearEditorWorkspace();
   showOnly("config");
   setJourney("task");
   elements.runButton.focus();
@@ -347,11 +379,11 @@ function renderSettings(task) {
       <div class="field"><label for="ratio-setting">画面比例</label><select id="ratio-setting" name="ratio"><option value="original">保留原比例</option><option value="square">方形 1:1</option><option value="portrait">竖版 4:5</option><option value="landscape">横版 3:2</option></select></div>
       <div class="field"><label for="rotation-setting">旋转</label><select id="rotation-setting" name="rotation"><option value="0">不旋转</option><option value="90">顺时针 90°</option><option value="180">180°</option><option value="270">顺时针 270°</option></select></div>
       <div class="field"><label>翻转</label><div class="choice-row"><label><input type="checkbox" name="flipHorizontal" />水平</label><label><input type="checkbox" name="flipVertical" />垂直</label></div></div>
-      <div class="field"><label for="brightness-setting">亮度（-100～100）</label><input id="brightness-setting" name="brightness" type="number" min="-100" max="100" step="1" value="0" /></div>
-      <div class="field"><label for="contrast-setting">对比度（-100～100）</label><input id="contrast-setting" name="contrast" type="number" min="-100" max="100" step="1" value="0" /></div>
-      <div class="field"><label for="saturation-setting">饱和度（-100～100）</label><input id="saturation-setting" name="saturation" type="number" min="-100" max="100" step="1" value="0" /></div>
+      <div class="field range-field"><label for="brightness-setting">亮度 <output data-setting-value="brightness">0</output></label><input id="brightness-setting" name="brightness" type="range" min="-100" max="100" step="1" value="0" /></div>
+      <div class="field range-field"><label for="contrast-setting">对比度 <output data-setting-value="contrast">0</output></label><input id="contrast-setting" name="contrast" type="range" min="-100" max="100" step="1" value="0" /></div>
+      <div class="field range-field"><label for="saturation-setting">饱和度 <output data-setting-value="saturation">0</output></label><input id="saturation-setting" name="saturation" type="range" min="-100" max="100" step="1" value="0" /></div>
       <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明）</option><option value="jpeg">JPEG（铺底）</option></select></div>
-      <div class="field"><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>`;
+      <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>`;
     elements.runButton.textContent = "开始本地处理";
     elements.runNote.textContent = "真实的浏览器画布处理：不调用 AI，不补画内容，不上传图片。";
   } else {
@@ -363,7 +395,77 @@ function renderSettings(task) {
   }
 }
 
+function editorFormSettings() {
+  const data = Object.fromEntries(new FormData(elements.settingsForm).entries());
+  return {
+    ...data,
+    flipHorizontal: elements.settingsForm.elements.flipHorizontal?.checked ?? false,
+    flipVertical: elements.settingsForm.elements.flipVertical?.checked ?? false,
+  };
+}
+
+function setControlValue(name, value) {
+  const control = elements.settingsForm.elements[name];
+  if (!control) return;
+  if (control.type === "checkbox") control.checked = Boolean(value);
+  else control.value = String(value);
+}
+
+function renderEditorPreview(settings = editorSettings(editorWorkspace)) {
+  if (!editorWorkspace) return;
+  const presentation = editorPreviewPresentation(editorWorkspace, settings);
+  elements.editorPreviewFrame.style.aspectRatio = presentation.aspectRatio;
+  elements.editorPreviewFrame.style.setProperty("--preview-ratio", String(presentation.aspectValue));
+  elements.editorPreviewFrame.dataset.format = presentation.format;
+  elements.editorPreviewFrame.style.setProperty("--jpeg-preview-background", presentation.background ?? "#ffffff");
+  elements.editorPreviewImage.style.transform = presentation.transform;
+  elements.editorPreviewImage.style.filter = presentation.filter;
+  elements.editorPreviewSummary.textContent = presentation.summary;
+  ["brightness", "contrast", "saturation"].forEach((name) => {
+    const output = elements.settingsForm.querySelector(`[data-setting-value="${name}"]`);
+    if (output) output.value = String(settings[name] ?? 0);
+  });
+  const backgroundField = elements.settingsForm.querySelector("[data-jpeg-background]");
+  if (backgroundField) backgroundField.hidden = presentation.format !== "jpeg";
+  elements.editorUndo.disabled = editorWorkspace.history.past.length === 0;
+  elements.editorRedo.disabled = editorWorkspace.history.future.length === 0;
+  elements.editorReset.disabled = editorWorkspace.history.past.length === 0
+    && editorWorkspace.history.future.length === 0;
+  elements.editorHistorySummary.textContent = editorWorkspace.history.past.length === 0
+    ? "尚无已提交编辑"
+    : `${editorWorkspace.history.past.length} 步编辑可撤销`;
+}
+
+function syncEditorForm() {
+  if (!editorWorkspace) return;
+  const settings = editorSettings(editorWorkspace);
+  Object.entries(settings).forEach(([name, value]) => setControlValue(name, value));
+  renderEditorPreview(settings);
+}
+
+function initializeEditorWorkspace() {
+  if (!source) return;
+  editorWorkspace = createEditorWorkspace({
+    sourceWidth: source.rawWidth ?? source.width,
+    sourceHeight: source.rawHeight ?? source.height,
+    sourceOrientation: source.sourceOrientation ?? 1,
+  });
+  elements.editorWorkspace.hidden = false;
+  elements.editorPreviewImage.src = sourceUrl;
+  syncEditorForm();
+}
+
+function commitEditorForm() {
+  if (!editorWorkspace || selectedTask?.id !== "UT-TUNE") return;
+  editorWorkspace = updateEditorWorkspace(editorWorkspace, editorFormSettings());
+  syncEditorForm();
+}
+
 function getSettings() {
+  if (selectedTask?.id === "UT-TUNE" && editorWorkspace) {
+    commitEditorForm();
+    return editorSettings(editorWorkspace);
+  }
   return Object.fromEntries(new FormData(elements.settingsForm).entries());
 }
 
@@ -408,7 +510,8 @@ async function runSelectedTask() {
   const runToken = currentRunToken(machine);
   const sourceHashAtStart = machine.source.hash;
   clearResult();
-  activeController = new AbortController();
+  const runController = new AbortController();
+  activeController = runController;
   showOnly("status");
   setJourney("result");
   elements.cancelWait.hidden = false;
@@ -419,7 +522,10 @@ async function runSelectedTask() {
     let result;
     if (selectedTask.id === "UT-TUNE") {
       const processed = await runLocalEditor({ file: source.file, settings });
-      if (activeController.signal.aborted || machine.activeRunId !== runId) return;
+      if (runController.signal.aborted || machine.activeRunId !== runId) {
+        revokeIfBlob(processed.url);
+        return;
+      }
       result = {
         id: createRuntimeId(), url: processed.url, blob: processed.blob, mimeType: processed.mime, extension: processed.extension,
         width: processed.width, height: processed.height, outputHash: processed.outputHash, byteLength: processed.byteLength,
@@ -432,14 +538,14 @@ async function runSelectedTask() {
       };
       let created;
       try {
-        created = await api.createRun(payload, { signal: activeController.signal, timeoutMs: 22_000 });
+        created = await api.createRun(payload, { signal: runController.signal, timeoutMs: 22_000 });
       } catch (error) {
         if (!(error instanceof ApiClientError) || !error.isUnknown) throw error;
         created = await recoverCreatedRun(runId, error);
       }
       if (created.id !== runId) throw new Error("生成任务编号不一致，已阻止结果进入页面");
       const finished = await api.pollRun(runId, {
-        signal: activeController.signal, timeoutMs: 190_000, intervalMs: 1000,
+        signal: runController.signal, timeoutMs: 190_000, intervalMs: 1000,
         onUpdate: (run) => { elements.statusCopy.textContent = run.status === "RUNNING" ? "图片服务正在生成，原图和设置已安全保留。" : "正在等待图片服务开始。"; },
       });
       if (machine.activeRunId !== runId || sourceHashAtStart !== machine.source?.hash) return;
@@ -473,14 +579,14 @@ async function runSelectedTask() {
       },
     });
     currentResult = { ...result, runId, taskId: selectedTask.id, taskTitle: selectedTask.title };
-    activeController = null;
+    if (activeController === runController) activeController = null;
     renderResult();
   } catch (error) {
-    if (error instanceof ApiClientError && error.outcome === "ABORTED") return;
+    if (runController.signal.aborted || (error instanceof ApiClientError && error.outcome === "ABORTED")) return;
     if (machine.activeRunId !== runId) return;
     const unknown = error instanceof ApiClientError && error.isUnknown;
     dispatch(unknown ? STUDIO_EVENTS.MARK_RUN_UNKNOWN : STUDIO_EVENTS.RUN_FAILED, { ...runToken, code: error.code, message: error.message });
-    activeController = null;
+    if (activeController === runController) activeController = null;
     showError(
       unknown ? "生成状态暂时未知" : "这次没有得到可用结果",
       unknown ? "网络中断后仍无法确认任务终态。系统不会自动重复提交；你可以显式重试，或稍后按同一任务编号查询。" : friendlyError(error),
@@ -611,14 +717,42 @@ elements.useDemo.addEventListener("click", async () => acceptSource(await create
 elements.rights.addEventListener("change", () => { elements.confirmSource.disabled = !elements.rights.checked; });
 elements.confirmSource.addEventListener("click", confirmAndPrepare);
 elements.cancelSource.addEventListener("click", cancelCurrentSource);
-elements.backToTasks.addEventListener("click", () => { selectedTask = null; showOnly("tasks"); setJourney("task"); });
+elements.backToTasks.addEventListener("click", () => { selectedTask = null; clearEditorWorkspace(); showOnly("tasks"); setJourney("task"); });
+elements.settingsForm.addEventListener("input", () => {
+  if (selectedTask?.id !== "UT-TUNE" || !editorWorkspace) return;
+  try {
+    renderEditorPreview(editorFormSettings());
+  } catch (error) {
+    elements.editorPreviewSummary.textContent = error.message || "当前设置无效";
+  }
+});
+elements.settingsForm.addEventListener("change", () => {
+  if (selectedTask?.id === "UT-TUNE") commitEditorForm();
+});
 elements.settingsForm.addEventListener("submit", (event) => { event.preventDefault(); runSelectedTask(); });
+elements.editorUndo.addEventListener("click", () => {
+  if (!editorWorkspace) return;
+  editorWorkspace = undoEditorWorkspace(editorWorkspace);
+  syncEditorForm();
+});
+elements.editorRedo.addEventListener("click", () => {
+  if (!editorWorkspace) return;
+  editorWorkspace = redoEditorWorkspace(editorWorkspace);
+  syncEditorForm();
+});
+elements.editorReset.addEventListener("click", () => {
+  if (!editorWorkspace) return;
+  editorWorkspace = resetEditorWorkspace(editorWorkspace);
+  syncEditorForm();
+  toast("编辑设置已重置");
+});
 elements.redo.addEventListener("click", () => { clearResult(); showOnly("config"); setJourney("task"); });
 elements.retry.addEventListener("click", runSelectedTask);
 elements.recover.addEventListener("click", recoverUnknownRun);
 elements.errorBack.addEventListener("click", () => {
   if (machine.status === STUDIO_STATES.RUN_UNKNOWN) dispatch(STUDIO_EVENTS.CANCEL_WAIT);
   selectedTask = null;
+  clearEditorWorkspace();
   showOnly(source ? "tasks" : "empty");
   setJourney(source ? "task" : "source");
 });
@@ -659,7 +793,7 @@ elements.tabs.forEach((tab) => tab.addEventListener("click", () => {
   if (layer === "source") elements.resultImage.src = sourceUrl;
   if (layer === "result") elements.resultImage.src = currentResult.url;
 }));
-window.addEventListener("beforeunload", () => { stopActiveRequest(); revokeIfBlob(sourceUrl); revokeIfBlob(currentResult?.url); });
+window.addEventListener("beforeunload", () => { stopActiveRequest(); clearEditorWorkspace(); revokeIfBlob(sourceUrl); revokeIfBlob(currentResult?.url); });
 
 showOnly("empty");
 setJourney("source");

@@ -90,11 +90,30 @@
         <section class="config-section" id="config-section" hidden aria-labelledby="config-title">
           <button class="back-button" id="back-to-tasks-button" type="button">← 换一个任务</button>
           <div class="config-layout">
-            <div>
+            <div class="config-main">
               <p class="kicker">当前任务</p>
               <h2 id="config-title"></h2>
               <p id="config-description"></p>
               <div class="contract-list"><p><span>会保留</span><strong id="config-preserve"></strong></p><p><span>会改变</span><strong id="config-change"></strong></p></div>
+              <section class="editor-workspace" id="editor-workspace" hidden aria-labelledby="editor-preview-title">
+                <div class="editor-toolbar">
+                  <div><span class="workspace-label">实时工作预览</span><strong id="editor-preview-title">当前编辑状态</strong></div>
+                  <div class="history-actions" aria-label="编辑历史">
+                    <button class="button button-quiet" id="editor-undo" type="button" disabled>撤销</button>
+                    <button class="button button-quiet" id="editor-redo" type="button" disabled>重做</button>
+                    <button class="button button-quiet" id="editor-reset" type="button" disabled>重置</button>
+                  </div>
+                </div>
+                <div class="editor-preview-frame" id="editor-preview-frame" data-format="png">
+                  <img class="editor-preview-image" id="editor-preview-image" alt="当前本地编辑预览" />
+                  <span class="preview-boundary" aria-hidden="true"></span>
+                </div>
+                <div class="editor-preview-meta">
+                  <output id="editor-preview-summary" aria-live="polite">原比例 · 0° · PNG</output>
+                  <span id="editor-history-summary">尚无编辑</span>
+                </div>
+                <p class="preview-disclaimer">预览用于编辑反馈；下载仍从原始解码结果重新渲染并独立重开校验，不会下载这个预览画面。</p>
+              </section>
             </div>
             <form class="settings-card" id="settings-form">
               <div id="settings-fields"></div>
@@ -133,7 +152,7 @@
 
     <footer class="site-footer">
       <span>Single Image Studio · R0 工程探针</span>
-      <span>本地画布处理可运行，但尚不是完整编辑器 · 抠图与证件能力未接入 · 创意实验按服务状态启用</span>
+      <span>本地编辑与严格导出已接入，交互工作区仍在完善 · 抠图与证件能力未接入 · 创意实验按服务状态启用</span>
     </footer>
     <canvas id="processing-canvas" hidden></canvas>
     <output class="toast" id="toast" aria-live="polite"></output>

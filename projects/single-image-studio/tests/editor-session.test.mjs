@@ -21,7 +21,7 @@ test("editor settings map oriented geometry, controls and JPEG background into E
   });
   assert.equal(state.rotation, 90);
   assert.equal(state.flipHorizontal, true);
-  assert.deepEqual(state.crop, { x: 0, y: 0.03125, width: 1, height: 0.9375 });
+  assert.deepEqual(state.crop, { x: 0.2, y: 0, width: 0.6, height: 1 });
   assert.deepEqual(state.resize, {
     width: 1536,
     height: 1920,
