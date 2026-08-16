@@ -16,14 +16,23 @@ const [html, main, localProcessing, resultDownload, recoveryPresentation, maskOu
   readFile(new URL("../package.json", import.meta.url), "utf8"),
 ]);
 
-test("R0 page identifies itself as an engineering probe and does not claim image analysis", () => {
-  assert.match(html, /R0 工程探针/);
-  assert.match(html, /尚未分析图片内容或判断适用性/);
+test("product page uses plain-language internal-preview copy without claiming image analysis", () => {
+  assert.match(html, /Single Image Studio · 内部试用版/);
+  assert.match(html, /不会猜测图片内容或替你决定效果/);
+  assert.doesNotMatch(html, /R0 工程探针|工程上可运行|工程校验完成/);
   for (const forbidden of ["确认并分析", "正在分析图片", "适合这张图", "可运行首版"]) {
     assert.doesNotMatch(html, new RegExp(forbidden));
   }
 
-  assert.match(main, /不分析图片内容或推荐适用效果/);
+  assert.match(main, /不会判断图片内容或自动推荐效果/);
+  assert.match(main, /当前有 \$\{availableCount\} 个可用操作/);
+  assert.match(main, /processor: "在本机完成"/);
+  assert.match(main, /processor: "远程创意处理"/);
+  assert.match(main, /已核对文件格式、尺寸与像素；请比较确认画面内容/);
+  assert.match(main, /已核对结果文件与本次任务；图片内容仍需要你比较确认/);
+  assert.match(main, /backgroundRemovalProviderName/);
+  assert.doesNotMatch(main, /processor: `\$\{finished\.result\.model/);
+  assert.doesNotMatch(main, /processor: `\$\{providerSandbox[^\n]*provider\?\.id/);
   assert.doesNotMatch(main, /图片分析没有完成|已取消图片分析/);
 });
 
@@ -41,11 +50,11 @@ test("editor usability states retain keyboard focus, mobile stacking and reduced
   assert.match(styles, /\.crop-resize-handle::after/);
 });
 
-test("visible output copy distinguishes engineering validation from content quality", () => {
-  assert.match(html, /工程校验完成/);
+test("visible output copy distinguishes downloadable files from content quality", () => {
+  assert.match(html, /文件可下载/);
   assert.doesNotMatch(html, /已通过结果检查/);
   assert.match(localProcessing, /未执行内容质量检查/);
-  assert.match(main, /未执行内容质量检查/);
+  assert.match(main, /请比较确认画面内容|图片内容仍需要你比较确认|边缘细节仍需要你比较确认/);
   assert.match(resultDownload, /内容质量检查尚未实现/);
   assert.match(html, /id="compare-source-panel"[^>]*role="tabpanel"[^>]*data-layer="source"/);
   assert.match(html, /id="compare-result-panel"[^>]*role="tabpanel"[^>]*data-layer="result"/);
@@ -115,7 +124,7 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(main, /JPEG（透明像素需要填色）/);
   assert.doesNotMatch(main, /name="outputWidth"/);
   assert.doesNotMatch(main, /name="outputHeight"/);
-  assert.match(main, /生成并校验下载文件/);
+  assert.match(main, /生成下载文件/);
   assert.match(main, /全部在本机完成/);
   assert.match(main, /createEditorWorkspace/);
   assert.match(main, /moveEditorCrop/);

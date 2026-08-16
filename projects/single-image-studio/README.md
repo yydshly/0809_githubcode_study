@@ -35,6 +35,8 @@
 
 当前 R0 页面真实可运行的用户路径仍是本地“保真整理”和可选的创意 API 工程路径；用户已确认基础编辑能力可作为下一阶段工程基线，但计划中的 5–8 人 M2 走查尚未完成。M3a 已实现独立 `BackgroundRemovalProvider` 边界、专用 status/run/cancel API、浏览器 client、fake-only 回归和 PhotoRoom Basic 的首个远程 adapter。页面会显示“透明抠图”任务，但服务未配置时保持禁用；进入任务后还必须逐次确认远程发送。生产同时要求服务端密钥和 `PHOTOROOM_ENABLED=true`，避免保存密钥后意外发起付费请求。服务端直接验证输出 PNG 的 CRC、结构、8-bit RGBA Alpha 和尺寸，而非只相信供应商的 `hasAlpha` 声明；来源/构图版本、明确同意、幂等、拒绝、超时、取消和迟到结果均有关闭测试。这证明协议接线和安全边界，不证明真实供应商质量或可用性。[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 12 个 source unit、最多 24 次调用、隐私/质量 no-go 和当前 0 美元授权。当前累计完成 5 次免费沙盒调用：1 次原创 synthetic 协议探针，以及 4 次由内置图像生成工具创建的头发、玻璃、毛发和镂空结构挑战图。后四次 4/4 返回 RGBA Alpha，但目视均存在光晕、背景色渗漏或镂空残留，因此只算接线成功和质量预警，不算正式质量通过。基于这些缺陷，结果页已增加非破坏式 Alpha 修正：擦除残留、补回误删、200 笔硬上限、撤销 / 重做 / 重置；棋盘格会下载透明 PNG，白 / 黑 / 彩底会写入完全不透明的 JPEG。下载时按原尺寸重放笔触，并独立重开核对 metadata、尺寸与像素。修正不覆盖远程结果，也不会再次调用 Provider。真实浏览器 E2E 和正式质量验收仍未完成。页面会明确标示带水印；正式候选比较、账户侧 DPA/地域/训练/删除核对与付费调用仍未开始。基础编辑器在 Provider 不可用时不受影响。详见 [sandbox generated-image review](provider-evaluation/sandbox-v0/RESEARCH.md)。
 
+产品页现在使用面向试用者的直白文案：显示“内部试用版”“可用操作”“文件可下载”，不再让 `R0`、工程探针、Alpha 结构或供应商内部 ID 抢占主流程。研究等级、协议细节和诊断结论仍完整保留在本 README、[STATUS.md](STATUS.md) 与内部诊断页；文案简化不改变任何能力状态或质量声明。
+
 首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 
 修正画布现在提供“自动结果 / 修正后”无损对比，以及“适应 / 2× / 4×”查看和放大后滚动；对比状态与查看倍率只服务于发丝、孔洞和透明边缘检查，不改变蒙版历史、原尺寸笔触重放或正式导出尺寸。

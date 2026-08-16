@@ -98,7 +98,7 @@ const TASK_COPY = Object.freeze({
     badge: "本地可用",
     kind: "utility",
     description: "校正比例、方向与整体光色，不重建主体，也不上传图片。",
-    longDescription: "在本机调整构图位置、比例、方向、输出尺寸与整体光色，再从原始解码结果严格导出。预览与下载共用同一组编辑参数。",
+    longDescription: "在本机调整构图位置、比例、方向、输出尺寸与整体光色，再生成可下载文件。预览与下载共用同一组编辑参数。",
     preserve: "不主动生成新主体或物件；裁切范围始终由你明确调整",
     change: "构图位置、画面比例、方向、整体光色、输出尺寸与格式",
     output: "PNG / JPEG",
@@ -107,7 +107,7 @@ const TASK_COPY = Object.freeze({
   }),
   CR1: Object.freeze({
     title: "手绘记忆重构",
-    badge: "真实 AI",
+    badge: "远程生成",
     kind: "creative",
     description: "保留主体关系，把照片重构为有纸张、铅笔与颜料痕迹的完整画面。",
     longDescription: "使用真实图片编辑服务重构视觉媒介。它会显著改变笔触和材质，但不承诺人物面孔或身份一致。",
@@ -115,7 +115,7 @@ const TASK_COPY = Object.freeze({
     change: "绘画媒介、纸张肌理、光色与细节表达",
     output: "PNG",
     referenceTitle: "手绘记忆方法",
-    referenceCopy: "参考是一条方法合同，而不是伪造样例：主体关系保留，视觉媒介转为层叠纸墨与手绘痕迹。",
+    referenceCopy: "处理原则是保留主体关系，把视觉媒介转为层叠纸墨与手绘痕迹；结果仍需要你比较确认。",
   }),
   "UT-CUTOUT": Object.freeze({
     title: "主体与背景",
@@ -124,16 +124,16 @@ const TASK_COPY = Object.freeze({
     description: "自动识别主体并移除背景，输出透明 PNG；结果可与完整原图切换比较。",
     longDescription: "图片会在你明确同意后发送给已连接的远程抠图服务。服务只负责产生透明主体；不会生成新背景，也不会把生成式图片冒充精确抠图。",
     preserve: "原图主体像素，以及服务识别出的发丝、孔洞和半透明边缘",
-    change: "背景会被转换为透明 Alpha；自动结果仍可能需要人工修正",
+    change: "背景会变为透明；发丝、孔洞和半透明边缘可能仍需手动修正",
     output: "透明 PNG",
     referenceTitle: "主体蒙版",
-    referenceCopy: "验证重点是边缘、孔洞与半透明区域，不以轮廓大致相似作为通过。",
+    referenceCopy: "请重点检查发丝、孔洞和半透明边缘；轮廓大致正确不代表细节已经可用。",
   }),
   "UT-PORTRAIT": Object.freeze({
     title: "标准底色头像",
-    badge: "能力验证中",
+    badge: "正在开发",
     kind: "pending",
-    description: "面向通用头像与报名照；尺寸、底色与裁切参数将在能力通过后开放。",
+    description: "面向通用头像与报名照；尺寸、底色与裁切参数会在质量检查完成后开放。",
     longDescription: "这不是护照或签证合规承诺。人物分割、构图检查和下载规格必须一起验证。",
     preserve: "本人外观、头肩结构与真实服饰",
     change: "底色、裁切、尺寸与留白",
@@ -195,6 +195,10 @@ function toast(message) {
   elements.toast.classList.add("is-visible");
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => elements.toast.classList.remove("is-visible"), 2600);
+}
+
+function backgroundRemovalProviderName(provider) {
+  return provider?.id === "photoroom.background-removal" ? "PhotoRoom" : "远程抠图服务";
 }
 
 function revokeIfBlob(url) {
@@ -767,7 +771,7 @@ async function confirmAndPrepare() {
     });
     validationPassed = true;
     elements.statusTitle.textContent = "正在加载可用操作";
-    elements.statusCopy.textContent = "这里只读取工程可用状态，不分析图片内容或推荐适用效果。";
+    elements.statusCopy.textContent = "正在加载当前可用操作；不会判断图片内容或自动推荐效果。";
     await Promise.all([
       new Promise((resolve) => setTimeout(resolve, 240)),
       checkStatus(),
@@ -818,7 +822,7 @@ async function confirmAndPrepare() {
 function renderTasks() {
   elements.taskGrid.replaceChildren();
   const availableCount = tasks.filter((task) => task.runnable).length;
-  elements.recommendationCopy.textContent = `当前有 ${availableCount} 个工程上可运行的操作；这里没有分析图片内容，也不会把验证中的能力伪装成可用。`;
+  elements.recommendationCopy.textContent = `当前有 ${availableCount} 个可用操作；这里只按服务状态显示，不会猜测图片内容或替你选择效果。`;
   tasks.forEach((task, index) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -888,8 +892,8 @@ function renderSettings(task) {
         <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">透明区域填充色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" aria-describedby="jpeg-background-explanation" /><p class="field-hint" id="jpeg-background-explanation">JPEG 不支持透明，这个颜色只填充原图中的透明或半透明像素。普通不透明照片不会变化；这不是抠图或换背景。</p></div>
       </fieldset>
       <p class="settings-error" id="editor-settings-error" role="alert" hidden></p>`;
-    elements.runButton.textContent = "生成并校验下载文件";
-    elements.runNote.textContent = "全部在本机完成；不会调用 AI、补画内容或上传图片。导出后还会重开核对。";
+    elements.runButton.textContent = "生成下载文件";
+    elements.runNote.textContent = "全部在本机完成；不会调用 AI、补画内容或上传图片。生成后会自动检查文件能否正确打开。";
   } else if (task.id === "UT-CUTOUT") {
     const providerSandbox = backgroundRemovalStatus.provider?.environment === "sandbox";
     const providerLabel = backgroundRemovalStatus.provider?.id === "photoroom.background-removal"
@@ -906,8 +910,8 @@ function renderSettings(task) {
       </fieldset>`;
     elements.runButton.textContent = "移除背景";
     elements.runNote.textContent = providerSandbox
-      ? "沙盒结果必须通过 PNG 与 Alpha 结构校验；水印结果仅供测试。"
-      : "结果必须是经过结构校验、带真实 Alpha 通道的 PNG，才会进入比较和下载。";
+      ? "沙盒结果必须是可打开的透明 PNG；水印结果仅供测试。"
+      : "只有可打开、带透明背景的 PNG 才会进入比较和下载。";
   } else {
     elements.settingsFields.innerHTML = `
       <div class="field"><label for="creative-quality">生成质量</label><select id="creative-quality" name="quality"><option value="low">快速草稿</option><option value="medium" selected>标准结果</option><option value="high">精细结果</option></select></div>
@@ -1289,7 +1293,10 @@ async function runSelectedTask() {
       result = {
         id: createRuntimeId(), url: processed.url, blob: processed.blob, mimeType: processed.mime, extension: processed.extension,
         width: processed.width, height: processed.height, outputHash: processed.outputHash, byteLength: processed.byteLength,
-        hasAlpha: processed.hasAlpha, validationSummary: processed.validationSummary, processor: processed.processor, title: "本地整理完成",
+        hasAlpha: processed.hasAlpha,
+        validationSummary: "已核对文件格式、尺寸与像素；请比较确认画面内容",
+        validationDetails: processed.validationSummary,
+        processor: "在本机完成", processorVersion: processed.processor, title: "本地整理完成",
       };
     } else if (selectedTask.id === "UT-CUTOUT") {
       result = await runBackgroundRemoval({ runId, runController, sourceHashAtStart });
@@ -1326,8 +1333,8 @@ async function runSelectedTask() {
         extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
         width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
         byteLength: finished.result.imageBytes, hasAlpha: false,
-        validationSummary: "已核对服务响应格式、输出指纹与本次运行编号；未执行内容质量检查",
-        processor: `${finished.result.model || "gpt-image-2"} · request ${finished.requestId || "未返回"}`,
+        validationSummary: "已核对结果文件与本次任务；图片内容仍需要你比较确认",
+        processor: "远程创意处理",
         title: "创意生成完成",
       };
     }
@@ -1403,8 +1410,9 @@ function renderResult() {
   elements.processingRecordCard.hidden = selectedTask.id !== "UT-CUTOUT";
   if (selectedTask.id === "UT-CUTOUT") {
     const sandbox = currentResult.provider?.environment === "sandbox";
-    elements.processingRecordProvider.textContent = `${currentResult.provider?.id ?? "远程抠图服务"}${sandbox ? " · 沙盒" : ""}`;
-    elements.processingRecordCopy.textContent = "本地服务暂存这次任务编号、输入指纹和结果，用于恢复状态。清除后不影响当前页面里的结果和下载。";
+    const providerName = backgroundRemovalProviderName(currentResult.provider);
+    elements.processingRecordProvider.textContent = `${providerName}${sandbox ? " · 沙盒" : ""}`;
+    elements.processingRecordCopy.textContent = "当前电脑暂存这次任务编号、图片标识和结果，用于恢复状态。清除后不影响当前页面里的结果和下载。";
     elements.deleteProcessingRecord.disabled = currentResult.localRecordDeleted === true;
     elements.deleteProcessingRecord.textContent = currentResult.localRecordDeleted ? "本地记录已清除" : "清除本地处理记录";
     elements.processingRecordStatus.textContent = currentResult.localRecordDeleted
@@ -1498,8 +1506,8 @@ async function recoverUnknownRun() {
         extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
         width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
         byteLength: finished.result.imageBytes, hasAlpha: false,
-        validationSummary: "恢复查询后已核对服务响应格式、输出指纹与原运行编号；未执行内容质量检查",
-        processor: `${finished.result.model || "gpt-image-2"} · request ${finished.requestId || "未返回"}`,
+        validationSummary: "恢复查询后已核对结果文件与原任务；图片内容仍需要你比较确认",
+        processor: "远程创意处理",
         title: "创意生成完成",
       };
     }
@@ -1738,7 +1746,7 @@ elements.download.addEventListener("click", async () => {
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
       const outputLabel = corrected.mime === "image/png" ? "修正透明 PNG" : "纯色背景 JPEG";
-      elements.maskCorrectionStatus.textContent = `${outputLabel} 已独立重开校验 · ${corrected.byteLength.toLocaleString()} bytes · ${corrected.outputHash.slice(0, 12)}…`;
+      elements.maskCorrectionStatus.textContent = `${outputLabel} 已准备并检查 · ${currentResult.width} × ${currentResult.height}`;
       toast(`${outputLabel} 下载已开始`);
     } catch (error) {
       toast(error.message || "下载图片生成失败");
@@ -1811,8 +1819,8 @@ function createBackgroundRemovalResult(finished, { recovered = false } = {}) {
     outputHash: finished.result.imageSha256,
     byteLength: finished.result.imageBytes,
     hasAlpha: true,
-    validationSummary: `${recovered ? "恢复查询后" : ""}已核对 PNG 结构、Alpha 通道、文件大小、输出指纹与本次任务编号；${providerSandbox ? "当前为带水印沙盒结果，" : ""}尚未执行人工边缘质量检查`,
-    processor: `${providerSandbox ? "沙盒抠图" : "远程抠图"} · ${finished.result.provider?.id ?? "configured provider"}`,
+    validationSummary: `${recovered ? "恢复查询后" : ""}已核对透明 PNG、文件大小与本次任务；${providerSandbox ? "当前为带水印沙盒结果，" : ""}边缘细节仍需要你比较确认`,
+    processor: `${backgroundRemovalProviderName(finished.result.provider)}${providerSandbox ? " · 沙盒" : ""}`,
     provider: finished.result.provider ?? null,
     localRecordDeleted: false,
     title: providerSandbox ? "沙盒抠图完成（带水印）" : "背景已移除",

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="description" content="Single Image Studio R0 工程探针：上传一张图，选择当前可用的本地处理或创意实验，比较并下载结果。" />
+    <meta name="description" content="Single Image Studio 内部试用版：上传一张图片，完成本地编辑或已连接的远程处理，比较并下载结果。" />
     <title>Single Image Studio</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -16,7 +16,7 @@
       </a>
       <div class="service-status" id="service-status" role="status" data-tone="checking">
         <span class="status-dot" aria-hidden="true"></span>
-        <span id="service-status-copy">正在检查创意生成服务</span>
+        <span id="service-status-copy">正在检查可用功能</span>
       </div>
     </header>
 
@@ -29,7 +29,7 @@
       <section class="intro" aria-labelledby="page-title">
         <p class="kicker">一张图片，一条完整路径</p>
         <h1 id="page-title">先看清这张图，<br />再决定它要变成什么。</h1>
-        <p class="intro-copy">上传一张图。我们只给少量适用任务：保真整理、主体与背景、标准头像，或一个真实的创意改造。</p>
+        <p class="intro-copy">上传一张图，先在本机整理构图与尺寸；远程抠图和创意处理会按当前服务状态显示。</p>
         <ol class="journey" aria-label="产品流程">
           <li data-step="source" class="is-current"><span>01</span>选择图片</li>
           <li data-step="task"><span>02</span>选择任务</li>
@@ -82,7 +82,7 @@
         <section class="tasks-section" id="tasks-section" hidden aria-labelledby="tasks-title">
           <div class="section-heading">
             <div><p class="kicker">当前可用操作</p><h2 id="tasks-title">选择一个处理方向</h2></div>
-            <div class="section-side"><p id="recommendation-copy">这里只按工程可用状态列出操作，尚未分析图片内容或判断适用性。</p><button class="text-button" id="tasks-replace-button" type="button">换一张图</button></div>
+            <div class="section-side"><p id="recommendation-copy">这里只显示当前可以完成的操作；不会猜测图片内容或替你决定效果。</p><button class="text-button" id="tasks-replace-button" type="button">换一张图</button></div>
           </div>
           <div class="task-grid" id="task-grid"></div>
         </section>
@@ -204,12 +204,12 @@
               <div><strong id="reference-title"></strong><p id="reference-copy"></p></div>
             </div>
           </div>
-          <div class="qa-strip"><span class="qa-pass">✓ 工程校验完成</span><span id="qa-copy"></span><span id="result-size"></span></div>
+          <div class="qa-strip"><span class="qa-pass">✓ 文件可下载</span><span id="qa-copy"></span><span id="result-size"></span></div>
           <aside class="processing-record-card" id="processing-record-card" hidden aria-labelledby="processing-record-title">
             <div>
               <p class="kicker">隐私与恢复</p>
               <h3 id="processing-record-title">本次远程处理记录</h3>
-              <p id="processing-record-copy">本地服务暂存这次任务记录，用于恢复状态。清除后不影响当前页面里的结果和下载。</p>
+              <p id="processing-record-copy">当前电脑暂存这次任务记录，用于恢复状态。清除后不影响当前页面里的结果和下载。</p>
               <p class="processing-record-boundary">只清除当前电脑服务进程中的记录；不代表远程供应商已经删除其处理数据。</p>
             </div>
             <div class="processing-record-action">
@@ -228,8 +228,8 @@
     </main>
 
     <footer class="site-footer">
-      <span>Single Image Studio · R0 工程探针</span>
-      <span>本地编辑与严格导出已接入 · 远程抠图和创意实验按服务配置启用 · 证件能力尚未接入</span>
+      <span>Single Image Studio · 内部试用版</span>
+      <span>本地编辑可用 · 远程功能按服务状态显示 · 图片仅在明确同意后发送</span>
     </footer>
     <canvas id="processing-canvas" hidden></canvas>
     <output class="toast" id="toast" aria-live="polite"></output>
