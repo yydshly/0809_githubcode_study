@@ -21,6 +21,7 @@ test("editor settings map oriented geometry, controls and JPEG background into E
   });
   assert.equal(state.rotation, 90);
   assert.equal(state.flipHorizontal, true);
+  assert.equal(state.cropMode, "portrait");
   assert.deepEqual(state.crop, { x: 0.2, y: 0, width: 0.6, height: 1 });
   assert.deepEqual(state.resize, {
     width: 1536,
@@ -80,9 +81,51 @@ test("positioned crop and custom output dimensions are renderer-bound and ratio-
   );
 });
 
+test("free crop binds an explicit normalized rectangle to the same renderer contract", () => {
+  const state = editStateFromSettings({
+    sourceWidth: 1000,
+    sourceHeight: 500,
+    settings: {
+      ratio: "free",
+      cropLeft: 20,
+      cropTop: 10,
+      cropWidth: 50,
+      cropHeight: 60,
+      sizeMode: "custom",
+      outputWidth: 1000,
+      outputHeight: 600,
+    },
+  });
+  assert.equal(state.cropMode, "free");
+  assert.deepEqual(state.crop, { x: 0.2, y: 0.1, width: 0.5, height: 0.6 });
+  assert.deepEqual(state.resize, {
+    width: 1000,
+    height: 600,
+    allowUpscale: false,
+    maxEdge: 2048,
+    maxPixels: 16_000_000,
+  });
+  assert.throws(
+    () => editStateFromSettings({
+      sourceWidth: 100,
+      sourceHeight: 100,
+      settings: { ratio: "free", cropWidth: 5 },
+    }),
+    /至少保留原图的 10%/,
+  );
+  assert.throws(
+    () => editStateFromSettings({
+      sourceWidth: 100,
+      sourceHeight: 100,
+      settings: { ratio: "free", cropLeft: 60, cropWidth: 50 },
+    }),
+    /完整位于原图内/,
+  );
+});
+
 test("editor settings fail closed for unknown ratio and invalid numeric controls", () => {
   assert.throws(
-    () => editStateFromSettings({ sourceWidth: 10, sourceHeight: 10, settings: { ratio: "free" } }),
+    () => editStateFromSettings({ sourceWidth: 10, sourceHeight: 10, settings: { ratio: "panorama" } }),
     /不支持的画面比例/,
   );
   assert.throws(

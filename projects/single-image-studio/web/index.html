@@ -103,16 +103,20 @@
                     <button class="button button-quiet" id="editor-reset" type="button" disabled>重置</button>
                   </div>
                 </div>
-                <div class="editor-preview-frame" id="editor-preview-frame" data-format="png" data-crop-enabled="false" tabindex="0" aria-label="编辑预览。选择裁切比例后，可拖动画面或用方向键调整保留区域。" aria-describedby="editor-crop-hint">
+                <div class="editor-preview-frame" id="editor-preview-frame" data-format="png" data-crop-enabled="false" tabindex="-1" aria-label="完整图片预览。当前不裁剪。" aria-describedby="editor-crop-hint">
                   <img class="editor-preview-image" id="editor-preview-image" alt="当前本地编辑预览" draggable="false" />
                   <span class="preview-boundary" aria-hidden="true"></span>
-                  <span class="preview-drag-badge" id="editor-drag-badge" hidden>拖动画面调整构图</span>
+                  <span class="editor-crop-box" id="editor-crop-box" role="group" aria-label="导出裁剪区域" hidden>
+                    <span class="crop-grid" aria-hidden="true"></span>
+                    <span class="crop-resize-handle" id="editor-crop-resize" role="button" tabindex="0" aria-label="拖动或使用方向键改变自由裁剪大小" hidden></span>
+                  </span>
+                  <span class="preview-drag-badge" id="editor-drag-badge" hidden>拖动裁剪框</span>
                 </div>
                 <div class="editor-preview-meta">
                   <div><output id="editor-preview-summary" aria-live="polite">原比例 · 完整画面 · PNG</output><span id="editor-output-size">等待图片尺寸</span></div>
                   <div class="editor-save-state"><strong id="editor-change-state">设置已同步</strong><span id="editor-history-summary">尚无编辑</span></div>
                 </div>
-                <p class="crop-hint" id="editor-crop-hint">选择裁切比例后，可拖动画面或用右侧“构图位置”精确调整。</p>
+                <p class="crop-hint" id="editor-crop-hint">当前显示并保留完整图片；选择固定比例或自由裁剪后，亮框会标出导出区域。</p>
                 <p class="preview-disclaimer">预览用于编辑反馈；下载仍从原始解码结果重新渲染并独立重开校验，不会下载这个预览画面。</p>
               </section>
               <div class="contract-list"><p><span>会保留</span><strong id="config-preserve"></strong></p><p><span>会改变</span><strong id="config-change"></strong></p></div>

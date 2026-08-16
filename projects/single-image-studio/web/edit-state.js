@@ -53,12 +53,14 @@ function deepFreeze(value) {
 }
 
 export function createEditState(overrides = {}) {
+  const crop = normalizedCrop(overrides.crop ?? { x: 0, y: 0, width: 1, height: 1 });
   const state = {
     version: EDIT_STATE_VERSION,
     rotation: overrides.rotation ?? 0,
     flipHorizontal: overrides.flipHorizontal ?? false,
     flipVertical: overrides.flipVertical ?? false,
-    crop: normalizedCrop(overrides.crop ?? { x: 0, y: 0, width: 1, height: 1 }),
+    cropMode: overrides.cropMode ?? (crop.x === 0 && crop.y === 0 && crop.width === 1 && crop.height === 1 ? "original" : "free"),
+    crop,
     resize: {
       width: optionalDimension(overrides.resize?.width, "目标宽度"),
       height: optionalDimension(overrides.resize?.height, "目标高度"),
@@ -80,6 +82,9 @@ export function createEditState(overrides = {}) {
 
   if (![0, 90, 180, 270].includes(state.rotation)) {
     throw new RangeError("旋转角度必须是 0、90、180 或 270");
+  }
+  if (!["original", "square", "portrait", "landscape", "free"].includes(state.cropMode)) {
+    throw new RangeError("不支持的裁剪模式");
   }
   if (typeof state.flipHorizontal !== "boolean" || typeof state.flipVertical !== "boolean"
     || typeof state.resize.allowUpscale !== "boolean") {

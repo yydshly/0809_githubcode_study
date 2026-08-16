@@ -5,6 +5,7 @@ import {
   editorPreviewPresentation,
   editorSettings,
   moveEditorCrop,
+  moveEditorFreeCrop,
   redoEditorWorkspace,
   resetEditorWorkspace,
   undoEditorWorkspace,
@@ -41,6 +42,7 @@ const elements = {
   configDescription: $("#config-description"), configPreserve: $("#config-preserve"), configChange: $("#config-change"),
   settingsForm: $("#settings-form"), settingsFields: $("#settings-fields"), runButton: $("#run-button"), runNote: $("#run-note"),
   editorWorkspace: $("#editor-workspace"), editorPreviewFrame: $("#editor-preview-frame"), editorPreviewImage: $("#editor-preview-image"),
+  editorCropBox: $("#editor-crop-box"), editorCropResize: $("#editor-crop-resize"),
   editorPreviewSummary: $("#editor-preview-summary"), editorOutputSize: $("#editor-output-size"),
   editorHistorySummary: $("#editor-history-summary"), editorChangeState: $("#editor-change-state"),
   editorCropHint: $("#editor-crop-hint"), editorDragBadge: $("#editor-drag-badge"),
@@ -382,11 +384,17 @@ function renderSettings(task) {
   if (task.id === "UT-TUNE") {
     elements.settingsFields.innerHTML = `
       <fieldset class="setting-group"><legend><span>1</span> 构图</legend>
-        <div class="field"><label for="ratio-setting">画面比例</label><select id="ratio-setting" name="ratio"><option value="original">保留完整画面</option><option value="square">方形 1:1</option><option value="portrait">竖版 4:5</option><option value="landscape">横版 3:2</option></select></div>
+        <div class="field"><label for="ratio-setting">裁剪方式</label><select id="ratio-setting" name="ratio"><option value="original">不裁剪 · 显示全图</option><option value="square">固定比例 · 方形 1:1</option><option value="portrait">固定比例 · 竖版 4:5</option><option value="landscape">固定比例 · 横版 3:2</option><option value="free">自由裁剪</option></select></div>
         <div class="crop-position-fields" data-crop-position hidden>
-          <p class="field-hint">拖动左侧预览最快；下面可精确微调保留区域。</p>
+          <p class="field-hint">左侧始终显示完整图片；亮框内才是导出区域。拖动亮框可移动裁剪。</p>
           <div class="field range-field" data-crop-axis-control="horizontal"><label for="crop-x-setting">保留位置：左 ↔ 右 <output data-setting-value="cropX">50%</output></label><input id="crop-x-setting" name="cropX" type="range" min="0" max="100" step="1" value="50" /></div>
           <div class="field range-field" data-crop-axis-control="vertical"><label for="crop-y-setting">保留位置：上 ↕ 下 <output data-setting-value="cropY">50%</output></label><input id="crop-y-setting" name="cropY" type="range" min="0" max="100" step="1" value="50" /></div>
+          <div class="free-crop-fields" data-free-crop hidden>
+            <div class="field range-field"><label for="crop-left-setting">左边界 <output data-setting-value="cropLeft">0%</output></label><input id="crop-left-setting" name="cropLeft" type="range" min="0" max="90" step="1" value="0" /></div>
+            <div class="field range-field"><label for="crop-top-setting">上边界 <output data-setting-value="cropTop">0%</output></label><input id="crop-top-setting" name="cropTop" type="range" min="0" max="90" step="1" value="0" /></div>
+            <div class="field range-field"><label for="crop-width-setting">裁剪宽度 <output data-setting-value="cropWidth">100%</output></label><input id="crop-width-setting" name="cropWidth" type="range" min="10" max="100" step="1" value="100" /></div>
+            <div class="field range-field"><label for="crop-height-setting">裁剪高度 <output data-setting-value="cropHeight">100%</output></label><input id="crop-height-setting" name="cropHeight" type="range" min="10" max="100" step="1" value="100" /></div>
+          </div>
         </div>
         <div class="field"><label for="rotation-setting">旋转</label><select id="rotation-setting" name="rotation"><option value="0">不旋转</option><option value="90">顺时针 90°</option><option value="180">180°</option><option value="270">顺时针 270°</option></select></div>
         <div class="field"><label>翻转</label><div class="choice-row"><label><input type="checkbox" name="flipHorizontal" />水平</label><label><input type="checkbox" name="flipVertical" />垂直</label></div></div>
@@ -450,6 +458,7 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   const presentation = editorPreviewPresentation(editorWorkspace, settings);
   elements.editorPreviewFrame.style.aspectRatio = presentation.aspectRatio;
   elements.editorPreviewFrame.style.setProperty("--preview-ratio", String(presentation.aspectValue));
+  elements.editorPreviewFrame.style.setProperty("--frame-ratio", String(presentation.frameAspectValue));
   elements.editorPreviewFrame.dataset.format = presentation.format;
   elements.editorPreviewFrame.style.setProperty("--jpeg-preview-background", presentation.background ?? "#ffffff");
   elements.editorPreviewImage.style.width = presentation.previewWidth;
@@ -457,29 +466,42 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   elements.editorPreviewImage.style.transform = presentation.transform;
   elements.editorPreviewImage.style.objectPosition = presentation.objectPosition;
   elements.editorPreviewImage.style.filter = presentation.filter;
+  elements.editorCropBox.hidden = !presentation.cropEnabled;
+  elements.editorCropBox.style.left = `${presentation.cropRect.left}%`;
+  elements.editorCropBox.style.top = `${presentation.cropRect.top}%`;
+  elements.editorCropBox.style.width = `${presentation.cropRect.width}%`;
+  elements.editorCropBox.style.height = `${presentation.cropRect.height}%`;
+  elements.editorCropResize.hidden = !presentation.cropResizable;
   elements.editorPreviewFrame.dataset.cropEnabled = String(presentation.cropEnabled);
   elements.editorPreviewFrame.dataset.cropAxis = presentation.cropAxis;
+  elements.editorPreviewFrame.dataset.cropResizable = String(presentation.cropResizable);
   elements.editorPreviewFrame.tabIndex = presentation.cropEnabled ? 0 : -1;
   elements.editorPreviewSummary.textContent = presentation.summary;
   elements.editorOutputSize.textContent = `预计导出 ${presentation.output.width} × ${presentation.output.height} px`;
-  elements.editorCropHint.textContent = presentation.cropAxis === "horizontal"
-    ? "当前只裁左右两侧：左右拖动画面、使用 ← →，或用右侧滑杆调整。"
+  elements.editorCropHint.textContent = presentation.cropAxis === "both"
+    ? "自由裁剪：拖动亮框移动区域；拖右下角圆点改变大小。右侧滑杆可精确调整。"
+    : presentation.cropAxis === "horizontal"
+    ? "完整图片保持可见；左右拖动亮框、使用 ← →，或用右侧滑杆调整。"
     : presentation.cropAxis === "vertical"
-      ? "当前只裁上下两侧：上下拖动画面、使用 ↑ ↓，或用右侧滑杆调整。"
+      ? "完整图片保持可见；上下拖动亮框、使用 ↑ ↓，或用右侧滑杆调整。"
       : presentation.settings.ratio === "original"
-        ? "当前保留完整画面；选择 1:1、4:5 或 3:2 后可调整构图位置。"
+        ? "当前显示并保留完整图片；选择固定比例或自由裁剪后，亮框会标出导出区域。"
         : "来源画面已经符合所选比例，不需要调整保留位置。";
   elements.editorDragBadge.hidden = !presentation.cropEnabled;
-  elements.editorDragBadge.textContent = presentation.cropAxis === "horizontal" ? "左右拖动调整构图" : "上下拖动调整构图";
-  elements.editorPreviewFrame.setAttribute("aria-label", presentation.cropAxis === "horizontal"
-    ? "编辑预览。当前可左右拖动，或用左右方向键调整保留区域。"
+  elements.editorDragBadge.textContent = presentation.cropAxis === "both"
+    ? "拖动裁剪框 · 右下角缩放"
+    : presentation.cropAxis === "horizontal" ? "左右拖动裁剪框" : "上下拖动裁剪框";
+  elements.editorPreviewFrame.setAttribute("aria-label", presentation.cropAxis === "both"
+    ? "完整图片与自由裁剪框。可用方向键移动裁剪框。"
+    : presentation.cropAxis === "horizontal"
+    ? "完整图片与裁剪框。当前可左右拖动，或用左右方向键调整保留区域。"
     : presentation.cropAxis === "vertical"
-      ? "编辑预览。当前可上下拖动，或用上下方向键调整保留区域。"
-      : "编辑预览。当前画面无需移动。");
+      ? "完整图片与裁剪框。当前可上下拖动，或用上下方向键调整保留区域。"
+      : "完整图片预览。当前不裁剪。");
   elements.editorChangeState.textContent = transient
     ? "正在预览 · 完成操作后记入历史"
     : editorWorkspace.history.past.length === 0 ? "设置已同步" : "设置已记入编辑历史";
-  ["brightness", "contrast", "saturation", "cropX", "cropY"].forEach((name) => {
+  ["brightness", "contrast", "saturation", "cropX", "cropY", "cropLeft", "cropTop", "cropWidth", "cropHeight"].forEach((name) => {
     const output = elements.settingsForm.querySelector(`[data-setting-value="${name}"]`);
     if (output) output.value = `${settings[name] ?? (name.startsWith("crop") ? 50 : 0)}${name.startsWith("crop") ? "%" : ""}`;
   });
@@ -488,6 +510,22 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   elements.settingsForm.querySelectorAll("[data-crop-axis-control]").forEach((control) => {
     control.hidden = control.dataset.cropAxisControl !== presentation.cropAxis;
   });
+  const freeCropFields = elements.settingsForm.querySelector("[data-free-crop]");
+  if (freeCropFields) {
+    freeCropFields.hidden = !presentation.cropResizable;
+    const left = elements.settingsForm.elements.cropLeft;
+    const top = elements.settingsForm.elements.cropTop;
+    const width = elements.settingsForm.elements.cropWidth;
+    const height = elements.settingsForm.elements.cropHeight;
+    if (left && width) {
+      left.max = String(100 - Number(settings.cropWidth ?? 100));
+      width.max = String(100 - Number(settings.cropLeft ?? 0));
+    }
+    if (top && height) {
+      top.max = String(100 - Number(settings.cropHeight ?? 100));
+      height.max = String(100 - Number(settings.cropTop ?? 0));
+    }
+  }
   const customSizeFields = elements.settingsForm.querySelector("[data-custom-size]");
   if (customSizeFields) customSizeFields.hidden = settings.sizeMode !== "custom";
   const backgroundField = elements.settingsForm.querySelector("[data-jpeg-background]");
@@ -587,9 +625,40 @@ function setCropControls(settings) {
   setControlValue("cropY", settings.cropY);
 }
 
+function setFreeCropControls(settings) {
+  for (const name of ["cropLeft", "cropTop", "cropWidth", "cropHeight"]) setControlValue(name, settings[name]);
+}
+
+function seedFreeCropFromWorkspace() {
+  if (!editorWorkspace || editorFormSettings().ratio !== "free") return;
+  const crop = editorWorkspace.history.present.crop;
+  setFreeCropControls({
+    cropLeft: Math.round(crop.x * 100),
+    cropTop: Math.round(crop.y * 100),
+    cropWidth: Math.round(crop.width * 100),
+    cropHeight: Math.round(crop.height * 100),
+  });
+}
+
+function reconcileFreeCrop() {
+  const settings = editorFormSettings();
+  if (settings.ratio !== "free") return;
+  const width = Math.max(10, Math.min(100, Number(settings.cropWidth ?? 100)));
+  const height = Math.max(10, Math.min(100, Number(settings.cropHeight ?? 100)));
+  const left = Math.max(0, Math.min(100 - width, Number(settings.cropLeft ?? 0)));
+  const top = Math.max(0, Math.min(100 - height, Number(settings.cropTop ?? 0)));
+  setFreeCropControls({
+    cropLeft: Math.round(left),
+    cropTop: Math.round(top),
+    cropWidth: Math.round(Math.min(width, 100 - left)),
+    cropHeight: Math.round(Math.min(height, 100 - top)),
+  });
+}
+
 function beginCropDrag(event) {
   if (!editorWorkspace || selectedTask?.id !== "UT-TUNE" || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
   if (event.button !== 0) return;
+  if (!elements.editorCropBox.contains(event.target)) return;
   const rect = elements.editorPreviewFrame.getBoundingClientRect();
   editorCropDrag = {
     pointerId: event.pointerId,
@@ -598,6 +667,7 @@ function beginCropDrag(event) {
     frameWidth: rect.width,
     frameHeight: rect.height,
     axis: elements.editorPreviewFrame.dataset.cropAxis,
+    operation: event.target === elements.editorCropResize ? "resize" : "move",
     settings: editorFormSettings(),
   };
   elements.editorPreviewFrame.setPointerCapture?.(event.pointerId);
@@ -607,14 +677,21 @@ function beginCropDrag(event) {
 
 function moveCropDrag(event) {
   if (!editorCropDrag || editorCropDrag.pointerId !== event.pointerId) return;
-  const settings = moveEditorCrop(editorCropDrag.settings, {
+  const change = {
     deltaX: event.clientX - editorCropDrag.startX,
     deltaY: event.clientY - editorCropDrag.startY,
     frameWidth: editorCropDrag.frameWidth,
     frameHeight: editorCropDrag.frameHeight,
+  };
+  const settings = editorCropDrag.axis === "both" ? moveEditorFreeCrop(editorCropDrag.settings, {
+    ...change,
+    operation: editorCropDrag.operation,
+  }) : moveEditorCrop(editorCropDrag.settings, {
+    ...change,
     axis: editorCropDrag.axis,
   });
-  setCropControls(settings);
+  if (editorCropDrag.axis === "both") setFreeCropControls(settings);
+  else setCropControls(settings);
   previewEditorForm();
 }
 
@@ -630,16 +707,32 @@ function finishCropDrag(event, { commit = true } = {}) {
 function nudgeCropWithKeyboard(event) {
   if (!editorWorkspace || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
   const axis = elements.editorPreviewFrame.dataset.cropAxis;
-  const arrows = new Set(axis === "horizontal" ? ["ArrowLeft", "ArrowRight"] : ["ArrowUp", "ArrowDown"]);
+  const arrows = new Set(axis === "horizontal"
+    ? ["ArrowLeft", "ArrowRight"]
+    : axis === "vertical" ? ["ArrowUp", "ArrowDown"] : ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]);
   if (!arrows.has(event.key)) return;
   const settings = editorFormSettings();
   const step = event.shiftKey ? 10 : 2;
-  if (event.key === "ArrowLeft") settings.cropX = Math.max(0, Number(settings.cropX) - step);
-  if (event.key === "ArrowRight") settings.cropX = Math.min(100, Number(settings.cropX) + step);
-  if (event.key === "ArrowUp") settings.cropY = Math.max(0, Number(settings.cropY) - step);
-  if (event.key === "ArrowDown") settings.cropY = Math.min(100, Number(settings.cropY) + step);
-  setCropControls(settings);
-  renderEditorPreview(settings, { transient: true });
+  if (axis === "both") {
+    const rect = elements.editorPreviewFrame.getBoundingClientRect();
+    const resizing = event.target === elements.editorCropResize;
+    const changed = moveEditorFreeCrop(settings, {
+      deltaX: event.key === "ArrowLeft" ? -rect.width * step / 100 : event.key === "ArrowRight" ? rect.width * step / 100 : 0,
+      deltaY: event.key === "ArrowUp" ? -rect.height * step / 100 : event.key === "ArrowDown" ? rect.height * step / 100 : 0,
+      frameWidth: rect.width,
+      frameHeight: rect.height,
+      operation: resizing ? "resize" : "move",
+    });
+    setFreeCropControls(changed);
+    renderEditorPreview(changed, { transient: true });
+  } else {
+    if (event.key === "ArrowLeft") settings.cropX = Math.max(0, Number(settings.cropX) - step);
+    if (event.key === "ArrowRight") settings.cropX = Math.min(100, Number(settings.cropX) + step);
+    if (event.key === "ArrowUp") settings.cropY = Math.max(0, Number(settings.cropY) - step);
+    if (event.key === "ArrowDown") settings.cropY = Math.min(100, Number(settings.cropY) + step);
+    setCropControls(settings);
+    renderEditorPreview(settings, { transient: true });
+  }
   commitEditorForm();
   event.preventDefault();
 }
@@ -911,6 +1004,8 @@ elements.backToTasks.addEventListener("click", () => { selectedTask = null; clea
 elements.settingsForm.addEventListener("input", (event) => {
   if (selectedTask?.id !== "UT-TUNE" || !editorWorkspace) return;
   const changedName = event.target?.name;
+  if (changedName === "ratio") seedFreeCropFromWorkspace();
+  if (["cropLeft", "cropTop", "cropWidth", "cropHeight"].includes(changedName)) reconcileFreeCrop();
   if (["sizeMode", "ratio", "rotation", "outputWidth", "outputHeight"].includes(changedName)) {
     reconcileCustomSize(changedName);
   }
@@ -919,6 +1014,8 @@ elements.settingsForm.addEventListener("input", (event) => {
 elements.settingsForm.addEventListener("change", (event) => {
   if (selectedTask?.id !== "UT-TUNE") return;
   const changedName = event.target?.name;
+  if (changedName === "ratio") seedFreeCropFromWorkspace();
+  if (["cropLeft", "cropTop", "cropWidth", "cropHeight"].includes(changedName)) reconcileFreeCrop();
   if (["sizeMode", "ratio", "rotation", "outputWidth", "outputHeight"].includes(changedName)) {
     reconcileCustomSize(changedName);
   }

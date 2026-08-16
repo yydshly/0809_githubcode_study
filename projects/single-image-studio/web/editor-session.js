@@ -28,10 +28,27 @@ function positionedCrop(width, height, targetRatio, positionX = 50, positionY = 
   return { x: 0, y: unit((1 - cropHeight) * positionY / 100), width: 1, height: cropHeight };
 }
 
-function ratioContract(value, width, height, positionX, positionY) {
+function freeCropContract(settings, width, height) {
+  const left = percentSetting(settings.cropLeft, 0, "自由裁剪左边界");
+  const top = percentSetting(settings.cropTop, 0, "自由裁剪上边界");
+  const cropWidth = percentSetting(settings.cropWidth, 100, "自由裁剪宽度");
+  const cropHeight = percentSetting(settings.cropHeight, 100, "自由裁剪高度");
+  if (cropWidth < 10 || cropHeight < 10) throw new RangeError("自由裁剪宽高至少保留原图的 10%");
+  if (left + cropWidth > 100 || top + cropHeight > 100) {
+    throw new RangeError("自由裁剪区域必须完整位于原图内");
+  }
+  return {
+    crop: { x: unit(left / 100), y: unit(top / 100), width: unit(cropWidth / 100), height: unit(cropHeight / 100) },
+    resize: { width: null, height: null },
+    aspect: width * cropWidth / (height * cropHeight),
+  };
+}
+
+function ratioContract(value, width, height, positionX, positionY, settings) {
   if (value === "square") return { crop: positionedCrop(width, height, 1, positionX, positionY), resize: { width: 1600, height: 1600 }, aspect: 1 };
   if (value === "portrait") return { crop: positionedCrop(width, height, 4 / 5, positionX, positionY), resize: { width: 1536, height: 1920 }, aspect: 4 / 5 };
   if (value === "landscape") return { crop: positionedCrop(width, height, 3 / 2, positionX, positionY), resize: { width: 1920, height: 1280 }, aspect: 3 / 2 };
+  if (value === "free") return freeCropContract(settings, width, height);
   if (value === "original" || value === undefined) {
     return { crop: { x: 0, y: 0, width: 1, height: 1 }, resize: { width: null, height: null }, aspect: width / height };
   }
@@ -82,12 +99,13 @@ export function editStateFromSettings({ sourceWidth, sourceHeight, sourceOrienta
     : oriented;
   const cropX = percentSetting(settings.cropX, 50, "水平构图位置");
   const cropY = percentSetting(settings.cropY, 50, "垂直构图位置");
-  const ratio = ratioContract(settings.ratio, transformed.width, transformed.height, cropX, cropY);
+  const ratio = ratioContract(settings.ratio, transformed.width, transformed.height, cropX, cropY, settings);
   const resize = customResize(settings, ratio);
   return createEditState({
     rotation,
     flipHorizontal: settings.flipHorizontal === true || settings.flipHorizontal === "on",
     flipVertical: settings.flipVertical === true || settings.flipVertical === "on",
+    cropMode: settings.ratio ?? "original",
     crop: ratio.crop,
     resize: { ...resize, allowUpscale: false, maxEdge: EDITOR_OUTPUT_MAX_EDGE, maxPixels: 16_000_000 },
     adjustments: {

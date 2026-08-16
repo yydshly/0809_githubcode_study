@@ -6,6 +6,7 @@ import {
   editorPreviewPresentation,
   editorSettings,
   moveEditorCrop,
+  moveEditorFreeCrop,
   redoEditorWorkspace,
   resetEditorWorkspace,
   undoEditorWorkspace,
@@ -29,6 +30,10 @@ test("editor workspace binds presets to immutable history and a render-plan prev
     ratio: "portrait",
     cropX: 50,
     cropY: 50,
+    cropLeft: 20,
+    cropTop: 0,
+    cropWidth: 60,
+    cropHeight: 100,
     rotation: 90,
     flipHorizontal: true,
     flipVertical: false,
@@ -42,10 +47,11 @@ test("editor workspace binds presets to immutable history and a render-plan prev
     jpegBackground: "#123456",
   });
   const presentation = editorPreviewPresentation(workspace);
-  assert.equal(presentation.aspectRatio, "240 / 300");
-  assert.equal(presentation.previewWidth, "125%");
-  assert.equal(presentation.previewHeight, "80%");
+  assert.equal(presentation.aspectRatio, "400 / 300");
+  assert.equal(presentation.previewWidth, "75%");
+  assert.equal(presentation.previewHeight, "133.33333333333331%");
   assert.equal(presentation.objectPosition, "50% 50%");
+  assert.deepEqual(presentation.cropRect, { left: 20, top: 0, width: 60, height: 100 });
   assert.equal(presentation.transform, "translate(-50%, -50%) scale(-1, 1) rotate(90deg)");
   assert.equal(presentation.background, "#123456");
   assert.match(presentation.summary, /4:5.*亮度 \+15.*JPEG/);
@@ -73,7 +79,8 @@ test("crop position, custom size and drag math share one immutable edit contract
   assert.equal(editorSettings(workspace).sizeMode, "custom");
   assert.equal(editorSettings(workspace).cropX, 100);
   const presentation = editorPreviewPresentation(workspace);
-  assert.equal(presentation.objectPosition, "100% 50%");
+  assert.equal(presentation.objectPosition, "50% 50%");
+  assert.deepEqual(presentation.cropRect, { left: 50, top: 0, width: 50, height: 100 });
   assert.equal(presentation.cropAxis, "horizontal");
   assert.equal(presentation.cropLabel, "左右保留位置 100%");
   assert.match(presentation.summary, /500 × 500/);
@@ -94,7 +101,8 @@ test("crop controls expose only the direction that has real overflow", () => {
   const vertical = editorPreviewPresentation(verticalWorkspace, { ratio: "square", cropX: 12, cropY: 80, format: "png" });
   assert.equal(vertical.cropAxis, "vertical");
   assert.equal(vertical.cropEnabled, true);
-  assert.equal(vertical.objectPosition, "50% 80%");
+  assert.equal(vertical.objectPosition, "50% 50%");
+  assert.deepEqual(vertical.cropRect, { left: 0, top: 40, width: 100, height: 50 });
   assert.equal(vertical.cropLabel, "上下保留位置 80%");
   const dragged = moveEditorCrop(vertical.settings, {
     deltaX: 100,
@@ -123,9 +131,11 @@ test("preview geometry maps post-rotation and post-flip crop positions back to t
     format: "png",
   });
   assert.equal(quarter.cropAxis, "vertical");
-  assert.equal(quarter.previewWidth, "125%");
-  assert.equal(quarter.previewHeight, "80%");
-  assert.equal(quarter.objectPosition, "80% 50%");
+  assert.equal(quarter.aspectRatio, "500 / 1000");
+  assert.equal(quarter.previewWidth, "200%");
+  assert.equal(quarter.previewHeight, "50%");
+  assert.equal(quarter.objectPosition, "50% 50%");
+  assert.deepEqual(quarter.cropRect, { left: 0, top: 30, width: 100, height: 62.5 });
   assert.equal(quarter.transform, "translate(-50%, -50%) scale(1, 1) rotate(90deg)");
 
   const flippedQuarter = editorPreviewPresentation(workspace, {
@@ -135,7 +145,8 @@ test("preview geometry maps post-rotation and post-flip crop positions back to t
     cropY: 80,
     format: "png",
   });
-  assert.equal(flippedQuarter.objectPosition, "20% 50%");
+  assert.equal(flippedQuarter.objectPosition, "50% 50%");
+  assert.deepEqual(flippedQuarter.cropRect, quarter.cropRect);
   assert.equal(flippedQuarter.transform, "translate(-50%, -50%) scale(1, -1) rotate(90deg)");
 
   const halfTurn = editorPreviewPresentation(workspace, {
@@ -147,7 +158,8 @@ test("preview geometry maps post-rotation and post-flip crop positions back to t
   assert.equal(halfTurn.cropAxis, "horizontal");
   assert.equal(halfTurn.previewWidth, "100%");
   assert.equal(halfTurn.previewHeight, "100%");
-  assert.equal(halfTurn.objectPosition, "0% 50%");
+  assert.equal(halfTurn.objectPosition, "50% 50%");
+  assert.deepEqual(halfTurn.cropRect, { left: 50, top: 0, width: 50, height: 100 });
 
   const reverseQuarter = editorPreviewPresentation(workspace, {
     ratio: "portrait",
@@ -155,7 +167,43 @@ test("preview geometry maps post-rotation and post-flip crop positions back to t
     cropY: 80,
     format: "png",
   });
-  assert.equal(reverseQuarter.objectPosition, "20% 50%");
+  assert.equal(reverseQuarter.objectPosition, "50% 50%");
+  assert.deepEqual(reverseQuarter.cropRect, quarter.cropRect);
+});
+
+test("free crop moves and resizes one visible normalized rectangle", () => {
+  const workspace = createEditorWorkspace({ sourceWidth: 1000, sourceHeight: 500, sourceOrientation: 1 });
+  const free = editorPreviewPresentation(workspace, {
+    ratio: "free",
+    cropLeft: 20,
+    cropTop: 10,
+    cropWidth: 50,
+    cropHeight: 60,
+    format: "png",
+  });
+  assert.equal(free.cropAxis, "both");
+  assert.equal(free.cropEnabled, true);
+  assert.equal(free.cropResizable, true);
+  assert.deepEqual(free.cropRect, { left: 20, top: 10, width: 50, height: 60 });
+  assert.match(free.summary, /自由裁剪 50% × 60%/);
+
+  const moved = moveEditorFreeCrop(free.settings, {
+    deltaX: 80,
+    deltaY: 40,
+    frameWidth: 400,
+    frameHeight: 200,
+  });
+  assert.equal(moved.cropLeft, 40);
+  assert.equal(moved.cropTop, 30);
+  const resized = moveEditorFreeCrop(moved, {
+    deltaX: 200,
+    deltaY: -100,
+    frameWidth: 400,
+    frameHeight: 200,
+    operation: "resize",
+  });
+  assert.equal(resized.cropWidth, 60);
+  assert.equal(resized.cropHeight, 10);
 });
 
 test("undo, redo and reset preserve the current source contract", () => {
@@ -181,7 +229,8 @@ test("transient preview does not create a history entry", () => {
     brightness: 30,
     format: "png",
   });
-  assert.equal(presentation.aspectRatio, "800 / 800");
+  assert.equal(presentation.aspectRatio, "1200 / 800");
+  assert.deepEqual(presentation.cropRect, { left: 16.6666666667, top: 0, width: 66.6666666667, height: 100 });
   assert.match(presentation.filter, /brightness\(130%\)/);
   assert.equal(workspace.history.past.length, 0);
   assert.equal(editorSettings(workspace).brightness, 0);
@@ -190,7 +239,7 @@ test("transient preview does not create a history entry", () => {
 test("workspace rejects invalid source and unsupported transient settings", () => {
   assert.throws(() => createEditorWorkspace({ sourceWidth: 0, sourceHeight: 10 }), /有效来源尺寸/);
   const workspace = createEditorWorkspace({ sourceWidth: 10, sourceHeight: 10 });
-  assert.throws(() => editorPreviewPresentation(workspace, { ratio: "free" }), /不支持的画面比例/);
+  assert.throws(() => editorPreviewPresentation(workspace, { ratio: "panorama" }), /不支持的画面比例/);
   assert.throws(
     () => moveEditorCrop(editorSettings(workspace), { deltaX: 1, deltaY: 1, frameWidth: 0, frameHeight: 10 }),
     /有效预览尺寸/,

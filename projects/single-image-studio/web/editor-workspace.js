@@ -26,6 +26,7 @@ const RATIO_PRESETS = Object.freeze({
   square: Object.freeze({ width: 1600, height: 1600, label: "1:1" }),
   portrait: Object.freeze({ width: 1536, height: 1920, label: "4:5" }),
   landscape: Object.freeze({ width: 1920, height: 1280, label: "3:2" }),
+  free: Object.freeze({ width: null, height: null, label: "自由裁剪" }),
 });
 
 function transformedDimensions(source, rotation) {
@@ -42,6 +43,7 @@ function near(left, right, tolerance = 0.000001) {
 }
 
 function ratioFromState(state, source) {
+  if (Object.hasOwn(RATIO_PRESETS, state.cropMode)) return state.cropMode;
   for (const ratio of ["square", "portrait", "landscape"]) {
     const preset = RATIO_PRESETS[ratio];
     if (state.resize.width === preset.width && state.resize.height === preset.height) return ratio;
@@ -68,6 +70,10 @@ function settingsFromState(state, source) {
     ratio,
     cropX: cropPosition(state.crop.x, state.crop.width),
     cropY: cropPosition(state.crop.y, state.crop.height),
+    cropLeft: Math.round(state.crop.x * 100),
+    cropTop: Math.round(state.crop.y * 100),
+    cropWidth: Math.round(state.crop.width * 100),
+    cropHeight: Math.round(state.crop.height * 100),
     rotation: state.rotation,
     flipHorizontal: state.flipHorizontal,
     flipVertical: state.flipVertical,
@@ -119,7 +125,8 @@ export function editorSettings(workspace) {
   return settingsFromState(workspace.history.present, workspace.source);
 }
 
-function activeCropAxis(crop) {
+function activeCropAxis(crop, cropMode) {
+  if (cropMode === "free") return "both";
   if (!near(crop.width, 1)) return "horizontal";
   if (!near(crop.height, 1)) return "vertical";
   return "none";
@@ -146,18 +153,48 @@ export function moveEditorCrop(settings, { deltaX = 0, deltaY = 0, frameWidth, f
   });
 }
 
+const FREE_CROP_MIN_PERCENT = 10;
+
+function boundedPercent(value, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, Math.round(value)));
+}
+
+export function moveEditorFreeCrop(settings, {
+  deltaX = 0,
+  deltaY = 0,
+  frameWidth,
+  frameHeight,
+  operation = "move",
+}) {
+  if (!Number.isFinite(frameWidth) || frameWidth <= 0 || !Number.isFinite(frameHeight) || frameHeight <= 0) {
+    throw new TypeError("自由裁剪拖动需要有效预览尺寸");
+  }
+  if (![deltaX, deltaY].every(Number.isFinite)) throw new TypeError("自由裁剪拖动距离必须是有限数值");
+  if (!["move", "resize"].includes(operation)) throw new RangeError("不支持的自由裁剪操作");
+  const start = {
+    left: Number(settings.cropLeft ?? 0),
+    top: Number(settings.cropTop ?? 0),
+    width: Number(settings.cropWidth ?? 100),
+    height: Number(settings.cropHeight ?? 100),
+  };
+  if (!Object.values(start).every(Number.isFinite)) throw new TypeError("自由裁剪设置必须是有限数值");
+  if (operation === "resize") {
+    return Object.freeze({
+      ...settings,
+      cropWidth: boundedPercent(start.width + deltaX / frameWidth * 100, FREE_CROP_MIN_PERCENT, 100 - start.left),
+      cropHeight: boundedPercent(start.height + deltaY / frameHeight * 100, FREE_CROP_MIN_PERCENT, 100 - start.top),
+    });
+  }
+  return Object.freeze({
+    ...settings,
+    cropLeft: boundedPercent(start.left + deltaX / frameWidth * 100, 0, 100 - start.width),
+    cropTop: boundedPercent(start.top + deltaY / frameHeight * 100, 0, 100 - start.height),
+  });
+}
+
 function signed(value) {
   if (value === 0) return "0";
   return value > 0 ? `+${value}` : String(value);
-}
-
-function previewSourcePosition(state, positionX, positionY) {
-  const unflippedX = state.flipHorizontal ? 100 - positionX : positionX;
-  const unflippedY = state.flipVertical ? 100 - positionY : positionY;
-  if (state.rotation === 90) return { x: unflippedY, y: 100 - unflippedX };
-  if (state.rotation === 180) return { x: 100 - unflippedX, y: 100 - unflippedY };
-  if (state.rotation === 270) return { x: 100 - unflippedY, y: unflippedX };
-  return { x: unflippedX, y: unflippedY };
 }
 
 export function editorPreviewPresentation(workspace, transientSettings = null) {
@@ -171,32 +208,40 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
     editState: state,
   });
   const aspect = plan.output.width / plan.output.height;
+  const frameAspect = plan.transformed.width / plan.transformed.height;
   const normalizedSettings = settingsFromState(state, workspace.source);
   const ratio = normalizedSettings.ratio;
   const ratioLabel = RATIO_PRESETS[ratio].label;
-  const cropAxis = activeCropAxis(state.crop);
+  const cropAxis = activeCropAxis(state.crop, state.cropMode);
   const cropEnabled = cropAxis !== "none";
-  const cropLabel = cropAxis === "horizontal"
+  const cropLabel = cropAxis === "both"
+    ? `自由裁剪 ${normalizedSettings.cropWidth}% × ${normalizedSettings.cropHeight}%`
+    : cropAxis === "horizontal"
     ? `左右保留位置 ${normalizedSettings.cropX}%`
     : cropAxis === "vertical"
       ? `上下保留位置 ${normalizedSettings.cropY}%`
       : ratio === "original" ? "完整画面" : "比例已匹配，无需移动";
-  const positionX = cropAxis === "horizontal" ? normalizedSettings.cropX : 50;
-  const positionY = cropAxis === "vertical" ? normalizedSettings.cropY : 50;
-  const sourcePosition = previewSourcePosition(state, positionX, positionY);
   const quarterTurn = state.rotation === 90 || state.rotation === 270;
   return Object.freeze({
     state,
-    aspectRatio: `${plan.output.width} / ${plan.output.height}`,
+    aspectRatio: `${plan.transformed.width} / ${plan.transformed.height}`,
     aspectValue: aspect,
-    previewWidth: quarterTurn ? `${100 / aspect}%` : "100%",
-    previewHeight: quarterTurn ? `${100 * aspect}%` : "100%",
+    frameAspectValue: frameAspect,
+    previewWidth: quarterTurn ? `${100 / frameAspect}%` : "100%",
+    previewHeight: quarterTurn ? `${100 * frameAspect}%` : "100%",
     transform: `translate(-50%, -50%) scale(${state.flipHorizontal ? -1 : 1}, ${state.flipVertical ? -1 : 1}) rotate(${state.rotation}deg)`,
-    objectPosition: `${sourcePosition.x}% ${sourcePosition.y}%`,
+    objectPosition: "50% 50%",
+    cropRect: Object.freeze({
+      left: state.crop.x * 100,
+      top: state.crop.y * 100,
+      width: state.crop.width * 100,
+      height: state.crop.height * 100,
+    }),
     filter: plan.filter,
     background: state.output.format === "jpeg" ? state.output.jpegBackground : null,
     format: state.output.format,
     cropEnabled,
+    cropResizable: state.cropMode === "free",
     cropAxis,
     cropLabel,
     settings: normalizedSettings,
