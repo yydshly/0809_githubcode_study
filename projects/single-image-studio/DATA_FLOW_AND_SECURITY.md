@@ -48,6 +48,14 @@
 
 首轮不接受远程图片 URL。未来若增加 URL 导入，必须使用独立下载服务和出站 allowlist，禁止访问 localhost、私网、云元数据地址、非 HTTP(S) 协议和重定向到受限网段；限制 DNS 重绑定、响应大小、重定向次数、MIME 与解码像素。
 
+### 3.1 当前 M3a Provider 工程边界
+
+当前代码新增独立 `/api/background-removal/status`、`/api/background-removal/runs` 与取消/查询接口，但生产默认没有配置 Provider，因此在读取图片正文前返回不可用，不发生远程外发。fake provider 只能由测试显式注入；局域网预览即使被注入也拒绝运行。
+
+请求必须绑定本次 `clientRunId`、`sourceRevision`、`geometryRevision`、来源 SHA-256 和 `background-removal-consent.v0` 明确同意。来源 bytes 仅作为本次进程内 provider 输入，不写入内存 run record；record 只保留当前进程内的来源 hash/revision、终态、错误码和经验证的输出。该 plain hash 结构还不是未来多用户服务允许持久保存的收据格式。服务端会直接重算来源 hash，并检查 Provider 返回的 PNG chunk/CRC、8-bit RGBA Alpha、尺寸、闭合 IEND 和非动画边界。
+
+当前内存 store 不提供跨刷新恢复、删除证明、地域、费用、供应商保留期或多用户隔离，因此不能接真实 Provider，也不能接收真实用户照片。第一次真实调用前仍须冻结候选、条款日期、处理地域、训练/审核用途、TTL、删除能力、预算和 scoped receipt 方案；任一项未知即保持不可用。
+
 ## 4. 首轮桌面范围与威胁模型
 
 ### 4.1 信任边界与假设

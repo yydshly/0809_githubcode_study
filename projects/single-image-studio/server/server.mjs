@@ -11,6 +11,7 @@ import {
 import { fileURLToPath } from "node:url";
 
 import { InMemoryRunStore } from "./run-store.mjs";
+import { createBackgroundRemovalRuntime } from "./providers/background-removal/runtime.mjs";
 
 const DEFAULT_PORT = 4177;
 const MAX_JSON_BODY_BYTES = 36 * 1024 * 1024;
@@ -265,6 +266,63 @@ function runInputFingerprint(input) {
     outputFormat: input.outputFormat,
   });
   return sha256(Buffer.from(canonical, "utf8"));
+}
+
+function exactUtc(value, label) {
+  if (typeof value !== "string" || Number.isNaN(Date.parse(value)) || new Date(value).toISOString() !== value) {
+    throw new HttpError(400, "invalid_background_removal_consent", `${label} 必须是精确 UTC 时间`);
+  }
+  return value;
+}
+
+function parseBackgroundRemovalPayload(payload) {
+  assertAllowedKeys(payload, new Set([
+    "clientRunId",
+    "sourceRevision",
+    "geometryRevision",
+    "sourceImage",
+    "sourceSha256",
+    "consent",
+  ]));
+  if (typeof payload.clientRunId !== "string" || !UUID_PATTERN.test(payload.clientRunId)) {
+    throw new HttpError(400, "invalid_client_run_id", "clientRunId 必须是有效 UUID");
+  }
+  if (!Number.isInteger(payload.sourceRevision) || payload.sourceRevision < 1) {
+    throw new HttpError(400, "invalid_source_revision", "sourceRevision 必须是正整数");
+  }
+  if (!Number.isInteger(payload.geometryRevision) || payload.geometryRevision < 1) {
+    throw new HttpError(400, "invalid_geometry_revision", "geometryRevision 必须是正整数");
+  }
+  const source = parseImageDataUrl(payload.sourceImage, "sourceImage");
+  if (typeof payload.sourceSha256 !== "string" || payload.sourceSha256.toLowerCase() !== source.sha256) {
+    throw new HttpError(400, "source_hash_mismatch", "sourceSha256 与 sourceImage bytes 不一致");
+  }
+  assertAllowedKeys(payload.consent ?? {}, new Set(["accepted", "acceptedAt", "policyVersion"]));
+  if (payload.consent?.accepted !== true || payload.consent.policyVersion !== "background-removal-consent.v0") {
+    throw new HttpError(400, "background_removal_consent_required", "发送图片前必须明确同意远程抠图处理");
+  }
+  const consent = {
+    accepted: true,
+    acceptedAt: exactUtc(payload.consent.acceptedAt, "consent.acceptedAt"),
+    policyVersion: payload.consent.policyVersion,
+  };
+  return {
+    clientRunId: payload.clientRunId.toLowerCase(),
+    sourceRevision: payload.sourceRevision,
+    geometryRevision: payload.geometryRevision,
+    source,
+    consent,
+  };
+}
+
+function backgroundRemovalFingerprint(input, providerStatus) {
+  return sha256(Buffer.from(JSON.stringify({
+    provider: providerStatus.provider,
+    sourceRevision: input.sourceRevision,
+    geometryRevision: input.geometryRevision,
+    sourceSha256: input.source.sha256,
+    consentPolicyVersion: input.consent.policyVersion,
+  }), "utf8"));
 }
 
 async function readUpstreamJson(response) {
@@ -725,6 +783,10 @@ async function serveStatic({ request, response, webRoot }) {
 function apiRoute(pathname) {
   if (pathname === "/api/status") return { kind: "status" };
   if (pathname === "/api/runs") return { kind: "runs" };
+  if (pathname === "/api/background-removal/status") return { kind: "background-removal-status" };
+  if (pathname === "/api/background-removal/runs") return { kind: "background-removal-runs" };
+  const backgroundRemovalMatch = /^\/api\/background-removal\/runs\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i.exec(pathname);
+  if (backgroundRemovalMatch) return { kind: "background-removal-run", id: backgroundRemovalMatch[1].toLowerCase() };
   const runMatch = /^\/api\/runs\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i.exec(pathname);
   return runMatch ? { kind: "run", id: runMatch[1].toLowerCase() } : { kind: "unknown" };
 }
@@ -739,6 +801,9 @@ export function createImageStudioServer({
   researchRoot = fileURLToPath(new URL("../research/", import.meta.url)),
   researchCatalogPath,
   catalogPath,
+  backgroundRemovalProvider = null,
+  backgroundRemovalStore = new InMemoryRunStore(),
+  backgroundRemovalTimeoutMs = 30_000,
 } = {}) {
   if (typeof fetchImpl !== "function") throw new TypeError("fetchImpl must be a function");
   if (!new Set(["local", "lan"]).has(previewMode)) {
@@ -758,6 +823,11 @@ export function createImageStudioServer({
   // LAN preview deliberately serves only the browser-local processing path.
   // A server-side key may exist in the parent environment, but it is ignored.
   const effectiveApiKey = previewMode === "local" ? apiKey : "";
+  const backgroundRemoval = createBackgroundRemovalRuntime({
+    provider: previewMode === "local" ? backgroundRemovalProvider : null,
+    store: backgroundRemovalStore,
+    timeoutMs: backgroundRemovalTimeoutMs,
+  });
 
   const inflight = new Set();
   const server = createHttpServer(async (request, response) => {
@@ -776,6 +846,64 @@ export function createImageStudioServer({
           previewMode,
         });
         return;
+      }
+
+      if (route.kind === "background-removal-status") {
+        if (request.method !== "GET") throw new HttpError(405, "method_not_allowed", "该接口只支持 GET");
+        const status = backgroundRemoval.status();
+        sendJson(response, 200, {
+          ...status,
+          reason: previewMode === "lan" ? "lan_disabled" : status.reason,
+          previewMode,
+        });
+        return;
+      }
+
+      if (route.kind === "background-removal-runs") {
+        if (request.method !== "POST") throw new HttpError(405, "method_not_allowed", "该接口只支持 POST");
+        if (previewMode === "lan") throw new HttpError(403, "lan_background_removal_disabled", "手机局域网预览不开放远程抠图");
+        const providerStatus = backgroundRemoval.status();
+        if (!providerStatus.available) throw new HttpError(503, "background_removal_unavailable", "尚未配置抠图服务");
+        const input = parseBackgroundRemovalPayload(await readJson(request));
+        const resolved = backgroundRemoval.create({
+          id: input.clientRunId,
+          inputFingerprint: backgroundRemovalFingerprint(input, providerStatus),
+          input,
+          metadata: {
+            taskId: "BACKGROUND_REMOVAL",
+            provider: providerStatus.provider,
+            input: {
+              sourceRevision: input.sourceRevision,
+              geometryRevision: input.geometryRevision,
+              sourceSha256: input.source.sha256,
+              sourceMime: input.source.mime,
+              sourceBytes: input.source.bytes.length,
+              consentPolicyVersion: input.consent.policyVersion,
+            },
+          },
+        });
+        if (resolved.conflict) throw new HttpError(409, "client_run_conflict", "clientRunId 已用于不同抠图输入");
+        sendJson(response, resolved.created ? 202 : 200, { run: publicRun(resolved.run), reused: !resolved.created }, {
+          Location: `/api/background-removal/runs/${resolved.run.id}`,
+        });
+        return;
+      }
+
+      if (route.kind === "background-removal-run") {
+        if (previewMode === "lan") throw new HttpError(403, "lan_background_removal_disabled", "手机局域网预览不开放远程抠图");
+        if (request.method === "GET") {
+          const run = backgroundRemoval.get(route.id);
+          if (!run) throw new HttpError(404, "run_not_found", "抠图任务不存在");
+          sendJson(response, 200, { run: publicRun(run) });
+          return;
+        }
+        if (request.method === "DELETE") {
+          const cancelled = backgroundRemoval.cancel(route.id);
+          if (!cancelled) throw new HttpError(404, "run_not_found", "抠图任务不存在");
+          sendJson(response, 200, cancelled);
+          return;
+        }
+        throw new HttpError(405, "method_not_allowed", "该接口只支持 GET 或 DELETE");
       }
 
       if (url.pathname === "/api/research/fixtures") {
@@ -898,8 +1026,9 @@ export function createImageStudioServer({
   return {
     server,
     store,
+    backgroundRemovalStore,
     async waitForIdle() {
-      await Promise.allSettled([...inflight]);
+      await Promise.allSettled([...inflight, backgroundRemoval.waitForIdle()]);
     },
   };
 }

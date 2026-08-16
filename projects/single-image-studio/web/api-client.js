@@ -9,6 +9,7 @@ export const TERMINAL_RUN_STATUSES = Object.freeze([
   "UNKNOWN",
   "SUPERSEDED",
   "DETACHED",
+  "CANCELLED",
 ]);
 const terminalRunStatuses = new Set(TERMINAL_RUN_STATUSES);
 
@@ -64,6 +65,13 @@ function pathForRun(runId) {
     throw new TypeError("runId must be a non-empty string");
   }
   return `/api/runs/${encodeURIComponent(runId)}`;
+}
+
+function pathForBackgroundRemovalRun(runId) {
+  if (typeof runId !== "string" || runId.trim() === "") {
+    throw new TypeError("runId must be a non-empty string");
+  }
+  return `/api/background-removal/runs/${encodeURIComponent(runId)}`;
 }
 
 function createRequestAbort(externalSignal, timeoutMs) {
@@ -269,6 +277,43 @@ export function createApiClient({
     return unwrapRun(response);
   }
 
+  async function getBackgroundRemovalStatus({ signal, timeoutMs } = {}) {
+    return request("/api/background-removal/status", { signal, timeoutMs });
+  }
+
+  async function createBackgroundRemovalRun(payload, { signal, timeoutMs } = {}) {
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new TypeError("background removal payload must be an object");
+    }
+    const response = await request("/api/background-removal/runs", {
+      method: "POST",
+      body: payload,
+      signal,
+      timeoutMs,
+      outcomeUnknownOnTransport: true,
+    });
+    return unwrapRun(response);
+  }
+
+  async function getBackgroundRemovalRun(runId, { signal, timeoutMs } = {}) {
+    const response = await request(pathForBackgroundRemovalRun(runId), {
+      signal,
+      timeoutMs,
+      outcomeUnknownOnTransport: true,
+    });
+    return unwrapRun(response);
+  }
+
+  async function cancelBackgroundRemovalRun(runId, { signal, timeoutMs } = {}) {
+    const response = await request(pathForBackgroundRemovalRun(runId), {
+      method: "DELETE",
+      signal,
+      timeoutMs,
+      outcomeUnknownOnTransport: true,
+    });
+    return unwrapRun(response);
+  }
+
   async function pollRun(
     runId,
     {
@@ -321,7 +366,63 @@ export function createApiClient({
     }
   }
 
-  return Object.freeze({ getStatus, createRun, getRun, pollRun });
+  async function pollBackgroundRemovalRun(
+    runId,
+    {
+      signal,
+      intervalMs = DEFAULT_POLL_INTERVAL_MS,
+      timeoutMs = DEFAULT_POLL_TIMEOUT_MS,
+      onUpdate,
+    } = {},
+  ) {
+    pathForBackgroundRemovalRun(runId);
+    assertFiniteDuration(intervalMs, "intervalMs", { allowZero: true });
+    assertFiniteDuration(timeoutMs, "timeoutMs");
+    if (onUpdate !== undefined && typeof onUpdate !== "function") {
+      throw new TypeError("onUpdate must be a function");
+    }
+    const startedAt = Date.now();
+    let lastRun = null;
+    while (true) {
+      if (signal?.aborted) throw abortError(Boolean(lastRun));
+      const remainingMs = timeoutMs - (Date.now() - startedAt);
+      if (remainingMs <= 0) {
+        throw new ApiClientError("Background removal status is unknown after polling timed out", {
+          code: "POLL_TIMEOUT",
+          outcome: "UNKNOWN",
+          retryable: true,
+          details: { runId, lastRun },
+        });
+      }
+      lastRun = await getBackgroundRemovalRun(runId, {
+        signal,
+        timeoutMs: Math.min(requestTimeoutMs, remainingMs),
+      });
+      if (typeof lastRun.status !== "string") {
+        throw new ApiClientError("Background removal response does not contain a status", {
+          code: "INVALID_RESPONSE",
+          details: lastRun,
+        });
+      }
+      onUpdate?.(lastRun);
+      if (terminalRunStatuses.has(lastRun.status)) return lastRun;
+      const nextRemainingMs = timeoutMs - (Date.now() - startedAt);
+      if (nextRemainingMs <= 0) continue;
+      await wait(Math.min(intervalMs, nextRemainingMs), signal);
+    }
+  }
+
+  return Object.freeze({
+    getStatus,
+    createRun,
+    getRun,
+    pollRun,
+    getBackgroundRemovalStatus,
+    createBackgroundRemovalRun,
+    getBackgroundRemovalRun,
+    cancelBackgroundRemovalRun,
+    pollBackgroundRemovalRun,
+  });
 }
 
 let defaultClient;
@@ -348,4 +449,24 @@ export function getRun(runId, options) {
 
 export function pollRun(runId, options) {
   return getDefaultClient().pollRun(runId, options);
+}
+
+export function getBackgroundRemovalStatus(options) {
+  return getDefaultClient().getBackgroundRemovalStatus(options);
+}
+
+export function createBackgroundRemovalRun(payload, options) {
+  return getDefaultClient().createBackgroundRemovalRun(payload, options);
+}
+
+export function getBackgroundRemovalRun(runId, options) {
+  return getDefaultClient().getBackgroundRemovalRun(runId, options);
+}
+
+export function cancelBackgroundRemovalRun(runId, options) {
+  return getDefaultClient().cancelBackgroundRemovalRun(runId, options);
+}
+
+export function pollBackgroundRemovalRun(runId, options) {
+  return getDefaultClient().pollBackgroundRemovalRun(runId, options);
 }

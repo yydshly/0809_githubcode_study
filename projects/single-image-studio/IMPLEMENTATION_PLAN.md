@@ -32,7 +32,7 @@
 | 创意 API 工程路径 | `gpt-image-2` 图片编辑请求、状态查询、幂等和失败闭合 | 保留为实验功能，不进入当前 MVP 主路径 |
 | 研究资产 | synthetic fixtures、Sharp 来源锁、canonical PNG encoder lineage、Alpha 指标、rights / provenance 结构 | 精简复用，不把研究通过写成产品通过 |
 
-当前产品工程定向测试为 16 files / 114 tests 通过；除 M0 的本地输出和页面文案外，新增覆盖不可变编辑状态、有界 history、旋转 / 翻转 / crop / fit resize、JPEG / PNG / WebP EXIF orientation 1–8 的容器解析与受控归一化、PNG 透明上下文、JPEG 显式铺底、编码输出重开、20 个项目原创内存 RGBA fixture、Alpha / 可见预乘颜色核对、私密 metadata 拒绝、完整来源舞台、固定比例单轴裁剪、自由裁剪矩形移动 / 缩放 / 边界、单一最长边上限到严格宽高的比例推导，以及页面工作预览 / history 到 renderer 的会话绑定。它们证明工程状态和接口约束，不证明真实 Chrome / Edge 的布局、ICC / sRGB 转换、完整浏览器兼容或抠图能力。
+当前产品工程定向测试为 18 files / 128 tests 通过；除基础编辑状态、renderer、输出重开和工作区交互外，M3a 已覆盖独立抠图 route/client、生产未配置、fake provider、来源与构图 revision、明确同意、幂等冲突、拒绝、超时、取消、迟到响应、LAN 禁用，以及输出 PNG 的 CRC / 原生 Alpha 结构验证。它们证明工程状态和 Provider 接口约束，不证明真实 Chrome / Edge 的布局、完整浏览器兼容、真实供应商可用或抠图质量。
 
 当前可复算命令为：
 
@@ -257,6 +257,8 @@ M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v
 - 使用 12–20 个项目原创或许可明确的图片进行小规模测试，不使用真实用户照片；
 - 选择一个主 Provider；没有候选满足隐私或质量要求时，保持手动编辑，不仓促引入本地模型。
 
+当前完成度：合同、独立 typed route/client、内存 run store、fake provider 和关闭测试已经完成；生产配置仍为 `not_configured`，真实候选、真实 API 调用、持久 `ProviderCallReceipt`、删除验证和用户可见抠图入口均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
+
 第一次真实调用前必须冻结 `ProviderEvaluationPlan`：候选 API / 条款日期、隐私硬门、允许地域 / 保留 / 训练用途、单次与总预算、最大延迟和失败率、synthetic Alpha / boundary 指标、灾难误删上限、分层人工判断规则、修正后可完成率与 no-go 条件。具体阈值只能在看结果前依据候选价格和业务预算写入；未知隐私边界直接 no-go，不能用质量分数抵消。
 
 即使 MVP 不建设完整队列，也必须持久保存上节定义的最小调用收据。普通图片 SHA-256 不是匿名数据：浏览器本地完整性 hash 与服务端操作收据分开，收据优先使用 run-scoped HMAC 或加密 hash，并在 M3 冻结访问范围和 TTL；不得把可跨会话关联的 plain hash 写入普通日志。不得保存图片正文或密钥。跨刷新后状态未知时只允许查询 / reconcile，不得盲目再次计费。
@@ -312,8 +314,8 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 
 ### Next
 
-8. Provider 抽象与 fake provider；
-9. 云端候选小规模评估与隐私 / 成本记录；
+8. ~~Provider 抽象、独立 route/client 与 fake provider 关闭测试；~~
+9. 冻结 `ProviderEvaluationPlan`，完成云端候选、隐私、保留/删除、成本和退出方案的只读决策记录；
 10. 透明预览、手动 mask 修正、透明 PNG 与纯色换底；
 11. 抠图专项可用性走查与 beta readiness 决策。
 

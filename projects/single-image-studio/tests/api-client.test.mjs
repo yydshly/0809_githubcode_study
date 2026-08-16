@@ -170,3 +170,53 @@ test("poll timeout is surfaced as UNKNOWN with the last observed run", async () 
     },
   );
 });
+
+test("background removal client uses its dedicated status, run, cancel, and polling routes", async () => {
+  const calls = [];
+  const responses = [
+    { available: true, provider: { id: "fake.background-removal", version: "0.1.0", mode: "fake" } },
+    { run: { id: "cutout-1", status: "queued" } },
+    { run: { id: "cutout-1", status: "running" } },
+    { run: { id: "cutout-1", status: "succeeded", result: { mime: "image/png", hasAlpha: true } } },
+    { run: { id: "cutout-2", status: "cancelled" }, cancelled: true },
+  ];
+  const client = api.createApiClient({
+    fetchImpl: async (url, options) => {
+      calls.push({ url, options });
+      return jsonResponse(responses.shift());
+    },
+  });
+
+  const status = await client.getBackgroundRemovalStatus();
+  assert.equal(status.available, true);
+  const created = await client.createBackgroundRemovalRun({ sourceRevision: 1 });
+  assert.equal(created.status, "QUEUED");
+  const finished = await client.pollBackgroundRemovalRun("cutout-1", { intervalMs: 0, timeoutMs: 1_000 });
+  assert.equal(finished.status, "SUCCEEDED");
+  const cancelled = await client.cancelBackgroundRemovalRun("cutout-2");
+  assert.equal(cancelled.status, "CANCELLED");
+
+  assert.deepEqual(calls.map(({ url, options }) => [url, options.method]), [
+    ["/api/background-removal/status", "GET"],
+    ["/api/background-removal/runs", "POST"],
+    ["/api/background-removal/runs/cutout-1", "GET"],
+    ["/api/background-removal/runs/cutout-1", "GET"],
+    ["/api/background-removal/runs/cutout-2", "DELETE"],
+  ]);
+});
+
+test("background removal creation and cancellation preserve UNKNOWN transport outcomes", async () => {
+  const client = api.createApiClient({
+    fetchImpl: async () => { throw new TypeError("network lost"); },
+  });
+  for (const operation of [
+    () => client.createBackgroundRemovalRun({ sourceRevision: 1 }),
+    () => client.cancelBackgroundRemovalRun("cutout-unknown"),
+  ]) {
+    await assert.rejects(operation, (error) => {
+      assert.equal(error.outcome, "UNKNOWN");
+      assert.equal(error.retryable, true);
+      return true;
+    });
+  }
+});

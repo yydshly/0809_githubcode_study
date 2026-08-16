@@ -21,7 +21,7 @@
 5. 只有真实产品数据证明成本、隐私、延迟或离线需求不可接受时，才恢复浏览器 / 本地模型路线；
 6. C/U/E/R/O/G/V 与 Release Gate 继续约束公开声明和正式发布，但不阻止开发内部产品试用版和开展不使用参与者图片的早期内部可用性走查。
 
-M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“保真整理”路径：不可变 `EditState`、100-step 默认 / 200-step 硬上限 history、旋转 / 翻转 / 归一化裁切 / fit resize / RGB 调整 / PNG-JPEG 输出合同，以及“方向归一化 → 变换画布 → 输出画布 → 编码 bytes 独立重开”的执行路径。JPEG / PNG / WebP 的 EXIF orientation 1–8 已由独立容器解析器读取，受控 `ImageBitmap` 解码关闭浏览器自动旋转，再由透明 Canvas 使用冻结矩阵归一化。编码前后像素会核对 Alpha 与可见的预乘颜色；Alpha=0 的 hidden RGB 明确不作可见事实。最终 PNG / JPEG bytes 会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，同时允许把 ICC / sRGB 颜色描述单独留待色彩核验。M1b 继续推进：页面工作区按变换后的来源比例完整显示图片，不再把固定比例输出窗口误作全图；选择 1:1 / 4:5 / 3:2 后，亮色裁剪框与外部遮罩区分保留和舍弃区域，宽图只横向移动、长图只纵向移动。新增“自由裁剪”，可拖动裁剪框、拖右下角缩放，或用左 / 上 / 宽 / 高范围控件精确调整；最小裁剪宽高为 10%，区域必须留在原图内。旋转 / 翻转后的完整预览、裁剪框与 Canvas renderer 使用同一 post-transform normalized crop。自定义尺寸收敛为单一“最长边上限”：宽高随当前裁剪比例自动计算，只改变导出像素，不改变完整图片舞台大小；页面分别显示上限框和预计实际导出尺寸，小图仍不放大。最终下载仍从原始解码结果重新渲染，不使用预览画面。产品定向测试为 `16 files / 114 tests`，动态 syntax 覆盖 `167` 个脚本。仓库已加入只使用内存合成像素的浏览器诊断页；canonical server 主页面与诊断页 HTTP 200，但本轮仍未暴露可控浏览器脚本入口，因此真实 Chrome / Edge 的布局、像素、ICC 转换、指针 / 键盘与下载 E2E 仍未取得。
+M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“保真整理”路径：不可变 `EditState`、100-step 默认 / 200-step 硬上限 history、旋转 / 翻转 / 归一化裁切 / fit resize / RGB 调整 / PNG-JPEG 输出合同，以及“方向归一化 → 变换画布 → 输出画布 → 编码 bytes 独立重开”的执行路径。JPEG / PNG / WebP 的 EXIF orientation 1–8 已由独立容器解析器读取，受控 `ImageBitmap` 解码关闭浏览器自动旋转，再由透明 Canvas 使用冻结矩阵归一化。编码前后像素会核对 Alpha 与可见的预乘颜色；Alpha=0 的 hidden RGB 明确不作可见事实。最终 PNG / JPEG bytes 会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，同时允许把 ICC / sRGB 颜色描述单独留待色彩核验。M1b 页面工作区按变换后的来源比例完整显示图片；固定比例裁剪、自由裁剪、旋转 / 翻转、最长边上限与最终 renderer 共享同一状态。用户已确认基础能力可作为继续工程推进的基线，但这不等于计划中的 5–8 人 M2 走查已经完成。M3a 已建立独立 `BackgroundRemovalProvider`、专用 run/status/cancel API 和浏览器 client；生产默认无 Provider、不会外发图片，fake provider 仅测试注入。请求会绑定来源 hash、source / geometry revision 和本次明确同意；成功输出由服务端直接检查 PNG chunk/CRC、8-bit RGBA Alpha、尺寸与动画边界，拒绝、超时、取消、迟到响应和幂等冲突均 fail closed。当前仍没有真实供应商、真实远程调用、Alpha 质量证明、透明预览或用户可见抠图入口。产品定向测试为 `18 files / 128 tests`，动态 syntax 覆盖 `173` 个脚本。
 
 ## 当前冻结的产品环境
 
@@ -35,7 +35,7 @@ M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| M0 + M1a renderer 合同 | M0 完成；M1a renderer 已接本地任务；M1b 构图、尺寸、工作预览和 history 已接入 | `test:product`：16 files / 114 tests；动态 syntax 覆盖 167 files；archived research 验证 Slice 01–11 | 舞台始终完整显示变换后的来源；固定比例用可移动亮框表示输出区域，自由裁剪可移动和缩放，并与 renderer 共享同一 normalized crop。用户只设置一个最长边上限，严格宽高随当前裁剪比例自动计算且不放大小图；撤销 / 重做 / 重置只保存参数。最终只接纳从原始来源重新渲染并独立重开校验后的结果。真实 Chrome / Edge 布局、指针 / 键盘与下载 E2E 仍未完成 |
+| 产品工程基线 + M3a Provider 边界 | M0 / M1a 完成；M1b 构图与导出已接入；M3a 接口与 fake provider 回归已完成 | `test:product`：18 files / 128 tests；动态 syntax 覆盖 173 files；archived research 验证 Slice 01–11 | 基础编辑器保持本地可用；抠图使用独立 typed route，并绑定来源、构图版本、同意、幂等与终态。生产未配置真实 Provider，页面尚无抠图入口，M2 多人走查和真实 Chrome / Edge E2E 仍未完成 |
 | 历史研究快照 | SourceCard + Matting baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合并转为 archival lineage | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet / RVM 未下载、安装或推理，当前 MVP 不继续该路线；需要本地 / 离线模型时必须按新产品版本重新立项 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |

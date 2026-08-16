@@ -6,15 +6,17 @@ export const RUN_STATUSES = Object.freeze([
   "succeeded",
   "failed",
   "unknown",
+  "cancelled",
 ]);
 
 const STATUS_SET = new Set(RUN_STATUSES);
 const TRANSITIONS = Object.freeze({
-  queued: new Set(["running", "failed", "unknown"]),
-  running: new Set(["succeeded", "failed", "unknown"]),
-  unknown: new Set(["running", "succeeded", "failed"]),
+  queued: new Set(["running", "failed", "unknown", "cancelled"]),
+  running: new Set(["succeeded", "failed", "unknown", "cancelled"]),
+  unknown: new Set(["running", "succeeded", "failed", "cancelled"]),
   succeeded: new Set(),
   failed: new Set(),
+  cancelled: new Set(),
 });
 
 function clone(value) {

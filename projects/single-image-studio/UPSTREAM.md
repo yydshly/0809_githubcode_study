@@ -169,6 +169,10 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 
 ## 当前外部文档参考
 
+### M3a 抠图 Provider 状态
+
+当前只实现项目自有的 Provider 接口、fake 测试实现和本地 API/client 边界，尚未选择、安装或调用任何第三方抠图供应商，也没有复制第三方 SDK、代码、模型、图片或资产。生产状态固定为 `not_configured`。候选服务的官方 API、精确版本、条款、隐私、地域、保留/删除、训练用途、价格和退出方案必须在首次真实调用前作为新的上游记录补入本文件；当前竞品页面只用于理解用户预期，不构成 Provider 选择或授权。
+
 | 资料 | 核对日期 | 用途 | 复制情况 |
 | --- | --- | --- | --- |
 | [OpenAI GPT Image 2 model](https://developers.openai.com/api/docs/models/gpt-image-2) | 2026-08-14 | 固定 `gpt-image-2-2026-04-21` snapshot、支持端点与限流入口 | 未复制代码或资产；仅记录公开服务边界 |
