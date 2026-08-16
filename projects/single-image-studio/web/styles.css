@@ -216,7 +216,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .compare-tabs { margin: 1.3rem auto 1rem; width: max-content; max-width: 100%; display: flex; background: #e9eae3; padding: .25rem; border-radius: 999px; }
 .compare-tabs button { min-width: 5.5rem; min-height: 2.75rem; border: 0; background: transparent; padding: .55rem .8rem; border-radius: 999px; cursor: pointer; color: var(--muted); }
 .compare-tabs button[aria-selected="true"] { background: white; color: var(--ink); box-shadow: 0 3px 10px rgba(0,0,0,.08); }
-.result-stage { min-height: 29rem; height: min(58vw, 39rem); padding: clamp(.5rem, 1.4vw, 1rem); box-sizing: border-box; background: #1d2420; border-radius: 1rem; display: grid; place-items: stretch; overflow: hidden; position: relative; }
+.result-stage { width: 100%; min-height: 0; height: auto; aspect-ratio: var(--result-stage-aspect, 16 / 9); margin-inline: auto; padding: clamp(.5rem, 1.4vw, 1rem); box-sizing: border-box; background: #1d2420; border-radius: 1rem; display: grid; place-items: stretch; overflow: hidden; position: relative; }
 .result-image-panel { grid-area: 1 / 1; width: 100%; height: 100%; min-width: 0; min-height: 0; display: grid; place-items: center; overflow: hidden; }
 .result-image-panel > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; object-position: center; }
 .reference-explainer { position: absolute; inset: 0; padding: clamp(2rem, 7vw, 7rem); background: #1e3f34; color: white; display: grid; grid-template-columns: minmax(8rem, .8fr) 1fr; align-items: center; gap: 3rem; }
@@ -275,7 +275,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
   .source-actions .button, .inline-actions .button { flex: 1 1 9rem; }
   .result-actions { justify-content: flex-start; }
   .result-actions .button { flex: 1 1 8rem; }
-  .result-stage { min-height: 0; height: min(72vh, 25rem); }
+  .result-stage { min-height: 0; }
   .reference-explainer { grid-template-columns: 1fr; gap: 1.4rem; text-align: center; }
   .reference-explainer > span { width: 10rem; justify-self: center; }
   #result-summary, .status-panel p, .error-panel p, .qa-strip, .source-caption, .service-status { overflow-wrap: anywhere; }

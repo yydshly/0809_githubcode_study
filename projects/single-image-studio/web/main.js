@@ -14,6 +14,7 @@ import {
 import { readImageOrientation } from "./image-orientation.js";
 import { createDemoImage, decodeImage } from "./local-processing.js";
 import { buildResultDownloadContract } from "./result-download.js";
+import { fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
 import {
@@ -47,7 +48,7 @@ const elements = {
   editorHistorySummary: $("#editor-history-summary"), editorChangeState: $("#editor-change-state"),
   editorCropHint: $("#editor-crop-hint"), editorDragBadge: $("#editor-drag-badge"),
   editorUndo: $("#editor-undo"), editorRedo: $("#editor-redo"), editorReset: $("#editor-reset"),
-  resultSection: $("#result-section"), resultTitle: $("#result-title"), resultSummary: $("#result-summary"),
+  resultSection: $("#result-section"), resultStage: $("#result-stage"), resultTitle: $("#result-title"), resultSummary: $("#result-summary"),
   resultSourcePanel: $("#compare-source-panel"), resultSourceImage: $("#result-source-image"),
   resultOutputPanel: $("#compare-result-panel"), resultOutputImage: $("#result-output-image"),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
@@ -116,6 +117,7 @@ let sourceUrl = null;
 let tasks = [];
 let selectedTask = null;
 let currentResult = null;
+let selectedComparisonLayer = "result";
 let editorWorkspace = null;
 let editorCropDrag = null;
 let activeController = null;
@@ -164,6 +166,8 @@ function revokeIfBlob(url) {
 
 function clearResult() {
   elements.resultOutputImage.removeAttribute("src");
+  elements.resultStage.removeAttribute("style");
+  delete elements.resultStage.dataset.aspect;
   revokeIfBlob(currentResult?.url);
   currentResult = null;
 }
@@ -877,8 +881,8 @@ function renderResult() {
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
   elements.referenceCopy.textContent = selectedTask.referenceCopy;
   elements.referenceMark.style.background = selectedTask.id === "UT-TUNE" ? "radial-gradient(circle at 35% 35%, #dce978 0 18%, transparent 19%), repeating-radial-gradient(circle, transparent 0 6px, rgba(255,255,255,.25) 7px 8px)" : "radial-gradient(circle at 30% 30%, #d96d3a, transparent 30%), repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.22) 9px 10px)";
-  selectComparisonLayer("result");
   showOnly("result");
+  selectComparisonLayer("result");
   setJourney("result");
   elements.download.focus();
 }
@@ -1063,8 +1067,41 @@ elements.download.addEventListener("click", async () => {
   setTimeout(() => URL.revokeObjectURL(url), 0);
   toast("结果已下载");
 });
+function comparisonLayerDimensions(layer) {
+  if (layer === "source") {
+    return orientedMediaDimensions(
+      source.rawWidth ?? source.width,
+      source.rawHeight ?? source.height,
+      source.sourceOrientation ?? 1,
+    );
+  }
+  if (layer === "result" && currentResult.width && currentResult.height) {
+    return { width: currentResult.width, height: currentResult.height };
+  }
+  return { width: 16, height: 9 };
+}
+
+function syncComparisonStage(layer = selectedComparisonLayer) {
+  if (!currentResult || elements.resultSection.hidden) return;
+  const dimensions = comparisonLayerDimensions(layer);
+  const availableWidth = Math.max(1, elements.resultSection.clientWidth || elements.main.clientWidth || window.innerWidth - 32);
+  const mobile = window.matchMedia("(max-width: 620px)").matches;
+  const maxHeight = Math.max(1, Math.min(window.innerHeight * .72, mobile ? 400 : 624));
+  const fitted = fitComparisonStage({
+    mediaWidth: dimensions.width,
+    mediaHeight: dimensions.height,
+    availableWidth,
+    maxHeight,
+  });
+  elements.resultStage.style.width = `${fitted.width}px`;
+  elements.resultStage.style.height = `${fitted.height}px`;
+  elements.resultStage.style.setProperty("--result-stage-aspect", fitted.aspectRatio);
+  elements.resultStage.dataset.aspect = `${dimensions.width}:${dimensions.height}`;
+}
+
 function selectComparisonLayer(layer, { focus = false } = {}) {
   if (!currentResult || !["source", "reference", "result"].includes(layer)) return;
+  selectedComparisonLayer = layer;
   let selectedTab = null;
   elements.tabs.forEach((tab) => {
     const selected = tab.dataset.layer === layer;
@@ -1075,11 +1112,13 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   elements.resultSourcePanel.hidden = layer !== "source";
   elements.resultOutputPanel.hidden = layer !== "result";
   elements.referenceExplainer.hidden = layer !== "reference";
-  if (layer === "source") elements.resultSize.textContent = `原图 ${source.width} × ${source.height}`;
+  const dimensions = comparisonLayerDimensions(layer);
+  if (layer === "source") elements.resultSize.textContent = `完整原图 ${dimensions.width} × ${dimensions.height}`;
   if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
     ? `结果 ${currentResult.width} × ${currentResult.height}`
     : currentResult.mimeType;
   if (layer === "reference") elements.resultSize.textContent = "任务方法说明";
+  syncComparisonStage(layer);
   if (focus) selectedTab?.focus();
 }
 
@@ -1096,6 +1135,7 @@ elements.tabs.forEach((tab, index) => {
     selectComparisonLayer(elements.tabs[targetIndex].dataset.layer, { focus: true });
   });
 });
+window.addEventListener("resize", () => syncComparisonStage());
 window.addEventListener("beforeunload", () => { stopActiveRequest(); clearEditorWorkspace(); revokeIfBlob(sourceUrl); revokeIfBlob(currentResult?.url); });
 
 showOnly("empty");
