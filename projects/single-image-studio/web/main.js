@@ -865,6 +865,7 @@ function renderResult() {
   elements.resultTitle.textContent = currentResult.title;
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
   elements.resultImage.src = currentResult.url;
+  elements.resultImage.alt = "完整显示的当前处理结果";
   elements.resultImage.hidden = false;
   elements.qaCopy.textContent = currentResult.validationSummary;
   elements.resultSize.textContent = currentResult.width && currentResult.height ? `${currentResult.width} × ${currentResult.height}` : currentResult.mimeType;
@@ -1063,8 +1064,14 @@ elements.tabs.forEach((tab) => tab.addEventListener("click", () => {
   elements.tabs.forEach((item) => item.setAttribute("aria-selected", String(item === tab)));
   elements.referenceExplainer.hidden = layer !== "reference";
   elements.resultImage.hidden = layer === "reference";
-  if (layer === "source") elements.resultImage.src = sourceUrl;
-  if (layer === "result") elements.resultImage.src = currentResult.url;
+  if (layer === "source") {
+    elements.resultImage.src = sourceUrl;
+    elements.resultImage.alt = "完整显示的原图";
+  }
+  if (layer === "result") {
+    elements.resultImage.src = currentResult.url;
+    elements.resultImage.alt = "完整显示的当前处理结果";
+  }
 }));
 window.addEventListener("beforeunload", () => { stopActiveRequest(); clearEditorWorkspace(); revokeIfBlob(sourceUrl); revokeIfBlob(currentResult?.url); });
 

@@ -38,6 +38,10 @@ test("visible output copy distinguishes engineering validation from content qual
   assert.match(localProcessing, /未执行内容质量检查/);
   assert.match(main, /未执行内容质量检查/);
   assert.match(resultDownload, /内容质量检查尚未实现/);
+  assert.match(styles, /\.result-stage img \{[^}]*width: auto;[^}]*height: auto;[^}]*max-width: 100%;[^}]*max-height: 100%;[^}]*object-fit: contain;[^}]*object-position: center;/);
+  assert.doesNotMatch(styles, /\.result-stage img \{[^}]*object-fit: cover/);
+  assert.match(main, /完整显示的原图/);
+  assert.match(main, /完整显示的当前处理结果/);
 });
 
 test("local editor workspace exposes preview, history and strict-render controls without claiming cutout", () => {
