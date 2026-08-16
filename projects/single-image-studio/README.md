@@ -1,6 +1,6 @@
 # Single Image Studio
 
-> 一个“单图能力底座”研究项目。目标是先证明可复用的图片能力、效果合同与质量门禁，再设计面向普通用户的单图智能处理产品。
+> 一个从能力研究转入产品实现的单图工作室。当前先完成真实可用的基础编辑与导出，再用可替换能力增加自动抠图；历史研究继续约束公开声明，但不再代替产品学习。
 
 ## 当前状态
 
@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | 已回到 SourceCard + Matting：纵向 baseline 与 exposure signals 已运行；continuous-alpha、自然人像/模型获取治理及候选运行时元数据均已冻结。MODNet/RVM 官方固定源码与依赖声明已登记，但模型 HEAD/GET、模型 bytes、候选依赖安装、自然图片和 results 全为 0；C1 与产品支持仍为 0 |
+| 研究阶段 | Slice 01–11、SourceCard / Matting baseline、continuous-alpha 和候选元数据已封存为历史 lineage。MODNet / RVM 仍是 metadata-only；模型 bytes、候选依赖安装、自然图片和推理 results 全为 0。当前不继续扩 Slice 或本地模型，C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -17,6 +17,23 @@
 | 发布状态 | 未发布；没有正式任务目录或可公开产品样例 |
 
 所有状态以 [STATUS.md](STATUS.md) 为唯一事实源。历史材料中的“可运行”“pass”若未特别说明，只代表 R0 工程检查，不代表能力或产品门槛通过。
+
+## 当前执行重排
+
+从 `main@6ecd53c` 起，项目暂停继续扩展研究 Slice 和本地 Matting 模型获取，转而先完成一个用户真正能使用的单图基础编辑器。当前优先级是：
+
+```text
+基础编辑闭环
+→ 产品浏览器验收
+→ 基础编辑器早期内部可用性走查
+→ 可替换云端抠图 Provider
+→ 保留 / 擦除修正与换底
+→ 抠图专项可用性走查与 beta readiness 决策
+```
+
+抠图是第二阶段的核心增强，不是产品底座；当前不要求用户安装 MODNet、RVM、SAM 或其他模型。Slice 01–11、SourceCard / Matting baseline、continuous-alpha 和候选元数据全部保留为历史研究资产，但不再自动驱动下一次提交。具体动作、里程碑、验收和恢复本地模型研究的条件见 [当前执行计划](IMPLEMENTATION_PLAN.md)。
+
+当前 R0 页面真实可运行的用户路径只有本地“保真整理”和可选的创意 API 工程路径；抠图、换底、头像、语义 SourceCard 和任务内容 QA 尚未接入产品。下一次代码动作固定为：拆分安全验证命令、修正页面过度声明、为本地处理建立输出回归测试。
 
 首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 
@@ -51,14 +68,14 @@
 8. QA、证据与来源；
 9. 编排与推荐。
 
-九类是研究地图，不是九个要同时开发的页面入口。第一条纵向链仍是：
+九类是研究地图，不是九个要同时开发的页面入口。长期能力研究中的主体 / 背景链为：
 
 ```text
 输入归一化 → 主体检测 → Alpha Matting → 边缘净化
 → 透明主体 → 纯色换底 → 任务 QA
 ```
 
-自然增强和 CR1 / CR2 创意对测是另外两条独立研究链。首个混合邀请 beta 要求质量、主体 / 背景、创意三个方向各至少一个效果满足完整发布公式；验证壳达标只允许正式页面进入设计与复验。
+自然增强和 CR1 / CR2 创意对测是另外两条独立研究链。未来 mixed beta 要求质量、主体 / 背景、创意三个方向各至少一个效果满足完整发布公式；这不是当前 MVP-B 的 beta-readiness 决策，验证壳达标也只允许正式页面进入设计与复验。
 
 ## 运行 Slice 01 研究设施
 
@@ -268,7 +285,7 @@ npm.cmd run verify
 
 ## 研究边界
 
-- 当前只增加研究设施、项目原创合成夹具、精确锁定的本地研究 codec 依赖与 Slice 06–11 的不可变 research-only 记录。Slice 09 两项 Gate B 均通过；Slice 10 在 1 / 288、Slice 11 在 0 / 288 处分别因协议错误 fail closed。两者都不是 formal holdout、C1 或产品支持。项目停止新增 normalize/export runner slice，下一步回到 SourceCard.v0 与 Matting baseline；不扩正式产品页面、任务卡，不下载模型 / 权重，也不把研究 candidate 接入产品 server / web 路径。
+- Slice 01–11 的研究设施、项目原创合成夹具、codec lineage 与不可变结果保持只读。Slice 09 两项 Gate B 均通过；Slice 10 在 1 / 288、Slice 11 在 0 / 288 处分别因协议错误 fail closed；这些都不是 formal holdout、C1 或产品支持。项目停止新增 normalize / export runner slice和当前 MVP 的模型 / 权重获取；下一步建设基础编辑器产品路径，任何历史 research candidate 若未来接入 server / web 都必须以新的产品合同和测试重新登记。
 - 首轮验证和发布只声明冻结的桌面浏览器环境；移动与未验收桌面浏览器不得从 R0 样式或代码存在推导为支持。
 - `single-image-studio` 不通过相对路径导入兄弟项目代码或资产。
 - GitHub 仓库代码许可不自动覆盖模型权重、训练数据或输出用途。

@@ -1,7 +1,9 @@
 # Single Image Studio research workspace
 
+> Active-plan note (2026-08-16): this workspace is retained as archival research lineage and as a source of reusable fixtures, validators, rights records, metrics, and implementation findings. It no longer defines the next product increment. Do not create Slice 12, rerun closed Slice 05–11 versions, acquire MODNet / RVM weights, or extend formal holdout machinery for the current MVP. The active product order is [basic editor → browser acceptance → early internal usability walkthrough → replaceable cloud background-removal provider → mask correction / transparent PNG / solid background → cutout usability and beta-readiness decision](../IMPLEMENTATION_PLAN.md).
+
 This directory is the executable research workspace for Slice 01 through Slice
-10. Its image fixtures are small, deterministic, and project-original. Slice
+11. Its image fixtures are small, deterministic, and project-original. Slice
 05's only registered real smoke is closed non-pass, so its calibration is
 forbidden. Slice 06 now has a frozen diagnostic-only definition and one closed
 registered result tree. The real Sharp path ran only for 18 public-synthetic

@@ -532,7 +532,7 @@ release_status=planned
 
 | 字段 | 记录 |
 | --- | --- |
-| 官方来源 | [GPT Image 2 模型页](https://developers.openai.com/api/docs/models/gpt-image-2)、[图片生成指南](https://developers.openai.com/api/docs/guides/image-generation)、[价格](https://openai.com/api/pricing/) |
+| 官方来源 | [GPT Image 2 模型页与当前价格入口](https://developers.openai.com/api/docs/models/gpt-image-2)、[图片生成指南](https://developers.openai.com/api/docs/guides/image-generation)；动态价格只在实验时按模型页当日值记录，不引用已转向商业套餐的旧网址 |
 | 固定研究边界 | `observed_at=2026-08-14`；官方不可变模型快照 `gpt-image-2-2026-04-21` 是后续实验目标 |
 | Gate 状态 | 来源 / snapshot / 服务条款入口足以保持来源层面 `candidate`；正式 Gate B 仍被 adapter 合同、数据发送边界、fixture 预注册与 cost guardrail 阻塞 |
 | 当前 R0 差异 | `server/server.mjs` 仍发送浮动别名 `gpt-image-2`；本轮未修改该 R0 OpenAI 调用路径或正式产品运行链，因此当前探针运行不能称为已固定模型版本，也不能复用为正式 E1、R1-pipeline 或 R1-product 证据 |
@@ -550,14 +550,12 @@ release_status=planned
 
 ## 下一次登记动作
 
-1. `REG-NORM-SHARP@0.5.0` 已在 Slice 05 关闭为 non-pass；不得选择性重跑、追加结果或进入 calibration。
-2. Slice 06 diagnostic-only `@0.6.0` 的唯一 registered invocation 已完成并封存；24 / 24 terminal、零 replacement，post-run tree 和 ledger 全闭合。该版本禁止补跑或选择性重跑。
-3. Slice 06 没有 Gate B decision authority；已确认 Sharp PNG encoder 的共同 profile 不符合合同。其结果只作不可变 lineage，正式 holdout 继续 `not-created`。
-4. Slice 07 唯一 36-attempt registered smoke 已关闭：applicable 18/18 通过，但 rejection 0/18 exact pass；两项 Gate B denied。不得重跑，任何 driver binding 修复必须进入新版本与新定义。
-5. Slice 08 results-zero definition 已提交推送；唯一 registered invocation 在首个 normalize applicable attempt 因 driver 把 `goldRecordId` 错读为 `id` 而 worker-free protocol-failed。partial tree 已封存为 1 request / 1 started event / 0 terminal，禁止修复后重跑；下一步必须新版本、新定义、新完整分母。
-6. Slice 09 唯一 registered smoke 已以 commit `c91014c6bef8878277a8520d003b10684972087b` 封存并推送；两项 Gate B pass，但不得重跑、补跑或从该开放 smoke 推导 C1 / productSupport。
-7. Slice 10 的 96-source / 288-attempt calibration definition 已冻结并推送；唯一 registered invocation 仅产生首个 normalize request / claim / terminal 与两事件 ledger。完整 gold expected 与 Slice 07 adapter 的 12-field expected schema不兼容，故 `S10_EXPECTED_OUTPUT_INVALID` 在 worker 前停止；export、output、artifact、oracle、summary 与 runtime-end 均为 0。terminal 又错误记录 `workerInvoked=true`，central 以 `RESULT_WORKER_LIFECYCLE_INVALID` 拒绝。4-file result tree SHA-256 为 `225847d125c58ee6affaa087746101d469d7ae04109504f0bd6781f593b9ee9e`；Slice 10 不得补跑。
-8. Slice 11 / `@0.11.0` definition 已冻结并推送；唯一 registered invocation 随后只写 normalize operation claim 与 runtime start observation。冻结与观测 JSON 等价，但换行哈希口径不一致触发 `S11_RUNTIME_START_DRIFT`；0 request / attempt / worker / pixel / terminal，export未启动。两文件结果永久保留且同版本不得重跑；43 / 43 Slice 11 tests通过，非C1、非产品支持。该 normalize/export runner研究到此停止。
-9. calibration 后的最终版本通过独立预注册审计，才由 custodian 建立外部 bundle、完成 external pins / isolation audit、签发具体一次性 request 并运行；Slice 04 的 seal intent 不能替代该 request。
-10. standalone `REG-NORM-LIBVIPS` 若要成为另一个候选，必须另行锁定 artifact、构建选项、格式库与 LGPL 交付方式；不能把 Sharp bundled libvips 重复计算为第二臂。
-10. Matting、自然增强和创意候选保持后置；将 checkpoint、依赖和训练数据结论逐项写回本表，无法消除的商用限制转为 `no-go`。独立 holdout、defect 与重复性证据齐全后才评审 C1。
+本节从 `2026-08-16` 起服从 [当前执行计划](IMPLEMENTATION_PLAN.md)。下一次产品提交不新增候选或研究版本；先修复产品验证入口和基础编辑闭环。
+
+1. Slice 05–11 的全部版本和结果保持关闭、不可重跑、不可补跑；Slice 09 的开放 Gate-B pass 不升级为 C1 或 product support。
+2. normalize / export runner 研究停止，不创建 Slice 12；现有 Sharp、canonical encoder、oracle 和 ledger 只作工程 lineage。
+3. MODNet / RVM 保持 metadata-only / not-downloaded；当前 MVP 不继续 checkpoint、wheel / SBOM、safe loader 或自然图片治理。
+4. 产品首先实现本地基础编辑器；该阶段不新增模型注册项。
+5. 抠图阶段先登记抽象 `BackgroundRemovalProvider` 和经过小规模评估选出的云端实现，精确记录服务版本、条款、数据保留、删除、地域、成本、延迟与错误语义。
+6. 只有真实产品数据证明云端方案在成本、隐私、延迟或离线需求上不可接受，才恢复浏览器 / 本地模型候选；人物任务占主要流量且通用方案不足时才恢复 MODNet，RVM 继续只作研究 comparator。
+7. 正式 holdout、custody、C1 及 Release Gate 在准备公开能力声明或邀请 beta 时按新产品版本重新冻结，不能从历史 Slice 自动继承。

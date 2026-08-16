@@ -6,7 +6,22 @@
 
 ## 一句话结论
 
-`projects/single-image-studio` 当前是一个**单图能力研究项目**。现有网页是可运行的 **R0 工程流程探针**，不是已经完成或可发布的图片产品；九类原子能力尚无一项取得 C1，实用效果 U1、创意效果 E1、R1-pipeline、R1-product-validation、R1-product-release、运维 O1、治理 G1、用户价值 V1 与逐项 Release Gate 均未取得。
+`projects/single-image-studio` 已从“研究优先”转入“产品优先”，但现有网页仍只是可运行的 **R0 工程流程探针**，不是已经完成或可发布的图片产品。九类原子能力尚无一项取得 C1，实用效果 U1、创意效果 E1、R1-pipeline、R1-product-validation、R1-product-release、运维 O1、治理 G1、用户价值 V1 与逐项 Release Gate 均未取得。
+
+## 当前产品执行方向（2026-08-16 重排）
+
+`main@6ecd53c` 记录为从研究优先切换到产品优先的基线。Slice 01–11、SourceCard / Matting baseline、continuous-alpha 定义和候选元数据继续作为只读研究 lineage 保存，但不再自动决定下一次开发；不创建 Slice 12，也不继续为当前 MVP 获取 MODNet / RVM 权重或建设本地模型运行时。
+
+当前 active plan 以 [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) 为准：
+
+1. 先完成不依赖模型的单图基础编辑闭环：正确预览、裁剪、旋转、尺寸、基础光色、格式 / 质量、比较与可靠导出；
+2. 用项目提供图片完成基础编辑器的早期内部可用性走查，先解决导航、编辑理解和下载问题；
+3. 再以可替换云端 `BackgroundRemovalProvider` 接入自动抠图，不要求用户安装模型；
+4. 自动抠图必须配套最小保留 / 擦除修正、透明预览和纯色换底，并做独立的抠图可用性复核；
+5. 只有真实产品数据证明成本、隐私、延迟或离线需求不可接受时，才恢复浏览器 / 本地模型路线；
+6. C/U/E/R/O/G/V 与 Release Gate 继续约束公开声明和正式发布，但不阻止开发内部产品试用版和开展不使用参与者图片的早期内部可用性走查。
+
+因此，当前最近的工程动作不是新的 Matting metadata、模型下载或研究 runner，而是修复验证命令覆盖、修正 R0 页面过度声明，并为本地处理建立输出回归测试。
 
 ## 当前冻结的产品环境
 
@@ -20,7 +35,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | 已回到 SourceCard + Matting 主线：baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合 | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet 只解析到官方 Drive 文件夹，RVM 解析到固定 release URL / requirements；两者仍缺可复现平台 runtime、安全 loader 和 artifact hash，禁止下载、安装、加载与推理 |
+| 历史研究快照 | SourceCard + Matting baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合并转为 archival lineage | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet / RVM 未下载、安装或推理，当前 MVP 不继续该路线；需要本地 / 离线模型时必须按新产品版本重新立项 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -104,7 +119,7 @@
 
 “证件照”“商品图”“旧照修复”等不是与 Matting、合成并列的底层能力，而是场景配方。普通报名头像可以在基础能力成熟后研究；任何官方证件 profile 仍需单独绑定地区、签发机关、证件类型、提交渠道、规则版本和官方来源，不属于当前发布承诺。
 
-## 当前冻结的研究顺序
+## 历史研究履历与产品转向
 
 1. **已完成文档层**：状态、能力地图、注册表、效果 / 场景目录、证据、数据、安全、用户研究和来源账本已经相互引用；这不等于研究资产或能力证据已建立。
 2. **已完成 Slice 01 方法层**：建立研究目录、schema、rights、严格 manifest validator、3 个原创 `MATTE-GT dev/calibration` fixture、18 个图层资产、catalog allowlist、只读本地资源服务和桌面研究审阅入口；这些只证明研究设施一致性，C1 仍为 0。
@@ -116,15 +131,14 @@
 8. **已完成 Slice 06 Phase B / C 定义与唯一 registered diagnostic**：冻结定义所在提交先推送并在 clean admission 下通过，随后一次 invocation 顺序完成 normalize / export 共 24 attempts、零 replacement。18 个 applicable output 的 bytes、pixels、classification、oracle outcome、worker runtime 都 3 / 3 一致，exit 与 telemetry 完整；两项 sentinel 各 3 / 3 精确拒绝。post-run validator 对 152-file tree、84-event ledger、所有交叉引用与独立 oracle 重算为 0 issues。
 9. **Slice 07 唯一 registered smoke 已关闭，不得重跑 Slice 05–07**：36 / 36 terminal，18 个 applicable 全部通过 candidate + independent oracle；18 个 rejection 因 driver 未传递 frozen classification fields 而统一得到 `ERR_INVALID_ARG_TYPE`。两项 Gate B 均 denied，calibration=false。任何修复必须新版本、新定义、新注册结果。
 10. **Slice 08 已关闭为 protocol-failed，不得重跑**：results-zero definition 于 `2026-08-15T13:37:23.038Z` 冻结并以 commit `a8bcbe57278c7fd2620c16b39f1a939a1e3ccf89` 推送。唯一 registered invocation 写入首个 normalize request 与 `attempt-started` 后，actual-case driver 因把 Slice 05 的 `goldRecordId` 错读为 `id` 而在 worker 前抛出 `S08_CASE_MATERIAL_INVALID`。partial tree 为 2 files / 3,779 bytes，SHA-256 `2dd9e53fcd2163913a47c16f92f9a31733ef3ffc491949e6c1a31464774da0d6`；0 terminal / output / decision，export 未启动。central validator 对该不可重放 partial tree 返回 0 issues；这只证明失败记录一致，不是 Gate B pass。任何修复必须进入新版本、新定义和新完整分母，calibration 继续禁止。
-11. **Slice 09 唯一 registered smoke 已关闭并推送**：results-zero definition 于 `2026-08-15T15:17:03.776Z` 冻结并以 commit `36d92844a2ea58113567a24482e5297ba8cdd9ab` 推送；随后唯一注册运行形成 36 / 36 terminal pass、18 identity-bound artifact closures 与两条 54-event ledger，结果 commit 为 `c91014c6bef8878277a8520d003b10684972087b`。normalize / export 各 9 applicable + 9 exact rejection pass，6 / 6 sources 均 3/3 deterministic，两项 Gate B 均 pass。不得重跑或补跑；calibration 仍需后续切片另行冻结和授权，当前 C1=0、productSupport=false。
+11. **Slice 09 唯一 registered smoke 已关闭并推送**：results-zero definition 于 `2026-08-15T15:17:03.776Z` 冻结并以 commit `36d92844a2ea58113567a24482e5297ba8cdd9ab` 推送；随后唯一注册运行形成 36 / 36 terminal pass、18 identity-bound artifact closures 与两条 54-event ledger，结果 commit 为 `c91014c6bef8878277a8520d003b10684972087b`。normalize / export 各 9 applicable + 9 exact rejection pass，6 / 6 sources 均 3/3 deterministic，两项 Gate B 均 pass。按当时路线，calibration 原需后续切片另行冻结和授权；当前路线已将其归档且不创建 Slice 12。不得重跑或补跑，C1=0、productSupport=false。
 12. **Slice 10 唯一 registered calibration 已关闭，不得重跑**：results-zero definition 已先以 commit `86543a47bb5eea6a287861bf587fbffc3014ba1f` 推送；唯一 invocation 随后只注册并终结首个 normalize attempt。完整 gold expected 被直接传给只接受 12 个 canonical output keys 的 Slice 07 adapter，故以 `S10_EXPECTED_OUTPUT_INVALID` 在 `spawnWorker()` 前停止；export、output、oracle、artifact、summary 与 runtime-end 均为 0。不可变 terminal 又把该 pre-worker 路径误记为 `workerInvoked=true`，central 因 `RESULT_WORKER_LIFECYCLE_INVALID` fail closed。4-file result tree SHA-256 为 `225847d125c58ee6affaa087746101d469d7ae04109504f0bd6781f593b9ee9e`。不得补跑剩余 287 slots；任何修复必须进入 Slice 11 / `@0.11.0` 新定义。
 13. **Slice 11 唯一 registered invocation 已在任何 candidate attempt 前关闭，不得重跑**：definition 先以 commit `33f24395e9ad2cd672d156a6f491e02118a62ed1` 推送。运行只写入 normalize operation claim 与 runtime start observation（937 + 28,684 bytes；result tree `a638a17afa69ab41015181b61ef7a64fa58e9057a9f64f7bc29bfe2f35dd3689`），随后以 `S11_RUNTIME_START_DRIFT` 停止。解析后的冻结/观测 runtime JSON 逐字段相同；误判来自 freeze SHA 对 canonical JSON 不加换行，而 start checker 加换行。actual request / attempt / worker / pixel / terminal / export 均为 0。central validator 将这一精确两文件形状封闭为 `startup-runtime-drift` 并拒绝 replay；Slice 11 fake-only tests为 43 / 43，全量验证 522 / 522。该失败不授予 C1 或产品支持，也不再触发 Slice 12。
-14. 更后续才可另行冻结 Matting 范围，扩 `MATTE-GT / MATTE-REAL` 独立来源并锁定许可允许研究、真正输出连续 Alpha 的至少两个候选与可用市场基准。市场基准缺席需事前预注册；simple baseline 只作比较下限，不进入产品 fallback。
-15. 跑通“主体区域 → 边缘净化 → 透明主体 → 纯色换底 → 任务 QA”的第一条纵向链。
-15. 独立验证自然增强的退化 / no-op 协议，并完成 CR1 / CR2 真实创意对测。
-16. 先用真实管线完成形成性研究并冻结验证契约，再由最小冻结研究界面取得 R1-product-validation 和按效果划分的 V1-validation，作为是否进入正式产品设计的决策输入。
-17. 只有质量、主体 / 背景、创意三个方向各至少一个效果取得依赖 C1、U1 / E1、R1-pipeline、R1-product-validation、研究目标 O1 / G1、对应验证范围 V1，且研究界面可见资产通过所需 Release Gate，才进入正式桌面浏览器产品界面设计；正式界面仍须另取 R1-product-release，并让发布所用 V1 精确绑定该界面版本，或通过有效 `V1MigrationManifest` 完成等价迁移。
-18. 正式桌面页面完成后复核冻结 Windows / Chromium 环境的 O1、治理范围的 G1，以及每项新增用户可见资产与组合的 Release Gate；任何研究界面的 R1 / V1 不自动继承到正式发布界面。
+14. **研究切片在此转入 archival 状态**：不创建 Slice 12，不修补或重跑 Slice 05–11，不以继续扩 schema / runner / seal 作为产品进度。
+15. **当前工程主线切到基础编辑器**：正确预览、裁剪、旋转、尺寸、基础光色、格式 / 质量、比较与可靠导出；先取得内部产品试用版的真实用户流程，再讨论公开能力等级。
+16. **抠图进入第二阶段**：先冻结可替换云端 Provider 边界，再增加透明预览、保留 / 擦除修正和换底。基础编辑器在 Provider 不可用时仍必须完整可用。
+17. **本地 Matting 研究按需恢复**：只有实际使用数据证明云端成本、隐私、延迟或离线需求构成阻塞，才另行恢复候选权重、自然图片治理与 continuous-alpha 对测；simple baseline 永远只作下限。
+18. **正式发布仍使用完整证据门**：当内部产品试用版已证明任务有价值并准备公开 beta 时，再冻结相应 C1、U1 / E1、R1、O1、G1、V1 与 Release Gate 范围；这些门不再作为开始构建产品 UI 的前置条件。
 
 手机 / 平板产品、其他桌面浏览器、多图逐张、多图合集、商品套件、自由画布、公共部署以及未经独立验证的官方证件 profile 继续后置。
 
