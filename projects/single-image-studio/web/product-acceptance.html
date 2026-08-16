@@ -29,7 +29,7 @@
     <main>
       <p>内部 QA · 只用项目合成图 · 不调用远程服务</p>
       <h1>主流程浏览器验收</h1>
-      <p>在真实同源页面中分别以 1280×720 和 1440×900 完成本地编辑与模板导出，并重开下载 bytes。这里验证的是当前浏览器会话，不等于 Chrome / Edge 两个正式版本矩阵都已通过。</p>
+      <p>在真实同源页面中分别以 1280×720 和 1440×900 完成本地编辑与模板导出，重开下载 bytes，再验证结果页换处理方向、设置页返回、焦点和旧下载清理。这里验证的是当前浏览器会话，不等于 Chrome / Edge 两个正式版本矩阵都已通过。</p>
       <button id="run-acceptance" type="button">重新运行两档验收</button>
       <output id="acceptance-status" role="status" aria-live="polite">尚未运行</output>
       <table>

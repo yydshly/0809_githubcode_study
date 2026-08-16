@@ -14,10 +14,16 @@ test("browser acceptance page covers two real local product journeys", () => {
   assert.match(script, /height: 900/);
   assert.match(script, /taskId: "UT-TUNE"/);
   assert.match(script, /taskId: "UT-TEMPLATE"/);
+  assert.match(script, /nextTaskId: "UT-ENHANCE"/);
   assert.match(script, /#use-demo-button/);
   assert.match(script, /#download-button/);
   assert.match(script, /reopenPng/);
   assert.match(script, /consoleErrors\.length === 0/);
+  assert.match(script, /#result-change-task-button/);
+  assert.match(script, /pageState === "TASKS_READY"/);
+  assert.match(script, /旧下载仍可触发/);
+  assert.match(script, /objectFit === "contain"/);
+  assert.match(script, /scrollWidth <= windowRef\.innerWidth \+ 1/);
 });
 
 test("browser acceptance cannot invoke remote product routes", () => {

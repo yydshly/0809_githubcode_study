@@ -5,6 +5,7 @@ const CASES = Object.freeze([
     width: 1280,
     height: 720,
     taskId: "UT-TUNE",
+    nextTaskId: "UT-ENHANCE",
     path: "合成图 → 保真整理 → 1:1 + 旋转 90° → PNG",
     expected: Object.freeze({ width: 1080, height: 1080 }),
   }),
@@ -14,6 +15,7 @@ const CASES = Object.freeze([
     width: 1440,
     height: 900,
     taskId: "UT-TEMPLATE",
+    nextTaskId: "UT-TUNE",
     path: "合成图 → 横版封面 16:9 → PNG",
     expected: Object.freeze({ width: 1440, height: 810 }),
   }),
@@ -139,18 +141,43 @@ async function runCase(testCase) {
       return image?.complete && image.naturalWidth > 0 ? image : null;
     }, "结果图片没有完成解码");
     assert(resultImage.naturalWidth === testCase.expected.width && resultImage.naturalHeight === testCase.expected.height, `结果显示尺寸为 ${resultImage.naturalWidth} × ${resultImage.naturalHeight}`);
+    assert(windowRef.getComputedStyle(resultImage).objectFit === "contain", "结果图片没有使用完整显示模式");
+    assert(documentRef.documentElement.scrollWidth <= windowRef.innerWidth + 1, `页面出现横向溢出：${documentRef.documentElement.scrollWidth} > ${windowRef.innerWidth}`);
     assert(documentRef.activeElement?.id === "download-button", "结果完成后焦点没有落在下载按钮");
     documentRef.querySelector("#download-button")?.click();
     const capture = await waitFor(() => downloadCapture, "下载按钮没有生成可下载 Blob");
     const blob = await capture.blobPromise;
     const byteLength = await reopenPng(blob, testCase.expected);
     assert(capture.filename.toLowerCase().endsWith(".png"), `下载文件名不是 PNG：${capture.filename}`);
+
+    downloadCapture = null;
+    const changeTask = documentRef.querySelector("#result-change-task-button");
+    assert(changeTask, "结果页缺少换处理方向入口");
+    changeTask.click();
+    await waitFor(() => !documentRef.querySelector("#tasks-section")?.hidden, "没有从结果页返回任务列表");
+    assert(documentRef.querySelector("main")?.dataset.pageState === "TASKS_READY", "返回任务列表后状态没有清理");
+    assert(documentRef.querySelector("#result-section")?.hidden === true, "旧结果页仍然可见");
+    assert(!documentRef.querySelector("#result-output-image")?.hasAttribute("src"), "旧结果图片仍留在页面中");
+    assert(documentRef.activeElement?.matches?.('[data-task-id]:not([disabled])'), "返回任务列表后焦点没有落在可用任务上");
+    documentRef.querySelector("#download-button")?.click();
+    await new Promise((resolve) => setTimeout(resolve, 40));
+    assert(downloadCapture === null, "返回任务列表后旧下载仍可触发");
+
+    const nextTask = documentRef.querySelector(`[data-task-id="${testCase.nextTaskId}"]`);
+    assert(nextTask && !nextTask.disabled, `${testCase.nextTaskId} 当前不可用`);
+    nextTask.click();
+    await waitFor(() => !documentRef.querySelector("#config-section")?.hidden, "更换处理方向后设置页没有出现");
+    assert(documentRef.activeElement?.id === "ratio-setting", "更换处理方向后焦点没有落在首个设置控件");
+    documentRef.querySelector("#back-to-tasks-button")?.click();
+    await waitFor(() => !documentRef.querySelector("#tasks-section")?.hidden, "没有从设置页返回任务列表");
+    assert(documentRef.querySelector("main")?.dataset.pageState === "TASKS_READY", "从设置页返回后状态没有清理");
+    assert(documentRef.activeElement?.matches?.('[data-task-id]:not([disabled])'), "从设置页返回后焦点没有回到可用任务");
     assert(consoleErrors.length === 0, `流程出现 console.error：${consoleErrors.join(" | ")}`);
     return Object.freeze({
       ...testCase,
       filename: capture.filename,
       byteLength,
-      evidence: `${testCase.expected.width} × ${testCase.expected.height} · ${byteLength.toLocaleString("zh-CN")} bytes · 焦点与 PNG 重开通过`,
+      evidence: `${testCase.expected.width} × ${testCase.expected.height} · ${byteLength.toLocaleString("zh-CN")} bytes · 完整显示、PNG 重开、换任务与焦点清理通过`,
     });
   } finally {
     windowRef.console.error = originalConsoleError;
