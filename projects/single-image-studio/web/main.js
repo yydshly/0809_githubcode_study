@@ -29,7 +29,7 @@ import {
   undoMaskStroke,
   validateCorrectionExportDimensions,
 } from "./mask-correction.js";
-import { maskOutputPresentation } from "./mask-output-presentation.js";
+import { maskOutputPresentation, resolveMaskBackground } from "./mask-output-presentation.js";
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
@@ -78,6 +78,7 @@ const elements = {
   maskRedo: $("#mask-redo-button"), maskReset: $("#mask-reset-button"),
   maskViews: $$('[data-mask-view]'),
   maskBackgrounds: $$('[data-mask-background]'),
+  maskCustomBackground: $("#mask-custom-background"), maskCustomBackgroundControl: $("#mask-custom-background-control"),
   maskZooms: $$('[data-mask-zoom]'),
   maskOutputSummary: $("#mask-output-summary"), maskOutputVersion: $("#mask-output-version"),
   maskOutputBackground: $("#mask-output-background"), maskOutputFile: $("#mask-output-file"),
@@ -272,9 +273,13 @@ function renderMaskCorrection() {
   context.putImageData(imageData, 0, 0);
   const summary = summarizeCorrectionMask(session.mask);
   const modified = session.history.index > 0;
-  const backgroundLabel = { white: "白", black: "黑", coral: "彩" }[session.background];
+  const backgroundSpec = resolveMaskBackground({
+    background: session.background,
+    customColor: session.customBackground,
+  });
   const outputPresentation = maskOutputPresentation({
     background: session.background,
+    customColor: session.customBackground,
     correctionCount: session.history.index,
     height: currentResult.height,
     view: session.view,
@@ -296,6 +301,7 @@ function renderMaskCorrection() {
     button.setAttribute("aria-pressed", String(selected));
     button.disabled = button.dataset.maskView === "automatic" && !modified;
   });
+  elements.maskCustomBackgroundControl.classList.toggle("is-selected", session.background === "custom");
   elements.maskCorrectionCanvas.classList.toggle("is-mask-readonly", viewAutomatic);
   elements.maskCorrectionCanvas.tabIndex = viewAutomatic ? -1 : 0;
   elements.maskCorrectionCanvas.setAttribute("aria-label", viewAutomatic
@@ -314,8 +320,8 @@ function renderMaskCorrection() {
     : session.draft
     ? `${session.tool === "erase" ? "正在擦除背景残留" : "正在补回主体"}…`
     : modified
-      ? `已记录 ${session.history.index} 笔修正 · 透明 ${summary.transparent.toLocaleString()} 像素 · 下载时按原尺寸重新生成${session.background === "checker" ? "透明 PNG" : `${backgroundLabel}底 JPEG`}`
-      : `当前仍是自动蒙版；${session.background === "checker" ? "下载将保留透明背景" : `下载将写入${backgroundLabel}色背景`}。`;
+      ? `已记录 ${session.history.index} 笔修正 · 透明 ${summary.transparent.toLocaleString()} 像素 · 下载时按原尺寸重新生成${session.background === "checker" ? "透明 PNG" : `${backgroundSpec.shortLabel}底 JPEG`}`
+      : `当前仍是自动蒙版；${session.background === "checker" ? "下载将保留透明背景" : `下载将写入${backgroundSpec.shortLabel}背景`}。`;
 }
 
 function setMaskView(view) {
@@ -333,14 +339,27 @@ function setMaskTool(tool) {
 }
 
 function setMaskBackground(background) {
-  if (!["checker", "white", "black", "coral"].includes(background)) return;
+  if (!["checker", "white", "black", "coral", "custom"].includes(background)) return;
+  const customColor = maskCorrectionSession?.customBackground ?? elements.maskCustomBackground.value;
+  const backgroundSpec = resolveMaskBackground({ background, customColor });
   if (maskCorrectionSession) maskCorrectionSession.background = background;
   if (background === "checker") elements.resultStage.removeAttribute("data-preview-background");
-  else elements.resultStage.dataset.previewBackground = background;
+  else {
+    elements.resultStage.dataset.previewBackground = background;
+    if (background === "custom") elements.resultStage.style.setProperty("--mask-custom-background", backgroundSpec.hex);
+  }
   elements.maskBackgrounds.forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.maskBackground === background));
   });
   renderMaskCorrection();
+}
+
+function setMaskCustomBackground(value) {
+  if (!maskCorrectionSession) return;
+  const backgroundSpec = resolveMaskBackground({ background: "custom", customColor: value });
+  maskCorrectionSession.customBackground = backgroundSpec.hex;
+  elements.maskCustomBackground.value = backgroundSpec.hex.toLowerCase();
+  setMaskBackground("custom");
 }
 
 function applyMaskZoom({ preserveCenter = false } = {}) {
@@ -572,6 +591,7 @@ async function initializeMaskCorrection() {
       tool: "erase",
       radius: 0.06,
       background: "checker",
+      customBackground: "#EE6F57",
       zoom: 1,
       view: "corrected",
       keyboardCursor: { x: 0.5, y: 0.5 },
@@ -615,11 +635,14 @@ async function exportMaskCorrection() {
   if (maskSummary.transparent + maskSummary.partial === 0) throw new Error("当前修正已没有透明背景，请先擦除背景再下载");
   if (maskSummary.opaque + maskSummary.partial === 0) throw new Error("当前修正已把主体全部擦除，请撤销后再下载");
   const correctedPixels = composeCorrectedPixels({ sourcePixels, resultPixels, mask, width, height });
-  const backgroundColors = { white: [255, 255, 255], black: [0, 0, 0], coral: [238, 111, 87] };
+  const backgroundSpec = resolveMaskBackground({
+    background: session.background,
+    customColor: session.customBackground,
+  });
   const mime = session.background === "checker" ? "image/png" : "image/jpeg";
   const expectedPixels = mime === "image/png"
     ? correctedPixels
-    : composeSolidBackgroundPixels({ foregroundPixels: correctedPixels, background: backgroundColors[session.background], width, height });
+    : composeSolidBackgroundPixels({ foregroundPixels: correctedPixels, background: backgroundSpec.rgb, width, height });
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -639,7 +662,15 @@ async function exportMaskCorrection() {
   } finally {
     URL.revokeObjectURL(reopenedUrl);
   }
-  return { blob, mime, background: session.background, outputHash: await sha256Bytes(bytes), byteLength: bytes.length, maskSummary };
+  return {
+    blob,
+    mime,
+    background: session.background,
+    backgroundColor: backgroundSpec.hex ?? null,
+    outputHash: await sha256Bytes(bytes),
+    byteLength: bytes.length,
+    maskSummary,
+  };
 }
 
 function stopActiveRequest() {
@@ -1687,6 +1718,7 @@ elements.maskRedo.addEventListener("click", redoMaskCorrection);
 elements.maskReset.addEventListener("click", resetMaskCorrectionSession);
 elements.maskViews.forEach((button) => button.addEventListener("click", () => setMaskView(button.dataset.maskView)));
 elements.maskBackgrounds.forEach((button) => button.addEventListener("click", () => setMaskBackground(button.dataset.maskBackground)));
+elements.maskCustomBackground.addEventListener("input", () => setMaskCustomBackground(elements.maskCustomBackground.value));
 elements.maskZooms.forEach((button) => button.addEventListener("click", () => setMaskZoom(Number(button.dataset.maskZoom))));
 elements.maskCorrectionCanvas.addEventListener("pointerdown", beginMaskStroke);
 elements.maskCorrectionCanvas.addEventListener("pointermove", continueMaskStroke);

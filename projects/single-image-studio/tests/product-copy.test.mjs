@@ -187,8 +187,10 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(html, /白色/);
   assert.match(html, /黑色/);
   assert.match(html, /彩色/);
+  assert.match(html, /id="mask-custom-background"[^>]*type="color"/);
+  assert.match(html, /自定义背景会写入 JPEG/);
   assert.match(html, /方向键移动画笔/);
-  assert.match(html, /棋盘格下载透明 PNG；白 \/ 黑 \/ 彩底会写入 JPEG/);
+  assert.match(html, /棋盘格下载透明 PNG；白 \/ 黑 \/ 彩色 \/ 自定义背景会写入 JPEG/);
   assert.match(html, /data-mask-zoom="1"/);
   assert.match(html, /data-mask-zoom="2"/);
   assert.match(html, /data-mask-zoom="4"/);
@@ -206,6 +208,7 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(main, /verifyPixelRoundTrip/);
   assert.match(maskOutputPresentation, /下载修正 PNG/);
   assert.match(maskOutputPresentation, /下载.*底.*JPEG/);
+  assert.match(maskOutputPresentation, /下载自定义底 JPEG/);
   assert.match(main, /正在校验下载…/);
   assert.match(main, /下载前校验未通过，已阻止错误文件下载/);
   assert.match(main, /下载已开始/);

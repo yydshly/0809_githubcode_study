@@ -168,6 +168,10 @@
                 <button type="button" data-mask-background="white" aria-pressed="false">白色</button>
                 <button type="button" data-mask-background="black" aria-pressed="false">黑色</button>
                 <button type="button" data-mask-background="coral" aria-pressed="false">彩色</button>
+                <label class="mask-custom-background-control" id="mask-custom-background-control">
+                  <input id="mask-custom-background" type="color" value="#ee6f57" aria-label="选择自定义背景色" />
+                  <span>自定义</span>
+                </label>
               </div>
               <div class="mask-zoom-controls" role="group" aria-label="修正画布查看倍率">
                 <span>查看倍率</span>
@@ -187,7 +191,7 @@
                 <div><dt>文件</dt><dd id="mask-output-file">PNG</dd></div>
               </dl>
             </section>
-            <p class="mask-correction-help">完成一笔后可在“自动结果 / 修正后”之间无损对比；下载始终使用修正后版本。棋盘格下载透明 PNG；白 / 黑 / 彩底会写入 JPEG。“适应 / 2× / 4×”只改变查看倍率，不改变导出尺寸；放大后可滚动查看。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
+            <p class="mask-correction-help">完成一笔后可在“自动结果 / 修正后”之间无损对比；下载始终使用修正后版本。棋盘格下载透明 PNG；白 / 黑 / 彩色 / 自定义背景会写入 JPEG。“适应 / 2× / 4×”只改变查看倍率，不改变导出尺寸；放大后可滚动查看。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
             <p class="mask-correction-status" id="mask-correction-status" role="status" aria-live="polite">正在准备修正画布…</p>
           </section>
           <div class="result-stage" id="result-stage">

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { maskOutputPresentation } from "../web/mask-output-presentation.js";
+import { maskOutputPresentation, resolveMaskBackground } from "../web/mask-output-presentation.js";
 
 test("automatic transparent output states exactly what will be downloaded", () => {
   assert.deepEqual(maskOutputPresentation({
@@ -40,4 +40,29 @@ test("unknown output states fail closed", () => {
   assert.throws(() => maskOutputPresentation({ background: "checker", correctionCount: -1, height: 1, view: "corrected", width: 1 }));
   assert.throws(() => maskOutputPresentation({ background: "checker", correctionCount: 0, height: 0, view: "corrected", width: 1 }));
   assert.throws(() => maskOutputPresentation({ background: "checker", correctionCount: 0, height: 1, view: "other", width: 1 }));
+});
+
+test("custom solid background keeps its exact color in presentation and pixel composition input", () => {
+  assert.deepEqual(resolveMaskBackground({ background: "custom", customColor: "#4d7cfe" }), {
+    label: "自定义背景 · #4D7CFE",
+    shortLabel: "自定义 #4D7CFE",
+    format: "JPEG",
+    hex: "#4D7CFE",
+    rgb: [77, 124, 254],
+  });
+  assert.deepEqual(maskOutputPresentation({
+    background: "custom",
+    customColor: "#4d7cfe",
+    correctionCount: 2,
+    height: 1080,
+    view: "corrected",
+    width: 1080,
+  }), {
+    version: "修正后 · 2 笔",
+    background: "自定义背景 · #4D7CFE",
+    file: "JPEG · 1080 × 1080",
+    downloadLabel: "下载自定义底 JPEG",
+    note: "最终下载会应用全部修正，不会覆盖自动结果。",
+  });
+  assert.throws(() => resolveMaskBackground({ background: "custom", customColor: "#xyz" }), /six-digit hex color/);
 });
