@@ -195,7 +195,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .editor-preview-frame[data-crop-enabled="true"]:active, .editor-preview-frame.is-dragging { cursor: grabbing; }
 .editor-preview-frame:focus-visible { outline: 3px solid #87aef0; outline-offset: 3px; }
 .editor-preview-frame[data-format="jpeg"] { background: var(--jpeg-preview-background); }
-.editor-preview-image { width: 100%; height: 100%; object-fit: cover; transform-origin: center; user-select: none; pointer-events: none; transition: transform .12s ease, filter .12s ease, object-position .12s ease; }
+.editor-preview-image { position: absolute; left: 50%; top: 50%; width: 100%; height: 100%; object-fit: cover; transform-origin: center; user-select: none; pointer-events: none; transition: transform .12s ease, filter .12s ease, object-position .12s ease, width .12s ease, height .12s ease; }
 .preview-boundary { position: absolute; inset: .55rem; border: 1px solid rgba(255,255,255,.76); box-shadow: 0 0 0 1px rgba(20,35,28,.32); border-radius: .35rem; pointer-events: none; }
 .preview-drag-badge { position: absolute; left: 50%; bottom: 1rem; transform: translateX(-50%); padding: .45rem .65rem; border-radius: 999px; background: rgba(20,35,28,.82); color: white; font-size: .66rem; font-weight: 750; pointer-events: none; white-space: nowrap; }
 .editor-preview-meta { display: flex; justify-content: space-between; gap: .8rem; padding-top: .8rem; color: var(--muted); font-size: .7rem; line-height: 1.45; }

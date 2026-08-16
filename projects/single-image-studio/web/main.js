@@ -399,10 +399,10 @@ function renderSettings(task) {
         </div>
       </details>
       <fieldset class="setting-group"><legend><span>3</span> 导出</legend>
-        <div class="field"><label for="size-mode-setting">输出尺寸</label><select id="size-mode-setting" name="sizeMode"><option value="preset">推荐尺寸（不放大）</option><option value="custom">自定义尺寸</option></select></div>
+        <div class="field"><label for="size-mode-setting">尺寸上限</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动上限（不放大）</option><option value="custom">自定义上限</option></select></div>
         <div class="custom-size-fields" data-custom-size hidden>
-          <div class="dimension-grid"><div class="field"><label for="output-width-setting">宽度</label><input id="output-width-setting" name="outputWidth" type="number" inputmode="numeric" min="1" max="2048" step="1" /></div><span aria-hidden="true">×</span><div class="field"><label for="output-height-setting">高度</label><input id="output-height-setting" name="outputHeight" type="number" inputmode="numeric" min="1" max="2048" step="1" /></div></div>
-          <p class="field-hint">宽高会按当前画面比例联动，最长边不超过 2048 px；小图不会强行放大。</p>
+          <div class="dimension-grid"><div class="field"><label for="output-width-setting">最大宽度</label><input id="output-width-setting" name="outputWidth" type="number" inputmode="numeric" min="1" max="2048" step="1" /></div><span aria-hidden="true">×</span><div class="field"><label for="output-height-setting">最大高度</label><input id="output-height-setting" name="outputHeight" type="number" inputmode="numeric" min="1" max="2048" step="1" /></div></div>
+          <p class="field-hint">这是尺寸上限：宽高按当前比例联动，最长边不超过 2048 px；小图不会放大，因此预计导出可能更小。</p>
         </div>
         <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明）</option><option value="jpeg">JPEG（铺底）</option></select></div>
         <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>
@@ -452,13 +452,16 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   elements.editorPreviewFrame.style.setProperty("--preview-ratio", String(presentation.aspectValue));
   elements.editorPreviewFrame.dataset.format = presentation.format;
   elements.editorPreviewFrame.style.setProperty("--jpeg-preview-background", presentation.background ?? "#ffffff");
+  elements.editorPreviewImage.style.width = presentation.previewWidth;
+  elements.editorPreviewImage.style.height = presentation.previewHeight;
   elements.editorPreviewImage.style.transform = presentation.transform;
   elements.editorPreviewImage.style.objectPosition = presentation.objectPosition;
   elements.editorPreviewImage.style.filter = presentation.filter;
   elements.editorPreviewFrame.dataset.cropEnabled = String(presentation.cropEnabled);
   elements.editorPreviewFrame.dataset.cropAxis = presentation.cropAxis;
+  elements.editorPreviewFrame.tabIndex = presentation.cropEnabled ? 0 : -1;
   elements.editorPreviewSummary.textContent = presentation.summary;
-  elements.editorOutputSize.textContent = `实际导出 ${presentation.output.width} × ${presentation.output.height} px`;
+  elements.editorOutputSize.textContent = `预计导出 ${presentation.output.width} × ${presentation.output.height} px`;
   elements.editorCropHint.textContent = presentation.cropAxis === "horizontal"
     ? "当前只裁左右两侧：左右拖动画面、使用 ← →，或用右侧滑杆调整。"
     : presentation.cropAxis === "vertical"

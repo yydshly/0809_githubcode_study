@@ -151,6 +151,15 @@ function signed(value) {
   return value > 0 ? `+${value}` : String(value);
 }
 
+function previewSourcePosition(state, positionX, positionY) {
+  const unflippedX = state.flipHorizontal ? 100 - positionX : positionX;
+  const unflippedY = state.flipVertical ? 100 - positionY : positionY;
+  if (state.rotation === 90) return { x: unflippedY, y: 100 - unflippedX };
+  if (state.rotation === 180) return { x: 100 - unflippedX, y: 100 - unflippedY };
+  if (state.rotation === 270) return { x: 100 - unflippedY, y: unflippedX };
+  return { x: unflippedX, y: unflippedY };
+}
+
 export function editorPreviewPresentation(workspace, transientSettings = null) {
   const state = transientSettings
     ? editStateFromSettings({ ...workspace.source, settings: transientSettings })
@@ -162,11 +171,6 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
     editState: state,
   });
   const aspect = plan.output.width / plan.output.height;
-  const rotationScale = state.rotation === 90 || state.rotation === 270
-    ? Math.max(aspect, 1 / aspect)
-    : 1;
-  const flipX = state.flipHorizontal ? -rotationScale : rotationScale;
-  const flipY = state.flipVertical ? -rotationScale : rotationScale;
   const normalizedSettings = settingsFromState(state, workspace.source);
   const ratio = normalizedSettings.ratio;
   const ratioLabel = RATIO_PRESETS[ratio].label;
@@ -179,12 +183,16 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
       : ratio === "original" ? "完整画面" : "比例已匹配，无需移动";
   const positionX = cropAxis === "horizontal" ? normalizedSettings.cropX : 50;
   const positionY = cropAxis === "vertical" ? normalizedSettings.cropY : 50;
+  const sourcePosition = previewSourcePosition(state, positionX, positionY);
+  const quarterTurn = state.rotation === 90 || state.rotation === 270;
   return Object.freeze({
     state,
     aspectRatio: `${plan.output.width} / ${plan.output.height}`,
     aspectValue: aspect,
-    transform: `rotate(${state.rotation}deg) scale(${flipX}, ${flipY})`,
-    objectPosition: `${positionX}% ${positionY}%`,
+    previewWidth: quarterTurn ? `${100 / aspect}%` : "100%",
+    previewHeight: quarterTurn ? `${100 * aspect}%` : "100%",
+    transform: `translate(-50%, -50%) scale(${state.flipHorizontal ? -1 : 1}, ${state.flipVertical ? -1 : 1}) rotate(${state.rotation}deg)`,
+    objectPosition: `${sourcePosition.x}% ${sourcePosition.y}%`,
     filter: plan.filter,
     background: state.output.format === "jpeg" ? state.output.jpegBackground : null,
     format: state.output.format,

@@ -23,6 +23,7 @@ test("R0 page identifies itself as an engineering probe and does not claim image
 
 test("editor usability states retain keyboard focus, mobile stacking and reduced-motion fallbacks", () => {
   assert.match(styles, /editor-preview-frame:focus-visible/);
+  assert.match(styles, /editor-preview-image \{ position: absolute; left: 50%; top: 50%/);
   assert.match(styles, /data-crop-enabled="true"/);
   assert.match(styles, /@media \(max-width: 980px\)[\s\S]*settings-card \{ position: static/);
   assert.match(styles, /@media \(max-width: 620px\)[\s\S]*editor-preview-meta/);
@@ -59,6 +60,10 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(main, /data-crop-axis-control="vertical"/);
   assert.match(main, /当前只裁左右两侧/);
   assert.match(main, /当前只裁上下两侧/);
+  assert.match(main, /tabIndex = presentation\.cropEnabled \? 0 : -1/);
+  assert.match(main, /尺寸上限/);
+  assert.match(main, /预计导出/);
+  assert.doesNotMatch(main, /实际导出 \$\{presentation\.output/);
   assert.match(main, /name="outputWidth"/);
   assert.match(main, /name="outputHeight"/);
   assert.match(main, /生成并校验下载文件/);

@@ -43,8 +43,10 @@ test("editor workspace binds presets to immutable history and a render-plan prev
   });
   const presentation = editorPreviewPresentation(workspace);
   assert.equal(presentation.aspectRatio, "240 / 300");
+  assert.equal(presentation.previewWidth, "125%");
+  assert.equal(presentation.previewHeight, "80%");
   assert.equal(presentation.objectPosition, "50% 50%");
-  assert.match(presentation.transform, /rotate\(90deg\) scale\(-/);
+  assert.equal(presentation.transform, "translate(-50%, -50%) scale(-1, 1) rotate(90deg)");
   assert.equal(presentation.background, "#123456");
   assert.match(presentation.summary, /4:5.*亮度 \+15.*JPEG/);
 });
@@ -110,6 +112,50 @@ test("crop controls expose only the direction that has real overflow", () => {
   assert.equal(exact.cropEnabled, false);
   assert.equal(exact.objectPosition, "50% 50%");
   assert.equal(exact.cropLabel, "比例已匹配，无需移动");
+});
+
+test("preview geometry maps post-rotation and post-flip crop positions back to the source image", () => {
+  const workspace = createEditorWorkspace({ sourceWidth: 1000, sourceHeight: 500, sourceOrientation: 1 });
+  const quarter = editorPreviewPresentation(workspace, {
+    ratio: "portrait",
+    rotation: 90,
+    cropY: 80,
+    format: "png",
+  });
+  assert.equal(quarter.cropAxis, "vertical");
+  assert.equal(quarter.previewWidth, "125%");
+  assert.equal(quarter.previewHeight, "80%");
+  assert.equal(quarter.objectPosition, "80% 50%");
+  assert.equal(quarter.transform, "translate(-50%, -50%) scale(1, 1) rotate(90deg)");
+
+  const flippedQuarter = editorPreviewPresentation(workspace, {
+    ratio: "portrait",
+    rotation: 90,
+    flipVertical: true,
+    cropY: 80,
+    format: "png",
+  });
+  assert.equal(flippedQuarter.objectPosition, "20% 50%");
+  assert.equal(flippedQuarter.transform, "translate(-50%, -50%) scale(1, -1) rotate(90deg)");
+
+  const halfTurn = editorPreviewPresentation(workspace, {
+    ratio: "square",
+    rotation: 180,
+    cropX: 100,
+    format: "png",
+  });
+  assert.equal(halfTurn.cropAxis, "horizontal");
+  assert.equal(halfTurn.previewWidth, "100%");
+  assert.equal(halfTurn.previewHeight, "100%");
+  assert.equal(halfTurn.objectPosition, "0% 50%");
+
+  const reverseQuarter = editorPreviewPresentation(workspace, {
+    ratio: "portrait",
+    rotation: 270,
+    cropY: 80,
+    format: "png",
+  });
+  assert.equal(reverseQuarter.objectPosition, "20% 50%");
 });
 
 test("undo, redo and reset preserve the current source contract", () => {
