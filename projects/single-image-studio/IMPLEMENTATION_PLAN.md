@@ -32,7 +32,7 @@
 | 创意 API 工程路径 | `gpt-image-2` 图片编辑请求、状态查询、幂等和失败闭合 | 保留为实验功能，不进入当前 MVP 主路径 |
 | 研究资产 | synthetic fixtures、Sharp 来源锁、canonical PNG encoder lineage、Alpha 指标、rights / provenance 结构 | 精简复用，不把研究通过写成产品通过 |
 
-当前产品工程定向测试为 12 files / 68 tests 通过；除 M0 的本地输出和页面文案外，新增覆盖不可变编辑状态、有界 history、旋转 / 翻转 / crop / fit resize、JPEG / PNG / WebP EXIF orientation 1–8 的容器解析与受控归一化、PNG 透明上下文、JPEG 显式铺底和编码输出重开。它们证明工程状态和接口约束，不证明真实浏览器像素级 Alpha / ICC / metadata 清理正确、完整浏览器兼容或抠图能力。
+当前产品工程定向测试为 13 files / 94 tests 通过；除 M0 的本地输出和页面文案外，新增覆盖不可变编辑状态、有界 history、旋转 / 翻转 / crop / fit resize、JPEG / PNG / WebP EXIF orientation 1–8 的容器解析与受控归一化、PNG 透明上下文、JPEG 显式铺底、编码输出重开、20 个项目原创内存 RGBA fixture、Alpha / 可见预乘颜色核对和私密 metadata 拒绝。它们证明工程状态和接口约束，不证明真实 Chrome / Edge 的 ICC / sRGB 转换、完整浏览器兼容或抠图能力。
 
 当前可复算命令为：
 
@@ -193,7 +193,7 @@ MVP 初始资源边界为：输入继续沿用 40 MP 预检，但交互工作 ra
 
 当前完成（2026-08-16）：已拆分产品与归档研究测试，增加动态 syntax 检查，修正 R0 过度声明，并为本地处理加入可注入解码 / canvas / 输出回归；`verify:product` 为 51 / 51。Slice 01–11 使用 archive validator 继续核对冻结树与 pins，不再要求当前产品 `package.json` 与历史 runtime attestation 逐 byte 相同。M0 原列的真实 Chrome / Edge 下载与 console E2E 尚未完成，作为明确欠项保留，最迟在 M1b 完成条件前关闭；它不阻止先开始 M1a 的无 UI renderer 工作。
 
-M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立但尚未接 UI。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；独立解析器从 JPEG / PNG / WebP 容器读取 EXIF orientation 1–8，受控 `ImageBitmap` 解码禁止浏览器自动旋转，renderer 再用冻结矩阵在透明 scratch canvas 上归一化，随后完成用户旋转 / 翻转、post-transform crop 和 fit resize。PNG 保持透明上下文，JPEG 只在明确颜色上合成，并从编码 bytes 独立重开核对尺寸。当前明确欠项是真实像素 Alpha / hidden RGB / premultiplication、ICC / sRGB、metadata 清理 fixtures，以及浏览器接线和 E2E；因此不得把本增量描述为已完成图片编辑器。
+M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立但尚未接 UI。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；独立解析器从 JPEG / PNG / WebP 容器读取 EXIF orientation 1–8，受控 `ImageBitmap` 解码禁止浏览器自动旋转，renderer 再用冻结矩阵在透明 scratch canvas 上归一化，随后完成用户旋转 / 翻转、post-transform crop 和 fit resize。PNG 保持透明上下文，JPEG 只在明确颜色上合成；编码前 Canvas pixels 与编码后新解码对象的 pixels 会核对 Alpha 和可见的预乘颜色，Alpha=0 的 hidden RGB 明确 ignored。最终 bytes 还会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，ICC / sRGB 颜色描述不冒充已经验证的转换结果。当前明确欠项是真实 Chrome / Edge 像素与 ICC / sRGB fixture、浏览器接线和 E2E；因此不得把本增量描述为已完成图片编辑器。
 
 ### M1a · Renderer 与像素合同（4–6 个工作日）
 
@@ -306,7 +306,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 2. ~~修复验证命令覆盖；~~
 3. ~~修正文案和虚假 QA 表述；~~
 4. ~~为 `local-processing.js` 建立输出几何 / 编码事实测试；~~
-5. 继续 M1a：在已完成的 renderer / `EditState` / orientation 1–8 / 独立输出重开骨架上补真实像素 Alpha / ICC / metadata 清理 fixtures，并接入产品路径；
+5. 继续 M1a：在已完成的 renderer / `EditState` / orientation 1–8 / 独立输出像素重开 / metadata fail-closed 骨架上补真实 Chrome / Edge ICC / sRGB 与像素 fixture，并接入产品路径；
 6. 实现 M1b 可视化控件并建立真实 Chrome / Edge 下载 E2E；
 7. 完成基础编辑器早期内部可用性走查。
 

@@ -1,4 +1,5 @@
 import { createEditState } from "./edit-state.js";
+import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { sha256Bytes } from "./source-file.js";
 
 function positiveDimension(value, label) {
@@ -90,7 +91,17 @@ async function reopenBlob(blob) {
     image.decoding = "async";
     image.src = url;
     await image.decode();
-    return { width: image.naturalWidth, height: image.naturalHeight };
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d", { alpha: true, willReadFrequently: true });
+    if (!context) throw new Error("浏览器无法创建独立重开画布");
+    context.drawImage(image, 0, 0);
+    return {
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+      pixels: context.getImageData(0, 0, canvas.width, canvas.height).data,
+    };
   } finally {
     URL.revokeObjectURL(url);
   }
@@ -177,11 +188,21 @@ export async function renderEditedImage({
   if (!(blob instanceof Blob) || blob.size <= 0 || blob.type !== plan.mime) {
     throw new Error("renderer 返回了无效编码结果");
   }
-  const outputHash = await sha256Bytes(new Uint8Array(await blob.arrayBuffer()));
+  const encodedBytes = new Uint8Array(await blob.arrayBuffer());
+  const outputHash = await sha256Bytes(encodedBytes);
+  const metadataInspection = inspectOutputMetadata(encodedBytes, plan.mime);
+  const expectedPixels = outputContext.getImageData(0, 0, outputCanvas.width, outputCanvas.height).data;
   const reopened = await reopen(blob);
   if (reopened?.width !== plan.output.width || reopened?.height !== plan.output.height) {
     throw new Error("导出重开尺寸与 renderer 计划不一致");
   }
+  const pixelValidation = verifyPixelRoundTrip({
+    expected: expectedPixels,
+    actual: reopened.pixels,
+    width: plan.output.width,
+    height: plan.output.height,
+    mime: plan.mime,
+  });
 
   return Object.freeze({
     blob,
@@ -191,8 +212,10 @@ export async function renderEditedImage({
     byteLength: blob.size,
     outputHash,
     alphaMode: plan.alphaMode,
+    metadataInspection,
+    pixelValidation,
     renderPlan: plan,
-    validationSummary: "已从编码 bytes 独立重开并核对格式、尺寸与文件大小；像素级 Alpha/色彩验证仍待 fixture 阶段完成",
+    validationSummary: "已从编码 bytes 独立重开并核对格式、尺寸、Alpha/可见颜色、私密 metadata 与文件大小；ICC 色彩转换仍待真实浏览器 fixture 完成",
     renderer: "editor-canvas-renderer-v1",
   });
 }

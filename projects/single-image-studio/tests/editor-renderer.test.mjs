@@ -6,6 +6,7 @@ import { buildRenderPlan, renderEditedImage } from "../web/editor-renderer.js";
 
 function fakeCanvas(role) {
   const calls = [];
+  let alphaMode = true;
   const context = {
     fillStyle: "",
     filter: "none",
@@ -15,6 +16,13 @@ function fakeCanvas(role) {
   for (const name of ["save", "restore", "translate", "scale", "rotate", "setTransform", "drawImage", "fillRect"]) {
     context[name] = (...args) => calls.push({ name, args, fillStyle: context.fillStyle, filter: context.filter });
   }
+  context.getImageData = (_x, _y, width, height) => {
+    const data = new Uint8ClampedArray(width * height * 4);
+    if (!alphaMode) {
+      for (let offset = 3; offset < data.length; offset += 4) data[offset] = 255;
+    }
+    return { data };
+  };
   return {
     role,
     width: 0,
@@ -25,6 +33,7 @@ function fakeCanvas(role) {
     getContext(kind, options) {
       assert.equal(kind, "2d");
       this.alpha = options.alpha;
+      alphaMode = options.alpha;
       return context;
     },
     toBlob() {},
@@ -41,6 +50,25 @@ function canvasFactory() {
       return canvas;
     },
   };
+}
+
+function emptyPixels(width, height, alpha = 0) {
+  const pixels = new Uint8ClampedArray(width * height * 4);
+  for (let offset = 3; offset < pixels.length; offset += 4) pixels[offset] = alpha;
+  return pixels;
+}
+
+function minimalPngBytes() {
+  return Uint8Array.from([
+    137, 80, 78, 71, 13, 10, 26, 10,
+    0, 0, 0, 0, 73, 72, 68, 82, 0, 0, 0, 0,
+    0, 0, 0, 0, 73, 68, 65, 84, 0, 0, 0, 0,
+    0, 0, 0, 0, 73, 69, 78, 68, 0, 0, 0, 0,
+  ]);
+}
+
+function minimalJpegBytes() {
+  return Uint8Array.from([0xff, 0xd8, 0xff, 0xd9]);
 }
 
 test("render plan applies rotation before normalized crop and fits without distortion", () => {
@@ -86,8 +114,8 @@ test("orientation 6 is normalized on a dedicated transparent canvas", async () =
     image: { width: 400, height: 300 },
     sourceOrientation: 6,
     createCanvas: (role) => factory.create(role),
-    encode: async (_canvas, mime) => new Blob([Uint8Array.from([7])], { type: mime }),
-    reopen: async () => ({ width: 300, height: 400 }),
+    encode: async (_canvas, mime) => new Blob([minimalPngBytes()], { type: mime }),
+    reopen: async () => ({ width: 300, height: 400, pixels: emptyPixels(300, 400) }),
   });
   assert.deepEqual(factory.canvases.map(({ role }) => role), ["orientation", "transform", "output"]);
   const orientation = factory.canvases[0];
@@ -116,8 +144,8 @@ test("all mirrored EXIF orientations use the frozen canvas matrices", async () =
       image: { width: 400, height: 300 },
       sourceOrientation,
       createCanvas: (role) => factory.create(role),
-      encode: async (_canvas, mime) => new Blob([Uint8Array.from([sourceOrientation])], { type: mime }),
-      reopen: async () => ({ width: size[0], height: size[1] }),
+      encode: async (_canvas, mime) => new Blob([minimalPngBytes()], { type: mime }),
+      reopen: async () => ({ width: size[0], height: size[1], pixels: emptyPixels(size[0], size[1]) }),
     });
     const orientation = factory.canvases[0];
     assert.equal(orientation.role, "orientation");
@@ -137,9 +165,9 @@ test("PNG render keeps both canvases transparent and reopens encoded dimensions"
       assert.equal(canvas.role, "output");
       assert.equal(mime, "image/png");
       assert.equal(quality, undefined);
-      return new Blob([Uint8Array.from([1, 2, 3])], { type: mime });
+      return new Blob([minimalPngBytes()], { type: mime });
     },
-    reopen: async () => ({ width: 200, height: 400 }),
+    reopen: async () => ({ width: 200, height: 400, pixels: emptyPixels(200, 400) }),
   });
 
   const [transformed, output] = factory.canvases;
@@ -153,9 +181,9 @@ test("PNG render keeps both canvases transparent and reopens encoded dimensions"
   assert.deepEqual(transformed.calls.find(({ name }) => name === "scale").args, [1, -1]);
   assert.equal(output.calls.some(({ name }) => name === "fillRect"), false);
   assert.equal(result.alphaMode, "preserve");
-  assert.equal(result.byteLength, 3);
+  assert.equal(result.byteLength, 44);
   assert.match(result.outputHash, /^[0-9a-f]{64}$/u);
-  assert.match(result.validationSummary, /像素级 Alpha\/色彩验证仍待/);
+  assert.match(result.validationSummary, /Alpha\/可见颜色/);
 });
 
 test("JPEG render uses an opaque context and explicit background before drawing", async () => {
@@ -168,9 +196,9 @@ test("JPEG render uses an opaque context and explicit background before drawing"
       assert.equal(canvas.role, "output");
       assert.equal(mime, "image/jpeg");
       assert.equal(quality, 0.75);
-      return new Blob([Uint8Array.from([9])], { type: mime });
+      return new Blob([minimalJpegBytes()], { type: mime });
     },
-    reopen: async () => ({ width: 300, height: 200 }),
+    reopen: async () => ({ width: 300, height: 200, pixels: emptyPixels(300, 200, 255) }),
   });
 
   const output = factory.canvases[1];
@@ -198,7 +226,7 @@ test("renderer fails closed for invalid encoded bytes and reopened geometry", as
     renderEditedImage({
       image,
       createCanvas: (role) => mismatchFactory.create(role),
-      encode: async () => new Blob([Uint8Array.from([1])], { type: "image/png" }),
+      encode: async () => new Blob([minimalPngBytes()], { type: "image/png" }),
       reopen: async () => ({ width: 9, height: 10 }),
     }),
     /重开尺寸/,

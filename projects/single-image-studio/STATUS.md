@@ -21,7 +21,7 @@
 5. 只有真实产品数据证明成本、隐私、延迟或离线需求不可接受时，才恢复浏览器 / 本地模型路线；
 6. C/U/E/R/O/G/V 与 Release Gate 继续约束公开声明和正式发布，但不阻止开发内部产品试用版和开展不使用参与者图片的早期内部可用性走查。
 
-M0 产品基线已完成，M1a renderer 合同继续推进：不可变 `EditState`、100-step 默认 / 200-step 硬上限 history、旋转 / 翻转 / 归一化裁切 / fit resize / RGB 调整 / PNG-JPEG 输出合同，以及“方向归一化 → 变换画布 → 输出画布 → 编码 bytes 独立重开”的执行路径。JPEG / PNG / WebP 的 EXIF orientation 1–8 已由独立容器解析器读取，受控 `ImageBitmap` 解码关闭浏览器自动旋转，再由透明 Canvas 使用冻结矩阵归一化。当前产品定向测试为 `12 files / 68 tests`。该 renderer 尚未接入现有 R0 页面；像素级 Alpha / ICC / metadata 清理 fixtures 与真实 Chrome / Edge 下载 E2E 仍待后续 M1a / M1b 完成。
+M0 产品基线已完成，M1a renderer 合同继续推进：不可变 `EditState`、100-step 默认 / 200-step 硬上限 history、旋转 / 翻转 / 归一化裁切 / fit resize / RGB 调整 / PNG-JPEG 输出合同，以及“方向归一化 → 变换画布 → 输出画布 → 编码 bytes 独立重开”的执行路径。JPEG / PNG / WebP 的 EXIF orientation 1–8 已由独立容器解析器读取，受控 `ImageBitmap` 解码关闭浏览器自动旋转，再由透明 Canvas 使用冻结矩阵归一化。编码前后像素现在会核对 Alpha 与可见的预乘颜色；Alpha=0 的 hidden RGB 明确不作可见事实。最终 PNG / JPEG bytes 会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，同时允许把 ICC / sRGB 颜色描述单独留待色彩核验。当前产品定向测试为 `13 files / 94 tests`，其中包含 20 个项目原创的内存 RGBA fixture。该 renderer 尚未接入现有 R0 页面；真实 Chrome / Edge 的像素、ICC 转换、下载 E2E 仍待后续 M1a / M1b 完成。
 
 ## 当前冻结的产品环境
 
@@ -35,7 +35,7 @@ M0 产品基线已完成，M1a renderer 合同继续推进：不可变 `EditStat
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| M0 + M1a renderer 合同 | M0 完成；M1a 两个无 UI 增量完成 | `test:product`：12 files / 68 tests；动态 syntax 覆盖 159 files；archived research 验证 Slice 01–11 | 产品和历史研究验证已拆开；renderer 已冻结状态、几何、orientation 1–8、透明 / 铺底和重开边界，但尚未接 UI，也没有取得真实浏览器像素 Alpha、ICC、metadata 清理或兼容证据 |
+| M0 + M1a renderer 合同 | M0 完成；M1a 三个无 UI 增量完成 | `test:product`：13 files / 94 tests；动态 syntax 覆盖 161 files；archived research 验证 Slice 01–11 | 产品和历史研究验证已拆开；renderer 已冻结状态、几何、orientation 1–8、透明 / 铺底、编码后像素重开和私密 metadata 拒绝边界，但尚未接 UI，也没有取得真实 Chrome / Edge 的 ICC 转换、像素或兼容证据 |
 | 历史研究快照 | SourceCard + Matting baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合并转为 archival lineage | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet / RVM 未下载、安装或推理，当前 MVP 不继续该路线；需要本地 / 离线模型时必须按新产品版本重新立项 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
