@@ -46,6 +46,7 @@ Layer 4  场景配方
 - `SCO-EXPOSURE-SIGNALS@0.1.0` 新增的是亮度分布 signal，不是自然图片“曝光正确/错误”裁决；在自然图校准前，SourceCard 的 `quality.exposure` 仍保持 unknown。
 - `CC-CAP04-CONTINUOUS-ALPHA-EVAL@0.1.0` 只冻结 6 个公开 synthetic 来源、连续 Alpha 输出和指标；特别要求 boundary MAE，不能让二值 IoU 掩盖羽化边缘损失。results=0，不授予候选能力。
 - `DEF-MATTE-ACQUISITION-GOVERNANCE@0.1.0` 只冻结自然人像 planned partition、权利/隐私/角色隔离及模型获取硬停止；实际图片、权重、runtime、依赖、结果均为 0，不授予 Gate A/B 或 C1。
+- `DEF-MATTE-RUNTIME-METADATA@0.1.0` 只冻结 MODNet/RVM 固定源码依赖观察、安全 checkpoint loader policy 与未签发 HEAD/GET 模板；没有平台 runtime lock、model bytes、loader、inference 或自然图片，不授予 Gate A/B 或 C1。
 - `CAP-05` 是确定性合成层；安全前景像素需要锁定时，不得由 `CAP-07` 替代。
 - `CAP-06` 若会生成不存在的细节，必须在合同中标记为重建，不得继续以“保真增强”发布。
 - 所有处理能力必须把运行与结果交给 `CAP-08`；离线证据 QA 可以使用真值指标，线上任务 QA 不得假设真实上传存在真值；没有任务级 `QAReport` 的文件不能解锁正式下载。

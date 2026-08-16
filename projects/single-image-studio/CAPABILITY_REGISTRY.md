@@ -115,8 +115,8 @@ Registry ID 标识候选实现，`CAP-01`～`CAP-09` 标识稳定能力域，两
 | `REG-DETECT-GROUNDING-DINO` | Grounding DINO | `CAP-03`、`CAP-04` | 开放词汇主体检测 | `research-only` | checkpoint 许可、哈希、训练数据与依赖审计 |
 | `REG-SEG-SAM2` | SAM 2.1 | `CAP-04` | 点击/框提示分割与人工修正 | `research-only/pending-freeze` | 精确 commit、checkpoint 选择/哈希、硬件实测 |
 | `REG-MATTE-BIREFNET` | BiRefNet | `CAP-04` | 通用高分辨率主体分割/Matting 候选 | `research-only` | 官方权重许可与哈希未锁定 |
-| `REG-MATTE-MODNET@0.1.0` | MODNet | `CAP-04` | 单张人像连续 Alpha 候选 | `registered-license-resolved/artifact-not-acquired` | master commit `28165a45…10fb`；官方声明 code/models/demos Apache-2.0；checkpoint 未下载、SHA pending |
-| `REG-MATTE-RVM-MOBILENETV3@0.1.0` | Robust Video Matting v1.0.0 | `CAP-04` | 单初始帧、空 recurrent state 的人像连续 Alpha 研究候选 | `registered-license-resolved/artifact-not-acquired` | tag commit `17d1774b…da1`；GPL-3.0；权重未下载，产品分发需先完成 copyleft review |
+| `REG-MATTE-MODNET@0.1.0` | MODNet | `CAP-04` | 单张人像连续 Alpha 候选 | `registered-metadata-resolved/runtime-and-artifact-blocked` | master commit `28165a45…10fb`；官方声明 code/models/demos Apache-2.0；官方 Drive folder 已定位，但 direct object/bytes/SHA/runtime 未锁，checkpoint 未请求 |
+| `REG-MATTE-RVM-MOBILENETV3@0.1.0` | Robust Video Matting v1.0.0 | `CAP-04` | 单初始帧、空 recurrent state 的人像连续 Alpha 研究候选 | `registered-metadata-resolved/runtime-and-artifact-blocked` | tag commit `17d1774b…da1`；GPL-3.0；release URL 与 direct requirements 已解析，但 model bytes/SHA/platform lock/SBOM 未取得 |
 | `REG-BASELINE-MATTE-SIMPLE` | 本地颜色距离 Matting 简单基线 | `CAP-04` | 证明复杂候选相对简单方法的增益，不作为产品 fallback | `executed-research-lower-bound` | 固定 10/88；3 个原创 synthetic 场景中 hard/hole exact，soft-edge MAE 6.9314 / IoU@128 0.92227；不可冒充通用 Matting 或产品 fallback |
 | `REG-LOCAL-EDGE-REFINE` | 本地边缘净化适配器 | `CAP-04` | 前景颜色去污染、孔洞与 Alpha / premultiply 语义 | `planned` | 冻结算法、参数、底层原语和多底 QA |
 | `REG-LOCAL-MATTE-CORRECTION` | 本地擦除 / 恢复修正工具 | `CAP-04` | 版本化用户修正与 `MatteRevision` | `planned` | 冻结交互操作、次数 / 面积、父版本与重验 |
@@ -397,7 +397,7 @@ release_status=planned
 | 代码许可 | Apache-2.0 |
 | 模型/权重 | [官方 README](https://github.com/ZHKKKe/MODNet/blob/28165a451e4610c9d77cfdf925a94610bb2810fb/README.md#license) 明确仓库中的代码、模型与 demo（`doc/gif` 除外）为 Apache-2.0；选定文件仍未下载，必须先锁 immutable URL / bytes / SHA-256 |
 | 硬件、成本、时延 | `pending-benchmark` |
-| 证据与状态 | `C1=0`，`registered-license-resolved/artifact-not-acquired`；已登记 results-zero synthetic 6×3 和 `PLAN-ACQUIRE-MODNET@0.1.0`。官方 immutable direct artifact 入口仍 unresolved，所有获取/导入/推理权限为 false；只能进入 person-only stratum |
+| 证据与状态 | `C1=0`，`registered-metadata-resolved/runtime-and-artifact-blocked`；已登记 results-zero synthetic 6×3、`PLAN-ACQUIRE-MODNET@0.1.0` 与 `META-MATTE-MODNET-RUNTIME@0.1.0`。固定 `pretrained/README.md` 只解析到官方 Drive folder，direct object/bytes/SHA、image-specific runtime lock 与 safe loader 均 unresolved；HEAD/GET/安装/加载/推理权限全为 false |
 
 ### `REG-MATTE-RVM-MOBILENETV3@0.1.0` — Robust Video Matting
 
@@ -410,7 +410,7 @@ release_status=planned
 | 代码 / 项目许可 | GPL-3.0；官方仓库同时发布 source 与 pretrained models。任何分发、链接、修改或衍生义务必须在产品接入前单独审核 |
 | 模型/权重 | 官方 v1.0.0 release 的 `rvm_mobilenetv3.pth` 已选为候选名，但未下载、未核 bytes / SHA-256、未安装依赖 |
 | 硬件、成本、时延 | `pending-benchmark`；上游吞吐数字不能作为本项目证据 |
-| 证据与状态 | `C1=0`，`registered-license-resolved/artifact-not-acquired`；已登记 results-zero synthetic 6×3 和 `PLAN-ACQUIRE-RVM-MOBILENETV3@0.1.0`。release URL 已解析但 bytes/SHA、safe loader、单帧合同、SBOM 与 GPL 决策未闭合，所有获取/导入/推理权限为 false |
+| 证据与状态 | `C1=0`，`registered-metadata-resolved/runtime-and-artifact-blocked`；已登记 results-zero synthetic 6×3、`PLAN-ACQUIRE-RVM-MOBILENETV3@0.1.0` 与 `META-MATTE-RVM-RUNTIME@0.1.0`。fixed hubconf/release URL、`requirements_inference.txt` 与 single-frame empty-state 调用已解析；bytes/SHA、Python/platform wheels、transitive hashes、safe loader、SBOM 与 GPL 产品决策未闭合，所有 HEAD/GET/安装/加载/推理权限为 false |
 
 ### `REG-BASELINE-MATTE-SIMPLE` — 颜色距离 Matting 简单基线
 

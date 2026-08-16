@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | 已回到 SourceCard + Matting：纵向 baseline 与 exposure signals 已运行；continuous-alpha synthetic 评测以及自然人像/模型获取治理均已冻结，但图片选择、模型下载、候选 runtime 和 results 全为 0。C1 与产品支持仍为 0 |
+| 研究阶段 | 已回到 SourceCard + Matting：纵向 baseline 与 exposure signals 已运行；continuous-alpha、自然人像/模型获取治理及候选运行时元数据均已冻结。MODNet/RVM 官方固定源码与依赖声明已登记，但模型 HEAD/GET、模型 bytes、候选依赖安装、自然图片和 results 全为 0；C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |

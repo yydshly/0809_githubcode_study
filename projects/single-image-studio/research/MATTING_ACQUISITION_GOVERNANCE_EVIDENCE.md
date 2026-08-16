@@ -59,3 +59,5 @@ The focused suite passes 4 / 4. It covers exact zero-material counts, recursivel
 This definition is governance only. It is not model acquisition, runtime readiness, natural-person evidence, Gate B, C1, product support, or release evidence. All evidence axes remain 0 and `productSupport=false`.
 
 The only next authorized work is metadata resolution: locate an official immutable MODNet artifact, freeze exact Python/package/wheel candidates and their license metadata, define safe checkpoint inspection, and draft a one-time acquisition request. Model bytes and natural-image bytes must remain absent until those records pass independent review.
+
+Subsequent results-zero work is recorded separately in [MATTING_RUNTIME_METADATA_EVIDENCE.md](MATTING_RUNTIME_METADATA_EVIDENCE.md). It found the fixed repository's official Google Drive folder but still no immutable MODNet object/hash, recorded RVM's fixed direct requirements and single-frame call shape, and froze a safe-loader policy plus an unissued HEAD/GET template. It does not alter this historical acquisition definition or authorize any request.

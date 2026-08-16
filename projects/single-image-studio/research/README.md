@@ -94,6 +94,15 @@ future natural-person partition/rights/privacy rules, two denied model acquisiti
 plans, and an offline default-deny runtime policy. It selects or downloads no
 natural image, model, dependency, or result.
 
+The next results-zero source-metadata step is recorded in
+[MATTING_RUNTIME_METADATA_EVIDENCE.md](MATTING_RUNTIME_METADATA_EVIDENCE.md).
+It pins ten fixed-commit upstream text observations, distinguishes MODNet's
+official Drive folder from an immutable checkpoint object, records RVM's fixed
+release URL and direct requirements without claiming a complete platform lock,
+and freezes a safe-loader policy plus an unissued HEAD/GET template. Model HEAD,
+body GET, model bytes, installed candidate dependencies, natural images and
+results all remain zero.
+
 Slice 11 is scope-frozen, and its fake-only projection, case, lifecycle and pure
 protocol-runner foundation is now implemented. It creates a new `@0.11.0` identity for exactly
 two corrections: a content-addressed projection from the complete gold identity

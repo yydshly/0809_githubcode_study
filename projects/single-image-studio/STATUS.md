@@ -20,7 +20,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| 研究阶段 | 已回到 SourceCard + Matting 主线：baseline、exposure signals、continuous-alpha 评测定义及获取/数据治理均已闭合 | `6 synthetic sources / 12 assets / natural images 0 / model artifacts 0 / candidate runtime 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。未来自然人像分区、权利、隐私和隔离规则已冻结，但未选择素材；两候选仍禁止下载与推理 |
+| 研究阶段 | 已回到 SourceCard + Matting 主线：baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合 | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet 只解析到官方 Drive 文件夹，RVM 解析到固定 release URL / requirements；两者仍缺可复现平台 runtime、安全 loader 和 artifact hash，禁止下载、安装、加载与推理 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
 | Slice 02 无界面参考设施 | 可运行的合同 / 隔离演练 | 4 contracts；2 suites × 5 partitions；10 fixtures / 30 assets | 只接受窄范围合成 fixture；全部资产 catalog-denied，仓库可见 holdout 不能用于未来 C1，simple baseline 不是产品 fallback |
@@ -37,6 +37,7 @@
 | SourceCard exposure signals + Matting candidates | 4 个原创亮度 calibration + 3 个 MATTE-GT 应用；2 candidates | exposure signal 4/4；MODNet Apache-2.0、RVM GPL-3.0；两份权重均未下载 | `quality.exposure` 继续 unknown；候选只完成精确来源/许可/运行禁区登记，C1 与产品支持不变。详见 [evidence](research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md) |
 | Continuous Alpha results-zero definition | 6 个原创 synthetic source / 12 assets / 4 strict schemas | 每 candidate 6×3=18；两候选 planned 36；threshold not-frozen；results 0 | binary IoU 与 boundary MAE 分开，禁止多数票和 valid rerun；自然人像扩展未创建。详见 [evidence](research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md) |
 | Matting acquisition + natural-person governance | 4 strict schemas / 5 records / 10 files | dev/holdout planned 24/24；defect/defect-holdout 12/12；actual images/models/dependencies/results 全 0 | real user upload、抓取图片、不明权利与未成年人均禁；MODNet locator unresolved，RVM bytes/SHA/runtime/GPL 决策未闭合。详见 [evidence](research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md) |
+| Matting runtime metadata results-zero definition | 4 strict schemas / 5 records / 10 files / 33,076 bytes | 10 registered official source texts；HEAD/GET/model bytes/dependencies/images/results 全 0 | MODNet 官方 folder 已解析但 object/hash 未解析；RVM requirements 有 direct pins 但没有 Python/platform wheel/transitive hash/SBOM；safe loader 未实现，请求模板未签发。详见 [evidence](research/MATTING_RUNTIME_METADATA_EVIDENCE.md) |
 | 原子能力证据 | 未取得 | C1：合同 `0`；覆盖域 `0 / 9` | 尚无版本化 `CapabilityContract` 在独立 holdout 上通过；域覆盖率不代替合同数 |
 | 实用效果证据 | 未取得 | U1：效果版本 `0` | 没有透明抠图、纯色换底或自然增强达到发布前质量门槛；报名头像是后置场景，不计作效果 |
 | 创意效果证据 | 未取得 | E1：效果版本 `0` | 历史材料只有 E0 线索，没有冻结配方的稳定创意效果 |
