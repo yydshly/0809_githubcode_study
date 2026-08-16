@@ -33,7 +33,7 @@
 
 抠图是第二阶段的核心增强，不是产品底座；当前不要求用户安装 MODNet、RVM、SAM 或其他模型。Slice 01–11、SourceCard / Matting baseline、continuous-alpha 和候选元数据全部保留为历史研究资产，但不再自动驱动下一次提交。具体动作、里程碑、验收和恢复本地模型研究的条件见 [当前执行计划](IMPLEMENTATION_PLAN.md)。
 
-当前 R0 页面真实可运行的用户路径只有本地“保真整理”和可选的创意 API 工程路径；抠图、换底、头像、语义 SourceCard 和任务内容 QA 尚未接入产品。M0 已完成；M1a 现已新增不可变 `EditState`、有界撤销 / 重做和独立两阶段 Canvas renderer，但尚未接入页面。下一步补 EXIF orientation、像素级 Alpha / ICC / metadata fixtures 与 renderer 的产品接线；真实 Chrome / Edge 下载 E2E 仍待 M1b 补齐。
+当前 R0 页面真实可运行的用户路径只有本地“保真整理”和可选的创意 API 工程路径；抠图、换底、头像、语义 SourceCard 和任务内容 QA 尚未接入产品。M0 已完成；M1a 现已新增不可变 `EditState`、有界撤销 / 重做、独立两阶段 Canvas renderer，以及 JPEG / PNG / WebP EXIF orientation 1–8 的受控解码与矩阵归一化，但尚未接入页面。下一步补真实像素 Alpha / ICC / metadata 清理 fixtures 与 renderer 的产品接线；真实 Chrome / Edge 下载 E2E 仍待 M1b 补齐。
 
 首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 

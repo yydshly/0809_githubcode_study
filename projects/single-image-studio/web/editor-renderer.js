@@ -12,6 +12,24 @@ function transformedDimensions(width, height, rotation) {
     : { width, height };
 }
 
+function orientedDimensions(width, height, orientation) {
+  return orientation >= 5
+    ? { width: height, height: width }
+    : { width, height };
+}
+
+function orientationTransform(orientation, width, height) {
+  return {
+    2: [-1, 0, 0, 1, width, 0],
+    3: [-1, 0, 0, -1, width, height],
+    4: [1, 0, 0, -1, 0, height],
+    5: [0, 1, 1, 0, 0, 0],
+    6: [0, 1, -1, 0, height, 0],
+    7: [0, -1, -1, 0, height, width],
+    8: [0, -1, 1, 0, 0, width],
+  }[orientation];
+}
+
 function outputDimensions(cropWidth, cropHeight, resize) {
   const requestedWidth = resize.width ?? Number.POSITIVE_INFINITY;
   const requestedHeight = resize.height ?? Number.POSITIVE_INFINITY;
@@ -32,10 +50,11 @@ function outputDimensions(cropWidth, cropHeight, resize) {
 export function buildRenderPlan({ sourceWidth, sourceHeight, editState = createEditState(), sourceOrientation = 1 }) {
   positiveDimension(sourceWidth, "来源宽度");
   positiveDimension(sourceHeight, "来源高度");
-  if (sourceOrientation !== 1) {
-    throw new RangeError("来源 EXIF orientation 必须先归一化为 1");
+  if (!Number.isInteger(sourceOrientation) || sourceOrientation < 1 || sourceOrientation > 8) {
+    throw new RangeError("来源 EXIF orientation 必须为 1–8");
   }
-  const transformed = transformedDimensions(sourceWidth, sourceHeight, editState.rotation);
+  const oriented = orientedDimensions(sourceWidth, sourceHeight, sourceOrientation);
+  const transformed = transformedDimensions(oriented.width, oriented.height, editState.rotation);
   const crop = {
     x: transformed.width * editState.crop.x,
     y: transformed.height * editState.crop.y,
@@ -45,6 +64,7 @@ export function buildRenderPlan({ sourceWidth, sourceHeight, editState = createE
   const output = outputDimensions(crop.width, crop.height, editState.resize);
   return Object.freeze({
     source: Object.freeze({ width: sourceWidth, height: sourceHeight, orientation: sourceOrientation }),
+    oriented: Object.freeze(oriented),
     transformed: Object.freeze(transformed),
     crop: Object.freeze(crop),
     output: Object.freeze(output),
@@ -95,9 +115,20 @@ export async function renderEditedImage({
   encode = canvasToBlob,
   reopen = reopenBlob,
 }) {
-  const sourceWidth = positiveDimension(image?.naturalWidth, "解码宽度");
-  const sourceHeight = positiveDimension(image?.naturalHeight, "解码高度");
+  const sourceWidth = positiveDimension(image?.naturalWidth ?? image?.width, "解码宽度");
+  const sourceHeight = positiveDimension(image?.naturalHeight ?? image?.height, "解码高度");
   const plan = buildRenderPlan({ sourceWidth, sourceHeight, editState, sourceOrientation });
+
+  let orientedSource = image;
+  if (sourceOrientation !== 1) {
+    const orientedCanvas = createCanvas("orientation");
+    orientedCanvas.width = plan.oriented.width;
+    orientedCanvas.height = plan.oriented.height;
+    const orientedContext = canvasContext(orientedCanvas, true);
+    orientedContext.setTransform(...orientationTransform(sourceOrientation, sourceWidth, sourceHeight));
+    orientedContext.drawImage(image, 0, 0, sourceWidth, sourceHeight);
+    orientedSource = orientedCanvas;
+  }
 
   const transformedCanvas = createCanvas("transform");
   transformedCanvas.width = plan.transformed.width;
@@ -107,7 +138,13 @@ export async function renderEditedImage({
   transformedContext.translate(plan.transformed.width / 2, plan.transformed.height / 2);
   transformedContext.scale(plan.flipHorizontal ? -1 : 1, plan.flipVertical ? -1 : 1);
   transformedContext.rotate(plan.rotation * Math.PI / 180);
-  transformedContext.drawImage(image, -sourceWidth / 2, -sourceHeight / 2, sourceWidth, sourceHeight);
+  transformedContext.drawImage(
+    orientedSource,
+    -plan.oriented.width / 2,
+    -plan.oriented.height / 2,
+    plan.oriented.width,
+    plan.oriented.height,
+  );
   transformedContext.restore();
 
   const outputCanvas = createCanvas("output");

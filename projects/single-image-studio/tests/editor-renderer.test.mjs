@@ -12,7 +12,7 @@ function fakeCanvas(role) {
     imageSmoothingEnabled: false,
     imageSmoothingQuality: "low",
   };
-  for (const name of ["save", "restore", "translate", "scale", "rotate", "drawImage", "fillRect"]) {
+  for (const name of ["save", "restore", "translate", "scale", "rotate", "setTransform", "drawImage", "fillRect"]) {
     context[name] = (...args) => calls.push({ name, args, fillStyle: context.fillStyle, filter: context.filter });
   }
   return {
@@ -59,7 +59,7 @@ test("render plan applies rotation before normalized crop and fits without disto
   assert.equal(plan.alphaMode, "preserve");
 });
 
-test("render plan enforces max edge, max pixels, no-upscale and normalized orientation", () => {
+test("render plan enforces limits and applies EXIF orientation before user rotation", () => {
   const limited = buildRenderPlan({
     sourceWidth: 8000,
     sourceHeight: 8000,
@@ -69,10 +69,61 @@ test("render plan enforces max edge, max pixels, no-upscale and normalized orien
 
   const noUpscale = buildRenderPlan({ sourceWidth: 320, sourceHeight: 200 });
   assert.deepEqual(noUpscale.output, { width: 320, height: 200 });
-  assert.throws(
-    () => buildRenderPlan({ sourceWidth: 320, sourceHeight: 200, sourceOrientation: 6 }),
-    /orientation 必须先归一化/,
-  );
+  const oriented = buildRenderPlan({
+    sourceWidth: 400,
+    sourceHeight: 300,
+    sourceOrientation: 6,
+    editState: createEditState({ rotation: 90 }),
+  });
+  assert.deepEqual(oriented.oriented, { width: 300, height: 400 });
+  assert.deepEqual(oriented.transformed, { width: 400, height: 300 });
+  assert.throws(() => buildRenderPlan({ sourceWidth: 320, sourceHeight: 200, sourceOrientation: 9 }), /1–8/);
+});
+
+test("orientation 6 is normalized on a dedicated transparent canvas", async () => {
+  const factory = canvasFactory();
+  await renderEditedImage({
+    image: { width: 400, height: 300 },
+    sourceOrientation: 6,
+    createCanvas: (role) => factory.create(role),
+    encode: async (_canvas, mime) => new Blob([Uint8Array.from([7])], { type: mime }),
+    reopen: async () => ({ width: 300, height: 400 }),
+  });
+  assert.deepEqual(factory.canvases.map(({ role }) => role), ["orientation", "transform", "output"]);
+  const orientation = factory.canvases[0];
+  assert.deepEqual([orientation.width, orientation.height, orientation.alpha], [300, 400, true]);
+  assert.deepEqual(orientation.calls[0], {
+    name: "setTransform",
+    args: [0, 1, -1, 0, 300, 0],
+    fillStyle: "",
+    filter: "none",
+  });
+});
+
+test("all mirrored EXIF orientations use the frozen canvas matrices", async () => {
+  const expected = new Map([
+    [2, { size: [400, 300], matrix: [-1, 0, 0, 1, 400, 0] }],
+    [3, { size: [400, 300], matrix: [-1, 0, 0, -1, 400, 300] }],
+    [4, { size: [400, 300], matrix: [1, 0, 0, -1, 0, 300] }],
+    [5, { size: [300, 400], matrix: [0, 1, 1, 0, 0, 0] }],
+    [6, { size: [300, 400], matrix: [0, 1, -1, 0, 300, 0] }],
+    [7, { size: [300, 400], matrix: [0, -1, -1, 0, 300, 400] }],
+    [8, { size: [300, 400], matrix: [0, -1, 1, 0, 0, 400] }],
+  ]);
+  for (const [sourceOrientation, { size, matrix }] of expected) {
+    const factory = canvasFactory();
+    await renderEditedImage({
+      image: { width: 400, height: 300 },
+      sourceOrientation,
+      createCanvas: (role) => factory.create(role),
+      encode: async (_canvas, mime) => new Blob([Uint8Array.from([sourceOrientation])], { type: mime }),
+      reopen: async () => ({ width: size[0], height: size[1] }),
+    });
+    const orientation = factory.canvases[0];
+    assert.equal(orientation.role, "orientation");
+    assert.deepEqual([orientation.width, orientation.height], size);
+    assert.deepEqual(orientation.calls[0].args, matrix);
+  }
 });
 
 test("PNG render keeps both canvases transparent and reopens encoded dimensions", async () => {
