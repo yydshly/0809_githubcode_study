@@ -171,7 +171,7 @@ test("poll timeout is surfaced as UNKNOWN with the last observed run", async () 
   );
 });
 
-test("background removal client uses its dedicated status, run, cancel, and polling routes", async () => {
+test("background removal client uses dedicated status, run, cancel, deletion, and polling routes", async () => {
   const calls = [];
   const responses = [
     { available: true, provider: { id: "fake.background-removal", version: "0.1.0", mode: "fake" } },
@@ -179,6 +179,7 @@ test("background removal client uses its dedicated status, run, cancel, and poll
     { run: { id: "cutout-1", status: "running" } },
     { run: { id: "cutout-1", status: "succeeded", result: { mime: "image/png", hasAlpha: true } } },
     { run: { id: "cutout-2", status: "cancelled" }, cancelled: true },
+    { receipt: { runId: "cutout-1", localRecordDeleted: true, scope: "local-memory-run-record" } },
   ];
   const client = api.createApiClient({
     fetchImpl: async (url, options) => {
@@ -195,6 +196,8 @@ test("background removal client uses its dedicated status, run, cancel, and poll
   assert.equal(finished.status, "SUCCEEDED");
   const cancelled = await client.cancelBackgroundRemovalRun("cutout-2");
   assert.equal(cancelled.status, "CANCELLED");
+  const deleted = await client.deleteBackgroundRemovalRecord("cutout-1");
+  assert.equal(deleted.receipt.localRecordDeleted, true);
 
   assert.deepEqual(calls.map(({ url, options }) => [url, options.method]), [
     ["/api/background-removal/status", "GET"],
@@ -202,6 +205,7 @@ test("background removal client uses its dedicated status, run, cancel, and poll
     ["/api/background-removal/runs/cutout-1", "GET"],
     ["/api/background-removal/runs/cutout-1", "GET"],
     ["/api/background-removal/runs/cutout-2", "DELETE"],
+    ["/api/background-removal/runs/cutout-1/record", "DELETE"],
   ]);
 });
 
@@ -212,6 +216,7 @@ test("background removal creation and cancellation preserve UNKNOWN transport ou
   for (const operation of [
     () => client.createBackgroundRemovalRun({ sourceRevision: 1 }),
     () => client.cancelBackgroundRemovalRun("cutout-unknown"),
+    () => client.deleteBackgroundRemovalRecord("cutout-unknown"),
   ]) {
     await assert.rejects(operation, (error) => {
       assert.equal(error.outcome, "UNKNOWN");

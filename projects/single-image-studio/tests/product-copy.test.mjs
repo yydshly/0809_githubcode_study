@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [html, main, localProcessing, resultDownload, recoveryPresentation, styles, server, envExample, packageJson] = await Promise.all([
+const [html, main, localProcessing, resultDownload, recoveryPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/local-processing.js", import.meta.url), "utf8"),
@@ -10,6 +10,7 @@ const [html, main, localProcessing, resultDownload, recoveryPresentation, styles
   readFile(new URL("../web/recovery-presentation.js", import.meta.url), "utf8"),
   readFile(new URL("../web/styles.css", import.meta.url), "utf8"),
   readFile(new URL("../server/server.mjs", import.meta.url), "utf8"),
+  readFile(new URL("../server/providers/background-removal/runtime.mjs", import.meta.url), "utf8"),
   readFile(new URL("../.env.example", import.meta.url), "utf8"),
   readFile(new URL("../package.json", import.meta.url), "utf8"),
 ]);
@@ -139,6 +140,13 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /applyRecoveryPresentation/);
   assert.match(recoveryPresentation, /focusTarget: unknown \? "recover"/);
   assert.match(html, /返回任务列表/);
+  assert.match(html, /本次远程处理记录/);
+  assert.match(html, /清除本地处理记录/);
+  assert.match(html, /不代表远程供应商已经删除其处理数据/);
+  assert.match(main, /deleteBackgroundRemovalRecord/);
+  assert.match(main, /未向远程供应商发送删除请求/);
+  assert.match(server, /local-memory-run-record/);
+  assert.match(backgroundRemovalRuntime, /background_removal_record_not_terminal/);
   assert.match(server, /PHOTOROOM_ENABLED === "true"/);
   assert.match(server, /photoroomEnabled && env\.PHOTOROOM_API_KEY/);
   assert.match(envExample, /PHOTOROOM_API_KEY=\s*\r?\nPHOTOROOM_ENABLED=false/);

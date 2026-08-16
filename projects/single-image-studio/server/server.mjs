@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { InMemoryRunStore } from "./run-store.mjs";
 import { createPhotoroomBackgroundRemovalProvider } from "./providers/background-removal/photoroom-provider.mjs";
 import { createBackgroundRemovalRuntime } from "./providers/background-removal/runtime.mjs";
+import { BackgroundRemovalProviderError } from "./providers/background-removal/provider.mjs";
 
 const DEFAULT_PORT = 4177;
 const MAX_JSON_BODY_BYTES = 36 * 1024 * 1024;
@@ -786,6 +787,8 @@ function apiRoute(pathname) {
   if (pathname === "/api/runs") return { kind: "runs" };
   if (pathname === "/api/background-removal/status") return { kind: "background-removal-status" };
   if (pathname === "/api/background-removal/runs") return { kind: "background-removal-runs" };
+  const backgroundRemovalRecordMatch = /^\/api\/background-removal\/runs\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\/record$/i.exec(pathname);
+  if (backgroundRemovalRecordMatch) return { kind: "background-removal-record", id: backgroundRemovalRecordMatch[1].toLowerCase() };
   const backgroundRemovalMatch = /^\/api\/background-removal\/runs\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i.exec(pathname);
   if (backgroundRemovalMatch) return { kind: "background-removal-run", id: backgroundRemovalMatch[1].toLowerCase() };
   const runMatch = /^\/api\/runs\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/i.exec(pathname);
@@ -887,6 +890,27 @@ export function createImageStudioServer({
         sendJson(response, resolved.created ? 202 : 200, { run: publicRun(resolved.run), reused: !resolved.created }, {
           Location: `/api/background-removal/runs/${resolved.run.id}`,
         });
+        return;
+      }
+
+      if (route.kind === "background-removal-record") {
+        if (previewMode === "lan") throw new HttpError(403, "lan_background_removal_disabled", "手机局域网预览不开放远程抠图");
+        if (request.method !== "DELETE") throw new HttpError(405, "method_not_allowed", "该接口只支持 DELETE");
+        try {
+          const receipt = backgroundRemoval.forget(route.id);
+          sendJson(response, 200, {
+            receipt: {
+              ...receipt,
+              scope: "local-memory-run-record",
+              providerDeletion: { status: "not_requested", message: "未向远程供应商发送删除请求" },
+            },
+          });
+        } catch (error) {
+          if (error instanceof BackgroundRemovalProviderError) {
+            throw new HttpError(error.httpStatus ?? 409, error.code, error.message);
+          }
+          throw error;
+        }
         return;
       }
 

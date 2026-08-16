@@ -162,6 +162,21 @@ export function createBackgroundRemovalRuntime({
       });
       return { run: cancelled, cancelled: true };
     },
+    forget(id) {
+      const run = store.get(id);
+      if (!run) {
+        return { runId: id, localRecordDeleted: true, alreadyAbsent: true, deletedAt: now() };
+      }
+      if (!new Set(["succeeded", "failed", "cancelled"]).has(run.status)) {
+        throw new BackgroundRemovalProviderError(
+          "background_removal_record_not_terminal",
+          "任务仍在处理或状态未知，不能清除用于恢复的本地记录",
+          { httpStatus: 409 },
+        );
+      }
+      store.delete(id);
+      return { runId: id, localRecordDeleted: true, alreadyAbsent: false, deletedAt: now() };
+    },
     async waitForIdle() {
       await Promise.allSettled([...inflight]);
     },

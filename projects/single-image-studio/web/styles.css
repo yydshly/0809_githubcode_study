@@ -270,6 +270,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .reference-explainer p { color: rgba(255,255,255,.7); line-height: 1.7; }
 .qa-strip { display: flex; flex-wrap: wrap; gap: .8rem 1.5rem; align-items: center; padding: 1rem .2rem 0; color: var(--muted); font-size: .72rem; }
 .qa-pass { color: var(--green); font-weight: 800; }
+.processing-record-card { margin-top: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: .85rem; background: #f6f5ef; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem 2rem; align-items: center; }
+.processing-record-card h3 { margin: .2rem 0 .35rem; font: 500 1.15rem Georgia, "Songti SC", serif; }
+.processing-record-card p { margin: 0; color: var(--muted); font-size: .72rem; line-height: 1.55; }
+.processing-record-card .processing-record-boundary { margin-top: .35rem; color: #80501f; }
+.processing-record-action { min-width: 14rem; display: grid; justify-items: end; gap: .45rem; color: var(--muted); font-size: .68rem; text-align: right; }
+.processing-record-action .button { min-height: 2.5rem; }
+.processing-record-action button:disabled { opacity: .58; cursor: default; }
 
 .error-panel { max-width: 48rem; margin: 0 auto; }
 .error-panel .inline-actions { justify-content: flex-start; margin-top: 1.2rem; }
@@ -309,6 +316,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
   .task-card .task-index, .contract-list span { font-size: .75rem; }
   .section-side { justify-items: start; }
   .section-heading, .result-heading { align-items: flex-start; flex-direction: column; }
+  .processing-record-card { grid-template-columns: 1fr; }
+  .processing-record-action { min-width: 0; justify-items: start; text-align: left; }
   .source-preview, .source-pane, .studio { min-height: 25rem; }
   .source-preview > img { height: min(68vh, 25rem); }
   .source-empty { padding: 3rem 1rem; }

@@ -54,7 +54,7 @@
 
 请求必须绑定本次 `clientRunId`、`sourceRevision`、`geometryRevision`、来源 SHA-256 和 `background-removal-consent.v0` 明确同意。来源 bytes 仅作为本次进程内 provider 输入，不写入内存 run record；record 只保留当前进程内的来源 hash/revision、终态、错误码和经验证的输出。该 plain hash 结构还不是未来多用户服务允许持久保存的收据格式。服务端会直接重算来源 hash，并检查 Provider 返回的 PNG chunk/CRC、8-bit RGBA Alpha、尺寸、闭合 IEND 和非动画边界。
 
-当前内存 store 不提供跨进程恢复、删除证明、地域、最终费用、供应商保留期或多用户隔离，因此不能接收真实用户照片。2026-08-16 的唯一 sandbox 探针只发送项目原创 synthetic，结果在进程重启后清除；它没有放宽正式候选比较的硬门。正式比较前仍须确认候选、条款日期、处理地域、训练/审核用途、TTL、删除能力、预算和 scoped receipt 方案；任一项未知即不得升级为产品能力。
+当前内存 store 不提供跨进程恢复、供应商删除证明、地域、最终费用、供应商保留期或多用户隔离，因此不能接收真实用户照片。内部结果页现可删除已结束 run 的本地内存记录，并返回 `providerDeletion=not_requested` 的窄回执；这只证明当前进程记录已清除，不是持久 tombstone，也不证明供应商已删除。2026-08-16 的唯一 sandbox 探针只发送项目原创 synthetic，结果在进程重启后清除；它没有放宽正式候选比较的硬门。正式比较前仍须确认候选、条款日期、处理地域、训练/审核用途、TTL、删除能力、预算和 scoped receipt 方案；任一项未知即不得升级为产品能力。
 
 ## 4. 首轮桌面范围与威胁模型
 

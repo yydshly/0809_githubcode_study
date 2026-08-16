@@ -74,6 +74,10 @@ function pathForBackgroundRemovalRun(runId) {
   return `/api/background-removal/runs/${encodeURIComponent(runId)}`;
 }
 
+function pathForBackgroundRemovalRecord(runId) {
+  return `${pathForBackgroundRemovalRun(runId)}/record`;
+}
+
 function createRequestAbort(externalSignal, timeoutMs) {
   const controller = new AbortController();
   let abortSource = null;
@@ -314,6 +318,15 @@ export function createApiClient({
     return unwrapRun(response);
   }
 
+  async function deleteBackgroundRemovalRecord(runId, { signal, timeoutMs } = {}) {
+    return request(pathForBackgroundRemovalRecord(runId), {
+      method: "DELETE",
+      signal,
+      timeoutMs,
+      outcomeUnknownOnTransport: true,
+    });
+  }
+
   async function pollRun(
     runId,
     {
@@ -421,6 +434,7 @@ export function createApiClient({
     createBackgroundRemovalRun,
     getBackgroundRemovalRun,
     cancelBackgroundRemovalRun,
+    deleteBackgroundRemovalRecord,
     pollBackgroundRemovalRun,
   });
 }
@@ -465,6 +479,10 @@ export function getBackgroundRemovalRun(runId, options) {
 
 export function cancelBackgroundRemovalRun(runId, options) {
   return getDefaultClient().cancelBackgroundRemovalRun(runId, options);
+}
+
+export function deleteBackgroundRemovalRecord(runId, options) {
+  return getDefaultClient().deleteBackgroundRemovalRecord(runId, options);
 }
 
 export function pollBackgroundRemovalRun(runId, options) {

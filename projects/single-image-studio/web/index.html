@@ -194,6 +194,19 @@
             </div>
           </div>
           <div class="qa-strip"><span class="qa-pass">✓ 工程校验完成</span><span id="qa-copy"></span><span id="result-size"></span></div>
+          <aside class="processing-record-card" id="processing-record-card" hidden aria-labelledby="processing-record-title">
+            <div>
+              <p class="kicker">隐私与恢复</p>
+              <h3 id="processing-record-title">本次远程处理记录</h3>
+              <p id="processing-record-copy">本地服务暂存这次任务记录，用于恢复状态。清除后不影响当前页面里的结果和下载。</p>
+              <p class="processing-record-boundary">只清除当前电脑服务进程中的记录；不代表远程供应商已经删除其处理数据。</p>
+            </div>
+            <div class="processing-record-action">
+              <span id="processing-record-provider"></span>
+              <button class="button button-quiet" id="delete-processing-record" type="button">清除本地处理记录</button>
+              <span id="processing-record-status" role="status" aria-live="polite">本地记录可用于任务恢复</span>
+            </div>
+          </aside>
         </section>
 
         <section class="error-panel" id="error-panel" hidden>

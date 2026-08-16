@@ -312,6 +312,44 @@ test("cancellation wins over a late provider result and cannot unlock output", a
   assert.equal(run.requestId, null);
 });
 
+test("a completed local run record can be forgotten without claiming provider deletion", async (t) => {
+  const app = await start({ backgroundRemovalProvider: successProvider() });
+  t.after(() => app.close());
+  const request = payload();
+  await createRun(app, request);
+  await waitFor(app, request.clientRunId, "succeeded");
+
+  const deletion = await fetch(`${app.baseUrl}/api/background-removal/runs/${request.clientRunId}/record`, { method: "DELETE" });
+  assert.equal(deletion.status, 200);
+  const receipt = (await body(deletion)).receipt;
+  assert.equal(receipt.localRecordDeleted, true);
+  assert.equal(receipt.alreadyAbsent, false);
+  assert.equal(receipt.scope, "local-memory-run-record");
+  assert.deepEqual(receipt.providerDeletion, {
+    status: "not_requested",
+    message: "未向远程供应商发送删除请求",
+  });
+  assert.equal((await fetch(`${app.baseUrl}/api/background-removal/runs/${request.clientRunId}`)).status, 404);
+
+  const repeated = await fetch(`${app.baseUrl}/api/background-removal/runs/${request.clientRunId}/record`, { method: "DELETE" });
+  assert.equal(repeated.status, 200);
+  assert.equal((await body(repeated)).receipt.alreadyAbsent, true);
+});
+
+test("a local record cannot be forgotten while the provider outcome is unresolved", async (t) => {
+  const app = await start({
+    backgroundRemovalProvider: successProvider(() => new Promise(() => {})),
+    backgroundRemovalTimeoutMs: 5_000,
+  });
+  t.after(() => app.close());
+  const request = payload();
+  await createRun(app, request);
+  const deletion = await fetch(`${app.baseUrl}/api/background-removal/runs/${request.clientRunId}/record`, { method: "DELETE" });
+  assert.equal(deletion.status, 409);
+  assert.equal((await body(deletion)).error.code, "background_removal_record_not_terminal");
+  await fetch(`${app.baseUrl}/api/background-removal/runs/${request.clientRunId}`, { method: "DELETE" });
+});
+
 test("LAN preview rejects background removal even when a provider was injected", async (t) => {
   let calls = 0;
   const app = await start({

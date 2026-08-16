@@ -80,6 +80,9 @@ const elements = {
   maskZooms: $$('[data-mask-zoom]'),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
+  processingRecordCard: $("#processing-record-card"), processingRecordCopy: $("#processing-record-copy"),
+  processingRecordProvider: $("#processing-record-provider"), processingRecordStatus: $("#processing-record-status"),
+  deleteProcessingRecord: $("#delete-processing-record"),
   redo: $("#redo-button"), download: $("#download-button"),
   errorPanel: $("#error-panel"), errorTitle: $("#error-title"), errorCopy: $("#error-copy"), recover: $("#recover-button"), retry: $("#retry-button"), errorBack: $("#error-back-button"),
   canvas: $("#processing-canvas"), toast: $("#toast"), journey: $$(".journey li"), tabs: $$(".compare-tabs button"),
@@ -211,6 +214,10 @@ function clearResult() {
   delete elements.resultStage.dataset.aspect;
   revokeIfBlob(currentResult?.url);
   currentResult = null;
+  elements.processingRecordCard.hidden = true;
+  elements.deleteProcessingRecord.disabled = false;
+  elements.deleteProcessingRecord.textContent = "清除本地处理记录";
+  elements.processingRecordStatus.textContent = "本地记录可用于任务恢复";
 }
 
 function clearEditorWorkspace() {
@@ -1377,6 +1384,17 @@ function renderResult() {
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
   elements.referenceCopy.textContent = selectedTask.referenceCopy;
   elements.referenceMark.style.background = selectedTask.id === "UT-TUNE" ? "radial-gradient(circle at 35% 35%, #dce978 0 18%, transparent 19%), repeating-radial-gradient(circle, transparent 0 6px, rgba(255,255,255,.25) 7px 8px)" : "radial-gradient(circle at 30% 30%, #d96d3a, transparent 30%), repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.22) 9px 10px)";
+  elements.processingRecordCard.hidden = selectedTask.id !== "UT-CUTOUT";
+  if (selectedTask.id === "UT-CUTOUT") {
+    const sandbox = currentResult.provider?.environment === "sandbox";
+    elements.processingRecordProvider.textContent = `${currentResult.provider?.id ?? "远程抠图服务"}${sandbox ? " · 沙盒" : ""}`;
+    elements.processingRecordCopy.textContent = "本地服务暂存这次任务编号、输入指纹和结果，用于恢复状态。清除后不影响当前页面里的结果和下载。";
+    elements.deleteProcessingRecord.disabled = currentResult.localRecordDeleted === true;
+    elements.deleteProcessingRecord.textContent = currentResult.localRecordDeleted ? "本地记录已清除" : "清除本地处理记录";
+    elements.processingRecordStatus.textContent = currentResult.localRecordDeleted
+      ? "本地记录已清除；刷新后无法恢复这次任务"
+      : "本地记录可用于任务恢复";
+  }
   showOnly("result");
   selectComparisonLayer("result");
   setJourney("result");
@@ -1643,6 +1661,29 @@ elements.maskCorrectionCanvas.addEventListener("focus", () => {
 });
 elements.maskCorrectionCanvas.addEventListener("blur", () => { elements.maskBrushCursor.hidden = true; });
 elements.maskCorrectionCanvas.addEventListener("keydown", maskKeyboard);
+elements.deleteProcessingRecord.addEventListener("click", async () => {
+  if (!currentResult || selectedTask?.id !== "UT-CUTOUT" || currentResult.localRecordDeleted) return;
+  elements.deleteProcessingRecord.disabled = true;
+  elements.deleteProcessingRecord.textContent = "正在清除…";
+  elements.processingRecordStatus.textContent = "正在清除当前电脑服务进程中的任务记录";
+  try {
+    const response = await api.deleteBackgroundRemovalRecord(currentResult.runId, { timeoutMs: 8_000 });
+    if (response?.receipt?.localRecordDeleted !== true || response.receipt.scope !== "local-memory-run-record") {
+      throw new Error("服务端没有返回可核对的本地删除回执");
+    }
+    currentResult.localRecordDeleted = true;
+    elements.deleteProcessingRecord.textContent = "本地记录已清除";
+    elements.processingRecordStatus.textContent = "本地记录已清除；当前结果仍可查看和下载，刷新后无法恢复这次任务";
+    toast("本地处理记录已清除；未向远程供应商发送删除请求");
+  } catch (error) {
+    elements.deleteProcessingRecord.disabled = false;
+    elements.deleteProcessingRecord.textContent = "重新清除本地记录";
+    elements.processingRecordStatus.textContent = error instanceof ApiClientError && error.isUnknown
+      ? "无法确认本地记录是否已清除；当前结果不受影响"
+      : `本地记录未清除：${error.message}`;
+  }
+});
+
 elements.download.addEventListener("click", async () => {
   if (!currentResult) return;
   const contract = buildResultDownloadContract({ taskId: selectedTask.id, result: machine.result, currentRunId: machine.activeRunId });
@@ -1741,6 +1782,8 @@ function createBackgroundRemovalResult(finished, { recovered = false } = {}) {
     hasAlpha: true,
     validationSummary: `${recovered ? "恢复查询后" : ""}已核对 PNG 结构、Alpha 通道、文件大小、输出指纹与本次任务编号；${providerSandbox ? "当前为带水印沙盒结果，" : ""}尚未执行人工边缘质量检查`,
     processor: `${providerSandbox ? "沙盒抠图" : "远程抠图"} · ${finished.result.provider?.id ?? "configured provider"}`,
+    provider: finished.result.provider ?? null,
+    localRecordDeleted: false,
     title: providerSandbox ? "沙盒抠图完成（带水印）" : "背景已移除",
   };
 }
