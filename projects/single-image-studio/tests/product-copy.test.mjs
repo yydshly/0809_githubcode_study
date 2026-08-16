@@ -50,7 +50,7 @@ test("visible output copy distinguishes engineering validation from content qual
   assert.match(html, /id="compare-source-tab"[^>]*aria-controls="compare-source-panel"/);
   assert.match(html, /id="compare-result-tab"[^>]*aria-controls="compare-result-panel"/);
   assert.match(html, /id="result-stage"/);
-  assert.match(html, />完整原图<.*>参考<.*>裁剪结果</s);
+  assert.match(html, />完整原图<.*>处理说明<.*>处理结果</s);
   assert.match(styles, /\.result-image-panel \{[^}]*min-width: 0;[^}]*min-height: 0;[^}]*place-items: center;[^}]*overflow: hidden;/);
   assert.match(styles, /\.result-image-panel > img \{[^}]*width: auto;[^}]*height: auto;[^}]*max-width: 100%;[^}]*max-height: 100%;[^}]*object-fit: contain;[^}]*object-position: center;/);
   assert.doesNotMatch(styles, /\.result-image-panel > img \{[^}]*object-fit: cover/);
@@ -58,10 +58,12 @@ test("visible output copy distinguishes engineering validation from content qual
   assert.match(styles, /\.source-preview > img \{[^}]*object-fit: contain;[^}]*background-image:/);
   assert.match(styles, /\.result-stage \{[^}]*background-color: #d8ddd8;[^}]*background-image:/);
   assert.match(html, /完整显示的原图/);
-  assert.match(html, /完整显示的裁剪结果/);
+  assert.match(html, /完整显示的处理结果/);
   assert.match(main, /function selectComparisonLayer/);
   assert.match(main, /function syncComparisonStage/);
   assert.match(main, /完整原图 \$\{dimensions\.width\} × \$\{dimensions\.height\}/);
+  assert.match(main, /"抠图结果"/);
+  assert.match(main, /"编辑结果"/);
   assert.match(main, /fitComparisonStage/);
   assert.match(main, /ArrowRight/);
   assert.match(main, /event\.key === "Home"/);

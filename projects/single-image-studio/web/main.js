@@ -1356,8 +1356,16 @@ function renderResult() {
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
   elements.resultSourceImage.src = sourceUrl;
   elements.resultOutputImage.src = currentResult.url;
-  elements.resultOutputImage.alt = selectedTask.id === "UT-CUTOUT" ? "完整显示的透明抠图结果" : "完整显示的处理结果";
-  elements.resultOutputTab.textContent = selectedTask.id === "UT-CUTOUT" ? "透明结果" : selectedTask.id === "UT-TUNE" ? "裁剪结果" : "处理结果";
+  elements.resultOutputImage.alt = selectedTask.id === "UT-CUTOUT"
+    ? "完整显示的抠图结果"
+    : selectedTask.id === "UT-TUNE"
+      ? "完整显示的编辑结果"
+      : "完整显示的处理结果";
+  elements.resultOutputTab.textContent = selectedTask.id === "UT-CUTOUT"
+    ? "抠图结果"
+    : selectedTask.id === "UT-TUNE"
+      ? "编辑结果"
+      : "处理结果";
   elements.qaCopy.textContent = currentResult.validationSummary;
   elements.resultSize.textContent = currentResult.width && currentResult.height ? `${currentResult.width} × ${currentResult.height}` : currentResult.mimeType;
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
@@ -1775,9 +1783,9 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   const dimensions = comparisonLayerDimensions(layer);
   if (layer === "source") elements.resultSize.textContent = `完整原图 ${dimensions.width} × ${dimensions.height}`;
   if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
-    ? `结果 ${currentResult.width} × ${currentResult.height}`
+    ? `${selectedTask?.id === "UT-CUTOUT" ? "抠图结果" : selectedTask?.id === "UT-TUNE" ? "编辑结果" : "处理结果"} ${currentResult.width} × ${currentResult.height}`
     : currentResult.mimeType;
-  if (layer === "reference") elements.resultSize.textContent = "任务方法说明";
+  if (layer === "reference") elements.resultSize.textContent = "处理说明";
   syncComparisonStage(layer);
   if (layer === "result") applyMaskZoom();
   if (focus) selectedTab?.focus();
