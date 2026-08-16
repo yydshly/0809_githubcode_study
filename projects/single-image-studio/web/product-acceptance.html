@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>主流程浏览器验收 · Single Image Studio</title>
+    <style>
+      :root { color-scheme: light; font-family: Inter, "PingFang SC", sans-serif; background: #f4f3ec; color: #17352b; }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 2rem; }
+      main { max-width: 94rem; margin: 0 auto; }
+      h1 { margin: .35rem 0; font: 500 clamp(2rem, 4vw, 3.6rem) Georgia, "Songti SC", serif; }
+      p { max-width: 54rem; color: #53655d; line-height: 1.65; }
+      button { border: 0; border-radius: 999px; padding: .8rem 1.2rem; background: #1e493a; color: white; font: inherit; font-weight: 750; cursor: pointer; }
+      button:disabled { opacity: .55; cursor: wait; }
+      output { display: inline-block; margin-left: .8rem; font-weight: 750; }
+      table { width: 100%; margin: 1.5rem 0; border-collapse: collapse; background: white; }
+      th, td { padding: .8rem; border: 1px solid #d8ddd8; text-align: left; vertical-align: top; }
+      th { background: #e8eee9; }
+      [data-state="pass"] { color: #17643c; }
+      [data-state="fail"] { color: #a2382a; }
+      .frame-shell { max-width: 100%; overflow: auto; border: 1px solid #bcc8c0; border-radius: 1rem; background: #dde4df; }
+      iframe { display: block; border: 0; background: white; }
+      .boundary { font-size: .84rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>内部 QA · 只用项目合成图 · 不调用远程服务</p>
+      <h1>主流程浏览器验收</h1>
+      <p>在真实同源页面中分别以 1280×720 和 1440×900 完成本地编辑与模板导出，并重开下载 bytes。这里验证的是当前浏览器会话，不等于 Chrome / Edge 两个正式版本矩阵都已通过。</p>
+      <button id="run-acceptance" type="button">重新运行两档验收</button>
+      <output id="acceptance-status" role="status" aria-live="polite">尚未运行</output>
+      <table>
+        <thead><tr><th>浏览器视口</th><th>真实路径</th><th>结果</th><th>证据</th></tr></thead>
+        <tbody id="acceptance-results"></tbody>
+      </table>
+      <p class="boundary">边界：不会打开系统文件选择器，不会调用抠图或创意 API，也不会验证操作系统下载目录。下载按钮产生的 Blob 会在当前浏览器内被捕获、校验 PNG 签名并重新解码。</p>
+      <div class="frame-shell" aria-label="当前验收中的真实产品页面">
+        <iframe id="product-frame" title="Single Image Studio 主流程验收页面"></iframe>
+      </div>
+    </main>
+    <script type="module" src="./product-acceptance.js"></script>
+  </body>
+</html>
