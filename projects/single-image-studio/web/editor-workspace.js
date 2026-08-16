@@ -119,19 +119,30 @@ export function editorSettings(workspace) {
   return settingsFromState(workspace.history.present, workspace.source);
 }
 
+function activeCropAxis(crop) {
+  if (!near(crop.width, 1)) return "horizontal";
+  if (!near(crop.height, 1)) return "vertical";
+  return "none";
+}
+
 function clampPercent(value) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
-export function moveEditorCrop(settings, { deltaX = 0, deltaY = 0, frameWidth, frameHeight }) {
+export function moveEditorCrop(settings, { deltaX = 0, deltaY = 0, frameWidth, frameHeight, axis = "both" }) {
   if (!Number.isFinite(frameWidth) || frameWidth <= 0 || !Number.isFinite(frameHeight) || frameHeight <= 0) {
     throw new TypeError("裁切拖动需要有效预览尺寸");
   }
   if (![deltaX, deltaY].every(Number.isFinite)) throw new TypeError("裁切拖动距离必须是有限数值");
+  if (!["both", "horizontal", "vertical", "none"].includes(axis)) throw new RangeError("不支持的裁切拖动方向");
   return Object.freeze({
     ...settings,
-    cropX: clampPercent(Number(settings.cropX ?? 50) - deltaX / frameWidth * 100),
-    cropY: clampPercent(Number(settings.cropY ?? 50) - deltaY / frameHeight * 100),
+    cropX: ["both", "horizontal"].includes(axis)
+      ? clampPercent(Number(settings.cropX ?? 50) - deltaX / frameWidth * 100)
+      : Number(settings.cropX ?? 50),
+    cropY: ["both", "vertical"].includes(axis)
+      ? clampPercent(Number(settings.cropY ?? 50) - deltaY / frameHeight * 100)
+      : Number(settings.cropY ?? 50),
   });
 }
 
@@ -159,20 +170,26 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
   const normalizedSettings = settingsFromState(state, workspace.source);
   const ratio = normalizedSettings.ratio;
   const ratioLabel = RATIO_PRESETS[ratio].label;
-  const cropEnabled = ratio !== "original";
-  const cropLabel = cropEnabled
-    ? `构图 ${normalizedSettings.cropX}% / ${normalizedSettings.cropY}%`
-    : "完整画面";
+  const cropAxis = activeCropAxis(state.crop);
+  const cropEnabled = cropAxis !== "none";
+  const cropLabel = cropAxis === "horizontal"
+    ? `左右保留位置 ${normalizedSettings.cropX}%`
+    : cropAxis === "vertical"
+      ? `上下保留位置 ${normalizedSettings.cropY}%`
+      : ratio === "original" ? "完整画面" : "比例已匹配，无需移动";
+  const positionX = cropAxis === "horizontal" ? normalizedSettings.cropX : 50;
+  const positionY = cropAxis === "vertical" ? normalizedSettings.cropY : 50;
   return Object.freeze({
     state,
     aspectRatio: `${plan.output.width} / ${plan.output.height}`,
     aspectValue: aspect,
     transform: `rotate(${state.rotation}deg) scale(${flipX}, ${flipY})`,
-    objectPosition: `${normalizedSettings.cropX}% ${normalizedSettings.cropY}%`,
+    objectPosition: `${positionX}% ${positionY}%`,
     filter: plan.filter,
     background: state.output.format === "jpeg" ? state.output.jpegBackground : null,
     format: state.output.format,
     cropEnabled,
+    cropAxis,
     cropLabel,
     settings: normalizedSettings,
     summary: `${ratioLabel} · ${cropLabel} · ${plan.output.width} × ${plan.output.height} · ${state.rotation}° · 亮度 ${signed(state.adjustments.brightness)} · 对比度 ${signed(state.adjustments.contrast)} · 饱和度 ${signed(state.adjustments.saturation)} · ${state.output.format.toUpperCase()}`,

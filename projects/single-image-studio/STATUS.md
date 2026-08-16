@@ -21,7 +21,7 @@
 5. 只有真实产品数据证明成本、隐私、延迟或离线需求不可接受时，才恢复浏览器 / 本地模型路线；
 6. C/U/E/R/O/G/V 与 Release Gate 继续约束公开声明和正式发布，但不阻止开发内部产品试用版和开展不使用参与者图片的早期内部可用性走查。
 
-M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“保真整理”路径：不可变 `EditState`、100-step 默认 / 200-step 硬上限 history、旋转 / 翻转 / 归一化裁切 / fit resize / RGB 调整 / PNG-JPEG 输出合同，以及“方向归一化 → 变换画布 → 输出画布 → 编码 bytes 独立重开”的执行路径。JPEG / PNG / WebP 的 EXIF orientation 1–8 已由独立容器解析器读取，受控 `ImageBitmap` 解码关闭浏览器自动旋转，再由透明 Canvas 使用冻结矩阵归一化。编码前后像素会核对 Alpha 与可见的预乘颜色；Alpha=0 的 hidden RGB 明确不作可见事实。最终 PNG / JPEG bytes 会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，同时允许把 ICC / sRGB 颜色描述单独留待色彩核验。M1b 继续推进：页面工作区现在把设置分成“构图—光色—导出”，可在选择 1:1 / 4:5 / 3:2 后拖动画面，或用方向键和水平 / 垂直滑杆调整保留区域；自定义宽高按当前画面比例联动并限制在 2048 px，页面同时显示实际导出尺寸。预览、history 和最终 renderer 共用同一组 crop / resize 参数，最终下载仍从原始解码结果重新渲染，不使用预览画面。产品定向测试为 `16 files / 108 tests`，动态 syntax 覆盖 `167` 个脚本。仓库已加入只使用内存合成像素的浏览器诊断页；canonical server 主页面与诊断页 HTTP 200，但本轮仍未暴露可控浏览器脚本入口，因此真实 Chrome / Edge 的布局、像素、ICC 转换、键盘与下载 E2E 仍未取得。
+M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“保真整理”路径：不可变 `EditState`、100-step 默认 / 200-step 硬上限 history、旋转 / 翻转 / 归一化裁切 / fit resize / RGB 调整 / PNG-JPEG 输出合同，以及“方向归一化 → 变换画布 → 输出画布 → 编码 bytes 独立重开”的执行路径。JPEG / PNG / WebP 的 EXIF orientation 1–8 已由独立容器解析器读取，受控 `ImageBitmap` 解码关闭浏览器自动旋转，再由透明 Canvas 使用冻结矩阵归一化。编码前后像素会核对 Alpha 与可见的预乘颜色；Alpha=0 的 hidden RGB 明确不作可见事实。最终 PNG / JPEG bytes 会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，同时允许把 ICC / sRGB 颜色描述单独留待色彩核验。M1b 继续推进：页面工作区现在把设置分成“构图—光色—导出”，可在选择 1:1 / 4:5 / 3:2 后拖动画面，或用方向键和当前实际有效的单轴滑杆调整保留区域；宽图裁左右时只显示左右控制，长图裁上下时只显示上下控制，来源已符合目标比例时明确提示无需移动。自定义宽高按当前画面比例联动并限制在 2048 px，页面同时显示实际导出尺寸。预览、history 和最终 renderer 共用同一组 crop / resize 参数，最终下载仍从原始解码结果重新渲染，不使用预览画面。产品定向测试为 `16 files / 109 tests`，动态 syntax 覆盖 `167` 个脚本。仓库已加入只使用内存合成像素的浏览器诊断页；canonical server 主页面与诊断页 HTTP 200，但本轮仍未暴露可控浏览器脚本入口，因此真实 Chrome / Edge 的布局、像素、ICC 转换、键盘与下载 E2E 仍未取得。
 
 ## 当前冻结的产品环境
 
@@ -35,7 +35,7 @@ M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
-| M0 + M1a renderer 合同 | M0 完成；M1a renderer 已接本地任务；M1b 构图、尺寸、工作预览和 history 已接入 | `test:product`：16 files / 108 tests；动态 syntax 覆盖 167 files；archived research 验证 Slice 01–11 | 页面会实时反馈比例、构图位置、方向、RGB、实际输出尺寸与格式；拖动、方向键和滑杆写入同一 crop，宽高按比例联动，撤销 / 重做 / 重置只保存参数；最终只接纳从原始来源重新渲染并独立重开校验后的结果。真实 Chrome / Edge 布局、键盘与下载 E2E 仍未完成 |
+| M0 + M1a renderer 合同 | M0 完成；M1a renderer 已接本地任务；M1b 构图、尺寸、工作预览和 history 已接入 | `test:product`：16 files / 109 tests；动态 syntax 覆盖 167 files；archived research 验证 Slice 01–11 | 页面会实时反馈比例、有效裁切方向、构图位置、方向、RGB、实际输出尺寸与格式；只显示真正有裁切空间的左右或上下控制，拖动、对应方向键和单轴滑杆写入同一 crop，宽高按比例联动，撤销 / 重做 / 重置只保存参数；最终只接纳从原始来源重新渲染并独立重开校验后的结果。真实 Chrome / Edge 布局、键盘与下载 E2E 仍未完成 |
 | 历史研究快照 | SourceCard + Matting baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合并转为 archival lineage | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet / RVM 未下载、安装或推理，当前 MVP 不继续该路线；需要本地 / 离线模型时必须按新产品版本重新立项 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |

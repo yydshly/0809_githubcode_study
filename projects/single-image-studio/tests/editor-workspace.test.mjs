@@ -72,7 +72,8 @@ test("crop position, custom size and drag math share one immutable edit contract
   assert.equal(editorSettings(workspace).cropX, 100);
   const presentation = editorPreviewPresentation(workspace);
   assert.equal(presentation.objectPosition, "100% 50%");
-  assert.equal(presentation.cropLabel, "构图 100% / 50%");
+  assert.equal(presentation.cropAxis, "horizontal");
+  assert.equal(presentation.cropLabel, "左右保留位置 100%");
   assert.match(presentation.summary, /500 × 500/);
 
   const dragged = moveEditorCrop(editorSettings(workspace), {
@@ -80,9 +81,35 @@ test("crop position, custom size and drag math share one immutable edit contract
     deltaY: -50,
     frameWidth: 400,
     frameHeight: 200,
+    axis: presentation.cropAxis,
   });
   assert.equal(dragged.cropX, 50);
-  assert.equal(dragged.cropY, 75);
+  assert.equal(dragged.cropY, 50);
+});
+
+test("crop controls expose only the direction that has real overflow", () => {
+  const verticalWorkspace = createEditorWorkspace({ sourceWidth: 500, sourceHeight: 1000, sourceOrientation: 1 });
+  const vertical = editorPreviewPresentation(verticalWorkspace, { ratio: "square", cropX: 12, cropY: 80, format: "png" });
+  assert.equal(vertical.cropAxis, "vertical");
+  assert.equal(vertical.cropEnabled, true);
+  assert.equal(vertical.objectPosition, "50% 80%");
+  assert.equal(vertical.cropLabel, "上下保留位置 80%");
+  const dragged = moveEditorCrop(vertical.settings, {
+    deltaX: 100,
+    deltaY: 50,
+    frameWidth: 200,
+    frameHeight: 200,
+    axis: vertical.cropAxis,
+  });
+  assert.equal(dragged.cropX, 50);
+  assert.equal(dragged.cropY, 55);
+
+  const exactWorkspace = createEditorWorkspace({ sourceWidth: 800, sourceHeight: 800, sourceOrientation: 1 });
+  const exact = editorPreviewPresentation(exactWorkspace, { ratio: "square", cropX: 0, cropY: 100, format: "png" });
+  assert.equal(exact.cropAxis, "none");
+  assert.equal(exact.cropEnabled, false);
+  assert.equal(exact.objectPosition, "50% 50%");
+  assert.equal(exact.cropLabel, "比例已匹配，无需移动");
 });
 
 test("undo, redo and reset preserve the current source contract", () => {
@@ -121,5 +148,9 @@ test("workspace rejects invalid source and unsupported transient settings", () =
   assert.throws(
     () => moveEditorCrop(editorSettings(workspace), { deltaX: 1, deltaY: 1, frameWidth: 0, frameHeight: 10 }),
     /有效预览尺寸/,
+  );
+  assert.throws(
+    () => moveEditorCrop(editorSettings(workspace), { deltaX: 1, deltaY: 1, frameWidth: 10, frameHeight: 10, axis: "diagonal" }),
+    /不支持的裁切拖动方向/,
   );
 });

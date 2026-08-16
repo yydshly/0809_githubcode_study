@@ -385,8 +385,8 @@ function renderSettings(task) {
         <div class="field"><label for="ratio-setting">画面比例</label><select id="ratio-setting" name="ratio"><option value="original">保留完整画面</option><option value="square">方形 1:1</option><option value="portrait">竖版 4:5</option><option value="landscape">横版 3:2</option></select></div>
         <div class="crop-position-fields" data-crop-position hidden>
           <p class="field-hint">拖动左侧预览最快；下面可精确微调保留区域。</p>
-          <div class="field range-field"><label for="crop-x-setting">水平位置 <output data-setting-value="cropX">50%</output></label><input id="crop-x-setting" name="cropX" type="range" min="0" max="100" step="1" value="50" /></div>
-          <div class="field range-field"><label for="crop-y-setting">垂直位置 <output data-setting-value="cropY">50%</output></label><input id="crop-y-setting" name="cropY" type="range" min="0" max="100" step="1" value="50" /></div>
+          <div class="field range-field" data-crop-axis-control="horizontal"><label for="crop-x-setting">保留位置：左 ↔ 右 <output data-setting-value="cropX">50%</output></label><input id="crop-x-setting" name="cropX" type="range" min="0" max="100" step="1" value="50" /></div>
+          <div class="field range-field" data-crop-axis-control="vertical"><label for="crop-y-setting">保留位置：上 ↕ 下 <output data-setting-value="cropY">50%</output></label><input id="crop-y-setting" name="cropY" type="range" min="0" max="100" step="1" value="50" /></div>
         </div>
         <div class="field"><label for="rotation-setting">旋转</label><select id="rotation-setting" name="rotation"><option value="0">不旋转</option><option value="90">顺时针 90°</option><option value="180">180°</option><option value="270">顺时针 270°</option></select></div>
         <div class="field"><label>翻转</label><div class="choice-row"><label><input type="checkbox" name="flipHorizontal" />水平</label><label><input type="checkbox" name="flipVertical" />垂直</label></div></div>
@@ -456,12 +456,23 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   elements.editorPreviewImage.style.objectPosition = presentation.objectPosition;
   elements.editorPreviewImage.style.filter = presentation.filter;
   elements.editorPreviewFrame.dataset.cropEnabled = String(presentation.cropEnabled);
+  elements.editorPreviewFrame.dataset.cropAxis = presentation.cropAxis;
   elements.editorPreviewSummary.textContent = presentation.summary;
   elements.editorOutputSize.textContent = `实际导出 ${presentation.output.width} × ${presentation.output.height} px`;
-  elements.editorCropHint.textContent = presentation.cropEnabled
-    ? "拖动画面、使用方向键，或用右侧滑杆调整最终保留区域。"
-    : "当前保留完整画面；选择 1:1、4:5 或 3:2 后可调整构图位置。";
+  elements.editorCropHint.textContent = presentation.cropAxis === "horizontal"
+    ? "当前只裁左右两侧：左右拖动画面、使用 ← →，或用右侧滑杆调整。"
+    : presentation.cropAxis === "vertical"
+      ? "当前只裁上下两侧：上下拖动画面、使用 ↑ ↓，或用右侧滑杆调整。"
+      : presentation.settings.ratio === "original"
+        ? "当前保留完整画面；选择 1:1、4:5 或 3:2 后可调整构图位置。"
+        : "来源画面已经符合所选比例，不需要调整保留位置。";
   elements.editorDragBadge.hidden = !presentation.cropEnabled;
+  elements.editorDragBadge.textContent = presentation.cropAxis === "horizontal" ? "左右拖动调整构图" : "上下拖动调整构图";
+  elements.editorPreviewFrame.setAttribute("aria-label", presentation.cropAxis === "horizontal"
+    ? "编辑预览。当前可左右拖动，或用左右方向键调整保留区域。"
+    : presentation.cropAxis === "vertical"
+      ? "编辑预览。当前可上下拖动，或用上下方向键调整保留区域。"
+      : "编辑预览。当前画面无需移动。");
   elements.editorChangeState.textContent = transient
     ? "正在预览 · 完成操作后记入历史"
     : editorWorkspace.history.past.length === 0 ? "设置已同步" : "设置已记入编辑历史";
@@ -471,6 +482,9 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   });
   const cropFields = elements.settingsForm.querySelector("[data-crop-position]");
   if (cropFields) cropFields.hidden = !presentation.cropEnabled;
+  elements.settingsForm.querySelectorAll("[data-crop-axis-control]").forEach((control) => {
+    control.hidden = control.dataset.cropAxisControl !== presentation.cropAxis;
+  });
   const customSizeFields = elements.settingsForm.querySelector("[data-custom-size]");
   if (customSizeFields) customSizeFields.hidden = settings.sizeMode !== "custom";
   const backgroundField = elements.settingsForm.querySelector("[data-jpeg-background]");
@@ -580,6 +594,7 @@ function beginCropDrag(event) {
     startY: event.clientY,
     frameWidth: rect.width,
     frameHeight: rect.height,
+    axis: elements.editorPreviewFrame.dataset.cropAxis,
     settings: editorFormSettings(),
   };
   elements.editorPreviewFrame.setPointerCapture?.(event.pointerId);
@@ -594,6 +609,7 @@ function moveCropDrag(event) {
     deltaY: event.clientY - editorCropDrag.startY,
     frameWidth: editorCropDrag.frameWidth,
     frameHeight: editorCropDrag.frameHeight,
+    axis: editorCropDrag.axis,
   });
   setCropControls(settings);
   previewEditorForm();
@@ -610,7 +626,8 @@ function finishCropDrag(event, { commit = true } = {}) {
 
 function nudgeCropWithKeyboard(event) {
   if (!editorWorkspace || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
-  const arrows = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]);
+  const axis = elements.editorPreviewFrame.dataset.cropAxis;
+  const arrows = new Set(axis === "horizontal" ? ["ArrowLeft", "ArrowRight"] : ["ArrowUp", "ArrowDown"]);
   if (!arrows.has(event.key)) return;
   const settings = editorFormSettings();
   const step = event.shiftKey ? 10 : 2;

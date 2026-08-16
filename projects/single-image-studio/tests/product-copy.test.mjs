@@ -55,6 +55,10 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(html, /拖动画面或用方向键调整保留区域/);
   assert.match(main, /name="cropX"/);
   assert.match(main, /name="cropY"/);
+  assert.match(main, /data-crop-axis-control="horizontal"/);
+  assert.match(main, /data-crop-axis-control="vertical"/);
+  assert.match(main, /当前只裁左右两侧/);
+  assert.match(main, /当前只裁上下两侧/);
   assert.match(main, /name="outputWidth"/);
   assert.match(main, /name="outputHeight"/);
   assert.match(main, /生成并校验下载文件/);
