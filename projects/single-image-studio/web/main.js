@@ -1,5 +1,6 @@
 import { ApiClientError, createApiClient } from "./api-client.js";
-import { createDemoImage, decodeImage, processFaithful } from "./local-processing.js";
+import { runLocalEditor } from "./editor-session.js";
+import { createDemoImage, decodeImage } from "./local-processing.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { createRuntimeId } from "./runtime-identity.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
@@ -344,8 +345,13 @@ function renderSettings(task) {
   if (task.id === "UT-TUNE") {
     elements.settingsFields.innerHTML = `
       <div class="field"><label for="ratio-setting">画面比例</label><select id="ratio-setting" name="ratio"><option value="original">保留原比例</option><option value="square">方形 1:1</option><option value="portrait">竖版 4:5</option><option value="landscape">横版 3:2</option></select></div>
-      <div class="field"><label>整体色调</label><div class="choice-row"><label><input type="radio" name="tone" value="natural" checked />自然</label><label><input type="radio" name="tone" value="warm" />暖调</label><label><input type="radio" name="tone" value="mono" />黑白</label></div></div>
-      <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG</option><option value="jpeg">JPEG</option></select></div>`;
+      <div class="field"><label for="rotation-setting">旋转</label><select id="rotation-setting" name="rotation"><option value="0">不旋转</option><option value="90">顺时针 90°</option><option value="180">180°</option><option value="270">顺时针 270°</option></select></div>
+      <div class="field"><label>翻转</label><div class="choice-row"><label><input type="checkbox" name="flipHorizontal" />水平</label><label><input type="checkbox" name="flipVertical" />垂直</label></div></div>
+      <div class="field"><label for="brightness-setting">亮度（-100～100）</label><input id="brightness-setting" name="brightness" type="number" min="-100" max="100" step="1" value="0" /></div>
+      <div class="field"><label for="contrast-setting">对比度（-100～100）</label><input id="contrast-setting" name="contrast" type="number" min="-100" max="100" step="1" value="0" /></div>
+      <div class="field"><label for="saturation-setting">饱和度（-100～100）</label><input id="saturation-setting" name="saturation" type="number" min="-100" max="100" step="1" value="0" /></div>
+      <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明）</option><option value="jpeg">JPEG（铺底）</option></select></div>
+      <div class="field"><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>`;
     elements.runButton.textContent = "开始本地处理";
     elements.runNote.textContent = "真实的浏览器画布处理：不调用 AI，不补画内容，不上传图片。";
   } else {
@@ -412,13 +418,12 @@ async function runSelectedTask() {
   try {
     let result;
     if (selectedTask.id === "UT-TUNE") {
-      const processed = await processFaithful({ sourceUrl, settings, canvas: elements.canvas });
+      const processed = await runLocalEditor({ file: source.file, settings });
       if (activeController.signal.aborted || machine.activeRunId !== runId) return;
-      const bytes = new Uint8Array(await processed.blob.arrayBuffer());
       result = {
         id: createRuntimeId(), url: processed.url, blob: processed.blob, mimeType: processed.mime, extension: processed.extension,
-        width: processed.width, height: processed.height, outputHash: await sha256Bytes(bytes), byteLength: processed.blob.size,
-        hasAlpha: false, validationSummary: processed.validationSummary, processor: processed.processor, title: "本地整理完成",
+        width: processed.width, height: processed.height, outputHash: processed.outputHash, byteLength: processed.byteLength,
+        hasAlpha: processed.hasAlpha, validationSummary: processed.validationSummary, processor: processed.processor, title: "本地整理完成",
       };
     } else {
       const payload = {
@@ -461,7 +466,7 @@ async function runSelectedTask() {
     if (machine.activeRunId !== runId) return;
     dispatch(STUDIO_EVENTS.RECEIVE_RUN_RESULT, { ...runToken, result });
     dispatch(STUDIO_EVENTS.RESULT_VALIDATION_SUCCEEDED, {
-      ...runToken, resultId: result.id, qaVersion: selectedTask.id === "UT-TUNE" ? "local-output-validation-v1" : "creative-response-validation-v1",
+      ...runToken, resultId: result.id, qaVersion: selectedTask.id === "UT-TUNE" ? "editor-output-validation-v1" : "creative-response-validation-v1",
       resultPatch: {
         mimeType: result.mimeType, byteLength: result.byteLength, outputHash: result.outputHash, hasAlpha: result.hasAlpha,
         completedAt: new Date().toISOString(), version: selectedTask.contractVersion,

@@ -140,8 +140,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .settings-card { background: #edeee7; padding: 1.2rem; border-radius: 1rem; }
 .field { margin-bottom: 1rem; }
 .field label { display: block; font-size: .72rem; font-weight: 800; margin-bottom: .45rem; }
-.field select, .field input[type="range"] { width: 100%; }
-.field select { min-height: 2.8rem; border: 1px solid var(--line); background: white; padding: .5rem; border-radius: .6rem; }
+.field select, .field input[type="range"], .field input[type="number"] { width: 100%; }
+.field select, .field input[type="number"] { min-height: 2.8rem; border: 1px solid var(--line); background: white; padding: .5rem; border-radius: .6rem; }
+.field input[type="color"] { width: 100%; min-height: 2.8rem; border: 1px solid var(--line); background: white; padding: .25rem; border-radius: .6rem; }
 .choice-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: .45rem; }
 .choice-row label { border: 1px solid var(--line); padding: .65rem .45rem; border-radius: .55rem; text-align: center; background: white; cursor: pointer; }
 .choice-row input { position: absolute; opacity: 0; }
