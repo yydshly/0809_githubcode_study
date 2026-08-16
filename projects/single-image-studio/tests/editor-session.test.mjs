@@ -41,6 +41,45 @@ test("original ratio preserves the complete oriented source with bounded output"
   assert.equal(state.output.format, "png");
 });
 
+test("positioned crop and custom output dimensions are renderer-bound and ratio-safe", () => {
+  const state = editStateFromSettings({
+    sourceWidth: 1000,
+    sourceHeight: 500,
+    settings: {
+      ratio: "square",
+      cropX: "100",
+      cropY: "50",
+      sizeMode: "custom",
+      outputWidth: "400",
+      outputHeight: "400",
+    },
+  });
+  assert.deepEqual(state.crop, { x: 0.5, y: 0, width: 0.5, height: 1 });
+  assert.deepEqual(state.resize, {
+    width: 400,
+    height: 400,
+    allowUpscale: false,
+    maxEdge: 2048,
+    maxPixels: 16_000_000,
+  });
+  assert.throws(
+    () => editStateFromSettings({
+      sourceWidth: 1000,
+      sourceHeight: 500,
+      settings: { ratio: "square", cropX: 101 },
+    }),
+    /0–100/,
+  );
+  assert.throws(
+    () => editStateFromSettings({
+      sourceWidth: 1000,
+      sourceHeight: 500,
+      settings: { ratio: "square", sizeMode: "custom", outputWidth: 400, outputHeight: 300 },
+    }),
+    /当前画面比例一致/,
+  );
+});
+
 test("editor settings fail closed for unknown ratio and invalid numeric controls", () => {
   assert.throws(
     () => editStateFromSettings({ sourceWidth: 10, sourceHeight: 10, settings: { ratio: "free" } }),

@@ -21,12 +21,65 @@ function workspaceWithHistory(workspace, history) {
   return Object.freeze({ source: workspace.source, initial: workspace.initial, history });
 }
 
-function ratioFromState(state) {
-  if (state.resize.width === null && state.resize.height === null) return "original";
-  if (state.resize.width === 1600 && state.resize.height === 1600) return "square";
-  if (state.resize.width === 1536 && state.resize.height === 1920) return "portrait";
-  if (state.resize.width === 1920 && state.resize.height === 1280) return "landscape";
+const RATIO_PRESETS = Object.freeze({
+  original: Object.freeze({ width: null, height: null, label: "原比例" }),
+  square: Object.freeze({ width: 1600, height: 1600, label: "1:1" }),
+  portrait: Object.freeze({ width: 1536, height: 1920, label: "4:5" }),
+  landscape: Object.freeze({ width: 1920, height: 1280, label: "3:2" }),
+});
+
+function transformedDimensions(source, rotation) {
+  const oriented = source.sourceOrientation >= 5
+    ? { width: source.sourceHeight, height: source.sourceWidth }
+    : { width: source.sourceWidth, height: source.sourceHeight };
+  return rotation === 90 || rotation === 270
+    ? { width: oriented.height, height: oriented.width }
+    : oriented;
+}
+
+function near(left, right, tolerance = 0.000001) {
+  return Math.abs(left - right) <= tolerance;
+}
+
+function ratioFromState(state, source) {
+  for (const ratio of ["square", "portrait", "landscape"]) {
+    const preset = RATIO_PRESETS[ratio];
+    if (state.resize.width === preset.width && state.resize.height === preset.height) return ratio;
+  }
+  if (near(state.crop.width, 1) && near(state.crop.height, 1)) return "original";
+  const transformed = transformedDimensions(source, state.rotation);
+  const cropAspect = transformed.width * state.crop.width / (transformed.height * state.crop.height);
+  if (near(cropAspect, 1)) return "square";
+  if (near(cropAspect, 4 / 5)) return "portrait";
+  if (near(cropAspect, 3 / 2)) return "landscape";
   throw new Error("编辑状态不属于当前产品预设比例");
+}
+
+function cropPosition(offset, size) {
+  if (near(size, 1)) return 50;
+  return Math.round(offset / (1 - size) * 100);
+}
+
+function settingsFromState(state, source) {
+  const ratio = ratioFromState(state, source);
+  const preset = RATIO_PRESETS[ratio];
+  const isPreset = state.resize.width === preset.width && state.resize.height === preset.height;
+  return Object.freeze({
+    ratio,
+    cropX: cropPosition(state.crop.x, state.crop.width),
+    cropY: cropPosition(state.crop.y, state.crop.height),
+    rotation: state.rotation,
+    flipHorizontal: state.flipHorizontal,
+    flipVertical: state.flipVertical,
+    brightness: state.adjustments.brightness,
+    contrast: state.adjustments.contrast,
+    saturation: state.adjustments.saturation,
+    sizeMode: isPreset ? "preset" : "custom",
+    outputWidth: isPreset ? null : state.resize.width,
+    outputHeight: isPreset ? null : state.resize.height,
+    format: state.output.format,
+    jpegBackground: state.output.jpegBackground,
+  });
 }
 
 export function createEditorWorkspace(source) {
@@ -63,17 +116,22 @@ export function resetEditorWorkspace(workspace) {
 }
 
 export function editorSettings(workspace) {
-  const state = workspace.history.present;
+  return settingsFromState(workspace.history.present, workspace.source);
+}
+
+function clampPercent(value) {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+export function moveEditorCrop(settings, { deltaX = 0, deltaY = 0, frameWidth, frameHeight }) {
+  if (!Number.isFinite(frameWidth) || frameWidth <= 0 || !Number.isFinite(frameHeight) || frameHeight <= 0) {
+    throw new TypeError("裁切拖动需要有效预览尺寸");
+  }
+  if (![deltaX, deltaY].every(Number.isFinite)) throw new TypeError("裁切拖动距离必须是有限数值");
   return Object.freeze({
-    ratio: ratioFromState(state),
-    rotation: state.rotation,
-    flipHorizontal: state.flipHorizontal,
-    flipVertical: state.flipVertical,
-    brightness: state.adjustments.brightness,
-    contrast: state.adjustments.contrast,
-    saturation: state.adjustments.saturation,
-    format: state.output.format,
-    jpegBackground: state.output.jpegBackground,
+    ...settings,
+    cropX: clampPercent(Number(settings.cropX ?? 50) - deltaX / frameWidth * 100),
+    cropY: clampPercent(Number(settings.cropY ?? 50) - deltaY / frameHeight * 100),
   });
 }
 
@@ -98,17 +156,26 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
     : 1;
   const flipX = state.flipHorizontal ? -rotationScale : rotationScale;
   const flipY = state.flipVertical ? -rotationScale : rotationScale;
-  const ratio = ratioFromState(state);
-  const ratioLabel = { original: "原比例", square: "1:1", portrait: "4:5", landscape: "3:2" }[ratio];
+  const normalizedSettings = settingsFromState(state, workspace.source);
+  const ratio = normalizedSettings.ratio;
+  const ratioLabel = RATIO_PRESETS[ratio].label;
+  const cropEnabled = ratio !== "original";
+  const cropLabel = cropEnabled
+    ? `构图 ${normalizedSettings.cropX}% / ${normalizedSettings.cropY}%`
+    : "完整画面";
   return Object.freeze({
     state,
     aspectRatio: `${plan.output.width} / ${plan.output.height}`,
     aspectValue: aspect,
     transform: `rotate(${state.rotation}deg) scale(${flipX}, ${flipY})`,
+    objectPosition: `${normalizedSettings.cropX}% ${normalizedSettings.cropY}%`,
     filter: plan.filter,
     background: state.output.format === "jpeg" ? state.output.jpegBackground : null,
     format: state.output.format,
-    summary: `${ratioLabel} · ${state.rotation}° · 亮度 ${signed(state.adjustments.brightness)} · 对比度 ${signed(state.adjustments.contrast)} · 饱和度 ${signed(state.adjustments.saturation)} · ${state.output.format.toUpperCase()}`,
+    cropEnabled,
+    cropLabel,
+    settings: normalizedSettings,
+    summary: `${ratioLabel} · ${cropLabel} · ${plan.output.width} × ${plan.output.height} · ${state.rotation}° · 亮度 ${signed(state.adjustments.brightness)} · 对比度 ${signed(state.adjustments.contrast)} · 饱和度 ${signed(state.adjustments.saturation)} · ${state.output.format.toUpperCase()}`,
     output: plan.output,
   });
 }

@@ -4,6 +4,7 @@ import {
   createEditorWorkspace,
   editorPreviewPresentation,
   editorSettings,
+  moveEditorCrop,
   redoEditorWorkspace,
   resetEditorWorkspace,
   undoEditorWorkspace,
@@ -40,7 +41,9 @@ const elements = {
   configDescription: $("#config-description"), configPreserve: $("#config-preserve"), configChange: $("#config-change"),
   settingsForm: $("#settings-form"), settingsFields: $("#settings-fields"), runButton: $("#run-button"), runNote: $("#run-note"),
   editorWorkspace: $("#editor-workspace"), editorPreviewFrame: $("#editor-preview-frame"), editorPreviewImage: $("#editor-preview-image"),
-  editorPreviewSummary: $("#editor-preview-summary"), editorHistorySummary: $("#editor-history-summary"),
+  editorPreviewSummary: $("#editor-preview-summary"), editorOutputSize: $("#editor-output-size"),
+  editorHistorySummary: $("#editor-history-summary"), editorChangeState: $("#editor-change-state"),
+  editorCropHint: $("#editor-crop-hint"), editorDragBadge: $("#editor-drag-badge"),
   editorUndo: $("#editor-undo"), editorRedo: $("#editor-redo"), editorReset: $("#editor-reset"),
   resultSection: $("#result-section"), resultTitle: $("#result-title"), resultSummary: $("#result-summary"),
   resultImage: $("#result-image"), referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
@@ -56,9 +59,9 @@ const TASK_COPY = Object.freeze({
     badge: "本地可用",
     kind: "utility",
     description: "校正比例、方向与整体光色，不重建主体，也不上传图片。",
-    longDescription: "用本地编辑工作区预览比例、旋转、翻转和整体光色，再从原始解码结果严格导出。这是当前可执行的基础编辑路径，可拖裁切框与自定义尺寸仍在后续范围。",
-    preserve: "不主动生成新主体或物件；居中裁切可能移除画面边缘",
-    change: "画面比例、方向、整体光色与输出格式",
+    longDescription: "在本机调整构图位置、比例、方向、输出尺寸与整体光色，再从原始解码结果严格导出。预览与下载共用同一组编辑参数。",
+    preserve: "不主动生成新主体或物件；裁切范围始终由你明确调整",
+    change: "构图位置、画面比例、方向、整体光色、输出尺寸与格式",
     output: "PNG / JPEG",
     referenceTitle: "保真整理参考",
     referenceCopy: "参考的是清晰、克制的编辑原则：不补画、不换主体，只整理画布与整体光色。",
@@ -110,6 +113,7 @@ let tasks = [];
 let selectedTask = null;
 let currentResult = null;
 let editorWorkspace = null;
+let editorCropDrag = null;
 let activeController = null;
 let toastTimer = null;
 
@@ -161,6 +165,7 @@ function clearResult() {
 
 function clearEditorWorkspace() {
   editorWorkspace = null;
+  editorCropDrag = null;
   elements.editorWorkspace.hidden = true;
   elements.editorPreviewImage.removeAttribute("src");
   elements.editorPreviewImage.removeAttribute("style");
@@ -376,16 +381,35 @@ function selectTask(taskId) {
 function renderSettings(task) {
   if (task.id === "UT-TUNE") {
     elements.settingsFields.innerHTML = `
-      <div class="field"><label for="ratio-setting">画面比例</label><select id="ratio-setting" name="ratio"><option value="original">保留原比例</option><option value="square">方形 1:1</option><option value="portrait">竖版 4:5</option><option value="landscape">横版 3:2</option></select></div>
-      <div class="field"><label for="rotation-setting">旋转</label><select id="rotation-setting" name="rotation"><option value="0">不旋转</option><option value="90">顺时针 90°</option><option value="180">180°</option><option value="270">顺时针 270°</option></select></div>
-      <div class="field"><label>翻转</label><div class="choice-row"><label><input type="checkbox" name="flipHorizontal" />水平</label><label><input type="checkbox" name="flipVertical" />垂直</label></div></div>
-      <div class="field range-field"><label for="brightness-setting">亮度 <output data-setting-value="brightness">0</output></label><input id="brightness-setting" name="brightness" type="range" min="-100" max="100" step="1" value="0" /></div>
-      <div class="field range-field"><label for="contrast-setting">对比度 <output data-setting-value="contrast">0</output></label><input id="contrast-setting" name="contrast" type="range" min="-100" max="100" step="1" value="0" /></div>
-      <div class="field range-field"><label for="saturation-setting">饱和度 <output data-setting-value="saturation">0</output></label><input id="saturation-setting" name="saturation" type="range" min="-100" max="100" step="1" value="0" /></div>
-      <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明）</option><option value="jpeg">JPEG（铺底）</option></select></div>
-      <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>`;
-    elements.runButton.textContent = "开始本地处理";
-    elements.runNote.textContent = "真实的浏览器画布处理：不调用 AI，不补画内容，不上传图片。";
+      <fieldset class="setting-group"><legend><span>1</span> 构图</legend>
+        <div class="field"><label for="ratio-setting">画面比例</label><select id="ratio-setting" name="ratio"><option value="original">保留完整画面</option><option value="square">方形 1:1</option><option value="portrait">竖版 4:5</option><option value="landscape">横版 3:2</option></select></div>
+        <div class="crop-position-fields" data-crop-position hidden>
+          <p class="field-hint">拖动左侧预览最快；下面可精确微调保留区域。</p>
+          <div class="field range-field"><label for="crop-x-setting">水平位置 <output data-setting-value="cropX">50%</output></label><input id="crop-x-setting" name="cropX" type="range" min="0" max="100" step="1" value="50" /></div>
+          <div class="field range-field"><label for="crop-y-setting">垂直位置 <output data-setting-value="cropY">50%</output></label><input id="crop-y-setting" name="cropY" type="range" min="0" max="100" step="1" value="50" /></div>
+        </div>
+        <div class="field"><label for="rotation-setting">旋转</label><select id="rotation-setting" name="rotation"><option value="0">不旋转</option><option value="90">顺时针 90°</option><option value="180">180°</option><option value="270">顺时针 270°</option></select></div>
+        <div class="field"><label>翻转</label><div class="choice-row"><label><input type="checkbox" name="flipHorizontal" />水平</label><label><input type="checkbox" name="flipVertical" />垂直</label></div></div>
+      </fieldset>
+      <details class="settings-disclosure"><summary><span><b>2</b> 光色微调</span><small>可选</small></summary>
+        <div class="disclosure-body">
+          <div class="field range-field"><label for="brightness-setting">亮度 <output data-setting-value="brightness">0</output></label><input id="brightness-setting" name="brightness" type="range" min="-100" max="100" step="1" value="0" /></div>
+          <div class="field range-field"><label for="contrast-setting">对比度 <output data-setting-value="contrast">0</output></label><input id="contrast-setting" name="contrast" type="range" min="-100" max="100" step="1" value="0" /></div>
+          <div class="field range-field"><label for="saturation-setting">饱和度 <output data-setting-value="saturation">0</output></label><input id="saturation-setting" name="saturation" type="range" min="-100" max="100" step="1" value="0" /></div>
+        </div>
+      </details>
+      <fieldset class="setting-group"><legend><span>3</span> 导出</legend>
+        <div class="field"><label for="size-mode-setting">输出尺寸</label><select id="size-mode-setting" name="sizeMode"><option value="preset">推荐尺寸（不放大）</option><option value="custom">自定义尺寸</option></select></div>
+        <div class="custom-size-fields" data-custom-size hidden>
+          <div class="dimension-grid"><div class="field"><label for="output-width-setting">宽度</label><input id="output-width-setting" name="outputWidth" type="number" inputmode="numeric" min="1" max="2048" step="1" /></div><span aria-hidden="true">×</span><div class="field"><label for="output-height-setting">高度</label><input id="output-height-setting" name="outputHeight" type="number" inputmode="numeric" min="1" max="2048" step="1" /></div></div>
+          <p class="field-hint">宽高会按当前画面比例联动，最长边不超过 2048 px；小图不会强行放大。</p>
+        </div>
+        <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明）</option><option value="jpeg">JPEG（铺底）</option></select></div>
+        <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>
+      </fieldset>
+      <p class="settings-error" id="editor-settings-error" role="alert" hidden></p>`;
+    elements.runButton.textContent = "生成并校验下载文件";
+    elements.runNote.textContent = "全部在本机完成；不会调用 AI、补画内容或上传图片。导出后还会重开核对。";
   } else {
     elements.settingsFields.innerHTML = `
       <div class="field"><label for="creative-quality">生成质量</label><select id="creative-quality" name="quality"><option value="low">快速草稿</option><option value="medium" selected>标准结果</option><option value="high">精细结果</option></select></div>
@@ -393,6 +417,7 @@ function renderSettings(task) {
     elements.runButton.textContent = "开始真实生成";
     elements.runNote.textContent = "图片只会从本地服务端发送到已连接的 OpenAI 图片服务；生成结果不会伪造。";
   }
+  elements.runButton.disabled = false;
 }
 
 function editorFormSettings() {
@@ -408,10 +433,19 @@ function setControlValue(name, value) {
   const control = elements.settingsForm.elements[name];
   if (!control) return;
   if (control.type === "checkbox") control.checked = Boolean(value);
-  else control.value = String(value);
+  else control.value = value === null || value === undefined ? "" : String(value);
 }
 
-function renderEditorPreview(settings = editorSettings(editorWorkspace)) {
+function setEditorValidity(error = null) {
+  const errorNode = elements.settingsForm.querySelector("#editor-settings-error");
+  if (errorNode) {
+    errorNode.hidden = !error;
+    errorNode.textContent = error?.message ?? "";
+  }
+  elements.runButton.disabled = Boolean(error);
+}
+
+function renderEditorPreview(settings = editorSettings(editorWorkspace), { transient = false } = {}) {
   if (!editorWorkspace) return;
   const presentation = editorPreviewPresentation(editorWorkspace, settings);
   elements.editorPreviewFrame.style.aspectRatio = presentation.aspectRatio;
@@ -419,12 +453,26 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace)) {
   elements.editorPreviewFrame.dataset.format = presentation.format;
   elements.editorPreviewFrame.style.setProperty("--jpeg-preview-background", presentation.background ?? "#ffffff");
   elements.editorPreviewImage.style.transform = presentation.transform;
+  elements.editorPreviewImage.style.objectPosition = presentation.objectPosition;
   elements.editorPreviewImage.style.filter = presentation.filter;
+  elements.editorPreviewFrame.dataset.cropEnabled = String(presentation.cropEnabled);
   elements.editorPreviewSummary.textContent = presentation.summary;
-  ["brightness", "contrast", "saturation"].forEach((name) => {
+  elements.editorOutputSize.textContent = `实际导出 ${presentation.output.width} × ${presentation.output.height} px`;
+  elements.editorCropHint.textContent = presentation.cropEnabled
+    ? "拖动画面、使用方向键，或用右侧滑杆调整最终保留区域。"
+    : "当前保留完整画面；选择 1:1、4:5 或 3:2 后可调整构图位置。";
+  elements.editorDragBadge.hidden = !presentation.cropEnabled;
+  elements.editorChangeState.textContent = transient
+    ? "正在预览 · 完成操作后记入历史"
+    : editorWorkspace.history.past.length === 0 ? "设置已同步" : "设置已记入编辑历史";
+  ["brightness", "contrast", "saturation", "cropX", "cropY"].forEach((name) => {
     const output = elements.settingsForm.querySelector(`[data-setting-value="${name}"]`);
-    if (output) output.value = String(settings[name] ?? 0);
+    if (output) output.value = `${settings[name] ?? (name.startsWith("crop") ? 50 : 0)}${name.startsWith("crop") ? "%" : ""}`;
   });
+  const cropFields = elements.settingsForm.querySelector("[data-crop-position]");
+  if (cropFields) cropFields.hidden = !presentation.cropEnabled;
+  const customSizeFields = elements.settingsForm.querySelector("[data-custom-size]");
+  if (customSizeFields) customSizeFields.hidden = settings.sizeMode !== "custom";
   const backgroundField = elements.settingsForm.querySelector("[data-jpeg-background]");
   if (backgroundField) backgroundField.hidden = presentation.format !== "jpeg";
   elements.editorUndo.disabled = editorWorkspace.history.past.length === 0;
@@ -434,6 +482,8 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace)) {
   elements.editorHistorySummary.textContent = editorWorkspace.history.past.length === 0
     ? "尚无已提交编辑"
     : `${editorWorkspace.history.past.length} 步编辑可撤销`;
+  setEditorValidity();
+  return presentation;
 }
 
 function syncEditorForm() {
@@ -456,14 +506,127 @@ function initializeEditorWorkspace() {
 }
 
 function commitEditorForm() {
+  if (!editorWorkspace || selectedTask?.id !== "UT-TUNE") return false;
+  try {
+    editorWorkspace = updateEditorWorkspace(editorWorkspace, editorFormSettings());
+    syncEditorForm();
+    return true;
+  } catch (error) {
+    setEditorValidity(error);
+    elements.editorChangeState.textContent = "当前设置需要修正";
+    return false;
+  }
+}
+
+function boundedSizeFromAspect(aspect, basis, value) {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 1) return null;
+  const maximum = 2048;
+  let width = basis === "height" ? Math.round(number * aspect) : number;
+  let height = basis === "height" ? number : Math.round(number / aspect);
+  if (width > maximum) {
+    width = maximum;
+    height = Math.max(1, Math.round(width / aspect));
+  }
+  if (height > maximum) {
+    height = maximum;
+    width = Math.max(1, Math.round(height * aspect));
+  }
+  return { width, height };
+}
+
+function reconcileCustomSize(changedName) {
   if (!editorWorkspace || selectedTask?.id !== "UT-TUNE") return;
-  editorWorkspace = updateEditorWorkspace(editorWorkspace, editorFormSettings());
-  syncEditorForm();
+  const settings = editorFormSettings();
+  if (settings.sizeMode !== "custom") return;
+  const presetPresentation = editorPreviewPresentation(editorWorkspace, {
+    ...settings,
+    sizeMode: "preset",
+    outputWidth: "",
+    outputHeight: "",
+  });
+  const heightChanged = changedName === "outputHeight";
+  const basis = heightChanged ? "height" : "width";
+  const requested = heightChanged
+    ? settings.outputHeight
+    : settings.outputWidth || presetPresentation.output.width;
+  const size = boundedSizeFromAspect(presetPresentation.aspectValue, basis, requested);
+  if (!size) return;
+  setControlValue("outputWidth", size.width);
+  setControlValue("outputHeight", size.height);
+}
+
+function previewEditorForm() {
+  try {
+    renderEditorPreview(editorFormSettings(), { transient: true });
+  } catch (error) {
+    setEditorValidity(error);
+    elements.editorChangeState.textContent = "当前设置需要修正";
+  }
+}
+
+function setCropControls(settings) {
+  setControlValue("cropX", settings.cropX);
+  setControlValue("cropY", settings.cropY);
+}
+
+function beginCropDrag(event) {
+  if (!editorWorkspace || selectedTask?.id !== "UT-TUNE" || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
+  if (event.button !== 0) return;
+  const rect = elements.editorPreviewFrame.getBoundingClientRect();
+  editorCropDrag = {
+    pointerId: event.pointerId,
+    startX: event.clientX,
+    startY: event.clientY,
+    frameWidth: rect.width,
+    frameHeight: rect.height,
+    settings: editorFormSettings(),
+  };
+  elements.editorPreviewFrame.setPointerCapture?.(event.pointerId);
+  elements.editorPreviewFrame.classList.add("is-dragging");
+  event.preventDefault();
+}
+
+function moveCropDrag(event) {
+  if (!editorCropDrag || editorCropDrag.pointerId !== event.pointerId) return;
+  const settings = moveEditorCrop(editorCropDrag.settings, {
+    deltaX: event.clientX - editorCropDrag.startX,
+    deltaY: event.clientY - editorCropDrag.startY,
+    frameWidth: editorCropDrag.frameWidth,
+    frameHeight: editorCropDrag.frameHeight,
+  });
+  setCropControls(settings);
+  previewEditorForm();
+}
+
+function finishCropDrag(event, { commit = true } = {}) {
+  if (!editorCropDrag || editorCropDrag.pointerId !== event.pointerId) return;
+  elements.editorPreviewFrame.releasePointerCapture?.(event.pointerId);
+  elements.editorPreviewFrame.classList.remove("is-dragging");
+  editorCropDrag = null;
+  if (commit) commitEditorForm();
+  else syncEditorForm();
+}
+
+function nudgeCropWithKeyboard(event) {
+  if (!editorWorkspace || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
+  const arrows = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"]);
+  if (!arrows.has(event.key)) return;
+  const settings = editorFormSettings();
+  const step = event.shiftKey ? 10 : 2;
+  if (event.key === "ArrowLeft") settings.cropX = Math.max(0, Number(settings.cropX) - step);
+  if (event.key === "ArrowRight") settings.cropX = Math.min(100, Number(settings.cropX) + step);
+  if (event.key === "ArrowUp") settings.cropY = Math.max(0, Number(settings.cropY) - step);
+  if (event.key === "ArrowDown") settings.cropY = Math.min(100, Number(settings.cropY) + step);
+  setCropControls(settings);
+  renderEditorPreview(settings, { transient: true });
+  commitEditorForm();
+  event.preventDefault();
 }
 
 function getSettings() {
   if (selectedTask?.id === "UT-TUNE" && editorWorkspace) {
-    commitEditorForm();
+    if (!commitEditorForm()) throw new Error("请先修正编辑设置");
     return editorSettings(editorWorkspace);
   }
   return Object.fromEntries(new FormData(elements.settingsForm).entries());
@@ -503,7 +666,14 @@ async function recoverCreatedRun(runId, originalError) {
 async function runSelectedTask() {
   if (!source || !selectedTask) return;
   if ([STUDIO_STATES.RUN_UNKNOWN, STUDIO_STATES.RUN_ERROR].includes(machine.status)) dispatch(STUDIO_EVENTS.RETRY_RUN);
-  const settings = getSettings();
+  let settings;
+  try {
+    settings = getSettings();
+  } catch (error) {
+    setEditorValidity(error);
+    toast(error.message || "请先修正编辑设置");
+    return;
+  }
   dispatch(STUDIO_EVENTS.UPDATE_CONFIG, { config: settings, valid: true, settingsHash: await settingsHash(settings) });
   const runId = createRuntimeId();
   dispatch(STUDIO_EVENTS.START_RUN, { runId, startedAt: new Date().toISOString() });
@@ -718,16 +888,21 @@ elements.rights.addEventListener("change", () => { elements.confirmSource.disabl
 elements.confirmSource.addEventListener("click", confirmAndPrepare);
 elements.cancelSource.addEventListener("click", cancelCurrentSource);
 elements.backToTasks.addEventListener("click", () => { selectedTask = null; clearEditorWorkspace(); showOnly("tasks"); setJourney("task"); });
-elements.settingsForm.addEventListener("input", () => {
+elements.settingsForm.addEventListener("input", (event) => {
   if (selectedTask?.id !== "UT-TUNE" || !editorWorkspace) return;
-  try {
-    renderEditorPreview(editorFormSettings());
-  } catch (error) {
-    elements.editorPreviewSummary.textContent = error.message || "当前设置无效";
+  const changedName = event.target?.name;
+  if (["sizeMode", "ratio", "rotation", "outputWidth", "outputHeight"].includes(changedName)) {
+    reconcileCustomSize(changedName);
   }
+  previewEditorForm();
 });
-elements.settingsForm.addEventListener("change", () => {
-  if (selectedTask?.id === "UT-TUNE") commitEditorForm();
+elements.settingsForm.addEventListener("change", (event) => {
+  if (selectedTask?.id !== "UT-TUNE") return;
+  const changedName = event.target?.name;
+  if (["sizeMode", "ratio", "rotation", "outputWidth", "outputHeight"].includes(changedName)) {
+    reconcileCustomSize(changedName);
+  }
+  commitEditorForm();
 });
 elements.settingsForm.addEventListener("submit", (event) => { event.preventDefault(); runSelectedTask(); });
 elements.editorUndo.addEventListener("click", () => {
@@ -746,6 +921,11 @@ elements.editorReset.addEventListener("click", () => {
   syncEditorForm();
   toast("编辑设置已重置");
 });
+elements.editorPreviewFrame.addEventListener("pointerdown", beginCropDrag);
+elements.editorPreviewFrame.addEventListener("pointermove", moveCropDrag);
+elements.editorPreviewFrame.addEventListener("pointerup", (event) => finishCropDrag(event));
+elements.editorPreviewFrame.addEventListener("pointercancel", (event) => finishCropDrag(event, { commit: false }));
+elements.editorPreviewFrame.addEventListener("keydown", nudgeCropWithKeyboard);
 elements.redo.addEventListener("click", () => { clearResult(); showOnly("config"); setJourney("task"); });
 elements.retry.addEventListener("click", runSelectedTask);
 elements.recover.addEventListener("click", recoverUnknownRun);

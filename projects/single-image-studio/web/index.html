@@ -94,7 +94,6 @@
               <p class="kicker">当前任务</p>
               <h2 id="config-title"></h2>
               <p id="config-description"></p>
-              <div class="contract-list"><p><span>会保留</span><strong id="config-preserve"></strong></p><p><span>会改变</span><strong id="config-change"></strong></p></div>
               <section class="editor-workspace" id="editor-workspace" hidden aria-labelledby="editor-preview-title">
                 <div class="editor-toolbar">
                   <div><span class="workspace-label">实时工作预览</span><strong id="editor-preview-title">当前编辑状态</strong></div>
@@ -104,16 +103,19 @@
                     <button class="button button-quiet" id="editor-reset" type="button" disabled>重置</button>
                   </div>
                 </div>
-                <div class="editor-preview-frame" id="editor-preview-frame" data-format="png">
-                  <img class="editor-preview-image" id="editor-preview-image" alt="当前本地编辑预览" />
+                <div class="editor-preview-frame" id="editor-preview-frame" data-format="png" data-crop-enabled="false" tabindex="0" aria-label="编辑预览。选择裁切比例后，可拖动画面或用方向键调整保留区域。" aria-describedby="editor-crop-hint">
+                  <img class="editor-preview-image" id="editor-preview-image" alt="当前本地编辑预览" draggable="false" />
                   <span class="preview-boundary" aria-hidden="true"></span>
+                  <span class="preview-drag-badge" id="editor-drag-badge" hidden>拖动画面调整构图</span>
                 </div>
                 <div class="editor-preview-meta">
-                  <output id="editor-preview-summary" aria-live="polite">原比例 · 0° · PNG</output>
-                  <span id="editor-history-summary">尚无编辑</span>
+                  <div><output id="editor-preview-summary" aria-live="polite">原比例 · 完整画面 · PNG</output><span id="editor-output-size">等待图片尺寸</span></div>
+                  <div class="editor-save-state"><strong id="editor-change-state">设置已同步</strong><span id="editor-history-summary">尚无编辑</span></div>
                 </div>
+                <p class="crop-hint" id="editor-crop-hint">选择裁切比例后，可拖动画面或用右侧“构图位置”精确调整。</p>
                 <p class="preview-disclaimer">预览用于编辑反馈；下载仍从原始解码结果重新渲染并独立重开校验，不会下载这个预览画面。</p>
               </section>
+              <div class="contract-list"><p><span>会保留</span><strong id="config-preserve"></strong></p><p><span>会改变</span><strong id="config-change"></strong></p></div>
             </div>
             <form class="settings-card" id="settings-form">
               <div id="settings-fields"></div>

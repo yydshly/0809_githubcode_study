@@ -32,7 +32,7 @@
 | 创意 API 工程路径 | `gpt-image-2` 图片编辑请求、状态查询、幂等和失败闭合 | 保留为实验功能，不进入当前 MVP 主路径 |
 | 研究资产 | synthetic fixtures、Sharp 来源锁、canonical PNG encoder lineage、Alpha 指标、rights / provenance 结构 | 精简复用，不把研究通过写成产品通过 |
 
-当前产品工程定向测试为 16 files / 105 tests 通过；除 M0 的本地输出和页面文案外，新增覆盖不可变编辑状态、有界 history、旋转 / 翻转 / crop / fit resize、JPEG / PNG / WebP EXIF orientation 1–8 的容器解析与受控归一化、PNG 透明上下文、JPEG 显式铺底、编码输出重开、20 个项目原创内存 RGBA fixture、Alpha / 可见预乘颜色核对、私密 metadata 拒绝、旋转后比例几何，以及页面工作预览 / history 到 renderer 的会话绑定。它们证明工程状态和接口约束，不证明真实 Chrome / Edge 的 ICC / sRGB 转换、完整浏览器兼容或抠图能力。
+当前产品工程定向测试为 16 files / 108 tests 通过；除 M0 的本地输出和页面文案外，新增覆盖不可变编辑状态、有界 history、旋转 / 翻转 / crop / fit resize、JPEG / PNG / WebP EXIF orientation 1–8 的容器解析与受控归一化、PNG 透明上下文、JPEG 显式铺底、编码输出重开、20 个项目原创内存 RGBA fixture、Alpha / 可见预乘颜色核对、私密 metadata 拒绝、旋转后比例几何、可重定位 crop、自定义宽高比例约束，以及页面工作预览 / history 到 renderer 的会话绑定。它们证明工程状态和接口约束，不证明真实 Chrome / Edge 的布局、ICC / sRGB 转换、完整浏览器兼容或抠图能力。
 
 当前可复算命令为：
 
@@ -193,7 +193,7 @@ MVP 初始资源边界为：输入继续沿用 40 MP 预检，但交互工作 ra
 
 当前完成（2026-08-16）：已拆分产品与归档研究测试，增加动态 syntax 检查，修正 R0 过度声明，并为本地处理加入可注入解码 / canvas / 输出回归；`verify:product` 为 51 / 51。Slice 01–11 使用 archive validator 继续核对冻结树与 pins，不再要求当前产品 `package.json` 与历史 runtime attestation 逐 byte 相同。M0 原列的真实 Chrome / Edge 下载与 console E2E 尚未完成，作为明确欠项保留，最迟在 M1b 完成条件前关闭；它不阻止先开始 M1a 的无 UI renderer 工作。
 
-M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立，并通过 `editor-session.js` 接入 R0 页面本地任务。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；独立解析器从 JPEG / PNG / WebP 容器读取 EXIF orientation 1–8，受控 `ImageBitmap` 解码禁止浏览器自动旋转，renderer 再用冻结矩阵在透明 scratch canvas 上归一化，随后完成用户旋转 / 翻转、post-transform crop 和 fit resize。PNG 保持透明上下文，JPEG 只在明确颜色上合成；编码前 Canvas pixels 与编码后新解码对象的 pixels 会核对 Alpha 和可见的预乘颜色，Alpha=0 的 hidden RGB 明确 ignored。最终 bytes 还会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，ICC / sRGB 颜色描述不冒充已经验证的转换结果。M1b 首个工作区增量已经接入：低成本预览从当前来源和参数显示变化，history 只保存不可变参数，下载始终从原始来源重新渲染；同时修复了旋转后预设比例仍按旋转前几何计算的问题。可拖裁切和自定义尺寸尚未实现。仓库已提供本地 synthetic 浏览器诊断页，但当前浏览器自动化控制入口不可用；真实 Chrome / Edge 像素、ICC / sRGB、键盘和下载 E2E 仍是明确欠项。
+M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立，并通过 `editor-session.js` 接入 R0 页面本地任务。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；独立解析器从 JPEG / PNG / WebP 容器读取 EXIF orientation 1–8，受控 `ImageBitmap` 解码禁止浏览器自动旋转，renderer 再用冻结矩阵在透明 scratch canvas 上归一化，随后完成用户旋转 / 翻转、post-transform crop 和 fit resize。PNG 保持透明上下文，JPEG 只在明确颜色上合成；编码前 Canvas pixels 与编码后新解码对象的 pixels 会核对 Alpha 和可见的预乘颜色，Alpha=0 的 hidden RGB 明确 ignored。最终 bytes 还会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，ICC / sRGB 颜色描述不冒充已经验证的转换结果。M1b 工作区现在用同一编辑合同连接预览、history 与下载 renderer：选择 1:1 / 4:5 / 3:2 后可拖动画面、用方向键或滑杆调整构图位置；自定义宽高按当前比例联动、最长边限制 2048 px，并直接显示实际输出尺寸；设置按“构图—光色—导出”分组，错误会在表单内显示并阻止执行。真实 Chrome / Edge 布局、像素、ICC / sRGB、键盘和下载 E2E 仍是明确欠项。
 
 ### M1a · Renderer 与像素合同（4–6 个工作日）
 
@@ -307,7 +307,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 3. ~~修正文案和虚假 QA 表述；~~
 4. ~~为 `local-processing.js` 建立输出几何 / 编码事实测试；~~
 5. ~~把 renderer / `EditState` / orientation 1–8 / 独立输出像素重开 / metadata fail-closed 接入本地产品路径；~~
-6. 继续 M1b：在已接入的实时工作预览与 history 上增加可拖裁切框 / 自定义尺寸，并在浏览器控制入口恢复后运行 synthetic 诊断页及真实 Chrome / Edge 下载 E2E；
+6. 继续 M1b：可重定位裁切、自定义尺寸和分组编辑反馈已经接入；下一步在浏览器控制入口恢复后运行两档桌面视口、键盘主路径、synthetic 诊断页及真实 Chrome / Edge 下载 E2E，并依据观察修正布局；
 7. 完成基础编辑器早期内部可用性走查。
 
 ### Next
