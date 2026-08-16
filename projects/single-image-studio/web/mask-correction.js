@@ -177,6 +177,26 @@ export function composeCorrectedPixels({ sourcePixels, resultPixels, mask, width
   return output;
 }
 
+export function composeSolidBackgroundPixels({ foregroundPixels, background, width, height }) {
+  positiveInteger(width, "合成宽度");
+  positiveInteger(height, "合成高度");
+  pixels(foregroundPixels, width * height * 4, "前景");
+  if (!Array.isArray(background) || background.length !== 3
+    || background.some((channel) => !Number.isInteger(channel) || channel < 0 || channel > 255)) {
+    throw new TypeError("纯色背景必须包含 3 个 0–255 整数通道");
+  }
+  const output = new Uint8ClampedArray(foregroundPixels.length);
+  for (let offset = 0; offset < foregroundPixels.length; offset += 4) {
+    const alpha = foregroundPixels[offset + 3];
+    const inverse = 255 - alpha;
+    output[offset] = Math.round((foregroundPixels[offset] * alpha + background[0] * inverse) / 255);
+    output[offset + 1] = Math.round((foregroundPixels[offset + 1] * alpha + background[1] * inverse) / 255);
+    output[offset + 2] = Math.round((foregroundPixels[offset + 2] * alpha + background[2] * inverse) / 255);
+    output[offset + 3] = 255;
+  }
+  return output;
+}
+
 export function summarizeCorrectionMask(mask) {
   if (!(mask instanceof Uint8Array || mask instanceof Uint8ClampedArray)) {
     throw new TypeError("蒙版必须是 byte array");

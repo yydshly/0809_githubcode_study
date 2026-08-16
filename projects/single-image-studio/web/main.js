@@ -17,6 +17,7 @@ import {
   applyMaskStroke,
   commitMaskStroke,
   composeCorrectedPixels,
+  composeSolidBackgroundPixels,
   createMaskCorrectionHistory,
   previewCorrectionDimensions,
   rebuildCorrectionMask,
@@ -247,6 +248,7 @@ function renderMaskCorrection() {
   context.putImageData(imageData, 0, 0);
   const summary = summarizeCorrectionMask(session.mask);
   const modified = session.history.index > 0;
+  const backgroundLabel = { white: "白", black: "黑", coral: "彩" }[session.background];
   elements.maskErase.setAttribute("aria-pressed", String(session.tool === "erase"));
   elements.maskKeep.setAttribute("aria-pressed", String(session.tool === "keep"));
   elements.maskBrushSize.value = String(Math.round(session.radius * 100));
@@ -255,12 +257,14 @@ function renderMaskCorrection() {
   elements.maskUndo.disabled = session.history.index === 0;
   elements.maskRedo.disabled = session.history.index >= session.history.strokes.length;
   elements.maskReset.disabled = !modified && session.history.strokes.length === 0;
-  elements.download.textContent = modified ? "下载修正 PNG" : "下载透明 PNG";
+  elements.download.textContent = session.background === "checker"
+    ? (modified ? "下载修正 PNG" : "下载透明 PNG")
+    : `下载${backgroundLabel}底 JPEG`;
   elements.maskCorrectionStatus.textContent = session.draft
     ? `${session.tool === "erase" ? "正在擦除背景残留" : "正在补回主体"}…`
     : modified
-      ? `已记录 ${session.history.index} 笔修正 · 透明 ${summary.transparent.toLocaleString()} 像素 · 下载时按原尺寸重新生成`
-      : "当前仍是自动蒙版；请选择擦除或保留后直接在图片上涂抹。";
+      ? `已记录 ${session.history.index} 笔修正 · 透明 ${summary.transparent.toLocaleString()} 像素 · 下载时按原尺寸重新生成${session.background === "checker" ? "透明 PNG" : `${backgroundLabel}底 JPEG`}`
+      : `当前仍是自动蒙版；${session.background === "checker" ? "下载将保留透明背景" : `下载将写入${backgroundLabel}色背景`}。`;
 }
 
 function setMaskTool(tool) {
@@ -271,11 +275,13 @@ function setMaskTool(tool) {
 
 function setMaskBackground(background) {
   if (!["checker", "white", "black", "coral"].includes(background)) return;
+  if (maskCorrectionSession) maskCorrectionSession.background = background;
   if (background === "checker") elements.resultStage.removeAttribute("data-preview-background");
   else elements.resultStage.dataset.previewBackground = background;
   elements.maskBackgrounds.forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.maskBackground === background));
   });
+  renderMaskCorrection();
 }
 
 function showMaskCursor(point) {
@@ -456,6 +462,7 @@ async function initializeMaskCorrection() {
       mask: rebuildCorrectionMask(history),
       tool: "erase",
       radius: 0.06,
+      background: "checker",
       keyboardCursor: { x: 0.5, y: 0.5 },
       draft: null,
       pointerId: null,
@@ -473,15 +480,15 @@ async function initializeMaskCorrection() {
   }
 }
 
-function canvasPngBlob(canvas) {
+function canvasEncodedBlob(canvas, mime, quality) {
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("浏览器没有生成修正 PNG")), "image/png");
+    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("浏览器没有生成修正图片")), mime, quality);
   });
 }
 
 async function exportMaskCorrection() {
   const session = maskCorrectionSession;
-  if (!session || session.history.index === 0) return null;
+  if (!session || (session.history.index === 0 && session.background === "checker")) return null;
   const width = currentResult.width;
   const height = currentResult.height;
   validateCorrectionExportDimensions(width, height);
@@ -495,7 +502,12 @@ async function exportMaskCorrection() {
   const maskSummary = summarizeCorrectionMask(mask);
   if (maskSummary.transparent + maskSummary.partial === 0) throw new Error("当前修正已没有透明背景，请先擦除背景再下载");
   if (maskSummary.opaque + maskSummary.partial === 0) throw new Error("当前修正已把主体全部擦除，请撤销后再下载");
-  const expectedPixels = composeCorrectedPixels({ sourcePixels, resultPixels, mask, width, height });
+  const correctedPixels = composeCorrectedPixels({ sourcePixels, resultPixels, mask, width, height });
+  const backgroundColors = { white: [255, 255, 255], black: [0, 0, 0], coral: [238, 111, 87] };
+  const mime = session.background === "checker" ? "image/png" : "image/jpeg";
+  const expectedPixels = mime === "image/png"
+    ? correctedPixels
+    : composeSolidBackgroundPixels({ foregroundPixels: correctedPixels, background: backgroundColors[session.background], width, height });
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -504,18 +516,18 @@ async function exportMaskCorrection() {
   const imageData = context.createImageData(width, height);
   imageData.data.set(expectedPixels);
   context.putImageData(imageData, 0, 0);
-  const blob = await canvasPngBlob(canvas);
+  const blob = await canvasEncodedBlob(canvas, mime, mime === "image/jpeg" ? 0.92 : undefined);
   const bytes = new Uint8Array(await blob.arrayBuffer());
-  inspectOutputMetadata(bytes, "image/png");
+  inspectOutputMetadata(bytes, mime);
   const reopenedUrl = URL.createObjectURL(blob);
   try {
     const reopened = await decodeImage(reopenedUrl);
     const actualPixels = canvasPixels(reopened, width, height);
-    verifyPixelRoundTrip({ expected: expectedPixels, actual: actualPixels, width, height, mime: "image/png" });
+    verifyPixelRoundTrip({ expected: expectedPixels, actual: actualPixels, width, height, mime });
   } finally {
     URL.revokeObjectURL(reopenedUrl);
   }
-  return { blob, outputHash: await sha256Bytes(bytes), byteLength: bytes.length, maskSummary };
+  return { blob, mime, background: session.background, outputHash: await sha256Bytes(bytes), byteLength: bytes.length, maskSummary };
 }
 
 function stopActiveRequest() {
@@ -1507,23 +1519,29 @@ elements.download.addEventListener("click", async () => {
   if (!currentResult) return;
   const contract = buildResultDownloadContract({ taskId: selectedTask.id, result: machine.result, currentRunId: machine.activeRunId });
   if (!contract.allowed) { toast(contract.message || "当前结果不可下载"); return; }
-  if (selectedTask.id === "UT-CUTOUT" && maskCorrectionSession?.history.index > 0) {
+  if (selectedTask.id === "UT-CUTOUT"
+    && maskCorrectionSession
+    && (maskCorrectionSession.history.index > 0 || maskCorrectionSession.background !== "checker")) {
     const previousLabel = elements.download.textContent;
     elements.download.disabled = true;
-    elements.download.textContent = "正在生成修正 PNG…";
+    elements.download.textContent = "正在生成下载图片…";
     try {
       const corrected = await exportMaskCorrection();
-      if (!corrected) throw new Error("当前没有可导出的人工修正");
+      if (!corrected) throw new Error("当前没有需要重新生成的下载图片");
       const url = URL.createObjectURL(corrected.blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = contract.download.filename.replace(/\.png$/i, "-corrected.png");
+      const suffix = corrected.mime === "image/png"
+        ? "-corrected.png"
+        : `-${corrected.background}-background.jpg`;
+      anchor.download = contract.download.filename.replace(/\.png$/i, suffix);
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
-      elements.maskCorrectionStatus.textContent = `修正 PNG 已独立重开校验 · ${corrected.byteLength.toLocaleString()} bytes · ${corrected.outputHash.slice(0, 12)}…`;
-      toast("修正后的透明 PNG 已下载");
+      const outputLabel = corrected.mime === "image/png" ? "修正透明 PNG" : "纯色背景 JPEG";
+      elements.maskCorrectionStatus.textContent = `${outputLabel} 已独立重开校验 · ${corrected.byteLength.toLocaleString()} bytes · ${corrected.outputHash.slice(0, 12)}…`;
+      toast(`${outputLabel} 已下载`);
     } catch (error) {
-      toast(error.message || "修正 PNG 生成失败");
+      toast(error.message || "下载图片生成失败");
     } finally {
       elements.download.disabled = false;
       elements.download.textContent = previousLabel;

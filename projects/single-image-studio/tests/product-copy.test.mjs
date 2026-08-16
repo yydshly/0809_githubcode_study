@@ -155,10 +155,13 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(html, /黑色/);
   assert.match(html, /彩色/);
   assert.match(html, /方向键移动画笔/);
+  assert.match(html, /棋盘格下载透明 PNG；白 \/ 黑 \/ 彩底会写入 JPEG/);
   assert.match(main, /initializeMaskCorrection/);
   assert.match(main, /exportMaskCorrection/);
   assert.match(main, /verifyPixelRoundTrip/);
   assert.match(main, /下载修正 PNG/);
+  assert.match(main, /下载.*底 JPEG/);
+  assert.match(main, /composeSolidBackgroundPixels/);
   assert.match(main, /当前修正已没有透明背景/);
   assert.match(main, /当前修正已把主体全部擦除/);
   assert.match(styles, /mask-correction-controls/);

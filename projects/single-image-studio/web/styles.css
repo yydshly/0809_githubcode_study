@@ -246,6 +246,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .mask-background-controls > span { margin-right: .25rem; color: var(--muted); font-size: .7rem; }
 .mask-background-controls button { min-height: 2.2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); cursor: pointer; }
 .mask-background-controls button[aria-pressed="true"] { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+.mask-background-controls button[data-mask-background="checker"] { background-color: #eef1ed; background-image: linear-gradient(45deg, #c9cfca 25%, transparent 25%), linear-gradient(-45deg, #c9cfca 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c9cfca 75%), linear-gradient(-45deg, transparent 75%, #c9cfca 75%); background-size: 12px 12px; background-position: 0 0, 0 6px, 6px -6px, -6px 0; }
+.mask-background-controls button[data-mask-background="black"] { background: #121614; color: white; }
+.mask-background-controls button[data-mask-background="coral"] { background: #ee8d70; color: #311710; }
 .mask-correction-help, .mask-correction-status { margin: .65rem 0 0; color: var(--muted); font-size: .68rem; line-height: 1.5; }
 .mask-correction-status { color: var(--green); font-weight: 700; }
 .result-stage { width: 100%; min-height: 0; height: auto; aspect-ratio: var(--result-stage-aspect, 16 / 9); margin-inline: auto; padding: clamp(.5rem, 1.4vw, 1rem); box-sizing: border-box; background-color: #d8ddd8; background-image: linear-gradient(45deg, #c6ccc6 25%, transparent 25%), linear-gradient(-45deg, #c6ccc6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c6ccc6 75%), linear-gradient(-45deg, transparent 75%, #c6ccc6 75%); background-size: 24px 24px; background-position: 0 0, 0 12px, 12px -12px, -12px 0; border-radius: 1rem; display: grid; place-items: stretch; overflow: hidden; position: relative; }

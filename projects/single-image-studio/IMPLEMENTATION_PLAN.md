@@ -53,7 +53,7 @@ npm run test:product
 - 可拖裁切框和自定义尺寸；预设比例 / 方向 / 光色的实时工作预览与可见撤销 / 重做 / 重置已经接入；
 - 透明输入和产品级输入归一化 / 输出重开已进入本地任务，但仍缺真实浏览器 fixture 与下载 E2E；
 - 正式云端抠图评估、可审计的 corrected-pass 记录和供应商切换决策；
-- 可下载的纯色背景合成，以及保留 / 擦除画笔的真实浏览器指针、键盘与下载 E2E；
+- 保留 / 擦除画笔与透明 / 纯色下载的真实浏览器指针、键盘和下载 E2E；
 - 产品级任务内容 QA；
 - 产品页面 DOM 集成测试、真实浏览器 E2E 和下载回归；
 - 持久任务、正式删除对账、公共部署与用户验证。
@@ -257,7 +257,7 @@ M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v
 - 使用 12–20 个项目原创或许可明确的图片进行小规模测试，不使用真实用户照片；
 - 选择一个主 Provider；没有候选满足隐私或质量要求时，保持手动编辑，不仓促引入本地模型。
 
-当前完成度：合同、独立 typed route/client、内存 run store、fake provider、PhotoRoom Basic adapter、显式服务启用和用户逐次同意界面已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产默认保持 `not_configured`；仅保存密钥不会启用，仍需 `PHOTOROOM_ENABLED=true`。当前累计完成 5 次 PhotoRoom sandbox 调用：1 次项目原创 synthetic 协议探针，以及 4 次项目生成的头发、玻璃、毛发和镂空结构挑战图。5 次均不进入正式分母；后四次虽然 4/4 返回 RGBA Alpha，却都在目视复核中出现需要人工修正的边缘或背景残留。这证明沙盒鉴权与 RGBA PNG/Alpha 结构链可闭合，也说明 Provider 输出不能直接作为最终成品。结果页现已接入非破坏式 Alpha 修正：擦除 / 保留、200 笔硬上限、撤销 / 重做 / 重置、四种检查底色，以及按原尺寸重放笔触并经过 metadata、尺寸和像素独立重开的透明 PNG 导出。账户/DPA/地域复核、正式候选调用、持久 `ProviderCallReceipt`、删除验证、正式 Alpha 质量结论、纯色背景成品和真实浏览器 E2E 仍未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
+当前完成度：合同、独立 typed route/client、内存 run store、fake provider、PhotoRoom Basic adapter、显式服务启用和用户逐次同意界面已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产默认保持 `not_configured`；仅保存密钥不会启用，仍需 `PHOTOROOM_ENABLED=true`。当前累计完成 5 次 PhotoRoom sandbox 调用：1 次项目原创 synthetic 协议探针，以及 4 次项目生成的头发、玻璃、毛发和镂空结构挑战图。5 次均不进入正式分母；后四次虽然 4/4 返回 RGBA Alpha，却都在目视复核中出现需要人工修正的边缘或背景残留。这证明沙盒鉴权与 RGBA PNG/Alpha 结构链可闭合，也说明 Provider 输出不能直接作为最终成品。结果页现已接入非破坏式 Alpha 修正：擦除 / 保留、200 笔硬上限、撤销 / 重做 / 重置，以及棋盘格透明 PNG或白 / 黑 / 彩底 JPEG 下载。所有重新生成的文件都按原尺寸重放笔触并经过 metadata、尺寸和像素独立重开；纯色输出使用明确的直 Alpha 合成并强制完全不透明。账户/DPA/地域复核、正式候选调用、持久 `ProviderCallReceipt`、删除验证、正式 Alpha 质量结论和真实浏览器 E2E 仍未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
 
 第一次正式候选调用前必须冻结 `ProviderEvaluationPlan`：候选 API / 条款日期、隐私硬门、允许地域 / 保留 / 训练用途、单次与总预算、最大延迟和失败率、synthetic Alpha / boundary 指标、灾难误删上限、分层人工判断规则、修正后可完成率与 no-go 条件。具体阈值只能在看结果前依据候选价格和业务预算写入；未知隐私边界直接 no-go，不能用质量分数抵消。
 
@@ -316,7 +316,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 
 8. ~~Provider 抽象、独立 route/client、PhotoRoom adapter、显式同意与 fake provider 关闭测试；~~
 9. ~~冻结 `ProviderEvaluationPlan` 的候选、分母、隐私、成本和退出硬门；~~ 取得账户侧 DPA/地域/训练/删除证据与明确密钥授权后，才可执行 12-source 小规模评估；
-10. ~~透明预览、手动 mask 修正与经过重开的透明 PNG；~~ 下一步完成可下载的纯色换底，并在真实 Chrome / Edge 覆盖画笔、撤销 / 重做、底色检查和下载；
+10. ~~透明预览、手动 mask 修正、经过重开的透明 PNG 与纯色 JPEG 换底；~~ 下一步在真实 Chrome / Edge 覆盖画笔、撤销 / 重做、背景选择和下载；
 11. 抠图专项可用性走查与 beta readiness 决策。
 
 ### Later

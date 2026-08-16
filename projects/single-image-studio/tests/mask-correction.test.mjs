@@ -5,6 +5,7 @@ import {
   applyMaskStroke,
   commitMaskStroke,
   composeCorrectedPixels,
+  composeSolidBackgroundPixels,
   createMaskCorrectionHistory,
   previewCorrectionDimensions,
   rebuildCorrectionMask,
@@ -102,6 +103,22 @@ test("corrected pixels use provider color for retained pixels and source color f
     opaque: 1,
     total: 4,
   });
+});
+
+test("solid background composition writes an opaque image and respects partial alpha", () => {
+  const foreground = Uint8ClampedArray.from([
+    200, 100, 50, 255,
+    20, 40, 60, 0,
+    100, 50, 0, 128,
+  ]);
+  const output = composeSolidBackgroundPixels({
+    foregroundPixels: foreground,
+    background: [240, 120, 60],
+    width: 3,
+    height: 1,
+  });
+  assert.deepEqual([...output], [200, 100, 50, 255, 240, 120, 60, 255, 170, 85, 30, 255]);
+  assert.throws(() => composeSolidBackgroundPixels({ foregroundPixels: foreground, background: [0, 0], width: 3, height: 1 }));
 });
 
 test("preview dimensions preserve aspect without enlarging and invalid strokes fail closed", () => {
