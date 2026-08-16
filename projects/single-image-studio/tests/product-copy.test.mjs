@@ -38,10 +38,20 @@ test("visible output copy distinguishes engineering validation from content qual
   assert.match(localProcessing, /未执行内容质量检查/);
   assert.match(main, /未执行内容质量检查/);
   assert.match(resultDownload, /内容质量检查尚未实现/);
-  assert.match(styles, /\.result-stage img \{[^}]*width: auto;[^}]*height: auto;[^}]*max-width: 100%;[^}]*max-height: 100%;[^}]*object-fit: contain;[^}]*object-position: center;/);
-  assert.doesNotMatch(styles, /\.result-stage img \{[^}]*object-fit: cover/);
-  assert.match(main, /完整显示的原图/);
-  assert.match(main, /完整显示的当前处理结果/);
+  assert.match(html, /id="compare-source-panel"[^>]*role="tabpanel"[^>]*data-layer="source"/);
+  assert.match(html, /id="compare-result-panel"[^>]*role="tabpanel"[^>]*data-layer="result"/);
+  assert.doesNotMatch(html, /id="result-image"/);
+  assert.match(html, /id="compare-source-tab"[^>]*aria-controls="compare-source-panel"/);
+  assert.match(html, /id="compare-result-tab"[^>]*aria-controls="compare-result-panel"/);
+  assert.match(styles, /\.result-image-panel \{[^}]*min-width: 0;[^}]*min-height: 0;[^}]*place-items: center;[^}]*overflow: hidden;/);
+  assert.match(styles, /\.result-image-panel > img \{[^}]*width: auto;[^}]*height: auto;[^}]*max-width: 100%;[^}]*max-height: 100%;[^}]*object-fit: contain;[^}]*object-position: center;/);
+  assert.doesNotMatch(styles, /\.result-image-panel > img \{[^}]*object-fit: cover/);
+  assert.match(html, /完整显示的原图/);
+  assert.match(html, /完整显示的当前处理结果/);
+  assert.match(main, /function selectComparisonLayer/);
+  assert.match(main, /原图 \$\{source\.width\} × \$\{source\.height\}/);
+  assert.match(main, /ArrowRight/);
+  assert.match(main, /event\.key === "Home"/);
 });
 
 test("local editor workspace exposes preview, history and strict-render controls without claiming cutout", () => {

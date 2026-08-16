@@ -48,7 +48,9 @@ const elements = {
   editorCropHint: $("#editor-crop-hint"), editorDragBadge: $("#editor-drag-badge"),
   editorUndo: $("#editor-undo"), editorRedo: $("#editor-redo"), editorReset: $("#editor-reset"),
   resultSection: $("#result-section"), resultTitle: $("#result-title"), resultSummary: $("#result-summary"),
-  resultImage: $("#result-image"), referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
+  resultSourcePanel: $("#compare-source-panel"), resultSourceImage: $("#result-source-image"),
+  resultOutputPanel: $("#compare-result-panel"), resultOutputImage: $("#result-output-image"),
+  referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
   redo: $("#redo-button"), download: $("#download-button"),
   errorPanel: $("#error-panel"), errorTitle: $("#error-title"), errorCopy: $("#error-copy"), recover: $("#recover-button"), retry: $("#retry-button"), errorBack: $("#error-back-button"),
@@ -161,6 +163,7 @@ function revokeIfBlob(url) {
 }
 
 function clearResult() {
+  elements.resultOutputImage.removeAttribute("src");
   revokeIfBlob(currentResult?.url);
   currentResult = null;
 }
@@ -185,6 +188,7 @@ function cancelCurrentSource() {
   stopActiveRequest();
   clearResult();
   clearEditorWorkspace();
+  elements.resultSourceImage.removeAttribute("src");
   revokeIfBlob(sourceUrl);
   sourceUrl = null;
   source = null;
@@ -237,8 +241,10 @@ async function acceptSource(file) {
     const sourceOrientation = readImageOrientation(new Uint8Array(await file.arrayBuffer()), file.type);
     clearResult();
     clearEditorWorkspace();
+    elements.resultSourceImage.removeAttribute("src");
     revokeIfBlob(sourceUrl);
     sourceUrl = URL.createObjectURL(file);
+    elements.resultSourceImage.src = sourceUrl;
     source = {
       file,
       ...prepared,
@@ -864,16 +870,14 @@ function renderResult() {
   if (!currentResult) return;
   elements.resultTitle.textContent = currentResult.title;
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
-  elements.resultImage.src = currentResult.url;
-  elements.resultImage.alt = "完整显示的当前处理结果";
-  elements.resultImage.hidden = false;
+  elements.resultSourceImage.src = sourceUrl;
+  elements.resultOutputImage.src = currentResult.url;
   elements.qaCopy.textContent = currentResult.validationSummary;
   elements.resultSize.textContent = currentResult.width && currentResult.height ? `${currentResult.width} × ${currentResult.height}` : currentResult.mimeType;
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
   elements.referenceCopy.textContent = selectedTask.referenceCopy;
   elements.referenceMark.style.background = selectedTask.id === "UT-TUNE" ? "radial-gradient(circle at 35% 35%, #dce978 0 18%, transparent 19%), repeating-radial-gradient(circle, transparent 0 6px, rgba(255,255,255,.25) 7px 8px)" : "radial-gradient(circle at 30% 30%, #d96d3a, transparent 30%), repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.22) 9px 10px)";
-  elements.tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.layer === "result")));
-  elements.referenceExplainer.hidden = true;
+  selectComparisonLayer("result");
   showOnly("result");
   setJourney("result");
   elements.download.focus();
@@ -1059,20 +1063,39 @@ elements.download.addEventListener("click", async () => {
   setTimeout(() => URL.revokeObjectURL(url), 0);
   toast("结果已下载");
 });
-elements.tabs.forEach((tab) => tab.addEventListener("click", () => {
-  const layer = tab.dataset.layer;
-  elements.tabs.forEach((item) => item.setAttribute("aria-selected", String(item === tab)));
+function selectComparisonLayer(layer, { focus = false } = {}) {
+  if (!currentResult || !["source", "reference", "result"].includes(layer)) return;
+  let selectedTab = null;
+  elements.tabs.forEach((tab) => {
+    const selected = tab.dataset.layer === layer;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    if (selected) selectedTab = tab;
+  });
+  elements.resultSourcePanel.hidden = layer !== "source";
+  elements.resultOutputPanel.hidden = layer !== "result";
   elements.referenceExplainer.hidden = layer !== "reference";
-  elements.resultImage.hidden = layer === "reference";
-  if (layer === "source") {
-    elements.resultImage.src = sourceUrl;
-    elements.resultImage.alt = "完整显示的原图";
-  }
-  if (layer === "result") {
-    elements.resultImage.src = currentResult.url;
-    elements.resultImage.alt = "完整显示的当前处理结果";
-  }
-}));
+  if (layer === "source") elements.resultSize.textContent = `原图 ${source.width} × ${source.height}`;
+  if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
+    ? `结果 ${currentResult.width} × ${currentResult.height}`
+    : currentResult.mimeType;
+  if (layer === "reference") elements.resultSize.textContent = "任务方法说明";
+  if (focus) selectedTab?.focus();
+}
+
+elements.tabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => selectComparisonLayer(tab.dataset.layer));
+  tab.addEventListener("keydown", (event) => {
+    let targetIndex = null;
+    if (["ArrowRight", "ArrowDown"].includes(event.key)) targetIndex = (index + 1) % elements.tabs.length;
+    if (["ArrowLeft", "ArrowUp"].includes(event.key)) targetIndex = (index - 1 + elements.tabs.length) % elements.tabs.length;
+    if (event.key === "Home") targetIndex = 0;
+    if (event.key === "End") targetIndex = elements.tabs.length - 1;
+    if (targetIndex === null) return;
+    event.preventDefault();
+    selectComparisonLayer(elements.tabs[targetIndex].dataset.layer, { focus: true });
+  });
+});
 window.addEventListener("beforeunload", () => { stopActiveRequest(); clearEditorWorkspace(); revokeIfBlob(sourceUrl); revokeIfBlob(currentResult?.url); });
 
 showOnly("empty");

@@ -135,13 +135,18 @@
             <div class="result-actions"><button class="button button-quiet" id="result-replace-button" type="button">处理新图片</button><button class="button button-quiet" id="redo-button" type="button">重新处理</button><button class="button button-primary" id="download-button" type="button">下载结果</button></div>
           </div>
           <div class="compare-tabs" role="tablist" aria-label="比较原图、参考和结果">
-            <button type="button" role="tab" data-layer="source" aria-selected="false">原图</button>
-            <button type="button" role="tab" data-layer="reference" aria-selected="false">参考</button>
-            <button type="button" role="tab" data-layer="result" aria-selected="true">结果</button>
+            <button id="compare-source-tab" type="button" role="tab" data-layer="source" aria-controls="compare-source-panel" aria-selected="false" tabindex="-1">原图</button>
+            <button id="compare-reference-tab" type="button" role="tab" data-layer="reference" aria-controls="reference-explainer" aria-selected="false" tabindex="-1">参考</button>
+            <button id="compare-result-tab" type="button" role="tab" data-layer="result" aria-controls="compare-result-panel" aria-selected="true">结果</button>
           </div>
           <div class="result-stage">
-            <img id="result-image" alt="当前处理结果" />
-            <div class="reference-explainer" id="reference-explainer" hidden>
+            <div class="result-image-panel" id="compare-source-panel" role="tabpanel" aria-labelledby="compare-source-tab" data-layer="source" hidden>
+              <img id="result-source-image" alt="完整显示的原图" />
+            </div>
+            <div class="result-image-panel" id="compare-result-panel" role="tabpanel" aria-labelledby="compare-result-tab" data-layer="result">
+              <img id="result-output-image" alt="完整显示的当前处理结果" />
+            </div>
+            <div class="reference-explainer" id="reference-explainer" role="tabpanel" aria-labelledby="compare-reference-tab" hidden>
               <span id="reference-mark" aria-hidden="true"></span>
               <div><strong id="reference-title"></strong><p id="reference-copy"></p></div>
             </div>
