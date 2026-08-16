@@ -271,6 +271,12 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .result-stage[data-preview-background="coral"] { background: #ee8d70; }
 .result-stage[data-preview-background="custom"] { background: var(--mask-custom-background, #ee6f57); }
 .result-image-panel { position: relative; grid-area: 1 / 1; width: 100%; height: 100%; min-width: 0; min-height: 0; display: grid; place-items: center; overflow: hidden; }
+.result-stage.is-split { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.4rem, 1vw, .75rem); }
+.result-stage.is-split .result-image-panel { grid-area: auto; border: 1px solid rgba(30,63,52,.18); border-radius: .7rem; }
+.result-stage.is-split .result-image-panel[data-layer="source"] { background: rgba(247,247,242,.94); }
+.result-stage.is-split .result-image-panel::before { content: attr(data-panel-label); position: absolute; z-index: 4; top: .55rem; left: .55rem; padding: .28rem .48rem; border-radius: 999px; background: rgba(20,28,25,.78); color: white; font-size: .62rem; font-weight: 760; letter-spacing: .02em; pointer-events: none; }
+.result-stage.is-split .result-image-panel.is-mask-zoomed { display: grid; overflow: hidden; }
+.result-stage.is-split .result-image-panel > canvas { max-width: 100%; max-height: 100%; cursor: default; }
 .result-image-panel.is-mask-zoomed { display: block; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .result-image-panel > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; object-position: center; }
 .result-image-panel > canvas { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; touch-action: none; cursor: none; }
@@ -324,6 +330,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
   .journey li { font-size: .75rem; }
   .journey li { display: grid; gap: .25rem; }
   .studio, .result-stage { border-radius: .85rem; }
+  .compare-tabs { width: 100%; overflow-x: auto; justify-content: flex-start; }
+  .compare-tabs button { flex: 0 0 auto; }
+  .result-stage.is-split { grid-template-columns: 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); }
   .task-grid { grid-template-columns: 1fr; }
   .task-card { min-height: 12rem; }
   .task-card p, .task-card footer, .qa-strip, .run-note { font-size: .85rem; }

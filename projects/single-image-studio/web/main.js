@@ -33,7 +33,7 @@ import { maskOutputPresentation, resolveMaskBackground } from "./mask-output-pre
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
-import { fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
+import { comparisonLayerState, fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
 import {
@@ -273,6 +273,7 @@ function renderMaskCorrection() {
   context.putImageData(imageData, 0, 0);
   const summary = summarizeCorrectionMask(session.mask);
   const modified = session.history.index > 0;
+  const resultInteractive = !viewAutomatic && selectedComparisonLayer === "result";
   const backgroundSpec = resolveMaskBackground({
     background: session.background,
     customColor: session.customBackground,
@@ -302,12 +303,12 @@ function renderMaskCorrection() {
     button.disabled = button.dataset.maskView === "automatic" && !modified;
   });
   elements.maskCustomBackgroundControl.classList.toggle("is-selected", session.background === "custom");
-  elements.maskCorrectionCanvas.classList.toggle("is-mask-readonly", viewAutomatic);
-  elements.maskCorrectionCanvas.tabIndex = viewAutomatic ? -1 : 0;
-  elements.maskCorrectionCanvas.setAttribute("aria-label", viewAutomatic
-    ? "自动抠图结果，只读对比"
-    : "透明抠图蒙版修正画布");
-  if (viewAutomatic) elements.maskBrushCursor.hidden = true;
+  elements.maskCorrectionCanvas.classList.toggle("is-mask-readonly", !resultInteractive);
+  elements.maskCorrectionCanvas.tabIndex = resultInteractive ? 0 : -1;
+  elements.maskCorrectionCanvas.setAttribute("aria-label", resultInteractive
+    ? "透明抠图蒙版修正画布"
+    : viewAutomatic ? "自动抠图结果，只读对比" : "处理结果，并排只读对比");
+  if (!resultInteractive) elements.maskBrushCursor.hidden = true;
   elements.maskZooms.forEach((button) => button.setAttribute("aria-pressed", String(Number(button.dataset.maskZoom) === session.zoom)));
   elements.download.textContent = outputPresentation.downloadLabel;
   elements.maskOutputSummary.hidden = false;
@@ -503,7 +504,7 @@ function resetMaskCorrectionSession() {
 
 function maskKeyboard(event) {
   const session = maskCorrectionSession;
-  if (!session || session.view !== "corrected") return;
+  if (!session || session.view !== "corrected" || selectedComparisonLayer !== "result") return;
   if (event.key.toLowerCase() === "e") { event.preventDefault(); setMaskTool("erase"); return; }
   if (event.key.toLowerCase() === "k") { event.preventDefault(); setMaskTool("keep"); return; }
   if (event.key === "[") {
@@ -1911,9 +1912,11 @@ async function runBackgroundRemoval({ runId, runController, sourceHashAtStart })
 
 function syncComparisonStage(layer = selectedComparisonLayer) {
   if (!currentResult || elements.resultSection.hidden) return;
-  const dimensions = comparisonLayerDimensions(layer);
   const availableWidth = Math.max(1, elements.resultSection.clientWidth || elements.main.clientWidth || window.innerWidth - 32);
   const mobile = window.matchMedia("(max-width: 620px)").matches;
+  const dimensions = layer === "split"
+    ? (mobile ? { width: 9, height: 10 } : { width: 16, height: 9 })
+    : comparisonLayerDimensions(layer);
   const maxHeight = Math.max(1, Math.min(window.innerHeight * .72, mobile ? 400 : 624));
   const fitted = fitComparisonStage({
     mediaWidth: dimensions.width,
@@ -1928,7 +1931,13 @@ function syncComparisonStage(layer = selectedComparisonLayer) {
 }
 
 function selectComparisonLayer(layer, { focus = false } = {}) {
-  if (!currentResult || !["source", "reference", "result"].includes(layer)) return;
+  if (!currentResult) return;
+  let layerState;
+  try {
+    layerState = comparisonLayerState(layer);
+  } catch {
+    return;
+  }
   selectedComparisonLayer = layer;
   let selectedTab = null;
   elements.tabs.forEach((tab) => {
@@ -1937,19 +1946,34 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
     tab.tabIndex = selected ? 0 : -1;
     if (selected) selectedTab = tab;
   });
-  elements.resultSourcePanel.hidden = layer !== "source";
-  elements.resultOutputPanel.hidden = layer !== "result";
-  elements.referenceExplainer.hidden = layer !== "reference";
-  elements.maskCorrectionWorkspace.hidden = selectedTask?.id !== "UT-CUTOUT" || layer !== "result";
-  if (layer !== "result") elements.maskBrushCursor.hidden = true;
-  const dimensions = comparisonLayerDimensions(layer);
+  elements.resultStage.classList.toggle("is-split", layerState.split);
+  elements.resultSourcePanel.hidden = !layerState.showSource;
+  elements.resultOutputPanel.hidden = !layerState.showResult;
+  elements.referenceExplainer.hidden = !layerState.showReference;
+  elements.maskCorrectionWorkspace.hidden = selectedTask?.id !== "UT-CUTOUT" || !layerState.resultInteractive;
+  if (!layerState.resultInteractive) {
+    elements.maskBrushCursor.hidden = true;
+    elements.resultOutputPanel.classList.remove("is-mask-zoomed");
+    if (maskCorrectionSession) {
+      elements.maskCorrectionCanvas.tabIndex = -1;
+      elements.maskCorrectionCanvas.classList.add("is-mask-readonly");
+    }
+  }
+  const dimensions = layer === "split" ? comparisonLayerDimensions("result") : comparisonLayerDimensions(layer);
   if (layer === "source") elements.resultSize.textContent = `完整原图 ${dimensions.width} × ${dimensions.height}`;
   if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
     ? `${selectedTask?.id === "UT-CUTOUT" ? "抠图结果" : selectedTask?.id === "UT-TUNE" ? "编辑结果" : "处理结果"} ${currentResult.width} × ${currentResult.height}`
     : currentResult.mimeType;
   if (layer === "reference") elements.resultSize.textContent = "处理说明";
+  if (layer === "split") {
+    const sourceDimensions = comparisonLayerDimensions("source");
+    elements.resultSize.textContent = `并排对比 · 原图 ${sourceDimensions.width} × ${sourceDimensions.height} · 结果 ${dimensions.width} × ${dimensions.height}`;
+  }
   syncComparisonStage(layer);
-  if (layer === "result") applyMaskZoom();
+  if (layer === "result") {
+    if (maskCorrectionSession) renderMaskCorrection();
+    applyMaskZoom();
+  }
   if (focus) selectedTab?.focus();
 }
 

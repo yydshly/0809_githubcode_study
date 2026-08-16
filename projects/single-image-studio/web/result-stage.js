@@ -30,3 +30,16 @@ export function fitComparisonStage({ mediaWidth, mediaHeight, availableWidth, ma
     aspectRatio: `${width} / ${height}`,
   });
 }
+
+export function comparisonLayerState(layer) {
+  if (!["source", "split", "reference", "result"].includes(layer)) {
+    throw new TypeError("未知的结果比较视图");
+  }
+  return Object.freeze({
+    showSource: layer === "source" || layer === "split",
+    showResult: layer === "result" || layer === "split",
+    showReference: layer === "reference",
+    split: layer === "split",
+    resultInteractive: layer === "result",
+  });
+}

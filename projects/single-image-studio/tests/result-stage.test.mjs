@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { fitComparisonStage, orientedMediaDimensions } from "../web/result-stage.js";
+import { comparisonLayerState, fitComparisonStage, orientedMediaDimensions } from "../web/result-stage.js";
 
 test("square crop produces a visibly square result stage", () => {
   const fitted = fitComparisonStage({ mediaWidth: 1024, mediaHeight: 1024, availableWidth: 1100, maxHeight: 624 });
@@ -24,4 +24,22 @@ test("source stage dimensions honor EXIF quarter-turn orientations", () => {
   assert.deepEqual(orientedMediaDimensions(1600, 900, 1), { width: 1600, height: 900 });
   assert.deepEqual(orientedMediaDimensions(1600, 900, 6), { width: 900, height: 1600 });
   assert.throws(() => orientedMediaDimensions(1600, 900, 9), /orientation/);
+});
+
+test("split comparison exposes source and result while keeping editing in the result-only view", () => {
+  assert.deepEqual(comparisonLayerState("split"), {
+    showSource: true,
+    showResult: true,
+    showReference: false,
+    split: true,
+    resultInteractive: false,
+  });
+  assert.deepEqual(comparisonLayerState("result"), {
+    showSource: false,
+    showResult: true,
+    showReference: false,
+    split: false,
+    resultInteractive: true,
+  });
+  assert.throws(() => comparisonLayerState("unknown"), /未知的结果比较视图/);
 });
