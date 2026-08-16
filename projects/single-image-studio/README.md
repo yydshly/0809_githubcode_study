@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | normalize/export runner 循环已停止；SourceCard.v0 + MATTE-SIMPLE 已形成第一条纵向结果，并新增不冒充语义判断的 exposure-signal observer。MODNet 与 RVM 已按精确官方 ref / 许可登记但权重均未下载。C1 与产品支持仍为 0 |
+| 研究阶段 | 已回到 SourceCard + Matting：纵向 baseline 与 exposure signals 已运行；MODNet / RVM 的 6-source continuous-alpha synthetic 评测定义已冻结但 results=0、权重未下载。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -171,6 +171,8 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 后续的 `SCO-EXPOSURE-SIGNALS@0.1.0` 已把亮度均值、分位数和极暗/极亮比例冻结为可复算的客观信号；四个原创 pattern 4 / 4 符合预期，三个 MATTE-GT 输入均落在 `balanced`。但自然图片校准尚未冻结，所以 `quality.exposure` 仍必须是 `unknown`。同时 MODNet 与 RVM MobileNetV3 已登记为连续 Alpha 候选；只有来源与许可已解析，模型文件仍 `not-downloaded`。详见 [exposure observer 与候选 evidence](research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md)。
 
+候选中立的 `CC-CAP04-CONTINUOUS-ALPHA-EVAL@0.1.0` 也已冻结：6 个原创 synthetic 来源覆盖 hard、hole、radial soft、diagonal feather、thin structure 与 semi-transparent；每候选固定 3 次冷启动，共 18 次，两个候选 planned 36 次。定义特别把 boundary MAE 与二值 IoU 分开，避免硬化 Alpha 后仍靠阈值分数过关。当前结果数为 0，阈值和自然人像集均未创建。见 [Continuous Alpha evaluation evidence](research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md)。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -255,6 +257,7 @@ npm.cmd run verify
 | [research/slice-11/README.md](research/slice-11/README.md) | Slice 11 冻结 definition workspace；运行后的不可变 startup-failure 事实见外部 evidence |
 | [research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md](research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md) | 3 个原创合成场景的 SourceCard.v0 + MATTE-SIMPLE 纵向报告与精确指标 |
 | [research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md](research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md) | 客观 exposure-signal observer 与 MODNet / RVM 连续 Alpha 候选许可登记 |
+| [research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md](research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md) | 6-source / 12-asset continuous-alpha results-zero 合同、分母、指标与精确 pins |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

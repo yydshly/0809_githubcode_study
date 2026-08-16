@@ -397,7 +397,7 @@ release_status=planned
 | 代码许可 | Apache-2.0 |
 | 模型/权重 | [官方 README](https://github.com/ZHKKKe/MODNet/blob/28165a451e4610c9d77cfdf925a94610bb2810fb/README.md#license) 明确仓库中的代码、模型与 demo（`doc/gif` 除外）为 Apache-2.0；选定文件仍未下载，必须先锁 immutable URL / bytes / SHA-256 |
 | 硬件、成本、时延 | `pending-benchmark` |
-| 证据与状态 | `C1=0`，`registered-license-resolved/artifact-not-acquired`；只能进入 person-only stratum，不能外推商品、动物、多人或通用主体 |
+| 证据与状态 | `C1=0`，`registered-license-resolved/artifact-not-acquired`；已登记 results-zero `PLAN-CONTINUOUS-ALPHA-SYNTHETIC@0.1.0`，计划 6×3；只能进入 person-only stratum，不能外推商品、动物、多人或通用主体 |
 
 ### `REG-MATTE-RVM-MOBILENETV3@0.1.0` — Robust Video Matting
 
@@ -410,7 +410,7 @@ release_status=planned
 | 代码 / 项目许可 | GPL-3.0；官方仓库同时发布 source 与 pretrained models。任何分发、链接、修改或衍生义务必须在产品接入前单独审核 |
 | 模型/权重 | 官方 v1.0.0 release 的 `rvm_mobilenetv3.pth` 已选为候选名，但未下载、未核 bytes / SHA-256、未安装依赖 |
 | 硬件、成本、时延 | `pending-benchmark`；上游吞吐数字不能作为本项目证据 |
-| 证据与状态 | `C1=0`，`registered-license-resolved/artifact-not-acquired`；研究比较允许，产品分发默认阻断，直到 GPL 决策与完整 SBOM 关闭 |
+| 证据与状态 | `C1=0`，`registered-license-resolved/artifact-not-acquired`；已登记 results-zero `PLAN-CONTINUOUS-ALPHA-SYNTHETIC@0.1.0`，计划 6×3；研究比较允许，产品分发默认阻断，直到 GPL 决策与完整 SBOM 关闭 |
 
 ### `REG-BASELINE-MATTE-SIMPLE` — 颜色距离 Matting 简单基线
 

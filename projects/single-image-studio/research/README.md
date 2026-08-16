@@ -82,6 +82,12 @@ It adds deterministic opaque-image luminance signals while keeping the semantic
 `quality.exposure` field unknown. It also registers exact MODNet and RVM source
 and license boundaries; both selected model artifacts remain not downloaded.
 
+The candidate-neutral results-zero denominator is frozen in
+[CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md](CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md):
+six project-original sources, twelve PNG assets, three cold repetitions per
+candidate, continuous-edge metrics, no threshold, no natural-image extension,
+and no generated candidate result.
+
 Slice 11 is scope-frozen, and its fake-only projection, case, lifecycle and pure
 protocol-runner foundation is now implemented. It creates a new `@0.11.0` identity for exactly
 two corrections: a content-addressed projection from the complete gold identity
