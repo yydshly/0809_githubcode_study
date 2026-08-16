@@ -156,14 +156,22 @@
                 <button class="button button-quiet" id="mask-reset-button" type="button" disabled>恢复自动结果</button>
               </div>
             </div>
-            <div class="mask-background-controls" role="group" aria-label="预览和下载背景">
-              <span>预览与下载</span>
-              <button type="button" data-mask-background="checker" aria-pressed="true">棋盘格</button>
-              <button type="button" data-mask-background="white" aria-pressed="false">白色</button>
-              <button type="button" data-mask-background="black" aria-pressed="false">黑色</button>
-              <button type="button" data-mask-background="coral" aria-pressed="false">彩色</button>
+            <div class="mask-inspection-controls">
+              <div class="mask-background-controls" role="group" aria-label="预览和下载背景">
+                <span>预览与下载</span>
+                <button type="button" data-mask-background="checker" aria-pressed="true">棋盘格</button>
+                <button type="button" data-mask-background="white" aria-pressed="false">白色</button>
+                <button type="button" data-mask-background="black" aria-pressed="false">黑色</button>
+                <button type="button" data-mask-background="coral" aria-pressed="false">彩色</button>
+              </div>
+              <div class="mask-zoom-controls" role="group" aria-label="修正画布查看倍率">
+                <span>查看倍率</span>
+                <button type="button" data-mask-zoom="1" aria-pressed="true">适应</button>
+                <button type="button" data-mask-zoom="2" aria-pressed="false">2×</button>
+                <button type="button" data-mask-zoom="4" aria-pressed="false">4×</button>
+              </div>
             </div>
-            <p class="mask-correction-help">棋盘格下载透明 PNG；白 / 黑 / 彩底会写入 JPEG。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
+            <p class="mask-correction-help">棋盘格下载透明 PNG；白 / 黑 / 彩底会写入 JPEG。“适应 / 2× / 4×”只改变查看倍率，不改变导出尺寸；放大后可滚动查看。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
             <p class="mask-correction-status" id="mask-correction-status" role="status" aria-live="polite">正在准备修正画布…</p>
           </section>
           <div class="result-stage" id="result-stage">

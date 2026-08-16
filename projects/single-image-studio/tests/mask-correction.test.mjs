@@ -6,6 +6,7 @@ import {
   commitMaskStroke,
   composeCorrectedPixels,
   composeSolidBackgroundPixels,
+  correctionZoomDimensions,
   createMaskCorrectionHistory,
   previewCorrectionDimensions,
   rebuildCorrectionMask,
@@ -131,4 +132,7 @@ test("preview dimensions preserve aspect without enlarging and invalid strokes f
   assert.deepEqual(validateCorrectionExportDimensions(4000, 4000), { width: 4000, height: 4000, pixels: 16_000_000 });
   assert.throws(() => validateCorrectionExportDimensions(4001, 4000), /人工修正导出/);
   assert.throws(() => validateCorrectionExportDimensions(8193, 1), /人工修正导出/);
+  assert.deepEqual(correctionZoomDimensions(1000, 500, 800, 600, 1), { width: 800, height: 400, fitScale: 0.8, zoom: 1 });
+  assert.deepEqual(correctionZoomDimensions(1000, 500, 800, 600, 4), { width: 3200, height: 1600, fitScale: 0.8, zoom: 4 });
+  assert.throws(() => correctionZoomDimensions(1000, 500, 800, 600, 3), /查看倍率/);
 });

@@ -18,6 +18,7 @@ import {
   commitMaskStroke,
   composeCorrectedPixels,
   composeSolidBackgroundPixels,
+  correctionZoomDimensions,
   createMaskCorrectionHistory,
   previewCorrectionDimensions,
   rebuildCorrectionMask,
@@ -73,6 +74,7 @@ const elements = {
   maskBrushSizeOutput: $("#mask-brush-size-output"), maskUndo: $("#mask-undo-button"),
   maskRedo: $("#mask-redo-button"), maskReset: $("#mask-reset-button"),
   maskBackgrounds: $$('[data-mask-background]'),
+  maskZooms: $$('[data-mask-zoom]'),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
   redo: $("#redo-button"), download: $("#download-button"),
@@ -196,6 +198,8 @@ function clearResult() {
   elements.maskCorrectionCanvas.hidden = true;
   elements.maskCorrectionCanvas.width = 1;
   elements.maskCorrectionCanvas.height = 1;
+  elements.maskCorrectionCanvas.removeAttribute("style");
+  elements.resultOutputPanel.classList.remove("is-mask-zoomed");
   elements.maskBrushCursor.hidden = true;
   elements.resultOutputImage.hidden = false;
   elements.resultOutputImage.removeAttribute("src");
@@ -257,6 +261,7 @@ function renderMaskCorrection() {
   elements.maskUndo.disabled = session.history.index === 0;
   elements.maskRedo.disabled = session.history.index >= session.history.strokes.length;
   elements.maskReset.disabled = !modified && session.history.strokes.length === 0;
+  elements.maskZooms.forEach((button) => button.setAttribute("aria-pressed", String(Number(button.dataset.maskZoom) === session.zoom)));
   elements.download.textContent = session.background === "checker"
     ? (modified ? "下载修正 PNG" : "下载透明 PNG")
     : `下载${backgroundLabel}底 JPEG`;
@@ -284,16 +289,64 @@ function setMaskBackground(background) {
   renderMaskCorrection();
 }
 
-function showMaskCursor(point) {
+function applyMaskZoom({ preserveCenter = false } = {}) {
+  const session = maskCorrectionSession;
+  if (!session || elements.maskCorrectionCanvas.hidden || selectedComparisonLayer !== "result") return;
+  const panel = elements.resultOutputPanel;
+  const previousCenterX = panel.scrollWidth > 0 ? (panel.scrollLeft + panel.clientWidth / 2) / panel.scrollWidth : 0.5;
+  const previousCenterY = panel.scrollHeight > 0 ? (panel.scrollTop + panel.clientHeight / 2) / panel.scrollHeight : 0.5;
+  const dimensions = correctionZoomDimensions(
+    session.width,
+    session.height,
+    Math.max(1, panel.clientWidth),
+    Math.max(1, panel.clientHeight),
+    session.zoom,
+  );
+  elements.maskCorrectionCanvas.style.width = `${dimensions.width}px`;
+  elements.maskCorrectionCanvas.style.height = `${dimensions.height}px`;
+  panel.classList.toggle("is-mask-zoomed", session.zoom > 1);
+  if (session.zoom > 1) {
+    panel.scrollLeft = Math.max(0, previousCenterX * panel.scrollWidth - panel.clientWidth / 2);
+    panel.scrollTop = Math.max(0, previousCenterY * panel.scrollHeight - panel.clientHeight / 2);
+  } else {
+    panel.scrollLeft = 0;
+    panel.scrollTop = 0;
+  }
+  if (preserveCenter) showMaskCursor(session.keyboardCursor, { ensureVisible: true });
+}
+
+function setMaskZoom(zoom) {
+  if (!maskCorrectionSession || ![1, 2, 4].includes(zoom)) return;
+  maskCorrectionSession.zoom = zoom;
+  applyMaskZoom({ preserveCenter: true });
+  renderMaskCorrection();
+}
+
+function showMaskCursor(point, { ensureVisible = false } = {}) {
   const session = maskCorrectionSession;
   if (!session || elements.maskCorrectionCanvas.hidden) return;
   const canvasRect = elements.maskCorrectionCanvas.getBoundingClientRect();
   const panelRect = elements.resultOutputPanel.getBoundingClientRect();
   const size = session.radius * 2 * Math.min(canvasRect.width, canvasRect.height);
-  elements.maskBrushCursor.style.setProperty("--mask-cursor-x", `${canvasRect.left - panelRect.left + point.x * canvasRect.width}px`);
-  elements.maskBrushCursor.style.setProperty("--mask-cursor-y", `${canvasRect.top - panelRect.top + point.y * canvasRect.height}px`);
+  elements.maskBrushCursor.style.setProperty("--mask-cursor-x", `${elements.maskCorrectionCanvas.offsetLeft + point.x * canvasRect.width}px`);
+  elements.maskBrushCursor.style.setProperty("--mask-cursor-y", `${elements.maskCorrectionCanvas.offsetTop + point.y * canvasRect.height}px`);
   elements.maskBrushCursor.style.setProperty("--mask-cursor-size", `${Math.max(8, size)}px`);
   elements.maskBrushCursor.hidden = false;
+  if (ensureVisible && session.zoom > 1) {
+    const margin = Math.max(20, size / 2 + 8);
+    let deltaX = 0;
+    let deltaY = 0;
+    const cursorX = canvasRect.left + point.x * canvasRect.width;
+    const cursorY = canvasRect.top + point.y * canvasRect.height;
+    if (cursorX < panelRect.left + margin) deltaX = cursorX - panelRect.left - margin;
+    if (cursorX > panelRect.right - margin) deltaX = cursorX - panelRect.right + margin;
+    if (cursorY < panelRect.top + margin) deltaY = cursorY - panelRect.top - margin;
+    if (cursorY > panelRect.bottom - margin) deltaY = cursorY - panelRect.bottom + margin;
+    if (deltaX || deltaY) {
+      elements.resultOutputPanel.scrollBy({ left: deltaX, top: deltaY, behavior: "auto" });
+      requestAnimationFrame(() => showMaskCursor(point));
+    }
+  }
 }
 
 function maskPointForPointer(event) {
@@ -383,7 +436,7 @@ function maskKeyboard(event) {
     event.preventDefault();
     session.radius = Math.max(0.01, session.radius - 0.01);
     renderMaskCorrection();
-    showMaskCursor(session.keyboardCursor);
+    showMaskCursor(session.keyboardCursor, { ensureVisible: true });
     return;
   }
   if (event.key === "]") {
@@ -463,6 +516,7 @@ async function initializeMaskCorrection() {
       tool: "erase",
       radius: 0.06,
       background: "checker",
+      zoom: 1,
       keyboardCursor: { x: 0.5, y: 0.5 },
       draft: null,
       pointerId: null,
@@ -470,6 +524,7 @@ async function initializeMaskCorrection() {
     elements.resultOutputImage.hidden = true;
     elements.maskCorrectionCanvas.hidden = false;
     setMaskBackground("checker");
+    setMaskZoom(1);
     renderMaskCorrection();
   } catch (error) {
     if (token !== maskCorrectionInitToken) return;
@@ -1503,6 +1558,7 @@ elements.maskUndo.addEventListener("click", undoMaskCorrection);
 elements.maskRedo.addEventListener("click", redoMaskCorrection);
 elements.maskReset.addEventListener("click", resetMaskCorrectionSession);
 elements.maskBackgrounds.forEach((button) => button.addEventListener("click", () => setMaskBackground(button.dataset.maskBackground)));
+elements.maskZooms.forEach((button) => button.addEventListener("click", () => setMaskZoom(Number(button.dataset.maskZoom))));
 elements.maskCorrectionCanvas.addEventListener("pointerdown", beginMaskStroke);
 elements.maskCorrectionCanvas.addEventListener("pointermove", continueMaskStroke);
 elements.maskCorrectionCanvas.addEventListener("pointerup", (event) => finishMaskStroke(event));
@@ -1693,6 +1749,7 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
     : currentResult.mimeType;
   if (layer === "reference") elements.resultSize.textContent = "任务方法说明";
   syncComparisonStage(layer);
+  if (layer === "result") applyMaskZoom();
   if (focus) selectedTab?.focus();
 }
 
@@ -1709,7 +1766,7 @@ elements.tabs.forEach((tab, index) => {
     selectComparisonLayer(elements.tabs[targetIndex].dataset.layer, { focus: true });
   });
 });
-window.addEventListener("resize", () => syncComparisonStage());
+window.addEventListener("resize", () => { syncComparisonStage(); applyMaskZoom(); });
 window.addEventListener("beforeunload", () => { stopActiveRequest(); clearEditorWorkspace(); revokeIfBlob(sourceUrl); revokeIfBlob(currentResult?.url); });
 
 showOnly("empty");

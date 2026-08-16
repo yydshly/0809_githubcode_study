@@ -47,6 +47,21 @@ export function previewCorrectionDimensions(width, height, maxEdge = 1024) {
   });
 }
 
+export function correctionZoomDimensions(width, height, panelWidth, panelHeight, zoom = 1) {
+  positiveInteger(width, "蒙版宽度");
+  positiveInteger(height, "蒙版高度");
+  positiveInteger(panelWidth, "画布区域宽度");
+  positiveInteger(panelHeight, "画布区域高度");
+  if (![1, 2, 4].includes(zoom)) throw new RangeError("查看倍率必须是适应、2× 或 4×");
+  const fitScale = Math.min(panelWidth / width, panelHeight / height);
+  return Object.freeze({
+    width: Math.max(1, Math.round(width * fitScale * zoom)),
+    height: Math.max(1, Math.round(height * fitScale * zoom)),
+    fitScale,
+    zoom,
+  });
+}
+
 export function validateCorrectionExportDimensions(width, height, { maxPixels = 16_000_000, maxEdge = 8192 } = {}) {
   positiveInteger(width, "图片宽度");
   positiveInteger(height, "图片高度");
