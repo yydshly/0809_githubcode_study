@@ -417,14 +417,14 @@ function renderSettings(task) {
         </div>
       </details>
       <fieldset class="setting-group"><legend><span>3</span> 导出</legend>
-        <div class="field"><label for="size-mode-setting">尺寸上限</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动上限（不放大）</option><option value="custom">自定义上限</option></select></div>
+        <div class="field"><label for="size-mode-setting">导出分辨率</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动（最长边不超过 2048 px，不放大）</option><option value="custom">自定义最长边上限</option></select></div>
         <div class="custom-size-fields" data-custom-size hidden>
           <div class="field"><label for="output-long-edge-setting">最长边上限</label><div class="number-with-unit"><input id="output-long-edge-setting" name="outputLongEdge" type="number" inputmode="numeric" min="1" max="2048" step="1" aria-describedby="custom-size-explanation size-limit-preview" /><span aria-hidden="true">px</span></div></div>
           <output class="size-limit-preview" data-size-limit-preview id="size-limit-preview" aria-live="polite"></output>
-          <p class="field-hint" id="custom-size-explanation">只限制导出像素，不改变左侧画布显示大小。宽高会按当前裁剪比例自动计算；小图不会放大。</p>
+          <p class="field-hint" id="custom-size-explanation">这是导出分辨率上限，不是强制尺寸，也不改变裁剪构图。宽高按当前裁剪比例自动计算；裁剪区域本来较小时不会放大，所以结果可能不变。</p>
         </div>
-        <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明）</option><option value="jpeg">JPEG（铺底）</option></select></div>
-        <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">JPEG 底色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" /></div>
+        <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明像素）</option><option value="jpeg">JPEG（透明像素需要填色）</option></select></div>
+        <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">透明区域填充色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" aria-describedby="jpeg-background-explanation" /><p class="field-hint" id="jpeg-background-explanation">JPEG 不支持透明，这个颜色只填充原图中的透明或半透明像素。普通不透明照片不会变化；这不是抠图或换背景。</p></div>
       </fieldset>
       <p class="settings-error" id="editor-settings-error" role="alert" hidden></p>`;
     elements.runButton.textContent = "生成并校验下载文件";
@@ -491,7 +491,7 @@ function renderEditorPreview(settings = editorSettings(editorWorkspace), { trans
   elements.editorOutputSize.textContent = `预计实际导出 ${presentation.output.width} × ${presentation.output.height} px`;
   const sizeLimitPreview = elements.settingsForm.querySelector("[data-size-limit-preview]");
   if (sizeLimitPreview && settings.sizeMode === "custom") {
-    sizeLimitPreview.textContent = `当前比例上限框 ${presentation.state.resize.width} × ${presentation.state.resize.height} px`;
+    sizeLimitPreview.textContent = `按当前裁剪比例，最多 ${presentation.state.resize.width} × ${presentation.state.resize.height} px；预计实际尺寸见左侧`;
   }
   elements.editorCropHint.textContent = presentation.cropAxis === "both"
     ? "自由裁剪：拖动亮框移动区域；拖右下角圆点改变大小。右侧滑杆可精确调整。"

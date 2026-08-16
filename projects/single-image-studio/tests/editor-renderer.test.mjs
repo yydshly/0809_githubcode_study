@@ -108,6 +108,22 @@ test("render plan enforces limits and applies EXIF orientation before user rotat
   assert.throws(() => buildRenderPlan({ sourceWidth: 320, sourceHeight: 200, sourceOrientation: 9 }), /1–8/);
 });
 
+test("a custom size remains an upper bound and never enlarges a smaller crop", () => {
+  const reduced = buildRenderPlan({
+    sourceWidth: 1600,
+    sourceHeight: 900,
+    editState: createEditState({ resize: { width: 800, height: 450, mode: "custom" } }),
+  });
+  assert.deepEqual(reduced.output, { width: 800, height: 450 });
+
+  const unchanged = buildRenderPlan({
+    sourceWidth: 640,
+    sourceHeight: 360,
+    editState: createEditState({ resize: { width: 1200, height: 675, mode: "custom" } }),
+  });
+  assert.deepEqual(unchanged.output, { width: 640, height: 360 });
+});
+
 test("orientation 6 is normalized on a dedicated transparent canvas", async () => {
   const factory = canvasFactory();
   await renderEditedImage({

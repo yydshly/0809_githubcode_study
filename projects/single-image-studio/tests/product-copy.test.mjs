@@ -95,12 +95,16 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(main, /左右拖动亮框/);
   assert.match(main, /上下拖动亮框/);
   assert.match(main, /tabIndex = presentation\.cropEnabled \? 0 : -1/);
-  assert.match(main, /尺寸上限/);
+  assert.match(main, /导出分辨率/);
   assert.match(main, /预计实际导出/);
   assert.match(main, /预计实际导出 \$\{presentation\.output/);
   assert.match(main, /name="outputLongEdge"/);
   assert.match(main, /最长边上限/);
-  assert.match(main, /只限制导出像素，不改变左侧画布显示大小/);
+  assert.match(main, /导出分辨率上限，不是强制尺寸，也不改变裁剪构图/);
+  assert.match(main, /裁剪区域本来较小时不会放大，所以结果可能不变/);
+  assert.match(main, /透明区域填充色/);
+  assert.match(main, /普通不透明照片不会变化；这不是抠图或换背景/);
+  assert.match(main, /JPEG（透明像素需要填色）/);
   assert.doesNotMatch(main, /name="outputWidth"/);
   assert.doesNotMatch(main, /name="outputHeight"/);
   assert.match(main, /生成并校验下载文件/);
