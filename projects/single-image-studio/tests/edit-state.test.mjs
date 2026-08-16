@@ -55,6 +55,11 @@ test("EditState rejects out-of-bounds geometry and unsafe output settings", () =
   assert.throws(() => reduceEditState(createEditState(), { type: "unknown" }), /不支持/);
 });
 
+test("EditState accepts the explicit 16:9 and 9:16 crop modes", () => {
+  assert.equal(createEditState({ cropMode: "wide" }).cropMode, "wide");
+  assert.equal(createEditState({ cropMode: "story" }).cropMode, "story");
+});
+
 test("bounded edit history supports undo, redo and branch invalidation", () => {
   let history = createEditHistory(createEditState(), { limit: 2 });
   history = applyEdit(history, { type: "rotate", degrees: 90 });

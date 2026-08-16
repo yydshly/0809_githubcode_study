@@ -156,7 +156,7 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /再次抠图前，请重新确认本次远程发送/);
   assert.match(main, /remoteConsent\.checked = false/);
   assert.match(main, /\? selectedTask\.id === "UT-PORTRAIT" \? "重新制作头像" : "重新抠图"/);
-  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "调整增强效果" : "继续调整"/);
+  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "调整增强效果" : selectedTask\.id === "UT-TEMPLATE" \? "调整场景模板" : "继续调整"/);
   assert.match(recoveryPresentation, /\? "返回并重新确认"/);
   assert.match(html, /id="fallback-editor-button"[^>]*>改用本地编辑</);
   assert.match(main, /switchToLocalEditor/);
@@ -258,4 +258,15 @@ test("natural enhancement is an honest local workflow with visible fixed presets
   assert.match(main, /正在本机应用你看得到的固定光色参数/);
   assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "自然增强完成"/);
   assert.match(styles, /\.enhancement-preset\[aria-pressed="true"\]/);
+});
+
+test("scene templates are real local crop and size controls, not platform claims", () => {
+  assert.match(main, /title: "场景尺寸模板"/);
+  assert.match(main, /SCENE_TEMPLATE_PRESETS/);
+  assert.match(main, /data-scene-template/);
+  assert.match(main, /selectSceneTemplate/);
+  assert.match(main, /它不是平台官方发布规范/);
+  assert.match(main, /正在本机应用所选构图比例和尺寸上限/);
+  assert.match(main, /selectedTask\.id === "UT-TEMPLATE" \? "场景模板结果完成"/);
+  assert.match(styles, /\.scene-template-preset\[aria-pressed="true"\]/);
 });

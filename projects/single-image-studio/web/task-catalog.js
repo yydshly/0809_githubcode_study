@@ -41,6 +41,16 @@ const BASE_TASKS = Object.freeze([
     requiresAdultAttestation: false,
   }),
   Object.freeze({
+    id: "UT-TEMPLATE",
+    label: "场景尺寸模板",
+    description: "选择常用构图比例与导出上限，再按画面内容微调。",
+    family: "utility",
+    executor: TASK_EXECUTOR.LOCAL,
+    contractVersion: "local-scene-template-v1",
+    requiresConfig: false,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
     id: "CR1",
     label: "AI 创意改造",
     description: "使用真实 AI 服务生成创意结果；服务不可用时不生成替代品。",
@@ -192,7 +202,7 @@ function resolveTask(task, aiStatus, backgroundRemovalStatus) {
 
 /**
  * Runtime catalog policy:
- * - local fidelity and natural enhancement are always runnable;
+ * - local fidelity, natural enhancement and scene templates are always runnable;
  * - the real AI task follows the observed service status;
  * - remote cutout follows its independently observed provider status;
  * - the portrait workflow reuses the independently observed background-removal service;

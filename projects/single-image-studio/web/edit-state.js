@@ -84,7 +84,7 @@ export function createEditState(overrides = {}) {
   if (![0, 90, 180, 270].includes(state.rotation)) {
     throw new RangeError("旋转角度必须是 0、90、180 或 270");
   }
-  if (!["original", "square", "portrait", "landscape", "free"].includes(state.cropMode)) {
+  if (!["original", "square", "portrait", "landscape", "wide", "story", "free"].includes(state.cropMode)) {
     throw new RangeError("不支持的裁剪模式");
   }
   if (typeof state.flipHorizontal !== "boolean" || typeof state.flipVertical !== "boolean"

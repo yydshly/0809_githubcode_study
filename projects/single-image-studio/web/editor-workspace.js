@@ -26,6 +26,8 @@ const RATIO_PRESETS = Object.freeze({
   square: Object.freeze({ width: 1600, height: 1600, label: "1:1" }),
   portrait: Object.freeze({ width: 1536, height: 1920, label: "4:5" }),
   landscape: Object.freeze({ width: 1920, height: 1280, label: "3:2" }),
+  wide: Object.freeze({ width: 1920, height: 1080, label: "16:9" }),
+  story: Object.freeze({ width: 1080, height: 1920, label: "9:16" }),
   free: Object.freeze({ width: null, height: null, label: "自由裁剪" }),
 });
 
@@ -44,7 +46,7 @@ function near(left, right, tolerance = 0.000001) {
 
 function ratioFromState(state, source) {
   if (Object.hasOwn(RATIO_PRESETS, state.cropMode)) return state.cropMode;
-  for (const ratio of ["square", "portrait", "landscape"]) {
+  for (const ratio of ["square", "portrait", "landscape", "wide", "story"]) {
     const preset = RATIO_PRESETS[ratio];
     if (state.resize.width === preset.width && state.resize.height === preset.height) return ratio;
   }
@@ -54,6 +56,8 @@ function ratioFromState(state, source) {
   if (near(cropAspect, 1)) return "square";
   if (near(cropAspect, 4 / 5)) return "portrait";
   if (near(cropAspect, 3 / 2)) return "landscape";
+  if (near(cropAspect, 16 / 9)) return "wide";
+  if (near(cropAspect, 9 / 16)) return "story";
   throw new Error("编辑状态不属于当前产品预设比例");
 }
 

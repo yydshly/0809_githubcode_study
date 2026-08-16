@@ -160,6 +160,8 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 
 状态为 `parked`，`effect_ref=pending-definition`、`output_selector=pending-definition`。候选 `additional_capability_contracts` 覆盖主体感知裁切、比例、扩图 / 背景填充与平台导出；执行控制与推荐分别使用 `CAP-09.execute` / `CAP-09.recommend`。在先定义用户可选 effect 之前不得直接把一串 CAP 域当作可执行场景，不引入模板、文字排版或社交发布。
 
+当前内部产品页另有 `UT-TEMPLATE@local-scene-template-v1` 确定性工程路径：方形分享、竖版分享、横版封面、竖屏故事与商品方图只映射到公开的画面比例和最长边上限，并允许继续移动裁剪框和手调设置。它不读取平台规则、不做主体感知裁切 / 扩图 / 排版 / 发布，也不改变本节 `scene.social-image` 的 `parked` 状态。
+
 ### scene.memory-keepsake
 
 状态为 `parked`。候选 `effect_ref` 只允许选择已发布版本的 `effect.creative.memory` 或 `effect.creative.halftone`，`output_selector=output.delivery_artifact`；后续确定性构图 / 交付 / QA 只能写入版本化 `additional_capability_contracts`，不得重复展开 effect 内部节点。执行控制与推荐分别使用 `CAP-09.execute` / `CAP-09.recommend`。实际胜者未发布前不形成 `SceneRecipe`。多页故事、合集和印刷产品继续后置。
@@ -171,6 +173,8 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 | `UT-CUTOUT` | `effect.subject-background#transparent` | 旧代码仍可保留该 ID，但不代表效果已验证 |
 | `UT-SOLID-BG` | `effect.subject-background#solid` | 与透明 variant 共用 Alpha，证据独立 |
 | `UT-TUNE` | `effect.natural-enhance` | 当前 Canvas 实现只是工程探针 |
+| `UT-ENHANCE` | `effect.natural-enhance` | 内部页的手动可解释光色路径，不授予 U1 |
+| `UT-TEMPLATE` | `scene.social-image` | 内部页的确定性比例 / 尺寸起点，不是平台规范或正式 SceneRecipe |
 | `UT-PORTRAIT` | `scene.registration-portrait` | 从效果层降为场景配方 |
 | `UT-OFFICIAL-ID` | `scene.official-id-photo` | 严格按 profile 独立验证 |
 | `UT-CLEANUP` | `effect.cleanup` | 后置 |

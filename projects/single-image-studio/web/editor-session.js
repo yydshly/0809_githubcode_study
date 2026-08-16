@@ -48,6 +48,8 @@ function ratioContract(value, width, height, positionX, positionY, settings) {
   if (value === "square") return { crop: positionedCrop(width, height, 1, positionX, positionY), resize: { width: 1600, height: 1600 }, aspect: 1 };
   if (value === "portrait") return { crop: positionedCrop(width, height, 4 / 5, positionX, positionY), resize: { width: 1536, height: 1920 }, aspect: 4 / 5 };
   if (value === "landscape") return { crop: positionedCrop(width, height, 3 / 2, positionX, positionY), resize: { width: 1920, height: 1280 }, aspect: 3 / 2 };
+  if (value === "wide") return { crop: positionedCrop(width, height, 16 / 9, positionX, positionY), resize: { width: 1920, height: 1080 }, aspect: 16 / 9 };
+  if (value === "story") return { crop: positionedCrop(width, height, 9 / 16, positionX, positionY), resize: { width: 1080, height: 1920 }, aspect: 9 / 16 };
   if (value === "free") return freeCropContract(settings, width, height);
   if (value === "original" || value === undefined) {
     return { crop: { x: 0, y: 0, width: 1, height: 1 }, resize: { width: null, height: null }, aspect: width / height };

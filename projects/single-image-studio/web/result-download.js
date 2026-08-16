@@ -9,6 +9,11 @@ const DOWNLOAD_POLICIES = Object.freeze({
     mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
     alpha: "either",
   }),
+  "UT-TEMPLATE": Object.freeze({
+    prefix: "scene-template-result",
+    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
+    alpha: "either",
+  }),
   "LOCAL-FIDELITY": Object.freeze({
     prefix: "fidelity-result",
     mimeTypes: Object.freeze(["image/png"]),

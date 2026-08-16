@@ -146,6 +146,24 @@ test("one long-edge limit derives a bounded width and height from the active cro
   assert.throws(() => outputBoundsFromLongEdge(1, 2049), /1–2048/);
 });
 
+test("wide and story presets bind real 16:9 and 9:16 crop geometry", () => {
+  const wide = editStateFromSettings({
+    sourceWidth: 1200,
+    sourceHeight: 1200,
+    settings: { ratio: "wide", sizeMode: "custom", outputLongEdge: 1920 },
+  });
+  assert.deepEqual(wide.crop, { x: 0, y: 0.21875, width: 1, height: 0.5625 });
+  assert.deepEqual({ width: wide.resize.width, height: wide.resize.height }, { width: 1920, height: 1080 });
+
+  const story = editStateFromSettings({
+    sourceWidth: 1200,
+    sourceHeight: 1200,
+    settings: { ratio: "story", sizeMode: "custom", outputLongEdge: 1920 },
+  });
+  assert.deepEqual(story.crop, { x: 0.21875, y: 0, width: 0.5625, height: 1 });
+  assert.deepEqual({ width: story.resize.width, height: story.resize.height }, { width: 1080, height: 1920 });
+});
+
 test("editor settings fail closed for unknown ratio and invalid numeric controls", () => {
   assert.throws(
     () => editStateFromSettings({ sourceWidth: 10, sourceHeight: 10, settings: { ratio: "panorama" } }),

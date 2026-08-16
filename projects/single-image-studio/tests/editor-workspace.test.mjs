@@ -265,6 +265,35 @@ test("custom long-edge mode survives exact preset values and free-crop aspect ch
   assert.equal(editorSettings(workspace).outputLongEdge, 800);
 });
 
+test("scene ratios remain visible and editable in workspace presentation", () => {
+  const workspace = createEditorWorkspace({ sourceWidth: 1600, sourceHeight: 900, sourceOrientation: 1 });
+  const wide = editorPreviewPresentation(workspace, {
+    ratio: "wide",
+    cropX: 50,
+    cropY: 50,
+    sizeMode: "custom",
+    outputLongEdge: 1280,
+    format: "png",
+  });
+  assert.equal(wide.settings.ratio, "wide");
+  assert.equal(wide.cropEnabled, false);
+  assert.deepEqual(wide.output, { width: 1280, height: 720 });
+  assert.match(wide.summary, /16:9.*1280 × 720/);
+
+  const story = editorPreviewPresentation(workspace, {
+    ratio: "story",
+    cropX: 75,
+    cropY: 50,
+    sizeMode: "custom",
+    outputLongEdge: 1920,
+    format: "png",
+  });
+  assert.equal(story.cropAxis, "horizontal");
+  assert.equal(story.settings.cropX, 75);
+  assert.deepEqual({ width: story.state.resize.width, height: story.state.resize.height }, { width: 1080, height: 1920 });
+  assert.match(story.summary, /9:16.*506 × 900/);
+});
+
 test("undo, redo and reset preserve the current source contract", () => {
   let workspace = createEditorWorkspace({ sourceWidth: 800, sourceHeight: 600, sourceOrientation: 1 });
   workspace = updateEditorWorkspace(workspace, { ratio: "square", rotation: 90, format: "png" });

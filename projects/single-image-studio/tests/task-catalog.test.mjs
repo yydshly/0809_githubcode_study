@@ -30,14 +30,14 @@ function result(overrides = {}) {
   };
 }
 
-test("without remote services, local fidelity and natural enhancement remain runnable", () => {
+test("without remote services, all three local editor tasks remain runnable", () => {
   const catalog = getTaskCatalog({
     aiStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
   });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE"],
+    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE"],
   );
   assert.equal(catalog.find((task) => task.id === "CR1").availability, "unavailable");
 
@@ -62,7 +62,7 @@ test("AI availability adds the real AI task without enabling unverified utilitie
       aiStatus: { status: "available" },
       backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     }).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "CR1"],
+    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR1"],
   );
 
   const recommendations = getRecommendedTasks({
@@ -70,9 +70,9 @@ test("AI availability adds the real AI task without enabling unverified utilitie
     backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     limit: 4,
   });
-  assert.deepEqual(recommendations.slice(0, 3).map((task) => task.id), ["UT-TUNE", "UT-ENHANCE", "CR1"]);
+  assert.deepEqual(recommendations.map((task) => task.id), ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR1"]);
   assert.equal(recommendations.length, 4);
-  assert.equal(recommendations.slice(3).every((task) => !task.runnable), true);
+  assert.equal(recommendations.every((task) => task.runnable), true);
 });
 
 test("background removal availability enables cutout and the composed portrait workflow", () => {
@@ -82,7 +82,7 @@ test("background removal availability enables cutout and the composed portrait w
   });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "UT-CUTOUT", "UT-PORTRAIT"],
+    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "UT-CUTOUT", "UT-PORTRAIT"],
   );
   const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
   assert.equal(cutout.statusLabel, "可运行 · 远程处理");
@@ -94,6 +94,9 @@ test("background removal availability enables cutout and the composed portrait w
   const enhancement = catalog.find((task) => task.id === "UT-ENHANCE");
   assert.equal(enhancement.statusLabel, "可运行 · 本地处理");
   assert.equal(enhancement.contractVersion, "local-natural-enhancement-v1");
+  const template = catalog.find((task) => task.id === "UT-TEMPLATE");
+  assert.equal(template.statusLabel, "可运行 · 本地处理");
+  assert.equal(template.contractVersion, "local-scene-template-v1");
 });
 
 test("download stays locked until a current, QA-passed result matches its task contract", () => {
@@ -135,6 +138,14 @@ test("download stays locked until a current, QA-passed result matches its task c
   });
   assert.equal(enhanced.allowed, true);
   assert.match(enhanced.download.filename, /^enhanced-result-/);
+
+  const template = buildResultDownloadContract({
+    taskId: "UT-TEMPLATE",
+    result: result({ mimeType: "image/jpeg" }),
+    currentRunId: "run-1",
+  });
+  assert.equal(template.allowed, true);
+  assert.match(template.download.filename, /^scene-template-result-/);
 });
 
 test("transparent and portrait downloads enforce alpha and safe naming", () => {
