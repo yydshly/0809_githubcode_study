@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "provider-sandbox-observation.v0",
+  "caseId": "fictional-long-haired-dog",
+  "focus": [
+    "fur",
+    "whiskers",
+    "fine-edge-on-similar-background"
+  ],
+  "runId": "1db5950d-94b7-4876-b463-30c846dd451f",
+  "startedAt": "2026-08-16T16:08:40.936Z",
+  "completedAt": "2026-08-16T16:08:42.184Z",
+  "elapsedMs": 1629,
+  "status": "succeeded",
+  "input": {
+    "path": "inputs/fictional-long-haired-dog.png",
+    "sha256": "51b99fdb3f69dee15adfbefab80b77e76e998a726e9a7ebd0d02fe220b921fce",
+    "byteLength": 3024404,
+    "width": 1254,
+    "height": 1254
+  },
+  "provider": {
+    "id": "photoroom.background-removal",
+    "version": "1.0.0",
+    "mode": "remote",
+    "environment": "sandbox"
+  },
+  "requestId": "client-run:1db5950d-94b7-4876-b463-30c846dd451f",
+  "error": null,
+  "output": {
+    "path": "results/fictional-long-haired-dog.png",
+    "sha256": "dc8c01e3bbd3c0d922db419774e5ca1664c362d1cea0e6568ce93daa25e1d806",
+    "byteLength": 1918751,
+    "mime": "image/png",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "watermarked": true
+  },
+  "interpretation": "sandbox-watermarked-structure-only-not-production-quality"
+}

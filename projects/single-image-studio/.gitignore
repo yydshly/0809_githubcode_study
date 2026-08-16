@@ -3,3 +3,4 @@ node_modules/
 .runtime/
 coverage/
 *.log
+provider-evaluation/sandbox-v0/results/*.png

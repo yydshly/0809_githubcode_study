@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "provider-sandbox-observation.v0",
+  "caseId": "transparent-glass-bottle",
+  "focus": [
+    "transparent-object",
+    "refraction",
+    "thin-glass-edge"
+  ],
+  "runId": "3414c6d2-6aa3-41a6-bb12-01dae52fe8b8",
+  "startedAt": "2026-08-16T16:08:39.316Z",
+  "completedAt": "2026-08-16T16:08:40.434Z",
+  "elapsedMs": 1614,
+  "status": "succeeded",
+  "input": {
+    "path": "inputs/transparent-glass-bottle.png",
+    "sha256": "54efbf121ca39a7a283c13035d02d456e095d2041b4878cccf4a6df1e3ff9edd",
+    "byteLength": 1740430,
+    "width": 1254,
+    "height": 1254
+  },
+  "provider": {
+    "id": "photoroom.background-removal",
+    "version": "1.0.0",
+    "mode": "remote",
+    "environment": "sandbox"
+  },
+  "requestId": "client-run:3414c6d2-6aa3-41a6-bb12-01dae52fe8b8",
+  "error": null,
+  "output": {
+    "path": "results/transparent-glass-bottle.png",
+    "sha256": "168f2788ef6c89edd1c2e10e9e24579cae2418062f14de39da283cb433e386bc",
+    "byteLength": 1537992,
+    "mime": "image/png",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "watermarked": true
+  },
+  "interpretation": "sandbox-watermarked-structure-only-not-production-quality"
+}

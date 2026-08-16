@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "provider-sandbox-evaluation.v0",
+  "provider": {
+    "id": "photoroom.background-removal",
+    "version": "1.0.0",
+    "mode": "remote",
+    "environment": "sandbox"
+  },
+  "attemptedCalls": 4,
+  "retries": 0,
+  "allSucceeded": true,
+  "records": [
+    "fictional-mannequin-curly-hair.json",
+    "transparent-glass-bottle.json",
+    "fictional-long-haired-dog.json",
+    "woven-rattan-chair.json"
+  ],
+  "completedAt": "2026-08-16T16:08:44.205Z"
+}

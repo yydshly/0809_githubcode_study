@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "provider-sandbox-observation.v0",
+  "caseId": "woven-rattan-chair",
+  "focus": [
+    "holes",
+    "thin-structures",
+    "crossing-edges"
+  ],
+  "runId": "f4b41a59-1744-4805-8d1e-6d6229613f73",
+  "startedAt": "2026-08-16T16:08:42.573Z",
+  "completedAt": "2026-08-16T16:08:43.785Z",
+  "elapsedMs": 1627,
+  "status": "succeeded",
+  "input": {
+    "path": "inputs/woven-rattan-chair.png",
+    "sha256": "ff28c23932656213cc46cf8dad5c29d2da19419d4aaa99ca1cccbb4471f8e368",
+    "byteLength": 2797283,
+    "width": 1254,
+    "height": 1254
+  },
+  "provider": {
+    "id": "photoroom.background-removal",
+    "version": "1.0.0",
+    "mode": "remote",
+    "environment": "sandbox"
+  },
+  "requestId": "client-run:f4b41a59-1744-4805-8d1e-6d6229613f73",
+  "error": null,
+  "output": {
+    "path": "results/woven-rattan-chair.png",
+    "sha256": "8662295fa6a53a2778258988765ca03107c867a5dab83b356ec2c40c9003272b",
+    "byteLength": 1784185,
+    "mime": "image/png",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "watermarked": true
+  },
+  "interpretation": "sandbox-watermarked-structure-only-not-production-quality"
+}

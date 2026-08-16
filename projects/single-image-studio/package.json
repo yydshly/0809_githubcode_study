@@ -7,6 +7,7 @@
     "dev": "node --env-file-if-exists=.env --watch server/server.mjs",
     "start": "node --env-file-if-exists=.env server/server.mjs",
     "mobile": "node scripts/mobile-preview.mjs",
+    "provider:sandbox:probe": "node scripts/run-provider-sandbox-probe.mjs --execute-once",
     "research:generate": "node scripts/research-generate-fixtures.mjs && node scripts/research-generate-slice02.mjs && node scripts/research-generate-slice03.mjs && node scripts/research-generate-slice04.mjs && node scripts/research-generate-slice05.mjs",
     "research:validate": "node scripts/research-validate-archive.mjs",
     "research:validate:live-legacy": "node scripts/research-validate-fixtures.mjs && node scripts/research-validate-slice02.mjs && node scripts/research-validate-slice03.mjs && node scripts/research-validate-slice04.mjs && node scripts/research-validate-slice05.mjs",

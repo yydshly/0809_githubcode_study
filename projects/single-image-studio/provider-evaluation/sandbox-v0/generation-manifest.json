@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "provider-generated-fixtures.v0",
+  "generatedAtUtc": "2026-08-16T16:04:26.000Z",
+  "generator": "OpenAI built-in image_gen",
+  "rights": {
+    "projectGenerated": true,
+    "containsRealPerson": false,
+    "containsUserPhoto": false,
+    "containsThirdPartyPhoto": false,
+    "productAsset": false
+  },
+  "cases": [
+    {
+      "id": "fictional-mannequin-curly-hair",
+      "path": "inputs/fictional-mannequin-curly-hair.png",
+      "sha256": "fb37e342480258b723c38d2c1887934a87e532ddc68603ad4d8bc288e6428bb2",
+      "byteLength": 2393311,
+      "width": 1254,
+      "height": 1254,
+      "focus": ["fine-hair", "flyaways", "gaps"],
+      "prompt": "Create a clearly fictional adult studio mannequin portrait for background-removal testing: one centered head-and-shoulders mannequin with voluminous curly dark hair, fine flyaway strands and gaps between curls, in a softly lit conservatory with detailed plants and warm window highlights. Photorealistic, opaque background, full hair inside the square frame, no text, logo, watermark or real identity."
+    },
+    {
+      "id": "transparent-glass-bottle",
+      "path": "inputs/transparent-glass-bottle.png",
+      "sha256": "54efbf121ca39a7a283c13035d02d456e095d2041b4878cccf4a6df1e3ff9edd",
+      "byteLength": 1740430,
+      "width": 1254,
+      "height": 1254,
+      "focus": ["transparent-object", "refraction", "thin-glass-edge"],
+      "prompt": "Create one unbranded transparent glass perfume bottle filled with pale liquid against a teal, coral and cream geometric paper backdrop visible through the glass. Photorealistic commercial product photo, full bottle and transparent cap inside a square frame, realistic refraction and highlights, no text, logo, watermark or extra objects."
+    },
+    {
+      "id": "fictional-long-haired-dog",
+      "path": "inputs/fictional-long-haired-dog.png",
+      "sha256": "51b99fdb3f69dee15adfbefab80b77e76e998a726e9a7ebd0d02fe220b921fce",
+      "byteLength": 3024404,
+      "width": 1254,
+      "height": 1254,
+      "focus": ["fur", "whiskers", "fine-edge-on-similar-background"],
+      "prompt": "Create one clearly fictional long-haired small dog standing in profile in a detailed sunlit green meadow. Show the full body, paws, ears and tail with wind-lifted fine fur and whiskers, warm rim light, realistic pet photography, square frame, opaque background, no people, collar, text, logo or watermark."
+    },
+    {
+      "id": "woven-rattan-chair",
+      "path": "inputs/woven-rattan-chair.png",
+      "sha256": "ff28c23932656213cc46cf8dad5c29d2da19419d4aaa99ca1cccbb4471f8e368",
+      "byteLength": 2797283,
+      "width": 1254,
+      "height": 1254,
+      "focus": ["holes", "thin-structures", "crossing-edges"],
+      "prompt": "Create one freestanding woven rattan lounge chair on a detailed tiled patio with leafy plants and alternating light and shadow. Photorealistic square catalog photo, full chair visible with open lattice back, thin intersecting cane strands and gaps between legs, no cushion, people, text, logo, watermark or extra furniture."
+    }
+  ]
+}

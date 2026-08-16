@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "provider-sandbox-reviewed-evidence.v0",
+  "reviewedAt": "2026-08-16T16:20:00.000Z",
+  "scope": "exploratory-sandbox-only",
+  "provider": {
+    "id": "photoroom.background-removal",
+    "version": "1.0.0",
+    "environment": "sandbox"
+  },
+  "execution": {
+    "attemptedCalls": 4,
+    "succeededCalls": 4,
+    "retries": 0,
+    "minimumElapsedMs": 1614,
+    "maximumElapsedMs": 3164,
+    "allOutputs": {
+      "width": 1254,
+      "height": 1254,
+      "mime": "image/png",
+      "hasAlpha": true,
+      "watermarked": true
+    }
+  },
+  "cases": [
+    {
+      "id": "fictional-mannequin-curly-hair",
+      "outputSha256": "2c764e9db8b5d734c27b86087a71028287d779cdae63464f627a32219fb5eb59",
+      "alpha": {
+        "transparentPixels": 634460,
+        "partialPixels": 212718,
+        "opaquePixels": 725338,
+        "totalPixels": 1572516,
+        "foregroundRatio": 0.5965
+      },
+      "visualReview": {
+        "subjectRetained": true,
+        "fineStructureRetained": "partial",
+        "productionReady": false,
+        "findings": [
+          "many hair strands and gaps are retained",
+          "visible brown haze and color fringing remain around the hair",
+          "edge cleanup would be required"
+        ]
+      }
+    },
+    {
+      "id": "transparent-glass-bottle",
+      "outputSha256": "168f2788ef6c89edd1c2e10e9e24579cae2418062f14de39da283cb433e386bc",
+      "alpha": {
+        "transparentPixels": 1031688,
+        "partialPixels": 505060,
+        "opaquePixels": 35768,
+        "totalPixels": 1572516,
+        "foregroundRatio": 0.3439
+      },
+      "visualReview": {
+        "subjectRetained": true,
+        "fineStructureRetained": "partial",
+        "productionReady": false,
+        "findings": [
+          "glass transparency and refraction are represented by partial alpha",
+          "substantial backdrop color bleed and a soft halo remain around the bottle and cap",
+          "the sandbox result is not a clean isolated product cutout"
+        ]
+      }
+    },
+    {
+      "id": "fictional-long-haired-dog",
+      "outputSha256": "dc8c01e3bbd3c0d922db419774e5ca1664c362d1cea0e6568ce93daa25e1d806",
+      "alpha": {
+        "transparentPixels": 993503,
+        "partialPixels": 219315,
+        "opaquePixels": 359698,
+        "totalPixels": 1572516,
+        "foregroundRatio": 0.3682
+      },
+      "visualReview": {
+        "subjectRetained": true,
+        "fineStructureRetained": "partial",
+        "productionReady": false,
+        "findings": [
+          "fine fur and whiskers are mostly retained",
+          "a strong glowing halo remains around the fur",
+          "small areas of the original meadow remain around the paws"
+        ]
+      }
+    },
+    {
+      "id": "woven-rattan-chair",
+      "outputSha256": "8662295fa6a53a2778258988765ca03107c867a5dab83b356ec2c40c9003272b",
+      "alpha": {
+        "transparentPixels": 1124103,
+        "partialPixels": 189252,
+        "opaquePixels": 259161,
+        "totalPixels": 1572516,
+        "foregroundRatio": 0.2852
+      },
+      "visualReview": {
+        "subjectRetained": true,
+        "fineStructureRetained": "partial",
+        "productionReady": false,
+        "findings": [
+          "many lattice openings and cane strands are retained",
+          "large areas of the original brown background remain inside and around the openings",
+          "manual keep-and-erase correction is required"
+        ]
+      }
+    }
+  ],
+  "conclusion": {
+    "transportAndAlphaStructure": "pass",
+    "productionQuality": "not-demonstrated",
+    "formalProviderPlanContribution": 0,
+    "recommendedProductAction": "retain the provider abstraction and prioritize non-destructive keep-and-erase mask correction with checkerboard and multiple-background preview"
+  },
+  "limitations": [
+    "sandbox outputs contain a provider watermark",
+    "the generated inputs have no ground-truth alpha matte",
+    "visual observations are qualitative and are not formal quality metrics",
+    "these four calls are outside the frozen 12-source provider denominator"
+  ]
+}

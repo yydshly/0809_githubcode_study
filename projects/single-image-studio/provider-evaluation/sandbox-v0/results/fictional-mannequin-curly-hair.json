@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "provider-sandbox-observation.v0",
+  "caseId": "fictional-mannequin-curly-hair",
+  "focus": [
+    "fine-hair",
+    "flyaways",
+    "gaps"
+  ],
+  "runId": "5b8cf171-0b94-488b-b07e-49ae6c9050e9",
+  "startedAt": "2026-08-16T16:08:36.143Z",
+  "completedAt": "2026-08-16T16:08:38.960Z",
+  "elapsedMs": 3164,
+  "status": "succeeded",
+  "input": {
+    "path": "inputs/fictional-mannequin-curly-hair.png",
+    "sha256": "fb37e342480258b723c38d2c1887934a87e532ddc68603ad4d8bc288e6428bb2",
+    "byteLength": 2393311,
+    "width": 1254,
+    "height": 1254
+  },
+  "provider": {
+    "id": "photoroom.background-removal",
+    "version": "1.0.0",
+    "mode": "remote",
+    "environment": "sandbox"
+  },
+  "requestId": "client-run:5b8cf171-0b94-488b-b07e-49ae6c9050e9",
+  "error": null,
+  "output": {
+    "path": "results/fictional-mannequin-curly-hair.png",
+    "sha256": "2c764e9db8b5d734c27b86087a71028287d779cdae63464f627a32219fb5eb59",
+    "byteLength": 2404415,
+    "mime": "image/png",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true,
+    "watermarked": true
+  },
+  "interpretation": "sandbox-watermarked-structure-only-not-production-quality"
+}
