@@ -133,6 +133,10 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /remoteConsent\.checked = false/);
   assert.match(main, /\? "重新抠图"/);
   assert.match(main, /\? "继续调整"/);
+  assert.match(main, /\? "返回并重新确认"/);
+  assert.match(main, /returnToCutoutSettings\("再次抠图前/);
+  assert.match(main, /if \(unknown\) elements\.recover\.focus\(\)/);
+  assert.match(html, /返回任务列表/);
   assert.match(server, /PHOTOROOM_ENABLED === "true"/);
   assert.match(server, /photoroomEnabled && env\.PHOTOROOM_API_KEY/);
   assert.match(envExample, /PHOTOROOM_API_KEY=\s*\r?\nPHOTOROOM_ENABLED=false/);
@@ -174,6 +178,9 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(main, /verifyPixelRoundTrip/);
   assert.match(main, /下载修正 PNG/);
   assert.match(main, /下载.*底 JPEG/);
+  assert.match(main, /正在校验下载…/);
+  assert.match(main, /下载前校验未通过，已阻止错误文件下载/);
+  assert.match(main, /下载已开始/);
   assert.match(main, /composeSolidBackgroundPixels/);
   assert.match(main, /correctionZoomDimensions/);
   assert.match(main, /correctionViewMask/);

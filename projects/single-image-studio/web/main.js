@@ -1388,12 +1388,31 @@ function renderResult() {
 }
 
 function showError(title, copy, retryable = true) {
+  const unknown = machine.status === STUDIO_STATES.RUN_UNKNOWN;
   elements.errorTitle.textContent = title;
   elements.errorCopy.textContent = copy;
   elements.retry.hidden = !retryable;
-  elements.retry.textContent = machine.status === STUDIO_STATES.RUN_UNKNOWN ? "新建任务" : "再试一次";
-  elements.recover.hidden = machine.status !== STUDIO_STATES.RUN_UNKNOWN;
+  elements.retry.textContent = selectedTask?.id === "UT-CUTOUT"
+    ? "返回并重新确认"
+    : unknown ? "新建任务" : "再试一次";
+  elements.retry.classList.toggle("button-primary", retryable && !unknown);
+  elements.retry.classList.toggle("button-quiet", !retryable || unknown);
+  elements.recover.hidden = !unknown;
   showOnly("error");
+  if (unknown) elements.recover.focus();
+  else if (retryable) elements.retry.focus();
+  else elements.errorBack.focus();
+}
+
+function returnToCutoutSettings(message) {
+  clearResult();
+  showOnly("config");
+  setJourney("task");
+  const remoteConsent = elements.settingsForm.elements.remoteConsent;
+  if (remoteConsent) remoteConsent.checked = false;
+  syncCutoutConsent();
+  remoteConsent?.focus();
+  if (message) toast(message);
 }
 
 async function recoverUnknownRun() {
@@ -1554,20 +1573,22 @@ elements.editorPreviewFrame.addEventListener("pointerup", (event) => finishCropD
 elements.editorPreviewFrame.addEventListener("pointercancel", (event) => finishCropDrag(event, { commit: false }));
 elements.editorPreviewFrame.addEventListener("keydown", nudgeCropWithKeyboard);
 elements.redo.addEventListener("click", () => {
+  if (selectedTask?.id === "UT-CUTOUT") {
+    returnToCutoutSettings("再次抠图前，请重新确认本次远程发送");
+    return;
+  }
   clearResult();
   showOnly("config");
   setJourney("task");
-  if (selectedTask?.id === "UT-CUTOUT") {
-    const remoteConsent = elements.settingsForm.elements.remoteConsent;
-    if (remoteConsent) remoteConsent.checked = false;
-    syncCutoutConsent();
-    remoteConsent?.focus();
-    toast("再次抠图前，请重新确认本次远程发送");
-    return;
-  }
   elements.runButton.focus();
 });
-elements.retry.addEventListener("click", runSelectedTask);
+elements.retry.addEventListener("click", () => {
+  if (selectedTask?.id === "UT-CUTOUT") {
+    returnToCutoutSettings("再次抠图前，请重新确认本次远程发送");
+    return;
+  }
+  runSelectedTask();
+});
 elements.recover.addEventListener("click", recoverUnknownRun);
 elements.errorBack.addEventListener("click", async () => {
   if (machine.status === STUDIO_STATES.RUN_UNKNOWN) {
@@ -1651,7 +1672,7 @@ elements.download.addEventListener("click", async () => {
       setTimeout(() => URL.revokeObjectURL(url), 0);
       const outputLabel = corrected.mime === "image/png" ? "修正透明 PNG" : "纯色背景 JPEG";
       elements.maskCorrectionStatus.textContent = `${outputLabel} 已独立重开校验 · ${corrected.byteLength.toLocaleString()} bytes · ${corrected.outputHash.slice(0, 12)}…`;
-      toast(`${outputLabel} 已下载`);
+      toast(`${outputLabel} 下载已开始`);
     } catch (error) {
       toast(error.message || "下载图片生成失败");
     } finally {
@@ -1660,16 +1681,30 @@ elements.download.addEventListener("click", async () => {
     }
     return;
   }
-  const blob = currentResult.blob ?? await (await fetch(currentResult.dataUrl)).blob();
-  const actualHash = await sha256Bytes(new Uint8Array(await blob.arrayBuffer()));
-  if (actualHash !== contract.download.outputHash || blob.size !== contract.download.byteLength) { toast("下载前校验未通过"); return; }
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = contract.download.filename;
-  anchor.click();
-  setTimeout(() => URL.revokeObjectURL(url), 0);
-  toast("结果已下载");
+  const previousLabel = elements.download.textContent;
+  elements.download.disabled = true;
+  elements.download.textContent = "正在校验下载…";
+  try {
+    const response = currentResult.blob ? null : await fetch(currentResult.dataUrl);
+    if (response && !response.ok) throw new Error("结果文件暂时无法读取");
+    const blob = currentResult.blob ?? await response.blob();
+    const actualHash = await sha256Bytes(new Uint8Array(await blob.arrayBuffer()));
+    if (actualHash !== contract.download.outputHash || blob.size !== contract.download.byteLength) {
+      throw new Error("下载前校验未通过，已阻止错误文件下载");
+    }
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = contract.download.filename;
+    anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+    toast("下载已开始");
+  } catch (error) {
+    toast(error.message || "下载准备失败，请稍后重试");
+  } finally {
+    elements.download.disabled = false;
+    elements.download.textContent = previousLabel;
+  }
 });
 function comparisonLayerDimensions(layer) {
   if (layer === "source") {
