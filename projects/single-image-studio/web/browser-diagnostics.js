@@ -6,6 +6,7 @@ import {
   createMaskCorrectionHistory,
   rebuildCorrectionMask,
 } from "./mask-correction.js";
+import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
 
 function canvasToBlob(canvas, mime, quality) {
   return new Promise((resolve, reject) => {
@@ -138,6 +139,40 @@ async function diagnoseMaskCorrection({ documentRef, createBitmap }) {
   });
 }
 
+function diagnoseRecoveryControls(documentRef) {
+  const host = documentRef.createElement("div");
+  host.style.cssText = "position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden";
+  const retry = documentRef.createElement("button");
+  const recover = documentRef.createElement("button");
+  const back = documentRef.createElement("button");
+  host.append(retry, recover, back);
+  documentRef.body.append(host);
+  try {
+    const knownCutout = recoveryPresentation({ taskId: "UT-CUTOUT", retryable: true });
+    applyRecoveryPresentation({ retry, recover, back }, knownCutout);
+    if (retry.textContent !== "返回并重新确认" || documentRef.activeElement !== retry || recover.hidden !== true) {
+      throw new Error("明确失败没有聚焦逐次确认入口");
+    }
+    const unknownCutout = recoveryPresentation({ taskId: "UT-CUTOUT", unknown: true, retryable: true });
+    applyRecoveryPresentation({ retry, recover, back }, unknownCutout);
+    if (documentRef.activeElement !== recover || recover.hidden !== false || retry.classList.contains("button-primary")) {
+      throw new Error("未知状态没有优先聚焦原任务查询");
+    }
+    const localFailure = recoveryPresentation({ taskId: "UT-TUNE", retryable: true });
+    applyRecoveryPresentation({ retry, recover, back }, localFailure);
+    if (retry.textContent !== "再试一次" || documentRef.activeElement !== retry || !retry.classList.contains("button-primary")) {
+      throw new Error("本地失败没有提供明确的主恢复操作");
+    }
+    return Object.freeze({
+      name: "失败恢复操作",
+      detail: "远程失败重新确认；未知状态查询原任务；本地失败聚焦再试一次",
+      scenarios: 3,
+    });
+  } finally {
+    host.remove();
+  }
+}
+
 export async function runBrowserDiagnostics({
   documentRef = document,
   createBitmap = createImageBitmap,
@@ -156,6 +191,11 @@ export async function runBrowserDiagnostics({
     results.push({ status: "pass", value: await diagnoseMaskCorrection({ documentRef, createBitmap }) });
   } catch (error) {
     results.push({ status: "fail", value: { name: "蒙版修正 + 双格式导出", error: error instanceof Error ? error.message : String(error) } });
+  }
+  try {
+    results.push({ status: "pass", value: diagnoseRecoveryControls(documentRef) });
+  } catch (error) {
+    results.push({ status: "fail", value: { name: "失败恢复操作", error: error instanceof Error ? error.message : String(error) } });
   }
   return Object.freeze({
     passed: results.every((result) => result.status === "pass"),
@@ -181,9 +221,9 @@ function renderReport(documentRef, report) {
     outcome.textContent = result.status === "pass" ? "通过" : "失败";
     outcome.dataset.result = result.status;
     detail.textContent = result.status === "pass"
-      ? (result.value.mime
+      ? (result.value.detail ?? (result.value.mime
         ? `${result.value.byteLength} bytes；markers ${result.value.markers.join(", ")}；RGB MAE ${result.value.meanAbsoluteRgbError.toFixed(3)}`
-        : `${result.value.correctedStrokes} 笔；透明 PNG ${result.value.transparentBytes} bytes；纯色 JPEG ${result.value.solidBytes} bytes；透明像素 ${result.value.transparentPixels}；JPEG 不透明像素 ${result.value.solidOpaquePixels}`)
+        : `${result.value.correctedStrokes} 笔；透明 PNG ${result.value.transparentBytes} bytes；纯色 JPEG ${result.value.solidBytes} bytes；透明像素 ${result.value.transparentPixels}；JPEG 不透明像素 ${result.value.solidOpaquePixels}`))
       : result.value.error;
     row.append(name, outcome, detail);
     return row;

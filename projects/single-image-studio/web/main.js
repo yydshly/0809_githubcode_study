@@ -31,6 +31,7 @@ import {
 } from "./mask-correction.js";
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { buildResultDownloadContract } from "./result-download.js";
+import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
 import { fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
@@ -1391,17 +1392,11 @@ function showError(title, copy, retryable = true) {
   const unknown = machine.status === STUDIO_STATES.RUN_UNKNOWN;
   elements.errorTitle.textContent = title;
   elements.errorCopy.textContent = copy;
-  elements.retry.hidden = !retryable;
-  elements.retry.textContent = selectedTask?.id === "UT-CUTOUT"
-    ? "返回并重新确认"
-    : unknown ? "新建任务" : "再试一次";
-  elements.retry.classList.toggle("button-primary", retryable && !unknown);
-  elements.retry.classList.toggle("button-quiet", !retryable || unknown);
-  elements.recover.hidden = !unknown;
   showOnly("error");
-  if (unknown) elements.recover.focus();
-  else if (retryable) elements.retry.focus();
-  else elements.errorBack.focus();
+  applyRecoveryPresentation(
+    { retry: elements.retry, recover: elements.recover, back: elements.errorBack },
+    recoveryPresentation({ unknown, retryable, taskId: selectedTask?.id }),
+  );
 }
 
 function returnToCutoutSettings(message) {

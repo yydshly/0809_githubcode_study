@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [html, main, localProcessing, resultDownload, styles, server, envExample, packageJson] = await Promise.all([
+const [html, main, localProcessing, resultDownload, recoveryPresentation, styles, server, envExample, packageJson] = await Promise.all([
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/local-processing.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-download.js", import.meta.url), "utf8"),
+  readFile(new URL("../web/recovery-presentation.js", import.meta.url), "utf8"),
   readFile(new URL("../web/styles.css", import.meta.url), "utf8"),
   readFile(new URL("../server/server.mjs", import.meta.url), "utf8"),
   readFile(new URL("../.env.example", import.meta.url), "utf8"),
@@ -133,9 +134,10 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /remoteConsent\.checked = false/);
   assert.match(main, /\? "重新抠图"/);
   assert.match(main, /\? "继续调整"/);
-  assert.match(main, /\? "返回并重新确认"/);
+  assert.match(recoveryPresentation, /\? "返回并重新确认"/);
   assert.match(main, /returnToCutoutSettings\("再次抠图前/);
-  assert.match(main, /if \(unknown\) elements\.recover\.focus\(\)/);
+  assert.match(main, /applyRecoveryPresentation/);
+  assert.match(recoveryPresentation, /focusTarget: unknown \? "recover"/);
   assert.match(html, /返回任务列表/);
   assert.match(server, /PHOTOROOM_ENABLED === "true"/);
   assert.match(server, /photoroomEnabled && env\.PHOTOROOM_API_KEY/);
