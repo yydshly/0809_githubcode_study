@@ -173,6 +173,8 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 
 当前只实现项目自有的 Provider 接口、fake 测试实现和本地 API/client 边界，尚未选择、安装或调用任何第三方抠图供应商，也没有复制第三方 SDK、代码、模型、图片或资产。生产状态固定为 `not_configured`。候选服务的官方 API、精确版本、条款、隐私、地域、保留/删除、训练用途、价格和退出方案必须在首次真实调用前作为新的上游记录补入本文件；当前竞品页面只用于理解用户预期，不构成 Provider 选择或授权。
 
+[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 于 2026-08-16 将只读候选冻结为 Photoroom Basic `POST https://sdk.photoroom.com/v1/segment` 与 remove.bg API 1.0 `POST https://api.remove.bg/v1.0/removebg`。官方资料显示两者均可返回透明 PNG；Photoroom Basic 当前公开价为每成功图片 0.02 美元，其安全页声明 API 图片调用后丢弃且未经同意不训练；remove.bg 安全白皮书声明图片通常 60 分钟内丢弃，并写明 90 天后不可恢复。这些是网页声明，不是本项目已签署的 DPA 或删除证明。两者的账户侧条款版本、处理地域、子处理方、训练 opt-out 实际状态和删除边界仍为阻塞项；当前授权费用为 0 美元、真实调用为 0。
+
 | 资料 | 核对日期 | 用途 | 复制情况 |
 | --- | --- | --- | --- |
 | [OpenAI GPT Image 2 model](https://developers.openai.com/api/docs/models/gpt-image-2) | 2026-08-14 | 固定 `gpt-image-2-2026-04-21` snapshot、支持端点与限流入口 | 未复制代码或资产；仅记录公开服务边界 |

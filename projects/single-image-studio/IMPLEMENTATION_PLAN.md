@@ -257,7 +257,7 @@ M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v
 - 使用 12–20 个项目原创或许可明确的图片进行小规模测试，不使用真实用户照片；
 - 选择一个主 Provider；没有候选满足隐私或质量要求时，保持手动编辑，不仓促引入本地模型。
 
-当前完成度：合同、独立 typed route/client、内存 run store、fake provider 和关闭测试已经完成；生产配置仍为 `not_configured`，真实候选、真实 API 调用、持久 `ProviderCallReceipt`、删除验证和用户可见抠图入口均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
+当前完成度：合同、独立 typed route/client、内存 run store、fake provider 和关闭测试已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 已冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产配置仍为 `not_configured`，账户/DPA/地域复核、真实 API 调用、持久 `ProviderCallReceipt`、删除验证和用户可见抠图入口均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
 
 第一次真实调用前必须冻结 `ProviderEvaluationPlan`：候选 API / 条款日期、隐私硬门、允许地域 / 保留 / 训练用途、单次与总预算、最大延迟和失败率、synthetic Alpha / boundary 指标、灾难误删上限、分层人工判断规则、修正后可完成率与 no-go 条件。具体阈值只能在看结果前依据候选价格和业务预算写入；未知隐私边界直接 no-go，不能用质量分数抵消。
 
@@ -315,7 +315,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 ### Next
 
 8. ~~Provider 抽象、独立 route/client 与 fake provider 关闭测试；~~
-9. 冻结 `ProviderEvaluationPlan`，完成云端候选、隐私、保留/删除、成本和退出方案的只读决策记录；
+9. ~~冻结 `ProviderEvaluationPlan` 的候选、分母、隐私、成本和退出硬门；~~ 取得账户侧 DPA/地域/训练/删除证据与明确密钥授权后，才可执行 12-source 小规模评估；
 10. 透明预览、手动 mask 修正、透明 PNG 与纯色换底；
 11. 抠图专项可用性走查与 beta readiness 决策。
 
