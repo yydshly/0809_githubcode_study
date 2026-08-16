@@ -116,7 +116,14 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .section-heading h2, .result-heading h2, .config-section h2 { margin: .4rem 0 0; font: 500 clamp(1.8rem, 3vw, 2.8rem) Georgia, "Songti SC", serif; }
 .section-heading > p, .section-side p { max-width: 29rem; color: var(--muted); line-height: 1.6; font-size: .85rem; margin: 0; }
 .section-side { max-width: 29rem; display: grid; justify-items: end; gap: .45rem; }
-.task-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding-top: 1.5rem; }
+.task-groups { display: grid; gap: 2rem; padding-top: 1.5rem; }
+.task-group { min-width: 0; }
+.task-group + .task-group { padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.task-group-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: .85rem; }
+.task-group-heading h3 { margin: .15rem 0 .25rem; font: 500 clamp(1.35rem, 2vw, 1.75rem) Georgia, "Songti SC", serif; }
+.task-group-heading p { max-width: 42rem; margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.55; }
+.task-group-heading .task-group-kicker { color: var(--green); font-size: .67rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+.task-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .task-card { min-height: 17rem; padding: 1.2rem; border: 1px solid var(--line); border-radius: 1rem; background: #f6f5ef; display: flex; flex-direction: column; text-align: left; position: relative; overflow: hidden; }
 .task-card:not([disabled]) { cursor: pointer; }
 .task-card:not([disabled]):hover { border-color: #8e9f94; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(36,64,49,.08); }

@@ -25,7 +25,8 @@ test("product page uses plain-language internal-preview copy without claiming im
   }
 
   assert.match(main, /不会判断图片内容或自动推荐效果/);
-  assert.match(main, /当前有 \$\{availableCount\} 个可用操作/);
+  assert.match(main, /taskAvailabilitySummary\(tasks\)/);
+  assert.match(main, /只按处理位置和服务状态分组/);
   assert.match(main, /processor: "在本机完成"/);
   assert.match(main, /processor: "远程创意处理"/);
   assert.match(main, /已核对文件格式、尺寸与像素；请比较确认画面内容/);

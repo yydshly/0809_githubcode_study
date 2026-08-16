@@ -46,6 +46,7 @@ import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-pres
 import { comparisonLayerState, fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
+import { groupTasksForDisplay, taskAvailabilitySummary } from "./task-groups.js";
 import {
   STUDIO_EVENTS,
   STUDIO_STATES,
@@ -901,18 +902,29 @@ async function confirmAndPrepare() {
 
 function renderTasks() {
   elements.taskGrid.replaceChildren();
-  const availableCount = tasks.filter((task) => task.runnable).length;
-  elements.recommendationCopy.textContent = `当前有 ${availableCount} 个可用操作；这里只按服务状态显示，不会猜测图片内容或替你选择效果。`;
-  tasks.forEach((task, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "task-card";
-    button.dataset.taskId = task.id;
-    button.dataset.tone = task.runnable ? task.kind : "pending";
-    button.disabled = !task.runnable;
-    button.innerHTML = `<span class="task-index">${String(index + 1).padStart(2, "0")} · ${task.runnable ? task.badge : task.statusLabel}</span><span class="task-art" aria-hidden="true"></span><h3>${task.title}</h3><p>${task.description}</p><footer><span>${task.output}</span><strong>${task.runnable ? "选择 →" : "暂不可选"}</strong></footer>`;
-    if (task.runnable) button.addEventListener("click", () => selectTask(task.id));
-    elements.taskGrid.append(button);
+  elements.recommendationCopy.textContent = `${taskAvailabilitySummary(tasks)} 这里只按处理位置和服务状态分组，不会猜测图片内容或替你选择效果。`;
+  const ordinalById = new Map(tasks.map((task, index) => [task.id, index + 1]));
+  groupTasksForDisplay(tasks).forEach((group) => {
+    const section = document.createElement("section");
+    section.className = "task-group";
+    section.dataset.taskGroup = group.id;
+    const titleId = `task-group-${group.id}-title`;
+    section.setAttribute("aria-labelledby", titleId);
+    section.innerHTML = `<header class="task-group-heading"><div><p class="task-group-kicker">${group.availableCount} / ${group.tasks.length} 可用</p><h3 id="${titleId}">${group.title}</h3><p>${group.description}</p></div></header><div class="task-grid"></div>`;
+    const grid = section.querySelector(".task-grid");
+    group.tasks.forEach((task) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "task-card";
+      button.dataset.taskId = task.id;
+      button.dataset.tone = task.runnable ? task.kind : "pending";
+      button.disabled = !task.runnable;
+      const ordinal = ordinalById.get(task.id);
+      button.innerHTML = `<span class="task-index">${String(ordinal).padStart(2, "0")} · ${task.runnable ? task.badge : task.statusLabel}</span><span class="task-art" aria-hidden="true"></span><h3>${task.title}</h3><p>${task.description}</p><footer><span>${task.output}</span><strong>${task.runnable ? "选择 →" : "暂不可选"}</strong></footer>`;
+      if (task.runnable) button.addEventListener("click", () => selectTask(task.id));
+      grid.append(button);
+    });
+    elements.taskGrid.append(section);
   });
 }
 
