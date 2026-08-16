@@ -7,15 +7,21 @@ test("remote cutout failures return to fresh consent while unknown runs prioriti
   assert.deepEqual(recoveryPresentation({ taskId: "UT-CUTOUT", retryable: true }), {
     retryLabel: "返回并重新确认",
     retryVisible: true,
-    retryPrimary: true,
+    retryPrimary: false,
     recoverVisible: false,
-    focusTarget: "retry",
+    fallbackLabel: "改用本地编辑",
+    fallbackVisible: true,
+    fallbackPrimary: true,
+    focusTarget: "fallback",
   });
   assert.deepEqual(recoveryPresentation({ taskId: "UT-CUTOUT", unknown: true, retryable: true }), {
     retryLabel: "返回并重新确认",
     retryVisible: true,
     retryPrimary: false,
     recoverVisible: true,
+    fallbackLabel: "改用本地编辑",
+    fallbackVisible: false,
+    fallbackPrimary: false,
     focusTarget: "recover",
   });
 });
@@ -26,6 +32,9 @@ test("local failure and non-retryable errors keep one unambiguous focus target",
     retryVisible: true,
     retryPrimary: true,
     recoverVisible: false,
+    fallbackLabel: "改用本地编辑",
+    fallbackVisible: false,
+    fallbackPrimary: false,
     focusTarget: "retry",
   });
   assert.equal(recoveryPresentation({ retryable: false }).focusTarget, "back");

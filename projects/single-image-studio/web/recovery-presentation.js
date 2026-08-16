@@ -1,22 +1,32 @@
 export function recoveryPresentation({ unknown = false, retryable = true, taskId = null } = {}) {
+  const cutoutFailure = taskId === "UT-CUTOUT" && !unknown;
   return Object.freeze({
     retryLabel: taskId === "UT-CUTOUT"
       ? "返回并重新确认"
       : unknown ? "新建任务" : "再试一次",
     retryVisible: retryable,
-    retryPrimary: retryable && !unknown,
+    retryPrimary: retryable && !unknown && !cutoutFailure,
     recoverVisible: unknown,
-    focusTarget: unknown ? "recover" : retryable ? "retry" : "back",
+    fallbackLabel: "改用本地编辑",
+    fallbackVisible: cutoutFailure,
+    fallbackPrimary: cutoutFailure,
+    focusTarget: unknown ? "recover" : cutoutFailure ? "fallback" : retryable ? "retry" : "back",
   });
 }
 
-export function applyRecoveryPresentation({ retry, recover, back }, presentation, { focus = true } = {}) {
+export function applyRecoveryPresentation({ retry, recover, fallback, back }, presentation, { focus = true } = {}) {
   retry.textContent = presentation.retryLabel;
   retry.hidden = !presentation.retryVisible;
   retry.classList.toggle("button-primary", presentation.retryPrimary);
   retry.classList.toggle("button-quiet", !presentation.retryPrimary);
   recover.hidden = !presentation.recoverVisible;
-  const target = { retry, recover, back }[presentation.focusTarget];
+  if (fallback) {
+    fallback.textContent = presentation.fallbackLabel;
+    fallback.hidden = !presentation.fallbackVisible;
+    fallback.classList.toggle("button-primary", presentation.fallbackPrimary);
+    fallback.classList.toggle("button-quiet", !presentation.fallbackPrimary);
+  }
+  const target = { retry, recover, fallback, back }[presentation.focusTarget];
   if (focus) target?.focus();
   return target ?? null;
 }

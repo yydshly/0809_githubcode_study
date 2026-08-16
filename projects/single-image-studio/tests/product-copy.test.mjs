@@ -137,9 +137,12 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /\? "重新抠图"/);
   assert.match(main, /\? "继续调整"/);
   assert.match(recoveryPresentation, /\? "返回并重新确认"/);
+  assert.match(html, /id="fallback-editor-button"[^>]*>改用本地编辑</);
+  assert.match(main, /switchToLocalEditor/);
+  assert.match(main, /已保留当前图片；本地编辑不会上传/);
   assert.match(main, /returnToCutoutSettings\("再次抠图前/);
   assert.match(main, /applyRecoveryPresentation/);
-  assert.match(recoveryPresentation, /focusTarget: unknown \? "recover"/);
+  assert.match(recoveryPresentation, /focusTarget: unknown \? "recover" : cutoutFailure \? "fallback"/);
   assert.match(html, /返回任务列表/);
   assert.match(html, /本次远程处理记录/);
   assert.match(html, /清除本地处理记录/);

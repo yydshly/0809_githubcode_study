@@ -144,28 +144,29 @@ function diagnoseRecoveryControls(documentRef) {
   host.style.cssText = "position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden";
   const retry = documentRef.createElement("button");
   const recover = documentRef.createElement("button");
+  const fallback = documentRef.createElement("button");
   const back = documentRef.createElement("button");
-  host.append(retry, recover, back);
+  host.append(retry, recover, fallback, back);
   documentRef.body.append(host);
   try {
     const knownCutout = recoveryPresentation({ taskId: "UT-CUTOUT", retryable: true });
-    applyRecoveryPresentation({ retry, recover, back }, knownCutout);
-    if (retry.textContent !== "返回并重新确认" || documentRef.activeElement !== retry || recover.hidden !== true) {
-      throw new Error("明确失败没有聚焦逐次确认入口");
+    applyRecoveryPresentation({ retry, recover, fallback, back }, knownCutout);
+    if (retry.textContent !== "返回并重新确认" || fallback.textContent !== "改用本地编辑" || documentRef.activeElement !== fallback || recover.hidden !== true || retry.classList.contains("button-primary")) {
+      throw new Error("明确失败没有优先提供本地编辑兜底");
     }
     const unknownCutout = recoveryPresentation({ taskId: "UT-CUTOUT", unknown: true, retryable: true });
-    applyRecoveryPresentation({ retry, recover, back }, unknownCutout);
-    if (documentRef.activeElement !== recover || recover.hidden !== false || retry.classList.contains("button-primary")) {
+    applyRecoveryPresentation({ retry, recover, fallback, back }, unknownCutout);
+    if (documentRef.activeElement !== recover || recover.hidden !== false || fallback.hidden !== true || retry.classList.contains("button-primary")) {
       throw new Error("未知状态没有优先聚焦原任务查询");
     }
     const localFailure = recoveryPresentation({ taskId: "UT-TUNE", retryable: true });
-    applyRecoveryPresentation({ retry, recover, back }, localFailure);
-    if (retry.textContent !== "再试一次" || documentRef.activeElement !== retry || !retry.classList.contains("button-primary")) {
+    applyRecoveryPresentation({ retry, recover, fallback, back }, localFailure);
+    if (retry.textContent !== "再试一次" || documentRef.activeElement !== retry || fallback.hidden !== true || !retry.classList.contains("button-primary")) {
       throw new Error("本地失败没有提供明确的主恢复操作");
     }
     return Object.freeze({
       name: "失败恢复操作",
-      detail: "远程失败重新确认；未知状态查询原任务；本地失败聚焦再试一次",
+      detail: "远程失败优先转本地编辑；未知状态查询原任务；本地失败聚焦再试一次",
       scenarios: 3,
     });
   } finally {

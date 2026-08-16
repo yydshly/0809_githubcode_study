@@ -33,6 +33,17 @@ const PORTRAIT_TASK = Object.freeze({
   contractVersion: "portrait-test-v1",
 });
 
+const CUTOUT_TASK = Object.freeze({
+  id: "UT-CUTOUT",
+  label: "主体与背景",
+  family: "utility",
+  availability: "available",
+  runnable: true,
+  requiresConfig: false,
+  requiresAdultAttestation: false,
+  contractVersion: "background-removal-v1",
+});
+
 function source(letter) {
   return {
     name: `${letter}.png`,
@@ -276,6 +287,28 @@ test("unknown runs never auto-retry, and late detached results cannot win", () =
   assert.equal(state.result, null);
 });
 
+test("a definitive remote failure can switch to local editing without replacing the source", () => {
+  let state = readyWithTasks("f", [LOCAL_TASK, CUTOUT_TASK]);
+  state = reduceStudioState(state, { type: STUDIO_EVENTS.SELECT_TASK, taskId: "UT-CUTOUT" });
+  state = reduceStudioState(state, { type: STUDIO_EVENTS.PREPARE_TASK });
+  state = reduceStudioState(state, { type: STUDIO_EVENTS.START_RUN, runId: "run-cutout-failed" });
+  state = reduceStudioState(state, {
+    type: STUDIO_EVENTS.RUN_FAILED,
+    ...currentRunToken(state),
+    code: "PROVIDER_ERROR",
+  });
+
+  const sourceBeforeFallback = state.source;
+  state = reduceStudioState(state, { type: STUDIO_EVENTS.SELECT_TASK, taskId: "UT-TUNE" });
+  state = reduceStudioState(state, { type: STUDIO_EVENTS.PREPARE_TASK });
+
+  assert.equal(state.status, STUDIO_STATES.READY_TO_RUN);
+  assert.equal(state.selectedTask.id, "UT-TUNE");
+  assert.equal(state.source, sourceBeforeFallback);
+  assert.equal(state.activeRunId, null);
+  assert.deepEqual(state.supersededRunIds, ["run-cutout-failed"]);
+});
+
 test("source validation errors do not leak into later revisions", () => {
   let state = createInitialState();
   state = reduceStudioState(state, { type: STUDIO_EVENTS.SELECT_SOURCE, source: source("e") });
@@ -294,4 +327,3 @@ test("source validation errors do not leak into later revisions", () => {
   assert.equal(state.error, null);
   assert.equal(state.sourceRevision, 2);
 });
-

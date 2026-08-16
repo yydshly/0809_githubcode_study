@@ -88,7 +88,7 @@ const elements = {
   processingRecordProvider: $("#processing-record-provider"), processingRecordStatus: $("#processing-record-status"),
   deleteProcessingRecord: $("#delete-processing-record"),
   redo: $("#redo-button"), download: $("#download-button"),
-  errorPanel: $("#error-panel"), errorTitle: $("#error-title"), errorCopy: $("#error-copy"), recover: $("#recover-button"), retry: $("#retry-button"), errorBack: $("#error-back-button"),
+  errorPanel: $("#error-panel"), errorTitle: $("#error-title"), errorCopy: $("#error-copy"), recover: $("#recover-button"), fallbackEditor: $("#fallback-editor-button"), retry: $("#retry-button"), errorBack: $("#error-back-button"),
   canvas: $("#processing-canvas"), toast: $("#toast"), journey: $$(".journey li"), tabs: $$(".compare-tabs button"),
 };
 
@@ -1428,9 +1428,23 @@ function showError(title, copy, retryable = true) {
   elements.errorCopy.textContent = copy;
   showOnly("error");
   applyRecoveryPresentation(
-    { retry: elements.retry, recover: elements.recover, back: elements.errorBack },
+    { retry: elements.retry, recover: elements.recover, fallback: elements.fallbackEditor, back: elements.errorBack },
     recoveryPresentation({ unknown, retryable, taskId: selectedTask?.id }),
   );
+}
+
+function switchToLocalEditor() {
+  if (!source || machine.status === STUDIO_STATES.RUN_UNKNOWN) return;
+  const localEditor = tasks.find((task) => task.id === "UT-TUNE" && task.runnable);
+  if (!localEditor) {
+    selectedTask = null;
+    showOnly("tasks");
+    setJourney("task");
+    toast("本地编辑当前不可用；图片仍保留在任务列表中");
+    return;
+  }
+  selectTask(localEditor.id);
+  toast("已保留当前图片；本地编辑不会上传");
 }
 
 function returnToCutoutSettings(message) {
@@ -1619,6 +1633,7 @@ elements.retry.addEventListener("click", () => {
   runSelectedTask();
 });
 elements.recover.addEventListener("click", recoverUnknownRun);
+elements.fallbackEditor.addEventListener("click", switchToLocalEditor);
 elements.errorBack.addEventListener("click", async () => {
   if (machine.status === STUDIO_STATES.RUN_UNKNOWN) {
     const backgroundRemovalRunId = selectedTask?.id === "UT-CUTOUT" ? machine.activeRunId : null;
