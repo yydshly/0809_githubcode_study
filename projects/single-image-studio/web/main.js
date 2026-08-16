@@ -1351,6 +1351,11 @@ function friendlyError(error) {
 function renderResult() {
   if (!currentResult) return;
   elements.download.textContent = selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
+  elements.redo.textContent = selectedTask.id === "UT-CUTOUT"
+    ? "重新抠图"
+    : selectedTask.id === "UT-TUNE"
+      ? "继续调整"
+      : "重新处理";
   elements.maskCorrectionWorkspace.hidden = selectedTask.id !== "UT-CUTOUT";
   elements.resultTitle.textContent = currentResult.title;
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
@@ -1548,7 +1553,20 @@ elements.editorPreviewFrame.addEventListener("pointermove", moveCropDrag);
 elements.editorPreviewFrame.addEventListener("pointerup", (event) => finishCropDrag(event));
 elements.editorPreviewFrame.addEventListener("pointercancel", (event) => finishCropDrag(event, { commit: false }));
 elements.editorPreviewFrame.addEventListener("keydown", nudgeCropWithKeyboard);
-elements.redo.addEventListener("click", () => { clearResult(); showOnly("config"); setJourney("task"); });
+elements.redo.addEventListener("click", () => {
+  clearResult();
+  showOnly("config");
+  setJourney("task");
+  if (selectedTask?.id === "UT-CUTOUT") {
+    const remoteConsent = elements.settingsForm.elements.remoteConsent;
+    if (remoteConsent) remoteConsent.checked = false;
+    syncCutoutConsent();
+    remoteConsent?.focus();
+    toast("再次抠图前，请重新确认本次远程发送");
+    return;
+  }
+  elements.runButton.focus();
+});
 elements.retry.addEventListener("click", runSelectedTask);
 elements.recover.addEventListener("click", recoverUnknownRun);
 elements.errorBack.addEventListener("click", async () => {

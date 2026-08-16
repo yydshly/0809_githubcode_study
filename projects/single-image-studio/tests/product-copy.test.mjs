@@ -129,6 +129,10 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /沙盒抠图完成（带水印）/);
   assert.match(main, /name="remoteConsent"/);
   assert.match(main, /失败不会覆盖原图，也不会自动重复提交/);
+  assert.match(main, /再次抠图前，请重新确认本次远程发送/);
+  assert.match(main, /remoteConsent\.checked = false/);
+  assert.match(main, /\? "重新抠图"/);
+  assert.match(main, /\? "继续调整"/);
   assert.match(server, /PHOTOROOM_ENABLED === "true"/);
   assert.match(server, /photoroomEnabled && env\.PHOTOROOM_API_KEY/);
   assert.match(envExample, /PHOTOROOM_API_KEY=\s*\r?\nPHOTOROOM_ENABLED=false/);
