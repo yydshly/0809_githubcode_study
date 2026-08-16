@@ -48,6 +48,15 @@ import { getTaskCatalog } from "./task-catalog.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
+const BACKGROUND_REMOVAL_TASKS = new Set(["UT-CUTOUT", "UT-PORTRAIT"]);
+
+function isBackgroundRemovalTask(taskId = selectedTask?.id) {
+  return BACKGROUND_REMOVAL_TASKS.has(taskId);
+}
+
+function isEditorTask(taskId = selectedTask?.id) {
+  return taskId === "UT-TUNE" || taskId === "UT-PORTRAIT";
+}
 
 const elements = {
   main: $("#main"), serviceStatus: $("#service-status"), serviceStatusCopy: $("#service-status-copy"),
@@ -131,16 +140,16 @@ const TASK_COPY = Object.freeze({
     referenceCopy: "请重点检查发丝、孔洞和半透明边缘；轮廓大致正确不代表细节已经可用。",
   }),
   "UT-PORTRAIT": Object.freeze({
-    title: "标准底色头像",
-    badge: "正在开发",
-    kind: "pending",
-    description: "面向通用头像与报名照；尺寸、底色与裁切参数会在质量检查完成后开放。",
-    longDescription: "这不是护照或签证合规承诺。人物分割、构图检查和下载规格必须一起验证。",
-    preserve: "本人外观、头肩结构与真实服饰",
-    change: "底色、裁切、尺寸与留白",
-    output: "PNG / JPEG",
-    referenceTitle: "通用头像规范",
-    referenceCopy: "只面向通用非官方用途；机构规格需由用户选择并经过独立规则校验。",
+    title: "通用底色头像",
+    badge: "抠图 + 本地排版",
+    kind: "utility",
+    description: "先确定方形或 4:5 构图，再移除背景并在本机修边、选择底色。",
+    longDescription: "本机先完成裁剪、方向和光色调整；你确认后才把这张经过构图的图片发送给远程抠图服务。返回结果可继续修边并导出纯色 JPEG。",
+    preserve: "人物外观、服饰与由你确认的构图区域",
+    change: "画面比例、整体光色、背景透明度与最终纯色底",
+    output: "方形 / 4:5 JPEG",
+    referenceTitle: "通用头像说明",
+    referenceCopy: "只用于普通社交头像和非官方报名场景；不承诺护照、签证或具体机构受理。",
   }),
 });
 
@@ -558,7 +567,7 @@ function maskKeyboard(event) {
 }
 
 async function initializeMaskCorrection() {
-  if (selectedTask?.id !== "UT-CUTOUT" || !currentResult || !sourceUrl) return;
+  if (!isBackgroundRemovalTask() || !currentResult || !sourceUrl) return;
   const token = ++maskCorrectionInitToken;
   elements.maskCorrectionWorkspace.hidden = false;
   elements.maskOutputSummary.hidden = true;
@@ -567,7 +576,7 @@ async function initializeMaskCorrection() {
   elements.resultOutputImage.hidden = false;
   try {
     const [sourceImage, resultImage] = await Promise.all([
-      decodeImage(sourceUrl),
+      decodeImage(currentResult.correctionSourceUrl ?? sourceUrl),
       decodeImage(currentResult.url),
     ]);
     if (token !== maskCorrectionInitToken || !currentResult) return;
@@ -592,7 +601,7 @@ async function initializeMaskCorrection() {
       mask: rebuildCorrectionMask(history),
       tool: "erase",
       radius: 0.06,
-      background: "checker",
+      background: currentResult.defaultBackground ?? "checker",
       customBackground: "#EE6F57",
       zoom: 1,
       view: "corrected",
@@ -881,7 +890,7 @@ function selectTask(taskId) {
   elements.configPreserve.textContent = selectedTask.preserve;
   elements.configChange.textContent = selectedTask.change;
   renderSettings(selectedTask);
-  if (selectedTask.id === "UT-TUNE") initializeEditorWorkspace();
+  if (isEditorTask(selectedTask.id)) initializeEditorWorkspace();
   else clearEditorWorkspace();
   showOnly("config");
   setJourney("task");
@@ -889,10 +898,18 @@ function selectTask(taskId) {
 }
 
 function renderSettings(task) {
-  if (task.id === "UT-TUNE") {
+  if (isEditorTask(task.id)) {
+    const portrait = task.id === "UT-PORTRAIT";
+    const ratioOptions = portrait
+      ? '<option value="square">方形头像 · 1:1</option><option value="portrait">竖版头像 · 4:5</option>'
+      : '<option value="original">不裁剪 · 显示全图</option><option value="square">固定比例 · 方形 1:1</option><option value="portrait">固定比例 · 竖版 4:5</option><option value="landscape">固定比例 · 横版 3:2</option><option value="free">自由裁剪</option>';
+    const exportFields = portrait
+      ? `<input type="hidden" name="format" value="png" />
+        <div class="field"><label for="size-mode-setting">抠图工作分辨率</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动（不放大原图）</option><option value="custom">自定义最长边上限</option></select></div>`
+      : `<div class="field"><label for="size-mode-setting">导出分辨率</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动（最长边不超过 2048 px，不放大）</option><option value="custom">自定义最长边上限</option></select></div>`;
     elements.settingsFields.innerHTML = `
       <fieldset class="setting-group"><legend><span>1</span> 构图</legend>
-        <div class="field"><label for="ratio-setting">裁剪方式</label><select id="ratio-setting" name="ratio"><option value="original">不裁剪 · 显示全图</option><option value="square">固定比例 · 方形 1:1</option><option value="portrait">固定比例 · 竖版 4:5</option><option value="landscape">固定比例 · 横版 3:2</option><option value="free">自由裁剪</option></select></div>
+        <div class="field"><label for="ratio-setting">${portrait ? "头像比例" : "裁剪方式"}</label><select id="ratio-setting" name="ratio">${ratioOptions}</select></div>
         <div class="crop-position-fields" data-crop-position hidden>
           <p class="field-hint">左侧始终显示完整图片；亮框内才是导出区域。拖动亮框可移动裁剪。</p>
           <div class="field range-field" data-crop-axis-control="horizontal"><label for="crop-x-setting">保留位置：左 ↔ 右 <output data-setting-value="cropX">50%</output></label><input id="crop-x-setting" name="cropX" type="range" min="0" max="100" step="1" value="50" /></div>
@@ -915,18 +932,24 @@ function renderSettings(task) {
         </div>
       </details>
       <fieldset class="setting-group"><legend><span>3</span> 导出</legend>
-        <div class="field"><label for="size-mode-setting">导出分辨率</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动（最长边不超过 2048 px，不放大）</option><option value="custom">自定义最长边上限</option></select></div>
+        ${exportFields}
         <div class="custom-size-fields" data-custom-size hidden>
           <div class="field"><label for="output-long-edge-setting">最长边上限</label><div class="number-with-unit"><input id="output-long-edge-setting" name="outputLongEdge" type="number" inputmode="numeric" min="1" max="2048" step="1" aria-describedby="custom-size-explanation size-limit-preview" /><span aria-hidden="true">px</span></div></div>
           <output class="size-limit-preview" data-size-limit-preview id="size-limit-preview" aria-live="polite"></output>
           <p class="field-hint" id="custom-size-explanation">这是导出分辨率上限，不是强制尺寸，也不改变裁剪构图。宽高按当前裁剪比例自动计算；裁剪区域本来较小时不会放大，所以结果可能不变。</p>
         </div>
-        <div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明像素）</option><option value="jpeg">JPEG（透明像素需要填色）</option></select></div>
-        <div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">透明区域填充色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" aria-describedby="jpeg-background-explanation" /><p class="field-hint" id="jpeg-background-explanation">JPEG 不支持透明，这个颜色只填充原图中的透明或半透明像素。普通不透明照片不会变化；这不是抠图或换背景。</p></div>
+        ${portrait ? "" : '<div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明像素）</option><option value="jpeg">JPEG（透明像素需要填色）</option></select></div><div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">透明区域填充色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" aria-describedby="jpeg-background-explanation" /><p class="field-hint" id="jpeg-background-explanation">JPEG 不支持透明，这个颜色只填充原图中的透明或半透明像素。普通不透明照片不会变化；这不是抠图或换背景。</p></div>'}
       </fieldset>
+      ${portrait ? `<fieldset class="setting-group remote-processing-consent"><legend><span>4</span> 远程抠图确认</legend>
+        <div class="remote-processing-summary"><strong>先本地构图，再发送抠图</strong><p>只发送左侧亮框中的头像构图；远程服务返回透明结果后，修边和纯色换底继续在本机完成。</p></div>
+        <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前头像构图发送给远程抠图服务处理</span></label>
+        <p class="field-hint">当前是通用头像工具，不承诺任何证件或机构规格。失败不会覆盖原图，也不会自动重复提交。</p>
+      </fieldset>` : ""}
       <p class="settings-error" id="editor-settings-error" role="alert" hidden></p>`;
-    elements.runButton.textContent = "生成下载文件";
-    elements.runNote.textContent = "全部在本机完成；不会调用 AI、补画内容或上传图片。生成后会自动检查文件能否正确打开。";
+    elements.runButton.textContent = portrait ? "生成底色头像" : "生成下载文件";
+    elements.runNote.textContent = portrait
+      ? "先在本机生成确认后的 PNG 构图，再进行一次远程抠图；结果可继续修边和选择底色。"
+      : "全部在本机完成；不会调用 AI、补画内容或上传图片。生成后会自动检查文件能否正确打开。";
   } else if (task.id === "UT-CUTOUT") {
     const providerSandbox = backgroundRemovalStatus.provider?.environment === "sandbox";
     const providerLabel = backgroundRemovalStatus.provider?.id === "photoroom.background-removal"
@@ -952,12 +975,14 @@ function renderSettings(task) {
     elements.runButton.textContent = "开始真实生成";
     elements.runNote.textContent = "图片只会从本地服务端发送到已连接的 OpenAI 图片服务；生成结果不会伪造。";
   }
-  elements.runButton.disabled = task.id === "UT-CUTOUT";
+  elements.runButton.disabled = isBackgroundRemovalTask(task.id);
 }
 
-function syncCutoutConsent() {
-  if (selectedTask?.id !== "UT-CUTOUT") return;
-  elements.runButton.disabled = elements.settingsForm.elements.remoteConsent?.checked !== true;
+function syncRemoteConsent() {
+  if (!isBackgroundRemovalTask()) return;
+  const settingsError = elements.settingsForm.querySelector("#editor-settings-error");
+  elements.runButton.disabled = elements.settingsForm.elements.remoteConsent?.checked !== true
+    || Boolean(settingsError && !settingsError.hidden);
 }
 
 function editorFormSettings() {
@@ -982,7 +1007,8 @@ function setEditorValidity(error = null) {
     errorNode.hidden = !error;
     errorNode.textContent = error?.message ?? "";
   }
-  elements.runButton.disabled = Boolean(error);
+  elements.runButton.disabled = Boolean(error)
+    || (isBackgroundRemovalTask() && elements.settingsForm.elements.remoteConsent?.checked !== true);
 }
 
 function renderEditorPreview(settings = editorSettings(editorWorkspace), { transient = false } = {}) {
@@ -1090,6 +1116,10 @@ function initializeEditorWorkspace() {
     sourceWidth: source.rawWidth ?? source.width,
     sourceHeight: source.rawHeight ?? source.height,
     sourceOrientation: source.sourceOrientation ?? 1,
+  }, {
+    initialSettings: selectedTask?.id === "UT-PORTRAIT"
+      ? { ratio: "square", cropX: 50, cropY: 42, sizeMode: "preset", format: "png" }
+      : null,
   });
   elements.editorWorkspace.hidden = false;
   elements.editorPreviewImage.src = sourceUrl;
@@ -1097,7 +1127,7 @@ function initializeEditorWorkspace() {
 }
 
 function commitEditorForm() {
-  if (!editorWorkspace || selectedTask?.id !== "UT-TUNE") return false;
+  if (!editorWorkspace || !isEditorTask()) return false;
   try {
     editorWorkspace = updateEditorWorkspace(editorWorkspace, editorFormSettings());
     syncEditorForm();
@@ -1110,7 +1140,7 @@ function commitEditorForm() {
 }
 
 function reconcileCustomSize(changedName) {
-  if (!editorWorkspace || selectedTask?.id !== "UT-TUNE") return;
+  if (!editorWorkspace || !isEditorTask()) return;
   const settings = editorFormSettings();
   if (settings.sizeMode !== "custom") return;
   if (settings.outputLongEdge !== "" || changedName !== "sizeMode") return;
@@ -1163,7 +1193,7 @@ function reconcileFreeCrop() {
 }
 
 function beginCropDrag(event) {
-  if (!editorWorkspace || selectedTask?.id !== "UT-TUNE" || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
+  if (!editorWorkspace || !isEditorTask() || elements.editorPreviewFrame.dataset.cropEnabled !== "true") return;
   if (event.button !== 0) return;
   if (!elements.editorCropBox.contains(event.target)) return;
   const rect = elements.editorPreviewFrame.getBoundingClientRect();
@@ -1245,9 +1275,16 @@ function nudgeCropWithKeyboard(event) {
 }
 
 function getSettings() {
-  if (selectedTask?.id === "UT-TUNE" && editorWorkspace) {
+  if (isEditorTask() && editorWorkspace) {
     if (!commitEditorForm()) throw new Error("请先修正编辑设置");
-    return editorSettings(editorWorkspace);
+    const settings = { ...editorSettings(editorWorkspace) };
+    if (selectedTask.id === "UT-PORTRAIT") {
+      if (elements.settingsForm.elements.remoteConsent?.checked !== true) {
+        throw new Error("请先确认远程头像抠图处理");
+      }
+      settings.remoteConsent = true;
+    }
+    return settings;
   }
   if (selectedTask?.id === "UT-CUTOUT" && elements.settingsForm.elements.remoteConsent?.checked !== true) {
     throw new Error("请先确认远程抠图处理");
@@ -1310,10 +1347,10 @@ async function runSelectedTask() {
   elements.cancelWait.hidden = false;
   elements.statusTitle.textContent = selectedTask.id === "UT-TUNE"
     ? "正在本地处理"
-    : selectedTask.id === "UT-CUTOUT" ? "正在移除背景" : "正在生成新的图片";
+    : selectedTask.id === "UT-PORTRAIT" ? "正在生成头像" : selectedTask.id === "UT-CUTOUT" ? "正在移除背景" : "正在生成新的图片";
   elements.statusCopy.textContent = selectedTask.id === "UT-TUNE"
     ? "只做确定性的构图、编码与整体色调处理。"
-    : selectedTask.id === "UT-CUTOUT" ? "正在安全发送当前图片并等待透明结果。" : "正在保留来源事实并应用选定的视觉方法。";
+    : selectedTask.id === "UT-PORTRAIT" ? "先生成本地头像构图，再发送这份构图进行抠图。" : selectedTask.id === "UT-CUTOUT" ? "正在安全发送当前图片并等待透明结果。" : "正在保留来源事实并应用选定的视觉方法。";
 
   try {
     let result;
@@ -1334,6 +1371,17 @@ async function runSelectedTask() {
     } else if (selectedTask.id === "UT-CUTOUT") {
       result = await runBackgroundRemoval({ runId, runController, sourceHashAtStart });
       if (!result) return;
+    } else if (selectedTask.id === "UT-PORTRAIT") {
+      const portraitInput = await preparePortraitProviderInput(settings);
+      if (runController.signal.aborted || machine.activeRunId !== runId) return;
+      result = await runBackgroundRemoval({
+        runId,
+        runController,
+        sourceHashAtStart,
+        providerInput: portraitInput,
+      });
+      if (!result) return;
+      result = decoratePortraitResult(result, settings);
     } else {
       const payload = {
         clientRunId: runId, taskId: selectedTask.id, sourceImage: await dataUrlForFile(source.file), referenceImages: [],
@@ -1379,7 +1427,7 @@ async function runSelectedTask() {
       resultId: result.id,
       qaVersion: selectedTask.id === "UT-TUNE"
         ? "editor-output-validation-v1"
-        : selectedTask.id === "UT-CUTOUT" ? "remote-alpha-png-validation-v1" : "creative-response-validation-v1",
+        : isBackgroundRemovalTask(selectedTask.id) ? "remote-alpha-png-validation-v1" : "creative-response-validation-v1",
       resultPatch: {
         mimeType: result.mimeType, byteLength: result.byteLength, outputHash: result.outputHash, hasAlpha: result.hasAlpha,
         completedAt: new Date().toISOString(), version: selectedTask.contractVersion,
@@ -1414,24 +1462,24 @@ function friendlyError(error) {
 
 function renderResult() {
   if (!currentResult) return;
-  elements.download.textContent = selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
-  elements.redo.textContent = selectedTask.id === "UT-CUTOUT"
-    ? "重新抠图"
+  elements.download.textContent = selectedTask.id === "UT-PORTRAIT" ? "下载底色头像" : selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
+  elements.redo.textContent = isBackgroundRemovalTask(selectedTask.id)
+    ? selectedTask.id === "UT-PORTRAIT" ? "重新制作头像" : "重新抠图"
     : selectedTask.id === "UT-TUNE"
       ? "继续调整"
       : "重新处理";
-  elements.maskCorrectionWorkspace.hidden = selectedTask.id !== "UT-CUTOUT";
+  elements.maskCorrectionWorkspace.hidden = !isBackgroundRemovalTask(selectedTask.id);
   elements.resultTitle.textContent = currentResult.title;
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
   elements.resultSourceImage.src = sourceUrl;
   elements.resultOutputImage.src = currentResult.url;
-  elements.resultOutputImage.alt = selectedTask.id === "UT-CUTOUT"
-    ? "完整显示的抠图结果"
+  elements.resultOutputImage.alt = isBackgroundRemovalTask(selectedTask.id)
+    ? selectedTask.id === "UT-PORTRAIT" ? "完整显示的头像抠图结果" : "完整显示的抠图结果"
     : selectedTask.id === "UT-TUNE"
       ? "完整显示的编辑结果"
       : "完整显示的处理结果";
-  elements.resultOutputTab.textContent = selectedTask.id === "UT-CUTOUT"
-    ? "抠图结果"
+  elements.resultOutputTab.textContent = isBackgroundRemovalTask(selectedTask.id)
+    ? selectedTask.id === "UT-PORTRAIT" ? "头像结果" : "抠图结果"
     : selectedTask.id === "UT-TUNE"
       ? "编辑结果"
       : "处理结果";
@@ -1440,8 +1488,8 @@ function renderResult() {
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
   elements.referenceCopy.textContent = selectedTask.referenceCopy;
   elements.referenceMark.style.background = selectedTask.id === "UT-TUNE" ? "radial-gradient(circle at 35% 35%, #dce978 0 18%, transparent 19%), repeating-radial-gradient(circle, transparent 0 6px, rgba(255,255,255,.25) 7px 8px)" : "radial-gradient(circle at 30% 30%, #d96d3a, transparent 30%), repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.22) 9px 10px)";
-  elements.processingRecordCard.hidden = selectedTask.id !== "UT-CUTOUT";
-  if (selectedTask.id === "UT-CUTOUT") {
+  elements.processingRecordCard.hidden = !isBackgroundRemovalTask(selectedTask.id);
+  if (isBackgroundRemovalTask(selectedTask.id)) {
     const sandbox = currentResult.provider?.environment === "sandbox";
     const providerName = backgroundRemovalProviderName(currentResult.provider);
     elements.processingRecordProvider.textContent = `${providerName}${sandbox ? " · 沙盒" : ""}`;
@@ -1455,12 +1503,50 @@ function renderResult() {
   showOnly("result");
   selectComparisonLayer("result");
   setJourney("result");
-  if (selectedTask.id === "UT-CUTOUT") {
+  if (isBackgroundRemovalTask(selectedTask.id)) {
     initializeMaskCorrection();
     elements.maskErase.focus();
   } else {
     elements.download.focus();
   }
+}
+
+async function dataUrlForBlob(blob) {
+  if (!blob || typeof blob.arrayBuffer !== "function") throw new TypeError("图片数据无效");
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  let binary = "";
+  const chunk = 0x8000;
+  for (let offset = 0; offset < bytes.length; offset += chunk) {
+    binary += String.fromCharCode(...bytes.subarray(offset, offset + chunk));
+  }
+  return `data:${blob.type || "application/octet-stream"};base64,${btoa(binary)}`;
+}
+
+async function preparePortraitProviderInput(settings) {
+  let prepared = null;
+  try {
+    prepared = await runLocalEditor({ file: source.file, settings: { ...settings, format: "png" } });
+    const bytes = new Uint8Array(await prepared.blob.arrayBuffer());
+    return Object.freeze({
+      dataUrl: await dataUrlForBlob(prepared.blob),
+      sha256: await sha256Bytes(bytes),
+      width: prepared.width,
+      height: prepared.height,
+      geometryRevision: 2,
+      defaultBackground: "white",
+    });
+  } finally {
+    if (prepared?.url) revokeIfBlob(prepared.url);
+  }
+}
+
+function decoratePortraitResult(result, settings) {
+  return {
+    ...result,
+    portraitRatio: settings.ratio,
+    title: result.provider?.environment === "sandbox" ? "沙盒头像抠图完成（带水印）" : "头像背景已移除",
+    validationSummary: `${result.validationSummary}；当前构图为 ${settings.ratio === "portrait" ? "4:5" : "1:1"}，请选择底色并检查人物边缘`,
+  };
 }
 
 function showError(title, copy, retryable = true) {
@@ -1494,7 +1580,7 @@ function returnToCutoutSettings(message) {
   setJourney("task");
   const remoteConsent = elements.settingsForm.elements.remoteConsent;
   if (remoteConsent) remoteConsent.checked = false;
-  syncCutoutConsent();
+  syncRemoteConsent();
   remoteConsent?.focus();
   if (message) toast(message);
 }
@@ -1507,7 +1593,7 @@ async function recoverUnknownRun() {
   showOnly("status");
   elements.cancelWait.hidden = false;
   elements.statusTitle.textContent = "正在查询原任务";
-  const isBackgroundRemoval = selectedTask?.id === "UT-CUTOUT";
+  const isBackgroundRemoval = isBackgroundRemovalTask();
   elements.statusCopy.textContent = "不会新建处理请求，只确认之前任务的真实状态。";
   try {
     const poll = isBackgroundRemoval ? api.pollBackgroundRemovalRun : api.pollRun;
@@ -1530,6 +1616,20 @@ async function recoverUnknownRun() {
     let result;
     if (isBackgroundRemoval) {
       result = createBackgroundRemovalResult(finished, { recovered: true });
+      if (selectedTask.id === "UT-PORTRAIT") {
+        const portraitInput = await preparePortraitProviderInput(machine.config ?? editorSettings(editorWorkspace));
+        result = decoratePortraitResult({
+          ...result,
+          correctionSourceUrl: portraitInput.dataUrl,
+          defaultBackground: "white",
+          providerInput: Object.freeze({
+            width: portraitInput.width,
+            height: portraitInput.height,
+            sha256: portraitInput.sha256,
+            geometryRevision: portraitInput.geometryRevision,
+          }),
+        }, machine.config ?? editorSettings(editorWorkspace));
+      }
     } else {
       if (!finished.result?.image) throw new Error("图片服务没有返回图片结果");
       const decoded = await decodeImage(finished.result.image);
@@ -1584,8 +1684,8 @@ async function checkStatus() {
       ? "本地编辑、远程抠图与创意生成已连接"
       : backgroundRemovalStatus.available
         ? backgroundRemovalStatus.provider?.environment === "sandbox"
-          ? "本地编辑与 PhotoRoom 沙盒抠图可用"
-          : "本地编辑与远程抠图可用"
+          ? "本地编辑、透明抠图与通用头像可用 · PhotoRoom 沙盒"
+          : "本地编辑、透明抠图与通用头像可用"
         : apiStatus.available ? `本地编辑与创意生成可用 · ${status.model}` : "本地处理可用 · 远程服务未连接";
 }
 
@@ -1607,11 +1707,9 @@ elements.confirmSource.addEventListener("click", confirmAndPrepare);
 elements.cancelSource.addEventListener("click", cancelCurrentSource);
 elements.backToTasks.addEventListener("click", () => { selectedTask = null; clearEditorWorkspace(); showOnly("tasks"); setJourney("task"); });
 elements.settingsForm.addEventListener("input", (event) => {
-  if (selectedTask?.id === "UT-CUTOUT") {
-    syncCutoutConsent();
-    return;
-  }
-  if (selectedTask?.id !== "UT-TUNE" || !editorWorkspace) return;
+  if (isBackgroundRemovalTask()) syncRemoteConsent();
+  if (selectedTask?.id === "UT-CUTOUT") return;
+  if (!isEditorTask() || !editorWorkspace) return;
   const changedName = event.target?.name;
   if (changedName === "ratio") seedFreeCropFromWorkspace();
   if (["cropLeft", "cropTop", "cropWidth", "cropHeight"].includes(changedName)) reconcileFreeCrop();
@@ -1621,11 +1719,9 @@ elements.settingsForm.addEventListener("input", (event) => {
   previewEditorForm();
 });
 elements.settingsForm.addEventListener("change", (event) => {
-  if (selectedTask?.id === "UT-CUTOUT") {
-    syncCutoutConsent();
-    return;
-  }
-  if (selectedTask?.id !== "UT-TUNE") return;
+  if (isBackgroundRemovalTask()) syncRemoteConsent();
+  if (selectedTask?.id === "UT-CUTOUT") return;
+  if (!isEditorTask()) return;
   const changedName = event.target?.name;
   if (changedName === "ratio") seedFreeCropFromWorkspace();
   if (["cropLeft", "cropTop", "cropWidth", "cropHeight"].includes(changedName)) reconcileFreeCrop();
@@ -1657,8 +1753,8 @@ elements.editorPreviewFrame.addEventListener("pointerup", (event) => finishCropD
 elements.editorPreviewFrame.addEventListener("pointercancel", (event) => finishCropDrag(event, { commit: false }));
 elements.editorPreviewFrame.addEventListener("keydown", nudgeCropWithKeyboard);
 elements.redo.addEventListener("click", () => {
-  if (selectedTask?.id === "UT-CUTOUT") {
-    returnToCutoutSettings("再次抠图前，请重新确认本次远程发送");
+  if (isBackgroundRemovalTask()) {
+    returnToCutoutSettings(selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
     return;
   }
   clearResult();
@@ -1667,8 +1763,8 @@ elements.redo.addEventListener("click", () => {
   elements.runButton.focus();
 });
 elements.retry.addEventListener("click", () => {
-  if (selectedTask?.id === "UT-CUTOUT") {
-    returnToCutoutSettings("再次抠图前，请重新确认本次远程发送");
+  if (isBackgroundRemovalTask()) {
+    returnToCutoutSettings(selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
     return;
   }
   runSelectedTask();
@@ -1677,7 +1773,7 @@ elements.recover.addEventListener("click", recoverUnknownRun);
 elements.fallbackEditor.addEventListener("click", switchToLocalEditor);
 elements.errorBack.addEventListener("click", async () => {
   if (machine.status === STUDIO_STATES.RUN_UNKNOWN) {
-    const backgroundRemovalRunId = selectedTask?.id === "UT-CUTOUT" ? machine.activeRunId : null;
+    const backgroundRemovalRunId = isBackgroundRemovalTask() ? machine.activeRunId : null;
     stopActiveRequest();
     if (backgroundRemovalRunId) {
       await api.cancelBackgroundRemovalRun(backgroundRemovalRunId, { timeoutMs: 8_000 }).catch(() => null);
@@ -1697,7 +1793,7 @@ elements.cancelWait.addEventListener("click", async () => {
     return;
   }
   if (![STUDIO_STATES.RUNNING, STUDIO_STATES.RUN_UNKNOWN].includes(machine.status)) return;
-  const backgroundRemovalRunId = selectedTask?.id === "UT-CUTOUT" ? machine.activeRunId : null;
+  const backgroundRemovalRunId = isBackgroundRemovalTask() ? machine.activeRunId : null;
   stopActiveRequest();
   if (backgroundRemovalRunId) {
     await api.cancelBackgroundRemovalRun(backgroundRemovalRunId, { timeoutMs: 8_000 }).catch(() => null);
@@ -1735,7 +1831,7 @@ elements.maskCorrectionCanvas.addEventListener("focus", () => {
 elements.maskCorrectionCanvas.addEventListener("blur", () => { elements.maskBrushCursor.hidden = true; });
 elements.maskCorrectionCanvas.addEventListener("keydown", maskKeyboard);
 elements.deleteProcessingRecord.addEventListener("click", async () => {
-  if (!currentResult || selectedTask?.id !== "UT-CUTOUT" || currentResult.localRecordDeleted) return;
+  if (!currentResult || !isBackgroundRemovalTask() || currentResult.localRecordDeleted) return;
   elements.deleteProcessingRecord.disabled = true;
   elements.deleteProcessingRecord.textContent = "正在清除…";
   elements.processingRecordStatus.textContent = "正在清除当前电脑服务进程中的任务记录";
@@ -1759,9 +1855,10 @@ elements.deleteProcessingRecord.addEventListener("click", async () => {
 
 elements.download.addEventListener("click", async () => {
   if (!currentResult) return;
-  const contract = buildResultDownloadContract({ taskId: selectedTask.id, result: machine.result, currentRunId: machine.activeRunId });
+  const contractTaskId = selectedTask.id === "UT-PORTRAIT" ? "UT-CUTOUT" : selectedTask.id;
+  const contract = buildResultDownloadContract({ taskId: contractTaskId, result: machine.result, currentRunId: machine.activeRunId });
   if (!contract.allowed) { toast(contract.message || "当前结果不可下载"); return; }
-  if (selectedTask.id === "UT-CUTOUT"
+  if (isBackgroundRemovalTask(selectedTask.id)
     && maskCorrectionSession
     && (maskCorrectionSession.history.index > 0 || maskCorrectionSession.background !== "checker")) {
     const previousLabel = elements.download.textContent;
@@ -1773,13 +1870,31 @@ elements.download.addEventListener("click", async () => {
       const url = URL.createObjectURL(corrected.blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      const suffix = corrected.mime === "image/png"
-        ? "-corrected.png"
-        : `-${corrected.background}-background.jpg`;
-      anchor.download = contract.download.filename.replace(/\.png$/i, suffix);
+      if (selectedTask.id === "UT-PORTRAIT") {
+        const portraitContract = buildResultDownloadContract({
+          taskId: "UT-PORTRAIT",
+          currentRunId: machine.activeRunId,
+          result: {
+            ...machine.result,
+            mimeType: corrected.mime,
+            hasAlpha: corrected.mime === "image/png",
+            outputHash: corrected.outputHash,
+            byteLength: corrected.byteLength,
+          },
+        });
+        if (!portraitContract.allowed) throw new Error(portraitContract.message || "头像下载契约未通过");
+        anchor.download = portraitContract.download.filename;
+      } else {
+        const suffix = corrected.mime === "image/png"
+          ? "-corrected.png"
+          : `-${corrected.background}-background.jpg`;
+        anchor.download = contract.download.filename.replace(/\.png$/i, suffix);
+      }
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
-      const outputLabel = corrected.mime === "image/png" ? "修正透明 PNG" : "纯色背景 JPEG";
+      const outputLabel = selectedTask.id === "UT-PORTRAIT"
+        ? "底色头像 JPEG"
+        : corrected.mime === "image/png" ? "修正透明 PNG" : "纯色背景 JPEG";
       elements.maskCorrectionStatus.textContent = `${outputLabel} 已准备并检查 · ${currentResult.width} × ${currentResult.height}`;
       toast(`${outputLabel} 下载已开始`);
     } catch (error) {
@@ -1861,13 +1976,18 @@ function createBackgroundRemovalResult(finished, { recovered = false } = {}) {
   };
 }
 
-async function runBackgroundRemoval({ runId, runController, sourceHashAtStart }) {
+async function runBackgroundRemoval({
+  runId,
+  runController,
+  sourceHashAtStart,
+  providerInput = null,
+}) {
   const payload = {
     clientRunId: runId,
     sourceRevision: machine.sourceRevision,
-    geometryRevision: 1,
-    sourceImage: await dataUrlForFile(source.file),
-    sourceSha256: source.hash,
+    geometryRevision: providerInput?.geometryRevision ?? 1,
+    sourceImage: providerInput?.dataUrl ?? await dataUrlForFile(source.file),
+    sourceSha256: providerInput?.sha256 ?? source.hash,
     consent: {
       accepted: true,
       acceptedAt: new Date().toISOString(),
@@ -1908,7 +2028,17 @@ async function runBackgroundRemoval({ runId, runController, sourceHashAtStart })
     error.code = finished.error?.code;
     throw error;
   }
-  return createBackgroundRemovalResult(finished);
+  return {
+    ...createBackgroundRemovalResult(finished),
+    correctionSourceUrl: providerInput?.dataUrl ?? null,
+    defaultBackground: providerInput?.defaultBackground ?? "checker",
+    providerInput: providerInput ? Object.freeze({
+      width: providerInput.width,
+      height: providerInput.height,
+      sha256: providerInput.sha256,
+      geometryRevision: providerInput.geometryRevision,
+    }) : null,
+  };
 }
 
 function syncComparisonStage(layer = selectedComparisonLayer) {
@@ -1958,7 +2088,7 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   elements.resultSourcePanel.hidden = !layerState.showSource;
   elements.resultOutputPanel.hidden = !layerState.showResult;
   elements.referenceExplainer.hidden = !layerState.showReference;
-  const showMaskTools = selectedTask?.id === "UT-CUTOUT" && layerState.resultInteractive;
+  const showMaskTools = isBackgroundRemovalTask() && layerState.resultInteractive;
   elements.resultSection.classList.toggle("has-mask-tools", showMaskTools);
   elements.maskCorrectionWorkspace.hidden = !showMaskTools;
   if (!layerState.resultInteractive) {
@@ -1972,7 +2102,7 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   const dimensions = layer === "split" ? comparisonLayerDimensions("result") : comparisonLayerDimensions(layer);
   if (layer === "source") elements.resultSize.textContent = `完整原图 ${dimensions.width} × ${dimensions.height}`;
   if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
-    ? `${selectedTask?.id === "UT-CUTOUT" ? "抠图结果" : selectedTask?.id === "UT-TUNE" ? "编辑结果" : "处理结果"} ${currentResult.width} × ${currentResult.height}`
+    ? `${selectedTask?.id === "UT-PORTRAIT" ? "头像结果" : selectedTask?.id === "UT-CUTOUT" ? "抠图结果" : selectedTask?.id === "UT-TUNE" ? "编辑结果" : "处理结果"} ${currentResult.width} × ${currentResult.height}`
     : currentResult.mimeType;
   if (layer === "reference") elements.resultSize.textContent = "处理说明";
   if (layer === "split") {

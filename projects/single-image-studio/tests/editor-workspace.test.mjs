@@ -58,6 +58,18 @@ test("editor workspace binds presets to immutable history and a render-plan prev
   assert.match(presentation.summary, /4:5.*亮度 \+15.*JPEG/);
 });
 
+test("a portrait workspace can freeze a square raised composition as its reset baseline", () => {
+  const workspace = createEditorWorkspace(
+    { sourceWidth: 1200, sourceHeight: 1800, sourceOrientation: 1 },
+    { initialSettings: { ratio: "square", cropX: 50, cropY: 42, sizeMode: "preset", format: "png" } },
+  );
+  assert.equal(workspace.history.past.length, 0);
+  assert.equal(editorSettings(workspace).ratio, "square");
+  assert.equal(editorSettings(workspace).cropY, 42);
+  assert.equal(editorSettings(workspace).format, "png");
+  assert.equal(resetEditorWorkspace(workspace).history.past.length, 0);
+});
+
 test("crop position, custom size and drag math share one immutable edit contract", () => {
   let workspace = createEditorWorkspace({ sourceWidth: 1000, sourceHeight: 500, sourceOrientation: 1 });
   workspace = updateEditorWorkspace(workspace, {

@@ -62,13 +62,13 @@ const BASE_TASKS = Object.freeze([
   }),
   Object.freeze({
     id: "UT-PORTRAIT",
-    label: "标准底色头像 / 报名照",
-    description: "通用非官方用途；不承诺任何机构受理。",
+    label: "通用底色头像",
+    description: "先在本机确定方形或 4:5 构图，再远程移除背景并在本机换底。",
     family: "utility",
-    executor: TASK_EXECUTOR.UNVERIFIED,
-    contractVersion: "portrait-v1-draft",
+    executor: TASK_EXECUTOR.BACKGROUND_REMOVAL,
+    contractVersion: "portrait-background-v1",
     requiresConfig: true,
-    requiresAdultAttestation: true,
+    requiresAdultAttestation: false,
   }),
 ]);
 
@@ -185,7 +185,9 @@ function resolveTask(task, aiStatus, backgroundRemovalStatus) {
  * - local fidelity is always runnable;
  * - the real AI task follows the observed service status;
  * - remote cutout follows its independently observed provider status;
- * - unverified background and portrait tasks remain visible but disabled.
+ * - the portrait workflow reuses the independently observed background-removal service;
+ * - the standalone background task remains unverified because the same capability is
+ *   already exposed inside the cutout result workspace.
  */
 export function getTaskCatalog({
   aiStatus = AI_SERVICE_STATUS.CHECKING,

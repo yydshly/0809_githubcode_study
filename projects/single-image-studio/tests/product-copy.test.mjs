@@ -155,13 +155,13 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /失败不会覆盖原图，也不会自动重复提交/);
   assert.match(main, /再次抠图前，请重新确认本次远程发送/);
   assert.match(main, /remoteConsent\.checked = false/);
-  assert.match(main, /\? "重新抠图"/);
+  assert.match(main, /\? selectedTask\.id === "UT-PORTRAIT" \? "重新制作头像" : "重新抠图"/);
   assert.match(main, /\? "继续调整"/);
   assert.match(recoveryPresentation, /\? "返回并重新确认"/);
   assert.match(html, /id="fallback-editor-button"[^>]*>改用本地编辑</);
   assert.match(main, /switchToLocalEditor/);
   assert.match(main, /已保留当前图片；本地编辑不会上传/);
-  assert.match(main, /returnToCutoutSettings\("再次抠图前/);
+  assert.match(main, /returnToCutoutSettings\(selectedTask\?\.id === "UT-PORTRAIT"/);
   assert.match(main, /applyRecoveryPresentation/);
   assert.match(recoveryPresentation, /focusTarget: unknown \? "recover" : cutoutFailure \? "fallback"/);
   assert.match(html, /返回任务列表/);
@@ -235,4 +235,16 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(styles, /data-preview-background="black"/);
   assert.match(styles, /is-mask-zoomed/);
   assert.match(styles, /@media \(max-width: 620px\)[\s\S]*mask-tool-group/);
+});
+
+test("portrait is a real composed workflow, not a newly enabled placeholder", () => {
+  assert.match(main, /title: "通用底色头像"/);
+  assert.match(main, /preparePortraitProviderInput/);
+  assert.match(main, /runLocalEditor\(\{ file: source\.file, settings: \{ \.\.\.settings, format: "png" \} \}\)/);
+  assert.match(main, /providerInput: portraitInput/);
+  assert.match(main, /correctionSourceUrl: providerInput\?\.dataUrl/);
+  assert.match(main, /defaultBackground: "white"/);
+  assert.match(main, /taskId: "UT-PORTRAIT"/);
+  assert.match(main, /头像下载契约未通过/);
+  assert.match(main, /不承诺任何证件或机构规格/);
 });

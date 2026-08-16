@@ -46,12 +46,14 @@ test("without an AI service, local fidelity is the only runnable task", () => {
   assert.equal(cutout.availability, TASK_AVAILABILITY.UNAVAILABLE);
   assert.equal(cutout.statusLabel, "抠图服务未配置");
 
-  for (const id of ["UT-SOLID-BG", "UT-PORTRAIT"]) {
-    const task = catalog.find((candidate) => candidate.id === id);
-    assert.equal(task.runnable, false);
-    assert.equal(task.availability, TASK_AVAILABILITY.VALIDATING);
-    assert.equal(task.statusLabel, "能力验证中");
-  }
+  const solidBackground = catalog.find((candidate) => candidate.id === "UT-SOLID-BG");
+  assert.equal(solidBackground.runnable, false);
+  assert.equal(solidBackground.availability, TASK_AVAILABILITY.VALIDATING);
+  assert.equal(solidBackground.statusLabel, "能力验证中");
+  const portrait = catalog.find((candidate) => candidate.id === "UT-PORTRAIT");
+  assert.equal(portrait.runnable, false);
+  assert.equal(portrait.availability, TASK_AVAILABILITY.UNAVAILABLE);
+  assert.equal(portrait.statusLabel, "抠图服务未配置");
 });
 
 test("AI availability enables only the real AI task, never unverified utilities", () => {
@@ -73,18 +75,21 @@ test("AI availability enables only the real AI task, never unverified utilities"
   assert.equal(recommendations.slice(2).every((task) => !task.runnable), true);
 });
 
-test("background removal availability enables only the explicit remote cutout task", () => {
+test("background removal availability enables cutout and the composed portrait workflow", () => {
   const catalog = getTaskCatalog({
     aiStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     backgroundRemovalStatus: AI_SERVICE_STATUS.AVAILABLE,
   });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
-    ["UT-TUNE", "UT-CUTOUT"],
+    ["UT-TUNE", "UT-CUTOUT", "UT-PORTRAIT"],
   );
   const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
   assert.equal(cutout.statusLabel, "可运行 · 远程处理");
   assert.equal(cutout.contractVersion, "remote-cutout-v1");
+  const portrait = catalog.find((task) => task.id === "UT-PORTRAIT");
+  assert.equal(portrait.statusLabel, "可运行 · 远程处理");
+  assert.equal(portrait.contractVersion, "portrait-background-v1");
   assert.equal(catalog.find((task) => task.id === "UT-SOLID-BG").runnable, false);
 });
 

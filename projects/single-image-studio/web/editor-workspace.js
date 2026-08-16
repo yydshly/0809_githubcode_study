@@ -88,11 +88,11 @@ function settingsFromState(state, source) {
   });
 }
 
-export function createEditorWorkspace(source) {
+export function createEditorWorkspace(source, { initialSettings = null } = {}) {
   const frozenSource = sourceContract(source);
   const initial = editStateFromSettings({
     ...frozenSource,
-    settings: { ratio: "original", format: "png" },
+    settings: initialSettings ?? { ratio: "original", format: "png" },
   });
   return Object.freeze({
     source: frozenSource,

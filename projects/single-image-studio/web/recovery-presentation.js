@@ -1,7 +1,8 @@
 export function recoveryPresentation({ unknown = false, retryable = true, taskId = null } = {}) {
-  const cutoutFailure = taskId === "UT-CUTOUT" && !unknown;
+  const backgroundRemovalTask = ["UT-CUTOUT", "UT-PORTRAIT"].includes(taskId);
+  const cutoutFailure = backgroundRemovalTask && !unknown;
   return Object.freeze({
-    retryLabel: taskId === "UT-CUTOUT"
+    retryLabel: backgroundRemovalTask
       ? "返回并重新确认"
       : unknown ? "新建任务" : "再试一次",
     retryVisible: retryable,
