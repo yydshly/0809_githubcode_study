@@ -32,7 +32,7 @@
 | 创意 API 工程路径 | `gpt-image-2` 图片编辑请求、状态查询、幂等和失败闭合 | 保留为实验功能，不进入当前 MVP 主路径 |
 | 研究资产 | synthetic fixtures、Sharp 来源锁、canonical PNG encoder lineage、Alpha 指标、rights / provenance 结构 | 精简复用，不把研究通过写成产品通过 |
 
-M0 后产品工程定向测试为 9 files / 51 tests 通过；新增覆盖本地输出几何 / 编码事实和页面能力文案。它们证明工程状态和接口约束，不证明图片效果质量、真实浏览器兼容或抠图能力。
+当前产品工程定向测试为 11 files / 61 tests 通过；除 M0 的本地输出和页面文案外，新增覆盖不可变编辑状态、有界 history、旋转 / 翻转 / crop / fit resize、PNG 透明上下文、JPEG 显式铺底和编码输出重开。它们证明工程状态和接口约束，不证明像素级 Alpha / ICC / metadata 正确、真实浏览器兼容或抠图能力。
 
 当前可复算命令为：
 
@@ -193,6 +193,8 @@ MVP 初始资源边界为：输入继续沿用 40 MP 预检，但交互工作 ra
 
 当前完成（2026-08-16）：已拆分产品与归档研究测试，增加动态 syntax 检查，修正 R0 过度声明，并为本地处理加入可注入解码 / canvas / 输出回归；`verify:product` 为 51 / 51。Slice 01–11 使用 archive validator 继续核对冻结树与 pins，不再要求当前产品 `package.json` 与历史 runtime attestation 逐 byte 相同。M0 原列的真实 Chrome / Edge 下载与 console E2E 尚未完成，作为明确欠项保留，最迟在 M1b 完成条件前关闭；它不阻止先开始 M1a 的无 UI renderer 工作。
 
+M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立但尚未接 UI。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；renderer 在透明 scratch canvas 上完成旋转 / 翻转，随后按 post-transform 坐标裁切和 fit resize，PNG 保持透明上下文，JPEG 只在明确颜色上合成，并从编码 bytes 独立重开核对尺寸。当前明确欠项是 EXIF orientation 解析 / 归一化、真实像素 Alpha / hidden RGB / premultiplication、ICC / sRGB、metadata 清理 fixtures，以及浏览器接线和 E2E；因此不得把本增量描述为已完成图片编辑器。
+
 ### M1a · Renderer 与像素合同（4–6 个工作日）
 
 目标：先让每次编辑和导出在像素层面可解释、可重复，不在 UI 上掩盖错误。
@@ -304,7 +306,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 2. ~~修复验证命令覆盖；~~
 3. ~~修正文案和虚假 QA 表述；~~
 4. ~~为 `local-processing.js` 建立输出几何 / 编码事实测试；~~
-5. 实现 M1a renderer、`EditState`、Alpha / orientation / metadata 合同和独立输出重开；
+5. 继续 M1a：在已完成的 renderer / `EditState` / 独立输出重开骨架上补 orientation、像素 Alpha / ICC / metadata fixtures，并接入产品路径；
 6. 实现 M1b 可视化控件并建立真实 Chrome / Edge 下载 E2E；
 7. 完成基础编辑器早期内部可用性走查。
 
