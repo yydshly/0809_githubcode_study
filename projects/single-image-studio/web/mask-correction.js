@@ -88,6 +88,17 @@ export function createMaskCorrectionHistory({ width, height, initialAlpha, maxSt
   });
 }
 
+export function correctionViewMask(history, currentMask, view = "corrected") {
+  if (!history || !Number.isInteger(history.width) || !Number.isInteger(history.height)) {
+    throw new TypeError("蒙版历史无效");
+  }
+  pixels(history.initialAlpha, history.width * history.height, "初始 Alpha");
+  pixels(currentMask, history.width * history.height, "当前 Alpha");
+  if (view === "automatic") return history.initialAlpha;
+  if (view === "corrected") return currentMask;
+  throw new TypeError("蒙版查看版本必须是自动结果或修正后结果");
+}
+
 export function commitMaskStroke(history, stroke) {
   const nextStroke = Object.freeze(strokeValue(stroke));
   const active = history.strokes.slice(0, history.index);

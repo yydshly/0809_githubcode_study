@@ -160,6 +160,9 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(html, /data-mask-zoom="2"/);
   assert.match(html, /data-mask-zoom="4"/);
   assert.match(html, /只改变查看倍率，不改变导出尺寸/);
+  assert.match(html, /data-mask-view="automatic"/);
+  assert.match(html, /data-mask-view="corrected"/);
+  assert.match(html, /下载始终使用修正后版本/);
   assert.match(main, /initializeMaskCorrection/);
   assert.match(main, /exportMaskCorrection/);
   assert.match(main, /verifyPixelRoundTrip/);
@@ -167,6 +170,8 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(main, /下载.*底 JPEG/);
   assert.match(main, /composeSolidBackgroundPixels/);
   assert.match(main, /correctionZoomDimensions/);
+  assert.match(main, /correctionViewMask/);
+  assert.match(main, /正在查看未修正的自动结果/);
   assert.match(main, /当前修正已没有透明背景/);
   assert.match(main, /当前修正已把主体全部擦除/);
   assert.match(styles, /mask-correction-controls/);

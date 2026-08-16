@@ -18,6 +18,7 @@ import {
   commitMaskStroke,
   composeCorrectedPixels,
   composeSolidBackgroundPixels,
+  correctionViewMask,
   correctionZoomDimensions,
   createMaskCorrectionHistory,
   previewCorrectionDimensions,
@@ -73,6 +74,7 @@ const elements = {
   maskErase: $("#mask-erase-button"), maskKeep: $("#mask-keep-button"), maskBrushSize: $("#mask-brush-size"),
   maskBrushSizeOutput: $("#mask-brush-size-output"), maskUndo: $("#mask-undo-button"),
   maskRedo: $("#mask-redo-button"), maskReset: $("#mask-reset-button"),
+  maskViews: $$('[data-mask-view]'),
   maskBackgrounds: $$('[data-mask-background]'),
   maskZooms: $$('[data-mask-zoom]'),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
@@ -238,10 +240,11 @@ function alphaPlane(rgba) {
 function renderMaskCorrection() {
   const session = maskCorrectionSession;
   if (!session) return;
+  const viewAutomatic = session.view === "automatic";
   const output = composeCorrectedPixels({
     sourcePixels: session.previewSourcePixels,
     resultPixels: session.previewResultPixels,
-    mask: session.mask,
+    mask: correctionViewMask(session.history, session.mask, session.view),
     width: session.width,
     height: session.height,
   });
@@ -255,25 +258,49 @@ function renderMaskCorrection() {
   const backgroundLabel = { white: "白", black: "黑", coral: "彩" }[session.background];
   elements.maskErase.setAttribute("aria-pressed", String(session.tool === "erase"));
   elements.maskKeep.setAttribute("aria-pressed", String(session.tool === "keep"));
+  elements.maskErase.disabled = viewAutomatic;
+  elements.maskKeep.disabled = viewAutomatic;
+  elements.maskBrushSize.disabled = viewAutomatic;
   elements.maskBrushSize.value = String(Math.round(session.radius * 100));
   elements.maskBrushSizeOutput.value = `${Math.round(session.radius * 100)}%`;
   elements.maskBrushSizeOutput.textContent = `${Math.round(session.radius * 100)}%`;
-  elements.maskUndo.disabled = session.history.index === 0;
-  elements.maskRedo.disabled = session.history.index >= session.history.strokes.length;
-  elements.maskReset.disabled = !modified && session.history.strokes.length === 0;
+  elements.maskUndo.disabled = viewAutomatic || session.history.index === 0;
+  elements.maskRedo.disabled = viewAutomatic || session.history.index >= session.history.strokes.length;
+  elements.maskReset.disabled = viewAutomatic || (!modified && session.history.strokes.length === 0);
+  elements.maskViews.forEach((button) => {
+    const selected = button.dataset.maskView === session.view;
+    button.setAttribute("aria-pressed", String(selected));
+    button.disabled = button.dataset.maskView === "automatic" && !modified;
+  });
+  elements.maskCorrectionCanvas.classList.toggle("is-mask-readonly", viewAutomatic);
+  elements.maskCorrectionCanvas.tabIndex = viewAutomatic ? -1 : 0;
+  elements.maskCorrectionCanvas.setAttribute("aria-label", viewAutomatic
+    ? "自动抠图结果，只读对比"
+    : "透明抠图蒙版修正画布");
+  if (viewAutomatic) elements.maskBrushCursor.hidden = true;
   elements.maskZooms.forEach((button) => button.setAttribute("aria-pressed", String(Number(button.dataset.maskZoom) === session.zoom)));
   elements.download.textContent = session.background === "checker"
     ? (modified ? "下载修正 PNG" : "下载透明 PNG")
     : `下载${backgroundLabel}底 JPEG`;
-  elements.maskCorrectionStatus.textContent = session.draft
+  elements.maskCorrectionStatus.textContent = viewAutomatic
+    ? `正在查看未修正的自动结果；已保留 ${session.history.index} 笔修正，下载仍使用修正后版本。`
+    : session.draft
     ? `${session.tool === "erase" ? "正在擦除背景残留" : "正在补回主体"}…`
     : modified
       ? `已记录 ${session.history.index} 笔修正 · 透明 ${summary.transparent.toLocaleString()} 像素 · 下载时按原尺寸重新生成${session.background === "checker" ? "透明 PNG" : `${backgroundLabel}底 JPEG`}`
       : `当前仍是自动蒙版；${session.background === "checker" ? "下载将保留透明背景" : `下载将写入${backgroundLabel}色背景`}。`;
 }
 
+function setMaskView(view) {
+  const session = maskCorrectionSession;
+  if (!session || !["automatic", "corrected"].includes(view)) return;
+  if (view === "automatic" && session.history.index === 0) return;
+  session.view = view;
+  renderMaskCorrection();
+}
+
 function setMaskTool(tool) {
-  if (!maskCorrectionSession || !["erase", "keep"].includes(tool)) return;
+  if (!maskCorrectionSession || maskCorrectionSession.view !== "corrected" || !["erase", "keep"].includes(tool)) return;
   maskCorrectionSession.tool = tool;
   renderMaskCorrection();
 }
@@ -359,7 +386,7 @@ function maskPointForPointer(event) {
 
 function beginMaskStroke(event) {
   const session = maskCorrectionSession;
-  if (!session || selectedComparisonLayer !== "result" || event.button !== 0) return;
+  if (!session || session.view !== "corrected" || selectedComparisonLayer !== "result" || event.button !== 0) return;
   event.preventDefault();
   const point = maskPointForPointer(event);
   session.pointerId = event.pointerId;
@@ -372,6 +399,7 @@ function beginMaskStroke(event) {
 
 function continueMaskStroke(event) {
   const session = maskCorrectionSession;
+  if (!session || session.view !== "corrected") return;
   const point = maskPointForPointer(event);
   showMaskCursor(point);
   if (!session?.draft || session.pointerId !== event.pointerId) return;
@@ -406,21 +434,21 @@ function finishMaskStroke(event, { commit = true } = {}) {
 }
 
 function undoMaskCorrection() {
-  if (!maskCorrectionSession) return;
+  if (!maskCorrectionSession || maskCorrectionSession.view !== "corrected") return;
   maskCorrectionSession.history = undoMaskStroke(maskCorrectionSession.history);
   maskCorrectionSession.mask = rebuildCorrectionMask(maskCorrectionSession.history);
   renderMaskCorrection();
 }
 
 function redoMaskCorrection() {
-  if (!maskCorrectionSession) return;
+  if (!maskCorrectionSession || maskCorrectionSession.view !== "corrected") return;
   maskCorrectionSession.history = redoMaskStroke(maskCorrectionSession.history);
   maskCorrectionSession.mask = rebuildCorrectionMask(maskCorrectionSession.history);
   renderMaskCorrection();
 }
 
 function resetMaskCorrectionSession() {
-  if (!maskCorrectionSession) return;
+  if (!maskCorrectionSession || maskCorrectionSession.view !== "corrected") return;
   maskCorrectionSession.history = resetMaskCorrection(maskCorrectionSession.history);
   maskCorrectionSession.mask = rebuildCorrectionMask(maskCorrectionSession.history);
   renderMaskCorrection();
@@ -429,7 +457,7 @@ function resetMaskCorrectionSession() {
 
 function maskKeyboard(event) {
   const session = maskCorrectionSession;
-  if (!session) return;
+  if (!session || session.view !== "corrected") return;
   if (event.key.toLowerCase() === "e") { event.preventDefault(); setMaskTool("erase"); return; }
   if (event.key.toLowerCase() === "k") { event.preventDefault(); setMaskTool("keep"); return; }
   if (event.key === "[") {
@@ -517,6 +545,7 @@ async function initializeMaskCorrection() {
       radius: 0.06,
       background: "checker",
       zoom: 1,
+      view: "corrected",
       keyboardCursor: { x: 0.5, y: 0.5 },
       draft: null,
       pointerId: null,
@@ -1557,6 +1586,7 @@ elements.maskBrushSize.addEventListener("input", () => {
 elements.maskUndo.addEventListener("click", undoMaskCorrection);
 elements.maskRedo.addEventListener("click", redoMaskCorrection);
 elements.maskReset.addEventListener("click", resetMaskCorrectionSession);
+elements.maskViews.forEach((button) => button.addEventListener("click", () => setMaskView(button.dataset.maskView)));
 elements.maskBackgrounds.forEach((button) => button.addEventListener("click", () => setMaskBackground(button.dataset.maskBackground)));
 elements.maskZooms.forEach((button) => button.addEventListener("click", () => setMaskZoom(Number(button.dataset.maskZoom))));
 elements.maskCorrectionCanvas.addEventListener("pointerdown", beginMaskStroke);

@@ -231,7 +231,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .mask-correction-intro h3 { margin: .1rem 0 0; font: 500 1.35rem Georgia, "Songti SC", serif; }
 .mask-correction-intro > p { max-width: 32rem; margin: 0; color: var(--muted); font-size: .72rem; line-height: 1.55; text-align: right; }
 .mask-correction-controls { margin-top: .9rem; display: grid; grid-template-columns: minmax(17rem, 1.2fr) minmax(11rem, .7fr) auto; align-items: center; gap: .8rem; }
-.mask-tool-group, .mask-history-actions, .mask-background-controls, .mask-zoom-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; }
+.mask-tool-group, .mask-history-actions, .mask-view-controls, .mask-background-controls, .mask-zoom-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; }
 .mask-tool { min-height: 2.75rem; padding: .55rem .72rem; border: 1px solid var(--line); border-radius: .65rem; background: white; color: var(--ink); cursor: pointer; font-weight: 720; }
 .mask-tool > span { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; margin-right: .25rem; border-radius: 50%; background: #edf0e8; }
 .mask-tool[aria-pressed="true"] { border-color: var(--green); background: var(--green); color: white; box-shadow: 0 4px 12px rgba(30,63,52,.18); }
@@ -243,9 +243,10 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .mask-history-actions { justify-content: flex-end; }
 .mask-history-actions .button { min-height: 2.5rem; padding: .5rem .7rem; }
 .mask-inspection-controls { margin-top: .75rem; display: flex; justify-content: space-between; align-items: center; gap: .75rem 1.5rem; flex-wrap: wrap; }
-.mask-background-controls > span, .mask-zoom-controls > span { margin-right: .25rem; color: var(--muted); font-size: .7rem; }
-.mask-background-controls button, .mask-zoom-controls button { min-height: 2.2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); cursor: pointer; }
-.mask-background-controls button[aria-pressed="true"], .mask-zoom-controls button[aria-pressed="true"] { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+.mask-view-controls > span, .mask-background-controls > span, .mask-zoom-controls > span { margin-right: .25rem; color: var(--muted); font-size: .7rem; }
+.mask-view-controls button, .mask-background-controls button, .mask-zoom-controls button { min-height: 2.2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--ink); cursor: pointer; }
+.mask-view-controls button[aria-pressed="true"], .mask-background-controls button[aria-pressed="true"], .mask-zoom-controls button[aria-pressed="true"] { border-color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+.mask-view-controls button:disabled, .mask-tool:disabled, .mask-brush-size input:disabled { cursor: not-allowed; opacity: .45; }
 .mask-background-controls button[data-mask-background="checker"] { background-color: #eef1ed; background-image: linear-gradient(45deg, #c9cfca 25%, transparent 25%), linear-gradient(-45deg, #c9cfca 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c9cfca 75%), linear-gradient(-45deg, transparent 75%, #c9cfca 75%); background-size: 12px 12px; background-position: 0 0, 0 6px, 6px -6px, -6px 0; }
 .mask-background-controls button[data-mask-background="black"] { background: #121614; color: white; }
 .mask-background-controls button[data-mask-background="coral"] { background: #ee8d70; color: #311710; }
@@ -259,6 +260,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .result-image-panel.is-mask-zoomed { display: block; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .result-image-panel > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; object-position: center; }
 .result-image-panel > canvas { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; touch-action: none; cursor: none; }
+.result-image-panel > canvas.is-mask-readonly { cursor: default; }
 .result-image-panel.is-mask-zoomed > canvas { max-width: none; max-height: none; }
 .result-image-panel > canvas:focus-visible { outline: 3px solid #87aef0; outline-offset: 3px; }
 .mask-brush-cursor { position: absolute; z-index: 3; width: var(--mask-cursor-size, 2rem); height: var(--mask-cursor-size, 2rem); left: var(--mask-cursor-x, 50%); top: var(--mask-cursor-y, 50%); transform: translate(-50%, -50%); border: 2px solid white; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,.72), 0 2px 8px rgba(0,0,0,.25); pointer-events: none; }

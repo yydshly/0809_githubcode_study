@@ -157,6 +157,11 @@
               </div>
             </div>
             <div class="mask-inspection-controls">
+              <div class="mask-view-controls" role="group" aria-label="自动结果和修正后结果对比">
+                <span>查看版本</span>
+                <button type="button" data-mask-view="automatic" aria-pressed="false" disabled>自动结果</button>
+                <button type="button" data-mask-view="corrected" aria-pressed="true">修正后</button>
+              </div>
               <div class="mask-background-controls" role="group" aria-label="预览和下载背景">
                 <span>预览与下载</span>
                 <button type="button" data-mask-background="checker" aria-pressed="true">棋盘格</button>
@@ -171,7 +176,7 @@
                 <button type="button" data-mask-zoom="4" aria-pressed="false">4×</button>
               </div>
             </div>
-            <p class="mask-correction-help">棋盘格下载透明 PNG；白 / 黑 / 彩底会写入 JPEG。“适应 / 2× / 4×”只改变查看倍率，不改变导出尺寸；放大后可滚动查看。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
+            <p class="mask-correction-help">完成一笔后可在“自动结果 / 修正后”之间无损对比；下载始终使用修正后版本。棋盘格下载透明 PNG；白 / 黑 / 彩底会写入 JPEG。“适应 / 2× / 4×”只改变查看倍率，不改变导出尺寸；放大后可滚动查看。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
             <p class="mask-correction-status" id="mask-correction-status" role="status" aria-live="polite">正在准备修正画布…</p>
           </section>
           <div class="result-stage" id="result-stage">

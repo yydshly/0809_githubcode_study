@@ -6,6 +6,7 @@ import {
   commitMaskStroke,
   composeCorrectedPixels,
   composeSolidBackgroundPixels,
+  correctionViewMask,
   correctionZoomDimensions,
   createMaskCorrectionHistory,
   previewCorrectionDimensions,
@@ -54,6 +55,16 @@ test("a new stroke after undo discards the redo branch without changing the orig
   assert.equal(history.index, 2);
   assert.equal(redoMaskStroke(history), history);
   assert.deepEqual(initialAlpha, new Uint8ClampedArray(16));
+});
+
+test("automatic comparison is read-only and does not replace the corrected mask", () => {
+  const initialAlpha = new Uint8ClampedArray([255, 128, 0, 255]);
+  const history = createMaskCorrectionHistory({ width: 2, height: 2, initialAlpha });
+  const corrected = new Uint8ClampedArray([255, 0, 0, 255]);
+  assert.equal(correctionViewMask(history, corrected, "automatic"), history.initialAlpha);
+  assert.equal(correctionViewMask(history, corrected, "corrected"), corrected);
+  assert.deepEqual([...correctionViewMask(history, corrected, "automatic")], [...initialAlpha]);
+  assert.throws(() => correctionViewMask(history, corrected, "unknown"), /查看版本/);
 });
 
 test("bounded history fails closed instead of making preview and full-size export diverge", () => {
