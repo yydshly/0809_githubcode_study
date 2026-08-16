@@ -17,10 +17,15 @@ test("browser diagnostics is a local, user-photo-free QA surface", async () => {
   assert.match(script, /inspectOutputMetadata/);
   assert.match(script, /verifyPixelRoundTrip/);
   assert.match(script, /diagnoseMaskCorrection/);
+  assert.match(script, /diagnoseSceneTemplates/);
+  assert.match(script, /renderEditedImage/);
+  assert.match(script, /ratio: "wide"/);
+  assert.match(script, /ratio: "story"/);
   assert.match(script, /diagnoseRecoveryControls/);
   assert.match(script, /applyRecoveryPresentation/);
   assert.match(script, /composeSolidBackgroundPixels/);
   assert.match(page, /蒙版修正后的透明 PNG \/ 纯色 JPEG/);
+  assert.match(page, /16:9 \/ 9:16 场景模板真实输出/);
   assert.match(page, /失败恢复按钮的主次、文案与焦点/);
   assert.match(script, /imageOrientation: "none"/);
   assert.match(script, /diagnosticState = report\.passed \? "passed" : "failed"/);

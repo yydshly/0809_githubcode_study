@@ -1,4 +1,6 @@
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
+import { renderEditedImage } from "./editor-renderer.js";
+import { editStateFromSettings } from "./editor-session.js";
 import {
   commitMaskStroke,
   composeCorrectedPixels,
@@ -139,6 +141,64 @@ async function diagnoseMaskCorrection({ documentRef, createBitmap }) {
   });
 }
 
+async function diagnoseSceneTemplates({ documentRef, createBitmap }) {
+  const source = documentRef.createElement("canvas");
+  source.width = 160;
+  source.height = 90;
+  const context = source.getContext("2d", { alpha: true, colorSpace: "srgb" });
+  if (!context) throw new Error("浏览器没有提供场景模板诊断用 2D Canvas context");
+  const gradient = context.createLinearGradient(0, 0, 160, 90);
+  gradient.addColorStop(0, "#245c43");
+  gradient.addColorStop(0.5, "#dce978");
+  gradient.addColorStop(1, "#d96d3a");
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, 160, 90);
+  context.fillStyle = "rgba(255,255,255,.72)";
+  context.fillRect(22, 16, 48, 58);
+
+  const cases = [
+    { name: "横版封面", ratio: "wide", outputLongEdge: 1920, expected: { width: 160, height: 90 } },
+    { name: "竖屏故事", ratio: "story", outputLongEdge: 1920, expected: { width: 51, height: 90 } },
+  ];
+  const outputs = [];
+  for (const item of cases) {
+    const editState = editStateFromSettings({
+      sourceWidth: source.width,
+      sourceHeight: source.height,
+      settings: {
+        ratio: item.ratio,
+        cropX: 50,
+        cropY: 50,
+        sizeMode: "custom",
+        outputLongEdge: item.outputLongEdge,
+        format: "png",
+      },
+    });
+    const rendered = await renderEditedImage({
+      image: source,
+      editState,
+      createCanvas: () => documentRef.createElement("canvas"),
+      reopen: (blob) => reopenPixels(documentRef, createBitmap, blob),
+    });
+    if (rendered.width !== item.expected.width || rendered.height !== item.expected.height) {
+      throw new Error(`${item.name} 实际输出 ${rendered.width} × ${rendered.height}，与预期不一致`);
+    }
+    outputs.push(Object.freeze({
+      name: item.name,
+      ratio: item.ratio,
+      width: rendered.width,
+      height: rendered.height,
+      byteLength: rendered.byteLength,
+      outputHash: rendered.outputHash,
+    }));
+  }
+  return Object.freeze({
+    name: "场景模板真实输出",
+    detail: outputs.map((item) => `${item.name} ${item.width} × ${item.height}`).join("；") + "；小图未放大",
+    outputs: Object.freeze(outputs),
+  });
+}
+
 function diagnoseRecoveryControls(documentRef) {
   const host = documentRef.createElement("div");
   host.style.cssText = "position:fixed;left:-10000px;top:0;width:1px;height:1px;overflow:hidden";
@@ -192,6 +252,11 @@ export async function runBrowserDiagnostics({
     results.push({ status: "pass", value: await diagnoseMaskCorrection({ documentRef, createBitmap }) });
   } catch (error) {
     results.push({ status: "fail", value: { name: "蒙版修正 + 双格式导出", error: error instanceof Error ? error.message : String(error) } });
+  }
+  try {
+    results.push({ status: "pass", value: await diagnoseSceneTemplates({ documentRef, createBitmap }) });
+  } catch (error) {
+    results.push({ status: "fail", value: { name: "场景模板真实输出", error: error instanceof Error ? error.message : String(error) } });
   }
   try {
     results.push({ status: "pass", value: diagnoseRecoveryControls(documentRef) });
