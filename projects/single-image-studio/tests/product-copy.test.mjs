@@ -134,3 +134,35 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(scripts.start, /--env-file-if-exists=\.env/);
   assert.match(scripts.dev, /--env-file-if-exists=\.env/);
 });
+
+test("remote cutout result exposes non-destructive mask correction and accessible inspection states", () => {
+  for (const id of [
+    "mask-correction-workspace",
+    "mask-correction-canvas",
+    "mask-erase-button",
+    "mask-keep-button",
+    "mask-brush-size",
+    "mask-undo-button",
+    "mask-redo-button",
+    "mask-reset-button",
+    "mask-correction-status",
+  ]) {
+    assert.match(html, new RegExp(`id="${id}"`));
+  }
+  assert.match(html, /修改只作用于透明蒙版，不覆盖原图，也不会再次调用远程服务/);
+  assert.match(html, /棋盘格/);
+  assert.match(html, /白色/);
+  assert.match(html, /黑色/);
+  assert.match(html, /彩色/);
+  assert.match(html, /方向键移动画笔/);
+  assert.match(main, /initializeMaskCorrection/);
+  assert.match(main, /exportMaskCorrection/);
+  assert.match(main, /verifyPixelRoundTrip/);
+  assert.match(main, /下载修正 PNG/);
+  assert.match(main, /当前修正已没有透明背景/);
+  assert.match(main, /当前修正已把主体全部擦除/);
+  assert.match(styles, /mask-correction-controls/);
+  assert.match(styles, /\.result-image-panel > canvas/);
+  assert.match(styles, /data-preview-background="black"/);
+  assert.match(styles, /@media \(max-width: 620px\)[\s\S]*mask-tool-group/);
+});

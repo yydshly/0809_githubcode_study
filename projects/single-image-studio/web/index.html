@@ -139,12 +139,41 @@
             <button id="compare-reference-tab" type="button" role="tab" data-layer="reference" aria-controls="reference-explainer" aria-selected="false" tabindex="-1">参考</button>
             <button id="compare-result-tab" type="button" role="tab" data-layer="result" aria-controls="compare-result-panel" aria-selected="true">裁剪结果</button>
           </div>
+          <section class="mask-correction-workspace" id="mask-correction-workspace" aria-labelledby="mask-correction-title" hidden>
+            <div class="mask-correction-intro">
+              <div><p class="kicker">人工修正</p><h3 id="mask-correction-title">擦掉残留，补回误删</h3></div>
+              <p>修改只作用于透明蒙版，不覆盖原图，也不会再次调用远程服务。</p>
+            </div>
+            <div class="mask-correction-controls">
+              <div class="mask-tool-group" role="toolbar" aria-label="蒙版修正工具">
+                <button class="mask-tool" id="mask-erase-button" type="button" aria-pressed="true"><span aria-hidden="true">−</span> 擦除背景残留 <kbd>E</kbd></button>
+                <button class="mask-tool" id="mask-keep-button" type="button" aria-pressed="false"><span aria-hidden="true">+</span> 保留误删主体 <kbd>K</kbd></button>
+              </div>
+              <label class="mask-brush-size" for="mask-brush-size"><span>画笔大小</span><input id="mask-brush-size" type="range" min="1" max="25" value="6" /><output id="mask-brush-size-output">6%</output></label>
+              <div class="mask-history-actions" aria-label="蒙版历史">
+                <button class="button button-quiet" id="mask-undo-button" type="button" disabled>撤销</button>
+                <button class="button button-quiet" id="mask-redo-button" type="button" disabled>重做</button>
+                <button class="button button-quiet" id="mask-reset-button" type="button" disabled>恢复自动结果</button>
+              </div>
+            </div>
+            <div class="mask-background-controls" role="group" aria-label="透明效果检查底色">
+              <span>检查底色</span>
+              <button type="button" data-mask-background="checker" aria-pressed="true">棋盘格</button>
+              <button type="button" data-mask-background="white" aria-pressed="false">白色</button>
+              <button type="button" data-mask-background="black" aria-pressed="false">黑色</button>
+              <button type="button" data-mask-background="coral" aria-pressed="false">彩色</button>
+            </div>
+            <p class="mask-correction-help">可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
+            <p class="mask-correction-status" id="mask-correction-status" role="status" aria-live="polite">正在准备修正画布…</p>
+          </section>
           <div class="result-stage" id="result-stage">
             <div class="result-image-panel" id="compare-source-panel" role="tabpanel" aria-labelledby="compare-source-tab" data-layer="source" hidden>
               <img id="result-source-image" alt="完整显示的原图" />
             </div>
             <div class="result-image-panel" id="compare-result-panel" role="tabpanel" aria-labelledby="compare-result-tab" data-layer="result">
               <img id="result-output-image" alt="完整显示的裁剪结果" />
+              <canvas id="mask-correction-canvas" tabindex="0" role="img" aria-label="透明抠图蒙版修正画布" hidden></canvas>
+              <span class="mask-brush-cursor" id="mask-brush-cursor" aria-hidden="true" hidden></span>
             </div>
             <div class="reference-explainer" id="reference-explainer" role="tabpanel" aria-labelledby="compare-reference-tab" hidden>
               <span id="reference-mark" aria-hidden="true"></span>

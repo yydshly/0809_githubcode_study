@@ -13,6 +13,20 @@ import {
 } from "./editor-workspace.js";
 import { readImageOrientation } from "./image-orientation.js";
 import { createDemoImage, decodeImage } from "./local-processing.js";
+import {
+  applyMaskStroke,
+  commitMaskStroke,
+  composeCorrectedPixels,
+  createMaskCorrectionHistory,
+  previewCorrectionDimensions,
+  rebuildCorrectionMask,
+  redoMaskStroke,
+  resetMaskCorrection,
+  summarizeCorrectionMask,
+  undoMaskStroke,
+  validateCorrectionExportDimensions,
+} from "./mask-correction.js";
+import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
@@ -52,6 +66,12 @@ const elements = {
   resultSourcePanel: $("#compare-source-panel"), resultSourceImage: $("#result-source-image"),
   resultOutputPanel: $("#compare-result-panel"), resultOutputImage: $("#result-output-image"),
   resultOutputTab: $("#compare-result-tab"),
+  maskCorrectionWorkspace: $("#mask-correction-workspace"), maskCorrectionCanvas: $("#mask-correction-canvas"),
+  maskCorrectionStatus: $("#mask-correction-status"), maskBrushCursor: $("#mask-brush-cursor"),
+  maskErase: $("#mask-erase-button"), maskKeep: $("#mask-keep-button"), maskBrushSize: $("#mask-brush-size"),
+  maskBrushSizeOutput: $("#mask-brush-size-output"), maskUndo: $("#mask-undo-button"),
+  maskRedo: $("#mask-redo-button"), maskReset: $("#mask-reset-button"),
+  maskBackgrounds: $$('[data-mask-background]'),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
   redo: $("#redo-button"), download: $("#download-button"),
@@ -122,6 +142,8 @@ let currentResult = null;
 let selectedComparisonLayer = "result";
 let editorWorkspace = null;
 let editorCropDrag = null;
+let maskCorrectionSession = null;
+let maskCorrectionInitToken = 0;
 let activeController = null;
 let toastTimer = null;
 
@@ -167,8 +189,17 @@ function revokeIfBlob(url) {
 }
 
 function clearResult() {
+  maskCorrectionInitToken += 1;
+  maskCorrectionSession = null;
+  elements.maskCorrectionWorkspace.hidden = true;
+  elements.maskCorrectionCanvas.hidden = true;
+  elements.maskCorrectionCanvas.width = 1;
+  elements.maskCorrectionCanvas.height = 1;
+  elements.maskBrushCursor.hidden = true;
+  elements.resultOutputImage.hidden = false;
   elements.resultOutputImage.removeAttribute("src");
   elements.resultStage.removeAttribute("style");
+  elements.resultStage.removeAttribute("data-preview-background");
   delete elements.resultStage.dataset.aspect;
   revokeIfBlob(currentResult?.url);
   currentResult = null;
@@ -180,6 +211,311 @@ function clearEditorWorkspace() {
   elements.editorWorkspace.hidden = true;
   elements.editorPreviewImage.removeAttribute("src");
   elements.editorPreviewImage.removeAttribute("style");
+}
+
+function canvasPixels(image, width, height) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) throw new Error("当前浏览器无法建立蒙版修正画布");
+  context.clearRect(0, 0, width, height);
+  context.drawImage(image, 0, 0, width, height);
+  return context.getImageData(0, 0, width, height).data;
+}
+
+function alphaPlane(rgba) {
+  const alpha = new Uint8ClampedArray(rgba.length / 4);
+  for (let pixel = 0; pixel < alpha.length; pixel += 1) alpha[pixel] = rgba[pixel * 4 + 3];
+  return alpha;
+}
+
+function renderMaskCorrection() {
+  const session = maskCorrectionSession;
+  if (!session) return;
+  const output = composeCorrectedPixels({
+    sourcePixels: session.previewSourcePixels,
+    resultPixels: session.previewResultPixels,
+    mask: session.mask,
+    width: session.width,
+    height: session.height,
+  });
+  const context = elements.maskCorrectionCanvas.getContext("2d");
+  if (!context) throw new Error("当前浏览器无法渲染蒙版修正预览");
+  const imageData = context.createImageData(session.width, session.height);
+  imageData.data.set(output);
+  context.putImageData(imageData, 0, 0);
+  const summary = summarizeCorrectionMask(session.mask);
+  const modified = session.history.index > 0;
+  elements.maskErase.setAttribute("aria-pressed", String(session.tool === "erase"));
+  elements.maskKeep.setAttribute("aria-pressed", String(session.tool === "keep"));
+  elements.maskBrushSize.value = String(Math.round(session.radius * 100));
+  elements.maskBrushSizeOutput.value = `${Math.round(session.radius * 100)}%`;
+  elements.maskBrushSizeOutput.textContent = `${Math.round(session.radius * 100)}%`;
+  elements.maskUndo.disabled = session.history.index === 0;
+  elements.maskRedo.disabled = session.history.index >= session.history.strokes.length;
+  elements.maskReset.disabled = !modified && session.history.strokes.length === 0;
+  elements.download.textContent = modified ? "下载修正 PNG" : "下载透明 PNG";
+  elements.maskCorrectionStatus.textContent = session.draft
+    ? `${session.tool === "erase" ? "正在擦除背景残留" : "正在补回主体"}…`
+    : modified
+      ? `已记录 ${session.history.index} 笔修正 · 透明 ${summary.transparent.toLocaleString()} 像素 · 下载时按原尺寸重新生成`
+      : "当前仍是自动蒙版；请选择擦除或保留后直接在图片上涂抹。";
+}
+
+function setMaskTool(tool) {
+  if (!maskCorrectionSession || !["erase", "keep"].includes(tool)) return;
+  maskCorrectionSession.tool = tool;
+  renderMaskCorrection();
+}
+
+function setMaskBackground(background) {
+  if (!["checker", "white", "black", "coral"].includes(background)) return;
+  if (background === "checker") elements.resultStage.removeAttribute("data-preview-background");
+  else elements.resultStage.dataset.previewBackground = background;
+  elements.maskBackgrounds.forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.maskBackground === background));
+  });
+}
+
+function showMaskCursor(point) {
+  const session = maskCorrectionSession;
+  if (!session || elements.maskCorrectionCanvas.hidden) return;
+  const canvasRect = elements.maskCorrectionCanvas.getBoundingClientRect();
+  const panelRect = elements.resultOutputPanel.getBoundingClientRect();
+  const size = session.radius * 2 * Math.min(canvasRect.width, canvasRect.height);
+  elements.maskBrushCursor.style.setProperty("--mask-cursor-x", `${canvasRect.left - panelRect.left + point.x * canvasRect.width}px`);
+  elements.maskBrushCursor.style.setProperty("--mask-cursor-y", `${canvasRect.top - panelRect.top + point.y * canvasRect.height}px`);
+  elements.maskBrushCursor.style.setProperty("--mask-cursor-size", `${Math.max(8, size)}px`);
+  elements.maskBrushCursor.hidden = false;
+}
+
+function maskPointForPointer(event) {
+  const bounds = elements.maskCorrectionCanvas.getBoundingClientRect();
+  return {
+    x: Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width)),
+    y: Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height)),
+  };
+}
+
+function beginMaskStroke(event) {
+  const session = maskCorrectionSession;
+  if (!session || selectedComparisonLayer !== "result" || event.button !== 0) return;
+  event.preventDefault();
+  const point = maskPointForPointer(event);
+  session.pointerId = event.pointerId;
+  session.draft = { tool: session.tool, radius: session.radius, points: [point] };
+  elements.maskCorrectionCanvas.setPointerCapture(event.pointerId);
+  applyMaskStroke(session.mask, session.width, session.height, session.draft);
+  showMaskCursor(point);
+  renderMaskCorrection();
+}
+
+function continueMaskStroke(event) {
+  const session = maskCorrectionSession;
+  const point = maskPointForPointer(event);
+  showMaskCursor(point);
+  if (!session?.draft || session.pointerId !== event.pointerId) return;
+  event.preventDefault();
+  const previous = session.draft.points.at(-1);
+  session.draft.points.push(point);
+  applyMaskStroke(session.mask, session.width, session.height, {
+    tool: session.draft.tool,
+    radius: session.draft.radius,
+    points: [previous, point],
+  });
+  renderMaskCorrection();
+}
+
+function finishMaskStroke(event, { commit = true } = {}) {
+  const session = maskCorrectionSession;
+  if (!session?.draft || session.pointerId !== event.pointerId) return;
+  if (elements.maskCorrectionCanvas.hasPointerCapture(event.pointerId)) {
+    elements.maskCorrectionCanvas.releasePointerCapture(event.pointerId);
+  }
+  if (commit) {
+    try {
+      session.history = commitMaskStroke(session.history, session.draft);
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "无法记录这次修正");
+    }
+  }
+  session.pointerId = null;
+  session.draft = null;
+  session.mask = rebuildCorrectionMask(session.history);
+  renderMaskCorrection();
+}
+
+function undoMaskCorrection() {
+  if (!maskCorrectionSession) return;
+  maskCorrectionSession.history = undoMaskStroke(maskCorrectionSession.history);
+  maskCorrectionSession.mask = rebuildCorrectionMask(maskCorrectionSession.history);
+  renderMaskCorrection();
+}
+
+function redoMaskCorrection() {
+  if (!maskCorrectionSession) return;
+  maskCorrectionSession.history = redoMaskStroke(maskCorrectionSession.history);
+  maskCorrectionSession.mask = rebuildCorrectionMask(maskCorrectionSession.history);
+  renderMaskCorrection();
+}
+
+function resetMaskCorrectionSession() {
+  if (!maskCorrectionSession) return;
+  maskCorrectionSession.history = resetMaskCorrection(maskCorrectionSession.history);
+  maskCorrectionSession.mask = rebuildCorrectionMask(maskCorrectionSession.history);
+  renderMaskCorrection();
+  toast("已恢复自动抠图结果");
+}
+
+function maskKeyboard(event) {
+  const session = maskCorrectionSession;
+  if (!session) return;
+  if (event.key.toLowerCase() === "e") { event.preventDefault(); setMaskTool("erase"); return; }
+  if (event.key.toLowerCase() === "k") { event.preventDefault(); setMaskTool("keep"); return; }
+  if (event.key === "[") {
+    event.preventDefault();
+    session.radius = Math.max(0.01, session.radius - 0.01);
+    renderMaskCorrection();
+    showMaskCursor(session.keyboardCursor);
+    return;
+  }
+  if (event.key === "]") {
+    event.preventDefault();
+    session.radius = Math.min(0.25, session.radius + 0.01);
+    renderMaskCorrection();
+    showMaskCursor(session.keyboardCursor);
+    return;
+  }
+  const movements = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
+  if (movements[event.key]) {
+    event.preventDefault();
+    const [dx, dy] = movements[event.key];
+    const step = Math.max(0.005, session.radius * (event.shiftKey ? 1 : 0.35));
+    session.keyboardCursor = {
+      x: Math.max(0, Math.min(1, session.keyboardCursor.x + dx * step)),
+      y: Math.max(0, Math.min(1, session.keyboardCursor.y + dy * step)),
+    };
+    showMaskCursor(session.keyboardCursor);
+    return;
+  }
+  if (event.key === " " || event.key === "Enter") {
+    event.preventDefault();
+    try {
+      session.history = commitMaskStroke(session.history, {
+        tool: session.tool,
+        radius: session.radius,
+        points: [session.keyboardCursor],
+      });
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "无法记录这次修正");
+      return;
+    }
+    session.mask = rebuildCorrectionMask(session.history);
+    renderMaskCorrection();
+    showMaskCursor(session.keyboardCursor);
+    return;
+  }
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
+    event.preventDefault();
+    if (event.shiftKey) redoMaskCorrection(); else undoMaskCorrection();
+  }
+}
+
+async function initializeMaskCorrection() {
+  if (selectedTask?.id !== "UT-CUTOUT" || !currentResult || !sourceUrl) return;
+  const token = ++maskCorrectionInitToken;
+  elements.maskCorrectionWorkspace.hidden = false;
+  elements.maskCorrectionStatus.textContent = "正在准备修正画布…";
+  elements.maskCorrectionCanvas.hidden = true;
+  elements.resultOutputImage.hidden = false;
+  try {
+    const [sourceImage, resultImage] = await Promise.all([
+      decodeImage(sourceUrl),
+      decodeImage(currentResult.url),
+    ]);
+    if (token !== maskCorrectionInitToken || !currentResult) return;
+    const dimensions = previewCorrectionDimensions(currentResult.width, currentResult.height, 1024);
+    const previewSourcePixels = canvasPixels(sourceImage, dimensions.width, dimensions.height);
+    const previewResultPixels = canvasPixels(resultImage, dimensions.width, dimensions.height);
+    const history = createMaskCorrectionHistory({
+      width: dimensions.width,
+      height: dimensions.height,
+      initialAlpha: alphaPlane(previewResultPixels),
+    });
+    elements.maskCorrectionCanvas.width = dimensions.width;
+    elements.maskCorrectionCanvas.height = dimensions.height;
+    maskCorrectionSession = {
+      sourceImage,
+      resultImage,
+      width: dimensions.width,
+      height: dimensions.height,
+      previewSourcePixels,
+      previewResultPixels,
+      history,
+      mask: rebuildCorrectionMask(history),
+      tool: "erase",
+      radius: 0.06,
+      keyboardCursor: { x: 0.5, y: 0.5 },
+      draft: null,
+      pointerId: null,
+    };
+    elements.resultOutputImage.hidden = true;
+    elements.maskCorrectionCanvas.hidden = false;
+    setMaskBackground("checker");
+    renderMaskCorrection();
+  } catch (error) {
+    if (token !== maskCorrectionInitToken) return;
+    maskCorrectionSession = null;
+    elements.maskCorrectionWorkspace.hidden = false;
+    elements.maskCorrectionStatus.textContent = `修正画布暂不可用：${error.message}`;
+    elements.resultOutputImage.hidden = false;
+  }
+}
+
+function canvasPngBlob(canvas) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("浏览器没有生成修正 PNG")), "image/png");
+  });
+}
+
+async function exportMaskCorrection() {
+  const session = maskCorrectionSession;
+  if (!session || session.history.index === 0) return null;
+  const width = currentResult.width;
+  const height = currentResult.height;
+  validateCorrectionExportDimensions(width, height);
+  const sourcePixels = canvasPixels(session.sourceImage, width, height);
+  const resultPixels = canvasPixels(session.resultImage, width, height);
+  const fullHistory = createMaskCorrectionHistory({ width, height, initialAlpha: alphaPlane(resultPixels) });
+  let mask = new Uint8ClampedArray(fullHistory.initialAlpha);
+  for (const stroke of session.history.strokes.slice(0, session.history.index)) {
+    applyMaskStroke(mask, width, height, stroke);
+  }
+  const maskSummary = summarizeCorrectionMask(mask);
+  if (maskSummary.transparent + maskSummary.partial === 0) throw new Error("当前修正已没有透明背景，请先擦除背景再下载");
+  if (maskSummary.opaque + maskSummary.partial === 0) throw new Error("当前修正已把主体全部擦除，请撤销后再下载");
+  const expectedPixels = composeCorrectedPixels({ sourcePixels, resultPixels, mask, width, height });
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) throw new Error("当前浏览器无法生成修正 PNG");
+  const imageData = context.createImageData(width, height);
+  imageData.data.set(expectedPixels);
+  context.putImageData(imageData, 0, 0);
+  const blob = await canvasPngBlob(canvas);
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  inspectOutputMetadata(bytes, "image/png");
+  const reopenedUrl = URL.createObjectURL(blob);
+  try {
+    const reopened = await decodeImage(reopenedUrl);
+    const actualPixels = canvasPixels(reopened, width, height);
+    verifyPixelRoundTrip({ expected: expectedPixels, actual: actualPixels, width, height, mime: "image/png" });
+  } finally {
+    URL.revokeObjectURL(reopenedUrl);
+  }
+  return { blob, outputHash: await sha256Bytes(bytes), byteLength: bytes.length, maskSummary };
 }
 
 function stopActiveRequest() {
@@ -918,6 +1254,8 @@ function friendlyError(error) {
 
 function renderResult() {
   if (!currentResult) return;
+  elements.download.textContent = selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
+  elements.maskCorrectionWorkspace.hidden = selectedTask.id !== "UT-CUTOUT";
   elements.resultTitle.textContent = currentResult.title;
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
   elements.resultSourceImage.src = sourceUrl;
@@ -932,7 +1270,12 @@ function renderResult() {
   showOnly("result");
   selectComparisonLayer("result");
   setJourney("result");
-  elements.download.focus();
+  if (selectedTask.id === "UT-CUTOUT") {
+    initializeMaskCorrection();
+    elements.maskErase.focus();
+  } else {
+    elements.download.focus();
+  }
 }
 
 function showError(title, copy, retryable = true) {
@@ -1136,10 +1479,57 @@ elements.cancelWait.addEventListener("click", async () => {
   showOnly("config");
   setJourney("task");
 });
+elements.maskErase.addEventListener("click", () => setMaskTool("erase"));
+elements.maskKeep.addEventListener("click", () => setMaskTool("keep"));
+elements.maskBrushSize.addEventListener("input", () => {
+  if (!maskCorrectionSession) return;
+  maskCorrectionSession.radius = Number(elements.maskBrushSize.value) / 100;
+  renderMaskCorrection();
+  showMaskCursor(maskCorrectionSession.keyboardCursor);
+});
+elements.maskUndo.addEventListener("click", undoMaskCorrection);
+elements.maskRedo.addEventListener("click", redoMaskCorrection);
+elements.maskReset.addEventListener("click", resetMaskCorrectionSession);
+elements.maskBackgrounds.forEach((button) => button.addEventListener("click", () => setMaskBackground(button.dataset.maskBackground)));
+elements.maskCorrectionCanvas.addEventListener("pointerdown", beginMaskStroke);
+elements.maskCorrectionCanvas.addEventListener("pointermove", continueMaskStroke);
+elements.maskCorrectionCanvas.addEventListener("pointerup", (event) => finishMaskStroke(event));
+elements.maskCorrectionCanvas.addEventListener("pointercancel", (event) => finishMaskStroke(event, { commit: false }));
+elements.maskCorrectionCanvas.addEventListener("pointerleave", () => {
+  if (!maskCorrectionSession?.draft) elements.maskBrushCursor.hidden = true;
+});
+elements.maskCorrectionCanvas.addEventListener("focus", () => {
+  if (maskCorrectionSession) showMaskCursor(maskCorrectionSession.keyboardCursor);
+});
+elements.maskCorrectionCanvas.addEventListener("blur", () => { elements.maskBrushCursor.hidden = true; });
+elements.maskCorrectionCanvas.addEventListener("keydown", maskKeyboard);
 elements.download.addEventListener("click", async () => {
   if (!currentResult) return;
   const contract = buildResultDownloadContract({ taskId: selectedTask.id, result: machine.result, currentRunId: machine.activeRunId });
   if (!contract.allowed) { toast(contract.message || "当前结果不可下载"); return; }
+  if (selectedTask.id === "UT-CUTOUT" && maskCorrectionSession?.history.index > 0) {
+    const previousLabel = elements.download.textContent;
+    elements.download.disabled = true;
+    elements.download.textContent = "正在生成修正 PNG…";
+    try {
+      const corrected = await exportMaskCorrection();
+      if (!corrected) throw new Error("当前没有可导出的人工修正");
+      const url = URL.createObjectURL(corrected.blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = contract.download.filename.replace(/\.png$/i, "-corrected.png");
+      anchor.click();
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+      elements.maskCorrectionStatus.textContent = `修正 PNG 已独立重开校验 · ${corrected.byteLength.toLocaleString()} bytes · ${corrected.outputHash.slice(0, 12)}…`;
+      toast("修正后的透明 PNG 已下载");
+    } catch (error) {
+      toast(error.message || "修正 PNG 生成失败");
+    } finally {
+      elements.download.disabled = false;
+      elements.download.textContent = previousLabel;
+    }
+    return;
+  }
   const blob = currentResult.blob ?? await (await fetch(currentResult.dataUrl)).blob();
   const actualHash = await sha256Bytes(new Uint8Array(await blob.arrayBuffer()));
   if (actualHash !== contract.download.outputHash || blob.size !== contract.download.byteLength) { toast("下载前校验未通过"); return; }
@@ -1276,6 +1666,8 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   elements.resultSourcePanel.hidden = layer !== "source";
   elements.resultOutputPanel.hidden = layer !== "result";
   elements.referenceExplainer.hidden = layer !== "reference";
+  elements.maskCorrectionWorkspace.hidden = selectedTask?.id !== "UT-CUTOUT" || layer !== "result";
+  if (layer !== "result") elements.maskBrushCursor.hidden = true;
   const dimensions = comparisonLayerDimensions(layer);
   if (layer === "source") elements.resultSize.textContent = `完整原图 ${dimensions.width} × ${dimensions.height}`;
   if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
