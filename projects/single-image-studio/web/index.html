@@ -176,6 +176,17 @@
                 <button type="button" data-mask-zoom="4" aria-pressed="false">4×</button>
               </div>
             </div>
+            <section class="mask-output-summary" id="mask-output-summary" aria-labelledby="mask-output-summary-title" hidden>
+              <div class="mask-output-summary-heading">
+                <span id="mask-output-summary-title">最终下载内容</span>
+                <small id="mask-output-note">尚未人工修改；最终下载使用自动抠图结果。</small>
+              </div>
+              <dl>
+                <div><dt>结果版本</dt><dd id="mask-output-version">自动结果</dd></div>
+                <div><dt>背景</dt><dd id="mask-output-background">透明背景</dd></div>
+                <div><dt>文件</dt><dd id="mask-output-file">PNG</dd></div>
+              </dl>
+            </section>
             <p class="mask-correction-help">完成一笔后可在“自动结果 / 修正后”之间无损对比；下载始终使用修正后版本。棋盘格下载透明 PNG；白 / 黑 / 彩底会写入 JPEG。“适应 / 2× / 4×”只改变查看倍率，不改变导出尺寸；放大后可滚动查看。可用鼠标或触摸直接涂抹；键盘用方向键移动画笔，空格落笔，<kbd>[</kbd> / <kbd>]</kbd> 调整大小。</p>
             <p class="mask-correction-status" id="mask-correction-status" role="status" aria-live="polite">正在准备修正画布…</p>
           </section>

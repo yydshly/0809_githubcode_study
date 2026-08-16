@@ -29,6 +29,7 @@ import {
   undoMaskStroke,
   validateCorrectionExportDimensions,
 } from "./mask-correction.js";
+import { maskOutputPresentation } from "./mask-output-presentation.js";
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
@@ -78,6 +79,9 @@ const elements = {
   maskViews: $$('[data-mask-view]'),
   maskBackgrounds: $$('[data-mask-background]'),
   maskZooms: $$('[data-mask-zoom]'),
+  maskOutputSummary: $("#mask-output-summary"), maskOutputVersion: $("#mask-output-version"),
+  maskOutputBackground: $("#mask-output-background"), maskOutputFile: $("#mask-output-file"),
+  maskOutputNote: $("#mask-output-note"),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
   processingRecordCard: $("#processing-record-card"), processingRecordCopy: $("#processing-record-copy"),
@@ -205,6 +209,7 @@ function clearResult() {
   elements.maskCorrectionCanvas.width = 1;
   elements.maskCorrectionCanvas.height = 1;
   elements.maskCorrectionCanvas.removeAttribute("style");
+  elements.maskOutputSummary.hidden = true;
   elements.resultOutputPanel.classList.remove("is-mask-zoomed");
   elements.maskBrushCursor.hidden = true;
   elements.resultOutputImage.hidden = false;
@@ -264,6 +269,13 @@ function renderMaskCorrection() {
   const summary = summarizeCorrectionMask(session.mask);
   const modified = session.history.index > 0;
   const backgroundLabel = { white: "白", black: "黑", coral: "彩" }[session.background];
+  const outputPresentation = maskOutputPresentation({
+    background: session.background,
+    correctionCount: session.history.index,
+    height: currentResult.height,
+    view: session.view,
+    width: currentResult.width,
+  });
   elements.maskErase.setAttribute("aria-pressed", String(session.tool === "erase"));
   elements.maskKeep.setAttribute("aria-pressed", String(session.tool === "keep"));
   elements.maskErase.disabled = viewAutomatic;
@@ -287,9 +299,12 @@ function renderMaskCorrection() {
     : "透明抠图蒙版修正画布");
   if (viewAutomatic) elements.maskBrushCursor.hidden = true;
   elements.maskZooms.forEach((button) => button.setAttribute("aria-pressed", String(Number(button.dataset.maskZoom) === session.zoom)));
-  elements.download.textContent = session.background === "checker"
-    ? (modified ? "下载修正 PNG" : "下载透明 PNG")
-    : `下载${backgroundLabel}底 JPEG`;
+  elements.download.textContent = outputPresentation.downloadLabel;
+  elements.maskOutputSummary.hidden = false;
+  elements.maskOutputVersion.textContent = outputPresentation.version;
+  elements.maskOutputBackground.textContent = outputPresentation.background;
+  elements.maskOutputFile.textContent = outputPresentation.file;
+  elements.maskOutputNote.textContent = outputPresentation.note;
   elements.maskCorrectionStatus.textContent = viewAutomatic
     ? `正在查看未修正的自动结果；已保留 ${session.history.index} 笔修正，下载仍使用修正后版本。`
     : session.draft
@@ -521,6 +536,7 @@ async function initializeMaskCorrection() {
   if (selectedTask?.id !== "UT-CUTOUT" || !currentResult || !sourceUrl) return;
   const token = ++maskCorrectionInitToken;
   elements.maskCorrectionWorkspace.hidden = false;
+  elements.maskOutputSummary.hidden = true;
   elements.maskCorrectionStatus.textContent = "正在准备修正画布…";
   elements.maskCorrectionCanvas.hidden = true;
   elements.resultOutputImage.hidden = false;

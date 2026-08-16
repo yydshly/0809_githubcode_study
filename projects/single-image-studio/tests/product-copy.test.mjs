@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [html, main, localProcessing, resultDownload, recoveryPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
+const [html, main, localProcessing, resultDownload, recoveryPresentation, maskOutputPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/local-processing.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-download.js", import.meta.url), "utf8"),
   readFile(new URL("../web/recovery-presentation.js", import.meta.url), "utf8"),
+  readFile(new URL("../web/mask-output-presentation.js", import.meta.url), "utf8"),
   readFile(new URL("../web/styles.css", import.meta.url), "utf8"),
   readFile(new URL("../server/server.mjs", import.meta.url), "utf8"),
   readFile(new URL("../server/providers/background-removal/runtime.mjs", import.meta.url), "utf8"),
@@ -183,11 +184,16 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(html, /data-mask-view="automatic"/);
   assert.match(html, /data-mask-view="corrected"/);
   assert.match(html, /下载始终使用修正后版本/);
+  assert.match(html, /最终下载内容/);
+  assert.match(html, /id="mask-output-version"/);
+  assert.match(html, /id="mask-output-background"/);
+  assert.match(html, /id="mask-output-file"/);
+  assert.match(main, /maskOutputPresentation/);
   assert.match(main, /initializeMaskCorrection/);
   assert.match(main, /exportMaskCorrection/);
   assert.match(main, /verifyPixelRoundTrip/);
-  assert.match(main, /下载修正 PNG/);
-  assert.match(main, /下载.*底 JPEG/);
+  assert.match(maskOutputPresentation, /下载修正 PNG/);
+  assert.match(maskOutputPresentation, /下载.*底.*JPEG/);
   assert.match(main, /正在校验下载…/);
   assert.match(main, /下载前校验未通过，已阻止错误文件下载/);
   assert.match(main, /下载已开始/);
