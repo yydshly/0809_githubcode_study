@@ -84,7 +84,9 @@ test("a noncanonical preview cannot satisfy the frozen literal pins", async () =
   assert.equal(report.issues.some((entry) => entry.code === "S09_PIN_NOT_FROZEN"), false);
 });
 
-test("canonical production definition and registered result closure pass pins, runtime recheck and twin regeneration", async () => {
+test("canonical production definition and registered result closure pass pins, runtime recheck and twin regeneration", {
+  skip: process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice09Definition();
   assert.equal(report.valid, true);
   assert.deepEqual(report.issues, []);

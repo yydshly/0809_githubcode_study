@@ -14,7 +14,9 @@ import { validateSlice08Definition } from "../scripts/research-validate-slice08.
 const PROJECT_ROOT = path.resolve(import.meta.dirname, "..");
 const TEST_UTC = "2026-08-15T09:45:00.000Z";
 
-test("frozen canonical definition passes literal pins, fresh runtime and regeneration", async () => {
+test("frozen canonical definition passes literal pins, fresh runtime and regeneration", {
+  skip: process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice08Definition();
   assert.equal(report.valid, true, JSON.stringify(report.issues));
   assert.equal(report.pinsVerified, true);

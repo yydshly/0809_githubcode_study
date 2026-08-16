@@ -304,7 +304,9 @@ test("execution admission requires a valid results-zero report at the pushed cle
   assert.ok(missingDefinitionRef.issues.some(({ code }) => code === "S06_EXECUTION_DEFINITION_REF_INVALID"));
 });
 
-test("generated Phase C definition passes full fresh-runtime and twin-regeneration validation with an exact index ref", async () => {
+test("generated Phase C definition passes full fresh-runtime and twin-regeneration validation with an exact index ref", {
+  skip: process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice06Definition({
     sliceRoot: GENERATED_BASE_ROOT, projectRoot: PROJECT_ROOT, requirePins: false,
     recheckRuntime: true, regenerate: true,
@@ -559,7 +561,9 @@ test("record reference DAG rejects an internal rights-retention cycle", async (t
   assertIssue(await validateMutation(root), "RECORD_REFERENCE_CYCLE");
 });
 
-test("frozen Slice 06 definition passes central validation", { skip: !HAS_FROZEN_DEFINITION }, async () => {
+test("frozen Slice 06 definition passes central validation", {
+  skip: !HAS_FROZEN_DEFINITION || process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice06Definition({ sliceRoot: CANONICAL_SLICE_ROOT });
   assert.deepEqual(report.issues, []);
   assert.equal(report.valid, true);

@@ -2,6 +2,8 @@
 
 > Active-plan note (2026-08-16): this workspace is retained as archival research lineage and as a source of reusable fixtures, validators, rights records, metrics, and implementation findings. It no longer defines the next product increment. Do not create Slice 12, rerun closed Slice 05–11 versions, acquire MODNet / RVM weights, or extend formal holdout machinery for the current MVP. The active product order is [basic editor → browser acceptance → early internal usability walkthrough → replaceable cloud background-removal provider → mask correction / transparent PNG / solid background → cutout usability and beta-readiness decision](../IMPLEMENTATION_PLAN.md).
 
+`npm run research:validate` now runs the archival validator for immutable Slice 01–11 snapshots. It verifies the checked-in trees, references, pins and registered result closures without pretending that today's product `package.json` is byte-identical to the runtime manifest frozen during Slice 05–10. `npm run test:research:safe` keeps the fake and adversarial suites, while explicitly skipping the nine live-runtime regeneration tests tied to that old package manifest. The legacy live comparison remains available only as `npm run research:validate:live-legacy`; it is expected to report drift after normal product-script changes and is not a product verification command.
+
 This directory is the executable research workspace for Slice 01 through Slice
 11. Its image fixtures are small, deterministic, and project-original. Slice
 05's only registered real smoke is closed non-pass, so its calibration is

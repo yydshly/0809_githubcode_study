@@ -96,7 +96,9 @@ test("noncanonical test-UTC definition cannot satisfy the frozen literal pins", 
   assert.equal(report.definitionRef, null);
 });
 
-test("canonical Slice 10 definition pins remain stable while the immutable failed result is rejected", async () => {
+test("canonical Slice 10 definition pins remain stable while the immutable failed result is rejected", {
+  skip: process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice10Definition({ requirePins: true, recheckRuntime: true, regenerate: true });
   assert.equal(report.valid, false);
   assert.equal(report.pinsVerified, true);

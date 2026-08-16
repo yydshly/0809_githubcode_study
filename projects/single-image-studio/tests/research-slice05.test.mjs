@@ -1081,7 +1081,9 @@ test("closed-smoke validator rejects durable result-evidence tampering", { skip:
   });
 });
 
-test("operation-specific open calibration accepts a complete 48x3 independent fake closure", { skip: !HAS_FROZEN_DEFINITION }, async (t) => {
+test("operation-specific open calibration accepts a complete 48x3 independent fake closure", {
+  skip: !HAS_FROZEN_DEFINITION || process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async (t) => {
   const root = await copiedFrozenDefinition(t, "single-image-studio-s05-complete-calibration-");
   await buildCompleteFakeSmokeEvidence(root);
   const calibration = await buildCompleteFakeCalibrationEvidence(root, "normalize");
@@ -1104,7 +1106,9 @@ test("operation-specific open calibration accepts a complete 48x3 independent fa
   assert.equal(report.postRun.calibrations[0].resultCount, 144);
 });
 
-test("open-calibration validator rejects denominator, inventory, operation, and quiescence drift", { skip: !HAS_FROZEN_DEFINITION }, async (t) => {
+test("open-calibration validator rejects denominator, inventory, operation, and quiescence drift", {
+  skip: !HAS_FROZEN_DEFINITION || process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async (t) => {
   const base = await copiedFrozenDefinition(t, "single-image-studio-s05-calibration-adversarial-base-");
   await buildCompleteFakeSmokeEvidence(base);
   const calibration = await buildCompleteFakeCalibrationEvidence(base, "normalize");
@@ -1179,7 +1183,9 @@ test("open-calibration validator rejects denominator, inventory, operation, and 
   });
 });
 
-test("frozen Slice 05 definition passes literal pins, fresh inventory, and two-temp regeneration", { skip: !HAS_FROZEN_DEFINITION }, async () => {
+test("frozen Slice 05 definition passes literal pins, fresh inventory, and two-temp regeneration", {
+  skip: !HAS_FROZEN_DEFINITION || process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice05Definition({
     sliceRoot: CANONICAL_SLICE_ROOT,
     requirePins: !process.env.SLICE05_TEST_DEFINITION_ROOT,

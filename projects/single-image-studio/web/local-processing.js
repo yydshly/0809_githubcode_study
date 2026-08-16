@@ -10,7 +10,17 @@ export async function decodeImage(source) {
   return image;
 }
 
+function positiveDimension(value, label) {
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new TypeError(`${label} 必须是正数`);
+  }
+  return value;
+}
+
 export function outputDimensions(width, height, maxEdge = 2048) {
+  positiveDimension(width, "图片宽度");
+  positiveDimension(height, "图片高度");
+  positiveDimension(maxEdge, "输出长边");
   const scale = Math.min(1, maxEdge / Math.max(width, height));
   return {
     width: Math.max(1, Math.round(width * scale)),
@@ -18,7 +28,11 @@ export function outputDimensions(width, height, maxEdge = 2048) {
   };
 }
 
-function coverCrop(sourceWidth, sourceHeight, targetWidth, targetHeight) {
+export function coverCrop(sourceWidth, sourceHeight, targetWidth, targetHeight) {
+  positiveDimension(sourceWidth, "来源宽度");
+  positiveDimension(sourceHeight, "来源高度");
+  positiveDimension(targetWidth, "目标宽度");
+  positiveDimension(targetHeight, "目标高度");
   const sourceRatio = sourceWidth / sourceHeight;
   const targetRatio = targetWidth / targetHeight;
   if (sourceRatio > targetRatio) {
@@ -50,8 +64,19 @@ function drawTone(ctx, width, height, tone) {
   }
 }
 
-export async function processFaithful({ sourceUrl, settings, canvas }) {
-  const image = await decodeImage(sourceUrl);
+export async function processFaithful({
+  sourceUrl,
+  settings = {},
+  canvas,
+  decode = decodeImage,
+  createObjectUrl = (blob) => URL.createObjectURL(blob),
+}) {
+  if (!canvas || typeof canvas.getContext !== "function" || typeof canvas.toBlob !== "function") {
+    throw new TypeError("需要可导出的 Canvas");
+  }
+  const image = await decode(sourceUrl);
+  positiveDimension(image?.naturalWidth, "解码宽度");
+  positiveDimension(image?.naturalHeight, "解码高度");
   const ratio = settings.ratio ?? "original";
   let dimensions;
   if (ratio === "square") dimensions = { width: 1600, height: 1600 };
@@ -62,6 +87,7 @@ export async function processFaithful({ sourceUrl, settings, canvas }) {
   canvas.width = dimensions.width;
   canvas.height = dimensions.height;
   const ctx = canvas.getContext("2d", { alpha: false });
+  if (!ctx) throw new Error("浏览器无法创建 2D 画布");
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   ctx.fillStyle = "#f4f3ec";
@@ -74,14 +100,17 @@ export async function processFaithful({ sourceUrl, settings, canvas }) {
 
   const format = settings.format === "jpeg" ? "image/jpeg" : "image/png";
   const blob = await canvasToBlob(canvas, format, format === "image/jpeg" ? 0.92 : undefined);
+  if (blob.size <= 0 || blob.type !== format) {
+    throw new Error("浏览器返回了无效的编码结果");
+  }
   return {
     blob,
-    url: URL.createObjectURL(blob),
+    url: createObjectUrl(blob),
     mime: format,
     extension: format === "image/jpeg" ? "jpg" : "png",
     width: canvas.width,
     height: canvas.height,
-    qa: "尺寸、编码与确定性画布处理已检查",
+    validationSummary: "已生成并核对输出尺寸、格式与文件大小；未执行内容质量检查",
     processor: "local-canvas-faithful-v1",
   };
 }

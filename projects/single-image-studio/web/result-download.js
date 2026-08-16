@@ -83,7 +83,7 @@ export function buildResultDownloadContract({ taskId, result, currentRunId } = {
     return denied(DOWNLOAD_ERROR_CODES.RESULT_NOT_READY, "结果尚未通过完整校验。");
   }
   if (result.qaStatus !== "passed") {
-    return denied(DOWNLOAD_ERROR_CODES.QA_NOT_PASSED, "任务专属 QA 未通过。");
+    return denied(DOWNLOAD_ERROR_CODES.QA_NOT_PASSED, "结果尚未通过当前工程校验。内容质量检查尚未实现。");
   }
 
   const policy = DOWNLOAD_POLICIES[taskId] ?? creativePolicy(taskId);

@@ -42,8 +42,8 @@ const TASK_COPY = Object.freeze({
     badge: "本地可用",
     kind: "utility",
     description: "校正比例与整体色调，不重建主体，也不上传图片。",
-    longDescription: "用浏览器画布完成确定性的裁切、缩放、色调和编码。它是当前首版最稳妥的真实闭环。",
-    preserve: "主体、动作、关键物件与可见内容",
+    longDescription: "用浏览器画布完成居中裁切、缩放、色调和编码。这是当前 R0 可执行的本地路径，尚不是完整交互编辑器。",
+    preserve: "不主动生成新主体或物件；居中裁切可能移除画面边缘",
     change: "画面比例、整体色调与输出格式",
     output: "PNG / JPEG",
     referenceTitle: "保真整理参考",
@@ -224,7 +224,7 @@ async function acceptSource(file) {
   }
 }
 
-async function confirmAndAnalyze() {
+async function confirmAndPrepare() {
   if (!source || !elements.rights.checked) return;
   const validationId = createRuntimeId();
   const analysisId = createRuntimeId();
@@ -260,8 +260,8 @@ async function confirmAndAnalyze() {
       analyzerVersion: "single-source-browser-v1",
     });
     validationPassed = true;
-    elements.statusTitle.textContent = "正在准备任务建议";
-    elements.statusCopy.textContent = "只显示当前真实可执行或明确标注验证中的能力。";
+    elements.statusTitle.textContent = "正在加载可用操作";
+    elements.statusCopy.textContent = "这里只读取工程可用状态，不分析图片内容或推荐适用效果。";
     await new Promise((resolve) => setTimeout(resolve, 240));
     if (analysisController.signal.aborted || source !== sourceAtStart || machine.source?.hash !== sourceToken.sourceHash) return;
     tasks = selectedCatalog();
@@ -302,14 +302,14 @@ async function confirmAndAnalyze() {
       // The source may already have been replaced; stale failures stay inert.
     }
     activeController = null;
-    showError("图片分析没有完成", error.message || "请换一张图片后重试。", false);
+    showError("图片检查没有完成", error.message || "请换一张图片后重试。", false);
   }
 }
 
 function renderTasks() {
   elements.taskGrid.replaceChildren();
   const availableCount = tasks.filter((task) => task.runnable).length;
-  elements.recommendationCopy.textContent = `当前有 ${availableCount} 个真实可执行方向；验证中的能力不使用假结果补位。`;
+  elements.recommendationCopy.textContent = `当前有 ${availableCount} 个工程上可运行的操作；这里没有分析图片内容，也不会把验证中的能力伪装成可用。`;
   tasks.forEach((task, index) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -418,7 +418,7 @@ async function runSelectedTask() {
       result = {
         id: createRuntimeId(), url: processed.url, blob: processed.blob, mimeType: processed.mime, extension: processed.extension,
         width: processed.width, height: processed.height, outputHash: await sha256Bytes(bytes), byteLength: processed.blob.size,
-        hasAlpha: false, qa: processed.qa, processor: processed.processor, title: "保真整理完成",
+        hasAlpha: false, validationSummary: processed.validationSummary, processor: processed.processor, title: "本地整理完成",
       };
     } else {
       const payload = {
@@ -452,7 +452,7 @@ async function runSelectedTask() {
         extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
         width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
         byteLength: finished.result.imageBytes, hasAlpha: false,
-        qa: "服务响应格式、输出指纹与本次运行编号已核对",
+        validationSummary: "已核对服务响应格式、输出指纹与本次运行编号；未执行内容质量检查",
         processor: `${finished.result.model || "gpt-image-2"} · request ${finished.requestId || "未返回"}`,
         title: "创意生成完成",
       };
@@ -461,7 +461,7 @@ async function runSelectedTask() {
     if (machine.activeRunId !== runId) return;
     dispatch(STUDIO_EVENTS.RECEIVE_RUN_RESULT, { ...runToken, result });
     dispatch(STUDIO_EVENTS.RESULT_VALIDATION_SUCCEEDED, {
-      ...runToken, resultId: result.id, qaVersion: selectedTask.id === "UT-TUNE" ? "local-fidelity-qa-v1" : "creative-response-qa-v1",
+      ...runToken, resultId: result.id, qaVersion: selectedTask.id === "UT-TUNE" ? "local-output-validation-v1" : "creative-response-validation-v1",
       resultPatch: {
         mimeType: result.mimeType, byteLength: result.byteLength, outputHash: result.outputHash, hasAlpha: result.hasAlpha,
         completedAt: new Date().toISOString(), version: selectedTask.contractVersion,
@@ -496,7 +496,7 @@ function renderResult() {
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
   elements.resultImage.src = currentResult.url;
   elements.resultImage.hidden = false;
-  elements.qaCopy.textContent = currentResult.qa;
+  elements.qaCopy.textContent = currentResult.validationSummary;
   elements.resultSize.textContent = currentResult.width && currentResult.height ? `${currentResult.width} × ${currentResult.height}` : currentResult.mimeType;
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
   elements.referenceCopy.textContent = selectedTask.referenceCopy;
@@ -551,13 +551,13 @@ async function recoverUnknownRun() {
       extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
       width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
       byteLength: finished.result.imageBytes, hasAlpha: false,
-      qa: "恢复查询后，服务响应格式、输出指纹与原运行编号已核对",
+      validationSummary: "恢复查询后已核对服务响应格式、输出指纹与原运行编号；未执行内容质量检查",
       processor: `${finished.result.model || "gpt-image-2"} · request ${finished.requestId || "未返回"}`,
       title: "创意生成完成",
     };
     dispatch(STUDIO_EVENTS.RECEIVE_RUN_RESULT, { ...runToken, result });
     dispatch(STUDIO_EVENTS.RESULT_VALIDATION_SUCCEEDED, {
-      ...runToken, resultId: result.id, qaVersion: "creative-response-qa-v1",
+      ...runToken, resultId: result.id, qaVersion: "creative-response-validation-v1",
       resultPatch: {
         mimeType: result.mimeType, byteLength: result.byteLength, outputHash: result.outputHash,
         hasAlpha: result.hasAlpha, completedAt: finished.completedAt || new Date().toISOString(), version: selectedTask.contractVersion,
@@ -604,7 +604,7 @@ elements.resultReplace?.addEventListener("click", openFilePicker);
 elements.fileInput.addEventListener("change", () => { const [file] = elements.fileInput.files; if (file) acceptSource(file); });
 elements.useDemo.addEventListener("click", async () => acceptSource(await createDemoImage(elements.canvas)));
 elements.rights.addEventListener("change", () => { elements.confirmSource.disabled = !elements.rights.checked; });
-elements.confirmSource.addEventListener("click", confirmAndAnalyze);
+elements.confirmSource.addEventListener("click", confirmAndPrepare);
 elements.cancelSource.addEventListener("click", cancelCurrentSource);
 elements.backToTasks.addEventListener("click", () => { selectedTask = null; showOnly("tasks"); setJourney("task"); });
 elements.settingsForm.addEventListener("submit", (event) => { event.preventDefault(); runSelectedTask(); });
@@ -621,7 +621,7 @@ elements.cancelWait.addEventListener("click", () => {
   if ([STUDIO_STATES.SOURCE_VALIDATING, STUDIO_STATES.ANALYZING].includes(machine.status)) {
     stopActiveRequest();
     cancelCurrentSource();
-    toast("已取消图片分析");
+    toast("已取消图片检查");
     return;
   }
   if (![STUDIO_STATES.RUNNING, STUDIO_STATES.RUN_UNKNOWN].includes(machine.status)) return;

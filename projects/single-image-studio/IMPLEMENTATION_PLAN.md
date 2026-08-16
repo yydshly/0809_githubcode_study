@@ -32,12 +32,12 @@
 | 创意 API 工程路径 | `gpt-image-2` 图片编辑请求、状态查询、幂等和失败闭合 | 保留为实验功能，不进入当前 MVP 主路径 |
 | 研究资产 | synthetic fixtures、Sharp 来源锁、canonical PNG encoder lineage、Alpha 指标、rights / provenance 结构 | 精简复用，不把研究通过写成产品通过 |
 
-最近记录的 7-file 产品工程定向测试为 44 / 44 通过；它们证明工程状态和接口约束，不证明图片效果质量。M0 会把这 7 份测试固化为独立命令并重新运行，而不是从全量 research suite 推断产品状态。
+M0 后产品工程定向测试为 9 files / 51 tests 通过；新增覆盖本地输出几何 / 编码事实和页面能力文案。它们证明工程状态和接口约束，不证明图片效果质量、真实浏览器兼容或抠图能力。
 
 当前可复算命令为：
 
 ```powershell
-node --test tests/api-client.test.mjs tests/mobile-preview.test.mjs tests/runtime-identity.test.mjs tests/server.test.mjs tests/source-file.test.mjs tests/state-machine.test.mjs tests/task-catalog.test.mjs
+npm run test:product
 ```
 
 ### 2.2 只是脚手架或研究，不是产品能力
@@ -191,6 +191,8 @@ MVP 初始资源边界为：输入继续沿用 40 MP 预检，但交互工作 ra
 
 完成条件：文档只有一个当前执行顺序；安全验证命令不会下载模型、运行注册研究任务或覆写不可变结果。
 
+当前完成（2026-08-16）：已拆分产品与归档研究测试，增加动态 syntax 检查，修正 R0 过度声明，并为本地处理加入可注入解码 / canvas / 输出回归；`verify:product` 为 51 / 51。Slice 01–11 使用 archive validator 继续核对冻结树与 pins，不再要求当前产品 `package.json` 与历史 runtime attestation 逐 byte 相同。M0 原列的真实 Chrome / Edge 下载与 console E2E 尚未完成，作为明确欠项保留，最迟在 M1b 完成条件前关闭；它不阻止先开始 M1a 的无 UI renderer 工作。
+
 ### M1a · Renderer 与像素合同（4–6 个工作日）
 
 目标：先让每次编辑和导出在像素层面可解释、可重复，不在 UI 上掩盖错误。
@@ -298,12 +300,12 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 
 ### Now
 
-1. 产品重规划文档与研究基线记录；
-2. 修复验证命令覆盖；
-3. 修正文案和虚假 QA 表述；
-4. 为 `local-processing.js` 建立像素 / 输出测试；
-5. 实现基础编辑器的 `EditState` 与可视化控件；
-6. 建立产品浏览器 E2E；
+1. ~~产品重规划文档与研究基线记录；~~
+2. ~~修复验证命令覆盖；~~
+3. ~~修正文案和虚假 QA 表述；~~
+4. ~~为 `local-processing.js` 建立输出几何 / 编码事实测试；~~
+5. 实现 M1a renderer、`EditState`、Alpha / orientation / metadata 合同和独立输出重开；
+6. 实现 M1b 可视化控件并建立真实 Chrome / Edge 下载 E2E；
 7. 完成基础编辑器早期内部可用性走查。
 
 ### Next
@@ -327,10 +329,12 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 
 ```text
 verify:product
-  = 产品单元测试 + DOM / 浏览器 E2E + syntax + diff check
+  = 当前产品单元测试 + source / DOM contract tests + syntax
+  当前尚不包含真实浏览器 E2E；M1b 必须把 Chrome / Edge 下载与 console 检查接入
 
 verify:research:safe
-  = 安全的研究 validator / fake tests
+  = Slice 01–11 immutable snapshot archive validator + 安全的研究 fake / adversarial tests
+  = 显式跳过 9 个要求当前 package manifest 等于旧 runtime snapshot 的 live-regeneration tests
   ≠ 注册运行、模型下载、真实远程调用或结果覆写
 ```
 

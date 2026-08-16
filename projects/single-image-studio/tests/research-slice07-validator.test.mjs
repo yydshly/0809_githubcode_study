@@ -53,7 +53,9 @@ test("Slice 07 preview definition validates with fresh runtime and byte regenera
   assert.equal(report.regenerationVerified, true);
 });
 
-test("formal validation verifies every literal freeze pin", async () => {
+test("formal validation verifies every literal freeze pin", {
+  skip: process.env.SINGLE_IMAGE_STUDIO_ARCHIVED_RESEARCH === "1",
+}, async () => {
   const report = await validateSlice07Definition({ requirePins: true, recheckRuntime: true, regenerate: true });
   assert.equal(report.valid, true, JSON.stringify(report.issues));
   assert.equal(report.pinsVerified, true);

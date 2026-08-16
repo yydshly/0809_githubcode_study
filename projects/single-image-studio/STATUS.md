@@ -21,7 +21,7 @@
 5. 只有真实产品数据证明成本、隐私、延迟或离线需求不可接受时，才恢复浏览器 / 本地模型路线；
 6. C/U/E/R/O/G/V 与 Release Gate 继续约束公开声明和正式发布，但不阻止开发内部产品试用版和开展不使用参与者图片的早期内部可用性走查。
 
-因此，当前最近的工程动作不是新的 Matting metadata、模型下载或研究 runner，而是修复验证命令覆盖、修正 R0 页面过度声明，并为本地处理建立输出回归测试。
+M0 的首个产品基线增量已完成：产品 / 归档研究 / syntax 验证入口已拆分，R0 页面不再声称图片分析、推荐或内容质量检查，本地处理已有可注入解码与输出事实回归。当前产品定向测试为 `9 files / 51 tests`；下一次代码动作进入 M1a renderer 与像素合同。真实 Chrome / Edge 下载与 console E2E 尚未建立，必须在 M1b 关闭前补齐。
 
 ## 当前冻结的产品环境
 
@@ -35,6 +35,7 @@
 
 | 维度 | 当前状态 | 数量 / 等级 | 这代表什么 |
 | --- | --- | --- | --- |
+| M0 产品基线 | 首个工程增量完成 | `test:product`：9 files / 51 tests；动态 syntax 覆盖 153 files；archived research 验证 Slice 01–11 | 产品和历史研究验证已拆开；9 个只适用于旧 package manifest 的 live-runtime regeneration tests 在归档模式显式 skip，历史 snapshots 另行逐项验真；这不是图片效果或浏览器兼容证据 |
 | 历史研究快照 | SourceCard + Matting baseline、exposure signals、continuous-alpha、获取治理及候选运行时元数据定义均已闭合并转为 archival lineage | `6 synthetic sources / 12 assets / 10 registered upstream metadata texts / model HEAD 0 / model GET 0 / natural images 0 / model bytes 0 / installed candidate deps 0 / results 0` | SourceCard 语义 exposure 仍 unknown；simple matte 仍是下限。MODNet / RVM 未下载、安装或推理，当前 MVP 不继续该路线；需要本地 / 离线模型时必须按新产品版本重新立项 |
 | 工程探针 | 可运行 | R0 | 可检查上传预检、任务状态、旧响应失效、失败门控、对比与下载等工程行为 |
 | 研究审阅工具 | 可运行的方法演练 | `surface.research-review` Slice 01；3 fixtures / 18 assets | 可检查严格 catalog、六图加载、视图切换、结构化初判、锁定与解盲；提交不持久化，且不授予 C1、U1/E1 或 R1 |
