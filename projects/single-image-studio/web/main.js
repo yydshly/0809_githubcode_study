@@ -210,6 +210,7 @@ function clearResult() {
   maskCorrectionInitToken += 1;
   maskCorrectionSession = null;
   elements.maskCorrectionWorkspace.hidden = true;
+  elements.resultSection.classList.remove("has-mask-tools");
   elements.maskCorrectionCanvas.hidden = true;
   elements.maskCorrectionCanvas.width = 1;
   elements.maskCorrectionCanvas.height = 1;
@@ -1912,7 +1913,14 @@ async function runBackgroundRemoval({ runId, runController, sourceHashAtStart })
 
 function syncComparisonStage(layer = selectedComparisonLayer) {
   if (!currentResult || elements.resultSection.hidden) return;
-  const availableWidth = Math.max(1, elements.resultSection.clientWidth || elements.main.clientWidth || window.innerWidth - 32);
+  const sectionWidth = elements.resultSection.clientWidth || elements.main.clientWidth || window.innerWidth - 32;
+  const sideBySideTools = window.matchMedia("(min-width: 981px)").matches
+    && elements.resultSection.classList.contains("has-mask-tools")
+    && !elements.maskCorrectionWorkspace.hidden;
+  const toolWidth = sideBySideTools
+    ? elements.maskCorrectionWorkspace.getBoundingClientRect().width + 24
+    : 0;
+  const availableWidth = Math.max(1, sectionWidth - toolWidth);
   const mobile = window.matchMedia("(max-width: 620px)").matches;
   const dimensions = layer === "split"
     ? (mobile ? { width: 9, height: 10 } : { width: 16, height: 9 })
@@ -1950,7 +1958,9 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   elements.resultSourcePanel.hidden = !layerState.showSource;
   elements.resultOutputPanel.hidden = !layerState.showResult;
   elements.referenceExplainer.hidden = !layerState.showReference;
-  elements.maskCorrectionWorkspace.hidden = selectedTask?.id !== "UT-CUTOUT" || !layerState.resultInteractive;
+  const showMaskTools = selectedTask?.id === "UT-CUTOUT" && layerState.resultInteractive;
+  elements.resultSection.classList.toggle("has-mask-tools", showMaskTools);
+  elements.maskCorrectionWorkspace.hidden = !showMaskTools;
   if (!layerState.resultInteractive) {
     elements.maskBrushCursor.hidden = true;
     elements.resultOutputPanel.classList.remove("is-mask-zoomed");

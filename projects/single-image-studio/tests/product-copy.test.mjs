@@ -71,12 +71,18 @@ test("visible output copy distinguishes downloadable files from content quality"
   assert.match(styles, /\.source-preview > img \{[^}]*object-fit: contain;[^}]*background-image:/);
   assert.match(styles, /\.result-stage \{[^}]*background-color: #d8ddd8;[^}]*background-image:/);
   assert.match(styles, /\.result-stage\.is-split \{[^}]*grid-template-columns: repeat\(2/);
+  assert.match(styles, /\.result-section\.has-mask-tools \{[^}]*grid-template-columns:[^}]*grid-template-areas:/);
+  assert.match(styles, /\.result-section\.has-mask-tools \.mask-correction-workspace \{[^}]*position: sticky/);
+  assert.match(styles, /@media \(max-width: 980px\)[\s\S]*grid-template-areas: "heading" "tabs" "stage" "qa" "tools" "record"/);
   assert.match(html, /完整显示的原图/);
   assert.match(html, /完整显示的处理结果/);
   assert.match(main, /function selectComparisonLayer/);
   assert.match(main, /function syncComparisonStage/);
   assert.match(main, /comparisonLayerState/);
   assert.match(main, /并排对比 · 原图/);
+  assert.match(main, /classList\.toggle\("has-mask-tools", showMaskTools\)/);
+  assert.match(main, /matchMedia\("\(min-width: 981px\)"\)\.matches/);
+  assert.match(main, /getBoundingClientRect\(\)\.width \+ 24/);
   assert.match(main, /resultInteractive = !viewAutomatic && selectedComparisonLayer === "result"/);
   assert.match(main, /session\.view !== "corrected" \|\| selectedComparisonLayer !== "result"/);
   assert.match(main, /完整原图 \$\{dimensions\.width\} × \$\{dimensions\.height\}/);
