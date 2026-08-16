@@ -156,7 +156,7 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /再次抠图前，请重新确认本次远程发送/);
   assert.match(main, /remoteConsent\.checked = false/);
   assert.match(main, /\? selectedTask\.id === "UT-PORTRAIT" \? "重新制作头像" : "重新抠图"/);
-  assert.match(main, /\? "继续调整"/);
+  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "调整增强效果" : "继续调整"/);
   assert.match(recoveryPresentation, /\? "返回并重新确认"/);
   assert.match(html, /id="fallback-editor-button"[^>]*>改用本地编辑</);
   assert.match(main, /switchToLocalEditor/);
@@ -247,4 +247,15 @@ test("portrait is a real composed workflow, not a newly enabled placeholder", ()
   assert.match(main, /taskId: "UT-PORTRAIT"/);
   assert.match(main, /头像下载契约未通过/);
   assert.match(main, /不承诺任何证件或机构规格/);
+});
+
+test("natural enhancement is an honest local workflow with visible fixed presets", () => {
+  assert.match(main, /title: "自然增强"/);
+  assert.match(main, /ENHANCEMENT_PRESETS/);
+  assert.match(main, /data-enhancement-preset/);
+  assert.match(main, /selectEnhancementPreset/);
+  assert.match(main, /预设只是透明、固定的亮度、对比度和饱和度组合/);
+  assert.match(main, /正在本机应用你看得到的固定光色参数/);
+  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "自然增强完成"/);
+  assert.match(styles, /\.enhancement-preset\[aria-pressed="true"\]/);
 });

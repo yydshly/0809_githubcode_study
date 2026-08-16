@@ -31,6 +31,16 @@ const BASE_TASKS = Object.freeze([
     requiresAdultAttestation: false,
   }),
   Object.freeze({
+    id: "UT-ENHANCE",
+    label: "自然增强",
+    description: "使用克制的本地光色预设改善观感，也可继续手动微调。",
+    family: "utility",
+    executor: TASK_EXECUTOR.LOCAL,
+    contractVersion: "local-natural-enhancement-v1",
+    requiresConfig: false,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
     id: "CR1",
     label: "AI 创意改造",
     description: "使用真实 AI 服务生成创意结果；服务不可用时不生成替代品。",
@@ -182,7 +192,7 @@ function resolveTask(task, aiStatus, backgroundRemovalStatus) {
 
 /**
  * Runtime catalog policy:
- * - local fidelity is always runnable;
+ * - local fidelity and natural enhancement are always runnable;
  * - the real AI task follows the observed service status;
  * - remote cutout follows its independently observed provider status;
  * - the portrait workflow reuses the independently observed background-removal service;

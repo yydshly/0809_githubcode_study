@@ -4,6 +4,11 @@ const DOWNLOAD_POLICIES = Object.freeze({
     mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
     alpha: "either",
   }),
+  "UT-ENHANCE": Object.freeze({
+    prefix: "enhanced-result",
+    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
+    alpha: "either",
+  }),
   "LOCAL-FIDELITY": Object.freeze({
     prefix: "fidelity-result",
     mimeTypes: Object.freeze(["image/png"]),

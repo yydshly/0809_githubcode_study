@@ -71,6 +71,8 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 
 研究必须包含合成退化真值、真实授权图和 already-good / no-op 三组，不能把用户手调滤镜当作自动自然增强。
 
+当前内部产品页另有 `UT-ENHANCE@local-natural-enhancement-v1` 手动可解释路径：五个固定预设只映射到可见的全局亮度 / 对比度 / 饱和度参数，并复用本地编辑器的撤销、比较、输出重开与下载。它用于产品操作验证，不执行内容分析或自动推荐，不改变本节 `effect.natural-enhance` 的 `research-candidate` 状态，也不授予 U1。
+
 ### effect.cleanup
 
 用户目标：删除明确选中的小面积物体或杂物，并只在允许区域内补全。
