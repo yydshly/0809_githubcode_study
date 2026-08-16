@@ -181,6 +181,15 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(scripts.dev, /--env-file-if-exists=\.env/);
 });
 
+test("a completed result can return to task selection without replacing the source", () => {
+  assert.match(html, /id="result-change-task-button"[^>]*>换个处理方向</);
+  assert.match(main, /function returnToTaskSelection\(message = ""\)/);
+  assert.match(main, /dispatch\(STUDIO_EVENTS\.RETURN_TO_TASKS\)/);
+  assert.match(main, /clearResult\(\);\s*clearEditorWorkspace\(\);\s*selectedTask = null/);
+  assert.match(main, /已保留当前图片；请选择新的处理方向/);
+  assert.match(main, /taskGrid\.querySelector\("button:not\(\[disabled\]\)"\)\?\.focus\(\)/);
+});
+
 test("remote cutout result exposes non-destructive mask correction and accessible inspection states", () => {
   for (const id of [
     "mask-correction-workspace",

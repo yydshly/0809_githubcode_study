@@ -35,6 +35,7 @@ export const STUDIO_EVENTS = Object.freeze({
   ANALYSIS_SUCCEEDED: "ANALYSIS_SUCCEEDED",
   ANALYSIS_FAILED: "ANALYSIS_FAILED",
   SELECT_TASK: "SELECT_TASK",
+  RETURN_TO_TASKS: "RETURN_TO_TASKS",
   PREPARE_TASK: "PREPARE_TASK",
   UPDATE_CONFIG: "UPDATE_CONFIG",
   ACCEPT_ADULT_ATTESTATION: "ACCEPT_ADULT_ATTESTATION",
@@ -299,6 +300,35 @@ function selectTask(state, event) {
   };
 }
 
+function returnToTasks(state, event) {
+  requireState(state, [
+    STUDIO_STATES.TASKS_READY,
+    STUDIO_STATES.TASK_SELECTED,
+    STUDIO_STATES.CONFIGURING,
+    STUDIO_STATES.READY_TO_RUN,
+    STUDIO_STATES.RUN_ERROR,
+    STUDIO_STATES.RESULT_READY,
+  ], event.type);
+  if (!state.source || !state.analysis) {
+    throw new StudioStateError("a prepared source is required to return to tasks");
+  }
+  const retired = retiredRunState(state, RUN_STATUS.SUPERSEDED);
+  return {
+    ...retired,
+    status: state.tasks.some(runnable)
+      ? STUDIO_STATES.TASKS_READY
+      : STUDIO_STATES.NO_ELIGIBLE_TASKS,
+    selectedTask: null,
+    config: null,
+    configValid: false,
+    settingsHash: null,
+    adultAttestation: null,
+    result: null,
+    rejectedResult: null,
+    error: null,
+  };
+}
+
 function updateConfig(state, event) {
   requireState(state, [
     STUDIO_STATES.TASK_SELECTED,
@@ -500,6 +530,8 @@ export function reduceStudioState(state, event) {
       return finishAnalysis(state, event, true);
     case STUDIO_EVENTS.SELECT_TASK:
       return selectTask(state, event);
+    case STUDIO_EVENTS.RETURN_TO_TASKS:
+      return returnToTasks(state, event);
     case STUDIO_EVENTS.PREPARE_TASK: {
       requireState(state, [STUDIO_STATES.TASK_SELECTED, STUDIO_STATES.CONFIGURING], event.type);
       return { ...state, status: readyStatus(state) };

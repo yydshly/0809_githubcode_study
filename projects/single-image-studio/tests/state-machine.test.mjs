@@ -309,6 +309,42 @@ test("a definitive remote failure can switch to local editing without replacing 
   assert.deepEqual(state.supersededRunIds, ["run-cutout-failed"]);
 });
 
+test("returning from a completed result to the task list preserves the source and retires the old download", () => {
+  let state = runningLocal("r", "run-result-r");
+  const oldRunToken = currentRunToken(state);
+  state = reduceStudioState(state, {
+    type: STUDIO_EVENTS.RECEIVE_RUN_RESULT,
+    ...oldRunToken,
+    result: { id: "result-r", outputHash: "f".repeat(64) },
+  });
+  state = reduceStudioState(state, {
+    type: STUDIO_EVENTS.RESULT_VALIDATION_SUCCEEDED,
+    ...oldRunToken,
+    resultId: "result-r",
+  });
+  const sourceBefore = state.source;
+  const analysisBefore = state.analysis;
+
+  state = reduceStudioState(state, { type: STUDIO_EVENTS.RETURN_TO_TASKS });
+
+  assert.equal(state.status, STUDIO_STATES.TASKS_READY);
+  assert.equal(state.source, sourceBefore);
+  assert.equal(state.analysis, analysisBefore);
+  assert.equal(state.selectedTask, null);
+  assert.equal(state.config, null);
+  assert.equal(state.run, null);
+  assert.equal(state.activeRunId, null);
+  assert.equal(state.result, null);
+  assert.deepEqual(state.supersededRunIds, ["run-result-r"]);
+
+  const lateResult = reduceStudioState(state, {
+    type: STUDIO_EVENTS.RECEIVE_RUN_RESULT,
+    ...oldRunToken,
+    result: { id: "late-result-r" },
+  });
+  assert.equal(lateResult, state);
+});
+
 test("source validation errors do not leak into later revisions", () => {
   let state = createInitialState();
   state = reduceStudioState(state, { type: STUDIO_EVENTS.SELECT_SOURCE, source: source("e") });

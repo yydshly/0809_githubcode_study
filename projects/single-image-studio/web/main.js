@@ -78,7 +78,7 @@ const elements = {
   mobilePreviewNotice: $("#mobile-preview-notice"),
   sourcePane: $("#source-pane"), fileInput: $("#file-input"), chooseFile: $("#choose-file-button"), useDemo: $("#use-demo-button"),
   sourceEmpty: $("#source-empty"), sourcePreview: $("#source-preview"), sourceImage: $("#source-image"),
-  sourceName: $("#source-name"), sourceMeta: $("#source-meta"), replaceFile: $("#replace-file-button"), tasksReplace: $("#tasks-replace-button"), resultReplace: $("#result-replace-button"),
+  sourceName: $("#source-name"), sourceMeta: $("#source-meta"), replaceFile: $("#replace-file-button"), tasksReplace: $("#tasks-replace-button"), resultReplace: $("#result-replace-button"), resultChangeTask: $("#result-change-task-button"),
   consentCard: $("#consent-card"), rights: $("#rights-checkbox"), confirmSource: $("#confirm-source-button"), cancelSource: $("#cancel-source-button"),
   statusPanel: $("#status-panel"), statusTitle: $("#status-title"), statusCopy: $("#status-copy"), cancelWait: $("#cancel-wait-button"),
   tasksSection: $("#tasks-section"), taskGrid: $("#task-grid"), recommendationCopy: $("#recommendation-copy"),
@@ -928,6 +928,19 @@ function renderTasks() {
   });
 }
 
+function returnToTaskSelection(message = "") {
+  stopActiveRequest();
+  clearResult();
+  clearEditorWorkspace();
+  selectedTask = null;
+  dispatch(STUDIO_EVENTS.RETURN_TO_TASKS);
+  renderTasks();
+  showOnly("tasks");
+  setJourney("task");
+  elements.taskGrid.querySelector("button:not([disabled])")?.focus();
+  if (message) toast(message);
+}
+
 function selectTask(taskId) {
   selectedTask = tasks.find((task) => task.id === taskId);
   if (!selectedTask?.runnable) return;
@@ -1675,10 +1688,7 @@ function switchToLocalEditor() {
   if (!source || machine.status === STUDIO_STATES.RUN_UNKNOWN) return;
   const localEditor = tasks.find((task) => task.id === "UT-TUNE" && task.runnable);
   if (!localEditor) {
-    selectedTask = null;
-    showOnly("tasks");
-    setJourney("task");
-    toast("本地编辑当前不可用；图片仍保留在任务列表中");
+    returnToTaskSelection("本地编辑当前不可用；图片仍保留在任务列表中");
     return;
   }
   selectTask(localEditor.id);
@@ -1811,12 +1821,13 @@ elements.chooseFile.addEventListener("click", openFilePicker);
 elements.replaceFile.addEventListener("click", openFilePicker);
 elements.tasksReplace?.addEventListener("click", openFilePicker);
 elements.resultReplace?.addEventListener("click", openFilePicker);
+elements.resultChangeTask?.addEventListener("click", () => returnToTaskSelection("已保留当前图片；请选择新的处理方向"));
 elements.fileInput.addEventListener("change", () => { const [file] = elements.fileInput.files; if (file) acceptSource(file); });
 elements.useDemo.addEventListener("click", async () => acceptSource(await createDemoImage(elements.canvas)));
 elements.rights.addEventListener("change", () => { elements.confirmSource.disabled = !elements.rights.checked; });
 elements.confirmSource.addEventListener("click", confirmAndPrepare);
 elements.cancelSource.addEventListener("click", cancelCurrentSource);
-elements.backToTasks.addEventListener("click", () => { selectedTask = null; clearEditorWorkspace(); showOnly("tasks"); setJourney("task"); });
+elements.backToTasks.addEventListener("click", () => returnToTaskSelection());
 elements.settingsForm.addEventListener("click", (event) => {
   const preset = event.target.closest?.("[data-enhancement-preset]");
   if (preset) selectEnhancementPreset(preset.dataset.enhancementPreset);
@@ -1897,10 +1908,8 @@ elements.errorBack.addEventListener("click", async () => {
     }
     dispatch(STUDIO_EVENTS.CANCEL_WAIT);
   }
-  selectedTask = null;
-  clearEditorWorkspace();
-  showOnly(source ? "tasks" : "empty");
-  setJourney(source ? "task" : "source");
+  if (source && machine.analysis && tasks.some((task) => task.runnable)) returnToTaskSelection();
+  else cancelCurrentSource();
 });
 elements.cancelWait.addEventListener("click", async () => {
   if ([STUDIO_STATES.SOURCE_VALIDATING, STUDIO_STATES.ANALYZING].includes(machine.status)) {
