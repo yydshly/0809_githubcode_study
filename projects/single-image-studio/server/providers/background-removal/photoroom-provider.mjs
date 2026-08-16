@@ -100,6 +100,7 @@ export function createPhotoroomBackgroundRemovalProvider({
     id: "photoroom.background-removal",
     version: "1.0.0",
     mode: "remote",
+    environment: resolvedApiKey.startsWith("sandbox_") ? "sandbox" : "production",
     async removeBackground({ source, signal, context }) {
       assertSource(source);
       if (!context || typeof context.runId !== "string" || !context.runId) {

@@ -86,6 +86,7 @@ export function createBackgroundRemovalRuntime({
             id: provider.id,
             version: provider.version,
             mode: provider.mode,
+            ...(provider.environment ? { environment: provider.environment } : {}),
           },
         },
       });
@@ -128,7 +129,12 @@ export function createBackgroundRemovalRuntime({
         ? Object.freeze({ available: false, provider: null, reason: "not_configured", runStore: "memory" })
         : Object.freeze({
           available: true,
-          provider: Object.freeze({ id: provider.id, version: provider.version, mode: provider.mode }),
+          provider: Object.freeze({
+            id: provider.id,
+            version: provider.version,
+            mode: provider.mode,
+            ...(provider.environment ? { environment: provider.environment } : {}),
+          }),
           reason: null,
           runStore: "memory",
         });

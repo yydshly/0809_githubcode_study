@@ -257,9 +257,9 @@ M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v
 - 使用 12–20 个项目原创或许可明确的图片进行小规模测试，不使用真实用户照片；
 - 选择一个主 Provider；没有候选满足隐私或质量要求时，保持手动编辑，不仓促引入本地模型。
 
-当前完成度：合同、独立 typed route/client、内存 run store、fake provider、PhotoRoom Basic adapter、显式服务启用和用户逐次同意界面已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产默认保持 `not_configured`；仅保存密钥不会启用，仍需 `PHOTOROOM_ENABLED=true`。账户/DPA/地域复核、真实 API 调用、持久 `ProviderCallReceipt`、删除验证、Alpha 质量结论和 mask 修正均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
+当前完成度：合同、独立 typed route/client、内存 run store、fake provider、PhotoRoom Basic adapter、显式服务启用和用户逐次同意界面已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产默认保持 `not_configured`；仅保存密钥不会启用，仍需 `PHOTOROOM_ENABLED=true`。当前完成 1 次项目原创 synthetic 的 PhotoRoom sandbox 协议探针，证明沙盒鉴权与 RGBA PNG/Alpha 结构链可闭合，但带水印且无供应商 receipt header，不进入正式分母。账户/DPA/地域复核、正式候选调用、持久 `ProviderCallReceipt`、删除验证、Alpha 质量结论和 mask 修正均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
 
-第一次真实调用前必须冻结 `ProviderEvaluationPlan`：候选 API / 条款日期、隐私硬门、允许地域 / 保留 / 训练用途、单次与总预算、最大延迟和失败率、synthetic Alpha / boundary 指标、灾难误删上限、分层人工判断规则、修正后可完成率与 no-go 条件。具体阈值只能在看结果前依据候选价格和业务预算写入；未知隐私边界直接 no-go，不能用质量分数抵消。
+第一次正式候选调用前必须冻结 `ProviderEvaluationPlan`：候选 API / 条款日期、隐私硬门、允许地域 / 保留 / 训练用途、单次与总预算、最大延迟和失败率、synthetic Alpha / boundary 指标、灾难误删上限、分层人工判断规则、修正后可完成率与 no-go 条件。具体阈值只能在看结果前依据候选价格和业务预算写入；未知隐私边界直接 no-go，不能用质量分数抵消。
 
 即使 MVP 不建设完整队列，也必须持久保存上节定义的最小调用收据。普通图片 SHA-256 不是匿名数据：浏览器本地完整性 hash 与服务端操作收据分开，收据优先使用 run-scoped HMAC 或加密 hash，并在 M3 冻结访问范围和 TTL；不得把可跨会话关联的 plain hash 写入普通日志。不得保存图片正文或密钥。跨刷新后状态未知时只允许查询 / reconcile，不得盲目再次计费。
 

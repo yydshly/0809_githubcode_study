@@ -149,6 +149,9 @@ export function assertBackgroundRemovalProvider(provider) {
   if (!new Set(["fake", "remote"]).has(provider.mode)) {
     throw new TypeError("background removal provider mode must be fake or remote");
   }
+  if (provider.environment !== undefined && !new Set(["sandbox", "production"]).has(provider.environment)) {
+    throw new TypeError("background removal provider environment must be sandbox or production");
+  }
   if (typeof provider.removeBackground !== "function") {
     throw new TypeError("background removal provider must implement removeBackground");
   }

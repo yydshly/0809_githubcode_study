@@ -171,9 +171,9 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 
 ### M3a 抠图 Provider 状态
 
-当前已按 PhotoRoom 官方 Basic API reference 编写项目自有的 HTTP adapter，固定调用 `POST https://sdk.photoroom.com/v1/segment`，只发送 multipart `image_file`，并显式请求 `format=png`、`channels=rgba`、`size=full`、`crop=false`、`despill=false`。没有复制第三方 SDK、代码、模型、图片或资产，也尚未真实调用。生产必须同时配置服务端密钥与 `PHOTOROOM_ENABLED=true`；默认仍为 `not_configured`。这只是受控候选接线，不等于已经选择供应商或通过质量/隐私评估。官方 API、账户条款、隐私、地域、保留/删除、训练用途、价格和退出方案仍须在首次真实调用前复核并记录。
+当前已按 PhotoRoom 官方 Basic API reference 编写项目自有的 HTTP adapter，固定调用 `POST https://sdk.photoroom.com/v1/segment`，只发送 multipart `image_file`，并显式请求 `format=png`、`channels=rgba`、`size=full`、`crop=false`、`despill=false`。没有复制第三方 SDK、代码、模型、图片或资产。生产必须同时配置服务端密钥与 `PHOTOROOM_ENABLED=true`；默认仍为 `not_configured`。2026-08-16 已用项目原创 synthetic 执行 1 次免费、带水印的 sandbox 协议探针，未保存图片正文，也未进入正式质量分母。这只是受控候选接线，不等于已经选择供应商或通过质量/隐私评估；账户条款、隐私、地域、保留/删除、训练用途、价格和退出方案仍须在正式候选比较前复核并记录。
 
-[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 于 2026-08-16 将只读候选冻结为 Photoroom Basic `POST https://sdk.photoroom.com/v1/segment` 与 remove.bg API 1.0 `POST https://api.remove.bg/v1.0/removebg`。官方资料显示两者均可返回透明 PNG；Photoroom Basic 当前公开价为每成功图片 0.02 美元，其安全页声明 API 图片调用后丢弃且未经同意不训练；remove.bg 安全白皮书声明图片通常 60 分钟内丢弃，并写明 90 天后不可恢复。这些是网页声明，不是本项目已签署的 DPA 或删除证明。两者的账户侧条款版本、处理地域、子处理方、训练 opt-out 实际状态和删除边界仍为阻塞项；当前授权费用为 0 美元、真实调用为 0。
+[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 于 2026-08-16 将只读候选冻结为 Photoroom Basic `POST https://sdk.photoroom.com/v1/segment` 与 remove.bg API 1.0 `POST https://api.remove.bg/v1.0/removebg`。官方资料显示两者均可返回透明 PNG；Photoroom Basic 当前公开价为每成功图片 0.02 美元，其安全页声明 API 图片调用后丢弃且未经同意不训练；remove.bg 安全白皮书声明图片通常 60 分钟内丢弃，并写明 90 天后不可恢复。这些是网页声明，不是本项目已签署的 DPA 或删除证明。两者的账户侧条款版本、处理地域、子处理方、训练 opt-out 实际状态和删除边界仍为阻塞项；当前授权费用为 0 美元，只有上述 1 次免费 sandbox 协议探针，正式候选调用为 0。
 
 | 资料 | 核对日期 | 用途 | 复制情况 |
 | --- | --- | --- | --- |

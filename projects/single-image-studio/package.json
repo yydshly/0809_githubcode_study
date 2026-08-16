@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch server/server.mjs",
-    "start": "node server/server.mjs",
+    "dev": "node --env-file-if-exists=.env --watch server/server.mjs",
+    "start": "node --env-file-if-exists=.env server/server.mjs",
     "mobile": "node scripts/mobile-preview.mjs",
     "research:generate": "node scripts/research-generate-fixtures.mjs && node scripts/research-generate-slice02.mjs && node scripts/research-generate-slice03.mjs && node scripts/research-generate-slice04.mjs && node scripts/research-generate-slice05.mjs",
     "research:validate": "node scripts/research-validate-archive.mjs",

@@ -33,7 +33,7 @@
 
 抠图是第二阶段的核心增强，不是产品底座；当前不要求用户安装 MODNet、RVM、SAM 或其他模型。Slice 01–11、SourceCard / Matting baseline、continuous-alpha 和候选元数据全部保留为历史研究资产，但不再自动驱动下一次提交。具体动作、里程碑、验收和恢复本地模型研究的条件见 [当前执行计划](IMPLEMENTATION_PLAN.md)。
 
-当前 R0 页面真实可运行的用户路径仍是本地“保真整理”和可选的创意 API 工程路径；用户已确认基础编辑能力可作为下一阶段工程基线，但计划中的 5–8 人 M2 走查尚未完成。M3a 已实现独立 `BackgroundRemovalProvider` 边界、专用 status/run/cancel API、浏览器 client、fake-only 回归和 PhotoRoom Basic 的首个远程 adapter。页面会显示“透明抠图”任务，但服务未配置时保持禁用；进入任务后还必须逐次确认远程发送。生产同时要求服务端密钥和 `PHOTOROOM_ENABLED=true`，避免保存密钥后意外发起付费请求。服务端直接验证输出 PNG 的 CRC、结构、8-bit RGBA Alpha 和尺寸，而非只相信供应商的 `hasAlpha` 声明；来源/构图版本、明确同意、幂等、拒绝、超时、取消和迟到结果均有关闭测试。这证明协议接线和安全边界，不证明真实供应商质量或可用性。[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 12 个 source unit、最多 24 次调用、隐私/质量 no-go 和当前 0 美元授权；在账户侧 DPA、地域、训练、删除边界、预算和密钥获得明确授权前不会真实调用。基础编辑器在 Provider 不可用时不受影响。
+当前 R0 页面真实可运行的用户路径仍是本地“保真整理”和可选的创意 API 工程路径；用户已确认基础编辑能力可作为下一阶段工程基线，但计划中的 5–8 人 M2 走查尚未完成。M3a 已实现独立 `BackgroundRemovalProvider` 边界、专用 status/run/cancel API、浏览器 client、fake-only 回归和 PhotoRoom Basic 的首个远程 adapter。页面会显示“透明抠图”任务，但服务未配置时保持禁用；进入任务后还必须逐次确认远程发送。生产同时要求服务端密钥和 `PHOTOROOM_ENABLED=true`，避免保存密钥后意外发起付费请求。服务端直接验证输出 PNG 的 CRC、结构、8-bit RGBA Alpha 和尺寸，而非只相信供应商的 `hasAlpha` 声明；来源/构图版本、明确同意、幂等、拒绝、超时、取消和迟到结果均有关闭测试。这证明协议接线和安全边界，不证明真实供应商质量或可用性。[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 12 个 source unit、最多 24 次调用、隐私/质量 no-go 和当前 0 美元授权。当前只完成 1 次项目原创 synthetic 的免费沙盒协议探针；页面会明确标示带水印，正式候选比较、账户侧 DPA/地域/训练/删除核对与付费调用仍未开始。基础编辑器在 Provider 不可用时不受影响。
 
 首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 
@@ -201,7 +201,9 @@ cd projects/single-image-studio
 npm.cmd start
 ```
 
-打开 `http://127.0.0.1:4177/`。未配置密钥时，可用合成演示图验证本地 Canvas 处理和工程状态闭环；这只是确定性画布探针，不是已经验证的“自然增强”。
+`start` 与 `dev` 会自动读取项目根目录中未提交的 `.env`。打开 `http://127.0.0.1:4177/`；未配置密钥时，可用合成演示图验证本地 Canvas 处理和工程状态闭环，这只是确定性画布探针，不是已经验证的“自然增强”。
+
+PhotoRoom 抠图可先把账户 Key 以单个 `sandbox_` 前缀写入 `.env`；页面会明确标出沙盒状态和带水印结果。沙盒只验证远程流程与透明结构，不计作正式成品质量结论；正式质量检查仍需切回普通 Key 后小规模受控运行。
 
 若服务端环境中设置 `OPENAI_API_KEY`，R0 探针可发送 CR1 图片编辑请求。当前路径没有真实 Source Card、冻结参考对或创意内容 QA，不能升级为 E1 或 R1-product 证据，也不应用敏感真人图测试。
 

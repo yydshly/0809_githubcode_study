@@ -435,17 +435,23 @@ function renderSettings(task) {
     elements.runButton.textContent = "生成并校验下载文件";
     elements.runNote.textContent = "全部在本机完成；不会调用 AI、补画内容或上传图片。导出后还会重开核对。";
   } else if (task.id === "UT-CUTOUT") {
+    const providerSandbox = backgroundRemovalStatus.provider?.environment === "sandbox";
     const providerLabel = backgroundRemovalStatus.provider?.id === "photoroom.background-removal"
-      ? "PhotoRoom Remove Background API"
+      ? `PhotoRoom Remove Background API${providerSandbox ? "（沙盒）" : ""}`
       : "已配置的远程背景移除服务";
+    const providerUseCopy = providerSandbox
+      ? "当前是免费沙盒测试：结果会带水印，只用于验证流程、透明结构和交互，不作为正式成品。"
+      : "这是正式远程调用，可能按次计费，费用由项目服务账户承担。";
     elements.settingsFields.innerHTML = `
       <fieldset class="setting-group remote-processing-consent"><legend><span>1</span> 远程处理确认</legend>
-        <div class="remote-processing-summary"><strong>服务方：${providerLabel}</strong><p>只发送当前这张图片的 bytes，用于识别主体并返回透明 PNG；不会同时生成背景、阴影或美化版本。远程调用可能按次计费，费用由项目服务账户承担。</p></div>
+        <div class="remote-processing-summary"><strong>服务方：${providerLabel}</strong><p>只发送当前这张图片的 bytes，用于识别主体并返回透明 PNG；不会同时生成背景、阴影或美化版本。${providerUseCopy}</p></div>
         <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前图片发送给远程抠图服务处理</span></label>
         <p class="field-hint">本地服务不把原图写入任务记录，处理结果只保存在当前服务进程；供应商侧处理与删除遵循项目批准的当前账户条款。失败不会覆盖原图，也不会自动重复提交。</p>
       </fieldset>`;
     elements.runButton.textContent = "移除背景";
-    elements.runNote.textContent = "结果必须是经过结构校验、带真实 Alpha 通道的 PNG，才会进入比较和下载。";
+    elements.runNote.textContent = providerSandbox
+      ? "沙盒结果必须通过 PNG 与 Alpha 结构校验；水印结果仅供测试。"
+      : "结果必须是经过结构校验、带真实 Alpha 通道的 PNG，才会进入比较和下载。";
   } else {
     elements.settingsFields.innerHTML = `
       <div class="field"><label for="creative-quality">生成质量</label><select id="creative-quality" name="quality"><option value="low">快速草稿</option><option value="medium" selected>标准结果</option><option value="high">精细结果</option></select></div>
@@ -1022,7 +1028,9 @@ async function checkStatus() {
     : apiStatus.available && backgroundRemovalStatus.available
       ? "本地编辑、远程抠图与创意生成已连接"
       : backgroundRemovalStatus.available
-        ? "本地编辑与远程抠图可用"
+        ? backgroundRemovalStatus.provider?.environment === "sandbox"
+          ? "本地编辑与 PhotoRoom 沙盒抠图可用"
+          : "本地编辑与远程抠图可用"
         : apiStatus.available ? `本地编辑与创意生成可用 · ${status.model}` : "本地处理可用 · 远程服务未连接";
 }
 
@@ -1169,6 +1177,7 @@ function createBackgroundRemovalResult(finished, { recovered = false } = {}) {
   if (!finished.result?.image || finished.result.hasAlpha !== true || finished.result.mime !== "image/png") {
     throw new Error("抠图服务没有返回经过验证的透明 PNG");
   }
+  const providerSandbox = finished.result.provider?.environment === "sandbox";
   return {
     id: createRuntimeId(),
     url: finished.result.image,
@@ -1180,9 +1189,9 @@ function createBackgroundRemovalResult(finished, { recovered = false } = {}) {
     outputHash: finished.result.imageSha256,
     byteLength: finished.result.imageBytes,
     hasAlpha: true,
-    validationSummary: `${recovered ? "恢复查询后" : ""}已核对 PNG 结构、Alpha 通道、文件大小、输出指纹与本次任务编号；尚未执行人工边缘质量检查`,
-    processor: `远程抠图 · ${finished.result.provider?.id ?? "configured provider"}`,
-    title: "背景已移除",
+    validationSummary: `${recovered ? "恢复查询后" : ""}已核对 PNG 结构、Alpha 通道、文件大小、输出指纹与本次任务编号；${providerSandbox ? "当前为带水印沙盒结果，" : ""}尚未执行人工边缘质量检查`,
+    processor: `${providerSandbox ? "沙盒抠图" : "远程抠图"} · ${finished.result.provider?.id ?? "configured provider"}`,
+    title: providerSandbox ? "沙盒抠图完成（带水印）" : "背景已移除",
   };
 }
 

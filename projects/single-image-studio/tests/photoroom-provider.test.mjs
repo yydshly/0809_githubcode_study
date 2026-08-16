@@ -37,6 +37,7 @@ test("PhotoRoom provider sends one explicit RGBA PNG segmentation request", asyn
       });
     },
   });
+  assert.equal(provider.environment, "production");
 
   const result = await provider.removeBackground({
     source: SOURCE,
@@ -55,6 +56,15 @@ test("PhotoRoom provider sends one explicit RGBA PNG segmentation request", asyn
   assert.equal(result.providerRequestId, "photoroom-request-1");
   assert.equal(result.image.mime, "image/png");
   assert.deepEqual(result.image.bytes, Buffer.from([1, 2, 3, 4]));
+});
+
+test("PhotoRoom provider exposes sandbox keys without revealing the key", () => {
+  const provider = createPhotoroomBackgroundRemovalProvider({
+    apiKey: "sandbox_test-secret",
+    fetchImpl: async () => { throw new Error("must not be called"); },
+  });
+  assert.equal(provider.environment, "sandbox");
+  assert.equal(JSON.stringify(provider).includes("test-secret"), false);
 });
 
 test("PhotoRoom provider maps definitive upstream refusals without retrying", async () => {
