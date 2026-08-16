@@ -51,6 +51,7 @@ const elements = {
   resultSection: $("#result-section"), resultStage: $("#result-stage"), resultTitle: $("#result-title"), resultSummary: $("#result-summary"),
   resultSourcePanel: $("#compare-source-panel"), resultSourceImage: $("#result-source-image"),
   resultOutputPanel: $("#compare-result-panel"), resultOutputImage: $("#result-output-image"),
+  resultOutputTab: $("#compare-result-tab"),
   referenceExplainer: $("#reference-explainer"), referenceMark: $("#reference-mark"),
   referenceTitle: $("#reference-title"), referenceCopy: $("#reference-copy"), qaCopy: $("#qa-copy"), resultSize: $("#result-size"),
   redo: $("#redo-button"), download: $("#download-button"),
@@ -85,13 +86,13 @@ const TASK_COPY = Object.freeze({
   }),
   "UT-CUTOUT": Object.freeze({
     title: "主体与背景",
-    badge: "能力验证中",
-    kind: "pending",
-    description: "同一主体蒙版将服务透明抠图、背景消除与纯色换底。",
-    longDescription: "需要独立的精细分割与边缘验证，当前不会用生成模型假装成精准抠图。",
-    preserve: "主体边缘、发丝与半透明区域",
-    change: "背景透明度或指定底色",
-    output: "透明 PNG / 换底图",
+    badge: "远程抠图",
+    kind: "utility",
+    description: "自动识别主体并移除背景，输出透明 PNG；结果可与完整原图切换比较。",
+    longDescription: "图片会在你明确同意后发送给已连接的远程抠图服务。服务只负责产生透明主体；不会生成新背景，也不会把生成式图片冒充精确抠图。",
+    preserve: "原图主体像素，以及服务识别出的发丝、孔洞和半透明边缘",
+    change: "背景会被转换为透明 Alpha；自动结果仍可能需要人工修正",
+    output: "透明 PNG",
     referenceTitle: "主体蒙版",
     referenceCopy: "验证重点是边缘、孔洞与半透明区域，不以轮廓大致相似作为通过。",
   }),
@@ -112,6 +113,7 @@ const TASK_COPY = Object.freeze({
 const api = createApiClient({ requestTimeoutMs: 18_000 });
 let machine = createInitialState();
 let apiStatus = { available: false };
+let backgroundRemovalStatus = { available: false, status: "checking" };
 let source = null;
 let sourceUrl = null;
 let tasks = [];
@@ -233,7 +235,7 @@ function preparedTask(task) {
 }
 
 function selectedCatalog() {
-  const catalog = getTaskCatalog({ aiStatus: apiStatus }).map(preparedTask);
+  const catalog = getTaskCatalog({ aiStatus: apiStatus, backgroundRemovalStatus }).map(preparedTask);
   const wanted = ["UT-TUNE", "CR1", "UT-CUTOUT", "UT-PORTRAIT"];
   return wanted.map((id) => catalog.find((task) => task.id === id)).filter(Boolean);
 }
@@ -310,7 +312,10 @@ async function confirmAndPrepare() {
     validationPassed = true;
     elements.statusTitle.textContent = "正在加载可用操作";
     elements.statusCopy.textContent = "这里只读取工程可用状态，不分析图片内容或推荐适用效果。";
-    await new Promise((resolve) => setTimeout(resolve, 240));
+    await Promise.all([
+      new Promise((resolve) => setTimeout(resolve, 240)),
+      checkStatus(),
+    ]);
     if (analysisController.signal.aborted || source !== sourceAtStart || machine.source?.hash !== sourceToken.sourceHash) return;
     tasks = selectedCatalog();
     dispatch(STUDIO_EVENTS.ANALYSIS_SUCCEEDED, {
@@ -387,7 +392,7 @@ function selectTask(taskId) {
   else clearEditorWorkspace();
   showOnly("config");
   setJourney("task");
-  elements.runButton.focus();
+  (elements.settingsForm.querySelector("input, select") ?? elements.runButton).focus();
 }
 
 function renderSettings(task) {
@@ -429,6 +434,18 @@ function renderSettings(task) {
       <p class="settings-error" id="editor-settings-error" role="alert" hidden></p>`;
     elements.runButton.textContent = "生成并校验下载文件";
     elements.runNote.textContent = "全部在本机完成；不会调用 AI、补画内容或上传图片。导出后还会重开核对。";
+  } else if (task.id === "UT-CUTOUT") {
+    const providerLabel = backgroundRemovalStatus.provider?.id === "photoroom.background-removal"
+      ? "PhotoRoom Remove Background API"
+      : "已配置的远程背景移除服务";
+    elements.settingsFields.innerHTML = `
+      <fieldset class="setting-group remote-processing-consent"><legend><span>1</span> 远程处理确认</legend>
+        <div class="remote-processing-summary"><strong>服务方：${providerLabel}</strong><p>只发送当前这张图片的 bytes，用于识别主体并返回透明 PNG；不会同时生成背景、阴影或美化版本。远程调用可能按次计费，费用由项目服务账户承担。</p></div>
+        <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前图片发送给远程抠图服务处理</span></label>
+        <p class="field-hint">本地服务不把原图写入任务记录，处理结果只保存在当前服务进程；供应商侧处理与删除遵循项目批准的当前账户条款。失败不会覆盖原图，也不会自动重复提交。</p>
+      </fieldset>`;
+    elements.runButton.textContent = "移除背景";
+    elements.runNote.textContent = "结果必须是经过结构校验、带真实 Alpha 通道的 PNG，才会进入比较和下载。";
   } else {
     elements.settingsFields.innerHTML = `
       <div class="field"><label for="creative-quality">生成质量</label><select id="creative-quality" name="quality"><option value="low">快速草稿</option><option value="medium" selected>标准结果</option><option value="high">精细结果</option></select></div>
@@ -436,7 +453,12 @@ function renderSettings(task) {
     elements.runButton.textContent = "开始真实生成";
     elements.runNote.textContent = "图片只会从本地服务端发送到已连接的 OpenAI 图片服务；生成结果不会伪造。";
   }
-  elements.runButton.disabled = false;
+  elements.runButton.disabled = task.id === "UT-CUTOUT";
+}
+
+function syncCutoutConsent() {
+  if (selectedTask?.id !== "UT-CUTOUT") return;
+  elements.runButton.disabled = elements.settingsForm.elements.remoteConsent?.checked !== true;
 }
 
 function editorFormSettings() {
@@ -728,6 +750,9 @@ function getSettings() {
     if (!commitEditorForm()) throw new Error("请先修正编辑设置");
     return editorSettings(editorWorkspace);
   }
+  if (selectedTask?.id === "UT-CUTOUT" && elements.settingsForm.elements.remoteConsent?.checked !== true) {
+    throw new Error("请先确认远程抠图处理");
+  }
   return Object.fromEntries(new FormData(elements.settingsForm).entries());
 }
 
@@ -784,8 +809,12 @@ async function runSelectedTask() {
   showOnly("status");
   setJourney("result");
   elements.cancelWait.hidden = false;
-  elements.statusTitle.textContent = selectedTask.id === "UT-TUNE" ? "正在本地处理" : "正在生成新的图片";
-  elements.statusCopy.textContent = selectedTask.id === "UT-TUNE" ? "只做确定性的构图、编码与整体色调处理。" : "正在保留来源事实并应用选定的视觉方法。";
+  elements.statusTitle.textContent = selectedTask.id === "UT-TUNE"
+    ? "正在本地处理"
+    : selectedTask.id === "UT-CUTOUT" ? "正在移除背景" : "正在生成新的图片";
+  elements.statusCopy.textContent = selectedTask.id === "UT-TUNE"
+    ? "只做确定性的构图、编码与整体色调处理。"
+    : selectedTask.id === "UT-CUTOUT" ? "正在安全发送当前图片并等待透明结果。" : "正在保留来源事实并应用选定的视觉方法。";
 
   try {
     let result;
@@ -800,6 +829,9 @@ async function runSelectedTask() {
         width: processed.width, height: processed.height, outputHash: processed.outputHash, byteLength: processed.byteLength,
         hasAlpha: processed.hasAlpha, validationSummary: processed.validationSummary, processor: processed.processor, title: "本地整理完成",
       };
+    } else if (selectedTask.id === "UT-CUTOUT") {
+      result = await runBackgroundRemoval({ runId, runController, sourceHashAtStart });
+      if (!result) return;
     } else {
       const payload = {
         clientRunId: runId, taskId: selectedTask.id, sourceImage: await dataUrlForFile(source.file), referenceImages: [],
@@ -841,7 +873,11 @@ async function runSelectedTask() {
     if (machine.activeRunId !== runId) return;
     dispatch(STUDIO_EVENTS.RECEIVE_RUN_RESULT, { ...runToken, result });
     dispatch(STUDIO_EVENTS.RESULT_VALIDATION_SUCCEEDED, {
-      ...runToken, resultId: result.id, qaVersion: selectedTask.id === "UT-TUNE" ? "editor-output-validation-v1" : "creative-response-validation-v1",
+      ...runToken,
+      resultId: result.id,
+      qaVersion: selectedTask.id === "UT-TUNE"
+        ? "editor-output-validation-v1"
+        : selectedTask.id === "UT-CUTOUT" ? "remote-alpha-png-validation-v1" : "creative-response-validation-v1",
       resultPatch: {
         mimeType: result.mimeType, byteLength: result.byteLength, outputHash: result.outputHash, hasAlpha: result.hasAlpha,
         completedAt: new Date().toISOString(), version: selectedTask.contractVersion,
@@ -857,7 +893,7 @@ async function runSelectedTask() {
     dispatch(unknown ? STUDIO_EVENTS.MARK_RUN_UNKNOWN : STUDIO_EVENTS.RUN_FAILED, { ...runToken, code: error.code, message: error.message });
     if (activeController === runController) activeController = null;
     showError(
-      unknown ? "生成状态暂时未知" : "这次没有得到可用结果",
+      unknown ? "处理状态暂时未知" : "这次没有得到可用结果",
       unknown ? "网络中断后仍无法确认任务终态。系统不会自动重复提交；你可以显式重试，或稍后按同一任务编号查询。" : friendlyError(error),
       true,
     );
@@ -865,6 +901,10 @@ async function runSelectedTask() {
 }
 
 function friendlyError(error) {
+  if (error?.code === "background_removal_unavailable" || /抠图服务.*未配置/i.test(error?.message)) return "远程抠图服务尚未连接。原图和本地编辑功能不受影响。";
+  if (error?.code === "provider_auth_failed") return "抠图服务凭据无效，请由项目维护者检查服务端配置。";
+  if (error?.code === "provider_billing_required") return "抠图服务额度或计费状态不可用，当前图片没有被替换。";
+  if (error?.code === "provider_rate_limited") return "抠图服务当前请求较多，请稍后由你手动重试。";
   if (error?.code === "api_key_missing" || /OPENAI_API_KEY|未配置|not configured/i.test(error?.message)) return "创意生成服务尚未连接。你仍可选择“保真整理”，完成本地真实处理与下载。";
   if (error?.code === "moderation_blocked") return "当前图片或请求未通过图片服务的安全检查。请换一张图片或选择其他任务。";
   return error?.message || "请保留原图并重试，失败结果不会进入下载。";
@@ -876,6 +916,8 @@ function renderResult() {
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
   elements.resultSourceImage.src = sourceUrl;
   elements.resultOutputImage.src = currentResult.url;
+  elements.resultOutputImage.alt = selectedTask.id === "UT-CUTOUT" ? "完整显示的透明抠图结果" : "完整显示的处理结果";
+  elements.resultOutputTab.textContent = selectedTask.id === "UT-CUTOUT" ? "透明结果" : selectedTask.id === "UT-TUNE" ? "裁剪结果" : "处理结果";
   elements.qaCopy.textContent = currentResult.validationSummary;
   elements.resultSize.textContent = currentResult.width && currentResult.height ? `${currentResult.width} × ${currentResult.height}` : currentResult.mimeType;
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
@@ -904,17 +946,19 @@ async function recoverUnknownRun() {
   showOnly("status");
   elements.cancelWait.hidden = false;
   elements.statusTitle.textContent = "正在查询原任务";
-  elements.statusCopy.textContent = "不会新建生成请求，只确认之前任务的真实状态。";
+  const isBackgroundRemoval = selectedTask?.id === "UT-CUTOUT";
+  elements.statusCopy.textContent = "不会新建处理请求，只确认之前任务的真实状态。";
   try {
-    const finished = await api.pollRun(runId, {
+    const poll = isBackgroundRemoval ? api.pollBackgroundRemovalRun : api.pollRun;
+    const finished = await poll(runId, {
       signal: activeController.signal,
       timeoutMs: 60_000,
       intervalMs: 1000,
-      onUpdate: (run) => { elements.statusCopy.textContent = run.status === "RUNNING" ? "原任务仍在生成。" : "正在确认原任务状态。"; },
+      onUpdate: (run) => { elements.statusCopy.textContent = run.status === "RUNNING" ? "原任务仍在处理。" : "正在确认原任务状态。"; },
     });
     if (machine.activeRunId !== runId) return;
     if (finished.status === "UNKNOWN") {
-      showError("生成状态仍未知", "原任务仍无法确认。系统没有重复提交；你可以稍后继续查询、明确新建任务，或返回任务列表。", true);
+      showError("处理状态仍未知", "原任务仍无法确认。系统没有重复提交；你可以稍后继续查询、明确新建任务，或返回任务列表。", true);
       return;
     }
     if (finished.status !== "SUCCEEDED") {
@@ -922,21 +966,26 @@ async function recoverUnknownRun() {
       showError("原任务没有得到可用结果", friendlyError(finished.error), true);
       return;
     }
-    if (!finished.result?.image) throw new Error("图片服务没有返回图片结果");
-    const decoded = await decodeImage(finished.result.image);
-    const result = {
-      id: createRuntimeId(), url: finished.result.image, dataUrl: finished.result.image,
-      mimeType: `image/${finished.result.outputFormat === "jpeg" ? "jpeg" : finished.result.outputFormat || "png"}`,
-      extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
-      width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
-      byteLength: finished.result.imageBytes, hasAlpha: false,
-      validationSummary: "恢复查询后已核对服务响应格式、输出指纹与原运行编号；未执行内容质量检查",
-      processor: `${finished.result.model || "gpt-image-2"} · request ${finished.requestId || "未返回"}`,
-      title: "创意生成完成",
-    };
+    let result;
+    if (isBackgroundRemoval) {
+      result = createBackgroundRemovalResult(finished, { recovered: true });
+    } else {
+      if (!finished.result?.image) throw new Error("图片服务没有返回图片结果");
+      const decoded = await decodeImage(finished.result.image);
+      result = {
+        id: createRuntimeId(), url: finished.result.image, dataUrl: finished.result.image,
+        mimeType: `image/${finished.result.outputFormat === "jpeg" ? "jpeg" : finished.result.outputFormat || "png"}`,
+        extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
+        width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
+        byteLength: finished.result.imageBytes, hasAlpha: false,
+        validationSummary: "恢复查询后已核对服务响应格式、输出指纹与原运行编号；未执行内容质量检查",
+        processor: `${finished.result.model || "gpt-image-2"} · request ${finished.requestId || "未返回"}`,
+        title: "创意生成完成",
+      };
+    }
     dispatch(STUDIO_EVENTS.RECEIVE_RUN_RESULT, { ...runToken, result });
     dispatch(STUDIO_EVENTS.RESULT_VALIDATION_SUCCEEDED, {
-      ...runToken, resultId: result.id, qaVersion: "creative-response-validation-v1",
+      ...runToken, resultId: result.id, qaVersion: isBackgroundRemoval ? "remote-alpha-png-validation-v1" : "creative-response-validation-v1",
       resultPatch: {
         mimeType: result.mimeType, byteLength: result.byteLength, outputHash: result.outputHash,
         hasAlpha: result.hasAlpha, completedAt: finished.completedAt || new Date().toISOString(), version: selectedTask.contractVersion,
@@ -948,25 +997,33 @@ async function recoverUnknownRun() {
   } catch (error) {
     if (error instanceof ApiClientError && error.outcome === "ABORTED") return;
     activeController = null;
-    showError("生成状态仍未知", "原任务仍无法确认。系统没有重复提交；你可以稍后继续查询、明确新建任务，或返回任务列表。", true);
+    showError("处理状态仍未知", "原任务仍无法确认。系统没有重复提交；你可以稍后继续查询、明确新建任务，或返回任务列表。", true);
   }
 }
 
 async function checkStatus() {
-  try {
-    const status = await api.getStatus({ timeoutMs: 5000 });
-    const mobilePreview = status.previewMode === "lan";
-    apiStatus = { available: Boolean(status.available), status: status.available ? "available" : "unavailable", model: status.model };
-    elements.mobilePreviewNotice.hidden = !mobilePreview;
-    elements.serviceStatus.dataset.tone = apiStatus.available ? "online" : "offline";
-    elements.serviceStatusCopy.textContent = apiStatus.available
-      ? `创意生成已连接 · ${status.model}`
-      : mobilePreview ? "手机预览 · 仅本地处理" : "本地处理可用 · 创意生成未连接";
-  } catch {
-    apiStatus = { available: false, status: "error" };
-    elements.serviceStatus.dataset.tone = "offline";
-    elements.serviceStatusCopy.textContent = "本地处理可用 · 服务状态未知";
-  }
+  const [creative, cutout] = await Promise.allSettled([
+    api.getStatus({ timeoutMs: 5000 }),
+    api.getBackgroundRemovalStatus({ timeoutMs: 5000 }),
+  ]);
+  const status = creative.status === "fulfilled" ? creative.value : null;
+  const cutoutStatus = cutout.status === "fulfilled" ? cutout.value : null;
+  const mobilePreview = status?.previewMode === "lan" || cutoutStatus?.previewMode === "lan";
+  apiStatus = status
+    ? { available: Boolean(status.available), status: status.available ? "available" : "unavailable", model: status.model }
+    : { available: false, status: "error" };
+  backgroundRemovalStatus = cutoutStatus
+    ? { ...cutoutStatus, status: cutoutStatus.available ? "available" : "unavailable" }
+    : { available: false, status: "error" };
+  elements.mobilePreviewNotice.hidden = !mobilePreview;
+  elements.serviceStatus.dataset.tone = apiStatus.available || backgroundRemovalStatus.available ? "online" : "offline";
+  elements.serviceStatusCopy.textContent = mobilePreview
+    ? "手机预览 · 仅本地处理"
+    : apiStatus.available && backgroundRemovalStatus.available
+      ? "本地编辑、远程抠图与创意生成已连接"
+      : backgroundRemovalStatus.available
+        ? "本地编辑与远程抠图可用"
+        : apiStatus.available ? `本地编辑与创意生成可用 · ${status.model}` : "本地处理可用 · 远程服务未连接";
 }
 
 function openFilePicker() {
@@ -987,6 +1044,10 @@ elements.confirmSource.addEventListener("click", confirmAndPrepare);
 elements.cancelSource.addEventListener("click", cancelCurrentSource);
 elements.backToTasks.addEventListener("click", () => { selectedTask = null; clearEditorWorkspace(); showOnly("tasks"); setJourney("task"); });
 elements.settingsForm.addEventListener("input", (event) => {
+  if (selectedTask?.id === "UT-CUTOUT") {
+    syncCutoutConsent();
+    return;
+  }
   if (selectedTask?.id !== "UT-TUNE" || !editorWorkspace) return;
   const changedName = event.target?.name;
   if (changedName === "ratio") seedFreeCropFromWorkspace();
@@ -997,6 +1058,10 @@ elements.settingsForm.addEventListener("input", (event) => {
   previewEditorForm();
 });
 elements.settingsForm.addEventListener("change", (event) => {
+  if (selectedTask?.id === "UT-CUTOUT") {
+    syncCutoutConsent();
+    return;
+  }
   if (selectedTask?.id !== "UT-TUNE") return;
   const changedName = event.target?.name;
   if (changedName === "ratio") seedFreeCropFromWorkspace();
@@ -1031,14 +1096,21 @@ elements.editorPreviewFrame.addEventListener("keydown", nudgeCropWithKeyboard);
 elements.redo.addEventListener("click", () => { clearResult(); showOnly("config"); setJourney("task"); });
 elements.retry.addEventListener("click", runSelectedTask);
 elements.recover.addEventListener("click", recoverUnknownRun);
-elements.errorBack.addEventListener("click", () => {
-  if (machine.status === STUDIO_STATES.RUN_UNKNOWN) dispatch(STUDIO_EVENTS.CANCEL_WAIT);
+elements.errorBack.addEventListener("click", async () => {
+  if (machine.status === STUDIO_STATES.RUN_UNKNOWN) {
+    const backgroundRemovalRunId = selectedTask?.id === "UT-CUTOUT" ? machine.activeRunId : null;
+    stopActiveRequest();
+    if (backgroundRemovalRunId) {
+      await api.cancelBackgroundRemovalRun(backgroundRemovalRunId, { timeoutMs: 8_000 }).catch(() => null);
+    }
+    dispatch(STUDIO_EVENTS.CANCEL_WAIT);
+  }
   selectedTask = null;
   clearEditorWorkspace();
   showOnly(source ? "tasks" : "empty");
   setJourney(source ? "task" : "source");
 });
-elements.cancelWait.addEventListener("click", () => {
+elements.cancelWait.addEventListener("click", async () => {
   if ([STUDIO_STATES.SOURCE_VALIDATING, STUDIO_STATES.ANALYZING].includes(machine.status)) {
     stopActiveRequest();
     cancelCurrentSource();
@@ -1046,7 +1118,11 @@ elements.cancelWait.addEventListener("click", () => {
     return;
   }
   if (![STUDIO_STATES.RUNNING, STUDIO_STATES.RUN_UNKNOWN].includes(machine.status)) return;
+  const backgroundRemovalRunId = selectedTask?.id === "UT-CUTOUT" ? machine.activeRunId : null;
   stopActiveRequest();
+  if (backgroundRemovalRunId) {
+    await api.cancelBackgroundRemovalRun(backgroundRemovalRunId, { timeoutMs: 8_000 }).catch(() => null);
+  }
   dispatch(STUDIO_EVENTS.CANCEL_WAIT);
   toast("已停止等待；不会自动重新提交");
   showOnly("config");
@@ -1079,6 +1155,85 @@ function comparisonLayerDimensions(layer) {
     return { width: currentResult.width, height: currentResult.height };
   }
   return { width: 16, height: 9 };
+}
+
+async function recoverCreatedBackgroundRemovalRun(runId, originalError) {
+  try {
+    return await api.getBackgroundRemovalRun(runId, { timeoutMs: 8_000 });
+  } catch {
+    throw originalError;
+  }
+}
+
+function createBackgroundRemovalResult(finished, { recovered = false } = {}) {
+  if (!finished.result?.image || finished.result.hasAlpha !== true || finished.result.mime !== "image/png") {
+    throw new Error("抠图服务没有返回经过验证的透明 PNG");
+  }
+  return {
+    id: createRuntimeId(),
+    url: finished.result.image,
+    dataUrl: finished.result.image,
+    mimeType: "image/png",
+    extension: "png",
+    width: finished.result.width,
+    height: finished.result.height,
+    outputHash: finished.result.imageSha256,
+    byteLength: finished.result.imageBytes,
+    hasAlpha: true,
+    validationSummary: `${recovered ? "恢复查询后" : ""}已核对 PNG 结构、Alpha 通道、文件大小、输出指纹与本次任务编号；尚未执行人工边缘质量检查`,
+    processor: `远程抠图 · ${finished.result.provider?.id ?? "configured provider"}`,
+    title: "背景已移除",
+  };
+}
+
+async function runBackgroundRemoval({ runId, runController, sourceHashAtStart }) {
+  const payload = {
+    clientRunId: runId,
+    sourceRevision: machine.sourceRevision,
+    geometryRevision: 1,
+    sourceImage: await dataUrlForFile(source.file),
+    sourceSha256: source.hash,
+    consent: {
+      accepted: true,
+      acceptedAt: new Date().toISOString(),
+      policyVersion: "background-removal-consent.v0",
+    },
+  };
+  let created;
+  try {
+    created = await api.createBackgroundRemovalRun(payload, {
+      signal: runController.signal,
+      timeoutMs: 22_000,
+    });
+  } catch (error) {
+    if (!(error instanceof ApiClientError) || !error.isUnknown) throw error;
+    created = await recoverCreatedBackgroundRemovalRun(runId, error);
+  }
+  if (created.id !== runId) throw new Error("抠图任务编号不一致，已阻止结果进入页面");
+  const finished = await api.pollBackgroundRemovalRun(runId, {
+    signal: runController.signal,
+    timeoutMs: 90_000,
+    intervalMs: 700,
+    onUpdate: (run) => {
+      elements.statusCopy.textContent = run.status === "RUNNING"
+        ? "正在识别主体和边缘；原图仍保留在当前页面。"
+        : "正在等待远程抠图服务开始。";
+    },
+  });
+  if (machine.activeRunId !== runId || sourceHashAtStart !== machine.source?.hash) return null;
+  if (finished.status === "UNKNOWN") {
+    throw new ApiClientError(finished.error?.message || "抠图状态暂时未知", {
+      code: finished.error?.code,
+      outcome: "UNKNOWN",
+      details: finished,
+    });
+  }
+  if (finished.status !== "SUCCEEDED") {
+    const error = new Error(finished.error?.message || "背景移除没有完成");
+    error.code = finished.error?.code;
+    throw error;
+  }
+  return createBackgroundRemovalResult(finished);
 }
 
 function syncComparisonStage(layer = selectedComparisonLayer) {

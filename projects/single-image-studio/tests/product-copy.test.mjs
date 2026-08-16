@@ -2,12 +2,14 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [html, main, localProcessing, resultDownload, styles] = await Promise.all([
+const [html, main, localProcessing, resultDownload, styles, server, envExample] = await Promise.all([
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/local-processing.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-download.js", import.meta.url), "utf8"),
   readFile(new URL("../web/styles.css", import.meta.url), "utf8"),
+  readFile(new URL("../server/server.mjs", import.meta.url), "utf8"),
+  readFile(new URL("../.env.example", import.meta.url), "utf8"),
 ]);
 
 test("R0 page identifies itself as an engineering probe and does not claim image analysis", () => {
@@ -114,4 +116,15 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(main, /editor-output-validation-v1/);
   assert.match(main, /revokeIfBlob\(processed\.url\)/);
   assert.doesNotMatch(main, /processFaithful\(\{ sourceUrl/);
+});
+
+test("remote cutout stays explicit, informed, and disabled by default", () => {
+  assert.match(main, /服务方：\$\{providerLabel\}/);
+  assert.match(main, /只发送当前这张图片的 bytes/);
+  assert.match(main, /可能按次计费/);
+  assert.match(main, /name="remoteConsent"/);
+  assert.match(main, /失败不会覆盖原图，也不会自动重复提交/);
+  assert.match(server, /PHOTOROOM_ENABLED === "true"/);
+  assert.match(server, /photoroomEnabled && env\.PHOTOROOM_API_KEY/);
+  assert.match(envExample, /PHOTOROOM_API_KEY=\s*\r?\nPHOTOROOM_ENABLED=false/);
 });

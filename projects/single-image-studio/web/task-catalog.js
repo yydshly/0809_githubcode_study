@@ -15,6 +15,7 @@ export const TASK_AVAILABILITY = Object.freeze({
 export const TASK_EXECUTOR = Object.freeze({
   LOCAL: "local",
   AI: "ai",
+  BACKGROUND_REMOVAL: "background-removal",
   UNVERIFIED: "unverified",
 });
 
@@ -42,10 +43,10 @@ const BASE_TASKS = Object.freeze([
   Object.freeze({
     id: "UT-CUTOUT",
     label: "透明抠图",
-    description: "输出带真实 Alpha 的透明 PNG。",
+    description: "由远程抠图服务识别主体，输出带真实 Alpha 的透明 PNG。",
     family: "utility",
-    executor: TASK_EXECUTOR.UNVERIFIED,
-    contractVersion: "cutout-v1-draft",
+    executor: TASK_EXECUTOR.BACKGROUND_REMOVAL,
+    contractVersion: "remote-cutout-v1",
     requiresConfig: true,
     requiresAdultAttestation: false,
   }),
@@ -121,7 +122,40 @@ function aiAvailability(status) {
   }
 }
 
-function resolveTask(task, aiStatus) {
+function backgroundRemovalAvailability(status) {
+  switch (status) {
+    case AI_SERVICE_STATUS.AVAILABLE:
+      return {
+        availability: TASK_AVAILABILITY.AVAILABLE,
+        runnable: true,
+        statusLabel: "可运行 · 远程处理",
+        disabledReason: null,
+      };
+    case AI_SERVICE_STATUS.CHECKING:
+      return {
+        availability: TASK_AVAILABILITY.CHECKING,
+        runnable: false,
+        statusLabel: "正在检查抠图服务",
+        disabledReason: "BACKGROUND_REMOVAL_CHECKING",
+      };
+    case AI_SERVICE_STATUS.UNAVAILABLE:
+      return {
+        availability: TASK_AVAILABILITY.UNAVAILABLE,
+        runnable: false,
+        statusLabel: "抠图服务未配置",
+        disabledReason: "BACKGROUND_REMOVAL_UNAVAILABLE",
+      };
+    default:
+      return {
+        availability: TASK_AVAILABILITY.UNAVAILABLE,
+        runnable: false,
+        statusLabel: "抠图服务暂不可用",
+        disabledReason: "BACKGROUND_REMOVAL_ERROR",
+      };
+  }
+}
+
+function resolveTask(task, aiStatus, backgroundRemovalStatus) {
   if (task.executor === TASK_EXECUTOR.LOCAL) {
     return {
       ...task,
@@ -133,6 +167,9 @@ function resolveTask(task, aiStatus) {
   }
   if (task.executor === TASK_EXECUTOR.AI) {
     return { ...task, ...aiAvailability(aiStatus) };
+  }
+  if (task.executor === TASK_EXECUTOR.BACKGROUND_REMOVAL) {
+    return { ...task, ...backgroundRemovalAvailability(backgroundRemovalStatus) };
   }
   return {
     ...task,
@@ -147,11 +184,20 @@ function resolveTask(task, aiStatus) {
  * Runtime catalog policy:
  * - local fidelity is always runnable;
  * - the real AI task follows the observed service status;
- * - unverified matting/portrait tasks remain visible but disabled.
+ * - remote cutout follows its independently observed provider status;
+ * - unverified background and portrait tasks remain visible but disabled.
  */
-export function getTaskCatalog({ aiStatus = AI_SERVICE_STATUS.CHECKING } = {}) {
+export function getTaskCatalog({
+  aiStatus = AI_SERVICE_STATUS.CHECKING,
+  backgroundRemovalStatus = AI_SERVICE_STATUS.CHECKING,
+} = {}) {
   const normalizedStatus = normalizeAiServiceStatus(aiStatus);
-  return BASE_TASKS.map((task) => Object.freeze(resolveTask(task, normalizedStatus)));
+  const normalizedBackgroundRemovalStatus = normalizeAiServiceStatus(backgroundRemovalStatus);
+  return BASE_TASKS.map((task) => Object.freeze(resolveTask(
+    task,
+    normalizedStatus,
+    normalizedBackgroundRemovalStatus,
+  )));
 }
 
 export function getRunnableTasks(options = {}) {

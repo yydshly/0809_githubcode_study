@@ -32,7 +32,7 @@
 | 创意 API 工程路径 | `gpt-image-2` 图片编辑请求、状态查询、幂等和失败闭合 | 保留为实验功能，不进入当前 MVP 主路径 |
 | 研究资产 | synthetic fixtures、Sharp 来源锁、canonical PNG encoder lineage、Alpha 指标、rights / provenance 结构 | 精简复用，不把研究通过写成产品通过 |
 
-当前产品工程定向测试为 18 files / 128 tests 通过；除基础编辑状态、renderer、输出重开和工作区交互外，M3a 已覆盖独立抠图 route/client、生产未配置、fake provider、来源与构图 revision、明确同意、幂等冲突、拒绝、超时、取消、迟到响应、LAN 禁用，以及输出 PNG 的 CRC / 原生 Alpha 结构验证。它们证明工程状态和 Provider 接口约束，不证明真实 Chrome / Edge 的布局、完整浏览器兼容、真实供应商可用或抠图质量。
+当前产品工程定向测试除基础编辑状态、renderer、输出重开和工作区交互外，M3a 已覆盖独立抠图 route/client、PhotoRoom Basic adapter、密钥加显式开关的双重启用、fake provider、来源与构图 revision、逐次同意、幂等冲突、拒绝、超时、取消、迟到响应、LAN 禁用，以及输出 PNG 的 CRC / 原生 Alpha 结构验证。它们证明工程状态和 Provider 协议约束，不证明真实 Chrome / Edge 的完整浏览器兼容、真实供应商质量、账户隐私边界或抠图质量。
 
 当前可复算命令为：
 
@@ -52,7 +52,7 @@ npm run test:product
 
 - 可拖裁切框和自定义尺寸；预设比例 / 方向 / 光色的实时工作预览与可见撤销 / 重做 / 重置已经接入；
 - 透明输入和产品级输入归一化 / 输出重开已进入本地任务，但仍缺真实浏览器 fixture 与下载 E2E；
-- 云端抠图 Provider、Alpha / mask 产物和供应商切换边界；
+- 真实云端抠图评估、Alpha / mask 修正产物和供应商切换决策；
 - 保留 / 擦除画笔、透明棋盘格、边缘检查与背景合成；
 - 产品级任务内容 QA；
 - 产品页面 DOM 集成测试、真实浏览器 E2E 和下载回归；
@@ -257,7 +257,7 @@ M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v
 - 使用 12–20 个项目原创或许可明确的图片进行小规模测试，不使用真实用户照片；
 - 选择一个主 Provider；没有候选满足隐私或质量要求时，保持手动编辑，不仓促引入本地模型。
 
-当前完成度：合同、独立 typed route/client、内存 run store、fake provider 和关闭测试已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 已冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产配置仍为 `not_configured`，账户/DPA/地域复核、真实 API 调用、持久 `ProviderCallReceipt`、删除验证和用户可见抠图入口均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
+当前完成度：合同、独立 typed route/client、内存 run store、fake provider、PhotoRoom Basic adapter、显式服务启用和用户逐次同意界面已经完成；[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 Photoroom Basic 与 remove.bg 1.0 两个候选、12-source/24-call 最大分母、隐私硬门、质量阈值和 0 美元当前授权。生产默认保持 `not_configured`；仅保存密钥不会启用，仍需 `PHOTOROOM_ENABLED=true`。账户/DPA/地域复核、真实 API 调用、持久 `ProviderCallReceipt`、删除验证、Alpha 质量结论和 mask 修正均未开始。用户对当前基础编辑器的确认只授权工程路线前进，不替代 M2 多人走查记录。
 
 第一次真实调用前必须冻结 `ProviderEvaluationPlan`：候选 API / 条款日期、隐私硬门、允许地域 / 保留 / 训练用途、单次与总预算、最大延迟和失败率、synthetic Alpha / boundary 指标、灾难误删上限、分层人工判断规则、修正后可完成率与 no-go 条件。具体阈值只能在看结果前依据候选价格和业务预算写入；未知隐私边界直接 no-go，不能用质量分数抵消。
 
@@ -314,7 +314,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 
 ### Next
 
-8. ~~Provider 抽象、独立 route/client 与 fake provider 关闭测试；~~
+8. ~~Provider 抽象、独立 route/client、PhotoRoom adapter、显式同意与 fake provider 关闭测试；~~
 9. ~~冻结 `ProviderEvaluationPlan` 的候选、分母、隐私、成本和退出硬门；~~ 取得账户侧 DPA/地域/训练/删除证据与明确密钥授权后，才可执行 12-source 小规模评估；
 10. 透明预览、手动 mask 修正、透明 PNG 与纯色换底；
 11. 抠图专项可用性走查与 beta readiness 决策。

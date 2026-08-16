@@ -31,14 +31,22 @@ function result(overrides = {}) {
 }
 
 test("without an AI service, local fidelity is the only runnable task", () => {
-  const catalog = getTaskCatalog({ aiStatus: AI_SERVICE_STATUS.UNAVAILABLE });
+  const catalog = getTaskCatalog({
+    aiStatus: AI_SERVICE_STATUS.UNAVAILABLE,
+    backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
+  });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
     ["UT-TUNE"],
   );
   assert.equal(catalog.find((task) => task.id === "CR1").availability, "unavailable");
 
-  for (const id of ["UT-CUTOUT", "UT-SOLID-BG", "UT-PORTRAIT"]) {
+  const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
+  assert.equal(cutout.runnable, false);
+  assert.equal(cutout.availability, TASK_AVAILABILITY.UNAVAILABLE);
+  assert.equal(cutout.statusLabel, "抠图服务未配置");
+
+  for (const id of ["UT-SOLID-BG", "UT-PORTRAIT"]) {
     const task = catalog.find((candidate) => candidate.id === id);
     assert.equal(task.runnable, false);
     assert.equal(task.availability, TASK_AVAILABILITY.VALIDATING);
@@ -48,14 +56,36 @@ test("without an AI service, local fidelity is the only runnable task", () => {
 
 test("AI availability enables only the real AI task, never unverified utilities", () => {
   assert.deepEqual(
-    getRunnableTasks({ aiStatus: { status: "available" } }).map((task) => task.id),
+    getRunnableTasks({
+      aiStatus: { status: "available" },
+      backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
+    }).map((task) => task.id),
     ["UT-TUNE", "CR1"],
   );
 
-  const recommendations = getRecommendedTasks({ aiStatus: "available", limit: 4 });
+  const recommendations = getRecommendedTasks({
+    aiStatus: "available",
+    backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
+    limit: 4,
+  });
   assert.deepEqual(recommendations.slice(0, 2).map((task) => task.id), ["UT-TUNE", "CR1"]);
   assert.equal(recommendations.length, 4);
   assert.equal(recommendations.slice(2).every((task) => !task.runnable), true);
+});
+
+test("background removal availability enables only the explicit remote cutout task", () => {
+  const catalog = getTaskCatalog({
+    aiStatus: AI_SERVICE_STATUS.UNAVAILABLE,
+    backgroundRemovalStatus: AI_SERVICE_STATUS.AVAILABLE,
+  });
+  assert.deepEqual(
+    catalog.filter((task) => task.runnable).map((task) => task.id),
+    ["UT-TUNE", "UT-CUTOUT"],
+  );
+  const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
+  assert.equal(cutout.statusLabel, "可运行 · 远程处理");
+  assert.equal(cutout.contractVersion, "remote-cutout-v1");
+  assert.equal(catalog.find((task) => task.id === "UT-SOLID-BG").runnable, false);
 });
 
 test("download stays locked until a current, QA-passed result matches its task contract", () => {

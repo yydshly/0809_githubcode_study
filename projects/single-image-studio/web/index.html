@@ -64,7 +64,7 @@
           <div class="consent-card" id="consent-card" hidden>
             <p class="kicker">处理前确认</p>
             <h2>这张图片可以交给工作室处理吗？</h2>
-            <p>图片会在本机完成基础处理；只有选择创意生成时，才会发送到已连接的图片服务。当前版本不保存图库，也不会把用户图片加入公开样例。</p>
+            <p>图片会在本机完成基础处理；只有选择创意生成或远程抠图、并再次明确确认时，才会发送到对应图片服务。当前版本不保存图库，也不会把用户图片加入公开样例。</p>
             <label class="check-row"><input id="rights-checkbox" type="checkbox" /> <span>我有权处理这张图片，并同意上述数据处理方式。</span></label>
             <div class="inline-actions">
               <button class="button button-primary" id="confirm-source-button" type="button" disabled>确认并检查</button>
@@ -163,7 +163,7 @@
 
     <footer class="site-footer">
       <span>Single Image Studio · R0 工程探针</span>
-      <span>本地编辑与严格导出已接入，交互工作区仍在完善 · 抠图与证件能力未接入 · 创意实验按服务状态启用</span>
+      <span>本地编辑与严格导出已接入 · 远程抠图和创意实验按服务配置启用 · 证件能力尚未接入</span>
     </footer>
     <canvas id="processing-canvas" hidden></canvas>
     <output class="toast" id="toast" aria-live="polite"></output>

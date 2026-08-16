@@ -11,6 +11,7 @@ import {
 import { fileURLToPath } from "node:url";
 
 import { InMemoryRunStore } from "./run-store.mjs";
+import { createPhotoroomBackgroundRemovalProvider } from "./providers/background-removal/photoroom-provider.mjs";
 import { createBackgroundRemovalRuntime } from "./providers/background-removal/runtime.mjs";
 
 const DEFAULT_PORT = 4177;
@@ -1078,11 +1079,20 @@ export function resolveServerAccessConfig(env = process.env) {
   return Object.freeze({ bindHost, port, previewMode: "lan" });
 }
 
+export function resolveConfiguredBackgroundRemovalProvider(env, previewMode) {
+  const photoroomEnabled = env.PHOTOROOM_ENABLED === "true";
+  return previewMode === "local" && photoroomEnabled && env.PHOTOROOM_API_KEY
+    ? createPhotoroomBackgroundRemovalProvider({ apiKey: env.PHOTOROOM_API_KEY })
+    : null;
+}
+
 export function startConfiguredServer(env = process.env) {
   const config = resolveServerAccessConfig(env);
+  const backgroundRemovalProvider = resolveConfiguredBackgroundRemovalProvider(env, config.previewMode);
   const app = createImageStudioServer({
     apiKey: env.OPENAI_API_KEY ?? "",
     previewMode: config.previewMode,
+    backgroundRemovalProvider,
   });
   const listening = new Promise((resolveListening, rejectListening) => {
     app.server.once("error", rejectListening);
@@ -1094,6 +1104,11 @@ export function startConfiguredServer(env = process.env) {
         console.log("LAN preview: local processing only; OpenAI image edits disabled");
       } else {
         console.log(env.OPENAI_API_KEY ? "OpenAI image edits: available" : "OpenAI image edits: OPENAI_API_KEY missing");
+        console.log(backgroundRemovalProvider
+          ? "PhotoRoom background removal: explicitly enabled"
+          : env.PHOTOROOM_API_KEY
+            ? "PhotoRoom background removal: disabled (set PHOTOROOM_ENABLED=true after policy and budget approval)"
+            : "PhotoRoom background removal: PHOTOROOM_API_KEY missing");
       }
       resolveListening(origin);
     });
