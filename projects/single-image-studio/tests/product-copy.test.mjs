@@ -30,6 +30,9 @@ test("editor usability states retain keyboard focus, mobile stacking and reduced
   assert.match(styles, /@media \(max-width: 980px\)[\s\S]*settings-card \{ position: static/);
   assert.match(styles, /@media \(max-width: 620px\)[\s\S]*editor-preview-meta/);
   assert.match(styles, /prefers-reduced-motion: reduce/);
+  assert.match(styles, /\.choice-row label:has\(input:focus-visible\)/);
+  assert.match(styles, /\.crop-resize-handle \{[^}]*width: 2\.75rem;[^}]*height: 2\.75rem;/);
+  assert.match(styles, /\.crop-resize-handle::after/);
 });
 
 test("visible output copy distinguishes engineering validation from content quality", () => {
@@ -48,6 +51,9 @@ test("visible output copy distinguishes engineering validation from content qual
   assert.match(styles, /\.result-image-panel \{[^}]*min-width: 0;[^}]*min-height: 0;[^}]*place-items: center;[^}]*overflow: hidden;/);
   assert.match(styles, /\.result-image-panel > img \{[^}]*width: auto;[^}]*height: auto;[^}]*max-width: 100%;[^}]*max-height: 100%;[^}]*object-fit: contain;[^}]*object-position: center;/);
   assert.doesNotMatch(styles, /\.result-image-panel > img \{[^}]*object-fit: cover/);
+  assert.match(styles, /\.source-caption \{[^}]*position: static;[^}]*border-top:/);
+  assert.match(styles, /\.source-preview > img \{[^}]*object-fit: contain;[^}]*background-image:/);
+  assert.match(styles, /\.result-stage \{[^}]*background-color: #d8ddd8;[^}]*background-image:/);
   assert.match(html, /完整显示的原图/);
   assert.match(html, /完整显示的裁剪结果/);
   assert.match(main, /function selectComparisonLayer/);

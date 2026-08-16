@@ -91,9 +91,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .button-wide { width: 100%; border-radius: .7rem; }
 .text-button, .back-button { min-height: 2.75rem; border: 0; background: transparent; padding: .65rem .55rem; color: var(--green); cursor: pointer; text-decoration: underline; text-underline-offset: .25rem; }
 
-.source-preview { position: relative; min-height: 32rem; background: #1d2420; }
-.source-preview > img { width: 100%; height: 32rem; object-fit: contain; display: block; }
-.source-caption { position: absolute; inset: auto 1rem 1rem; padding: .85rem 1rem; background: rgba(244,242,234,.94); backdrop-filter: blur(12px); border-radius: .8rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.source-preview { min-height: 32rem; background: #1d2420; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+.source-preview > img { width: 100%; height: 32rem; object-fit: contain; display: block; background-color: #d8ddd8; background-image: linear-gradient(45deg, #c6ccc6 25%, transparent 25%), linear-gradient(-45deg, #c6ccc6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c6ccc6 75%), linear-gradient(-45deg, transparent 75%, #c6ccc6 75%); background-size: 24px 24px; background-position: 0 0, 0 12px, 12px -12px, -12px 0; }
+.source-caption { position: static; padding: .85rem 1rem; background: rgba(244,242,234,.98); border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .source-caption > div { display: grid; gap: .15rem; min-width: 0; }
 .source-caption span, .source-caption small { color: var(--muted); font-size: .68rem; }
 .source-caption strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 50vw; }
@@ -164,6 +164,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .choice-row label { border: 1px solid var(--line); padding: .65rem .45rem; border-radius: .55rem; text-align: center; background: white; cursor: pointer; }
 .choice-row input { position: absolute; opacity: 0; }
 .choice-row label:has(input:checked) { background: var(--green); color: white; border-color: var(--green); }
+.choice-row label:has(input:focus-visible) { outline: 3px solid #87aef0; outline-offset: 3px; }
 .run-note { color: var(--muted); font-size: .7rem; line-height: 1.5; margin: .8rem 0 0; }
 
 .editor-workspace { margin-top: 1.5rem; padding: 1rem; border: 1px solid var(--line); border-radius: 1rem; background: #f0f0e9; }
@@ -202,7 +203,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .editor-crop-box { position: absolute; z-index: 2; border: 2px solid #fff; border-radius: .25rem; box-shadow: 0 0 0 9999px rgba(15,24,19,.54), 0 0 0 1px rgba(15,24,19,.72); cursor: grab; }
 .editor-crop-box:focus-within { outline: 3px solid #87aef0; outline-offset: 2px; }
 .crop-grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, transparent 33.1%, rgba(255,255,255,.62) 33.3%, rgba(255,255,255,.62) 33.7%, transparent 33.9%, transparent 66.1%, rgba(255,255,255,.62) 66.3%, rgba(255,255,255,.62) 66.7%, transparent 66.9%), linear-gradient(to bottom, transparent 33.1%, rgba(255,255,255,.62) 33.3%, rgba(255,255,255,.62) 33.7%, transparent 33.9%, transparent 66.1%, rgba(255,255,255,.62) 66.3%, rgba(255,255,255,.62) 66.7%, transparent 66.9%); }
-.crop-resize-handle { position: absolute; right: -.65rem; bottom: -.65rem; width: 1.3rem; height: 1.3rem; border: 2px solid #fff; border-radius: 999px; background: #245c43; box-shadow: 0 2px 7px rgba(0,0,0,.32); cursor: nwse-resize; touch-action: none; }
+.crop-resize-handle { position: absolute; right: 0; bottom: 0; width: 2.75rem; height: 2.75rem; border: 0; border-radius: 999px; background: transparent; cursor: nwse-resize; touch-action: none; }
+.crop-resize-handle::after { content: ""; position: absolute; inset: .68rem; border: 2px solid #fff; border-radius: 999px; background: #245c43; box-shadow: 0 2px 7px rgba(0,0,0,.32); }
 .crop-resize-handle:focus-visible { outline: 3px solid #87aef0; outline-offset: 2px; }
 .preview-drag-badge { position: absolute; z-index: 3; left: 50%; bottom: 1rem; transform: translateX(-50%); padding: .45rem .65rem; border-radius: 999px; background: rgba(20,35,28,.86); color: white; font-size: .66rem; font-weight: 750; pointer-events: none; white-space: nowrap; }
 .editor-preview-meta { display: flex; justify-content: space-between; gap: .8rem; padding-top: .8rem; color: var(--muted); font-size: .7rem; line-height: 1.45; }
@@ -216,7 +218,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .compare-tabs { margin: 1.3rem auto 1rem; width: max-content; max-width: 100%; display: flex; background: #e9eae3; padding: .25rem; border-radius: 999px; }
 .compare-tabs button { min-width: 5.5rem; min-height: 2.75rem; border: 0; background: transparent; padding: .55rem .8rem; border-radius: 999px; cursor: pointer; color: var(--muted); }
 .compare-tabs button[aria-selected="true"] { background: white; color: var(--ink); box-shadow: 0 3px 10px rgba(0,0,0,.08); }
-.result-stage { width: 100%; min-height: 0; height: auto; aspect-ratio: var(--result-stage-aspect, 16 / 9); margin-inline: auto; padding: clamp(.5rem, 1.4vw, 1rem); box-sizing: border-box; background: #1d2420; border-radius: 1rem; display: grid; place-items: stretch; overflow: hidden; position: relative; }
+.result-stage { width: 100%; min-height: 0; height: auto; aspect-ratio: var(--result-stage-aspect, 16 / 9); margin-inline: auto; padding: clamp(.5rem, 1.4vw, 1rem); box-sizing: border-box; background-color: #d8ddd8; background-image: linear-gradient(45deg, #c6ccc6 25%, transparent 25%), linear-gradient(-45deg, #c6ccc6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c6ccc6 75%), linear-gradient(-45deg, transparent 75%, #c6ccc6 75%); background-size: 24px 24px; background-position: 0 0, 0 12px, 12px -12px, -12px 0; border-radius: 1rem; display: grid; place-items: stretch; overflow: hidden; position: relative; }
 .result-image-panel { grid-area: 1 / 1; width: 100%; height: 100%; min-width: 0; min-height: 0; display: grid; place-items: center; overflow: hidden; }
 .result-image-panel > img { display: block; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; object-position: center; }
 .reference-explainer { position: absolute; inset: 0; padding: clamp(2rem, 7vw, 7rem); background: #1e3f34; color: white; display: grid; grid-template-columns: minmax(8rem, .8fr) 1fr; align-items: center; gap: 3rem; }
