@@ -82,6 +82,8 @@ SourceCard.v0 + MATTE-SIMPLE 纵向 baseline 同样完全使用仓库内原创�
 - Apache/MIT/BSD/LGPL 的简写只用于初筛，不是法律意见。真正分发前仍需保留原许可/NOTICE，并按实际链接、构建和修改方式审查义务。
 - 市场产品页面只用于研究用户已经形成的能力预期；不得复制其页面、文案、示例图、模型、模板、品牌资产或交互实现。
 
+`observed_at=2026-08-16` 的获取治理复核确认：固定 MODNet README 只公开 Colab demo，未给出可冻结的官方 direct checkpoint locator，因此 `modnet_photographic_portrait_matting.ckpt` 保持硬阻断；RVM v1.0.0 release 入口与 `rvm_mobilenetv3.pth` direct path 已登记，但本轮没有请求或下载 asset，byte length / SHA-256 仍 pending。两项计划及 offline runtime policy 见 [Matting acquisition governance evidence](./research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md)。
+
 ### Slice 04 Sharp 复合候选边界
 
 Slice 04 的 candidate lock、两份 metadata-only 合同、QA、normalize / export 两份 operation-specific 五 partition plan、两份预注册与 seal intent 位于 [research/slice-04](./research/slice-04/)。六个下载物全部来自 npm registry：`sharp`、`@img/sharp-win32-x64`、`@img/sharp-libvips-win32-x64`、`@img/colour`、`detect-libc` 与 `semver`。每项官方 URL、版本、取得日期、字节数和 SHA-256 由 candidate lock 严格记录。Sharp、sharp-libvips 与 libvips 的 GitHub commit 只经官方页面 / API 解析，没有下载 GitHub source archive 或 libvips tarball。

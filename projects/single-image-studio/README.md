@@ -8,7 +8,7 @@
 
 | 维度 | 当前结论 |
 | --- | --- |
-| 研究阶段 | 已回到 SourceCard + Matting：纵向 baseline 与 exposure signals 已运行；MODNet / RVM 的 6-source continuous-alpha synthetic 评测定义已冻结但 results=0、权重未下载。C1 与产品支持仍为 0 |
+| 研究阶段 | 已回到 SourceCard + Matting：纵向 baseline 与 exposure signals 已运行；continuous-alpha synthetic 评测以及自然人像/模型获取治理均已冻结，但图片选择、模型下载、候选 runtime 和 results 全为 0。C1 与产品支持仍为 0 |
 | 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
@@ -173,6 +173,8 @@ Slice 07 results-zero definition 提交 / 推送后，唯一 registered smoke �
 
 候选中立的 `CC-CAP04-CONTINUOUS-ALPHA-EVAL@0.1.0` 也已冻结：6 个原创 synthetic 来源覆盖 hard、hole、radial soft、diagonal feather、thin structure 与 semi-transparent；每候选固定 3 次冷启动，共 18 次，两个候选 planned 36 次。定义特别把 boundary MAE 与二值 IoU 分开，避免硬化 Alpha 后仍靠阈值分数过关。当前结果数为 0，阈值和自然人像集均未创建。见 [Continuous Alpha evaluation evidence](research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md)。
 
+后续的 `DEF-MATTE-ACQUISITION-GOVERNANCE@0.1.0` 只冻结获取与隐私治理：自然人像 planned minimum 为 dev/holdout 24/24、defect/defect-holdout 12/12，所有实际 material 仍未创建；MODNet 因官方 immutable direct artifact 未解析而硬阻断，RVM 虽有官方 release URL，仍因 bytes/SHA/SBOM/runtime/GPL 决策缺失而禁止获取。见 [Matting acquisition governance evidence](research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md)。
+
 ## 运行 R0 工程探针
 
 需要 Node.js 22 或更高版本。本项目不依赖兄弟项目；`package.json` 现仅为 Slice 05 本地开放研究精确声明 `sharp@0.35.3` 与 `@img/sharp-win32-x64@0.35.3` 两项 devDependency。R0 server / web 路径没有接入该 candidate，`node_modules/` 不提交，依赖存在不表示产品 runtime 或格式支持。
@@ -258,6 +260,7 @@ npm.cmd run verify
 | [research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md](research/SOURCECARD_MATTING_BASELINE_EVIDENCE.md) | 3 个原创合成场景的 SourceCard.v0 + MATTE-SIMPLE 纵向报告与精确指标 |
 | [research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md](research/SOURCECARD_EXPOSURE_AND_MATTING_CANDIDATES_EVIDENCE.md) | 客观 exposure-signal observer 与 MODNet / RVM 连续 Alpha 候选许可登记 |
 | [research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md](research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md) | 6-source / 12-asset continuous-alpha results-zero 合同、分母、指标与精确 pins |
+| [research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md](research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md) | 自然人像分区/权利/隐私治理与 MODNet/RVM 获取、runtime 硬停止条件 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 

@@ -88,6 +88,12 @@ six project-original sources, twelve PNG assets, three cold repetitions per
 candidate, continuous-edge metrics, no threshold, no natural-image extension,
 and no generated candidate result.
 
+The following metadata-only boundary is frozen in
+[MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md](MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md):
+future natural-person partition/rights/privacy rules, two denied model acquisition
+plans, and an offline default-deny runtime policy. It selects or downloads no
+natural image, model, dependency, or result.
+
 Slice 11 is scope-frozen, and its fake-only projection, case, lifecycle and pure
 protocol-runner foundation is now implemented. It creates a new `@0.11.0` identity for exactly
 two corrections: a content-addressed projection from the complete gold identity
