@@ -72,10 +72,13 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(main, /上下拖动亮框/);
   assert.match(main, /tabIndex = presentation\.cropEnabled \? 0 : -1/);
   assert.match(main, /尺寸上限/);
-  assert.match(main, /预计导出/);
-  assert.doesNotMatch(main, /实际导出 \$\{presentation\.output/);
-  assert.match(main, /name="outputWidth"/);
-  assert.match(main, /name="outputHeight"/);
+  assert.match(main, /预计实际导出/);
+  assert.match(main, /预计实际导出 \$\{presentation\.output/);
+  assert.match(main, /name="outputLongEdge"/);
+  assert.match(main, /最长边上限/);
+  assert.match(main, /只限制导出像素，不改变左侧画布显示大小/);
+  assert.doesNotMatch(main, /name="outputWidth"/);
+  assert.doesNotMatch(main, /name="outputHeight"/);
   assert.match(main, /生成并校验下载文件/);
   assert.match(main, /全部在本机完成/);
   assert.match(main, /createEditorWorkspace/);

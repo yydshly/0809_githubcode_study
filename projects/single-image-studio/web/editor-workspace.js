@@ -64,8 +64,7 @@ function cropPosition(offset, size) {
 
 function settingsFromState(state, source) {
   const ratio = ratioFromState(state, source);
-  const preset = RATIO_PRESETS[ratio];
-  const isPreset = state.resize.width === preset.width && state.resize.height === preset.height;
+  const isPreset = state.resize.mode === "preset";
   return Object.freeze({
     ratio,
     cropX: cropPosition(state.crop.x, state.crop.width),
@@ -81,6 +80,7 @@ function settingsFromState(state, source) {
     contrast: state.adjustments.contrast,
     saturation: state.adjustments.saturation,
     sizeMode: isPreset ? "preset" : "custom",
+    outputLongEdge: isPreset ? null : Math.max(state.resize.width, state.resize.height),
     outputWidth: isPreset ? null : state.resize.width,
     outputHeight: isPreset ? null : state.resize.height,
     format: state.output.format,

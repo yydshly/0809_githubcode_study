@@ -64,6 +64,7 @@ export function createEditState(overrides = {}) {
     resize: {
       width: optionalDimension(overrides.resize?.width, "目标宽度"),
       height: optionalDimension(overrides.resize?.height, "目标高度"),
+      mode: overrides.resize?.mode ?? "preset",
       allowUpscale: overrides.resize?.allowUpscale ?? false,
       maxEdge: integerInRange(overrides.resize?.maxEdge ?? 2048, 1, HARD_MAX_EDGE, "输出长边"),
       maxPixels: integerInRange(overrides.resize?.maxPixels ?? HARD_MAX_PIXELS, 1, HARD_MAX_PIXELS, "输出像素数"),
@@ -89,6 +90,9 @@ export function createEditState(overrides = {}) {
   if (typeof state.flipHorizontal !== "boolean" || typeof state.flipVertical !== "boolean"
     || typeof state.resize.allowUpscale !== "boolean") {
     throw new TypeError("翻转和放大选项必须是布尔值");
+  }
+  if (!["preset", "custom"].includes(state.resize.mode)) {
+    throw new RangeError("不支持的输出尺寸模式");
   }
   if (state.output.jpegQuality < 0.1 || state.output.jpegQuality > 1) {
     throw new RangeError("JPEG 质量必须在 0.1–1 之间");

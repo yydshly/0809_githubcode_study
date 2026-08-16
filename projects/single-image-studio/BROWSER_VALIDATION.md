@@ -9,14 +9,14 @@
 
 - 本地“保真整理”已经改走 `editor-session.js` → `editor-canvas-renderer-v1`，页面表单可提交比例、旋转、翻转、亮度、对比度、饱和度、PNG / JPEG 与 JPEG 底色。
 - 新增 [浏览器输出诊断页](web/browser-diagnostics.html)：它只在内存生成项目原创 synthetic pixels，不读取用户图片、不访问网络；会用浏览器 Canvas 编码 PNG / JPEG，再执行 metadata 扫描、独立重开和像素合同核验。
-- 当前产品自动测试为 `16 files / 112 tests`，动态语法检查覆盖 `167` 个脚本。编辑舞台按变换后的来源比例完整显示图片；固定比例只移动亮色裁剪框，自由裁剪可移动、缩放并通过左 / 上 / 宽 / 高范围控件精调，裁剪矩形与 renderer 使用同一 normalized crop。无裁剪操作时预览退出键盘焦点。尺寸输入明确为不放大的上限，页面显示预计而非虚假的实际导出尺寸。工作区还支持撤销、重做和重置；响应式静态合同覆盖 980px 单列、390px 相邻规则、可见焦点和 reduced-motion。上述结论目前只有代码与自动测试支持。
+- 当前产品自动测试为 `16 files / 114 tests`，动态语法检查覆盖 `167` 个脚本。编辑舞台按变换后的来源比例完整显示图片；固定比例只移动亮色裁剪框，自由裁剪可移动、缩放并通过左 / 上 / 宽 / 高范围控件精调，裁剪矩形与 renderer 使用同一 normalized crop。无裁剪操作时预览退出键盘焦点。自定义尺寸只显示一个最长边上限，宽高会随当前裁剪比例重新推导；页面明确区分上限框与预计实际导出，而且调整像素上限不会改变完整图片舞台的显示大小。工作区还支持撤销、重做和重置；响应式静态合同覆盖 980px 单列、390px 相邻规则、可见焦点和 reduced-motion。上述结论目前只有代码与自动测试支持。
 - 本轮已按浏览器流程重新发现可用控制能力，但当前任务仍没有暴露所需的浏览器脚本控制入口；因此没有自动点击、计算样式、键盘路径或截图证据。代码存在、HTTP 200、Node 测试通过和真实浏览器通过是四件不同的事；本文件只声明前三项。
 
-可复现运行基线（最近复核 `2026-08-16T13:10:58.5673374Z`）：在项目目录执行 `npm.cmd start`，canonical server 为 `http://127.0.0.1:4177/`。同一 server 返回主页面与 `/browser-diagnostics.html`，主页面 HTTP 200、UTF-8 11,455 bytes，并包含 `editor-workspace`、`editor-crop-box` 与 `editor-output-size`；当前 `main.js` 也以 HTTP 200 提供“自由裁剪”和“完整图片保持可见”逻辑。这只证明路由和静态交付可运行，不证明控件布局、拖动、键盘路径、Canvas 像素或下载在浏览器中通过。
+可复现运行基线（最近复核 `2026-08-16T13:25:40.7765920Z`）：在项目目录执行 `npm.cmd start`，canonical server 为 `http://127.0.0.1:4177/`。同一 server 返回主页面与 `/browser-diagnostics.html`，主页面 HTTP 200、UTF-8 11,455 bytes，并包含 `editor-workspace`、`editor-crop-box` 与 `editor-output-size`；当前 `main.js` 也以 HTTP 200 提供“自由裁剪”“最长边上限”和“不改变左侧画布显示大小”逻辑，且不再交付旧的最大宽度 / 最大高度双输入。这只证明路由和静态交付可运行，不证明控件布局、拖动、键盘路径、Canvas 像素或下载在浏览器中通过。
 
 ## 已验证
 
-- `npm.cmd test`：44 / 44 通过。
+- `npm.cmd run test:product`：16 files / 114 tests 通过；完整 `npm.cmd run verify` 另有 archived research 483 pass / 9 intentional skips。
 - `npm.cmd run check`：服务端、手机预览入口与浏览器脚本语法检查通过。
 - 本地服务 `GET /api/status` 返回 200；未配置密钥时明确返回 `available=false`，网页不会启用创意任务。
 - 注入式上游测试证明 `/v1/images/edits` 请求结构、`gpt-image-2`、multipart 图片输入、request ID、成功 / 失败 / unknown 状态与输出指纹处理；没有真实服务调用证据。

@@ -41,6 +41,7 @@ test("editor workspace binds presets to immutable history and a render-plan prev
     contrast: -8,
     saturation: 20,
     sizeMode: "preset",
+    outputLongEdge: null,
     outputWidth: null,
     outputHeight: null,
     format: "jpeg",
@@ -72,11 +73,13 @@ test("crop position, custom size and drag math share one immutable edit contract
   assert.deepEqual(workspace.history.present.resize, {
     width: 800,
     height: 800,
+    mode: "custom",
     allowUpscale: false,
     maxEdge: 2048,
     maxPixels: 16_000_000,
   });
   assert.equal(editorSettings(workspace).sizeMode, "custom");
+  assert.equal(editorSettings(workspace).outputLongEdge, 800);
   assert.equal(editorSettings(workspace).cropX, 100);
   const presentation = editorPreviewPresentation(workspace);
   assert.equal(presentation.objectPosition, "50% 50%");
@@ -204,6 +207,50 @@ test("free crop moves and resizes one visible normalized rectangle", () => {
   });
   assert.equal(resized.cropWidth, 60);
   assert.equal(resized.cropHeight, 10);
+});
+
+test("custom long-edge mode survives exact preset values and free-crop aspect changes", () => {
+  let workspace = createEditorWorkspace({ sourceWidth: 1000, sourceHeight: 500, sourceOrientation: 1 });
+  workspace = updateEditorWorkspace(workspace, {
+    ratio: "square",
+    sizeMode: "custom",
+    outputLongEdge: 1600,
+    format: "png",
+  });
+  assert.equal(editorSettings(workspace).sizeMode, "custom");
+  assert.equal(editorSettings(workspace).outputLongEdge, 1600);
+
+  workspace = updateEditorWorkspace(workspace, {
+    ratio: "free",
+    cropLeft: 0,
+    cropTop: 0,
+    cropWidth: 50,
+    cropHeight: 50,
+    sizeMode: "custom",
+    outputLongEdge: 800,
+    format: "png",
+  });
+  assert.deepEqual(workspace.history.present.resize, {
+    width: 800,
+    height: 400,
+    mode: "custom",
+    allowUpscale: false,
+    maxEdge: 2048,
+    maxPixels: 16_000_000,
+  });
+  workspace = updateEditorWorkspace(workspace, {
+    ...editorSettings(workspace),
+    cropHeight: 100,
+  });
+  assert.deepEqual(workspace.history.present.resize, {
+    width: 800,
+    height: 800,
+    mode: "custom",
+    allowUpscale: false,
+    maxEdge: 2048,
+    maxPixels: 16_000_000,
+  });
+  assert.equal(editorSettings(workspace).outputLongEdge, 800);
 });
 
 test("undo, redo and reset preserve the current source contract", () => {

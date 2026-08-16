@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { editStateFromSettings, runLocalEditor } from "../web/editor-session.js";
+import { editStateFromSettings, outputBoundsFromLongEdge, runLocalEditor } from "../web/editor-session.js";
 
 test("editor settings map oriented geometry, controls and JPEG background into EditState", () => {
   const state = editStateFromSettings({
@@ -26,6 +26,7 @@ test("editor settings map oriented geometry, controls and JPEG background into E
   assert.deepEqual(state.resize, {
     width: 1536,
     height: 1920,
+    mode: "preset",
     allowUpscale: false,
     maxEdge: 2048,
     maxPixels: 16_000_000,
@@ -59,6 +60,7 @@ test("positioned crop and custom output dimensions are renderer-bound and ratio-
   assert.deepEqual(state.resize, {
     width: 400,
     height: 400,
+    mode: "custom",
     allowUpscale: false,
     maxEdge: 2048,
     maxPixels: 16_000_000,
@@ -101,6 +103,7 @@ test("free crop binds an explicit normalized rectangle to the same renderer cont
   assert.deepEqual(state.resize, {
     width: 1000,
     height: 600,
+    mode: "custom",
     allowUpscale: false,
     maxEdge: 2048,
     maxPixels: 16_000_000,
@@ -121,6 +124,26 @@ test("free crop binds an explicit normalized rectangle to the same renderer cont
     }),
     /完整位于原图内/,
   );
+});
+
+test("one long-edge limit derives a bounded width and height from the active crop ratio", () => {
+  assert.deepEqual(outputBoundsFromLongEdge(3 / 2, 1200), { width: 1200, height: 800 });
+  assert.deepEqual(outputBoundsFromLongEdge(4 / 5, 1200), { width: 960, height: 1200 });
+  const state = editStateFromSettings({
+    sourceWidth: 1200,
+    sourceHeight: 800,
+    settings: { ratio: "square", sizeMode: "custom", outputLongEdge: 700 },
+  });
+  assert.deepEqual(state.resize, {
+    width: 700,
+    height: 700,
+    mode: "custom",
+    allowUpscale: false,
+    maxEdge: 2048,
+    maxPixels: 16_000_000,
+  });
+  assert.throws(() => outputBoundsFromLongEdge(1, ""), /需要最长边上限/);
+  assert.throws(() => outputBoundsFromLongEdge(1, 2049), /1–2048/);
 });
 
 test("editor settings fail closed for unknown ratio and invalid numeric controls", () => {

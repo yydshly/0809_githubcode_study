@@ -68,13 +68,28 @@ function outputFormat(value) {
   throw new RangeError("不支持的输出格式");
 }
 
+export function outputBoundsFromLongEdge(aspect, value) {
+  const longEdge = integerSetting(value, null, "最长边上限");
+  if (!Number.isFinite(aspect) || aspect <= 0) throw new TypeError("当前画面比例无效");
+  if (longEdge === null) throw new TypeError("自定义尺寸需要最长边上限");
+  if (longEdge < 1 || longEdge > EDITOR_OUTPUT_MAX_EDGE) {
+    throw new RangeError(`最长边上限必须是 1–${EDITOR_OUTPUT_MAX_EDGE} 像素`);
+  }
+  return aspect >= 1
+    ? { width: longEdge, height: Math.max(1, Math.round(longEdge / aspect)) }
+    : { width: Math.max(1, Math.round(longEdge * aspect)), height: longEdge };
+}
+
 function customResize(settings, ratio) {
   const mode = settings.sizeMode ?? "preset";
-  if (mode === "preset") return ratio.resize;
+  if (mode === "preset") return { ...ratio.resize, mode: "preset" };
   if (mode !== "custom") throw new RangeError("不支持的输出尺寸模式");
+  if (settings.outputLongEdge !== undefined && settings.outputLongEdge !== null && settings.outputLongEdge !== "") {
+    return { ...outputBoundsFromLongEdge(ratio.aspect, settings.outputLongEdge), mode: "custom" };
+  }
   const width = integerSetting(settings.outputWidth, null, "输出宽度");
   const height = integerSetting(settings.outputHeight, null, "输出高度");
-  if (width === null || height === null) throw new TypeError("自定义输出尺寸需要宽度和高度");
+  if (width === null || height === null) throw new TypeError("自定义尺寸需要最长边上限");
   if (width < 1 || width > EDITOR_OUTPUT_MAX_EDGE || height < 1 || height > EDITOR_OUTPUT_MAX_EDGE) {
     throw new RangeError(`输出宽高必须是 1–${EDITOR_OUTPUT_MAX_EDGE} 像素`);
   }
@@ -82,7 +97,7 @@ function customResize(settings, ratio) {
   if (Math.abs(width / height - ratio.aspect) > tolerance) {
     throw new RangeError("输出宽高必须与当前画面比例一致");
   }
-  return { width, height };
+  return { width, height, mode: "custom" };
 }
 
 export function editStateFromSettings({ sourceWidth, sourceHeight, sourceOrientation = 1, settings = {} }) {

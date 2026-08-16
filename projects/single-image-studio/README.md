@@ -33,7 +33,7 @@
 
 抠图是第二阶段的核心增强，不是产品底座；当前不要求用户安装 MODNet、RVM、SAM 或其他模型。Slice 01–11、SourceCard / Matting baseline、continuous-alpha 和候选元数据全部保留为历史研究资产，但不再自动驱动下一次提交。具体动作、里程碑、验收和恢复本地模型研究的条件见 [当前执行计划](IMPLEMENTATION_PLAN.md)。
 
-当前 R0 页面真实可运行的用户路径只有本地“保真整理”和可选的创意 API 工程路径；抠图、换底、头像、语义 SourceCard 和任务内容 QA 尚未接入产品。M0 已完成；M1a 的不可变 `EditState`、独立两阶段 Canvas renderer、JPEG / PNG / WebP EXIF orientation 1–8 受控解码、编码后像素 / Alpha 重开与私密 metadata fail-closed 检查已经接入本地“保真整理”。M1b 当前工作区始终按变换后的来源比例完整显示图片：固定 1:1 / 4:5 / 3:2 用亮框和外部遮罩标出导出区域，只在真正有溢出的轴上移动；自由裁剪可拖动裁剪框、拖右下角缩放，或用左 / 上 / 宽 / 高控件精调，最小宽高为 10%。裁剪框、旋转、翻转、RGB 调整、预计导出尺寸、PNG / JPEG 和 JPEG 底色均绑定同一 `EditState`，并提供有界撤销、重做和重置。自定义宽高是按当前裁剪比例联动、不会放大小图的尺寸上限。预览不会被当作下载输出。仓库内的 [浏览器输出诊断页](web/browser-diagnostics.html) 只用内存合成像素，等待可控的真实 Chrome / Edge 会话验证布局、ICC / sRGB、像素表现、指针 / 键盘和下载 E2E；本轮不能把诊断页存在或 HTTP 200 写成浏览器证据已取得。
+当前 R0 页面真实可运行的用户路径只有本地“保真整理”和可选的创意 API 工程路径；抠图、换底、头像、语义 SourceCard 和任务内容 QA 尚未接入产品。M0 已完成；M1a 的不可变 `EditState`、独立两阶段 Canvas renderer、JPEG / PNG / WebP EXIF orientation 1–8 受控解码、编码后像素 / Alpha 重开与私密 metadata fail-closed 检查已经接入本地“保真整理”。M1b 当前工作区始终按变换后的来源比例完整显示图片：固定 1:1 / 4:5 / 3:2 用亮框和外部遮罩标出导出区域，只在真正有溢出的轴上移动；自由裁剪可拖动裁剪框、拖右下角缩放，或用左 / 上 / 宽 / 高控件精调，最小宽高为 10%。裁剪框、旋转、翻转、RGB 调整、预计实际导出尺寸、PNG / JPEG 和 JPEG 底色均绑定同一 `EditState`，并提供有界撤销、重做和重置。自定义尺寸只输入一个“最长边上限”，宽高按当前裁剪比例自动计算；它只影响导出像素，不改变完整图片舞台的显示大小，也不会放大小图。预览不会被当作下载输出。仓库内的 [浏览器输出诊断页](web/browser-diagnostics.html) 只用内存合成像素，等待可控的真实 Chrome / Edge 会话验证布局、ICC / sRGB、像素表现、指针 / 键盘和下载 E2E；本轮不能把诊断页存在或 HTTP 200 写成浏览器证据已取得。
 
 首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 

@@ -15,6 +15,7 @@ test("EditState starts as an immutable lossless PNG edit contract", () => {
   assert.equal(state.version, "edit-state.v1");
   assert.deepEqual(state.crop, { x: 0, y: 0, width: 1, height: 1 });
   assert.equal(state.output.format, "png");
+  assert.equal(state.resize.mode, "preset");
   assert.equal(state.resize.allowUpscale, false);
   assert.equal(Object.isFrozen(state), true);
   assert.equal(Object.isFrozen(state.crop), true);
@@ -47,6 +48,7 @@ test("EditState rejects out-of-bounds geometry and unsafe output settings", () =
   );
   assert.throws(() => createEditState({ rotation: 45 }), /旋转角度/);
   assert.throws(() => createEditState({ resize: { width: 9000 } }), /目标宽度/);
+  assert.throws(() => createEditState({ resize: { mode: "fluid" } }), /输出尺寸模式/);
   assert.throws(() => createEditState({ adjustments: { contrast: 101 } }), /对比度/);
   assert.throws(() => createEditState({ output: { jpegQuality: 0.05 } }), /JPEG 质量/);
   assert.throws(() => createEditState({ output: { jpegBackground: "transparent" } }), /#RRGGBB/);

@@ -152,8 +152,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .field-hint { margin: -.25rem 0 .8rem; color: var(--muted); font-size: .68rem; line-height: 1.55; }
 .crop-position-fields, .custom-size-fields { margin: 0 0 1rem; padding: .8rem; border: 1px solid var(--line); border-radius: .72rem; background: rgba(255,255,255,.52); }
 .crop-position-fields .field:last-child, .custom-size-fields .field:last-child { margin-bottom: 0; }
-.dimension-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: .55rem; align-items: end; }
-.dimension-grid > span { align-self: center; margin-top: .45rem; color: var(--muted); }
+.number-with-unit { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .55rem; }
+.number-with-unit > span { color: var(--muted); font-size: .72rem; font-weight: 750; }
+.size-limit-preview { display: block; margin: -.15rem 0 .55rem; color: var(--ink); font-size: .7rem; font-weight: 750; }
 .settings-disclosure { margin: 0 0 1rem; border-bottom: 1px solid var(--line); }
 .settings-disclosure summary { min-height: 2.8rem; display: flex; align-items: center; justify-content: space-between; gap: .75rem; cursor: pointer; font-size: .76rem; font-weight: 850; list-style-position: inside; }
 .settings-disclosure summary small { color: var(--muted); font-size: .68rem; font-weight: 700; }
