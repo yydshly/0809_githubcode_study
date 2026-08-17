@@ -53,6 +53,16 @@ const BASE_TASKS = Object.freeze([
     requiresAdultAttestation: false,
   }),
   Object.freeze({
+    id: "CR-RESTORE",
+    label: "老照片温和修复",
+    description: "使用远程图片编辑生成修复副本；人物、文字与历史细节仍需逐项比较。",
+    family: "creative",
+    executor: TASK_EXECUTOR.AI,
+    contractVersion: "generative-old-photo-restoration-v1",
+    requiresConfig: false,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
     id: "CR1",
     label: "AI 创意改造",
     description: "使用真实 AI 服务生成创意结果；服务不可用时不生成替代品。",

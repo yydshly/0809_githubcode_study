@@ -45,7 +45,9 @@ After the task selector was reorganized around real use cases, the same self-dri
 创意生成
 ```
 
-It also asserted each scenario card's registry identity. Both existing local journeys then passed again: `desktop-min` produced a reopened `1080 × 1080` PNG of `570,313` bytes, and `desktop-common` produced a reopened `1440 × 810` PNG of `141,549` bytes. This proves the scenario layer did not break the local renderer, download, full-image presentation, task reset or focus cleanup paths. It deliberately did not click the two remote scenarios, so it made no provider call and is not remote quality evidence.
+It also asserted each scenario card's registry identity. Both existing local journeys then passed again: `desktop-min` produced a reopened `1080 × 1080` PNG of `570,313` bytes, and `desktop-common` produced a reopened `1440 × 810` PNG of `141,549` bytes. This proves the scenario layer did not break the local renderer, download, full-image presentation, task reset or focus cleanup paths. At that revision it deliberately did not click the two remote scenarios, so it made no provider call and is not remote quality evidence.
+
+After `CR-RESTORE` was added as a fourth scenario, the no-call route was rerun as `cae0c93e-0c47-42c4-a744-5fcf8419868f` from `2026-08-17T02:46:03.233Z` to `02:46:04.659Z`. The route first asserted the exact scenario order `UT-PRODUCT → UT-PORTRAIT → UT-TEMPLATE → CR-RESTORE` and the `old-photo-restoration` registry identity, then repeated both local journeys. `desktop-min` again produced a reopened `1080 × 1080` PNG of `570,313` bytes and `desktop-common` a reopened `1440 × 810` PNG of `141,549` bytes. It did not click `CR-RESTORE`, did not send an image to OpenAI, and provides no evidence about restoration fidelity or model quality.
 
 ## Stage 7 coverage decisions
 

@@ -40,6 +40,11 @@ import {
   validateCorrectionExportDimensions,
 } from "./mask-correction.js";
 import { maskOutputPresentation, resolveMaskBackground } from "./mask-output-presentation.js";
+import {
+  OLD_PHOTO_RESTORATION_PRIORITIES,
+  OLD_PHOTO_RESTORATION_STRENGTHS,
+  buildOldPhotoRestorationPrompt,
+} from "./old-photo-restoration.js";
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { buildResultDownloadContract } from "./result-download.js";
 import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
@@ -159,6 +164,18 @@ const TASK_COPY = Object.freeze({
     output: "PNG / JPEG",
     referenceTitle: "社交构图说明",
     referenceCopy: "模板是构图与尺寸上限的起点，不是永久有效的平台规范。下载前请核对实际像素尺寸和画面保留区域。",
+  }),
+  "CR-RESTORE": Object.freeze({
+    title: "老照片温和修复",
+    badge: "场景技能 · 远程生成",
+    kind: "creative",
+    description: "生成一份便于观看的温和修复副本；原图不会被覆盖。",
+    longDescription: "远程图片编辑服务会重新生成像素，尝试改善褪色、低对比、轻微划痕与噪点。它不是无损修复或档案级复原，人物面部、文字和历史细节都可能变化。",
+    preserve: "尽量保留人物身份特征、年龄、表情、姿态、服装、物件关系、构图与年代感",
+    change: "褪色、对比度、轻微灰尘划痕与噪点；模型可能重绘局部细节",
+    output: "PNG 修复副本",
+    referenceTitle: "生成式修复说明",
+    referenceCopy: "请逐项比较人物五官、手部、文字、徽章、服装和背景物件。若细节与原图不一致，应保留原图并放弃该副本。",
   }),
   CR1: Object.freeze({
     title: "手绘记忆重构",
@@ -795,7 +812,7 @@ function preparedTask(task) {
 
 function selectedCatalog() {
   const catalog = getTaskCatalog({ aiStatus: apiStatus, backgroundRemovalStatus }).map(preparedTask);
-  const wanted = ["UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE", "UT-TUNE", "UT-ENHANCE", "UT-CUTOUT", "CR1"];
+  const wanted = ["UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE", "CR-RESTORE", "UT-TUNE", "UT-ENHANCE", "UT-CUTOUT", "CR1"];
   return wanted.map((id) => catalog.find((task) => task.id === id)).filter(Boolean);
 }
 
@@ -1072,6 +1089,20 @@ function renderSettings(task) {
     elements.runNote.textContent = providerSandbox
       ? "沙盒结果必须是可打开的透明 PNG；水印结果仅供测试。"
       : "只有可打开、带透明背景的 PNG 才会进入比较和下载。";
+  } else if (task.id === "CR-RESTORE") {
+    elements.settingsFields.innerHTML = `
+      <fieldset class="setting-group"><legend><span>1</span> 修复方式</legend>
+        <div class="field"><label for="restoration-strength">修复强度</label><select id="restoration-strength" name="strength">${OLD_PHOTO_RESTORATION_STRENGTHS.map((option) => `<option value="${option.id}">${option.label}</option>`).join("")}</select><p class="field-hint">从克制修复开始；当前没有“强力修复”，避免把猜测当成原始细节。</p></div>
+        <div class="field"><label for="restoration-preserve">优先保留</label><select id="restoration-preserve" name="preserve">${OLD_PHOTO_RESTORATION_PRIORITIES.map((option) => `<option value="${option.id}">${option.label}</option>`).join("")}</select></div>
+        <div class="field"><label for="restoration-quality">生成质量</label><select id="restoration-quality" name="quality"><option value="medium" selected>标准结果</option><option value="high">精细结果</option></select></div>
+      </fieldset>
+      <fieldset class="setting-group remote-processing-consent"><legend><span>2</span> 生成式处理确认</legend>
+        <div class="remote-processing-summary"><strong>这不是无损或档案级复原</strong><p>图片会发送到已连接的 OpenAI 图片编辑服务并重新生成像素。系统会约束提示词，但不能保证人物身份、文字或历史细节完全准确。</p></div>
+        <label class="consent-check"><input type="checkbox" name="generativeRestoreConsent" required /> <span>我理解结果会重新生成像素，人物面部、文字和历史细节可能变化</span></label>
+        <p class="field-hint">原图不会被覆盖；失败不会自动重复提交。生成后请使用原图 / 结果对比再决定是否下载。</p>
+      </fieldset>`;
+    elements.runButton.textContent = "生成修复副本";
+    elements.runNote.textContent = "这是可能产生费用的远程生成；只有你明确确认后才会提交一次。";
   } else {
     elements.settingsFields.innerHTML = `
       <div class="field"><label for="creative-quality">生成质量</label><select id="creative-quality" name="quality"><option value="low">快速草稿</option><option value="medium" selected>标准结果</option><option value="high">精细结果</option></select></div>
@@ -1079,7 +1110,7 @@ function renderSettings(task) {
     elements.runButton.textContent = "开始真实生成";
     elements.runNote.textContent = "图片只会从本地服务端发送到已连接的 OpenAI 图片服务；生成结果不会伪造。";
   }
-  elements.runButton.disabled = isBackgroundRemovalTask(task.id);
+  elements.runButton.disabled = isBackgroundRemovalTask(task.id) || task.id === "CR-RESTORE";
 }
 
 function syncRemoteConsent() {
@@ -1087,6 +1118,11 @@ function syncRemoteConsent() {
   const settingsError = elements.settingsForm.querySelector("#editor-settings-error");
   elements.runButton.disabled = elements.settingsForm.elements.remoteConsent?.checked !== true
     || Boolean(settingsError && !settingsError.hidden);
+}
+
+function syncGenerativeRestoreConsent() {
+  if (selectedTask?.id !== "CR-RESTORE") return;
+  elements.runButton.disabled = elements.settingsForm.elements.generativeRestoreConsent?.checked !== true;
 }
 
 function editorFormSettings() {
@@ -1430,6 +1466,9 @@ function getSettings() {
   if (selectedTask?.id === "UT-CUTOUT" && elements.settingsForm.elements.remoteConsent?.checked !== true) {
     throw new Error("请先确认远程抠图处理");
   }
+  if (selectedTask?.id === "CR-RESTORE" && elements.settingsForm.elements.generativeRestoreConsent?.checked !== true) {
+    throw new Error("请先确认生成式老照片修复的风险");
+  }
   return Object.fromEntries(new FormData(elements.settingsForm).entries());
 }
 
@@ -1447,7 +1486,8 @@ async function settingsHash(settings) {
   return sha256Bytes(new TextEncoder().encode(JSON.stringify(settings)));
 }
 
-function creativePrompt(settings) {
+function creativePrompt(taskId, settings) {
+  if (taskId === "CR-RESTORE") return buildOldPhotoRestorationPrompt(settings);
   const preserve = {
     subject: "Preserve the same subject category, pose, key objects, and spatial relationships.",
     composition: "Preserve the same subjects and overall composition.",
@@ -1527,7 +1567,7 @@ async function runSelectedTask() {
     } else {
       const payload = {
         clientRunId: runId, taskId: selectedTask.id, sourceImage: await dataUrlForFile(source.file), referenceImages: [],
-        prompt: creativePrompt(settings), quality: settings.quality || "medium", outputFormat: "png", size: "auto",
+        prompt: creativePrompt(selectedTask.id, settings), quality: settings.quality || "medium", outputFormat: "png", size: "auto",
       };
       let created;
       try {
@@ -1556,9 +1596,11 @@ async function runSelectedTask() {
         extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
         width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
         byteLength: finished.result.imageBytes, hasAlpha: false,
-        validationSummary: "已核对结果文件与本次任务；图片内容仍需要你比较确认",
+        validationSummary: selectedTask.id === "CR-RESTORE"
+          ? "已核对修复副本文件与本次任务；人物面部、文字和历史细节必须与原图逐项比较"
+          : "已核对结果文件与本次任务；图片内容仍需要你比较确认",
         processor: "远程创意处理",
-        title: "创意生成完成",
+        title: selectedTask.id === "CR-RESTORE" ? "老照片修复副本已生成" : "创意生成完成",
       };
     }
 
@@ -1604,12 +1646,12 @@ function friendlyError(error) {
 
 function renderResult() {
   if (!currentResult) return;
-  elements.download.textContent = selectedTask.id === "UT-PRODUCT" ? "下载商品白底图" : selectedTask.id === "UT-PORTRAIT" ? "下载底色头像" : selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
+  elements.download.textContent = selectedTask.id === "UT-PRODUCT" ? "下载商品白底图" : selectedTask.id === "UT-PORTRAIT" ? "下载底色头像" : selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : selectedTask.id === "CR-RESTORE" ? "下载修复副本" : "下载结果";
   elements.redo.textContent = isBackgroundRemovalTask(selectedTask.id)
     ? selectedTask.id === "UT-PRODUCT" ? "重新制作商品图" : selectedTask.id === "UT-PORTRAIT" ? "重新制作头像" : "重新抠图"
     : isLocalEditorTask(selectedTask.id)
       ? selectedTask.id === "UT-ENHANCE" ? "调整增强效果" : selectedTask.id === "UT-TEMPLATE" ? "调整场景模板" : "继续调整"
-      : "重新处理";
+      : selectedTask.id === "CR-RESTORE" ? "重新设置修复" : "重新处理";
   elements.maskCorrectionWorkspace.hidden = !isBackgroundRemovalTask(selectedTask.id);
   elements.resultTitle.textContent = currentResult.title;
   elements.resultSummary.textContent = `${currentResult.taskTitle} · ${currentResult.processor}`;
@@ -1619,12 +1661,12 @@ function renderResult() {
     ? selectedTask.id === "UT-PRODUCT" ? "完整显示的商品白底图结果" : selectedTask.id === "UT-PORTRAIT" ? "完整显示的头像抠图结果" : "完整显示的抠图结果"
     : isLocalEditorTask(selectedTask.id)
       ? selectedTask.id === "UT-ENHANCE" ? "完整显示的自然增强结果" : selectedTask.id === "UT-TEMPLATE" ? "完整显示的场景模板结果" : "完整显示的编辑结果"
-      : "完整显示的处理结果";
+      : selectedTask.id === "CR-RESTORE" ? "完整显示的老照片修复副本" : "完整显示的处理结果";
   elements.resultOutputTab.textContent = isBackgroundRemovalTask(selectedTask.id)
     ? selectedTask.id === "UT-PRODUCT" ? "商品结果" : selectedTask.id === "UT-PORTRAIT" ? "头像结果" : "抠图结果"
     : isLocalEditorTask(selectedTask.id)
       ? selectedTask.id === "UT-ENHANCE" ? "增强结果" : selectedTask.id === "UT-TEMPLATE" ? "模板结果" : "编辑结果"
-      : "处理结果";
+      : selectedTask.id === "CR-RESTORE" ? "修复副本" : "处理结果";
   elements.qaCopy.textContent = currentResult.validationSummary;
   elements.resultSize.textContent = currentResult.width && currentResult.height ? `${currentResult.width} × ${currentResult.height}` : currentResult.mimeType;
   elements.referenceTitle.textContent = selectedTask.referenceTitle;
@@ -1728,6 +1770,17 @@ function returnToCutoutSettings(message) {
   if (message) toast(message);
 }
 
+function returnToOldPhotoRestorationSettings(message) {
+  clearResult();
+  showOnly("config");
+  setJourney("task");
+  const consent = elements.settingsForm.elements.generativeRestoreConsent;
+  if (consent) consent.checked = false;
+  syncGenerativeRestoreConsent();
+  consent?.focus();
+  if (message) toast(message);
+}
+
 async function recoverUnknownRun() {
   if (machine.status !== STUDIO_STATES.RUN_UNKNOWN || !machine.activeRunId) return;
   const runId = machine.activeRunId;
@@ -1782,9 +1835,11 @@ async function recoverUnknownRun() {
         extension: finished.result.outputFormat === "jpeg" ? "jpg" : finished.result.outputFormat || "png",
         width: decoded.naturalWidth, height: decoded.naturalHeight, outputHash: finished.result.imageSha256,
         byteLength: finished.result.imageBytes, hasAlpha: false,
-        validationSummary: "恢复查询后已核对结果文件与原任务；图片内容仍需要你比较确认",
+        validationSummary: selectedTask.id === "CR-RESTORE"
+          ? "恢复查询后已核对修复副本与原任务；人物面部、文字和历史细节仍需与原图逐项比较"
+          : "恢复查询后已核对结果文件与原任务；图片内容仍需要你比较确认",
         processor: "远程创意处理",
-        title: "创意生成完成",
+        title: selectedTask.id === "CR-RESTORE" ? "老照片修复副本已生成" : "创意生成完成",
       };
     }
     dispatch(STUDIO_EVENTS.RECEIVE_RUN_RESULT, { ...runToken, result });
@@ -1858,6 +1913,7 @@ elements.settingsForm.addEventListener("click", (event) => {
 });
 elements.settingsForm.addEventListener("input", (event) => {
   if (isBackgroundRemovalTask()) syncRemoteConsent();
+  if (selectedTask?.id === "CR-RESTORE") syncGenerativeRestoreConsent();
   if (selectedTask?.id === "UT-CUTOUT") return;
   if (!isEditorTask() || !editorWorkspace) return;
   const changedName = event.target?.name;
@@ -1870,6 +1926,7 @@ elements.settingsForm.addEventListener("input", (event) => {
 });
 elements.settingsForm.addEventListener("change", (event) => {
   if (isBackgroundRemovalTask()) syncRemoteConsent();
+  if (selectedTask?.id === "CR-RESTORE") syncGenerativeRestoreConsent();
   if (selectedTask?.id === "UT-CUTOUT") return;
   if (!isEditorTask()) return;
   const changedName = event.target?.name;
@@ -1907,6 +1964,10 @@ elements.redo.addEventListener("click", () => {
     returnToCutoutSettings(selectedTask?.id === "UT-PRODUCT" ? "再次制作商品图前，请重新确认本次远程发送" : selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
     return;
   }
+  if (selectedTask?.id === "CR-RESTORE") {
+    returnToOldPhotoRestorationSettings("再次生成修复副本前，请重新确认本次远程生成");
+    return;
+  }
   clearResult();
   showOnly("config");
   setJourney("task");
@@ -1915,6 +1976,10 @@ elements.redo.addEventListener("click", () => {
 elements.retry.addEventListener("click", () => {
   if (isBackgroundRemovalTask()) {
     returnToCutoutSettings(selectedTask?.id === "UT-PRODUCT" ? "再次制作商品图前，请重新确认本次远程发送" : selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
+    return;
+  }
+  if (selectedTask?.id === "CR-RESTORE") {
+    returnToOldPhotoRestorationSettings("重新提交前，请再次确认生成式处理风险");
     return;
   }
   runSelectedTask();

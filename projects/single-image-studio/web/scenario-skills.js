@@ -49,6 +49,16 @@ const SKILLS = Object.freeze([
     defaultBackground: null,
     outputIntent: "png-or-jpeg",
   }),
+  Object.freeze({
+    id: "old-photo-restoration",
+    taskId: "CR-RESTORE",
+    order: 4,
+    label: "老照片温和修复",
+    summary: "生成一份克制的修复副本，并明确提醒人物、文字和历史细节可能变化。",
+    initialSettings: null,
+    defaultBackground: null,
+    outputIntent: "generative-restoration-copy",
+  }),
 ]);
 
 export const SCENARIO_SKILLS = SKILLS;
@@ -59,7 +69,7 @@ export function scenarioSkillForTask(taskId) {
 
 export function scenarioInitialSettings(taskId) {
   const skill = scenarioSkillForTask(taskId);
-  return skill ? { ...skill.initialSettings } : null;
+  return skill?.initialSettings ? { ...skill.initialSettings } : null;
 }
 
 export function decorateScenarioTask(task) {

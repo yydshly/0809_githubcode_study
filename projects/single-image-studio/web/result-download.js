@@ -40,6 +40,11 @@ const DOWNLOAD_POLICIES = Object.freeze({
     alpha: "opaque",
     backgroundColor: "#FFFFFF",
   }),
+  "CR-RESTORE": Object.freeze({
+    prefix: "old-photo-restoration-copy",
+    mimeTypes: Object.freeze(["image/png"]),
+    alpha: "either",
+  }),
 });
 
 export const DOWNLOAD_ERROR_CODES = Object.freeze({

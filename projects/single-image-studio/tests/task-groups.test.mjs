@@ -10,7 +10,7 @@ test("task groups put user scenarios before free tools and creative operations",
   }).filter((task) => task.id !== "UT-SOLID-BG");
   const groups = groupTasksForDisplay(tasks);
   assert.deepEqual(groups.map((group) => group.id), ["scenarios", "tools", "creative"]);
-  assert.deepEqual(groups[0].tasks.map((task) => task.id), ["UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE"]);
+  assert.deepEqual(groups[0].tasks.map((task) => task.id), ["UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE", "CR-RESTORE"]);
   assert.deepEqual(groups[1].tasks.map((task) => task.id), ["UT-TUNE", "UT-ENHANCE", "UT-CUTOUT"]);
   assert.deepEqual(groups[2].tasks.map((task) => task.id), ["CR1"]);
   assert.deepEqual(groups.map((group) => group.availableCount), [3, 3, 0]);
@@ -35,6 +35,7 @@ test("an available creative service is reported without changing group order", (
     backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
   }).filter((task) => task.id !== "UT-SOLID-BG");
   assert.match(taskAvailabilitySummary(tasks), /创意生成 1 个可用/);
+  assert.deepEqual(groupTasksForDisplay(tasks)[0].tasks.map((task) => task.id), ["UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE", "CR-RESTORE"]);
   assert.deepEqual(groupTasksForDisplay(tasks).map((group) => group.id), ["scenarios", "tools", "creative"]);
 });
 

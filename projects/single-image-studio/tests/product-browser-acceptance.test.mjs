@@ -16,7 +16,7 @@ test("browser acceptance page covers two real local product journeys", () => {
   assert.match(script, /taskId: "UT-TUNE"/);
   assert.match(script, /taskId: "UT-TEMPLATE"/);
   assert.match(script, /"scenarios,tools,creative"/);
-  assert.match(script, /"UT-PRODUCT,UT-PORTRAIT,UT-TEMPLATE"/);
+  assert.match(script, /"UT-PRODUCT,UT-PORTRAIT,UT-TEMPLATE,CR-RESTORE"/);
   assert.match(script, /product-white-background/);
   assert.match(script, /application-photo/);
   assert.match(script, /social-layout/);
@@ -38,7 +38,7 @@ test("browser acceptance page covers two real local product journeys", () => {
 test("browser acceptance cannot invoke remote product routes", () => {
   assert.doesNotMatch(script, /background-removal\/runs/);
   assert.doesNotMatch(script, /\/api\/runs/);
-  assert.doesNotMatch(script, /taskId: "(?:UT-CUTOUT|UT-PORTRAIT|UT-PRODUCT|CR1)"/);
+  assert.doesNotMatch(script, /taskId: "(?:UT-CUTOUT|UT-PORTRAIT|UT-PRODUCT|CR-RESTORE|CR1)"/);
 });
 
 test("recorded product browser evidence keeps its scope and limitations explicit", () => {

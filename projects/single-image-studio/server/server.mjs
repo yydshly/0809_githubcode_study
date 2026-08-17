@@ -14,6 +14,7 @@ import { InMemoryRunStore } from "./run-store.mjs";
 import { createPhotoroomBackgroundRemovalProvider } from "./providers/background-removal/photoroom-provider.mjs";
 import { createBackgroundRemovalRuntime } from "./providers/background-removal/runtime.mjs";
 import { BackgroundRemovalProviderError } from "./providers/background-removal/provider.mjs";
+import { isOldPhotoRestorationPrompt } from "../web/old-photo-restoration.js";
 
 const DEFAULT_PORT = 4177;
 const MAX_JSON_BODY_BYTES = 36 * 1024 * 1024;
@@ -26,7 +27,7 @@ const MAX_RESEARCH_CATALOG_BYTES = 2 * 1024 * 1024;
 const MAX_PRODUCT_ACCEPTANCE_REPORT_BYTES = 16 * 1024;
 const OPENAI_IMAGE_EDIT_URL = "https://api.openai.com/v1/images/edits";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const ALLOWED_TASK_IDS = new Set(["CR1"]);
+const ALLOWED_TASK_IDS = new Set(["CR1", "CR-RESTORE"]);
 const LOOPBACK_HOST = "127.0.0.1";
 
 const MIME_EXTENSIONS = Object.freeze({
@@ -296,6 +297,10 @@ function parseRunPayload(payload) {
   if (typeof payload.prompt !== "string" || !payload.prompt.trim() || payload.prompt.length > 4000) {
     throw new HttpError(400, "invalid_prompt", "prompt 必须是 1–4000 字符的字符串");
   }
+  const prompt = payload.prompt.trim();
+  if (taskId === "CR-RESTORE" && !isOldPhotoRestorationPrompt(prompt)) {
+    throw new HttpError(400, "invalid_restoration_prompt", "老照片修复提示词不属于已冻结的产品合同");
+  }
 
   const quality = payload.quality ?? "medium";
   if (!new Set(["low", "medium", "high", "auto"]).has(quality)) {
@@ -324,7 +329,7 @@ function parseRunPayload(payload) {
   return {
     clientRunId,
     taskId,
-    prompt: payload.prompt.trim(),
+    prompt,
     quality,
     size,
     outputFormat,

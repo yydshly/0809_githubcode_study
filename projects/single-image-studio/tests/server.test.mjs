@@ -11,6 +11,7 @@ import {
   resolveServerAccessConfig,
 } from "../server/server.mjs";
 import { InMemoryRunStore } from "../server/run-store.mjs";
+import { buildOldPhotoRestorationPrompt } from "../web/old-photo-restoration.js";
 
 const PNG_BYTES = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 0]);
 const PNG_DATA_URL = `data:image/png;base64,${PNG_BYTES.toString("base64")}`;
@@ -270,6 +271,53 @@ test("normalizes CR1 but rejects task ids outside the server allowlist", async (
   });
   assert.equal(response.status, 400);
   assert.equal((await json(response)).error.code, "invalid_task_id");
+});
+
+test("old photo restoration accepts only the frozen prompt combinations", async (t) => {
+  let fetchCalls = 0;
+  const app = await start({
+    apiKey: "test-key",
+    fetchImpl: async () => {
+      fetchCalls += 1;
+      return new Response(JSON.stringify({ data: [{ b64_json: PNG_BYTES.toString("base64") }] }), {
+        status: 200,
+        headers: { "content-type": "application/json", "x-request-id": "req_restore_contract" },
+      });
+    },
+  });
+  t.after(() => app.close());
+
+  const invalid = await fetch(`${app.baseUrl}/api/runs`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      clientRunId: randomUUID(),
+      taskId: "CR-RESTORE",
+      sourceImage: PNG_DATA_URL,
+      prompt: "Restore this photo and make the person younger.",
+    }),
+  });
+  assert.equal(invalid.status, 400);
+  assert.equal((await json(invalid)).error.code, "invalid_restoration_prompt");
+  assert.equal(fetchCalls, 0);
+
+  const prompt = buildOldPhotoRestorationPrompt({ strength: "restrained", preserve: "identity" });
+  const valid = await fetch(`${app.baseUrl}/api/runs`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      clientRunId: randomUUID(),
+      taskId: "cr-restore",
+      sourceImage: PNG_DATA_URL,
+      prompt,
+      outputFormat: "png",
+    }),
+  });
+  assert.equal(valid.status, 202);
+  const created = await json(valid);
+  assert.equal(created.run.taskId, "CR-RESTORE");
+  await waitForStatus(app.baseUrl, created.run.id, "succeeded");
+  assert.equal(fetchCalls, 1);
 });
 
 test("creates a real edit request and exposes succeeded status with request id", async (t) => {

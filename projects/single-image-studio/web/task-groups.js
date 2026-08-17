@@ -18,7 +18,7 @@ const DISPLAY_GROUPS = Object.freeze([
     id: "creative",
     title: "创意生成",
     description: "会重建画面内容；真实创意服务未配置时保持不可选。",
-    matches: (task) => task.executor === TASK_EXECUTOR.AI,
+    matches: (task) => !task.scenarioSkillId && task.executor === TASK_EXECUTOR.AI,
   }),
 ]);
 

@@ -40,6 +40,7 @@ test("without remote services, all three local editor tasks remain runnable", ()
     ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE"],
   );
   assert.equal(catalog.find((task) => task.id === "CR1").availability, "unavailable");
+  assert.equal(catalog.find((task) => task.id === "CR-RESTORE").availability, "unavailable");
 
   const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
   assert.equal(cutout.runnable, false);
@@ -66,7 +67,7 @@ test("AI availability adds the real AI task without enabling unverified utilitie
       aiStatus: { status: "available" },
       backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     }).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR1"],
+    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR-RESTORE", "CR1"],
   );
 
   const recommendations = getRecommendedTasks({
@@ -74,9 +75,10 @@ test("AI availability adds the real AI task without enabling unverified utilitie
     backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     limit: 4,
   });
-  assert.deepEqual(recommendations.map((task) => task.id), ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR1"]);
+  assert.deepEqual(recommendations.map((task) => task.id), ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR-RESTORE"]);
   assert.equal(recommendations.length, 4);
   assert.equal(recommendations.every((task) => task.runnable), true);
+  assert.equal(recommendations.at(-1).scenarioSkillId, "old-photo-restoration");
 });
 
 test("background removal availability enables cutout and both composed scenarios", () => {
@@ -202,4 +204,21 @@ test("transparent, portrait and product downloads enforce alpha, format and safe
     currentRunId: "run-1",
   });
   assert.equal(nonWhiteProduct.code, DOWNLOAD_ERROR_CODES.BACKGROUND_REQUIRED);
+});
+
+test("old photo restoration downloads are named as copies rather than archival restorations", () => {
+  const restoration = buildResultDownloadContract({
+    taskId: "CR-RESTORE",
+    result: result(),
+    currentRunId: "run-1",
+  });
+  assert.equal(restoration.allowed, true);
+  assert.match(restoration.download.filename, /^old-photo-restoration-copy-/);
+
+  const jpeg = buildResultDownloadContract({
+    taskId: "CR-RESTORE",
+    result: result({ mimeType: "image/jpeg" }),
+    currentRunId: "run-1",
+  });
+  assert.equal(jpeg.code, DOWNLOAD_ERROR_CODES.UNSUPPORTED_FORMAT);
 });

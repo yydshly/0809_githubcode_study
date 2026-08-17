@@ -8,17 +8,18 @@ import {
   scenarioSkillForTask,
 } from "../web/scenario-skills.js";
 
-test("scenario registry exposes exactly the three honest current use cases", () => {
+test("scenario registry exposes exactly the four honest current use cases", () => {
   assert.deepEqual(
     SCENARIO_SKILLS.map(({ id, taskId, order }) => ({ id, taskId, order })),
     [
       { id: "product-white-background", taskId: "UT-PRODUCT", order: 1 },
       { id: "application-photo", taskId: "UT-PORTRAIT", order: 2 },
       { id: "social-layout", taskId: "UT-TEMPLATE", order: 3 },
+      { id: "old-photo-restoration", taskId: "CR-RESTORE", order: 4 },
     ],
   );
-  assert.equal(new Set(SCENARIO_SKILLS.map((skill) => skill.taskId)).size, 3);
-  assert.equal(scenarioSkillForTask("old-photo-restoration"), null);
+  assert.equal(new Set(SCENARIO_SKILLS.map((skill) => skill.taskId)).size, 4);
+  assert.equal(scenarioSkillForTask("CR-RESTORE").id, "old-photo-restoration");
 });
 
 test("scenario initial settings are useful defaults and returned as mutable copies", () => {
@@ -36,6 +37,7 @@ test("scenario initial settings are useful defaults and returned as mutable copi
 
   assert.equal(scenarioInitialSettings("UT-PORTRAIT").cropY, 42);
   assert.equal(scenarioInitialSettings("UT-TEMPLATE").outputLongEdge, 1080);
+  assert.equal(scenarioInitialSettings("CR-RESTORE"), null);
   assert.equal(scenarioInitialSettings("UT-TUNE"), null);
 });
 

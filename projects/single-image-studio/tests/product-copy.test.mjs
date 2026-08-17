@@ -182,6 +182,22 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(scripts.dev, /--env-file-if-exists=\.env/);
 });
 
+test("old photo restoration is an explicit generative copy workflow rather than an archival claim", () => {
+  assert.match(main, /title: "老照片温和修复"/);
+  assert.match(main, /这不是无损或档案级复原/);
+  assert.match(main, /人物面部、文字和历史细节可能变化/);
+  assert.match(main, /name="generativeRestoreConsent"/);
+  assert.match(main, /syncGenerativeRestoreConsent/);
+  assert.match(main, /returnToOldPhotoRestorationSettings/);
+  assert.match(main, /再次生成修复副本前，请重新确认本次远程生成/);
+  assert.match(main, /重新提交前，请再次确认生成式处理风险/);
+  assert.match(main, /生成修复副本/);
+  assert.match(main, /下载修复副本/);
+  assert.match(main, /buildOldPhotoRestorationPrompt/);
+  assert.match(server, /invalid_restoration_prompt/);
+  assert.doesNotMatch(main, /无损恢复完成|档案级修复完成|身份完全一致/);
+});
+
 test("a completed result can return to task selection without replacing the source", () => {
   assert.match(html, /id="result-change-task-button"[^>]*>换个处理方向</);
   assert.match(main, /function returnToTaskSelection\(message = ""\)/);
