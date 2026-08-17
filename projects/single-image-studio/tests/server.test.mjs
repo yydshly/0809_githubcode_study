@@ -149,6 +149,58 @@ test("server access defaults to loopback and requires an explicit private LAN ad
   }
 });
 
+test("local product acceptance reports are strict, in-memory, and disabled for LAN preview", async (t) => {
+  const app = await start();
+  t.after(() => app.close());
+  const runId = randomUUID();
+  const payload = {
+    version: "product-acceptance-report-v1",
+    runId,
+    startedAt: "2026-08-17T08:00:00.000Z",
+    completedAt: "2026-08-17T08:00:05.000Z",
+    browser: { userAgent: "Synthetic Chromium QA", language: "zh-CN" },
+    cases: [
+      { id: "desktop-min", passed: true, evidence: "1280 × 720 pass" },
+      { id: "desktop-common", passed: true, evidence: "1440 × 900 pass" },
+    ],
+  };
+  const posted = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  assert.equal(posted.status, 202);
+  const accepted = await json(posted);
+  assert.equal(accepted.accepted, true);
+  assert.equal(accepted.report.runId, runId);
+  assert.equal(typeof accepted.report.receivedAt, "string");
+
+  const latest = await json(await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`));
+  assert.deepEqual(latest.report, accepted.report);
+
+  const tampered = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...payload, secret: "must-not-be-accepted" }),
+  });
+  assert.equal(tampered.status, 400);
+  assert.equal((await json(tampered)).error.code, "unknown_field");
+
+  const invalidRoot = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: "null",
+  });
+  assert.equal(invalidRoot.status, 400);
+  assert.equal((await json(invalidRoot)).error.code, "invalid_json_object");
+
+  const lan = await start({ previewMode: "lan" });
+  t.after(() => lan.close());
+  const blocked = await fetch(`${lan.baseUrl}/api/internal/product-acceptance/latest`);
+  assert.equal(blocked.status, 403);
+  assert.equal((await json(blocked)).error.code, "lan_internal_qa_disabled");
+});
+
 test("private IPv4 recognition covers only RFC1918 ranges", () => {
   for (const address of ["10.0.0.1", "172.16.0.1", "172.31.255.254", "192.168.1.2"]) {
     assert.equal(isPrivateIpv4(address), true, address);

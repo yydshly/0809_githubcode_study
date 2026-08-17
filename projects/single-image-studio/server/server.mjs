@@ -23,6 +23,7 @@ const MAX_REFERENCE_IMAGES = 4;
 const MAX_UPSTREAM_BODY_BYTES = 48 * 1024 * 1024;
 const UPSTREAM_TIMEOUT_MS = 180_000;
 const MAX_RESEARCH_CATALOG_BYTES = 2 * 1024 * 1024;
+const MAX_PRODUCT_ACCEPTANCE_REPORT_BYTES = 16 * 1024;
 const OPENAI_IMAGE_EDIT_URL = "https://api.openai.com/v1/images/edits";
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const ALLOWED_TASK_IDS = new Set(["CR1"]);
@@ -95,23 +96,26 @@ function sendError(response, error) {
   });
 }
 
-async function readJson(request) {
+async function readJson(request, {
+  maxBytes = MAX_JSON_BODY_BYTES,
+  tooLargeMessage = "图片请求过大",
+} = {}) {
   const contentType = String(request.headers["content-type"] ?? "").toLowerCase();
   if (!/^application\/json(?:\s*;|$)/.test(contentType)) {
     throw new HttpError(415, "unsupported_media_type", "请求必须使用 application/json");
   }
 
   const declaredLength = Number.parseInt(String(request.headers["content-length"] ?? ""), 10);
-  if (Number.isFinite(declaredLength) && declaredLength > MAX_JSON_BODY_BYTES) {
-    throw new HttpError(413, "request_too_large", "图片请求过大");
+  if (Number.isFinite(declaredLength) && declaredLength > maxBytes) {
+    throw new HttpError(413, "request_too_large", tooLargeMessage);
   }
 
   const chunks = [];
   let size = 0;
   for await (const chunk of request) {
     size += chunk.length;
-    if (size > MAX_JSON_BODY_BYTES) {
-      throw new HttpError(413, "request_too_large", "图片请求过大");
+    if (size > maxBytes) {
+      throw new HttpError(413, "request_too_large", tooLargeMessage);
     }
     chunks.push(chunk);
   }
@@ -127,6 +131,79 @@ async function readJson(request) {
     throw new HttpError(400, "invalid_json_object", "请求必须是 JSON 对象");
   }
   return parsed;
+}
+
+function requireCanonicalUtc(value, field) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)) {
+    throw new HttpError(400, "invalid_acceptance_report", `${field} 必须是规范 UTC 时间`);
+  }
+  const parsed = new Date(value);
+  if (!Number.isFinite(parsed.valueOf()) || parsed.toISOString() !== value) {
+    throw new HttpError(400, "invalid_acceptance_report", `${field} 必须是规范 UTC 时间`);
+  }
+  return value;
+}
+
+function requireBoundedText(value, field, maxLength) {
+  if (typeof value !== "string" || !value.trim() || value.length > maxLength) {
+    throw new HttpError(400, "invalid_acceptance_report", `${field} 格式无效`);
+  }
+  return value;
+}
+
+function parseProductAcceptanceReport(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new HttpError(400, "invalid_acceptance_report", "验收报告格式无效");
+  }
+  assertAllowedKeys(payload, new Set(["version", "runId", "startedAt", "completedAt", "browser", "cases"]));
+  if (payload.version !== "product-acceptance-report-v1") {
+    throw new HttpError(400, "invalid_acceptance_report", "验收报告版本无效");
+  }
+  if (typeof payload.runId !== "string" || !UUID_PATTERN.test(payload.runId)) {
+    throw new HttpError(400, "invalid_acceptance_report", "验收报告 runId 无效");
+  }
+  const startedAt = requireCanonicalUtc(payload.startedAt, "startedAt");
+  const completedAt = requireCanonicalUtc(payload.completedAt, "completedAt");
+  if (completedAt < startedAt) {
+    throw new HttpError(400, "invalid_acceptance_report", "验收完成时间早于开始时间");
+  }
+  if (!payload.browser || typeof payload.browser !== "object" || Array.isArray(payload.browser)) {
+    throw new HttpError(400, "invalid_acceptance_report", "browser 格式无效");
+  }
+  assertAllowedKeys(payload.browser, new Set(["userAgent", "language"]));
+  const browser = Object.freeze({
+    userAgent: requireBoundedText(payload.browser.userAgent, "browser.userAgent", 512),
+    language: requireBoundedText(payload.browser.language, "browser.language", 32),
+  });
+  if (!Array.isArray(payload.cases) || payload.cases.length !== 2) {
+    throw new HttpError(400, "invalid_acceptance_report", "验收报告必须包含两档视口");
+  }
+  const expectedIds = new Set(["desktop-min", "desktop-common"]);
+  const cases = payload.cases.map((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      throw new HttpError(400, "invalid_acceptance_report", "验收 case 格式无效");
+    }
+    assertAllowedKeys(entry, new Set(["id", "passed", "evidence"]));
+    if (!expectedIds.delete(entry.id) || typeof entry.passed !== "boolean") {
+      throw new HttpError(400, "invalid_acceptance_report", "验收 case 身份或状态无效");
+    }
+    return Object.freeze({
+      id: entry.id,
+      passed: entry.passed,
+      evidence: requireBoundedText(entry.evidence, "case.evidence", 1000),
+    });
+  });
+  if (expectedIds.size !== 0) {
+    throw new HttpError(400, "invalid_acceptance_report", "验收 case 不完整");
+  }
+  return Object.freeze({
+    version: payload.version,
+    runId: payload.runId.toLowerCase(),
+    startedAt,
+    completedAt,
+    browser,
+    cases: Object.freeze(cases),
+  });
 }
 
 function assertAllowedKeys(value, allowedKeys) {
@@ -834,10 +911,34 @@ export function createImageStudioServer({
   });
 
   const inflight = new Set();
+  let latestProductAcceptanceReport = null;
   const server = createHttpServer(async (request, response) => {
     try {
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
       const route = apiRoute(url.pathname);
+
+      if (url.pathname === "/api/internal/product-acceptance/latest") {
+        if (previewMode === "lan") {
+          throw new HttpError(403, "lan_internal_qa_disabled", "局域网预览不开放内部验收回报");
+        }
+        if (request.method === "GET") {
+          sendJson(response, 200, { report: latestProductAcceptanceReport });
+          return;
+        }
+        if (request.method === "POST") {
+          const report = parseProductAcceptanceReport(await readJson(request, {
+            maxBytes: MAX_PRODUCT_ACCEPTANCE_REPORT_BYTES,
+            tooLargeMessage: "验收报告过大",
+          }));
+          latestProductAcceptanceReport = Object.freeze({
+            ...report,
+            receivedAt: new Date().toISOString(),
+          });
+          sendJson(response, 202, { accepted: true, report: latestProductAcceptanceReport });
+          return;
+        }
+        throw new HttpError(405, "method_not_allowed", "该接口只支持 GET 或 POST");
+      }
 
       if (route.kind === "status") {
         if (request.method !== "GET") {

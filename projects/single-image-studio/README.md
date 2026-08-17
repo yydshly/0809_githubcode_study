@@ -41,7 +41,7 @@
 
 产品页现在使用面向试用者的直白文案：显示“内部试用版”“可用操作”“文件可下载”，不再让 `R0`、工程探针、Alpha 结构或供应商内部 ID 抢占主流程。研究等级、协议细节和诊断结论仍完整保留在本 README、[STATUS.md](STATUS.md) 与内部诊断页；文案简化不改变任何能力状态或质量声明。
 
-首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
+首轮产品范围已经冻结为**桌面浏览器优先**：以 Windows 桌面 Chromium 为当前基准，Chrome / Edge 的精确稳定版本、`1280 × 720` 最小视口与 `1440 × 900` 常规视口由后续 `CompatibilityProfile` 验收。2026-08-17 的当前 Codex 内置 Chromium 会话已经在这两档视口实际跑通本地保真整理和场景模板流程，包含 PNG 重开、完整显示、无横向溢出、换任务、焦点清理和旧下载失效；[运行记录与限制见浏览器验收证据](BROWSER_ACCEPTANCE_EVIDENCE.md)。这不替代独立 Chrome / Edge、原生键盘 / 指针和系统下载检查。手机、平板、iPhone / HEIC、Safari、Firefox 与完整响应式产品后置，不进入首轮 R1-product、O1 或 V1。
 
 修正画布现在提供“自动结果 / 修正后”无损对比，以及“适应 / 2× / 4×”查看和放大后滚动；对比状态与查看倍率只服务于发丝、孔洞和透明边缘检查，不改变蒙版历史、原尺寸笔触重放或正式导出尺寸。
 
@@ -253,7 +253,7 @@ npm.cmd run mobile
 npm.cmd run verify
 ```
 
-`verify` 会先核对研究资产和 manifest，再运行全量测试及语法检查。R0 的浏览器证据边界见 [BROWSER_VALIDATION.md](BROWSER_VALIDATION.md)。
+`verify` 会先核对研究资产和 manifest，再运行全量测试及语法检查。R0 的浏览器证据边界见 [BROWSER_VALIDATION.md](BROWSER_VALIDATION.md)，当前产品本地流程的实际运行记录见 [BROWSER_ACCEPTANCE_EVIDENCE.md](BROWSER_ACCEPTANCE_EVIDENCE.md)。
 
 ## 文档权威顺序
 

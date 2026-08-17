@@ -55,6 +55,8 @@ M0 产品基线已完成，M1a renderer 合同已经接入 R0 页面的本地“
 
 项目现提供 `product-acceptance.html` 作为主页面的浏览器内自驱验收入口：只使用合成演示图，分别在 1280×720、1440×900 的同源 iframe 中走完保真整理和场景模板的真实生成、下载 Blob 捕获与 PNG 重开。该入口不会调用远程服务，也不证明系统下载目录、真实键盘事件或 Chrome / Edge 两个冻结版本已经通过；这些仍须在具备浏览器自动操作和下载观察能力的环境中复核。
 
+2026-08-17 已在当前 Codex 内置 Chromium 会话（UA 报告 `Chrome/151.0.0.0`）实际执行该入口：`desktop-min` 得到 `1080×1080 / 570,313 bytes`，`desktop-common` 得到 `1440×810 / 141,549 bytes`，两项均通过完整显示、PNG 独立重开、横向溢出、换任务、焦点清理和旧下载失效检查。结果通过仅限 loopback 的 16 KiB 严格内存回报接口取回；接口不接收图片、下载或密钥，LAN 预览禁用。该证据把当前会话的两档本地流程记为 pass，但独立 Chrome / Edge、原生键盘 / 指针和系统下载仍待复核；详见 [产品浏览器验收证据](BROWSER_ACCEPTANCE_EVIDENCE.md)。
+
 ## 当前冻结的产品环境
 
 - 首轮验证、正式页面和邀请 beta 只以**桌面浏览器**为范围；当前基准为 Windows 桌面 Chromium，Chrome / Edge 最新稳定版是首批候选，精确版本由 `CompatibilityProfile` 冻结。

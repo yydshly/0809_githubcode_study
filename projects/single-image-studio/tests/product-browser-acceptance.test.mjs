@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const page = await readFile(new URL("../web/product-acceptance.html", import.meta.url), "utf8");
 const script = await readFile(new URL("../web/product-acceptance.js", import.meta.url), "utf8");
+const evidence = await readFile(new URL("../BROWSER_ACCEPTANCE_EVIDENCE.md", import.meta.url), "utf8");
 
 test("browser acceptance page covers two real local product journeys", () => {
   assert.match(page, /只用项目合成图/);
@@ -24,6 +25,9 @@ test("browser acceptance page covers two real local product journeys", () => {
   assert.match(script, /旧下载仍可触发/);
   assert.match(script, /objectFit === "contain"/);
   assert.match(script, /scrollWidth <= windowRef\.innerWidth \+ 1/);
+  assert.match(script, /\/api\/internal\/product-acceptance\/latest/);
+  assert.match(script, /product-acceptance-report-v1/);
+  assert.match(script, /reportRunId/);
 });
 
 test("browser acceptance cannot invoke remote product routes", () => {
@@ -32,4 +36,15 @@ test("browser acceptance cannot invoke remote product routes", () => {
   assert.doesNotMatch(script, /UT-CUTOUT/);
   assert.doesNotMatch(script, /UT-PORTRAIT/);
   assert.doesNotMatch(script, /CR1/);
+});
+
+test("recorded product browser evidence keeps its scope and limitations explicit", () => {
+  assert.match(evidence, /8ede9a34-4642-4504-9454-8185294dd75d/);
+  assert.match(evidence, /Chrome\/151\.0\.0\.0/);
+  assert.match(evidence, /desktop-min[\s\S]*Pass:[\s\S]*1080 × 1080/);
+  assert.match(evidence, /desktop-common[\s\S]*Pass:[\s\S]*1440 × 810/);
+  assert.match(evidence, /loopback-only/);
+  assert.match(evidence, /16 KiB/);
+  assert.match(evidence, /not a full Chrome \/ Edge compatibility matrix/);
+  assert.match(evidence, /C\/U\/E\/R\/O\/G\/V and product-release gates remain unchanged/);
 });

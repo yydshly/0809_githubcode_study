@@ -25,6 +25,7 @@ const frame = document.querySelector("#product-frame");
 const runButton = document.querySelector("#run-acceptance");
 const status = document.querySelector("#acceptance-status");
 const resultsBody = document.querySelector("#acceptance-results");
+const reportRunId = new URLSearchParams(location.search).get("reportRunId") ?? crypto.randomUUID();
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -192,25 +193,57 @@ function appendResult(testCase, result, passed) {
   resultsBody.append(row);
 }
 
+async function publishAcceptanceReport({ startedAt, cases }) {
+  const response = await fetch("/api/internal/product-acceptance/latest", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      version: "product-acceptance-report-v1",
+      runId: reportRunId,
+      startedAt,
+      completedAt: new Date().toISOString(),
+      browser: {
+        userAgent: navigator.userAgent,
+        language: navigator.language,
+      },
+      cases,
+    }),
+  });
+  if (!response.ok) throw new Error(`本地验收回报失败：HTTP ${response.status}`);
+  const body = await response.json();
+  assert(body.accepted === true && body.report?.runId === reportRunId.toLowerCase(), "本地验收回报没有闭合");
+}
+
 async function runAcceptance() {
+  const startedAt = new Date().toISOString();
   runButton.disabled = true;
   resultsBody.replaceChildren();
   status.dataset.state = "running";
   status.textContent = "正在运行 0 / 2";
   let passed = 0;
+  const reportCases = [];
   for (let index = 0; index < CASES.length; index += 1) {
     const testCase = CASES[index];
     status.textContent = `正在运行 ${index + 1} / ${CASES.length} · ${testCase.label}`;
     try {
       const result = await runCase(testCase);
       appendResult(testCase, result, true);
+      reportCases.push({ id: testCase.id, passed: true, evidence: result.evidence });
       passed += 1;
     } catch (error) {
-      appendResult(testCase, error instanceof Error ? error : new Error(String(error)), false);
+      const failure = error instanceof Error ? error : new Error(String(error));
+      appendResult(testCase, failure, false);
+      reportCases.push({ id: testCase.id, passed: false, evidence: failure.message });
     }
   }
-  status.dataset.state = passed === CASES.length ? "pass" : "fail";
-  status.textContent = passed === CASES.length ? `全部通过 · ${passed} / ${CASES.length}` : `存在失败 · ${passed} / ${CASES.length}`;
+  try {
+    await publishAcceptanceReport({ startedAt, cases: reportCases });
+    status.dataset.state = passed === CASES.length ? "pass" : "fail";
+    status.textContent = passed === CASES.length ? `全部通过 · ${passed} / ${CASES.length}` : `存在失败 · ${passed} / ${CASES.length}`;
+  } catch (error) {
+    status.dataset.state = "fail";
+    status.textContent = error instanceof Error ? error.message : String(error);
+  }
   runButton.disabled = false;
 }
 
