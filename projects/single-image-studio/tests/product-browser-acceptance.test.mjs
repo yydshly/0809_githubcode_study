@@ -40,11 +40,16 @@ test("browser acceptance cannot invoke remote product routes", () => {
 
 test("recorded product browser evidence keeps its scope and limitations explicit", () => {
   assert.match(evidence, /8ede9a34-4642-4504-9454-8185294dd75d/);
+  assert.match(evidence, /195bf2ad-c746-4a97-9f62-1e47dc38b451/);
+  assert.match(evidence, /96345db4-e051-4f0a-b05e-742285f502dd/);
   assert.match(evidence, /Chrome\/151\.0\.0\.0/);
+  assert.match(evidence, /Chrome `151\.0\.7922\.138`/);
+  assert.match(evidence, /Edge `151\.0\.4129\.78`/);
   assert.match(evidence, /desktop-min[\s\S]*Pass:[\s\S]*1080 × 1080/);
   assert.match(evidence, /desktop-common[\s\S]*Pass:[\s\S]*1440 × 810/);
   assert.match(evidence, /loopback-only/);
   assert.match(evidence, /16 KiB/);
-  assert.match(evidence, /not a full Chrome \/ Edge compatibility matrix/);
+  assert.match(evidence, /Native keyboard focus order[\s\S]*defer/);
+  assert.match(evidence, /Native pointer and OS download destination[\s\S]*defer/);
   assert.match(evidence, /C\/U\/E\/R\/O\/G\/V and product-release gates remain unchanged/);
 });

@@ -193,7 +193,7 @@ MVP 初始资源边界为：输入继续沿用 40 MP 预检，但交互工作 ra
 
 当前完成（2026-08-16）：已拆分产品与归档研究测试，增加动态 syntax 检查，修正 R0 过度声明，并为本地处理加入可注入解码 / canvas / 输出回归；`verify:product` 为 51 / 51。Slice 01–11 使用 archive validator 继续核对冻结树与 pins，不再要求当前产品 `package.json` 与历史 runtime attestation 逐 byte 相同。M0 原列的真实 Chrome / Edge 下载与 console E2E 尚未完成，作为明确欠项保留，最迟在 M1b 完成条件前关闭；它不阻止先开始 M1a 的无 UI renderer 工作。
 
-M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立，并通过 `editor-session.js` 接入 R0 页面本地任务。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；独立解析器从 JPEG / PNG / WebP 容器读取 EXIF orientation 1–8，受控 `ImageBitmap` 解码禁止浏览器自动旋转，renderer 再用冻结矩阵在透明 scratch canvas 上归一化，随后完成用户旋转 / 翻转、post-transform crop 和 fit resize。PNG 保持透明上下文，JPEG 只在明确颜色上合成；编码前 Canvas pixels 与编码后新解码对象的 pixels 会核对 Alpha 和可见的预乘颜色，Alpha=0 的 hidden RGB 明确 ignored。最终 bytes 还会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，ICC / sRGB 颜色描述不冒充已经验证的转换结果。M1b 工作区用同一编辑合同连接预览、history 与下载 renderer：舞台按 post-transform 来源比例显示完整图片；固定 1:1 / 4:5 / 3:2 用亮框与遮罩标出导出区域，只沿实际溢出轴移动；自由裁剪可移动、缩放并由左 / 上 / 宽 / 高控件精调，最小宽高 10%、不得越界。裁剪框坐标直接等于 renderer 的 normalized crop，旋转 / 翻转不再依赖隐藏图片区域的 `object-position` 近似。自定义尺寸只暴露一个最长边上限（1–2048 px），严格宽高随当前裁剪比例自动计算；它只改变导出分辨率，不缩放左侧舞台，并同时显示上限框和预计实际导出尺寸。设置按“构图—光色—导出”分组，错误会在表单内显示并阻止执行。`product-acceptance.html` 已把两档桌面视口的合成图本地主流程、Blob 捕获、PNG 重开、完整显示 / 横向溢出、结果换任务、设置返回、旧下载失效、焦点和流程内 console 检查变成可重复浏览器入口。2026-08-17 当前 Codex 内置 Chromium 会话已实际执行两档入口并 2/2 通过，证据见 [BROWSER_ACCEPTANCE_EVIDENCE.md](BROWSER_ACCEPTANCE_EVIDENCE.md)；独立 Chrome / Edge 版本矩阵、系统下载目录、原生指针 / 键盘和 ICC / sRGB 观察仍是明确欠项。
+M1a 当前完成（2026-08-16）：`edit-state.v1` 与 `editor-canvas-renderer-v1` 已建立，并通过 `editor-session.js` 接入 R0 页面本地任务。状态层拒绝越界 crop、非 90° 旋转、超资源 resize 和无效 JPEG 设置；独立解析器从 JPEG / PNG / WebP 容器读取 EXIF orientation 1–8，受控 `ImageBitmap` 解码禁止浏览器自动旋转，renderer 再用冻结矩阵在透明 scratch canvas 上归一化，随后完成用户旋转 / 翻转、post-transform crop 和 fit resize。PNG 保持透明上下文，JPEG 只在明确颜色上合成；编码前 Canvas pixels 与编码后新解码对象的 pixels 会核对 Alpha 和可见的预乘颜色，Alpha=0 的 hidden RGB 明确 ignored。最终 bytes 还会拒绝 EXIF / XMP / IPTC / 文本 / 注释类私密 metadata，ICC / sRGB 颜色描述不冒充已经验证的转换结果。M1b 工作区用同一编辑合同连接预览、history 与下载 renderer：舞台按 post-transform 来源比例显示完整图片；固定 1:1 / 4:5 / 3:2 用亮框与遮罩标出导出区域，只沿实际溢出轴移动；自由裁剪可移动、缩放并由左 / 上 / 宽 / 高控件精调，最小宽高 10%、不得越界。裁剪框坐标直接等于 renderer 的 normalized crop，旋转 / 翻转不再依赖隐藏图片区域的 `object-position` 近似。自定义尺寸只暴露一个最长边上限（1–2048 px），严格宽高随当前裁剪比例自动计算；它只改变导出分辨率，不缩放左侧舞台，并同时显示上限框和预计实际导出尺寸。设置按“构图—光色—导出”分组，错误会在表单内显示并阻止执行。`product-acceptance.html` 已把两档桌面视口的合成图本地主流程、Blob 捕获、PNG 重开、完整显示 / 横向溢出、结果换任务、设置返回、旧下载失效、焦点和流程内 console 检查变成可重复浏览器入口。2026-08-17 Codex 内置 Chromium、Chrome `151.0.7922.138` 与 Edge `151.0.4129.78` 均已实际执行两档入口并 2/2 通过，证据见 [BROWSER_ACCEPTANCE_EVIDENCE.md](BROWSER_ACCEPTANCE_EVIDENCE.md)；系统下载目录、原生指针 / 键盘和 ICC / sRGB 观察仍是明确欠项。
 
 ### M1a · Renderer 与像素合同（4–6 个工作日）
 
@@ -325,7 +325,7 @@ M5 必须写出且只写出一个版本化决策：`prepare-invite-beta`、`keep
 5. ~~把 renderer / `EditState` / orientation 1–8 / 独立输出像素重开 / metadata fail-closed 接入本地产品路径；~~
 6. ~~把 `UT-PORTRAIT` 从占位卡升级为“本地构图 → 远程抠图 → 本地修边 / 换底 / 下载”的通用头像路径；~~
 7. 继续界面收敛：基础链路冻结为内部试用可用基线；任务选择已按处理位置和服务状态分组，结果 / 设置 / 错误页也已统一为“保留当前图片、清除旧任务结果、返回任务选择”的正式状态迁移；下一步只继续解决响应式可读性和真实浏览器问题，不再围绕单个控件叠加微功能；
-8. 当前 Codex 内置 Chromium 会话已在两档桌面视口跑通本地 synthetic 主流程；下一步补独立 Chrome / Edge、原生键盘 / 指针、系统下载和头像 / 抠图路径 E2E，再据此完成基础编辑器和头像路径的早期内部可用性走查。
+8. Codex 内置 Chromium、Chrome 与 Edge 已在两档桌面视口跑通本地 synthetic 主流程；下一步补原生键盘 / 指针、系统下载和头像 / 抠图路径 E2E，再据此完成基础编辑器和头像路径的早期内部可用性走查。
 
 ### Next
 
