@@ -35,12 +35,25 @@ The installed Chrome and Edge runs produced `571,220`-byte square outputs and `1
 
 Every run checked that the result image uses `object-fit: contain`, the page has no horizontal overflow, returning from settings uses the same task reset transition, the old download action cannot fire after changing task, and no unhandled console error was recorded within the journey.
 
+## Scenario-skill integration rerun
+
+After the task selector was reorganized around real use cases, the same self-driven in-app Chromium route was rerun as `4a12b957-68e6-4bee-9cc5-48dd2c714ae8` from `2026-08-17T02:30:14.065Z` to `02:30:15.907Z`. Before either local journey, the route asserted this exact group and scenario order:
+
+```text
+按实际用途开始: UT-PRODUCT → UT-PORTRAIT → UT-TEMPLATE
+自由调整工具
+创意生成
+```
+
+It also asserted each scenario card's registry identity. Both existing local journeys then passed again: `desktop-min` produced a reopened `1080 × 1080` PNG of `570,313` bytes, and `desktop-common` produced a reopened `1440 × 810` PNG of `141,549` bytes. This proves the scenario layer did not break the local renderer, download, full-image presentation, task reset or focus cleanup paths. It deliberately did not click the two remote scenarios, so it made no provider call and is not remote quality evidence.
+
 ## Stage 7 coverage decisions
 
 | Coverage row | Decision | Evidence or retest trigger |
 | --- | --- | --- |
 | Local journey × 1280×720 × in-app Chromium / Chrome / Edge | pass | Three sessions completed `desktop-min`; PNG reopened and navigation/focus assertions passed |
 | Local journey × 1440×900 × in-app Chromium / Chrome / Edge | pass | Three sessions completed `desktop-common`; PNG reopened and navigation/focus assertions passed |
+| Scenario grouping × 1280×720 / 1440×900 × in-app Chromium | pass | Registry order and identities were asserted before both local journeys in run `4a12b957-68e6-4bee-9cc5-48dd2c714ae8` |
 | Native keyboard focus order and visible focus | defer | The self-driven route verifies product-generated focus transitions but cannot inject or witness native Tab / Shift+Tab; retest when a browser-control connection or attended manual keyboard session is available |
 | Native pointer and OS download destination | defer | The route exercises click handlers and captured Blob downloads but does not witness physical pointer input or the operating-system download folder; retest in an attended Chrome / Edge session |
 

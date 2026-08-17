@@ -26,7 +26,7 @@ test("product page uses plain-language internal-preview copy without claiming im
 
   assert.match(main, /不会判断图片内容或自动推荐效果/);
   assert.match(main, /taskAvailabilitySummary\(tasks\)/);
-  assert.match(main, /只按处理位置和服务状态分组/);
+  assert.match(main, /只按已注册的实际用途和处理边界分组/);
   assert.match(main, /processor: "在本机完成"/);
   assert.match(main, /processor: "远程创意处理"/);
   assert.match(main, /已核对文件格式、尺寸与像素；请比较确认画面内容/);
@@ -156,13 +156,14 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /失败不会覆盖原图，也不会自动重复提交/);
   assert.match(main, /再次抠图前，请重新确认本次远程发送/);
   assert.match(main, /remoteConsent\.checked = false/);
-  assert.match(main, /\? selectedTask\.id === "UT-PORTRAIT" \? "重新制作头像" : "重新抠图"/);
-  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "调整增强效果" : selectedTask\.id === "UT-TEMPLATE" \? "调整场景模板" : "继续调整"/);
+  assert.match(main, /selectedTask\.id === "UT-PRODUCT" \? "重新制作商品图"/);
+  assert.match(main, /selectedTask\.id === "UT-PORTRAIT" \? "重新制作头像"/);
+  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "调整增强效果"/);
   assert.match(recoveryPresentation, /\? "返回并重新确认"/);
   assert.match(html, /id="fallback-editor-button"[^>]*>改用本地编辑</);
   assert.match(main, /switchToLocalEditor/);
   assert.match(main, /已保留当前图片；本地编辑不会上传/);
-  assert.match(main, /returnToCutoutSettings\(selectedTask\?\.id === "UT-PORTRAIT"/);
+  assert.match(main, /returnToCutoutSettings\(selectedTask\?\.id === "UT-PRODUCT"/);
   assert.match(main, /applyRecoveryPresentation/);
   assert.match(recoveryPresentation, /focusTarget: unknown \? "recover" : cutoutFailure \? "fallback"/);
   assert.match(html, /返回任务列表/);
@@ -247,16 +248,19 @@ test("remote cutout result exposes non-destructive mask correction and accessibl
   assert.match(styles, /@media \(max-width: 620px\)[\s\S]*mask-tool-group/);
 });
 
-test("portrait is a real composed workflow, not a newly enabled placeholder", () => {
-  assert.match(main, /title: "通用底色头像"/);
-  assert.match(main, /preparePortraitProviderInput/);
+test("portrait and product are real composed workflows, not newly enabled placeholders", () => {
+  assert.match(main, /title: "报名照 \/ 底色头像"/);
+  assert.match(main, /title: "商品白底图"/);
+  assert.match(main, /prepareComposedProviderInput/);
   assert.match(main, /runLocalEditor\(\{ file: source\.file, settings: \{ \.\.\.settings, format: "png" \} \}\)/);
-  assert.match(main, /providerInput: portraitInput/);
+  assert.match(main, /providerInput: composedInput/);
   assert.match(main, /correctionSourceUrl: providerInput\?\.dataUrl/);
   assert.match(main, /defaultBackground: "white"/);
-  assert.match(main, /taskId: "UT-PORTRAIT"/);
-  assert.match(main, /头像下载契约未通过/);
+  assert.match(main, /isComposedBackgroundTask/);
+  assert.match(main, /商品图.*头像.*下载契约未通过/);
   assert.match(main, /不承诺任何证件或机构规格/);
+  assert.match(main, /当前不生成阴影，也不保证平台审核或尺寸规范/);
+  assert.match(main, /setMaskBackground\(maskCorrectionSession\.background\)/);
 });
 
 test("natural enhancement is an honest local workflow with visible fixed presets", () => {
@@ -271,12 +275,12 @@ test("natural enhancement is an honest local workflow with visible fixed presets
 });
 
 test("scene templates are real local crop and size controls, not platform claims", () => {
-  assert.match(main, /title: "场景尺寸模板"/);
+  assert.match(main, /title: "社交头像与封面"/);
   assert.match(main, /SCENE_TEMPLATE_PRESETS/);
   assert.match(main, /data-scene-template/);
   assert.match(main, /selectSceneTemplate/);
   assert.match(main, /它不是平台官方发布规范/);
   assert.match(main, /正在本机应用所选构图比例和尺寸上限/);
-  assert.match(main, /selectedTask\.id === "UT-TEMPLATE" \? "场景模板结果完成"/);
+  assert.match(main, /selectedTask\.id === "UT-TEMPLATE" \? "社交图片完成"/);
   assert.match(styles, /\.scene-template-preset\[aria-pressed="true"\]/);
 });

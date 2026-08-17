@@ -3,7 +3,7 @@ const PRESETS = Object.freeze([
   Object.freeze({ id: "social-portrait", label: "竖版分享", description: "4:5 · 最长边 1350 px", ratio: "portrait", outputLongEdge: 1350 }),
   Object.freeze({ id: "wide-cover", label: "横版封面", description: "16:9 · 最长边 1920 px", ratio: "wide", outputLongEdge: 1920 }),
   Object.freeze({ id: "story", label: "竖屏故事", description: "9:16 · 最长边 1920 px", ratio: "story", outputLongEdge: 1920 }),
-  Object.freeze({ id: "catalog-square", label: "商品方图", description: "1:1 · 最长边 1600 px", ratio: "square", outputLongEdge: 1600 }),
+  Object.freeze({ id: "catalog-square", label: "商品方图构图", description: "1:1 · 最长边 1600 px · 不移除背景", ratio: "square", outputLongEdge: 1600 }),
 ]);
 
 export const SCENE_TEMPLATE_PRESETS = PRESETS;

@@ -34,6 +34,12 @@ const DOWNLOAD_POLICIES = Object.freeze({
     mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
     alpha: "opaque",
   }),
+  "UT-PRODUCT": Object.freeze({
+    prefix: "product-white-background",
+    mimeTypes: Object.freeze(["image/jpeg"]),
+    alpha: "opaque",
+    backgroundColor: "#FFFFFF",
+  }),
 });
 
 export const DOWNLOAD_ERROR_CODES = Object.freeze({
@@ -45,6 +51,7 @@ export const DOWNLOAD_ERROR_CODES = Object.freeze({
   UNSUPPORTED_FORMAT: "UNSUPPORTED_FORMAT",
   ALPHA_REQUIRED: "ALPHA_REQUIRED",
   OPAQUE_REQUIRED: "OPAQUE_REQUIRED",
+  BACKGROUND_REQUIRED: "BACKGROUND_REQUIRED",
   MISSING_OUTPUT_HASH: "MISSING_OUTPUT_HASH",
   INVALID_BYTE_LENGTH: "INVALID_BYTE_LENGTH",
 });
@@ -108,6 +115,9 @@ export function buildResultDownloadContract({ taskId, result, currentRunId } = {
   }
   if (policy.alpha === "opaque" && result.hasAlpha === true) {
     return denied(DOWNLOAD_ERROR_CODES.OPAQUE_REQUIRED, "该任务必须导出不透明结果。");
+  }
+  if (policy.backgroundColor && String(result.backgroundColor ?? "").toUpperCase() !== policy.backgroundColor) {
+    return denied(DOWNLOAD_ERROR_CODES.BACKGROUND_REQUIRED, `该场景必须使用 ${policy.backgroundColor} 背景。`);
   }
   if (!/^[a-f0-9]{64}$/i.test(String(result.outputHash ?? ""))) {
     return denied(DOWNLOAD_ERROR_CODES.MISSING_OUTPUT_HASH, "结果缺少有效的输出指纹。");

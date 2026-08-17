@@ -15,6 +15,11 @@ test("browser acceptance page covers two real local product journeys", () => {
   assert.match(script, /height: 900/);
   assert.match(script, /taskId: "UT-TUNE"/);
   assert.match(script, /taskId: "UT-TEMPLATE"/);
+  assert.match(script, /"scenarios,tools,creative"/);
+  assert.match(script, /"UT-PRODUCT,UT-PORTRAIT,UT-TEMPLATE"/);
+  assert.match(script, /product-white-background/);
+  assert.match(script, /application-photo/);
+  assert.match(script, /social-layout/);
   assert.match(script, /nextTaskId: "UT-ENHANCE"/);
   assert.match(script, /#use-demo-button/);
   assert.match(script, /#download-button/);
@@ -33,15 +38,15 @@ test("browser acceptance page covers two real local product journeys", () => {
 test("browser acceptance cannot invoke remote product routes", () => {
   assert.doesNotMatch(script, /background-removal\/runs/);
   assert.doesNotMatch(script, /\/api\/runs/);
-  assert.doesNotMatch(script, /UT-CUTOUT/);
-  assert.doesNotMatch(script, /UT-PORTRAIT/);
-  assert.doesNotMatch(script, /CR1/);
+  assert.doesNotMatch(script, /taskId: "(?:UT-CUTOUT|UT-PORTRAIT|UT-PRODUCT|CR1)"/);
 });
 
 test("recorded product browser evidence keeps its scope and limitations explicit", () => {
   assert.match(evidence, /8ede9a34-4642-4504-9454-8185294dd75d/);
   assert.match(evidence, /195bf2ad-c746-4a97-9f62-1e47dc38b451/);
   assert.match(evidence, /96345db4-e051-4f0a-b05e-742285f502dd/);
+  assert.match(evidence, /4a12b957-68e6-4bee-9cc5-48dd2c714ae8/);
+  assert.match(evidence, /UT-PRODUCT → UT-PORTRAIT → UT-TEMPLATE/);
   assert.match(evidence, /Chrome\/151\.0\.0\.0/);
   assert.match(evidence, /Chrome `151\.0\.7922\.138`/);
   assert.match(evidence, /Edge `151\.0\.4129\.78`/);

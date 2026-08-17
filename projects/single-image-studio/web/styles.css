@@ -129,6 +129,9 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .task-card:not([disabled]):hover { border-color: #8e9f94; transform: translateY(-3px); box-shadow: 0 15px 30px rgba(36,64,49,.08); }
 .task-card[data-tone="creative"] { background: #1e3f34; color: #f5f5ec; }
 .task-card[data-tone="pending"] { background: #ecece5; color: #757b76; }
+.task-card[data-scenario-skill]:not([disabled]) { border-color: #aebd9d; background: #fbf8e9; box-shadow: inset 0 .22rem 0 #cadb67; }
+.task-card[data-scenario-skill]:not([disabled]) .task-index { color: var(--green); opacity: 1; }
+.task-card[data-scenario-skill]:not([disabled]) .task-art { background: linear-gradient(135deg, var(--lime), #f3c878); opacity: .68; }
 .task-card .task-index { font-size: .67rem; font-weight: 800; letter-spacing: .1em; opacity: .68; }
 .task-card h3 { margin: auto 0 .5rem; font: 500 1.55rem Georgia, "Songti SC", serif; }
 .task-card p { margin: 0 0 1rem; font-size: .78rem; line-height: 1.55; opacity: .8; }

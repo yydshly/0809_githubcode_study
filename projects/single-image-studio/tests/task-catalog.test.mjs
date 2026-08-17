@@ -54,6 +54,10 @@ test("without remote services, all three local editor tasks remain runnable", ()
   assert.equal(portrait.runnable, false);
   assert.equal(portrait.availability, TASK_AVAILABILITY.UNAVAILABLE);
   assert.equal(portrait.statusLabel, "抠图服务未配置");
+  const product = catalog.find((candidate) => candidate.id === "UT-PRODUCT");
+  assert.equal(product.runnable, false);
+  assert.equal(product.availability, TASK_AVAILABILITY.UNAVAILABLE);
+  assert.equal(product.statusLabel, "抠图服务未配置");
 });
 
 test("AI availability adds the real AI task without enabling unverified utilities", () => {
@@ -75,14 +79,14 @@ test("AI availability adds the real AI task without enabling unverified utilitie
   assert.equal(recommendations.every((task) => task.runnable), true);
 });
 
-test("background removal availability enables cutout and the composed portrait workflow", () => {
+test("background removal availability enables cutout and both composed scenarios", () => {
   const catalog = getTaskCatalog({
     aiStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     backgroundRemovalStatus: AI_SERVICE_STATUS.AVAILABLE,
   });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "UT-CUTOUT", "UT-PORTRAIT"],
+    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "UT-CUTOUT", "UT-PRODUCT", "UT-PORTRAIT"],
   );
   const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
   assert.equal(cutout.statusLabel, "可运行 · 远程处理");
@@ -90,6 +94,11 @@ test("background removal availability enables cutout and the composed portrait w
   const portrait = catalog.find((task) => task.id === "UT-PORTRAIT");
   assert.equal(portrait.statusLabel, "可运行 · 远程处理");
   assert.equal(portrait.contractVersion, "portrait-background-v1");
+  assert.equal(portrait.scenarioSkillId, "application-photo");
+  const product = catalog.find((task) => task.id === "UT-PRODUCT");
+  assert.equal(product.statusLabel, "可运行 · 远程处理");
+  assert.equal(product.contractVersion, "product-white-background-v1");
+  assert.equal(product.scenarioSkillId, "product-white-background");
   assert.equal(catalog.find((task) => task.id === "UT-SOLID-BG").runnable, false);
   const enhancement = catalog.find((task) => task.id === "UT-ENHANCE");
   assert.equal(enhancement.statusLabel, "可运行 · 本地处理");
@@ -148,7 +157,7 @@ test("download stays locked until a current, QA-passed result matches its task c
   assert.match(template.download.filename, /^scene-template-result-/);
 });
 
-test("transparent and portrait downloads enforce alpha and safe naming", () => {
+test("transparent, portrait and product downloads enforce alpha, format and safe naming", () => {
   const missingAlpha = buildResultDownloadContract({
     taskId: "UT-CUTOUT",
     result: result({ hasAlpha: false }),
@@ -164,4 +173,33 @@ test("transparent and portrait downloads enforce alpha and safe naming", () => {
   assert.equal(portrait.allowed, true);
   assert.match(portrait.download.filename, /^portrait-result-/);
   assert.doesNotMatch(portrait.download.filename, /official|passport|证件/i);
+
+  const productPng = buildResultDownloadContract({
+    taskId: "UT-PRODUCT",
+    result: result({ mimeType: "image/png", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(productPng.code, DOWNLOAD_ERROR_CODES.UNSUPPORTED_FORMAT);
+
+  const productWithAlpha = buildResultDownloadContract({
+    taskId: "UT-PRODUCT",
+    result: result({ mimeType: "image/jpeg", hasAlpha: true }),
+    currentRunId: "run-1",
+  });
+  assert.equal(productWithAlpha.code, DOWNLOAD_ERROR_CODES.OPAQUE_REQUIRED);
+
+  const product = buildResultDownloadContract({
+    taskId: "UT-PRODUCT",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false, backgroundColor: "#FFFFFF" }),
+    currentRunId: "run-1",
+  });
+  assert.equal(product.allowed, true);
+  assert.match(product.download.filename, /^product-white-background-/);
+
+  const nonWhiteProduct = buildResultDownloadContract({
+    taskId: "UT-PRODUCT",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false, backgroundColor: "#000000" }),
+    currentRunId: "run-1",
+  });
+  assert.equal(nonWhiteProduct.code, DOWNLOAD_ERROR_CODES.BACKGROUND_REQUIRED);
 });

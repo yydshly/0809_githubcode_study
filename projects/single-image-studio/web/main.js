@@ -45,6 +45,7 @@ import { buildResultDownloadContract } from "./result-download.js";
 import { applyRecoveryPresentation, recoveryPresentation } from "./recovery-presentation.js";
 import { comparisonLayerState, fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
+import { scenarioInitialSettings } from "./scenario-skills.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
 import { groupTasksForDisplay, taskAvailabilitySummary } from "./task-groups.js";
 import {
@@ -59,14 +60,19 @@ import { getTaskCatalog } from "./task-catalog.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
-const BACKGROUND_REMOVAL_TASKS = new Set(["UT-CUTOUT", "UT-PORTRAIT"]);
+const BACKGROUND_REMOVAL_TASKS = new Set(["UT-CUTOUT", "UT-PORTRAIT", "UT-PRODUCT"]);
+const COMPOSED_BACKGROUND_TASKS = new Set(["UT-PORTRAIT", "UT-PRODUCT"]);
 
 function isBackgroundRemovalTask(taskId = selectedTask?.id) {
   return BACKGROUND_REMOVAL_TASKS.has(taskId);
 }
 
+function isComposedBackgroundTask(taskId = selectedTask?.id) {
+  return COMPOSED_BACKGROUND_TASKS.has(taskId);
+}
+
 function isEditorTask(taskId = selectedTask?.id) {
-  return ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "UT-PORTRAIT"].includes(taskId);
+  return ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "UT-PORTRAIT", "UT-PRODUCT"].includes(taskId);
 }
 
 function isLocalEditorTask(taskId = selectedTask?.id) {
@@ -143,15 +149,15 @@ const TASK_COPY = Object.freeze({
     referenceCopy: "“自然”是克制的固定参数，不是 AI 质量判断。请通过原图/结果对比确认是否适合这张照片。",
   }),
   "UT-TEMPLATE": Object.freeze({
-    title: "场景尺寸模板",
-    badge: "本地可用",
+    title: "社交头像与封面",
+    badge: "场景技能 · 本地",
     kind: "utility",
-    description: "用透明的比例和最长边上限快速准备常见场景图片，仍可自由调整。",
-    longDescription: "模板会一次写入构图比例和导出最长边上限，并立即反映在完整图片预览中。它不是平台官方发布规范，也不会放大小图或识别画面内容。",
+    description: "从方形、竖版、横版或竖屏构图开始，再按画面微调。",
+    longDescription: "选择社交头像或封面用途后，会一次写入透明的构图比例和最长边上限，并立即反映在完整预览中。它不是平台官方发布规范，也不会放大小图或识别画面内容。",
     preserve: "原始主体、像素关系与未裁切区域；不生成或补画内容",
     change: "裁剪比例、保留位置和导出尺寸上限；可继续旋转、调色或改格式",
     output: "PNG / JPEG",
-    referenceTitle: "模板结果说明",
+    referenceTitle: "社交构图说明",
     referenceCopy: "模板是构图与尺寸上限的起点，不是永久有效的平台规范。下载前请核对实际像素尺寸和画面保留区域。",
   }),
   CR1: Object.freeze({
@@ -179,16 +185,28 @@ const TASK_COPY = Object.freeze({
     referenceCopy: "请重点检查发丝、孔洞和半透明边缘；轮廓大致正确不代表细节已经可用。",
   }),
   "UT-PORTRAIT": Object.freeze({
-    title: "通用底色头像",
-    badge: "抠图 + 本地排版",
+    title: "报名照 / 底色头像",
+    badge: "场景技能 · 远程抠图",
     kind: "utility",
-    description: "先确定方形或 4:5 构图，再移除背景并在本机修边、选择底色。",
+    description: "先确定人物构图，再移除背景并在本机修边、选择底色。",
     longDescription: "本机先完成裁剪、方向和光色调整；你确认后才把这张经过构图的图片发送给远程抠图服务。返回结果可继续修边并导出纯色 JPEG。",
     preserve: "人物外观、服饰与由你确认的构图区域",
     change: "画面比例、整体光色、背景透明度与最终纯色底",
     output: "方形 / 4:5 JPEG",
-    referenceTitle: "通用头像说明",
+    referenceTitle: "报名照与头像说明",
     referenceCopy: "只用于普通社交头像和非官方报名场景；不承诺护照、签证或具体机构受理。",
+  }),
+  "UT-PRODUCT": Object.freeze({
+    title: "商品白底图",
+    badge: "场景技能 · 远程抠图",
+    kind: "utility",
+    description: "先整理商品构图，再移除背景并在本机修边、合成白底。",
+    longDescription: "本机先完成 1:1 或 4:5 商品构图；你确认后才发送这份构图进行抠图。返回结果默认使用白底，可继续修边并导出不透明 JPEG。",
+    preserve: "商品外观、颜色与由你确认的构图区域",
+    change: "画面比例、保留位置、透明蒙版和最终白色背景",
+    output: "白底 JPEG",
+    referenceTitle: "商品白底图说明",
+    referenceCopy: "用于普通商品展示图；不自动生成阴影，不保证任何平台审核或尺寸规范。请检查孔洞、透明材质和边缘。",
   }),
 });
 
@@ -650,7 +668,7 @@ async function initializeMaskCorrection() {
     };
     elements.resultOutputImage.hidden = true;
     elements.maskCorrectionCanvas.hidden = false;
-    setMaskBackground("checker");
+    setMaskBackground(maskCorrectionSession.background);
     setMaskZoom(1);
     renderMaskCorrection();
   } catch (error) {
@@ -777,7 +795,7 @@ function preparedTask(task) {
 
 function selectedCatalog() {
   const catalog = getTaskCatalog({ aiStatus: apiStatus, backgroundRemovalStatus }).map(preparedTask);
-  const wanted = ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR1", "UT-CUTOUT", "UT-PORTRAIT"];
+  const wanted = ["UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE", "UT-TUNE", "UT-ENHANCE", "UT-CUTOUT", "CR1"];
   return wanted.map((id) => catalog.find((task) => task.id === id)).filter(Boolean);
 }
 
@@ -902,7 +920,7 @@ async function confirmAndPrepare() {
 
 function renderTasks() {
   elements.taskGrid.replaceChildren();
-  elements.recommendationCopy.textContent = `${taskAvailabilitySummary(tasks)} 这里只按处理位置和服务状态分组，不会猜测图片内容或替你选择效果。`;
+  elements.recommendationCopy.textContent = `${taskAvailabilitySummary(tasks)} 这里只按已注册的实际用途和处理边界分组，不会猜测图片内容或替你选择效果。`;
   const ordinalById = new Map(tasks.map((task, index) => [task.id, index + 1]));
   groupTasksForDisplay(tasks).forEach((group) => {
     const section = document.createElement("section");
@@ -918,6 +936,7 @@ function renderTasks() {
       button.className = "task-card";
       button.dataset.taskId = task.id;
       button.dataset.tone = task.runnable ? task.kind : "pending";
+      if (task.scenarioSkillId) button.dataset.scenarioSkill = task.scenarioSkillId;
       button.disabled = !task.runnable;
       const ordinal = ordinalById.get(task.id);
       button.innerHTML = `<span class="task-index">${String(ordinal).padStart(2, "0")} · ${task.runnable ? task.badge : task.statusLabel}</span><span class="task-art" aria-hidden="true"></span><h3>${task.title}</h3><p>${task.description}</p><footer><span>${task.output}</span><strong>${task.runnable ? "选择 →" : "暂不可选"}</strong></footer>`;
@@ -963,12 +982,14 @@ function selectTask(taskId) {
 function renderSettings(task) {
   if (isEditorTask(task.id)) {
     const portrait = task.id === "UT-PORTRAIT";
+    const product = task.id === "UT-PRODUCT";
+    const composedBackground = portrait || product;
     const enhancement = task.id === "UT-ENHANCE";
     const templateTask = task.id === "UT-TEMPLATE";
-    const ratioOptions = portrait
-      ? '<option value="square">方形头像 · 1:1</option><option value="portrait">竖版头像 · 4:5</option>'
+    const ratioOptions = composedBackground
+      ? `<option value="square">${product ? "商品方图" : "方形头像"} · 1:1</option><option value="portrait">${product ? "竖版商品图" : "竖版头像"} · 4:5</option>`
       : '<option value="original">不裁剪 · 显示全图</option><option value="square">固定比例 · 方形 1:1</option><option value="portrait">固定比例 · 竖版 4:5</option><option value="landscape">固定比例 · 横版 3:2</option><option value="wide">固定比例 · 宽屏 16:9</option><option value="story">固定比例 · 竖屏 9:16</option><option value="free">自由裁剪</option>';
-    const exportFields = portrait
+    const exportFields = composedBackground
       ? `<input type="hidden" name="format" value="png" />
         <div class="field"><label for="size-mode-setting">抠图工作分辨率</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动（不放大原图）</option><option value="custom">自定义最长边上限</option></select></div>`
       : `<div class="field"><label for="size-mode-setting">导出分辨率</label><select id="size-mode-setting" name="sizeMode"><option value="preset">自动（最长边不超过 2048 px，不放大）</option><option value="custom">自定义最长边上限</option></select></div>`;
@@ -987,7 +1008,7 @@ function renderSettings(task) {
     elements.settingsFields.innerHTML = `
       <fieldset class="setting-group"><legend><span>1</span> ${templateTask ? "场景与构图" : "构图"}</legend>
         ${sceneTemplateControls}
-        <div class="field"><label for="ratio-setting">${portrait ? "头像比例" : "裁剪方式"}</label><select id="ratio-setting" name="ratio">${ratioOptions}</select></div>
+        <div class="field"><label for="ratio-setting">${product ? "商品图比例" : portrait ? "头像比例" : "裁剪方式"}</label><select id="ratio-setting" name="ratio">${ratioOptions}</select></div>
         <div class="crop-position-fields" data-crop-position hidden>
           <p class="field-hint">左侧始终显示完整图片；亮框内才是导出区域。拖动亮框可移动裁剪。</p>
           <div class="field range-field" data-crop-axis-control="horizontal"><label for="crop-x-setting">保留位置：左 ↔ 右 <output data-setting-value="cropX">50%</output></label><input id="crop-x-setting" name="cropX" type="range" min="0" max="100" step="1" value="50" /></div>
@@ -1017,17 +1038,17 @@ function renderSettings(task) {
           <output class="size-limit-preview" data-size-limit-preview id="size-limit-preview" aria-live="polite"></output>
           <p class="field-hint" id="custom-size-explanation">这是导出分辨率上限，不是强制尺寸，也不改变裁剪构图。宽高按当前裁剪比例自动计算；裁剪区域本来较小时不会放大，所以结果可能不变。</p>
         </div>
-        ${portrait ? "" : '<div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明像素）</option><option value="jpeg">JPEG（透明像素需要填色）</option></select></div><div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">透明区域填充色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" aria-describedby="jpeg-background-explanation" /><p class="field-hint" id="jpeg-background-explanation">JPEG 不支持透明，这个颜色只填充原图中的透明或半透明像素。普通不透明照片不会变化；这不是抠图或换背景。</p></div>'}
+        ${composedBackground ? "" : '<div class="field"><label for="format-setting">下载格式</label><select id="format-setting" name="format"><option value="png">PNG（保留透明像素）</option><option value="jpeg">JPEG（透明像素需要填色）</option></select></div><div class="field" data-jpeg-background hidden><label for="jpeg-background-setting">透明区域填充色</label><input id="jpeg-background-setting" name="jpegBackground" type="color" value="#ffffff" aria-describedby="jpeg-background-explanation" /><p class="field-hint" id="jpeg-background-explanation">JPEG 不支持透明，这个颜色只填充原图中的透明或半透明像素。普通不透明照片不会变化；这不是抠图或换背景。</p></div>'}
       </fieldset>
-      ${portrait ? `<fieldset class="setting-group remote-processing-consent"><legend><span>4</span> 远程抠图确认</legend>
-        <div class="remote-processing-summary"><strong>先本地构图，再发送抠图</strong><p>只发送左侧亮框中的头像构图；远程服务返回透明结果后，修边和纯色换底继续在本机完成。</p></div>
-        <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前头像构图发送给远程抠图服务处理</span></label>
-        <p class="field-hint">当前是通用头像工具，不承诺任何证件或机构规格。失败不会覆盖原图，也不会自动重复提交。</p>
+      ${composedBackground ? `<fieldset class="setting-group remote-processing-consent"><legend><span>4</span> 远程抠图确认</legend>
+        <div class="remote-processing-summary"><strong>先本地构图，再发送抠图</strong><p>只发送左侧亮框中的${product ? "商品" : "人物"}构图；远程服务返回透明结果后，修边和${product ? "白底合成" : "纯色换底"}继续在本机完成。</p></div>
+        <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前${product ? "商品" : "头像"}构图发送给远程抠图服务处理</span></label>
+        <p class="field-hint">${product ? "当前不生成阴影，也不保证平台审核或尺寸规范。" : "当前是通用报名照与头像工具，不承诺任何证件或机构规格。"}失败不会覆盖原图，也不会自动重复提交。</p>
       </fieldset>` : ""}
       <p class="settings-error" id="editor-settings-error" role="alert" hidden></p>`;
-    elements.runButton.textContent = portrait ? "生成底色头像" : enhancement ? "生成增强结果" : templateTask ? "生成模板结果" : "生成下载文件";
-    elements.runNote.textContent = portrait
-      ? "先在本机生成确认后的 PNG 构图，再进行一次远程抠图；结果可继续修边和选择底色。"
+    elements.runButton.textContent = product ? "生成商品白底图" : portrait ? "生成报名照 / 头像" : enhancement ? "生成增强结果" : templateTask ? "生成社交图片" : "生成下载文件";
+    elements.runNote.textContent = composedBackground
+      ? `先在本机生成确认后的 PNG 构图，再进行一次远程抠图；结果可继续修边和${product ? "检查白底" : "选择底色"}。`
       : enhancement
         ? "全部在本机完成；预设不会分析或重建内容。生成后会自动检查文件能否正确打开。"
         : templateTask
@@ -1236,13 +1257,10 @@ function initializeEditorWorkspace() {
     sourceHeight: source.rawHeight ?? source.height,
     sourceOrientation: source.sourceOrientation ?? 1,
   }, {
-    initialSettings: selectedTask?.id === "UT-PORTRAIT"
-      ? { ratio: "square", cropX: 50, cropY: 42, sizeMode: "preset", format: "png" }
-      : selectedTask?.id === "UT-ENHANCE"
+    initialSettings: scenarioInitialSettings(selectedTask?.id)
+      ?? (selectedTask?.id === "UT-ENHANCE"
         ? applyEnhancementPreset({ ratio: "original", sizeMode: "preset", format: "png" }, "natural")
-        : selectedTask?.id === "UT-TEMPLATE"
-          ? applySceneTemplate({ ratio: "square", cropX: 50, cropY: 50, sizeMode: "custom", format: "png" }, "social-square")
-        : null,
+        : null),
   });
   elements.editorWorkspace.hidden = false;
   elements.editorPreviewImage.src = sourceUrl;
@@ -1401,9 +1419,9 @@ function getSettings() {
   if (isEditorTask() && editorWorkspace) {
     if (!commitEditorForm()) throw new Error("请先修正编辑设置");
     const settings = { ...editorSettings(editorWorkspace) };
-    if (selectedTask.id === "UT-PORTRAIT") {
+    if (isComposedBackgroundTask(selectedTask.id)) {
       if (elements.settingsForm.elements.remoteConsent?.checked !== true) {
-        throw new Error("请先确认远程头像抠图处理");
+        throw new Error(selectedTask.id === "UT-PRODUCT" ? "请先确认远程商品抠图处理" : "请先确认远程头像抠图处理");
       }
       settings.remoteConsent = true;
     }
@@ -1470,10 +1488,10 @@ async function runSelectedTask() {
   elements.cancelWait.hidden = false;
   elements.statusTitle.textContent = isLocalEditorTask(selectedTask.id)
     ? selectedTask.id === "UT-ENHANCE" ? "正在生成自然增强结果" : selectedTask.id === "UT-TEMPLATE" ? "正在生成场景模板结果" : "正在本地处理"
-    : selectedTask.id === "UT-PORTRAIT" ? "正在生成头像" : selectedTask.id === "UT-CUTOUT" ? "正在移除背景" : "正在生成新的图片";
+    : selectedTask.id === "UT-PRODUCT" ? "正在生成商品白底图" : selectedTask.id === "UT-PORTRAIT" ? "正在生成头像" : selectedTask.id === "UT-CUTOUT" ? "正在移除背景" : "正在生成新的图片";
   elements.statusCopy.textContent = isLocalEditorTask(selectedTask.id)
     ? selectedTask.id === "UT-ENHANCE" ? "正在本机应用你看得到的固定光色参数。" : selectedTask.id === "UT-TEMPLATE" ? "正在本机应用所选构图比例和尺寸上限。" : "只做确定性的构图、编码与整体色调处理。"
-    : selectedTask.id === "UT-PORTRAIT" ? "先生成本地头像构图，再发送这份构图进行抠图。" : selectedTask.id === "UT-CUTOUT" ? "正在安全发送当前图片并等待透明结果。" : "正在保留来源事实并应用选定的视觉方法。";
+    : selectedTask.id === "UT-PRODUCT" ? "先生成本地商品构图，再发送这份构图进行抠图。" : selectedTask.id === "UT-PORTRAIT" ? "先生成本地头像构图，再发送这份构图进行抠图。" : selectedTask.id === "UT-CUTOUT" ? "正在安全发送当前图片并等待透明结果。" : "正在保留来源事实并应用选定的视觉方法。";
 
   try {
     let result;
@@ -1490,22 +1508,22 @@ async function runSelectedTask() {
         validationSummary: "已核对文件格式、尺寸与像素；请比较确认画面内容",
         validationDetails: processed.validationSummary,
         processor: "在本机完成", processorVersion: processed.processor,
-        title: selectedTask.id === "UT-ENHANCE" ? "自然增强完成" : selectedTask.id === "UT-TEMPLATE" ? "场景模板结果完成" : "本地整理完成",
+        title: selectedTask.id === "UT-ENHANCE" ? "自然增强完成" : selectedTask.id === "UT-TEMPLATE" ? "社交图片完成" : "本地整理完成",
       };
     } else if (selectedTask.id === "UT-CUTOUT") {
       result = await runBackgroundRemoval({ runId, runController, sourceHashAtStart });
       if (!result) return;
-    } else if (selectedTask.id === "UT-PORTRAIT") {
-      const portraitInput = await preparePortraitProviderInput(settings);
+    } else if (isComposedBackgroundTask(selectedTask.id)) {
+      const composedInput = await prepareComposedProviderInput(settings);
       if (runController.signal.aborted || machine.activeRunId !== runId) return;
       result = await runBackgroundRemoval({
         runId,
         runController,
         sourceHashAtStart,
-        providerInput: portraitInput,
+        providerInput: composedInput,
       });
       if (!result) return;
-      result = decoratePortraitResult(result, settings);
+      result = decorateComposedBackgroundResult(result, settings, selectedTask.id);
     } else {
       const payload = {
         clientRunId: runId, taskId: selectedTask.id, sourceImage: await dataUrlForFile(source.file), referenceImages: [],
@@ -1586,9 +1604,9 @@ function friendlyError(error) {
 
 function renderResult() {
   if (!currentResult) return;
-  elements.download.textContent = selectedTask.id === "UT-PORTRAIT" ? "下载底色头像" : selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
+  elements.download.textContent = selectedTask.id === "UT-PRODUCT" ? "下载商品白底图" : selectedTask.id === "UT-PORTRAIT" ? "下载底色头像" : selectedTask.id === "UT-CUTOUT" ? "下载透明 PNG" : "下载结果";
   elements.redo.textContent = isBackgroundRemovalTask(selectedTask.id)
-    ? selectedTask.id === "UT-PORTRAIT" ? "重新制作头像" : "重新抠图"
+    ? selectedTask.id === "UT-PRODUCT" ? "重新制作商品图" : selectedTask.id === "UT-PORTRAIT" ? "重新制作头像" : "重新抠图"
     : isLocalEditorTask(selectedTask.id)
       ? selectedTask.id === "UT-ENHANCE" ? "调整增强效果" : selectedTask.id === "UT-TEMPLATE" ? "调整场景模板" : "继续调整"
       : "重新处理";
@@ -1598,12 +1616,12 @@ function renderResult() {
   elements.resultSourceImage.src = sourceUrl;
   elements.resultOutputImage.src = currentResult.url;
   elements.resultOutputImage.alt = isBackgroundRemovalTask(selectedTask.id)
-    ? selectedTask.id === "UT-PORTRAIT" ? "完整显示的头像抠图结果" : "完整显示的抠图结果"
+    ? selectedTask.id === "UT-PRODUCT" ? "完整显示的商品白底图结果" : selectedTask.id === "UT-PORTRAIT" ? "完整显示的头像抠图结果" : "完整显示的抠图结果"
     : isLocalEditorTask(selectedTask.id)
       ? selectedTask.id === "UT-ENHANCE" ? "完整显示的自然增强结果" : selectedTask.id === "UT-TEMPLATE" ? "完整显示的场景模板结果" : "完整显示的编辑结果"
       : "完整显示的处理结果";
   elements.resultOutputTab.textContent = isBackgroundRemovalTask(selectedTask.id)
-    ? selectedTask.id === "UT-PORTRAIT" ? "头像结果" : "抠图结果"
+    ? selectedTask.id === "UT-PRODUCT" ? "商品结果" : selectedTask.id === "UT-PORTRAIT" ? "头像结果" : "抠图结果"
     : isLocalEditorTask(selectedTask.id)
       ? selectedTask.id === "UT-ENHANCE" ? "增强结果" : selectedTask.id === "UT-TEMPLATE" ? "模板结果" : "编辑结果"
       : "处理结果";
@@ -1646,7 +1664,7 @@ async function dataUrlForBlob(blob) {
   return `data:${blob.type || "application/octet-stream"};base64,${btoa(binary)}`;
 }
 
-async function preparePortraitProviderInput(settings) {
+async function prepareComposedProviderInput(settings) {
   let prepared = null;
   try {
     prepared = await runLocalEditor({ file: source.file, settings: { ...settings, format: "png" } });
@@ -1664,12 +1682,16 @@ async function preparePortraitProviderInput(settings) {
   }
 }
 
-function decoratePortraitResult(result, settings) {
+function decorateComposedBackgroundResult(result, settings, taskId = selectedTask?.id) {
+  const product = taskId === "UT-PRODUCT";
   return {
     ...result,
     portraitRatio: settings.ratio,
-    title: result.provider?.environment === "sandbox" ? "沙盒头像抠图完成（带水印）" : "头像背景已移除",
-    validationSummary: `${result.validationSummary}；当前构图为 ${settings.ratio === "portrait" ? "4:5" : "1:1"}，请选择底色并检查人物边缘`,
+    defaultBackground: "white",
+    title: result.provider?.environment === "sandbox"
+      ? `沙盒${product ? "商品" : "头像"}抠图完成（带水印）`
+      : product ? "商品背景已移除" : "头像背景已移除",
+    validationSummary: `${result.validationSummary}；当前构图为 ${settings.ratio === "portrait" ? "4:5" : "1:1"}，${product ? "已使用白底起点，请检查商品孔洞、透明材质与边缘" : "请选择底色并检查人物边缘"}`,
   };
 }
 
@@ -1737,19 +1759,19 @@ async function recoverUnknownRun() {
     let result;
     if (isBackgroundRemoval) {
       result = createBackgroundRemovalResult(finished, { recovered: true });
-      if (selectedTask.id === "UT-PORTRAIT") {
-        const portraitInput = await preparePortraitProviderInput(machine.config ?? editorSettings(editorWorkspace));
-        result = decoratePortraitResult({
+      if (isComposedBackgroundTask(selectedTask.id)) {
+        const composedInput = await prepareComposedProviderInput(machine.config ?? editorSettings(editorWorkspace));
+        result = decorateComposedBackgroundResult({
           ...result,
-          correctionSourceUrl: portraitInput.dataUrl,
+          correctionSourceUrl: composedInput.dataUrl,
           defaultBackground: "white",
           providerInput: Object.freeze({
-            width: portraitInput.width,
-            height: portraitInput.height,
-            sha256: portraitInput.sha256,
-            geometryRevision: portraitInput.geometryRevision,
+            width: composedInput.width,
+            height: composedInput.height,
+            sha256: composedInput.sha256,
+            geometryRevision: composedInput.geometryRevision,
           }),
-        }, machine.config ?? editorSettings(editorWorkspace));
+        }, machine.config ?? editorSettings(editorWorkspace), selectedTask.id);
       }
     } else {
       if (!finished.result?.image) throw new Error("图片服务没有返回图片结果");
@@ -1802,12 +1824,12 @@ async function checkStatus() {
   elements.serviceStatusCopy.textContent = mobilePreview
     ? "手机预览 · 仅本地处理"
     : apiStatus.available && backgroundRemovalStatus.available
-      ? "本地编辑、自然增强、场景模板、远程抠图与创意生成已连接"
+      ? "实际用途、本地工具、远程抠图与创意生成已连接"
       : backgroundRemovalStatus.available
         ? backgroundRemovalStatus.provider?.environment === "sandbox"
-          ? "本地编辑、自然增强、场景模板、透明抠图与通用头像可用 · PhotoRoom 沙盒"
-          : "本地编辑、自然增强、场景模板、透明抠图与通用头像可用"
-        : apiStatus.available ? `本地编辑、自然增强、场景模板与创意生成可用 · ${status.model}` : "本地编辑、自然增强与场景模板可用 · 远程服务未连接";
+          ? "商品白底图、报名照、社交构图与自由工具可用 · PhotoRoom 沙盒"
+          : "商品白底图、报名照、社交构图与自由工具可用"
+        : apiStatus.available ? `社交构图、本地工具与创意生成可用 · ${status.model}` : "社交构图与本地工具可用 · 远程场景未连接";
 }
 
 function openFilePicker() {
@@ -1882,7 +1904,7 @@ elements.editorPreviewFrame.addEventListener("pointercancel", (event) => finishC
 elements.editorPreviewFrame.addEventListener("keydown", nudgeCropWithKeyboard);
 elements.redo.addEventListener("click", () => {
   if (isBackgroundRemovalTask()) {
-    returnToCutoutSettings(selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
+    returnToCutoutSettings(selectedTask?.id === "UT-PRODUCT" ? "再次制作商品图前，请重新确认本次远程发送" : selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
     return;
   }
   clearResult();
@@ -1892,7 +1914,7 @@ elements.redo.addEventListener("click", () => {
 });
 elements.retry.addEventListener("click", () => {
   if (isBackgroundRemovalTask()) {
-    returnToCutoutSettings(selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
+    returnToCutoutSettings(selectedTask?.id === "UT-PRODUCT" ? "再次制作商品图前，请重新确认本次远程发送" : selectedTask?.id === "UT-PORTRAIT" ? "再次制作头像前，请重新确认本次远程发送" : "再次抠图前，请重新确认本次远程发送");
     return;
   }
   runSelectedTask();
@@ -1981,7 +2003,7 @@ elements.deleteProcessingRecord.addEventListener("click", async () => {
 
 elements.download.addEventListener("click", async () => {
   if (!currentResult) return;
-  const contractTaskId = selectedTask.id === "UT-PORTRAIT" ? "UT-CUTOUT" : selectedTask.id;
+  const contractTaskId = isComposedBackgroundTask(selectedTask.id) ? "UT-CUTOUT" : selectedTask.id;
   const contract = buildResultDownloadContract({ taskId: contractTaskId, result: machine.result, currentRunId: machine.activeRunId });
   if (!contract.allowed) { toast(contract.message || "当前结果不可下载"); return; }
   if (isBackgroundRemovalTask(selectedTask.id)
@@ -1996,9 +2018,9 @@ elements.download.addEventListener("click", async () => {
       const url = URL.createObjectURL(corrected.blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      if (selectedTask.id === "UT-PORTRAIT") {
-        const portraitContract = buildResultDownloadContract({
-          taskId: "UT-PORTRAIT",
+      if (isComposedBackgroundTask(selectedTask.id)) {
+        const finalContract = buildResultDownloadContract({
+          taskId: selectedTask.id,
           currentRunId: machine.activeRunId,
           result: {
             ...machine.result,
@@ -2006,10 +2028,11 @@ elements.download.addEventListener("click", async () => {
             hasAlpha: corrected.mime === "image/png",
             outputHash: corrected.outputHash,
             byteLength: corrected.byteLength,
+            backgroundColor: corrected.backgroundColor,
           },
         });
-        if (!portraitContract.allowed) throw new Error(portraitContract.message || "头像下载契约未通过");
-        anchor.download = portraitContract.download.filename;
+        if (!finalContract.allowed) throw new Error(finalContract.message || `${selectedTask.id === "UT-PRODUCT" ? "商品图" : "头像"}下载契约未通过`);
+        anchor.download = finalContract.download.filename;
       } else {
         const suffix = corrected.mime === "image/png"
           ? "-corrected.png"
@@ -2018,8 +2041,9 @@ elements.download.addEventListener("click", async () => {
       }
       anchor.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
-      const outputLabel = selectedTask.id === "UT-PORTRAIT"
-        ? "底色头像 JPEG"
+      const outputLabel = selectedTask.id === "UT-PRODUCT"
+        ? "商品白底 JPEG"
+        : selectedTask.id === "UT-PORTRAIT" ? "底色头像 JPEG"
         : corrected.mime === "image/png" ? "修正透明 PNG" : "纯色背景 JPEG";
       elements.maskCorrectionStatus.textContent = `${outputLabel} 已准备并检查 · ${currentResult.width} × ${currentResult.height}`;
       toast(`${outputLabel} 下载已开始`);
@@ -2228,7 +2252,7 @@ function selectComparisonLayer(layer, { focus = false } = {}) {
   const dimensions = layer === "split" ? comparisonLayerDimensions("result") : comparisonLayerDimensions(layer);
   if (layer === "source") elements.resultSize.textContent = `完整原图 ${dimensions.width} × ${dimensions.height}`;
   if (layer === "result") elements.resultSize.textContent = currentResult.width && currentResult.height
-    ? `${selectedTask?.id === "UT-PORTRAIT" ? "头像结果" : selectedTask?.id === "UT-CUTOUT" ? "抠图结果" : selectedTask?.id === "UT-ENHANCE" ? "增强结果" : selectedTask?.id === "UT-TEMPLATE" ? "模板结果" : selectedTask?.id === "UT-TUNE" ? "编辑结果" : "处理结果"} ${currentResult.width} × ${currentResult.height}`
+    ? `${selectedTask?.id === "UT-PRODUCT" ? "商品结果" : selectedTask?.id === "UT-PORTRAIT" ? "头像结果" : selectedTask?.id === "UT-CUTOUT" ? "抠图结果" : selectedTask?.id === "UT-ENHANCE" ? "增强结果" : selectedTask?.id === "UT-TEMPLATE" ? "社交图片结果" : selectedTask?.id === "UT-TUNE" ? "编辑结果" : "处理结果"} ${currentResult.width} × ${currentResult.height}`
     : currentResult.mimeType;
   if (layer === "reference") elements.resultSize.textContent = "处理说明";
   if (layer === "split") {

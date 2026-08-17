@@ -1,3 +1,5 @@
+import { decorateScenarioTask } from "./scenario-skills.js";
+
 export const AI_SERVICE_STATUS = Object.freeze({
   CHECKING: "checking",
   AVAILABLE: "available",
@@ -42,8 +44,8 @@ const BASE_TASKS = Object.freeze([
   }),
   Object.freeze({
     id: "UT-TEMPLATE",
-    label: "场景尺寸模板",
-    description: "选择常用构图比例与导出上限，再按画面内容微调。",
+    label: "社交头像与封面",
+    description: "选择常用社交构图比例与导出上限，再按画面内容微调。",
     family: "utility",
     executor: TASK_EXECUTOR.LOCAL,
     contractVersion: "local-scene-template-v1",
@@ -71,6 +73,16 @@ const BASE_TASKS = Object.freeze([
     requiresAdultAttestation: false,
   }),
   Object.freeze({
+    id: "UT-PRODUCT",
+    label: "商品白底图",
+    description: "先整理商品构图，再远程移除背景并在本机修边、合成白底。",
+    family: "utility",
+    executor: TASK_EXECUTOR.BACKGROUND_REMOVAL,
+    contractVersion: "product-white-background-v1",
+    requiresConfig: true,
+    requiresAdultAttestation: false,
+  }),
+  Object.freeze({
     id: "UT-SOLID-BG",
     label: "纯色换底",
     description: "复用经过验证的 Alpha，并确定性合成指定纯色。",
@@ -82,8 +94,8 @@ const BASE_TASKS = Object.freeze([
   }),
   Object.freeze({
     id: "UT-PORTRAIT",
-    label: "通用底色头像",
-    description: "先在本机确定方形或 4:5 构图，再远程移除背景并在本机换底。",
+    label: "报名照 / 底色头像",
+    description: "先在本机确定人物构图，再远程移除背景并在本机修边、换底。",
     family: "utility",
     executor: TASK_EXECUTOR.BACKGROUND_REMOVAL,
     contractVersion: "portrait-background-v1",
@@ -202,10 +214,10 @@ function resolveTask(task, aiStatus, backgroundRemovalStatus) {
 
 /**
  * Runtime catalog policy:
- * - local fidelity, natural enhancement and scene templates are always runnable;
+ * - local fidelity, natural enhancement and social layout are always runnable;
  * - the real AI task follows the observed service status;
  * - remote cutout follows its independently observed provider status;
- * - the portrait workflow reuses the independently observed background-removal service;
+ * - product and portrait scenarios reuse the independently observed background-removal service;
  * - the standalone background task remains unverified because the same capability is
  *   already exposed inside the cutout result workspace.
  */
@@ -215,7 +227,7 @@ export function getTaskCatalog({
 } = {}) {
   const normalizedStatus = normalizeAiServiceStatus(aiStatus);
   const normalizedBackgroundRemovalStatus = normalizeAiServiceStatus(backgroundRemovalStatus);
-  return BASE_TASKS.map((task) => Object.freeze(resolveTask(
+  return BASE_TASKS.map((task) => decorateScenarioTask(resolveTask(
     task,
     normalizedStatus,
     normalizedBackgroundRemovalStatus,

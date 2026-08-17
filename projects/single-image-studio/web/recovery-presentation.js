@@ -1,5 +1,5 @@
 export function recoveryPresentation({ unknown = false, retryable = true, taskId = null } = {}) {
-  const backgroundRemovalTask = ["UT-CUTOUT", "UT-PORTRAIT"].includes(taskId);
+  const backgroundRemovalTask = ["UT-CUTOUT", "UT-PORTRAIT", "UT-PRODUCT"].includes(taskId);
   const cutoutFailure = backgroundRemovalTask && !unknown;
   return Object.freeze({
     retryLabel: backgroundRemovalTask

@@ -115,7 +115,13 @@ async function runCase(testCase) {
 
     await waitFor(() => !documentRef.querySelector("#tasks-section")?.hidden, "任务列表没有出现");
     const groups = [...documentRef.querySelectorAll("[data-task-group]")].map((node) => node.dataset.taskGroup);
-    assert(groups.join(",") === "local,subject,creative", `任务分组顺序异常：${groups.join(",")}`);
+    assert(groups.join(",") === "scenarios,tools,creative", `任务分组顺序异常：${groups.join(",")}`);
+    const scenarioTasks = [...documentRef.querySelectorAll('[data-task-group="scenarios"] [data-task-id]')]
+      .map((node) => node.dataset.taskId);
+    assert(scenarioTasks.join(",") === "UT-PRODUCT,UT-PORTRAIT,UT-TEMPLATE", `场景技能顺序异常：${scenarioTasks.join(",")}`);
+    assert(documentRef.querySelector('[data-task-id="UT-PRODUCT"]')?.dataset.scenarioSkill === "product-white-background", "商品白底图没有注册场景身份");
+    assert(documentRef.querySelector('[data-task-id="UT-PORTRAIT"]')?.dataset.scenarioSkill === "application-photo", "报名照没有注册场景身份");
+    assert(documentRef.querySelector('[data-task-id="UT-TEMPLATE"]')?.dataset.scenarioSkill === "social-layout", "社交构图没有注册场景身份");
     const taskButton = documentRef.querySelector(`[data-task-id="${testCase.taskId}"]`);
     assert(taskButton && !taskButton.disabled, `${testCase.taskId} 当前不可用`);
     taskButton.click();
