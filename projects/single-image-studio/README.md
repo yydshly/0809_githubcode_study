@@ -35,6 +35,8 @@
 
 当前 R0 页面真实可运行的用户路径仍是本地“保真整理”和可选的创意 API 工程路径；用户已确认基础编辑能力可作为下一阶段工程基线，但计划中的 5–8 人 M2 走查尚未完成。M3a 已实现独立 `BackgroundRemovalProvider` 边界、专用 status/run/cancel API、浏览器 client、fake-only 回归和 PhotoRoom Basic 的首个远程 adapter。页面会显示“透明抠图”任务，但服务未配置时保持禁用；进入任务后还必须逐次确认远程发送。生产同时要求服务端密钥和 `PHOTOROOM_ENABLED=true`，避免保存密钥后意外发起付费请求。服务端直接验证输出 PNG 的 CRC、结构、8-bit RGBA Alpha 和尺寸，而非只相信供应商的 `hasAlpha` 声明；来源/构图版本、明确同意、幂等、拒绝、超时、取消和迟到结果均有关闭测试。这证明协议接线和安全边界，不证明真实供应商质量或可用性。[ProviderEvaluationPlan v0](PROVIDER_EVALUATION_PLAN.md) 仍冻结 12 个 source unit、最多 24 次调用、隐私/质量 no-go 和当前 0 美元授权。当前累计完成 5 次免费沙盒调用：1 次原创 synthetic 协议探针，以及 4 次由内置图像生成工具创建的头发、玻璃、毛发和镂空结构挑战图。后四次 4/4 返回 RGBA Alpha，但目视均存在光晕、背景色渗漏或镂空残留，因此只算接线成功和质量预警，不算正式质量通过。基于这些缺陷，结果页已增加非破坏式 Alpha 修正：擦除残留、补回误删、200 笔硬上限、撤销 / 重做 / 重置；棋盘格会下载透明 PNG，白 / 黑 / 彩底会写入完全不透明的 JPEG。下载时按原尺寸重放笔触，并独立重开核对 metadata、尺寸与像素。修正不覆盖远程结果，也不会再次调用 Provider。真实浏览器 E2E 和正式质量验收仍未完成。页面会明确标示带水印；正式候选比较、账户侧 DPA/地域/训练/删除核对与付费调用仍未开始。基础编辑器在 Provider 不可用时不受影响。详见 [sandbox generated-image review](provider-evaluation/sandbox-v0/RESEARCH.md)。
 
+M2 的 [基础编辑器早期内部走查卡](M2_INTERNAL_WALKTHROUGH.md) 已经准备好：参与者只看到一个“方形构图 → 旋转 90° → PNG 下载”的 2 分钟任务，主持人按固定规则记录匿名结果。当前真实参与者分母仍是 `0/5–8`；这份材料不代表走查通过，也不收集参与者照片。
+
 本地产品入口还包含“自然增强”和“场景尺寸模板”。自然增强只公开写入亮度、对比度和饱和度；场景模板只公开写入 1:1、4:5、16:9、9:16 构图和最长边上限。模板提供方形分享、竖版分享、横版封面、竖屏故事与商品方图五个起点，实际输出不放大小图，并允许继续微调。它们都复用同一完整预览、编辑历史、结果比较和下载校验，不上传图片，也不代表内容识别、自动质量判断或平台官方发布规范。
 
 任务选择页按真实处理位置分组：本地整理、需要明确确认的远程主体处理、以及受真实服务状态控制的创意生成。分组用于解释数据去向和可用性，不会分析图片内容，也不会把未配置能力伪装成推荐结果。
@@ -275,6 +277,7 @@ npm.cmd run verify
 | [DEPLOYMENT_RELEASE_AND_RECOVERY.md](DEPLOYMENT_RELEASE_AND_RECOVERY.md) | 部署版本、运行态迁移、灰度、回滚、备份与恢复 |
 | [RESEARCH.md](RESEARCH.md) | 待回答问题、研究设计和用户研究 |
 | [USER_RESEARCH_PROTOCOL.md](USER_RESEARCH_PROTOCOL.md) | 形成性测试和冻结 V1 验证的参与者、任务分配、同意与数据协议 |
+| [M2_INTERNAL_WALKTHROUGH.md](M2_INTERNAL_WALKTHROUGH.md) | 基础编辑器 5–8 人早期内部走查的固定任务、主持规则、匿名记录与通过算法 |
 | [ROADMAP.md](ROADMAP.md) | 从文档归一到邀请测试的阶段顺序 |
 | [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) | 下一阶段研究工作包与退出条件 |
 | [research/README.md](research/README.md) | 可执行研究目录、合成夹具、生成与校验命令 |
