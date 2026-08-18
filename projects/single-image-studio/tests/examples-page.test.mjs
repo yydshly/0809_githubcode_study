@@ -49,6 +49,7 @@ test("runtime examples use the real local renderer and isolate failures without 
   assert.match(script, /await image\.decode\(\)/);
   assert.match(script, /data-example-id\^="old-photo"/);
   assert.match(script, /const reveal = \(\) => \{ image\.hidden = false; state\.hidden = true; \}/);
+  assert.match(script, /image\.hidden = !path/);
   assert.match(script, /data-example-result-link/);
   assert.match(script, /old-photo-monochrome/);
   assert.doesNotMatch(script, /createApiClient|createBackgroundRemovalRun|OPENAI|PHOTOROOM|\/api\//i);

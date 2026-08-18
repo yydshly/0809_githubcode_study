@@ -162,11 +162,11 @@ export const EXAMPLES = Object.freeze([
     parameters: ["登记四角坐标", "清晰彩色", "最长边 1600 px", "JPEG ≤ 1 MB"], limits: ["不会自动找边或 OCR", "弯曲、反光和失焦不会被修复"], entryHref: "./?from=examples",
   }),
   defineExample({
-    id: "privacy-share-local", taskId: "UT-PRIVACY-SHARE", filter: "local", title: "分享前清理文件 metadata", summary: "保持完整画面，在本机生成受限 JPEG，并确认输出不含当前禁止的私密 metadata。",
+    id: "privacy-share-local", taskId: "UT-PRIVACY-SHARE", filter: "local", title: "清理图片文件信息（画面基本不变）", summary: "这是文件安全与交付能力，不是视觉特效：保持完整画面，在本机移除受控 metadata，并限制 JPEG 尺寸与体积。",
     source: documentSource,
     result: { kind: EXAMPLE_RESULT_KINDS.RUNTIME_LOCAL, path: null, label: "本机即时隐私友好分享副本", origin: EXAMPLE_ORIGINS.PRODUCT_RUNTIME, width: null, height: null, byteLength: null, sha256: null },
     processing: { location: "local", runtimeGenerator: "privacy-share-balanced", provider: null, truthfulLabel: "metadata 清理 + 1600 px + JPEG ≤ 1 MB" },
-    parameters: ["保持完整比例", "最长边 1600 px", "JPEG", "目标 ≤ 1 MB", "白色透明底"], limits: ["不会识别人脸、地址、车牌或文字", "文件信息清理不等于画面匿名"], entryHref: "./?from=examples",
+    parameters: ["画面预期基本不变", "保持完整比例", "最长边 1600 px", "JPEG ≤ 1 MB", "移除受控文件 metadata"], limits: ["不会识别人脸、地址、车牌或文字", "文件信息清理不等于画面匿名"], entryHref: "./?from=examples",
   }),
   defineExample({
     id: "upload-strict", taskId: "UT-UPLOAD", filter: "local", title: "生成符合严格表单的上传 JPEG", summary: "完整保留文档画面，限制最长边 1200 px 和文件 1 MB，并重新核对真实输出。",

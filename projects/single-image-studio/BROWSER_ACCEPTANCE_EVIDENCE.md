@@ -1,5 +1,12 @@
 # Product browser acceptance evidence
 
+## 2026-08-18 · Gallery lazy-image and metadata-copy repair
+
+- Gallery run: `a06fa042-5c8d-4e9f-bf32-334455667788`, `2/2 pass`
+- Browser: isolated Playwright with installed Chrome, `zh-CN`
+
+The previous loading-state change hid path-backed lazy images, preventing them from entering the viewport and potentially leaving many cards at “正在加载已登记图片…”. Path-backed images now remain layout-visible while loading; only runtime outputs without a URL stay hidden. Both viewports completed all 18 images with no page errors. The privacy-share example was also renamed to explicitly state that metadata removal is a file-safety/delivery change and the visible image is expected to remain materially the same.
+
 ## 2026-08-18 · Old-photo example visibility repair
 
 - Gallery run: `9f5e9f31-4b7c-4d8e-ae21-223344556677`, `2/2 pass`

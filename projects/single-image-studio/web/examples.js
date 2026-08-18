@@ -44,7 +44,7 @@ function imagePanel({ role, label, path, alt, stateText = null, eager = false })
   image.loading = acceptanceMode || eager ? "eager" : "lazy";
   image.decoding = "async";
   image.dataset.exampleImage = role;
-  image.hidden = true;
+  image.hidden = !path;
   const state = element("p", "example-image-state", stateText ?? (path ? "正在加载已登记图片…" : null));
   state.dataset.exampleState = role;
   state.hidden = !(stateText || path);

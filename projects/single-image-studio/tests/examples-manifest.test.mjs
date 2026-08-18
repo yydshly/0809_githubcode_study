@@ -36,6 +36,7 @@ test("the gallery manifest contains nine unique, frozen and truthfully classifie
   assert.equal(exampleById("old-photo-local")?.processing.runtimeGenerator, "old-photo-monochrome");
   assert.equal(exampleById("old-photo-local")?.parameters.includes("饱和度 -100"), true);
   assert.match(exampleById("old-photo-codex-reference")?.summary, /顶部横向划痕/);
+  assert.match(exampleById("privacy-share-local")?.title, /画面基本不变/);
   assert.equal(exampleById("missing"), null);
   assert.equal(examplesForFilter("local").length, 8);
   assert.equal(examplesForFilter("reference").length, 1);
