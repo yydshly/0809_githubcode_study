@@ -73,6 +73,12 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 
 当前内部产品页另有 `UT-ENHANCE@local-natural-enhancement-v1` 手动可解释路径：五个固定预设只映射到可见的全局亮度 / 对比度 / 饱和度参数，并复用本地编辑器的撤销、比较、输出重开与下载。它用于产品操作验证，不执行内容分析或自动推荐，不改变本节 `effect.natural-enhance` 的 `research-candidate` 状态，也不授予 U1。
 
+当前内部产品页还提供 `UT-COMPRESS@local-image-compression-v1` 本地交付工具：面向“文件太大而无法上传、发送或作为附件”的问题，用户设置接收方允许的目标体积和可选最长边上限。系统默认从原图实际最长边开始，先只降低 JPEG 质量，仍不达标才按公开顺序逐级缩小尺寸，直到首次达标或触及 640 px / 40% 底线。它不强制 9:16、不裁切、补白或拉伸；透明输入转 JPEG 时以白色填充透明区。原图本来已符合上限时不做无意义的有损处理；所有结论以实际编码结果为准，未达标必须明确显示。
+
+`UT-CONVERT@local-format-conversion-v1` 是独立的本地格式转换工具：输入继续使用当前 JPEG / PNG / WebP 预检，输出只允许 PNG 或 JPEG。它保持完整比例，PNG 可保留已有 Alpha 但不会自动抠图；JPEG 公开质量参数并要求明确透明区域填色。结果页分别显示来源 / 输出格式、像素尺寸、文件体积、透明策略与质量影响；转成 PNG 不会恢复来源中已经丢失的细节。
+
+`UT-FIT@local-canvas-fit-v1` 是“完整图片适配 / 加留白”工具：把整张来源图以 `contain` 方式居中放进 1:1、4:5 或 16:9 画布，允许 0%–25% 四周留白和白 / 黑 / 自定义 / 透明底。它与裁剪填满相反，不裁掉边缘、不拉伸、不放大小图；新增区域只是纯色或透明画布，不是 AI 扩图。
+
 ### effect.cleanup
 
 用户目标：删除明确选中的小面积物体或杂物，并只在允许区域内补全。
@@ -160,7 +166,11 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 
 状态为 `parked`，`effect_ref=pending-definition`、`output_selector=pending-definition`。候选 `additional_capability_contracts` 覆盖主体感知裁切、比例、扩图 / 背景填充与平台导出；执行控制与推荐分别使用 `CAP-09.execute` / `CAP-09.recommend`。在先定义用户可选 effect 之前不得直接把一串 CAP 域当作可执行场景，不引入模板、文字排版或社交发布。
 
-当前内部产品页另有 `UT-TEMPLATE@local-scene-template-v1` 确定性工程路径：方形分享、竖版分享、横版封面、竖屏故事与商品方图只映射到公开的画面比例和最长边上限，并允许继续移动裁剪框和手调设置。它不读取平台规则、不做主体感知裁切 / 扩图 / 排版 / 发布，也不改变本节 `scene.social-image` 的 `parked` 状态。
+当前内部产品页另有 `UT-TEMPLATE@local-scene-template-v1` 确定性工程路径：方形分享、竖版分享、横版封面、竖屏故事与商品方图映射到公开的画面比例和最长边上限，并允许继续移动裁剪框和手调设置。它可选添加一个最多 40 字 / 两行的短标题，以通用 7% 安全区和可读底板写入下载像素；这只是固定的单层本地排版，不读取平台规则，也不做主体感知裁切、扩图、贴纸、字体库、多图层设计或发布。它不改变本节 `scene.social-image` 的 `parked` 状态。
+
+当前内部产品页另有 `UT-OLD-PHOTO@local-old-photo-restoration-v1` 确定性工程路径：四个公开预设只改变亮度 / 对比度 / 饱和度，并复用已有裁剪、旋转与 PNG / JPEG 导出。它不执行去划痕、去噪、修脸、文字恢复或生成式补全，也不改变 `scene.old-photo` 的 `parked` 状态。`CR-RESTORE` 继续作为分离的生成式实验，不是本地场景的隐式能力。
+
+当前内部产品页还登记 `UT-GRID@local-social-grid-v1`：它只将用户确认的 1:1 本地编辑结果按行优先顺序拆成 9 张等大 PNG，并提供整图总览、单张与 ZIP 下载。它不执行主体识别、扩图、内容生成、平台规则同步或自动发布，因此不改变长期 `scene.social` 的 `parked` 状态。
 
 ### scene.memory-keepsake
 
@@ -171,10 +181,15 @@ Slice 02 已冻结 `CC-CAP02-NORMALIZE@0.2.0`、`CC-CAP02-EXPORT@0.2.0` 与 `CC-
 | R0 / 历史 ID | 当前规范 | 说明 |
 | --- | --- | --- |
 | `UT-CUTOUT` | `effect.subject-background#transparent` | 旧代码仍可保留该 ID，但不代表效果已验证 |
-| `UT-SOLID-BG` | `effect.subject-background#solid` | 与透明 variant 共用 Alpha，证据独立 |
+| `UT-SOLID-BG` | `effect.subject-background#solid` | 历史 ID；当前产品不再登记为顶层任务，纯色换底是 `UT-CUTOUT` / 商品 / 报名照结果工作台中的派生交付动作 |
 | `UT-TUNE` | `effect.natural-enhance` | 当前 Canvas 实现只是工程探针 |
 | `UT-ENHANCE` | `effect.natural-enhance` | 内部页的手动可解释光色路径，不授予 U1 |
+| `UT-COMPRESS` | 本地交付工具 | 面向上传 / 发送体积限制，按原图比例自动逐级压缩并显示是否实际达标，不是画质增强或内容生成 |
+| `UT-PRIVACY-SHARE` | `scene.privacy-friendly-share` | 本地清理文件 metadata 并限制 JPEG 尺寸 / 体积；不识别或隐藏画面中的敏感内容 |
+| `UT-CONVERT` | 本地交付工具 | JPEG / PNG / WebP 到 PNG / JPEG 的显式转换，说明透明填色与有损边界，不是抠图或画质修复 |
+| `UT-FIT` | 本地交付工具 | 完整图片居中放入固定比例画布并加留白，不裁切、不放大、不生成内容 |
 | `UT-TEMPLATE` | `scene.social-image` | 内部页的确定性比例 / 尺寸起点，不是平台规范或正式 SceneRecipe |
+| `UT-OLD-PHOTO` | `scene.old-photo` | 内部页的确定性基础整理，不是生成式修复或正式 SceneRecipe |
 | `UT-PORTRAIT` | `scene.registration-portrait` | 从效果层降为场景配方 |
 | `UT-OFFICIAL-ID` | `scene.official-id-photo` | 严格按 profile 独立验证 |
 | `UT-CLEANUP` | `effect.cleanup` | 后置 |

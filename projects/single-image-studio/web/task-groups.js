@@ -11,7 +11,7 @@ const DISPLAY_GROUPS = Object.freeze([
   Object.freeze({
     id: "tools",
     title: "自由调整工具",
-    description: "不使用场景起点，直接选择本地整理、自然增强或透明抠图。",
+    description: "不使用场景起点，直接选择基础编辑、图片压缩、格式转换、完整图片适配、自然增强或透明抠图。",
     matches: (task) => !task.scenarioSkillId && [TASK_EXECUTOR.LOCAL, TASK_EXECUTOR.BACKGROUND_REMOVAL].includes(task.executor),
   }),
   Object.freeze({
@@ -49,14 +49,26 @@ export function groupTasksForDisplay(tasks) {
   return Object.freeze(groups);
 }
 
-export function taskAvailabilitySummary(tasks) {
+export function partitionTasksForDisplay(tasks) {
   const groups = groupTasksForDisplay(tasks);
+  const activeGroups = groups.map((group) => Object.freeze({
+    ...group,
+    tasks: Object.freeze(group.tasks.filter((task) => task.runnable)),
+    availableCount: group.tasks.filter((task) => task.runnable).length,
+  })).filter((group) => group.tasks.length > 0);
+  const unavailableTasks = Object.freeze(tasks.filter((task) => !task.runnable));
+  return Object.freeze({ activeGroups: Object.freeze(activeGroups), unavailableTasks });
+}
+
+export function taskAvailabilitySummary(tasks) {
+  const { activeGroups: groups, unavailableTasks } = partitionTasksForDisplay(tasks);
   const totalAvailable = tasks.filter((task) => task.runnable).length;
   const scenarios = groups.find((group) => group.id === "scenarios")?.availableCount ?? 0;
   const tools = groups.find((group) => group.id === "tools")?.availableCount ?? 0;
-  const creative = groups.find((group) => group.id === "creative");
-  const creativeCopy = creative?.availableCount
-    ? `创意生成 ${creative.availableCount} 个可用。`
-    : `创意生成：${creative?.tasks[0]?.statusLabel ?? "当前没有可用操作"}。`;
-  return `当前有 ${totalAvailable} 个可用操作：实际用途 ${scenarios} 个，自由工具 ${tools} 个。${creativeCopy}`;
+  const creative = groups.find((group) => group.id === "creative")?.availableCount ?? 0;
+  const creativeCopy = creative > 0 ? `创意生成 ${creative} 个。` : "";
+  const unavailableCopy = unavailableTasks.length > 0
+    ? `${unavailableTasks.length} 项未连接扩展已收在页尾，不影响当前操作。`
+    : "当前登记的操作均已连接。";
+  return `当前有 ${totalAvailable} 个可用操作：实际用途 ${scenarios} 个，自由工具 ${tools} 个。${creativeCopy}${unavailableCopy}`;
 }

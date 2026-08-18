@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [html, main, localProcessing, resultDownload, recoveryPresentation, maskOutputPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
+const [html, main, localProcessing, resultDownload, recoveryPresentation, resultPresentation, maskOutputPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/local-processing.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-download.js", import.meta.url), "utf8"),
   readFile(new URL("../web/recovery-presentation.js", import.meta.url), "utf8"),
+  readFile(new URL("../web/result-presentation.js", import.meta.url), "utf8"),
   readFile(new URL("../web/mask-output-presentation.js", import.meta.url), "utf8"),
   readFile(new URL("../web/styles.css", import.meta.url), "utf8"),
   readFile(new URL("../server/server.mjs", import.meta.url), "utf8"),
@@ -17,6 +18,11 @@ const [html, main, localProcessing, resultDownload, recoveryPresentation, maskOu
 ]);
 
 test("product page uses plain-language internal-preview copy without claiming image analysis", () => {
+  assert.match(html, /id="capability-summary"/);
+  assert.match(main, /本地基础能力/);
+  assert.match(main, /远程抠图能力/);
+  assert.match(main, /生成式能力/);
+  assert.match(main, /不属于基础功能完成度/);
   assert.match(html, /Single Image Studio · 内部试用版/);
   assert.match(html, /不会猜测图片内容或替你决定效果/);
   assert.doesNotMatch(html, /R0 工程探针|工程上可运行|工程校验完成/);
@@ -80,15 +86,15 @@ test("visible output copy distinguishes downloadable files from content quality"
   assert.match(main, /function selectComparisonLayer/);
   assert.match(main, /function syncComparisonStage/);
   assert.match(main, /comparisonLayerState/);
-  assert.match(main, /并排对比 · 原图/);
+  assert.match(resultPresentation, /并排对比 · 原图/);
   assert.match(main, /classList\.toggle\("has-mask-tools", showMaskTools\)/);
   assert.match(main, /matchMedia\("\(min-width: 981px\)"\)\.matches/);
   assert.match(main, /getBoundingClientRect\(\)\.width \+ 24/);
   assert.match(main, /resultInteractive = !viewAutomatic && selectedComparisonLayer === "result"/);
   assert.match(main, /session\.view !== "corrected" \|\| selectedComparisonLayer !== "result"/);
-  assert.match(main, /完整原图 \$\{dimensions\.width\} × \$\{dimensions\.height\}/);
-  assert.match(main, /"抠图结果"/);
-  assert.match(main, /"编辑结果"/);
+  assert.match(resultPresentation, /完整原图 \$\{dimensionsText\(sourceDimensions\)\}/);
+  assert.match(resultPresentation, /"UT-CUTOUT": "抠图结果"/);
+  assert.match(resultPresentation, /"UT-TUNE": "编辑结果"/);
   assert.match(main, /fitComparisonStage/);
   assert.match(main, /ArrowRight/);
   assert.match(main, /event\.key === "Home"/);
@@ -124,7 +130,7 @@ test("local editor workspace exposes preview, history and strict-render controls
   assert.match(main, /data-crop-axis-control="vertical"/);
   assert.match(main, /左右拖动亮框/);
   assert.match(main, /上下拖动亮框/);
-  assert.match(main, /tabIndex = presentation\.cropEnabled \? 0 : -1/);
+  assert.match(main, /tabIndex = !rectificationTask && presentation\.cropEnabled \? 0 : -1/);
   assert.match(main, /导出分辨率/);
   assert.match(main, /预计实际导出/);
   assert.match(main, /预计实际导出 \$\{presentation\.output/);
@@ -156,9 +162,9 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(main, /失败不会覆盖原图，也不会自动重复提交/);
   assert.match(main, /再次抠图前，请重新确认本次远程发送/);
   assert.match(main, /remoteConsent\.checked = false/);
-  assert.match(main, /selectedTask\.id === "UT-PRODUCT" \? "重新制作商品图"/);
-  assert.match(main, /selectedTask\.id === "UT-PORTRAIT" \? "重新制作头像"/);
-  assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "调整增强效果"/);
+  assert.match(resultPresentation, /taskId === "UT-PRODUCT" \? "重新制作商品图"/);
+  assert.match(resultPresentation, /taskId === "UT-PORTRAIT" \? "重新制作头像"/);
+  assert.match(resultPresentation, /"UT-ENHANCE": "调整增强效果"/);
   assert.match(recoveryPresentation, /\? "返回并重新确认"/);
   assert.match(html, /id="fallback-editor-button"[^>]*>改用本地编辑</);
   assert.match(main, /switchToLocalEditor/);
@@ -182,8 +188,15 @@ test("remote cutout stays explicit, informed, and disabled by default", () => {
   assert.match(scripts.dev, /--env-file-if-exists=\.env/);
 });
 
-test("old photo restoration is an explicit generative copy workflow rather than an archival claim", () => {
-  assert.match(main, /title: "老照片温和修复"/);
+test("old photo restoration exposes a local baseline and keeps generative repair separate", () => {
+  assert.match(html, /试用老照片演示图/);
+  assert.match(main, /title: "老照片基础整理"/);
+  assert.match(main, /不会识别划痕、恢复失焦或补画缺失人脸、文字和历史细节/);
+  assert.match(main, /data-old-photo-preset/);
+  assert.match(main, /基础细节整理/);
+  assert.match(main, /轻度降噪、清晰度与构图/);
+  assert.match(main, /生成基础整理副本/);
+  assert.match(main, /title: "AI 老照片修复（实验）"/);
   assert.match(main, /这不是无损或档案级复原/);
   assert.match(main, /人物面部、文字和历史细节可能变化/);
   assert.match(main, /name="generativeRestoreConsent"/);
@@ -192,7 +205,9 @@ test("old photo restoration is an explicit generative copy workflow rather than 
   assert.match(main, /再次生成修复副本前，请重新确认本次远程生成/);
   assert.match(main, /重新提交前，请再次确认生成式处理风险/);
   assert.match(main, /生成修复副本/);
-  assert.match(main, /下载修复副本/);
+  assert.match(resultPresentation, /下载修复副本/);
+  assert.match(main, /old-photo-reference\.html/);
+  assert.match(main, /参考图不是本次运行结果/);
   assert.match(main, /buildOldPhotoRestorationPrompt/);
   assert.match(server, /invalid_restoration_prompt/);
   assert.doesNotMatch(main, /无损恢复完成|档案级修复完成|身份完全一致/);
@@ -205,6 +220,14 @@ test("a completed result can return to task selection without replacing the sour
   assert.match(main, /clearResult\(\);\s*clearEditorWorkspace\(\);\s*selectedTask = null/);
   assert.match(main, /已保留当前图片；请选择新的处理方向/);
   assert.match(main, /taskGrid\.querySelector\("button:not\(\[disabled\]\)"\)\?\.focus\(\)/);
+});
+
+test("async local output sets restore download focus only when they displaced it", () => {
+  assert.match(main, /restoreDownloadFocus = document\.activeElement === elements\.download/);
+  assert.match(main, /restoreDownloadFocus && selectedTask\?\.id === "UT-TEMPLATE"[\s\S]*elements\.download\.focus\(\)/);
+  assert.match(main, /restoreDownloadFocus && selectedTask\?\.id === "UT-OLD-PHOTO"[\s\S]*elements\.download\.focus\(\)/);
+  assert.doesNotMatch(main, /elements\.download\.disabled = socialOutputBusy/);
+  assert.doesNotMatch(main, /elements\.download\.disabled = oldPhotoOutputBusy/);
 });
 
 test("remote cutout result exposes non-destructive mask correction and accessible inspection states", () => {
@@ -275,8 +298,12 @@ test("portrait and product are real composed workflows, not newly enabled placeh
   assert.match(main, /isComposedBackgroundTask/);
   assert.match(main, /商品图.*头像.*下载契约未通过/);
   assert.match(main, /不承诺任何证件或机构规格/);
-  assert.match(main, /当前不生成阴影，也不保证平台审核或尺寸规范/);
+  assert.match(main, /抠图后可在本地调整留白和基础柔和阴影；不保证平台审核或尺寸规范/);
   assert.match(main, /setMaskBackground\(maskCorrectionSession\.background\)/);
+  assert.match(html, /id="portrait-sheet-button"/);
+  assert.match(html, /1800 × 1200 通用六宫格/);
+  assert.match(resultPresentation, /不代表任何机构的官方证件规格/);
+  assert.match(main, /renderPortraitSheet/);
 });
 
 test("natural enhancement is an honest local workflow with visible fixed presets", () => {
@@ -284,8 +311,11 @@ test("natural enhancement is an honest local workflow with visible fixed presets
   assert.match(main, /ENHANCEMENT_PRESETS/);
   assert.match(main, /data-enhancement-preset/);
   assert.match(main, /selectEnhancementPreset/);
-  assert.match(main, /预设只是透明、固定的亮度、对比度和饱和度组合/);
-  assert.match(main, /正在本机应用你看得到的固定光色参数/);
+  assert.match(main, /预设只是透明、固定的五项参数组合/);
+  assert.match(main, /name="denoise"/);
+  assert.match(main, /name="clarity"/);
+  assert.match(main, /不补画内容/);
+  assert.match(main, /正在本机应用可见光色参数，并执行轻度降噪与清晰度处理/);
   assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "自然增强完成"/);
   assert.match(styles, /\.enhancement-preset\[aria-pressed="true"\]/);
 });

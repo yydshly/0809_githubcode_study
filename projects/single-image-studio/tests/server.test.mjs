@@ -46,6 +46,40 @@ async function json(response) {
   return JSON.parse(await response.text());
 }
 
+function unavailableGenerativeStatus(previewMode = "local") {
+  return {
+    available: false,
+    model: "gpt-image-2",
+    provider: null,
+    candidates: [
+      {
+        id: "openai.images-edits",
+        label: "OpenAI 图片编辑",
+        model: "gpt-image-2",
+        inputMode: "direct-upload",
+        supportedTasks: ["CR1", "CR-RESTORE"],
+        configured: false,
+        enabled: true,
+        available: false,
+        reason: previewMode === "lan" ? "lan_disabled" : "credential_missing",
+      },
+      {
+        id: "minimax.image-01",
+        label: "MiniMax image-01",
+        model: "image-01",
+        inputMode: "public-reference-url",
+        supportedTasks: [],
+        configured: false,
+        enabled: false,
+        available: false,
+        reason: previewMode === "lan" ? "lan_disabled" : "credential_missing",
+      },
+    ],
+    runStore: "memory",
+    previewMode,
+  };
+}
+
 async function waitForStatus(baseUrl, runId, expected) {
   const deadline = Date.now() + 2_000;
   while (Date.now() < deadline) {
@@ -93,12 +127,7 @@ test("serves only the configured web root and reports unavailable without a key"
   assert.equal((await json(traversal)).error.code, "forbidden_path");
 
   const status = await fetch(`${app.baseUrl}/api/status`);
-  assert.deepEqual(await json(status), {
-    available: false,
-    model: "gpt-image-2",
-    runStore: "memory",
-    previewMode: "local",
-  });
+  assert.deepEqual(await json(status), unavailableGenerativeStatus());
 
   const create = await fetch(`${app.baseUrl}/api/runs`, {
     method: "POST",
@@ -110,7 +139,7 @@ test("serves only the configured web root and reports unavailable without a key"
     }),
   });
   assert.equal(create.status, 503);
-  assert.equal((await json(create)).error.code, "api_key_missing");
+  assert.equal((await json(create)).error.code, "generative_provider_unavailable");
 });
 
 test("server access defaults to loopback and requires an explicit private LAN address", () => {
@@ -163,6 +192,9 @@ test("local product acceptance reports are strict, in-memory, and disabled for L
     cases: [
       { id: "desktop-min", passed: true, evidence: "1280 × 720 pass" },
       { id: "desktop-common", passed: true, evidence: "1440 × 900 pass" },
+      { id: "old-photo-local", passed: true, evidence: "1366 × 768 pass" },
+      { id: "upload-specification", passed: true, evidence: "1200 × 900 JPEG pass" },
+      { id: "document-archive", passed: true, evidence: "1448 × 1086 JPEG pass" },
     ],
   };
   const posted = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
@@ -179,6 +211,22 @@ test("local product acceptance reports are strict, in-memory, and disabled for L
   const latest = await json(await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`));
   assert.deepEqual(latest.report, accepted.report);
 
+  const v2 = {
+    ...payload,
+    version: "product-acceptance-report-v2",
+    runId: randomUUID(),
+    cases: [{ id: "privacy-share", passed: true, evidence: "1440 × 1080 JPEG metadata-clean pass" }, ...payload.cases],
+  };
+  const v2Posted = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(v2),
+  });
+  assert.equal(v2Posted.status, 202);
+  const v2Accepted = await json(v2Posted);
+  assert.equal(v2Accepted.report.version, "product-acceptance-report-v2");
+  assert.equal(v2Accepted.report.cases.length, 6);
+
   const tampered = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -186,6 +234,14 @@ test("local product acceptance reports are strict, in-memory, and disabled for L
   });
   assert.equal(tampered.status, 400);
   assert.equal((await json(tampered)).error.code, "unknown_field");
+
+  const incomplete = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...payload, cases: payload.cases.slice(0, 2) }),
+  });
+  assert.equal(incomplete.status, 400);
+  assert.equal((await json(incomplete)).error.code, "invalid_acceptance_report");
 
   const invalidRoot = await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`, {
     method: "POST",
@@ -200,6 +256,115 @@ test("local product acceptance reports are strict, in-memory, and disabled for L
   const blocked = await fetch(`${lan.baseUrl}/api/internal/product-acceptance/latest`);
   assert.equal(blocked.status, 403);
   assert.equal((await json(blocked)).error.code, "lan_internal_qa_disabled");
+});
+
+test("local examples acceptance reports are strict, separate from product reports, and LAN-disabled", async (t) => {
+  const app = await start();
+  t.after(() => app.close());
+  const runId = randomUUID();
+  const payload = {
+    version: "examples-acceptance-report-v1",
+    runId,
+    startedAt: "2026-08-18T01:00:00.000Z",
+    completedAt: "2026-08-18T01:00:05.000Z",
+    browser: { userAgent: "Synthetic Chromium Gallery QA", language: "zh-CN" },
+    cases: [
+      { id: "examples-desktop", passed: true, evidence: "1180 px · 5 cards pass" },
+      { id: "examples-narrow", passed: true, evidence: "390 px · stacked pass" },
+    ],
+  };
+  const posted = await fetch(`${app.baseUrl}/api/internal/examples-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  assert.equal(posted.status, 202);
+  const accepted = await json(posted);
+  assert.equal(accepted.accepted, true);
+  assert.equal(accepted.report.runId, runId);
+  assert.equal(typeof accepted.report.receivedAt, "string");
+
+  const latest = await json(await fetch(`${app.baseUrl}/api/internal/examples-acceptance/latest`));
+  assert.deepEqual(latest.report, accepted.report);
+  assert.deepEqual((await json(await fetch(`${app.baseUrl}/api/internal/product-acceptance/latest`))).report, null);
+
+  const tampered = await fetch(`${app.baseUrl}/api/internal/examples-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...payload, secret: "must-not-be-accepted" }),
+  });
+  assert.equal(tampered.status, 400);
+  assert.equal((await json(tampered)).error.code, "unknown_field");
+
+  const incomplete = await fetch(`${app.baseUrl}/api/internal/examples-acceptance/latest`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ ...payload, cases: payload.cases.slice(0, 1) }),
+  });
+  assert.equal(incomplete.status, 400);
+  assert.equal((await json(incomplete)).error.code, "invalid_examples_acceptance_report");
+
+  const lan = await start({ previewMode: "lan" });
+  t.after(() => lan.close());
+  const blocked = await fetch(`${lan.baseUrl}/api/internal/examples-acceptance/latest`);
+  assert.equal(blocked.status, 403);
+  assert.equal((await json(blocked)).error.code, "lan_internal_qa_disabled");
+});
+
+test("local error acceptance reports keep the two viewport cases strict and LAN-disabled", async (t) => {
+  const app = await start();
+  t.after(() => app.close());
+  const payload = {
+    version: "error-acceptance-report-v1",
+    runId: randomUUID(),
+    startedAt: "2026-08-18T02:00:00.000Z",
+    completedAt: "2026-08-18T02:00:05.000Z",
+    browser: { userAgent: "Synthetic Chromium Error QA", language: "zh-CN" },
+    cases: [
+      { id: "errors-desktop", passed: true, evidence: "1180 px · 7 contexts pass" },
+      { id: "errors-narrow", passed: true, evidence: "390 px · 7 contexts pass" },
+    ],
+  };
+  const posted = await fetch(`${app.baseUrl}/api/internal/error-acceptance/latest`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+  assert.equal(posted.status, 202);
+  const accepted = await json(posted);
+  assert.equal(accepted.report.runId, payload.runId);
+  assert.deepEqual((await json(await fetch(`${app.baseUrl}/api/internal/error-acceptance/latest`))).report, accepted.report);
+  const incomplete = await fetch(`${app.baseUrl}/api/internal/error-acceptance/latest`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...payload, cases: payload.cases.slice(0, 1) }) });
+  assert.equal(incomplete.status, 400);
+  assert.equal((await json(incomplete)).error.code, "invalid_error_acceptance_report");
+  const lan = await start({ previewMode: "lan" });
+  t.after(() => lan.close());
+  const blocked = await fetch(`${lan.baseUrl}/api/internal/error-acceptance/latest`);
+  assert.equal(blocked.status, 403);
+});
+
+test("local walkthrough acceptance reports are strict, in-memory, and never human-session evidence", async (t) => {
+  const app = await start();
+  t.after(() => app.close());
+  const payload = {
+    version: "walkthrough-acceptance-report-v1",
+    runId: randomUUID(),
+    startedAt: "2026-08-18T03:00:00.000Z",
+    completedAt: "2026-08-18T03:00:05.000Z",
+    browser: { userAgent: "Synthetic Chromium Walkthrough QA", language: "zh-CN" },
+    cases: [
+      { id: "walkthrough-desktop", passed: true, evidence: "1180 px · anonymous form pass" },
+      { id: "walkthrough-narrow", passed: true, evidence: "390 px · anonymous form pass" },
+    ],
+  };
+  const posted = await fetch(`${app.baseUrl}/api/internal/walkthrough-acceptance/latest`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+  assert.equal(posted.status, 202);
+  const accepted = await json(posted);
+  assert.equal(accepted.report.runId, payload.runId);
+  assert.deepEqual((await json(await fetch(`${app.baseUrl}/api/internal/walkthrough-acceptance/latest`))).report, accepted.report);
+  const extra = await fetch(`${app.baseUrl}/api/internal/walkthrough-acceptance/latest`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...payload, participantName: "must be rejected" }) });
+  assert.equal(extra.status, 400);
+  assert.equal((await json(extra)).error.code, "unknown_field");
+  const lan = await start({ previewMode: "lan" });
+  t.after(() => lan.close());
+  const blocked = await fetch(`${lan.baseUrl}/api/internal/walkthrough-acceptance/latest`);
+  assert.equal(blocked.status, 403);
 });
 
 test("private IPv4 recognition covers only RFC1918 ranges", () => {
@@ -221,12 +386,7 @@ test("LAN preview reports local-only mode and rejects AI before reading input", 
   t.after(() => app.close());
 
   const status = await fetch(`${app.baseUrl}/api/status`);
-  assert.deepEqual(await json(status), {
-    available: false,
-    model: "gpt-image-2",
-    runStore: "memory",
-    previewMode: "lan",
-  });
+  assert.deepEqual(await json(status), unavailableGenerativeStatus("lan"));
 
   const create = await fetch(`${app.baseUrl}/api/runs`, {
     method: "POST",

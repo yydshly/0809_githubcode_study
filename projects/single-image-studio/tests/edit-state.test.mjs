@@ -25,6 +25,8 @@ test("EditState starts as an immutable lossless PNG edit contract", () => {
 test("EditState reducer composes rotation, flips, crop, adjustments, resize and output", () => {
   let state = createEditState();
   state = reduceEditState(state, { type: "rotate", degrees: 90 });
+  state = reduceEditState(state, { type: "set-straighten", degrees: 2.34 });
+  state = reduceEditState(state, { type: "set-vertical-perspective", amount: 12 });
   state = reduceEditState(state, { type: "toggle-flip-horizontal" });
   state = reduceEditState(state, { type: "set-crop", crop: { x: 0.1, y: 0.2, width: 0.5, height: 0.6 } });
   state = reduceEditState(state, { type: "set-adjustments", adjustments: { brightness: 12, saturation: -20 } });
@@ -32,6 +34,8 @@ test("EditState reducer composes rotation, flips, crop, adjustments, resize and 
   state = reduceEditState(state, { type: "set-output", output: { format: "jpeg", jpegQuality: 0.8, jpegBackground: "#AABBCC" } });
 
   assert.equal(state.rotation, 90);
+  assert.equal(state.straighten, 2.3);
+  assert.equal(state.verticalPerspective, 12);
   assert.equal(state.flipHorizontal, true);
   assert.deepEqual(state.crop, { x: 0.1, y: 0.2, width: 0.5, height: 0.6 });
   assert.deepEqual(state.adjustments, { brightness: 12, contrast: 0, saturation: -20 });
@@ -47,6 +51,8 @@ test("EditState rejects out-of-bounds geometry and unsafe output settings", () =
     /完整位于/,
   );
   assert.throws(() => createEditState({ rotation: 45 }), /旋转角度/);
+  assert.throws(() => createEditState({ straighten: 10.1 }), /水平校正角度/);
+  assert.throws(() => createEditState({ verticalPerspective: 20.1 }), /垂直透视/);
   assert.throws(() => createEditState({ resize: { width: 9000 } }), /目标宽度/);
   assert.throws(() => createEditState({ resize: { mode: "fluid" } }), /输出尺寸模式/);
   assert.throws(() => createEditState({ adjustments: { contrast: 101 } }), /对比度/);
@@ -86,4 +92,22 @@ test("an edit action that changes no value does not create a history entry", () 
   const history = createEditHistory(createEditState());
   const unchanged = applyEdit(history, { type: "set-adjustments", adjustments: { brightness: 0 } });
   assert.equal(unchanged, history);
+});
+
+test("straighten participates in bounded undo and reset history", () => {
+  let history = createEditHistory(createEditState());
+  history = applyEdit(history, { type: "set-straighten", degrees: -3.2 });
+  assert.equal(history.present.straighten, -3.2);
+  assert.equal(undoEdit(history).present.straighten, 0);
+  history = applyEdit(history, { type: "reset" });
+  assert.equal(history.present.straighten, 0);
+});
+
+test("vertical perspective participates in bounded undo and reset history", () => {
+  let history = createEditHistory(createEditState());
+  history = applyEdit(history, { type: "set-vertical-perspective", amount: -12 });
+  assert.equal(history.present.verticalPerspective, -12);
+  assert.equal(undoEdit(history).present.verticalPerspective, 0);
+  history = applyEdit(history, { type: "reset" });
+  assert.equal(history.present.verticalPerspective, 0);
 });

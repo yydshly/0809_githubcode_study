@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Single Image Studio 项目原创样例：查看原图、真实本地结果、参数、来源和能力限制。" />
+    <title>样例与效果 · Single Image Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./examples.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#examples-main">跳到样例内容</a>
+    <header class="site-header examples-site-header">
+      <a class="brand" href="./" aria-label="返回 Single Image Studio 首页">
+        <span class="brand-symbol" aria-hidden="true">S</span>
+        <span><strong>Single Image</strong><small>Studio · 单图工作室</small></span>
+      </a>
+      <nav class="examples-nav" aria-label="样例页导航">
+        <a aria-current="page" href="./examples.html">效果样例</a>
+        <a href="./quality-hub.html">内部质量</a>
+        <a href="./">打开工作室</a>
+      </nav>
+    </header>
+
+    <main id="examples-main" class="examples-shell">
+      <section class="examples-hero" aria-labelledby="examples-title">
+        <div>
+          <p class="kicker">真实来源，明确边界</p>
+          <h1 id="examples-title">先看原图与结果，<br />再决定要不要处理。</h1>
+        </div>
+        <div class="examples-hero-copy">
+          <p>这里展示项目原创合成图、产品本机即时结果和明确标注的 Codex 视觉参考。每一项都说明处理位置、参数和做不到的事情。</p>
+          <p class="examples-boundary"><strong>不会读取你的图片。</strong>页面只使用仓库内登记素材；本地即时样例不会上传或调用远程服务。</p>
+        </div>
+      </section>
+
+      <section class="examples-toolbar" aria-labelledby="examples-filter-title">
+        <div><span id="examples-filter-title">查看范围</span><p id="examples-status" role="status" aria-live="polite">正在准备样例…</p></div>
+        <div class="examples-filters" role="group" aria-label="筛选样例来源">
+          <button type="button" data-example-filter="all" aria-pressed="true">全部</button>
+          <button type="button" data-example-filter="local" aria-pressed="false">本地真实处理</button>
+          <button type="button" data-example-filter="reference" aria-pressed="false">视觉参考</button>
+        </div>
+      </section>
+
+      <section class="examples-gallery" id="examples-gallery" aria-label="处理效果样例"></section>
+
+      <section class="examples-next" aria-labelledby="examples-next-title">
+        <div><p class="kicker">下一步</p><h2 id="examples-next-title">找到合适方向后，再用自己的图片。</h2></div>
+        <p>展示页不会自动执行或上传。进入工作室、确认图片权利并选择任务后，才会开始处理。</p>
+        <a class="button button-primary" href="./?from=examples">打开 Single Image Studio</a>
+      </section>
+    </main>
+
+    <script type="module" src="./examples.js"></script>
+  </body>
+</html>

@@ -6,6 +6,10 @@ import {
 } from "./edit-state.js";
 import { buildRenderPlan } from "./editor-renderer.js";
 import { editStateFromSettings } from "./editor-session.js";
+import { formatStraightenAngle } from "./straighten-geometry.js";
+import { formatVerticalPerspective, verticalPerspectiveDirection } from "./vertical-perspective.js";
+import { quadAsFormSettings } from "./quad-rectification.js";
+import { documentScanMode } from "./document-scan.js";
 
 function sourceContract({ sourceWidth, sourceHeight, sourceOrientation = 1 }) {
   if (!Number.isFinite(sourceWidth) || sourceWidth <= 0 || !Number.isFinite(sourceHeight) || sourceHeight <= 0) {
@@ -78,16 +82,24 @@ function settingsFromState(state, source) {
     cropWidth: Math.round(state.crop.width * 100),
     cropHeight: Math.round(state.crop.height * 100),
     rotation: state.rotation,
+    straighten: state.straighten,
+    verticalPerspective: state.verticalPerspective,
+    rectificationEnabled: state.rectification.enabled,
+    ...quadAsFormSettings(state.rectification.quad),
+    documentScanMode: state.documentScan.mode,
     flipHorizontal: state.flipHorizontal,
     flipVertical: state.flipVertical,
     brightness: state.adjustments.brightness,
     contrast: state.adjustments.contrast,
     saturation: state.adjustments.saturation,
+    denoise: state.detailEnhancement.denoise,
+    clarity: state.detailEnhancement.clarity,
     sizeMode: isPreset ? "preset" : "custom",
     outputLongEdge: isPreset ? null : Math.max(state.resize.width, state.resize.height),
     outputWidth: isPreset ? null : state.resize.width,
     outputHeight: isPreset ? null : state.resize.height,
     format: state.output.format,
+    jpegQuality: state.output.jpegQuality,
     jpegBackground: state.output.jpegBackground,
   });
 }
@@ -226,14 +238,36 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
       ? `上下保留位置 ${normalizedSettings.cropY}%`
       : ratio === "original" ? "完整画面" : "比例已匹配，无需移动";
   const quarterTurn = state.rotation === 90 || state.rotation === 270;
+  const previewScaleX = (state.flipHorizontal ? -1 : 1) * plan.straightenScale;
+  const previewScaleY = (state.flipVertical ? -1 : 1) * plan.straightenScale;
+  const straightenSummary = state.straighten === 0 ? "" : ` · 拉直 ${formatStraightenAngle(state.straighten)}`;
+  const perspectiveSummary = state.verticalPerspective === 0
+    ? ""
+    : ` · 透视 ${verticalPerspectiveDirection(state.verticalPerspective)} ${formatVerticalPerspective(state.verticalPerspective)}`;
+  const rectificationSummary = state.rectification.enabled
+    ? `四角裁正 · ${documentScanMode(state.documentScan.mode).label} · ${plan.rectified.width} × ${plan.rectified.height} px · ${state.rotation}°${straightenSummary} · ${state.output.format.toUpperCase()}`
+    : null;
   return Object.freeze({
     state,
+    geometry: Object.freeze({
+      oriented: plan.oriented,
+      transformed: plan.transformed,
+      rotation: state.rotation,
+      straighten: state.straighten,
+      straightenScale: plan.straightenScale,
+      verticalPerspective: state.verticalPerspective,
+      flipHorizontal: state.flipHorizontal,
+      flipVertical: state.flipVertical,
+      rectification: state.rectification,
+      documentScan: state.documentScan,
+      rectified: plan.rectified,
+    }),
     aspectRatio: `${plan.transformed.width} / ${plan.transformed.height}`,
     aspectValue: aspect,
     frameAspectValue: frameAspect,
     previewWidth: quarterTurn ? `${100 / frameAspect}%` : "100%",
     previewHeight: quarterTurn ? `${100 * frameAspect}%` : "100%",
-    transform: `translate(-50%, -50%) scale(${state.flipHorizontal ? -1 : 1}, ${state.flipVertical ? -1 : 1}) rotate(${state.rotation}deg)`,
+    transform: `translate(-50%, -50%) scale(${previewScaleX}, ${previewScaleY}) rotate(${state.rotation + state.straighten}deg)`,
     objectPosition: "50% 50%",
     cropRect: Object.freeze({
       left: state.crop.x * 100,
@@ -249,7 +283,16 @@ export function editorPreviewPresentation(workspace, transientSettings = null) {
     cropAxis,
     cropLabel,
     settings: normalizedSettings,
-    summary: `${ratioLabel} · ${cropLabel} · ${plan.output.width} × ${plan.output.height} · ${state.rotation}° · 亮度 ${signed(state.adjustments.brightness)} · 对比度 ${signed(state.adjustments.contrast)} · 饱和度 ${signed(state.adjustments.saturation)} · ${state.output.format.toUpperCase()}`,
+    rectification: Object.freeze({
+      enabled: state.rectification.enabled,
+      quad: state.rectification.quad,
+      output: plan.rectified,
+    }),
+    documentScan: Object.freeze({
+      mode: state.documentScan.mode,
+      presentation: documentScanMode(state.documentScan.mode),
+    }),
+    summary: rectificationSummary ?? `${ratioLabel} · ${cropLabel} · ${plan.output.width} × ${plan.output.height} · ${state.rotation}°${straightenSummary}${perspectiveSummary} · 亮度 ${signed(state.adjustments.brightness)} · 对比度 ${signed(state.adjustments.contrast)} · 饱和度 ${signed(state.adjustments.saturation)} · 降噪 ${state.detailEnhancement.denoise} · 清晰度 ${state.detailEnhancement.clarity} · ${state.output.format.toUpperCase()}`,
     output: plan.output,
   });
 }

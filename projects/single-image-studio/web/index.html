@@ -14,6 +14,7 @@
         <span class="brand-symbol" aria-hidden="true">S</span>
         <span><strong>Single Image</strong><small>Studio · 单图工作室</small></span>
       </a>
+      <a class="header-link" href="./examples.html">效果样例</a>
       <div class="service-status" id="service-status" role="status" data-tone="checking">
         <span class="status-dot" aria-hidden="true"></span>
         <span id="service-status-copy">正在检查可用功能</span>
@@ -49,7 +50,9 @@
             <div class="source-actions">
               <button class="button button-primary" id="choose-file-button" type="button">选择图片</button>
               <button class="button button-quiet" id="use-demo-button" type="button">使用合成演示图</button>
+              <button class="button button-quiet" id="use-old-photo-demo-button" type="button">试用老照片演示图</button>
             </div>
+            <p class="source-feature-hint" data-feature-hint="social-grid"><strong>新场景：</strong>上传并确认后，可在“场景技能”中选择“社交九宫格切图”。</p>
             <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp" hidden />
           </div>
 
@@ -84,7 +87,30 @@
             <div><p class="kicker">当前可用操作</p><h2 id="tasks-title">选择一个处理方向</h2></div>
             <div class="section-side"><p id="recommendation-copy">这里只显示当前可以完成的操作；不会猜测图片内容或替你决定效果。</p><button class="text-button" id="tasks-replace-button" type="button">换一张图</button></div>
           </div>
+          <section class="technical-check" id="technical-check" aria-labelledby="technical-check-title" hidden>
+            <div class="technical-check-heading">
+              <div><p class="kicker">本机像素观察</p><h3 id="technical-check-title">这张图片可以从哪里开始</h3></div>
+              <span class="technical-check-boundary">不识别人、商品或场景</span>
+            </div>
+            <p class="technical-check-status" id="technical-check-status" role="status"></p>
+            <div class="technical-check-signals" id="technical-check-signals" role="list" aria-label="图片技术观察"></div>
+            <div class="technical-check-advice" id="technical-check-advice" hidden>
+              <div><span>建议起点</span><strong id="technical-check-advice-label"></strong><p id="technical-check-advice-copy"></p></div>
+              <button class="button button-primary" id="technical-check-action" type="button">打开并使用建议</button>
+            </div>
+            <p class="technical-check-note">只根据缩小后的像素分布给出启发式起点，不是 AI 内容判断、专业测光或画质结论；你也可以忽略它并选择下面任意操作。</p>
+          </section>
+          <section class="task-goal-navigator" aria-labelledby="task-goal-title">
+            <div><p class="kicker">按问题快速开始</p><h3 id="task-goal-title">你现在想解决什么？</h3><p>这里只负责带你进入对应工具，不会自动分析或处理图片。</p></div>
+            <div class="task-goal-list" id="task-goal-list" role="list"></div>
+          </section>
+          <div class="capability-summary" id="capability-summary" role="list" aria-label="当前可用能力"></div>
           <div class="task-groups" id="task-grid"></div>
+          <details class="unavailable-tasks" id="unavailable-tasks" hidden>
+            <summary><span>未连接的扩展</span><strong id="unavailable-tasks-summary"></strong></summary>
+            <p>这些入口需要额外图片服务，不影响上方本地与抠图功能。连接服务后会自动回到可用任务目录。</p>
+            <div class="unavailable-task-list" id="unavailable-task-list" role="list"></div>
+          </details>
         </section>
 
         <section class="config-section" id="config-section" hidden aria-labelledby="config-title">
@@ -105,9 +131,19 @@
                 </div>
                 <div class="editor-preview-frame" id="editor-preview-frame" data-format="png" data-crop-enabled="false" tabindex="-1" aria-label="完整图片预览。当前不裁剪。" aria-describedby="editor-crop-hint">
                   <img class="editor-preview-image" id="editor-preview-image" alt="当前本地编辑预览" draggable="false" />
+                  <canvas class="editor-perspective-preview" id="editor-perspective-preview" aria-label="当前垂直透视校正预览" hidden></canvas>
+                  <canvas class="editor-rectification-preview" id="editor-rectification-preview" aria-label="当前四角裁正结果预览" hidden></canvas>
+                  <div class="editor-rectification-overlay" id="editor-rectification-overlay" role="group" aria-label="四角裁正区域" hidden>
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path id="editor-rectification-shade" fill-rule="evenodd"></path></svg>
+                    <button type="button" class="rectification-handle" data-rectification-point="topLeft" aria-label="左上角，可拖动或用方向键微调"><span>左上</span></button>
+                    <button type="button" class="rectification-handle" data-rectification-point="topRight" aria-label="右上角，可拖动或用方向键微调"><span>右上</span></button>
+                    <button type="button" class="rectification-handle" data-rectification-point="bottomRight" aria-label="右下角，可拖动或用方向键微调"><span>右下</span></button>
+                    <button type="button" class="rectification-handle" data-rectification-point="bottomLeft" aria-label="左下角，可拖动或用方向键微调"><span>左下</span></button>
+                  </div>
                   <span class="preview-boundary" aria-hidden="true"></span>
                   <span class="editor-crop-box" id="editor-crop-box" role="group" aria-label="导出裁剪区域" hidden>
                     <span class="crop-grid" aria-hidden="true"></span>
+                    <span class="social-title-preview" id="social-title-preview" aria-hidden="true" hidden></span>
                     <span class="crop-resize-handle" id="editor-crop-resize" role="button" tabindex="0" aria-label="拖动或使用方向键改变自由裁剪大小" hidden></span>
                   </span>
                   <span class="preview-drag-badge" id="editor-drag-badge" hidden>拖动裁剪框</span>
@@ -117,7 +153,7 @@
                   <div class="editor-save-state"><strong id="editor-change-state">设置已同步</strong><span id="editor-history-summary">尚无编辑</span></div>
                 </div>
                 <p class="crop-hint" id="editor-crop-hint">当前显示并保留完整图片；选择固定比例或自由裁剪后，亮框会标出导出区域。</p>
-                <p class="preview-disclaimer">预览用于编辑反馈；下载仍从原始解码结果重新渲染并独立重开校验，不会下载这个预览画面。</p>
+                <p class="preview-disclaimer">预览用于编辑反馈，其中构图与光色会实时显示；像素级降噪、清晰度以生成后的原图 / 结果对比为准。下载从原始解码结果重新渲染并独立重开校验，不会下载这个预览画面。</p>
               </section>
               <div class="contract-list"><p><span>会保留</span><strong id="config-preserve"></strong></p><p><span>会改变</span><strong id="config-change"></strong></p></div>
             </div>
@@ -132,7 +168,7 @@
         <section class="result-section" id="result-section" hidden aria-labelledby="result-title">
           <div class="result-heading">
             <div><p class="kicker">处理输出</p><h2 id="result-title">已生成结果</h2><p id="result-summary"></p></div>
-            <div class="result-actions"><button class="button button-quiet" id="result-replace-button" type="button">处理新图片</button><button class="button button-quiet" id="result-change-task-button" type="button">换个处理方向</button><button class="button button-quiet" id="redo-button" type="button">调整设置</button><button class="button button-primary" id="download-button" type="button">下载结果</button></div>
+            <div class="result-actions"><button class="button button-quiet" id="result-replace-button" type="button">处理新图片</button><button class="button button-quiet" id="result-use-as-source-button" type="button" hidden>用此结果继续处理</button><button class="button button-quiet" id="result-change-task-button" type="button">换个处理方向</button><button class="button button-quiet" id="redo-button" type="button">调整设置</button><button class="button button-quiet" id="portrait-sheet-button" type="button" title="生成 1800 × 1200 通用六宫格；不代表官方证件规格" hidden>下载六张排版图</button><button class="button button-primary" id="download-button" type="button">下载结果</button></div>
           </div>
           <div class="compare-tabs" role="tablist" aria-label="查看完整原图、并排对比、处理说明和处理结果">
             <button id="compare-source-tab" type="button" role="tab" data-layer="source" aria-controls="compare-source-panel" aria-selected="false" tabindex="-1">完整原图</button>
@@ -181,6 +217,107 @@
                 <button type="button" data-mask-zoom="4" aria-pressed="false">4×</button>
               </div>
             </div>
+            <section class="product-composition-controls" id="product-composition-controls" aria-labelledby="product-composition-title" hidden>
+              <div class="product-composition-heading">
+                <div><p class="kicker">商品交付</p><h4 id="product-composition-title">一次调整，生成四个版本</h4></div>
+                <button class="button button-quiet" id="product-composition-reset" type="button">恢复默认</button>
+              </div>
+              <canvas id="product-composition-preview" role="img" aria-label="最终商品白底图预览"></canvas>
+              <div class="product-composition-fields">
+                <label><span>交付画布</span><select id="product-output-preset"><option value="square-1200">通用方形 · 1200 × 1200</option><option value="portrait-1200x1500">通用竖版 · 1200 × 1500</option><option value="landscape-1200x900">通用横版 · 1200 × 900</option><option value="current">保留当前像素</option></select></label>
+                <label><span>商品大小 <output id="product-scale-output">86%</output></span><input id="product-scale" type="range" min="65" max="100" step="1" value="86" /></label>
+                <label><span>左右位置 <output id="product-position-x-output">居中</output></span><input id="product-position-x" type="range" min="0" max="100" step="1" value="50" /></label>
+                <label><span>上下位置 <output id="product-position-y-output">居中</output></span><input id="product-position-y" type="range" min="0" max="100" step="1" value="50" /></label>
+              </div>
+              <div class="product-shadow-controls" role="group" aria-label="商品阴影">
+                <span>基础阴影</span>
+                <button type="button" data-product-shadow="none" aria-pressed="true">关闭</button>
+                <button type="button" data-product-shadow="soft" aria-pressed="false">柔和</button>
+              </div>
+              <p>一套商品大小、位置和阴影会同步应用到四个通用版本。模板只是常用像素画布，不代表任何电商平台规则。大小和位置按透明蒙版中的全部非透明内容计算，不会重新上传图片、识别或删除水印，也不会改变人工修正蒙版。</p>
+            </section>
+            <section class="product-output-set" id="product-output-set" aria-labelledby="product-output-set-title" hidden>
+              <div class="product-output-set-heading">
+                <div><p class="kicker">一图多用</p><h4 id="product-output-set-title">四个版本同时预览</h4><p>共用当前抠图、修边和构图；单独下载或生成一个本地 ZIP，不会再次调用远程服务。</p></div>
+                <button class="button button-primary" id="product-output-download-all" type="button">下载整组 ZIP</button>
+              </div>
+              <div class="product-output-grid" id="product-output-grid">
+                <article class="product-output-card" data-product-output-card="square-1200">
+                  <canvas data-product-output-preview="square-1200" role="img" aria-label="通用方形商品图预览"></canvas>
+                  <div><strong>通用方形</strong><span data-product-output-detail>1200 × 1200 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-product-output-select="square-1200">设为主预览</button><button type="button" data-product-output-download="square-1200">下载</button></div>
+                </article>
+                <article class="product-output-card" data-product-output-card="portrait-1200x1500">
+                  <canvas data-product-output-preview="portrait-1200x1500" role="img" aria-label="通用竖版商品图预览"></canvas>
+                  <div><strong>通用竖版</strong><span data-product-output-detail>1200 × 1500 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-product-output-select="portrait-1200x1500">设为主预览</button><button type="button" data-product-output-download="portrait-1200x1500">下载</button></div>
+                </article>
+                <article class="product-output-card" data-product-output-card="landscape-1200x900">
+                  <canvas data-product-output-preview="landscape-1200x900" role="img" aria-label="通用横版商品图预览"></canvas>
+                  <div><strong>通用横版</strong><span data-product-output-detail>1200 × 900 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-product-output-select="landscape-1200x900">设为主预览</button><button type="button" data-product-output-download="landscape-1200x900">下载</button></div>
+                </article>
+                <article class="product-output-card" data-product-output-card="current">
+                  <canvas data-product-output-preview="current" role="img" aria-label="当前像素商品图预览"></canvas>
+                  <div><strong>保留当前像素</strong><span data-product-output-detail>等待图片尺寸</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-product-output-select="current">设为主预览</button><button type="button" data-product-output-download="current">下载</button></div>
+                </article>
+              </div>
+              <p class="product-output-set-status" id="product-output-set-status" role="status" aria-live="polite">四个版本会随构图调整同步更新。</p>
+            </section>
+            <section class="portrait-composition-controls" id="portrait-composition-controls" aria-labelledby="portrait-composition-title" hidden>
+              <div class="product-composition-heading">
+                <div><p class="kicker">报名照交付</p><h4 id="portrait-composition-title">调整人物构图与像素尺寸</h4></div>
+                <button class="button button-quiet" id="portrait-composition-reset" type="button">恢复默认</button>
+              </div>
+              <canvas id="portrait-composition-preview" role="img" aria-label="最终报名照预览"></canvas>
+              <div class="portrait-composition-fields">
+                <label><span>像素模板</span><select id="portrait-output-preset"><option value="square-600">通用方形 · 600 × 600</option><option value="portrait-480x600">通用竖版 · 480 × 600</option><option value="current">保留当前像素</option></select></label>
+                <label><span>人物大小 <output id="portrait-scale-output">78%</output></span><input id="portrait-scale" type="range" min="65" max="100" step="1" value="78" /></label>
+                <label><span>上下位置 <output id="portrait-position-y-output">略偏上</output></span><input id="portrait-position-y" type="range" min="0" max="100" step="1" value="34" /></label>
+              </div>
+              <p>模板只是普通像素起点，不包含毫米、DPI 或地区证件规则。人物范围按透明蒙版计算；不会自动识别人脸、眼睛或头顶位置，请根据预览手动确认。</p>
+            </section>
+            <section class="product-output-set portrait-output-set" id="portrait-output-set" aria-labelledby="portrait-output-set-title" hidden>
+              <div class="product-output-set-heading">
+                <div><p class="kicker">一照多用</p><h4 id="portrait-output-set-title">同一构图，生成六个通用版本</h4><p>两种普通像素尺寸 × 三种纯色背景；全部复用当前抠图和人工修边，在本机重新绘制，不会再次调用远程服务。</p></div>
+                <button class="button button-primary" id="portrait-output-download-all" type="button">下载整组 ZIP</button>
+              </div>
+              <div class="product-output-grid portrait-output-grid" id="portrait-output-grid">
+                <article class="product-output-card" data-portrait-output-card="square-600-white">
+                  <canvas data-portrait-output-preview="square-600-white" role="img" aria-label="通用方形白色背景预览"></canvas>
+                  <div><strong>通用方形 · 白色</strong><span data-portrait-output-detail>600 × 600 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-portrait-output-select="square-600-white">设为主预览</button><button type="button" data-portrait-output-download="square-600-white">下载</button></div>
+                </article>
+                <article class="product-output-card" data-portrait-output-card="square-600-blue">
+                  <canvas data-portrait-output-preview="square-600-blue" role="img" aria-label="通用方形蓝色背景预览"></canvas>
+                  <div><strong>通用方形 · 蓝色</strong><span data-portrait-output-detail>600 × 600 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-portrait-output-select="square-600-blue">设为主预览</button><button type="button" data-portrait-output-download="square-600-blue">下载</button></div>
+                </article>
+                <article class="product-output-card" data-portrait-output-card="square-600-warm-red">
+                  <canvas data-portrait-output-preview="square-600-warm-red" role="img" aria-label="通用方形暖红背景预览"></canvas>
+                  <div><strong>通用方形 · 暖红</strong><span data-portrait-output-detail>600 × 600 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-portrait-output-select="square-600-warm-red">设为主预览</button><button type="button" data-portrait-output-download="square-600-warm-red">下载</button></div>
+                </article>
+                <article class="product-output-card" data-portrait-output-card="portrait-480x600-white">
+                  <canvas data-portrait-output-preview="portrait-480x600-white" role="img" aria-label="通用竖版白色背景预览"></canvas>
+                  <div><strong>通用竖版 · 白色</strong><span data-portrait-output-detail>480 × 600 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-portrait-output-select="portrait-480x600-white">设为主预览</button><button type="button" data-portrait-output-download="portrait-480x600-white">下载</button></div>
+                </article>
+                <article class="product-output-card" data-portrait-output-card="portrait-480x600-blue">
+                  <canvas data-portrait-output-preview="portrait-480x600-blue" role="img" aria-label="通用竖版蓝色背景预览"></canvas>
+                  <div><strong>通用竖版 · 蓝色</strong><span data-portrait-output-detail>480 × 600 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-portrait-output-select="portrait-480x600-blue">设为主预览</button><button type="button" data-portrait-output-download="portrait-480x600-blue">下载</button></div>
+                </article>
+                <article class="product-output-card" data-portrait-output-card="portrait-480x600-warm-red">
+                  <canvas data-portrait-output-preview="portrait-480x600-warm-red" role="img" aria-label="通用竖版暖红背景预览"></canvas>
+                  <div><strong>通用竖版 · 暖红</strong><span data-portrait-output-detail>480 × 600 px</span></div>
+                  <div class="product-output-card-actions"><button type="button" data-portrait-output-select="portrait-480x600-warm-red">设为主预览</button><button type="button" data-portrait-output-download="portrait-480x600-warm-red">下载</button></div>
+                </article>
+              </div>
+              <p class="product-output-set-status" id="portrait-output-set-status" role="status" aria-live="polite">六个版本会随人物大小、位置和蒙版修正同步更新。</p>
+              <p class="portrait-output-boundary">这些是通用像素与底色组合，不包含毫米、DPI、脸部占比或任何机构的官方证件照规则。</p>
+            </section>
             <section class="mask-output-summary" id="mask-output-summary" aria-labelledby="mask-output-summary-title" hidden>
               <div class="mask-output-summary-heading">
                 <span id="mask-output-summary-title">最终下载内容</span>
@@ -209,6 +346,131 @@
               <div><strong id="reference-title"></strong><p id="reference-copy"></p></div>
             </div>
           </div>
+          <section class="product-output-set social-output-set" id="social-output-set" aria-labelledby="social-output-set-title" hidden>
+            <div class="product-output-set-heading">
+              <div><p class="kicker">一图多用</p><h4 id="social-output-set-title">同一内容，生成四种社交尺寸</h4><p>共用当前图片、构图位置和标题样式；四个版本全部在本机重新绘制，可单独下载或打包 ZIP。</p></div>
+              <button class="button button-primary" id="social-output-download-all" type="button">下载整组 ZIP</button>
+            </div>
+            <div class="product-output-grid" id="social-output-grid">
+              <article class="product-output-card" data-social-output-card="social-square">
+                <img data-social-output-preview="social-square" alt="方形分享图预览" />
+                <div><strong>方形分享</strong><span data-social-output-detail>1:1 · 最长边 1080 px</span></div>
+                <div class="product-output-card-actions"><button type="button" data-social-output-select="social-square">查看大图</button><button type="button" data-social-output-download="social-square">下载</button></div>
+              </article>
+              <article class="product-output-card" data-social-output-card="social-portrait">
+                <img data-social-output-preview="social-portrait" alt="竖版分享图预览" />
+                <div><strong>竖版分享</strong><span data-social-output-detail>4:5 · 最长边 1350 px</span></div>
+                <div class="product-output-card-actions"><button type="button" data-social-output-select="social-portrait">查看大图</button><button type="button" data-social-output-download="social-portrait">下载</button></div>
+              </article>
+              <article class="product-output-card" data-social-output-card="wide-cover">
+                <img data-social-output-preview="wide-cover" alt="横版封面图预览" />
+                <div><strong>横版封面</strong><span data-social-output-detail>16:9 · 最长边 1920 px</span></div>
+                <div class="product-output-card-actions"><button type="button" data-social-output-select="wide-cover">查看大图</button><button type="button" data-social-output-download="wide-cover">下载</button></div>
+              </article>
+              <article class="product-output-card" data-social-output-card="story">
+                <img data-social-output-preview="story" alt="竖屏故事图预览" />
+                <div><strong>竖屏故事</strong><span data-social-output-detail>9:16 · 最长边 1920 px</span></div>
+                <div class="product-output-card-actions"><button type="button" data-social-output-select="story">查看大图</button><button type="button" data-social-output-download="story">下载</button></div>
+              </article>
+            </div>
+            <p class="product-output-set-status" id="social-output-set-status" role="status" aria-live="polite">正在准备四个本地版本…</p>
+          </section>
+          <section class="product-output-set social-grid-output-set" id="social-grid-output-set" aria-labelledby="social-grid-output-set-title" hidden>
+            <div class="product-output-set-heading">
+              <div><p class="kicker">一图九切</p><h4 id="social-grid-output-set-title">按发布顺序预览九张切图</h4><p>先用上方整图确认总构图，再按左到右、从上到下查看 1–9 号单图。九张图片全部在本机生成。</p></div>
+              <div class="social-grid-heading-actions">
+                <button class="button button-quiet" id="social-grid-show-overview" type="button">查看整图</button>
+                <button class="button button-primary" id="social-grid-download-all" type="button">下载九张 ZIP</button>
+              </div>
+            </div>
+            <div class="social-grid-mosaic" id="social-grid-mosaic" aria-label="九宫格切图预览，按左到右、从上到下排列">
+              <button type="button" data-social-grid-tile="tile-1" aria-label="查看第 1 张切图"><img data-social-grid-preview="tile-1" alt="第 1 张切图预览" /><span>1</span></button>
+              <button type="button" data-social-grid-tile="tile-2" aria-label="查看第 2 张切图"><img data-social-grid-preview="tile-2" alt="第 2 张切图预览" /><span>2</span></button>
+              <button type="button" data-social-grid-tile="tile-3" aria-label="查看第 3 张切图"><img data-social-grid-preview="tile-3" alt="第 3 张切图预览" /><span>3</span></button>
+              <button type="button" data-social-grid-tile="tile-4" aria-label="查看第 4 张切图"><img data-social-grid-preview="tile-4" alt="第 4 张切图预览" /><span>4</span></button>
+              <button type="button" data-social-grid-tile="tile-5" aria-label="查看第 5 张切图"><img data-social-grid-preview="tile-5" alt="第 5 张切图预览" /><span>5</span></button>
+              <button type="button" data-social-grid-tile="tile-6" aria-label="查看第 6 张切图"><img data-social-grid-preview="tile-6" alt="第 6 张切图预览" /><span>6</span></button>
+              <button type="button" data-social-grid-tile="tile-7" aria-label="查看第 7 张切图"><img data-social-grid-preview="tile-7" alt="第 7 张切图预览" /><span>7</span></button>
+              <button type="button" data-social-grid-tile="tile-8" aria-label="查看第 8 张切图"><img data-social-grid-preview="tile-8" alt="第 8 张切图预览" /><span>8</span></button>
+              <button type="button" data-social-grid-tile="tile-9" aria-label="查看第 9 张切图"><img data-social-grid-preview="tile-9" alt="第 9 张切图预览" /><span>9</span></button>
+            </div>
+            <div class="social-grid-footer-actions">
+              <button class="button button-quiet" id="social-grid-download-selected" type="button" disabled>下载选中单图</button>
+              <p class="product-output-set-status" id="social-grid-output-status" role="status" aria-live="polite">正在准备九张本地切图…</p>
+            </div>
+            <p class="old-photo-output-boundary">能力边界：不会自动发布、识别主体或补画画面。若正方形边长不能被 3 整除，只会从两侧合计舍弃最多 2 个边缘像素。</p>
+          </section>
+          <section class="product-output-set old-photo-output-set" id="old-photo-output-set" aria-labelledby="old-photo-output-set-title" hidden>
+            <div class="product-output-set-heading">
+              <div><p class="kicker">一图多修</p><h4 id="old-photo-output-set-title">同一裁剪，比较四种本地整理</h4><p>四个版本只改变整体亮度、对比度和饱和度；裁剪、旋转、输出尺寸与格式保持一致。全部在本机生成，不会再次上传。</p></div>
+              <button class="button button-primary" id="old-photo-output-download-all" type="button">下载整组 ZIP</button>
+            </div>
+            <div class="product-output-grid" id="old-photo-output-grid">
+              <article class="product-output-card" data-old-photo-output-card="faded">
+                <img data-old-photo-output-preview="faded" alt="褪色提层次版本预览" />
+                <div><strong>褪色提层次</strong><span data-old-photo-output-detail>轻微提亮并增加层次</span></div>
+                <div class="product-output-card-actions"><button type="button" data-old-photo-output-select="faded">查看大图</button><button type="button" data-old-photo-output-download="faded">下载</button></div>
+              </article>
+              <article class="product-output-card" data-old-photo-output-card="monochrome">
+                <img data-old-photo-output-preview="monochrome" alt="黑白层次版本预览" />
+                <div><strong>黑白层次</strong><span data-old-photo-output-detail>转为黑白并提升明暗层次</span></div>
+                <div class="product-output-card-actions"><button type="button" data-old-photo-output-select="monochrome">查看大图</button><button type="button" data-old-photo-output-download="monochrome">下载</button></div>
+              </article>
+              <article class="product-output-card" data-old-photo-output-card="soft">
+                <img data-old-photo-output-preview="soft" alt="柔和去灰版本预览" />
+                <div><strong>柔和去灰</strong><span data-old-photo-output-detail>温和提亮，保留原有反差</span></div>
+                <div class="product-output-card-actions"><button type="button" data-old-photo-output-select="soft">查看大图</button><button type="button" data-old-photo-output-download="soft">下载</button></div>
+              </article>
+              <article class="product-output-card" data-old-photo-output-card="original">
+                <img data-old-photo-output-preview="original" alt="保持原貌版本预览" />
+                <div><strong>保持原貌</strong><span data-old-photo-output-detail>只保留裁剪、旋转与导出</span></div>
+                <div class="product-output-card-actions"><button type="button" data-old-photo-output-select="original">查看大图</button><button type="button" data-old-photo-output-download="original">下载</button></div>
+              </article>
+            </div>
+            <p class="product-output-set-status" id="old-photo-output-set-status" role="status" aria-live="polite">正在准备四个本地版本…</p>
+              <p class="old-photo-output-boundary">能力边界：这里的轻度降噪只平滑小颗粒，不会识别并去除划痕、恢复失焦、修复人脸或补画缺失内容。需要生成式补细节时，请使用单独的“AI 老照片修复（实验）”并逐项核对人物和文字。</p>
+          </section>
+          <section class="compression-impact-card" id="compression-impact-card" aria-labelledby="compression-impact-title" hidden>
+            <div class="compression-impact-heading">
+              <div><p class="kicker">画质影响</p><h3 id="compression-impact-title">这次压缩对图片有什么影响</h3></div>
+              <strong class="compression-impact-level" id="compression-impact-level"></strong>
+            </div>
+            <dl class="compression-impact-metrics">
+              <div><dt>文件体积</dt><dd id="compression-impact-file"></dd></div>
+              <div><dt>像素尺寸</dt><dd id="compression-impact-pixels"></dd></div>
+              <div><dt>JPEG 质量</dt><dd id="compression-impact-quality"></dd></div>
+            </dl>
+            <p id="compression-impact-copy"></p>
+            <p class="compression-impact-check">体积压缩比例不等于画质损失比例。请使用上方“并排对比”，重点检查文字、发丝、细纹、暗部和渐变。</p>
+          </section>
+          <section class="format-conversion-card" id="format-conversion-card" aria-labelledby="format-conversion-title" hidden>
+            <div><p class="kicker">转换说明</p><h3 id="format-conversion-title">格式、透明与画质变化</h3></div>
+            <dl class="format-conversion-metrics">
+              <div><dt>格式</dt><dd id="format-conversion-formats"></dd></div>
+              <div><dt>像素尺寸</dt><dd id="format-conversion-dimensions"></dd></div>
+              <div><dt>文件体积</dt><dd id="format-conversion-size"></dd></div>
+            </dl>
+            <p id="format-conversion-transparency"></p>
+            <p id="format-conversion-quality"></p>
+          </section>
+          <section class="canvas-fit-card" id="canvas-fit-card" aria-labelledby="canvas-fit-title" hidden>
+            <div><p class="kicker">完整适配</p><h3 id="canvas-fit-title">整张图片已放入目标画布</h3></div>
+            <dl class="format-conversion-metrics">
+              <div><dt>画布尺寸</dt><dd id="canvas-fit-dimensions"></dd></div>
+              <div><dt>图片占位</dt><dd id="canvas-fit-placement"></dd></div>
+              <div><dt>输出</dt><dd id="canvas-fit-output"></dd></div>
+            </dl>
+            <p id="canvas-fit-copy"></p>
+          </section>
+          <section class="upload-compliance-card" id="upload-compliance-card" aria-labelledby="upload-compliance-title" hidden>
+            <div class="compression-impact-heading"><div><p class="kicker">上传目标检查</p><h3 id="upload-compliance-title">逐项核对处理结果</h3></div><strong class="compression-impact-level" id="upload-compliance-state"></strong></div>
+            <div class="upload-compliance-list" id="upload-compliance-list" role="list"></div>
+          </section>
+          <section class="upload-compliance-card" id="privacy-share-card" aria-labelledby="privacy-share-title" hidden>
+            <div class="compression-impact-heading"><div><p class="kicker">分享副本检查</p><h3 id="privacy-share-title">文件信息、尺寸与体积</h3></div><strong class="compression-impact-level" id="privacy-share-state"></strong></div>
+            <div class="upload-compliance-list" id="privacy-share-list" role="list"></div>
+            <p class="old-photo-output-boundary" id="privacy-share-boundary"></p>
+          </section>
           <div class="qa-strip"><span class="qa-pass">✓ 文件可下载</span><span id="qa-copy"></span><span id="result-size"></span></div>
           <aside class="processing-record-card" id="processing-record-card" hidden aria-labelledby="processing-record-title">
             <div>
@@ -227,7 +489,22 @@
 
         <section class="error-panel" id="error-panel" hidden>
           <span class="error-mark" aria-hidden="true">!</span>
-          <div><p class="kicker">本次没有得到结果</p><h2 id="error-title">处理失败</h2><p id="error-copy"></p><div class="inline-actions"><button class="button button-primary" id="recover-button" type="button" hidden>查询原任务</button><button class="button button-primary" id="fallback-editor-button" type="button" hidden>改用本地编辑</button><button class="button button-quiet" id="retry-button" type="button">新建任务</button><button class="button button-quiet" id="error-back-button" type="button">返回任务列表</button></div></div>
+          <div class="error-content">
+            <p class="kicker">本次没有得到结果</p>
+            <h2 id="error-title">处理失败</h2>
+            <p id="error-copy"></p>
+            <div class="error-facts" role="list" aria-label="失败后的数据与恢复信息">
+              <div role="listitem"><span>图片状态</span><strong id="error-data-boundary"></strong></div>
+              <div role="listitem"><span>安全重试</span><strong id="error-retry-safety"></strong></div>
+              <div role="listitem"><span>下一步</span><strong id="error-action-hint"></strong></div>
+              <div role="listitem" id="error-run-row" hidden><span>任务编号</span><code id="error-run-id"></code></div>
+            </div>
+            <details class="error-technical" id="error-technical" hidden>
+              <summary>查看技术信息</summary>
+              <dl><div><dt>错误类型</dt><dd><code id="error-technical-code"></code></dd></div><div><dt>当前任务</dt><dd><code id="error-technical-task"></code></dd></div></dl>
+            </details>
+            <div class="inline-actions"><button class="button button-primary" id="recover-button" type="button" hidden>查询原任务</button><button class="button button-primary" id="fallback-editor-button" type="button" hidden>改用本地编辑</button><button class="button button-quiet" id="retry-button" type="button">新建任务</button><button class="button button-quiet" id="error-back-button" type="button">返回任务列表</button></div>
+          </div>
         </section>
       </section>
     </main>

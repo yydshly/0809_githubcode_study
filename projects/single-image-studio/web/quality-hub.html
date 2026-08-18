@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Single Image Studio 内部质量入口：产品回归、效果样例、错误参考与真人走查。" />
+    <meta name="robots" content="noindex" />
+    <title>内部质量入口 · Single Image Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./quality-hub.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#quality-main">跳到质量入口</a>
+    <header class="site-header quality-header">
+      <a class="brand" href="./"><span class="brand-symbol" aria-hidden="true">S</span><span><strong>Single Image</strong><small>Studio · 内部质量入口</small></span></a>
+      <nav class="quality-nav" aria-label="内部质量导航"><a href="./">工作室</a><a href="./examples.html">效果样例</a><a aria-current="page" href="./quality-hub.html">内部质量</a></nav>
+    </header>
+    <main id="quality-main" class="quality-shell">
+      <section class="quality-hero" aria-labelledby="quality-title">
+        <div><p class="kicker">Internal quality hub</p><h1 id="quality-title">先知道要验证什么，<br />再打开对应页面。</h1></div>
+        <div class="quality-hero-copy"><p>自动回归检查代码有没有破坏；样例和错误参考帮助人理解效果与边界；真人走查才回答第一次使用的人是否真的会操作。四种结果不能互相替代。</p><div class="quality-next"><span>当前下一动作</span><strong>邀请 2–3 位未参与设计的人进行方法演练</strong><p>只使用项目合成图。自动 QA 已完成，但真实场次仍是 0。</p></div></div>
+      </section>
+      <section class="quality-boundaries" aria-label="证据边界">
+        <div><span>自动浏览器 QA</span><strong>检查页面与流程</strong><p>可以由系统重复运行。</p></div>
+        <div><span>人工视觉复核</span><strong>查看样例与错误</strong><p>不读取用户图片。</p></div>
+        <div data-human-denominator><span>真人体验</span><strong>0 / 2–3</strong><p>必须由真实体验者完成，不能自动填充。</p></div>
+      </section>
+      <section class="quality-grid" aria-label="内部质量工具">
+        <article class="quality-card" data-quality-card="product"><div class="quality-card-top"><span class="quality-number">01</span><span class="quality-kind">自动回归</span></div><h2>主流程浏览器验收</h2><p>使用项目合成图真实操作六条本地旅程，检查结果重开、换任务、下载资格与焦点。</p><div class="quality-runtime" data-quality-status="product" role="status">正在读取本服务会话…</div><a class="button button-primary" href="./product-acceptance.html">打开并运行</a></article>
+        <article class="quality-card" data-quality-card="examples"><div class="quality-card-top"><span class="quality-number">02</span><span class="quality-kind">人工复核</span></div><h2>样例与效果</h2><p>完整查看项目原创原图、实际本地结果、处理参数、来源和做不到的事情。</p><div class="quality-runtime" data-quality-status="examples" role="status">正在读取本服务会话…</div><a class="button button-primary" href="./examples.html">查看效果样例</a></article>
+        <article class="quality-card" data-quality-card="errors"><div class="quality-card-top"><span class="quality-number">03</span><span class="quality-kind">界面夹具</span></div><h2>错误与恢复参考</h2><p>核对七类失败是否说明图片状态、安全重试、下一步和技术信息折叠。</p><div class="quality-runtime" data-quality-status="errors" role="status">正在读取本服务会话…</div><a class="button button-primary" href="./error-reference.html">查看错误参考</a></article>
+        <article class="quality-card quality-card-human" data-quality-card="walkthrough"><div class="quality-card-top"><span class="quality-number">04</span><span class="quality-kind">真人方法演练</span></div><h2>内部体验走查</h2><p>主持人观察基础编辑与隐私分享两项任务，只导出匿名 JSON，不收参与者图片。</p><div class="quality-runtime" data-quality-status="walkthrough" role="status">正在读取工具 QA…</div><div class="quality-card-actions"><a class="button button-primary" href="./internal-walkthrough.html">开始一场走查</a><a href="./internal-walkthrough-summary.html">汇总匿名记录</a></div></article>
+      </section>
+      <section class="page-directory" aria-labelledby="page-directory-title"><div class="page-directory-heading"><div><p class="kicker">页面与能力关系</p><h2 id="page-directory-title">所有页面都有角色、上级入口和能力归属。</h2></div><p>产品页服务普通用户；复核、走查、自动 QA 与视觉参考只在内部质量链中出现，不抢占产品主流程。</p></div><div id="page-directory-groups"></div></section>
+      <section class="quality-stop" aria-labelledby="quality-stop-title"><div><p class="kicker">停止误判</p><h2 id="quality-stop-title">自动通过，不等于用户会用。</h2></div><ul><li>样例好看不等于任意图片都能得到同样结果。</li><li>错误夹具正确不等于真实服务已经发生过该错误。</li><li>走查工具 2/2 不增加任何真人分母。</li><li>没有真人记录前，不继续用新增场景掩盖可用性问题。</li></ul></section>
+    </main>
+    <script type="module" src="./quality-hub.js"></script>
+  </body>
+</html>

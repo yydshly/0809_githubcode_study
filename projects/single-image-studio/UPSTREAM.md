@@ -180,6 +180,8 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 | [OpenAI GPT Image 2 model](https://developers.openai.com/api/docs/models/gpt-image-2) | 2026-08-14 | 固定 `gpt-image-2-2026-04-21` snapshot、支持端点与限流入口 | 未复制代码或资产；仅记录公开服务边界 |
 | [OpenAI Image generation guide](https://developers.openai.com/api/docs/guides/image-generation) | 2026-08-14 | 规划生成 / 编辑请求、mask、输出设置、透明背景与已知限制 | 未复制代码或资产；仅记录公开接口边界 |
 | [OpenAI API pricing](https://openai.com/api/pricing/) | 2026-08-14 | 实验前核对动态价格；实际成本仍以每次 RunManifest / 账单为准 | 不在文档写死易变化价格 |
+| [MiniMax Image Generation guide](https://platform.minimax.io/docs/guides/image-generation) 与 [Image-to-Image API](https://platform.minimax.io/docs/api-reference/image-generation-i2i) | 2026-08-17 | 核对 `image-01` / `image-01-live`、`subject_reference` 与在线 `image_file` URL 约束；评估能否作为生成式编辑备用候选 | 未复制 SDK、代码、模型或资产；当前不发送本地图片 |
+| [MiniMax API overview](https://platform.minimax.io/docs/api-reference/api-overview) | 2026-08-17 | 区分 Token Plan Subscription Key 与按量 API key，并核对图像服务入口 | 只记录配置与调用边界；未启用产品 route |
 | [国家移民管理局：出入境证件“全程网办”照片提交指引](https://s.nia.gov.cn/mps/bszy/qcwbzpzy/zpzy/202405/t20240528_1001.html) | 2026-08-12 | 中国出入境证件照片的拍摄、背景、姿态、遮挡、像素与禁用美颜 / 滤镜 / 瘦脸边界 | 未复制图片或页面；仅作为 `CN-NIA` profile 的官方研究入口 |
 | [国家移民管理局：出入境证件相片照相指引](https://www.nia.gov.cn/n741445/n763221/index.html) | 2026-08-12 | 中国出入境证件照片标准的官方入口；具体规则需按届时页面 / 附件重新核对 | 未复制图片或附件 |
 | [U.S. Department of State: Passport Photos](https://travel.state.gov/en/passports/apply/help/photos.html) | 2026-08-12 | 美国纸质护照照片的现行官方规则、正反例与禁止数字 / AI 修改边界 | 未复制示例图片；仅作为 `US-DOS-PASSPORT-PAPER` profile 入口 |
@@ -200,6 +202,10 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 - `gpt-image-2` 的高输入保真也不等于输出像素锁定、身份保证、证件合规或可重复的发丝 Matting；每项仍需独立 QA。
 
 API 文档只证明当前公开接口边界，不能倒推历史“OpenAI 内置 ImageGen”资产的发布权。OpenAI 与客户之间的 output ownership 不授予客户原本没有的第三方输入、肖像、商标或作品权利；输出也可能相似、并非唯一，服务没有一般性的非侵权保证。每个 pair 必须记录实际生成 surface/account terms（例如内置 ImageGen 或 API）、适用条款版本与核对日期，并由本项目自行审查输入权限和输出用途。
+
+### MiniMax 图片候选边界
+
+2026-08-17 核对的 MiniMax 官方文档把 `image-01` / `image-01-live` 的 image-to-image 输入描述为单个 `subject_reference`，其中 `image_file` 是在线图片 URL；它不是本项目现有“浏览器本地上传 → 服务端直接 multipart / binary 发送 → 可核对删除边界”的等价接口。官方 overview 还区分 Token Plan Subscription Key 与按量 API key，因此凭据类型也不能混用。项目只新增服务端候选状态和显式关闭策略：`MINIMAX_TOKEN_PLAN_KEY` 存在不代表能力可用，`MINIMAX_IMAGE_ENABLED=true` 也不会绕过 public-reference-URL 限制。没有把用户图片上传至公开 URL，没有执行 MiniMax 调用，也没有复制模型、SDK 或输出资产。
 
 ### 证件照片地区与 profile 边界
 

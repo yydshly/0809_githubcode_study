@@ -1,6 +1,11 @@
 import { createEditState } from "./edit-state.js";
+import { enhanceDetailPixels } from "./detail-enhancement.js";
 import { inspectOutputMetadata, verifyPixelRoundTrip } from "./output-validation.js";
 import { sha256Bytes } from "./source-file.js";
+import { straightenCoverScale } from "./straighten-geometry.js";
+import { drawVerticalPerspective, verticalPerspectiveProfile } from "./vertical-perspective.js";
+import { drawQuadRectification, rectifiedDimensions } from "./quad-rectification.js";
+import { applyDocumentScanPixels } from "./document-scan.js";
 
 function positiveDimension(value, label) {
   if (!Number.isFinite(value) || value <= 0) throw new TypeError(`${label} 必须是正数`);
@@ -56,23 +61,36 @@ export function buildRenderPlan({ sourceWidth, sourceHeight, editState = createE
   }
   const oriented = orientedDimensions(sourceWidth, sourceHeight, sourceOrientation);
   const transformed = transformedDimensions(oriented.width, oriented.height, editState.rotation);
+  const coverScale = straightenCoverScale(transformed.width, transformed.height, editState.straighten);
+  const perspective = verticalPerspectiveProfile(editState.verticalPerspective);
+  const rectified = editState.rectification.enabled
+    ? rectifiedDimensions(editState.rectification.quad, transformed.width, transformed.height)
+    : transformed;
   const crop = {
-    x: transformed.width * editState.crop.x,
-    y: transformed.height * editState.crop.y,
-    width: transformed.width * editState.crop.width,
-    height: transformed.height * editState.crop.height,
+    x: rectified.width * editState.crop.x,
+    y: rectified.height * editState.crop.y,
+    width: rectified.width * editState.crop.width,
+    height: rectified.height * editState.crop.height,
   };
   const output = outputDimensions(crop.width, crop.height, editState.resize);
   return Object.freeze({
     source: Object.freeze({ width: sourceWidth, height: sourceHeight, orientation: sourceOrientation }),
     oriented: Object.freeze(oriented),
     transformed: Object.freeze(transformed),
+    rectified: Object.freeze(rectified),
     crop: Object.freeze(crop),
     output: Object.freeze(output),
     rotation: editState.rotation,
+    straighten: editState.straighten,
+    straightenScale: coverScale,
+    verticalPerspective: perspective.amount,
+    verticalPerspectiveScale: perspective.coverScale,
+    rectification: editState.rectification,
+    documentScan: editState.documentScan,
     flipHorizontal: editState.flipHorizontal,
     flipVertical: editState.flipVertical,
     filter: `brightness(${100 + editState.adjustments.brightness}%) contrast(${100 + editState.adjustments.contrast}%) saturate(${100 + editState.adjustments.saturation}%)`,
+    detailEnhancement: editState.detailEnhancement,
     mime: editState.output.format === "jpeg" ? "image/jpeg" : "image/png",
     jpegQuality: editState.output.jpegQuality,
     jpegBackground: editState.output.jpegBackground,
@@ -147,8 +165,11 @@ export async function renderEditedImage({
   const transformedContext = canvasContext(transformedCanvas, true);
   transformedContext.save();
   transformedContext.translate(plan.transformed.width / 2, plan.transformed.height / 2);
-  transformedContext.scale(plan.flipHorizontal ? -1 : 1, plan.flipVertical ? -1 : 1);
-  transformedContext.rotate(plan.rotation * Math.PI / 180);
+  transformedContext.scale(
+    (plan.flipHorizontal ? -1 : 1) * plan.straightenScale,
+    (plan.flipVertical ? -1 : 1) * plan.straightenScale,
+  );
+  transformedContext.rotate((plan.rotation + plan.straighten) * Math.PI / 180);
   transformedContext.drawImage(
     orientedSource,
     -plan.oriented.width / 2,
@@ -157,6 +178,37 @@ export async function renderEditedImage({
     plan.oriented.height,
   );
   transformedContext.restore();
+
+  let geometrySource = transformedCanvas;
+  if (plan.verticalPerspective !== 0) {
+    const perspectiveCanvas = createCanvas("perspective");
+    perspectiveCanvas.width = plan.transformed.width;
+    perspectiveCanvas.height = plan.transformed.height;
+    const perspectiveContext = canvasContext(perspectiveCanvas, true);
+    drawVerticalPerspective({
+      context: perspectiveContext,
+      source: transformedCanvas,
+      width: perspectiveCanvas.width,
+      height: perspectiveCanvas.height,
+      value: plan.verticalPerspective,
+    });
+    geometrySource = perspectiveCanvas;
+  }
+
+  if (plan.rectification.enabled) {
+    const rectifiedCanvas = createCanvas("rectification");
+    rectifiedCanvas.width = plan.rectified.width;
+    rectifiedCanvas.height = plan.rectified.height;
+    const rectifiedContext = canvasContext(rectifiedCanvas, true);
+    drawQuadRectification({
+      context: rectifiedContext,
+      source: geometrySource,
+      quad: plan.rectification.quad,
+      width: rectifiedCanvas.width,
+      height: rectifiedCanvas.height,
+    });
+    geometrySource = rectifiedCanvas;
+  }
 
   const outputCanvas = createCanvas("output");
   outputCanvas.width = plan.output.width;
@@ -168,7 +220,7 @@ export async function renderEditedImage({
   }
   outputContext.filter = plan.filter;
   outputContext.drawImage(
-    transformedCanvas,
+    geometrySource,
     plan.crop.x,
     plan.crop.y,
     plan.crop.width,
@@ -179,6 +231,28 @@ export async function renderEditedImage({
     outputCanvas.height,
   );
   outputContext.filter = "none";
+
+  if (plan.detailEnhancement.denoise > 0 || plan.detailEnhancement.clarity > 0) {
+    const imageData = outputContext.getImageData(0, 0, outputCanvas.width, outputCanvas.height);
+    imageData.data.set(enhanceDetailPixels({
+      pixels: imageData.data,
+      width: outputCanvas.width,
+      height: outputCanvas.height,
+      ...plan.detailEnhancement,
+    }));
+    outputContext.putImageData(imageData, 0, 0);
+  }
+
+  if (plan.documentScan.mode !== "original") {
+    const imageData = outputContext.getImageData(0, 0, outputCanvas.width, outputCanvas.height);
+    imageData.data.set(applyDocumentScanPixels({
+      pixels: imageData.data,
+      width: outputCanvas.width,
+      height: outputCanvas.height,
+      mode: plan.documentScan.mode,
+    }));
+    outputContext.putImageData(imageData, 0, 0);
+  }
 
   const blob = await encode(
     outputCanvas,

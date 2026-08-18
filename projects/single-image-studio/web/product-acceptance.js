@@ -1,5 +1,15 @@
 const CASES = Object.freeze([
   Object.freeze({
+    id: "privacy-share",
+    label: "隐私友好分享副本",
+    width: 1366,
+    height: 768,
+    taskId: "UT-PRIVACY-SHARE",
+    nextTaskId: "UT-TUNE",
+    path: "合成图 → metadata 清理 → JPEG ≤ 1 MB",
+    expected: Object.freeze({ width: 1440, height: 1080, mime: "image/jpeg" }),
+  }),
+  Object.freeze({
     id: "desktop-min",
     label: "1280 × 720",
     width: 1280,
@@ -18,6 +28,36 @@ const CASES = Object.freeze([
     nextTaskId: "UT-TUNE",
     path: "合成图 → 横版封面 16:9 → PNG",
     expected: Object.freeze({ width: 1440, height: 810 }),
+  }),
+  Object.freeze({
+    id: "old-photo-local",
+    label: "老照片本地整理",
+    width: 1366,
+    height: 768,
+    taskId: "UT-OLD-PHOTO",
+    nextTaskId: "UT-TUNE",
+    path: "合成图 → 老照片基础整理 → 黑白层次 → PNG",
+    expected: Object.freeze({ width: 1448, height: 1086 }),
+  }),
+  Object.freeze({
+    id: "upload-specification",
+    label: "上传规格适配",
+    width: 1366,
+    height: 768,
+    taskId: "UT-UPLOAD",
+    nextTaskId: "UT-TUNE",
+    path: "合成图 → 严格表单 → JPEG ≤ 1 MB",
+    expected: Object.freeze({ width: 1200, height: 900, mime: "image/jpeg" }),
+  }),
+  Object.freeze({
+    id: "document-archive",
+    label: "文档归档附件",
+    width: 1366,
+    height: 768,
+    taskId: "UT-DOC-ARCHIVE",
+    nextTaskId: "UT-TUNE",
+    path: "非正方形文档 → 清晰彩色 → JPEG ≤ 1 MB",
+    expected: Object.freeze({ width: 1448, height: 1086, mime: "image/jpeg" }),
   }),
 ]);
 
@@ -71,6 +111,16 @@ async function reopenPng(blob, expected) {
   return bytes.length;
 }
 
+async function reopenOutput(blob, expected) {
+  if ((expected.mime ?? "image/png") === "image/png") return reopenPng(blob, expected);
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  assert(blob.type === "image/jpeg", `下载 MIME 不是 image/jpeg：${blob.type || "empty"}`);
+  assert(bytes[0] === 0xff && bytes[1] === 0xd8 && bytes.at(-2) === 0xff && bytes.at(-1) === 0xd9, "下载文件没有完整 JPEG 签名");
+  const bitmap = await createImageBitmap(blob, { imageOrientation: "none", colorSpaceConversion: "none", premultiplyAlpha: "none" });
+  try { assert(bitmap.width === expected.width && bitmap.height === expected.height, `下载重开尺寸为 ${bitmap.width} × ${bitmap.height}`); } finally { bitmap.close(); }
+  return bytes.length;
+}
+
 async function runCase(testCase) {
   frame.style.width = `${testCase.width}px`;
   frame.style.height = `${testCase.height}px`;
@@ -102,7 +152,8 @@ async function runCase(testCase) {
   };
 
   try {
-    documentRef.querySelector("#use-demo-button")?.click();
+    const sourceButtonId = ["UT-OLD-PHOTO", "UT-DOC-ARCHIVE"].includes(testCase.taskId) ? "#use-old-photo-demo-button" : "#use-demo-button";
+    documentRef.querySelector(sourceButtonId)?.click();
     const consent = await waitFor(
       () => !documentRef.querySelector("#consent-card")?.hidden && documentRef.querySelector("#rights-checkbox"),
       "合成图没有进入处理前确认",
@@ -115,48 +166,108 @@ async function runCase(testCase) {
 
     await waitFor(() => !documentRef.querySelector("#tasks-section")?.hidden, "任务列表没有出现");
     const groups = [...documentRef.querySelectorAll("[data-task-group]")].map((node) => node.dataset.taskGroup);
-    assert(groups.join(",") === "scenarios,tools,creative", `任务分组顺序异常：${groups.join(",")}`);
+    assert(groups[0] === "scenarios" && groups[1] === "tools", `任务分组顺序异常：${groups.join(",")}`);
+    assert(groups.every((group, index) => ["scenarios", "tools", "creative"][index] === group), `出现未知或乱序任务分组：${groups.join(",")}`);
+    const capabilityCards = [...documentRef.querySelectorAll("#capability-summary .capability-summary-card")];
+    const capabilityNames = capabilityCards.map((node) => node.querySelector("strong")?.textContent);
+    assert(capabilityNames[0] === "本地基础能力", `首个能力层不是本地基础能力：${capabilityNames.join(",")}`);
+    assert(capabilityCards[0].dataset.state === "available", "本地基础能力没有显示为可用");
+    assert(capabilityNames.every((name) => ["本地基础能力", "远程抠图能力", "生成式能力"].includes(name)), `出现未知能力层：${capabilityNames.join(",")}`);
     const scenarioTasks = [...documentRef.querySelectorAll('[data-task-group="scenarios"] [data-task-id]')]
       .map((node) => node.dataset.taskId);
-    assert(scenarioTasks.join(",") === "UT-PRODUCT,UT-PORTRAIT,UT-TEMPLATE,CR-RESTORE", `场景技能顺序异常：${scenarioTasks.join(",")}`);
-    assert(documentRef.querySelector('[data-task-id="UT-PRODUCT"]')?.dataset.scenarioSkill === "product-white-background", "商品白底图没有注册场景身份");
-    assert(documentRef.querySelector('[data-task-id="UT-PORTRAIT"]')?.dataset.scenarioSkill === "application-photo", "报名照没有注册场景身份");
+    const requiredLocalScenarios = ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-TEMPLATE", "UT-GRID", "UT-OLD-PHOTO"];
+    assert(requiredLocalScenarios.every((taskId) => scenarioTasks.includes(taskId)), `本地场景流程缺失：${scenarioTasks.join(",")}`);
+    const productTask = documentRef.querySelector('[data-task-id="UT-PRODUCT"]');
+    const portraitTask = documentRef.querySelector('[data-task-id="UT-PORTRAIT"]');
+    if (productTask) assert(productTask.dataset.scenarioSkill === "product-white-background", "商品白底图没有注册场景身份");
+    if (portraitTask) assert(portraitTask.dataset.scenarioSkill === "application-photo", "报名照没有注册场景身份");
     assert(documentRef.querySelector('[data-task-id="UT-TEMPLATE"]')?.dataset.scenarioSkill === "social-layout", "社交构图没有注册场景身份");
-    assert(documentRef.querySelector('[data-task-id="CR-RESTORE"]')?.dataset.scenarioSkill === "old-photo-restoration", "老照片修复没有注册场景身份");
+    assert(documentRef.querySelector('[data-task-id="UT-GRID"]')?.dataset.scenarioSkill === "social-grid-split", "社交九宫格没有注册场景身份");
+    assert(documentRef.querySelector('[data-task-id="UT-OLD-PHOTO"]')?.dataset.scenarioSkill === "old-photo-restoration", "老照片基础整理没有注册场景身份");
     const taskButton = documentRef.querySelector(`[data-task-id="${testCase.taskId}"]`);
     assert(taskButton && !taskButton.disabled, `${testCase.taskId} 当前不可用`);
     taskButton.click();
 
     await waitFor(() => !documentRef.querySelector("#config-section")?.hidden, "任务设置没有出现");
     const ratio = documentRef.querySelector("#ratio-setting");
-    assert(ratio, "裁剪方式控件缺失");
-    assert(documentRef.activeElement === ratio, "进入设置后焦点没有落在首个控件");
-    if (testCase.taskId === "UT-TUNE") {
+    if (testCase.taskId === "UT-PRIVACY-SHARE") {
+      const preset = documentRef.querySelector('[data-privacy-share-preset="balanced"]');
+      assert(preset, "日常分享预设缺失");
+      preset.click();
+      assert(documentRef.querySelector(".format-conversion-boundary")?.textContent.includes("不检查可见内容"), "隐私分享边界没有显示");
+    } else if (testCase.taskId === "UT-UPLOAD") {
+      const preset = documentRef.querySelector('[data-upload-preset="strict"]');
+      assert(preset, "严格表单预设缺失");
+      preset.click();
+    } else if (testCase.taskId === "UT-DOC-ARCHIVE") {
+      assert(documentRef.querySelector('[data-rectification-view="adjust"]'), "文档归档四角入口缺失");
+      assert(documentRef.querySelector('[data-document-scan-mode="clean-color"]')?.getAttribute("aria-pressed") === "true", "清晰彩色默认模式没有选中");
+    } else if (testCase.taskId === "UT-TUNE") {
+      assert(ratio, "裁剪方式控件缺失");
       setControl(windowRef, ratio, "square");
       setControl(windowRef, documentRef.querySelector("#rotation-setting"), 90);
+    } else if (testCase.taskId === "UT-OLD-PHOTO") {
+      const preset = documentRef.querySelector('[data-old-photo-preset="monochrome"]');
+      assert(preset, "黑白层次预设缺失");
+      preset.click();
+      assert(preset.getAttribute("aria-pressed") === "true", "黑白层次预设没有进入选中状态");
     } else {
       const preset = documentRef.querySelector('[data-scene-template="wide-cover"]');
       assert(preset, "横版封面模板缺失");
       preset.click();
       assert(preset.getAttribute("aria-pressed") === "true", "横版封面模板没有进入选中状态");
+      setControl(windowRef, documentRef.querySelector('#social-title-setting'), "今天的城市散步");
+      setControl(windowRef, documentRef.querySelector('#social-title-position-setting'), "bottom");
+      setControl(windowRef, documentRef.querySelector('#social-title-alignment-setting'), "left");
+      setControl(windowRef, documentRef.querySelector('#social-title-tone-setting'), "light");
+      const titlePreview = documentRef.querySelector("#social-title-preview");
+      assert(titlePreview && !titlePreview.hidden && titlePreview.textContent === "今天的城市散步", "社交标题没有进入裁剪安全区预览");
     }
-    setControl(windowRef, documentRef.querySelector("#format-setting"), "png");
-    documentRef.querySelector("#run-button")?.click();
+    if (documentRef.querySelector("#format-setting")) setControl(windowRef, documentRef.querySelector("#format-setting"), "png");
+    const runTaskButton = documentRef.querySelector("#run-button");
+    assert(runTaskButton && !runTaskButton.disabled, `生成按钮不可用：${documentRef.querySelector("#editor-settings-error")?.textContent || "没有表单错误说明"}`);
+    runTaskButton.click();
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    const submitStarted = documentRef.querySelector("#config-section")?.hidden
+      || !documentRef.querySelector("#status-panel")?.hidden
+      || !documentRef.querySelector("#result-section")?.hidden
+      || !documentRef.querySelector("#error-panel")?.hidden;
+    assert(submitStarted, `点击生成后仍停在设置页：${documentRef.querySelector("#editor-settings-error")?.textContent || "没有表单错误说明"}`);
 
-    await waitFor(() => !documentRef.querySelector("#result-section")?.hidden, "结果页没有出现");
+    const terminalTimeout = ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE"].includes(testCase.taskId) ? 45_000 : 12_000;
+    let terminalSurface;
+    try {
+      terminalSurface = await waitFor(() => !documentRef.querySelector("#result-section")?.hidden
+        ? "result"
+        : !documentRef.querySelector("#error-panel")?.hidden ? "error" : null, "结果页或错误页都没有出现", terminalTimeout);
+    } catch {
+      throw new Error(`结果页或错误页都没有出现；当前状态：${documentRef.querySelector("#status-title")?.textContent ?? "未知"} · ${documentRef.querySelector("#status-copy")?.textContent ?? "无进度"}`);
+    }
+    if (terminalSurface === "error") {
+      throw new Error(`${documentRef.querySelector("#error-title")?.textContent ?? "处理失败"}：${documentRef.querySelector("#error-copy")?.textContent ?? "没有错误详情"}`);
+    }
     const resultImage = await waitFor(() => {
       const image = documentRef.querySelector("#result-output-image");
       return image?.complete && image.naturalWidth > 0 ? image : null;
     }, "结果图片没有完成解码");
     assert(resultImage.naturalWidth === testCase.expected.width && resultImage.naturalHeight === testCase.expected.height, `结果显示尺寸为 ${resultImage.naturalWidth} × ${resultImage.naturalHeight}`);
+    if (testCase.taskId === "UT-TEMPLATE") {
+      assert(documentRef.querySelector("#qa-copy")?.textContent.includes("标题安全区"), "社交结果没有记录标题像素检查");
+    }
+    if (testCase.taskId === "UT-PRIVACY-SHARE") {
+      assert(documentRef.querySelector("#privacy-share-card")?.hidden === false, "分享副本检查卡没有显示");
+      assert(documentRef.querySelector("#privacy-share-state")?.textContent === "全部通过", "分享副本检查没有全部通过");
+      assert(documentRef.querySelector("#privacy-share-boundary")?.textContent.includes("画面中可见的敏感内容需要你自行检查"), "分享副本没有显示可见内容边界");
+    }
     assert(windowRef.getComputedStyle(resultImage).objectFit === "contain", "结果图片没有使用完整显示模式");
     assert(documentRef.documentElement.scrollWidth <= windowRef.innerWidth + 1, `页面出现横向溢出：${documentRef.documentElement.scrollWidth} > ${windowRef.innerWidth}`);
     assert(documentRef.activeElement?.id === "download-button", "结果完成后焦点没有落在下载按钮");
     documentRef.querySelector("#download-button")?.click();
     const capture = await waitFor(() => downloadCapture, "下载按钮没有生成可下载 Blob");
     const blob = await capture.blobPromise;
-    const byteLength = await reopenPng(blob, testCase.expected);
-    assert(capture.filename.toLowerCase().endsWith(".png"), `下载文件名不是 PNG：${capture.filename}`);
+    const byteLength = await reopenOutput(blob, testCase.expected);
+    const expectedExtension = (testCase.expected.mime ?? "image/png") === "image/jpeg" ? ".jpg" : ".png";
+    assert(capture.filename.toLowerCase().endsWith(expectedExtension), `下载文件扩展名错误：${capture.filename}`);
 
     downloadCapture = null;
     const changeTask = documentRef.querySelector("#result-change-task-button");
@@ -185,7 +296,7 @@ async function runCase(testCase) {
       ...testCase,
       filename: capture.filename,
       byteLength,
-      evidence: `${testCase.expected.width} × ${testCase.expected.height} · ${byteLength.toLocaleString("zh-CN")} bytes · 完整显示、PNG 重开、换任务与焦点清理通过`,
+      evidence: `${testCase.expected.width} × ${testCase.expected.height} · ${byteLength.toLocaleString("zh-CN")} bytes · 完整显示、${(testCase.expected.mime ?? "image/png") === "image/jpeg" ? "JPEG" : "PNG"} 重开、换任务与焦点清理通过`,
     });
   } finally {
     windowRef.console.error = originalConsoleError;
@@ -205,7 +316,7 @@ async function publishAcceptanceReport({ startedAt, cases }) {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
-      version: "product-acceptance-report-v1",
+      version: "product-acceptance-report-v2",
       runId: reportRunId,
       startedAt,
       completedAt: new Date().toISOString(),
@@ -226,7 +337,7 @@ async function runAcceptance() {
   runButton.disabled = true;
   resultsBody.replaceChildren();
   status.dataset.state = "running";
-  status.textContent = "正在运行 0 / 2";
+  status.textContent = `正在运行 0 / ${CASES.length}`;
   let passed = 0;
   const reportCases = [];
   for (let index = 0; index < CASES.length; index += 1) {

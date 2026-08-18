@@ -14,6 +14,8 @@
       p { max-width: 54rem; color: #53655d; line-height: 1.65; }
       button { border: 0; border-radius: 999px; padding: .8rem 1.2rem; background: #1e493a; color: white; font: inherit; font-weight: 750; cursor: pointer; }
       button:disabled { opacity: .55; cursor: wait; }
+      .internal-nav { display: flex; gap: .55rem; flex-wrap: wrap; margin-bottom: 1rem; }
+      .internal-nav a { color: #1e493a; font-weight: 750; }
       output { display: inline-block; margin-left: .8rem; font-weight: 750; }
       table { width: 100%; margin: 1.5rem 0; border-collapse: collapse; background: white; }
       th, td { padding: .8rem; border: 1px solid #d8ddd8; text-align: left; vertical-align: top; }
@@ -27,16 +29,17 @@
   </head>
   <body>
     <main>
+      <nav class="internal-nav" aria-label="内部页面导航"><a href="./quality-hub.html">← 内部质量入口</a><a href="./">工作室</a></nav>
       <p>内部 QA · 只用项目合成图 · 不调用远程服务</p>
       <h1>主流程浏览器验收</h1>
-      <p>在真实同源页面中分别以 1280×720 和 1440×900 完成本地编辑与模板导出，重开下载 bytes，再验证结果页换处理方向、设置页返回、焦点和旧下载清理。这里验证的是当前浏览器会话，不等于 Chrome / Edge 两个正式版本矩阵都已通过。</p>
-      <button id="run-acceptance" type="button">重新运行两档验收</button>
+      <p>在真实同源页面中完成隐私友好分享、基础编辑、社交构图、老照片整理、上传规格适配和文档归档六条旅程，重开 PNG / JPEG 下载 bytes，再验证结果页换处理方向、设置页返回、焦点和旧下载清理。这里验证的是当前浏览器会话，不等于 Chrome / Edge 两个正式版本矩阵都已通过。</p>
+      <button id="run-acceptance" type="button">重新运行六条验收</button>
       <output id="acceptance-status" role="status" aria-live="polite">尚未运行</output>
       <table>
         <thead><tr><th>浏览器视口</th><th>真实路径</th><th>结果</th><th>证据</th></tr></thead>
         <tbody id="acceptance-results"></tbody>
       </table>
-      <p class="boundary">边界：不会打开系统文件选择器，不会调用抠图或创意 API，也不会验证操作系统下载目录。下载按钮产生的 Blob 会在当前浏览器内被捕获、校验 PNG 签名并重新解码。</p>
+      <p class="boundary">边界：不会打开系统文件选择器，不会调用抠图或创意 API，也不会验证操作系统下载目录。下载按钮产生的 Blob 会在当前浏览器内被捕获、校验 PNG / JPEG 签名并重新解码。</p>
       <div class="frame-shell" aria-label="当前验收中的真实产品页面">
         <iframe id="product-frame" title="Single Image Studio 主流程验收页面"></iframe>
       </div>

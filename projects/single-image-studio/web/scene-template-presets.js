@@ -8,6 +8,8 @@ const PRESETS = Object.freeze([
 
 export const SCENE_TEMPLATE_PRESETS = PRESETS;
 
+export const SOCIAL_OUTPUT_PRESETS = Object.freeze(PRESETS.filter((preset) => preset.id !== "catalog-square"));
+
 export function sceneTemplateById(templateId) {
   const template = PRESETS.find((candidate) => candidate.id === templateId);
   if (!template) throw new RangeError("不支持的场景尺寸模板");
@@ -29,4 +31,14 @@ export function matchSceneTemplate(settings = {}) {
     && settings.sizeMode === "custom"
     && Number(settings.outputLongEdge) === template.outputLongEdge);
   return match?.id ?? null;
+}
+
+export function socialOutputSetEntries(settings = {}) {
+  return Object.freeze(SOCIAL_OUTPUT_PRESETS.map((preset) => Object.freeze({
+    id: preset.id,
+    label: preset.label,
+    description: preset.description,
+    filenameSuffix: preset.id,
+    settings: applySceneTemplate(settings, preset.id),
+  })));
 }

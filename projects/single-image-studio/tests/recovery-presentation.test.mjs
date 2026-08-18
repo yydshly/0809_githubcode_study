@@ -58,4 +58,15 @@ test("local failure and non-retryable errors keep one unambiguous focus target",
     focusTarget: "retry",
   });
   assert.equal(recoveryPresentation({ retryable: false }).focusTarget, "back");
+  assert.deepEqual(recoveryPresentation({ taskId: "UT-TUNE", context: "output-validation" }), {
+    retryLabel: "返回设置",
+    retryVisible: true,
+    retryPrimary: true,
+    recoverVisible: false,
+    fallbackLabel: "改用本地编辑",
+    fallbackVisible: false,
+    fallbackPrimary: false,
+    focusTarget: "retry",
+  });
+  assert.equal(recoveryPresentation({ taskId: "UT-CUTOUT", context: "output-validation" }).retryLabel, "返回结果");
 });

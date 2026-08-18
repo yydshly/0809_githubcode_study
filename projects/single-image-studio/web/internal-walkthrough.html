@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Single Image Studio 内部体验走查台：使用项目演示图，匿名记录两个产品任务的可用性观察。" />
+    <title>内部体验走查 · Single Image Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./internal-walkthrough.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#walkthrough-main">跳到走查内容</a>
+    <header class="site-header walkthrough-header">
+      <a class="brand" href="/"><span class="brand-symbol" aria-hidden="true">S</span><span><strong>Single Image</strong><small>Studio · 内部体验走查</small></span></a>
+      <nav class="walkthrough-nav" aria-label="相关页面"><a href="./quality-hub.html">内部质量</a><a href="./internal-walkthrough-summary.html">汇总记录</a><a href="./">打开工作室</a><a href="./examples.html">查看样例</a></nav>
+    </header>
+
+    <main id="walkthrough-main" class="walkthrough-shell">
+      <section class="walkthrough-hero" aria-labelledby="walkthrough-title">
+        <div><p class="kicker">S5 · 主持工作台</p><h1 id="walkthrough-title">观察用户完成任务，<br />不要替用户完成任务。</h1></div>
+        <div class="walkthrough-hero-copy"><p>这不是产品验收，也不判断图片效果好坏。它只帮助我们发现入口、文案、设置、错误和下载流程哪里不直观。</p><div class="walkthrough-boundary"><strong>当前真实场次：0 / 2–3（方法演练）</strong><span>只使用项目合成演示图；不收姓名、联系方式、用户照片、录音或录像。</span></div></div>
+      </section>
+
+      <section class="walkthrough-layout">
+        <aside class="walkthrough-sidebar" aria-label="走查边界">
+          <section><p class="kicker">开始前逐字说明</p><blockquote>我们正在检查页面是否容易理解，不是在测试你。今天只记录匿名编号、完成情况、求助和页面问题；不记录姓名或联系方式，不使用你的图片。你可以随时停止。</blockquote></section>
+          <section><h2>主持人只做三件事</h2><ol><li>读出任务，不说控件名称。</li><li>观察并记录主动求助。</li><li>确认下载是否真的开始。</li></ol></section>
+          <section class="walkthrough-warning"><strong>“清除元数据”不等于“画面匿名”</strong><p>隐私分享任务必须观察参与者是否理解：它不会识别人脸、地址、车牌或画面文字。</p></section>
+        </aside>
+
+        <form class="walkthrough-form" id="walkthrough-form" novalidate>
+          <section class="walkthrough-card" id="walkthrough-setup">
+            <div class="walkthrough-card-heading"><div><span>01</span><h2>场次准备</h2></div><p>不填写任何真实姓名。</p></div>
+            <div class="walkthrough-fields">
+              <label><span>匿名场次编号</span><input id="walkthrough-session-id" name="sessionId" value="IW-S01" maxlength="13" pattern="IW-[A-Z0-9]{3,10}" autocomplete="off" /></label>
+              <label><span>当前 build commit</span><input id="walkthrough-build" name="buildCommit" value="unknown" maxlength="40" autocomplete="off" spellcheck="false" /></label>
+              <label class="walkthrough-field-wide"><span>浏览器与视口</span><input id="walkthrough-browser" name="browserProfile" value="Chrome / Edge desktop · 1440 × 900 · 100%" maxlength="120" autocomplete="off" /></label>
+            </div>
+            <div class="walkthrough-consent">
+              <label><input id="walkthrough-consent" type="checkbox" /> <span>参与者已明确同意开始，并知道可以随时停止。</span></label>
+              <label><input id="walkthrough-project-images" type="checkbox" /> <span>本场只使用项目提供的合成演示图，不上传参与者自己的图片。</span></label>
+            </div>
+            <button class="button button-primary" id="walkthrough-start" type="button" disabled>开始并计时</button>
+          </section>
+
+          <div id="walkthrough-task-list" class="walkthrough-task-list" aria-live="polite"></div>
+
+          <section class="walkthrough-card walkthrough-finish" id="walkthrough-finish" hidden>
+            <div class="walkthrough-card-heading"><div><span>04</span><h2>结束与去标识化导出</h2></div><p>导出文件不包含图片或个人标识。</p></div>
+            <label><span>整体页面问题（最多 300 字，只写可复现行为）</span><textarea id="walkthrough-overall-note" rows="3" maxlength="300" placeholder="例如：两次在结果页寻找下载按钮；不要记录身份、职业或图片内容。"></textarea></label>
+            <p class="walkthrough-error" id="walkthrough-error" role="alert" hidden></p>
+            <div class="walkthrough-finish-actions"><button class="button button-primary" id="walkthrough-complete" type="button">完成记录</button><button class="button button-quiet" id="walkthrough-reset" type="button">清空本场</button></div>
+            <div class="walkthrough-summary" id="walkthrough-summary" hidden><div><span>记录状态</span><strong>已完成本地校验</strong><p>这是一场形成性观察，不产生产品通过结论。</p></div><button class="button button-primary" id="walkthrough-download" type="button">下载匿名 JSON</button><details><summary>查看记录内容</summary><pre id="walkthrough-json"></pre></details></div>
+          </section>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="./internal-walkthrough.js"></script>
+  </body>
+</html>

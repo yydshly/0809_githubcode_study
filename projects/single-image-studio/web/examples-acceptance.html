@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>样例页浏览器验收 · Single Image Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      body { padding: 2rem; }
+      main { max-width: 64rem; margin: 0 auto; }
+      h1 { font: 500 2.4rem Georgia, "Songti SC", serif; }
+      table { width: 100%; border-collapse: collapse; background: white; }
+      th, td { padding: .75rem; border: 1px solid var(--line); text-align: left; }
+      tr[data-state="pass"] { background: #f8faec; }
+      tr[data-state="fail"] { background: #fff1ec; }
+      .qa-frame { position: fixed; left: -20000px; top: 0; border: 0; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p><a href="./examples.html">← 返回样例页</a> · <a href="./quality-hub.html">内部质量入口</a></p>
+      <p class="kicker">内部浏览器验收</p>
+      <h1>样例页两档视口检查</h1>
+      <p id="examples-acceptance-status" role="status">正在运行…</p>
+      <table>
+        <thead><tr><th>视口</th><th>结果</th><th>证据</th></tr></thead>
+        <tbody id="examples-acceptance-results"></tbody>
+      </table>
+    </main>
+    <script type="module" src="./examples-acceptance.js"></script>
+  </body>
+</html>

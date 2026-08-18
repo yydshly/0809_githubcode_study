@@ -30,14 +30,14 @@ function result(overrides = {}) {
   };
 }
 
-test("without remote services, all three local editor tasks remain runnable", () => {
+test("without remote services, all twelve local editor tasks remain runnable", () => {
   const catalog = getTaskCatalog({
     aiStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
   });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE"],
+    ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-TUNE", "UT-COMPRESS", "UT-CONVERT", "UT-FIT", "UT-RECTIFY", "UT-ENHANCE", "UT-TEMPLATE", "UT-OLD-PHOTO", "UT-GRID"],
   );
   assert.equal(catalog.find((task) => task.id === "CR1").availability, "unavailable");
   assert.equal(catalog.find((task) => task.id === "CR-RESTORE").availability, "unavailable");
@@ -47,10 +47,7 @@ test("without remote services, all three local editor tasks remain runnable", ()
   assert.equal(cutout.availability, TASK_AVAILABILITY.UNAVAILABLE);
   assert.equal(cutout.statusLabel, "抠图服务未配置");
 
-  const solidBackground = catalog.find((candidate) => candidate.id === "UT-SOLID-BG");
-  assert.equal(solidBackground.runnable, false);
-  assert.equal(solidBackground.availability, TASK_AVAILABILITY.VALIDATING);
-  assert.equal(solidBackground.statusLabel, "能力验证中");
+  assert.equal(catalog.some((candidate) => candidate.id === "UT-SOLID-BG"), false);
   const portrait = catalog.find((candidate) => candidate.id === "UT-PORTRAIT");
   assert.equal(portrait.runnable, false);
   assert.equal(portrait.availability, TASK_AVAILABILITY.UNAVAILABLE);
@@ -67,7 +64,7 @@ test("AI availability adds the real AI task without enabling unverified utilitie
       aiStatus: { status: "available" },
       backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     }).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR-RESTORE", "CR1"],
+    ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-TUNE", "UT-COMPRESS", "UT-CONVERT", "UT-FIT", "UT-RECTIFY", "UT-ENHANCE", "UT-TEMPLATE", "UT-OLD-PHOTO", "UT-GRID", "CR-RESTORE", "CR1"],
   );
 
   const recommendations = getRecommendedTasks({
@@ -75,10 +72,11 @@ test("AI availability adds the real AI task without enabling unverified utilitie
     backgroundRemovalStatus: AI_SERVICE_STATUS.UNAVAILABLE,
     limit: 4,
   });
-  assert.deepEqual(recommendations.map((task) => task.id), ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "CR-RESTORE"]);
+  assert.deepEqual(recommendations.map((task) => task.id), ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-TUNE"]);
   assert.equal(recommendations.length, 4);
   assert.equal(recommendations.every((task) => task.runnable), true);
-  assert.equal(recommendations.at(-1).scenarioSkillId, "old-photo-restoration");
+  assert.equal(recommendations.at(0).contractVersion, "local-privacy-share-v1");
+  assert.equal(recommendations.at(1).contractVersion, "local-upload-specification-v1");
 });
 
 test("background removal availability enables cutout and both composed scenarios", () => {
@@ -88,7 +86,7 @@ test("background removal availability enables cutout and both composed scenarios
   });
   assert.deepEqual(
     catalog.filter((task) => task.runnable).map((task) => task.id),
-    ["UT-TUNE", "UT-ENHANCE", "UT-TEMPLATE", "UT-CUTOUT", "UT-PRODUCT", "UT-PORTRAIT"],
+    ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-TUNE", "UT-COMPRESS", "UT-CONVERT", "UT-FIT", "UT-RECTIFY", "UT-ENHANCE", "UT-TEMPLATE", "UT-OLD-PHOTO", "UT-GRID", "UT-CUTOUT", "UT-PRODUCT", "UT-PORTRAIT"],
   );
   const cutout = catalog.find((task) => task.id === "UT-CUTOUT");
   assert.equal(cutout.statusLabel, "可运行 · 远程处理");
@@ -101,13 +99,22 @@ test("background removal availability enables cutout and both composed scenarios
   assert.equal(product.statusLabel, "可运行 · 远程处理");
   assert.equal(product.contractVersion, "product-white-background-v1");
   assert.equal(product.scenarioSkillId, "product-white-background");
-  assert.equal(catalog.find((task) => task.id === "UT-SOLID-BG").runnable, false);
+  assert.equal(catalog.some((task) => task.id === "UT-SOLID-BG"), false);
   const enhancement = catalog.find((task) => task.id === "UT-ENHANCE");
   assert.equal(enhancement.statusLabel, "可运行 · 本地处理");
   assert.equal(enhancement.contractVersion, "local-natural-enhancement-v1");
   const template = catalog.find((task) => task.id === "UT-TEMPLATE");
   assert.equal(template.statusLabel, "可运行 · 本地处理");
   assert.equal(template.contractVersion, "local-scene-template-v1");
+  const rectification = catalog.find((task) => task.id === "UT-RECTIFY");
+  assert.equal(rectification.statusLabel, "可运行 · 本地处理");
+  assert.equal(rectification.contractVersion, "local-plane-rectification-v3");
+  const compression = catalog.find((task) => task.id === "UT-COMPRESS");
+  assert.equal(compression.statusLabel, "可运行 · 本地处理");
+  assert.equal(compression.contractVersion, "local-image-compression-v1");
+  const conversion = catalog.find((task) => task.id === "UT-CONVERT");
+  assert.equal(conversion.statusLabel, "可运行 · 本地处理");
+  assert.equal(conversion.contractVersion, "local-format-conversion-v1");
 });
 
 test("download stays locked until a current, QA-passed result matches its task contract", () => {
@@ -119,6 +126,30 @@ test("download stays locked until a current, QA-passed result matches its task c
   assert.equal(good.allowed, true);
   assert.equal(good.download.filename, "fidelity-result-20260812-220241.png");
   assert.equal(good.download.outputHash, HASH);
+
+  const uploadReady = buildResultDownloadContract({
+    taskId: "UT-UPLOAD",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(uploadReady.allowed, true);
+  assert.match(uploadReady.download.filename, /^upload-ready-image-/);
+
+  const privacyShare = buildResultDownloadContract({
+    taskId: "UT-PRIVACY-SHARE",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(privacyShare.allowed, true);
+  assert.match(privacyShare.download.filename, /^privacy-friendly-share-/);
+
+  const documentArchive = buildResultDownloadContract({
+    taskId: "UT-DOC-ARCHIVE",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(documentArchive.allowed, true);
+  assert.match(documentArchive.download.filename, /^document-archive-/);
 
   const stale = buildResultDownloadContract({
     taskId: "UT-TUNE",
@@ -142,6 +173,30 @@ test("download stays locked until a current, QA-passed result matches its task c
   assert.equal(faithfulJpeg.allowed, true);
   assert.match(faithfulJpeg.download.filename, /\.jpg$/);
 
+  const compressed = buildResultDownloadContract({
+    taskId: "UT-COMPRESS",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(compressed.allowed, true);
+  assert.match(compressed.download.filename, /^compressed-image-/);
+
+  const converted = buildResultDownloadContract({
+    taskId: "UT-CONVERT",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(converted.allowed, true);
+  assert.match(converted.download.filename, /^converted-image-/);
+
+  const fitted = buildResultDownloadContract({
+    taskId: "UT-FIT",
+    result: result({ mimeType: "image/jpeg", hasAlpha: false }),
+    currentRunId: "run-1",
+  });
+  assert.equal(fitted.allowed, true);
+  assert.match(fitted.download.filename, /^fitted-image-/);
+
   const enhanced = buildResultDownloadContract({
     taskId: "UT-ENHANCE",
     result: result({ mimeType: "image/jpeg" }),
@@ -157,6 +212,22 @@ test("download stays locked until a current, QA-passed result matches its task c
   });
   assert.equal(template.allowed, true);
   assert.match(template.download.filename, /^scene-template-result-/);
+
+  const socialGrid = buildResultDownloadContract({
+    taskId: "UT-GRID",
+    result: result(),
+    currentRunId: "run-1",
+  });
+  assert.equal(socialGrid.allowed, true);
+  assert.match(socialGrid.download.filename, /^social-grid-source-/);
+
+  const rectified = buildResultDownloadContract({
+    taskId: "UT-RECTIFY",
+    result: result({ mimeType: "image/jpeg" }),
+    currentRunId: "run-1",
+  });
+  assert.equal(rectified.allowed, true);
+  assert.match(rectified.download.filename, /^rectified-plane-/);
 });
 
 test("transparent, portrait and product downloads enforce alpha, format and safe naming", () => {
@@ -207,6 +278,14 @@ test("transparent, portrait and product downloads enforce alpha, format and safe
 });
 
 test("old photo restoration downloads are named as copies rather than archival restorations", () => {
+  const local = buildResultDownloadContract({
+    taskId: "UT-OLD-PHOTO",
+    result: result({ mimeType: "image/jpeg" }),
+    currentRunId: "run-1",
+  });
+  assert.equal(local.allowed, true);
+  assert.match(local.download.filename, /^old-photo-local-copy-/);
+
   const restoration = buildResultDownloadContract({
     taskId: "CR-RESTORE",
     result: result(),

@@ -1,8 +1,11 @@
-export function recoveryPresentation({ unknown = false, retryable = true, taskId = null } = {}) {
+export function recoveryPresentation({ unknown = false, retryable = true, taskId = null, context = null } = {}) {
   const backgroundRemovalTask = ["UT-CUTOUT", "UT-PORTRAIT", "UT-PRODUCT"].includes(taskId);
-  const cutoutFailure = backgroundRemovalTask && !unknown;
+  const outputValidation = context === "output-validation";
+  const cutoutFailure = backgroundRemovalTask && !unknown && !outputValidation;
   return Object.freeze({
-    retryLabel: backgroundRemovalTask
+    retryLabel: outputValidation
+      ? backgroundRemovalTask ? "返回结果" : "返回设置"
+      : backgroundRemovalTask
       ? "返回并重新确认"
       : unknown ? "新建任务" : "再试一次",
     retryVisible: retryable,

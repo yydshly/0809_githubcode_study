@@ -1,12 +1,17 @@
 import { createEditState } from "./edit-state.js";
 import { renderEditedImage } from "./editor-renderer.js";
 import { decodeEditorSource } from "./image-orientation.js";
+import { normalizeStraightenAngle } from "./straighten-geometry.js";
+import { normalizeVerticalPerspective } from "./vertical-perspective.js";
+import { DEFAULT_RECTIFICATION_QUAD, quadFromFormSettings, rectifiedDimensions } from "./quad-rectification.js";
+import { normalizeDocumentScanMode } from "./document-scan.js";
 
 function orientedDimensions(width, height, orientation) {
   return orientation >= 5 ? { width: height, height: width } : { width, height };
 }
 
 const EDITOR_OUTPUT_MAX_EDGE = 2048;
+const COMPRESSION_OUTPUT_MAX_EDGE = 8192;
 
 function unit(value) {
   return Math.round(value * 1_000_000_000_000) / 1_000_000_000_000;
@@ -64,36 +69,43 @@ function integerSetting(value, fallback, label) {
   return number;
 }
 
+function decimalSetting(value, fallback, label) {
+  if (value === undefined || value === null || value === "") return fallback;
+  const number = Number(value);
+  if (!Number.isFinite(number)) throw new TypeError(`${label} 必须是有限数值`);
+  return number;
+}
+
 function outputFormat(value) {
   if (value === undefined || value === "png") return "png";
   if (value === "jpeg") return "jpeg";
   throw new RangeError("不支持的输出格式");
 }
 
-export function outputBoundsFromLongEdge(aspect, value) {
+export function outputBoundsFromLongEdge(aspect, value, maximumEdge = EDITOR_OUTPUT_MAX_EDGE) {
   const longEdge = integerSetting(value, null, "最长边上限");
   if (!Number.isFinite(aspect) || aspect <= 0) throw new TypeError("当前画面比例无效");
   if (longEdge === null) throw new TypeError("自定义尺寸需要最长边上限");
-  if (longEdge < 1 || longEdge > EDITOR_OUTPUT_MAX_EDGE) {
-    throw new RangeError(`最长边上限必须是 1–${EDITOR_OUTPUT_MAX_EDGE} 像素`);
+  if (longEdge < 1 || longEdge > maximumEdge) {
+    throw new RangeError(`最长边上限必须是 1–${maximumEdge} 像素`);
   }
   return aspect >= 1
     ? { width: longEdge, height: Math.max(1, Math.round(longEdge / aspect)) }
     : { width: Math.max(1, Math.round(longEdge * aspect)), height: longEdge };
 }
 
-function customResize(settings, ratio) {
+function customResize(settings, ratio, maximumEdge = EDITOR_OUTPUT_MAX_EDGE) {
   const mode = settings.sizeMode ?? "preset";
   if (mode === "preset") return { ...ratio.resize, mode: "preset" };
   if (mode !== "custom") throw new RangeError("不支持的输出尺寸模式");
   if (settings.outputLongEdge !== undefined && settings.outputLongEdge !== null && settings.outputLongEdge !== "") {
-    return { ...outputBoundsFromLongEdge(ratio.aspect, settings.outputLongEdge), mode: "custom" };
+    return { ...outputBoundsFromLongEdge(ratio.aspect, settings.outputLongEdge, maximumEdge), mode: "custom" };
   }
   const width = integerSetting(settings.outputWidth, null, "输出宽度");
   const height = integerSetting(settings.outputHeight, null, "输出高度");
   if (width === null || height === null) throw new TypeError("自定义尺寸需要最长边上限");
-  if (width < 1 || width > EDITOR_OUTPUT_MAX_EDGE || height < 1 || height > EDITOR_OUTPUT_MAX_EDGE) {
-    throw new RangeError(`输出宽高必须是 1–${EDITOR_OUTPUT_MAX_EDGE} 像素`);
+  if (width < 1 || width > maximumEdge || height < 1 || height > maximumEdge) {
+    throw new RangeError(`输出宽高必须是 1–${maximumEdge} 像素`);
   }
   const tolerance = 1 / Math.max(1, Math.min(width, height));
   if (Math.abs(width / height - ratio.aspect) > tolerance) {
@@ -110,6 +122,8 @@ export function editStateFromSettings({ sourceWidth, sourceHeight, sourceOrienta
     throw new RangeError("来源 orientation 必须为 1–8");
   }
   const rotation = integerSetting(settings.rotation, 0, "旋转角度");
+  const straighten = normalizeStraightenAngle(settings.straighten ?? 0);
+  const verticalPerspective = normalizeVerticalPerspective(settings.verticalPerspective ?? 0);
   const oriented = orientedDimensions(sourceWidth, sourceHeight, sourceOrientation);
   const transformed = rotation === 90 || rotation === 270
     ? { width: oriented.height, height: oriented.width }
@@ -117,22 +131,41 @@ export function editStateFromSettings({ sourceWidth, sourceHeight, sourceOrienta
   const cropX = percentSetting(settings.cropX, 50, "水平构图位置");
   const cropY = percentSetting(settings.cropY, 50, "垂直构图位置");
   const ratio = ratioContract(settings.ratio, transformed.width, transformed.height, cropX, cropY, settings);
-  const resize = customResize(settings, ratio);
+  const rectificationEnabled = settings.rectificationEnabled === true
+    || settings.rectificationEnabled === "true"
+    || settings.rectificationEnabled === "on";
+  const rectificationQuad = rectificationEnabled ? quadFromFormSettings(settings) : DEFAULT_RECTIFICATION_QUAD;
+  const rectified = rectificationEnabled
+    ? rectifiedDimensions(rectificationQuad, transformed.width, transformed.height)
+    : transformed;
+  const expandedOutput = settings.compressionTargetKilobytes !== undefined || settings.formatConversion === "on";
+  const outputMaximumEdge = expandedOutput ? COMPRESSION_OUTPUT_MAX_EDGE : EDITOR_OUTPUT_MAX_EDGE;
+  const resize = customResize(settings, rectificationEnabled
+    ? { ...ratio, resize: { width: null, height: null }, aspect: rectified.width / rectified.height }
+    : ratio, outputMaximumEdge);
   return createEditState({
     rotation,
+    straighten,
+    verticalPerspective,
+    rectification: { enabled: rectificationEnabled, quad: rectificationQuad },
+    documentScan: { mode: normalizeDocumentScanMode(settings.documentScanMode ?? "original") },
     flipHorizontal: settings.flipHorizontal === true || settings.flipHorizontal === "on",
     flipVertical: settings.flipVertical === true || settings.flipVertical === "on",
     cropMode: settings.ratio ?? "original",
     crop: ratio.crop,
-    resize: { ...resize, allowUpscale: false, maxEdge: EDITOR_OUTPUT_MAX_EDGE, maxPixels: 16_000_000 },
+    resize: { ...resize, allowUpscale: false, maxEdge: outputMaximumEdge, maxPixels: 16_000_000 },
     adjustments: {
       brightness: integerSetting(settings.brightness, 0, "亮度"),
       contrast: integerSetting(settings.contrast, 0, "对比度"),
       saturation: integerSetting(settings.saturation, 0, "饱和度"),
     },
+    detailEnhancement: {
+      denoise: percentSetting(settings.denoise, 0, "轻度降噪"),
+      clarity: percentSetting(settings.clarity, 0, "清晰度"),
+    },
     output: {
       format: outputFormat(settings.format),
-      jpegQuality: 0.92,
+      jpegQuality: decimalSetting(settings.jpegQuality, 0.92, "JPEG 质量"),
       jpegBackground: settings.jpegBackground || "#ffffff",
     },
   });

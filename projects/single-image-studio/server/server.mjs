@@ -14,6 +14,7 @@ import { InMemoryRunStore } from "./run-store.mjs";
 import { createPhotoroomBackgroundRemovalProvider } from "./providers/background-removal/photoroom-provider.mjs";
 import { createBackgroundRemovalRuntime } from "./providers/background-removal/runtime.mjs";
 import { BackgroundRemovalProviderError } from "./providers/background-removal/provider.mjs";
+import { resolveGenerativeProviderPolicy } from "./providers/generative/provider-policy.mjs";
 import { isOldPhotoRestorationPrompt } from "../web/old-photo-restoration.js";
 
 const DEFAULT_PORT = 4177;
@@ -157,7 +158,7 @@ function parseProductAcceptanceReport(payload) {
     throw new HttpError(400, "invalid_acceptance_report", "验收报告格式无效");
   }
   assertAllowedKeys(payload, new Set(["version", "runId", "startedAt", "completedAt", "browser", "cases"]));
-  if (payload.version !== "product-acceptance-report-v1") {
+  if (!new Set(["product-acceptance-report-v1", "product-acceptance-report-v2"]).has(payload.version)) {
     throw new HttpError(400, "invalid_acceptance_report", "验收报告版本无效");
   }
   if (typeof payload.runId !== "string" || !UUID_PATTERN.test(payload.runId)) {
@@ -176,10 +177,12 @@ function parseProductAcceptanceReport(payload) {
     userAgent: requireBoundedText(payload.browser.userAgent, "browser.userAgent", 512),
     language: requireBoundedText(payload.browser.language, "browser.language", 32),
   });
-  if (!Array.isArray(payload.cases) || payload.cases.length !== 2) {
-    throw new HttpError(400, "invalid_acceptance_report", "验收报告必须包含两档视口");
+  const v2 = payload.version === "product-acceptance-report-v2";
+  if (!Array.isArray(payload.cases) || payload.cases.length !== (v2 ? 6 : 5)) {
+    throw new HttpError(400, "invalid_acceptance_report", `验收报告必须包含${v2 ? "六" : "五"}条本地旅程`);
   }
-  const expectedIds = new Set(["desktop-min", "desktop-common"]);
+  const expectedIds = new Set(["desktop-min", "desktop-common", "old-photo-local", "upload-specification", "document-archive"]);
+  if (v2) expectedIds.add("privacy-share");
   const cases = payload.cases.map((entry) => {
     if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
       throw new HttpError(400, "invalid_acceptance_report", "验收 case 格式无效");
@@ -205,6 +208,100 @@ function parseProductAcceptanceReport(payload) {
     browser,
     cases: Object.freeze(cases),
   });
+}
+
+function parseExamplesAcceptanceReport(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收报告格式无效");
+  }
+  assertAllowedKeys(payload, new Set(["version", "runId", "startedAt", "completedAt", "browser", "cases"]));
+  if (payload.version !== "examples-acceptance-report-v1") {
+    throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收报告版本无效");
+  }
+  if (typeof payload.runId !== "string" || !UUID_PATTERN.test(payload.runId)) {
+    throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收 runId 无效");
+  }
+  const startedAt = requireCanonicalUtc(payload.startedAt, "startedAt");
+  const completedAt = requireCanonicalUtc(payload.completedAt, "completedAt");
+  if (completedAt < startedAt) {
+    throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收完成时间早于开始时间");
+  }
+  if (!payload.browser || typeof payload.browser !== "object" || Array.isArray(payload.browser)) {
+    throw new HttpError(400, "invalid_examples_acceptance_report", "browser 格式无效");
+  }
+  assertAllowedKeys(payload.browser, new Set(["userAgent", "language"]));
+  const browser = Object.freeze({
+    userAgent: requireBoundedText(payload.browser.userAgent, "browser.userAgent", 512),
+    language: requireBoundedText(payload.browser.language, "browser.language", 32),
+  });
+  if (!Array.isArray(payload.cases) || payload.cases.length !== 2) {
+    throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收必须包含桌面和窄屏两项");
+  }
+  const expectedIds = new Set(["examples-desktop", "examples-narrow"]);
+  const cases = payload.cases.map((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收 case 格式无效");
+    }
+    assertAllowedKeys(entry, new Set(["id", "passed", "evidence"]));
+    if (!expectedIds.delete(entry.id) || typeof entry.passed !== "boolean") {
+      throw new HttpError(400, "invalid_examples_acceptance_report", "样例验收 case 身份或状态无效");
+    }
+    return Object.freeze({
+      id: entry.id,
+      passed: entry.passed,
+      evidence: requireBoundedText(entry.evidence, "case.evidence", 1000),
+    });
+  });
+  return Object.freeze({
+    version: payload.version,
+    runId: payload.runId.toLowerCase(),
+    startedAt,
+    completedAt,
+    browser,
+    cases: Object.freeze(cases),
+  });
+}
+
+function parseErrorAcceptanceReport(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new HttpError(400, "invalid_error_acceptance_report", "错误验收报告格式无效");
+  assertAllowedKeys(payload, new Set(["version", "runId", "startedAt", "completedAt", "browser", "cases"]));
+  if (payload.version !== "error-acceptance-report-v1" || typeof payload.runId !== "string" || !UUID_PATTERN.test(payload.runId)) throw new HttpError(400, "invalid_error_acceptance_report", "错误验收身份无效");
+  const startedAt = requireCanonicalUtc(payload.startedAt, "startedAt");
+  const completedAt = requireCanonicalUtc(payload.completedAt, "completedAt");
+  if (completedAt < startedAt) throw new HttpError(400, "invalid_error_acceptance_report", "错误验收完成时间早于开始时间");
+  if (!payload.browser || typeof payload.browser !== "object" || Array.isArray(payload.browser)) throw new HttpError(400, "invalid_error_acceptance_report", "browser 格式无效");
+  assertAllowedKeys(payload.browser, new Set(["userAgent", "language"]));
+  const browser = Object.freeze({ userAgent: requireBoundedText(payload.browser.userAgent, "browser.userAgent", 512), language: requireBoundedText(payload.browser.language, "browser.language", 32) });
+  if (!Array.isArray(payload.cases) || payload.cases.length !== 2) throw new HttpError(400, "invalid_error_acceptance_report", "错误验收必须包含桌面和窄屏两项");
+  const expectedIds = new Set(["errors-desktop", "errors-narrow"]);
+  const cases = payload.cases.map((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) throw new HttpError(400, "invalid_error_acceptance_report", "错误验收 case 格式无效");
+    assertAllowedKeys(entry, new Set(["id", "passed", "evidence"]));
+    if (!expectedIds.delete(entry.id) || typeof entry.passed !== "boolean") throw new HttpError(400, "invalid_error_acceptance_report", "错误验收 case 身份或状态无效");
+    return Object.freeze({ id: entry.id, passed: entry.passed, evidence: requireBoundedText(entry.evidence, "case.evidence", 1000) });
+  });
+  return Object.freeze({ version: payload.version, runId: payload.runId.toLowerCase(), startedAt, completedAt, browser, cases: Object.freeze(cases) });
+}
+
+function parseWalkthroughAcceptanceReport(payload) {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new HttpError(400, "invalid_walkthrough_acceptance_report", "走查台验收报告格式无效");
+  assertAllowedKeys(payload, new Set(["version", "runId", "startedAt", "completedAt", "browser", "cases"]));
+  if (payload.version !== "walkthrough-acceptance-report-v1" || typeof payload.runId !== "string" || !UUID_PATTERN.test(payload.runId)) throw new HttpError(400, "invalid_walkthrough_acceptance_report", "走查台验收身份无效");
+  const startedAt = requireCanonicalUtc(payload.startedAt, "startedAt");
+  const completedAt = requireCanonicalUtc(payload.completedAt, "completedAt");
+  if (completedAt < startedAt) throw new HttpError(400, "invalid_walkthrough_acceptance_report", "走查台验收完成时间早于开始时间");
+  if (!payload.browser || typeof payload.browser !== "object" || Array.isArray(payload.browser)) throw new HttpError(400, "invalid_walkthrough_acceptance_report", "browser 格式无效");
+  assertAllowedKeys(payload.browser, new Set(["userAgent", "language"]));
+  const browser = Object.freeze({ userAgent: requireBoundedText(payload.browser.userAgent, "browser.userAgent", 512), language: requireBoundedText(payload.browser.language, "browser.language", 32) });
+  if (!Array.isArray(payload.cases) || payload.cases.length !== 2) throw new HttpError(400, "invalid_walkthrough_acceptance_report", "走查台验收必须包含桌面和窄屏两项");
+  const expectedIds = new Set(["walkthrough-desktop", "walkthrough-narrow"]);
+  const cases = payload.cases.map((entry) => {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) throw new HttpError(400, "invalid_walkthrough_acceptance_report", "走查台验收 case 格式无效");
+    assertAllowedKeys(entry, new Set(["id", "passed", "evidence"]));
+    if (!expectedIds.delete(entry.id) || typeof entry.passed !== "boolean") throw new HttpError(400, "invalid_walkthrough_acceptance_report", "走查台验收 case 身份或状态无效");
+    return Object.freeze({ id: entry.id, passed: entry.passed, evidence: requireBoundedText(entry.evidence, "case.evidence", 1000) });
+  });
+  return Object.freeze({ version: payload.version, runId: payload.runId.toLowerCase(), startedAt, completedAt, browser, cases: Object.freeze(cases) });
 }
 
 function assertAllowedKeys(value, allowedKeys) {
@@ -879,6 +976,8 @@ function apiRoute(pathname) {
 
 export function createImageStudioServer({
   apiKey = process.env.OPENAI_API_KEY ?? "",
+  minimaxTokenPlanKey = process.env.MINIMAX_TOKEN_PLAN_KEY ?? "",
+  minimaxImageEnabled = process.env.MINIMAX_IMAGE_ENABLED === "true",
   fetchImpl = globalThis.fetch,
   previewMode = "local",
   store = new InMemoryRunStore(),
@@ -909,6 +1008,12 @@ export function createImageStudioServer({
   // LAN preview deliberately serves only the browser-local processing path.
   // A server-side key may exist in the parent environment, but it is ignored.
   const effectiveApiKey = previewMode === "local" ? apiKey : "";
+  const generativeProvider = resolveGenerativeProviderPolicy({
+    previewMode,
+    openAiApiKey: effectiveApiKey,
+    minimaxTokenPlanKey,
+    minimaxImageEnabled,
+  });
   const backgroundRemoval = createBackgroundRemovalRuntime({
     provider: previewMode === "local" ? backgroundRemovalProvider : null,
     store: backgroundRemovalStore,
@@ -917,6 +1022,9 @@ export function createImageStudioServer({
 
   const inflight = new Set();
   let latestProductAcceptanceReport = null;
+  let latestExamplesAcceptanceReport = null;
+  let latestErrorAcceptanceReport = null;
+  let latestWalkthroughAcceptanceReport = null;
   const server = createHttpServer(async (request, response) => {
     try {
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
@@ -945,16 +1053,55 @@ export function createImageStudioServer({
         throw new HttpError(405, "method_not_allowed", "该接口只支持 GET 或 POST");
       }
 
+      if (url.pathname === "/api/internal/examples-acceptance/latest") {
+        if (previewMode === "lan") {
+          throw new HttpError(403, "lan_internal_qa_disabled", "局域网预览不开放内部验收回报");
+        }
+        if (request.method === "GET") {
+          sendJson(response, 200, { report: latestExamplesAcceptanceReport });
+          return;
+        }
+        if (request.method === "POST") {
+          const report = parseExamplesAcceptanceReport(await readJson(request, {
+            maxBytes: MAX_PRODUCT_ACCEPTANCE_REPORT_BYTES,
+            tooLargeMessage: "样例验收报告过大",
+          }));
+          latestExamplesAcceptanceReport = Object.freeze({ ...report, receivedAt: new Date().toISOString() });
+          sendJson(response, 202, { accepted: true, report: latestExamplesAcceptanceReport });
+          return;
+        }
+        throw new HttpError(405, "method_not_allowed", "该接口只支持 GET 或 POST");
+      }
+
+      if (url.pathname === "/api/internal/error-acceptance/latest") {
+        if (previewMode === "lan") throw new HttpError(403, "lan_internal_qa_disabled", "局域网预览不开放内部验收回报");
+        if (request.method === "GET") { sendJson(response, 200, { report: latestErrorAcceptanceReport }); return; }
+        if (request.method === "POST") {
+          const report = parseErrorAcceptanceReport(await readJson(request, { maxBytes: MAX_PRODUCT_ACCEPTANCE_REPORT_BYTES, tooLargeMessage: "错误验收报告过大" }));
+          latestErrorAcceptanceReport = Object.freeze({ ...report, receivedAt: new Date().toISOString() });
+          sendJson(response, 202, { accepted: true, report: latestErrorAcceptanceReport });
+          return;
+        }
+        throw new HttpError(405, "method_not_allowed", "该接口只支持 GET 或 POST");
+      }
+
+      if (url.pathname === "/api/internal/walkthrough-acceptance/latest") {
+        if (previewMode === "lan") throw new HttpError(403, "lan_internal_qa_disabled", "局域网预览不开放内部验收回报");
+        if (request.method === "GET") { sendJson(response, 200, { report: latestWalkthroughAcceptanceReport }); return; }
+        if (request.method === "POST") {
+          const report = parseWalkthroughAcceptanceReport(await readJson(request, { maxBytes: MAX_PRODUCT_ACCEPTANCE_REPORT_BYTES, tooLargeMessage: "走查台验收报告过大" }));
+          latestWalkthroughAcceptanceReport = Object.freeze({ ...report, receivedAt: new Date().toISOString() });
+          sendJson(response, 202, { accepted: true, report: latestWalkthroughAcceptanceReport });
+          return;
+        }
+        throw new HttpError(405, "method_not_allowed", "该接口只支持 GET 或 POST");
+      }
+
       if (route.kind === "status") {
         if (request.method !== "GET") {
           throw new HttpError(405, "method_not_allowed", "该接口只支持 GET");
         }
-        sendJson(response, 200, {
-          available: Boolean(effectiveApiKey),
-          model: "gpt-image-2",
-          runStore: "memory",
-          previewMode,
-        });
+        sendJson(response, 200, generativeProvider);
         return;
       }
 
@@ -1085,6 +1232,7 @@ export function createImageStudioServer({
           metadata: {
             taskId: input.taskId,
             model: "gpt-image-2",
+            provider: generativeProvider.provider,
             input: {
               sourceSha256: input.source.sha256,
               referenceSha256: input.references.map((image) => image.sha256),
@@ -1111,7 +1259,7 @@ export function createImageStudioServer({
         if (!effectiveApiKey) {
           // A run without an upstream request must not occupy the client UUID.
           store.delete(resolved.run.id);
-          throw new HttpError(503, "api_key_missing", "服务端尚未配置 OPENAI_API_KEY");
+          throw new HttpError(503, "generative_provider_unavailable", "尚未连接支持直接图片编辑的生成式 Provider");
         }
         const run = resolved.run;
         const task = executeRun({
@@ -1221,6 +1369,8 @@ export function startConfiguredServer(env = process.env) {
   const backgroundRemovalProvider = resolveConfiguredBackgroundRemovalProvider(env, config.previewMode);
   const app = createImageStudioServer({
     apiKey: env.OPENAI_API_KEY ?? "",
+    minimaxTokenPlanKey: env.MINIMAX_TOKEN_PLAN_KEY ?? "",
+    minimaxImageEnabled: env.MINIMAX_IMAGE_ENABLED === "true",
     previewMode: config.previewMode,
     backgroundRemovalProvider,
   });
@@ -1234,6 +1384,11 @@ export function startConfiguredServer(env = process.env) {
         console.log("LAN preview: local processing only; OpenAI image edits disabled");
       } else {
         console.log(env.OPENAI_API_KEY ? "OpenAI image edits: available" : "OpenAI image edits: OPENAI_API_KEY missing");
+        console.log(env.MINIMAX_TOKEN_PLAN_KEY
+          ? env.MINIMAX_IMAGE_ENABLED === "true"
+            ? "MiniMax image-01: configured but blocked for direct uploads (public reference URL required)"
+            : "MiniMax image-01: credential present but disabled"
+          : "MiniMax image-01: MINIMAX_TOKEN_PLAN_KEY missing");
         console.log(backgroundRemovalProvider
           ? "PhotoRoom background removal: explicitly enabled"
           : env.PHOTOROOM_API_KEY

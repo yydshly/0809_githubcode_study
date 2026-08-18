@@ -11,15 +11,20 @@ test("editor settings map oriented geometry, controls and JPEG background into E
     settings: {
       ratio: "portrait",
       rotation: "90",
+      straighten: "2.34",
       flipHorizontal: "on",
       brightness: "10",
       contrast: "-5",
       saturation: "20",
+      denoise: "15",
+      clarity: "25",
       format: "jpeg",
+      jpegQuality: "0.74",
       jpegBackground: "#123456",
     },
   });
   assert.equal(state.rotation, 90);
+  assert.equal(state.straighten, 2.3);
   assert.equal(state.flipHorizontal, true);
   assert.equal(state.cropMode, "portrait");
   assert.deepEqual(state.crop, { x: 0.2, y: 0, width: 0.6, height: 1 });
@@ -32,7 +37,8 @@ test("editor settings map oriented geometry, controls and JPEG background into E
     maxPixels: 16_000_000,
   });
   assert.deepEqual(state.adjustments, { brightness: 10, contrast: -5, saturation: 20 });
-  assert.deepEqual(state.output, { format: "jpeg", jpegQuality: 0.92, jpegBackground: "#123456" });
+  assert.deepEqual(state.detailEnhancement, { denoise: 15, clarity: 25 });
+  assert.deepEqual(state.output, { format: "jpeg", jpegQuality: 0.74, jpegBackground: "#123456" });
 });
 
 test("original ratio preserves the complete oriented source with bounded output", () => {
@@ -41,6 +47,52 @@ test("original ratio preserves the complete oriented source with bounded output"
   assert.equal(state.resize.width, null);
   assert.equal(state.resize.height, null);
   assert.equal(state.output.format, "png");
+});
+
+test("compression may preserve high-resolution source pixels before it starts resizing", () => {
+  const state = editStateFromSettings({
+    sourceWidth: 4000,
+    sourceHeight: 3000,
+    settings: {
+      ratio: "original",
+      sizeMode: "custom",
+      outputLongEdge: 4000,
+      format: "jpeg",
+      jpegQuality: 0.9,
+      compressionTargetKilobytes: 2048,
+    },
+  });
+  assert.deepEqual(state.resize, {
+    width: 4000,
+    height: 3000,
+    mode: "custom",
+    allowUpscale: false,
+    maxEdge: 8192,
+    maxPixels: 16_000_000,
+  });
+});
+
+test("format conversion shares the bounded high-resolution output path without enabling crop or upscale", () => {
+  const state = editStateFromSettings({
+    sourceWidth: 4032,
+    sourceHeight: 3024,
+    settings: {
+      formatConversion: "on",
+      ratio: "original",
+      sizeMode: "custom",
+      outputLongEdge: 4032,
+      format: "png",
+    },
+  });
+  assert.deepEqual(state.crop, { x: 0, y: 0, width: 1, height: 1 });
+  assert.deepEqual(state.resize, {
+    width: 4032,
+    height: 3024,
+    mode: "custom",
+    allowUpscale: false,
+    maxEdge: 8192,
+    maxPixels: 16_000_000,
+  });
 });
 
 test("positioned crop and custom output dimensions are renderer-bound and ratio-safe", () => {
@@ -176,6 +228,10 @@ test("editor settings fail closed for unknown ratio and invalid numeric controls
   assert.throws(
     () => editStateFromSettings({ sourceWidth: 10, sourceHeight: 10, settings: { rotation: "45" } }),
     /旋转角度必须是/,
+  );
+  assert.throws(
+    () => editStateFromSettings({ sourceWidth: 10, sourceHeight: 10, settings: { straighten: "11" } }),
+    /水平校正角度必须在/,
   );
 });
 

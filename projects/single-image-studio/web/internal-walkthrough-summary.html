@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="description" content="在浏览器本地汇总 Single Image Studio 匿名走查 JSON，不上传原始记录。" />
+    <title>走查记录汇总 · Single Image Studio</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./quality-hub.css" />
+    <link rel="stylesheet" href="./internal-walkthrough-summary.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#summary-main">跳到汇总工具</a>
+    <header class="site-header quality-header"><a class="brand" href="./"><span class="brand-symbol" aria-hidden="true">S</span><span><strong>Single Image</strong><small>Studio · 走查记录汇总</small></span></a><nav class="quality-nav" aria-label="内部页面导航"><a href="./quality-hub.html">内部质量</a><a href="./internal-walkthrough.html">开始走查</a></nav></header>
+    <main id="summary-main" class="summary-shell">
+      <section class="summary-hero" aria-labelledby="summary-title"><div><p class="kicker">Local anonymous aggregate</p><h1 id="summary-title">汇总观察，<br />不汇总身份。</h1></div><div><p>选择 1–8 份由走查台导出的匿名 JSON。文件只在当前浏览器内读取；不会上传、保存或显示自由文本。</p><div class="summary-boundary"><strong>汇总仍然不是产品通过结论</strong><span>不同 build 会分组警告；重复场次、开放字段或疑似个人信息会被 strict record validator 拒绝。</span></div></div></section>
+      <section class="summary-upload" aria-labelledby="summary-upload-title">
+        <div><p class="kicker">01 · 选择记录</p><h2 id="summary-upload-title">导入匿名 JSON</h2><p>单文件最大 64 KiB，总计最大 512 KiB。不要选择图片、录音或参与者资料。</p></div>
+        <div class="summary-actions"><label class="button button-primary summary-file-button" for="summary-file-input">选择 1–8 份 JSON</label><input id="summary-file-input" type="file" accept="application/json,.json" multiple /><button class="button button-quiet" id="summary-clear" type="button" disabled>清空</button></div>
+        <p class="summary-status" id="summary-status" role="status">尚未选择记录。</p>
+      </section>
+      <section id="summary-results" class="summary-results" hidden aria-labelledby="summary-results-title">
+        <div class="summary-results-heading"><div><p class="kicker">02 · 去标识化汇总</p><h2 id="summary-results-title">本轮观察概览</h2></div><button class="button button-primary" id="summary-download" type="button">下载汇总 JSON</button></div>
+        <div class="summary-warning" id="summary-build-warning" hidden><strong>检测到多个 build</strong><p>这些记录不能合成一个成功率；下面只并列展示场次数，修改前后的结论必须分开解释。</p></div>
+        <div class="summary-metrics"><div><span>匿名场次</span><strong id="summary-session-count">0</strong></div><div><span>Build 数量</span><strong id="summary-build-count">0</strong></div><div><span>解释边界</span><strong>只作形成性观察</strong></div></div>
+        <section class="summary-builds" aria-labelledby="summary-builds-title"><h3 id="summary-builds-title">Build 分组</h3><div id="summary-build-list"></div></section>
+        <section class="summary-task-grid" id="summary-task-grid" aria-label="任务汇总"></section>
+        <details class="summary-json"><summary>查看汇总 JSON（不含场次编号与自由文本）</summary><pre id="summary-json-preview"></pre></details>
+      </section>
+    </main>
+    <script type="module" src="./internal-walkthrough-summary.js"></script>
+  </body>
+</html>

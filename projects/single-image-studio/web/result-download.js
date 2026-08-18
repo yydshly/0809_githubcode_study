@@ -1,6 +1,41 @@
 const DOWNLOAD_POLICIES = Object.freeze({
+  "UT-PRIVACY-SHARE": Object.freeze({
+    prefix: "privacy-friendly-share",
+    mimeTypes: Object.freeze(["image/jpeg"]),
+    alpha: "opaque",
+  }),
+  "UT-UPLOAD": Object.freeze({
+    prefix: "upload-ready-image",
+    mimeTypes: Object.freeze(["image/jpeg"]),
+    alpha: "opaque",
+  }),
+  "UT-DOC-ARCHIVE": Object.freeze({
+    prefix: "document-archive",
+    mimeTypes: Object.freeze(["image/jpeg"]),
+    alpha: "opaque",
+  }),
   "UT-TUNE": Object.freeze({
     prefix: "fidelity-result",
+    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
+    alpha: "either",
+  }),
+  "UT-COMPRESS": Object.freeze({
+    prefix: "compressed-image",
+    mimeTypes: Object.freeze(["image/jpeg"]),
+    alpha: "opaque",
+  }),
+  "UT-CONVERT": Object.freeze({
+    prefix: "converted-image",
+    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
+    alpha: "either",
+  }),
+  "UT-FIT": Object.freeze({
+    prefix: "fitted-image",
+    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
+    alpha: "either",
+  }),
+  "UT-RECTIFY": Object.freeze({
+    prefix: "rectified-plane",
     mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
     alpha: "either",
   }),
@@ -14,6 +49,16 @@ const DOWNLOAD_POLICIES = Object.freeze({
     mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
     alpha: "either",
   }),
+  "UT-OLD-PHOTO": Object.freeze({
+    prefix: "old-photo-local-copy",
+    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
+    alpha: "either",
+  }),
+  "UT-GRID": Object.freeze({
+    prefix: "social-grid-source",
+    mimeTypes: Object.freeze(["image/png"]),
+    alpha: "either",
+  }),
   "LOCAL-FIDELITY": Object.freeze({
     prefix: "fidelity-result",
     mimeTypes: Object.freeze(["image/png"]),
@@ -23,11 +68,6 @@ const DOWNLOAD_POLICIES = Object.freeze({
     prefix: "cutout-result",
     mimeTypes: Object.freeze(["image/png"]),
     alpha: "required",
-  }),
-  "UT-SOLID-BG": Object.freeze({
-    prefix: "solid-background-result",
-    mimeTypes: Object.freeze(["image/png", "image/jpeg"]),
-    alpha: "opaque",
   }),
   "UT-PORTRAIT": Object.freeze({
     prefix: "portrait-result",

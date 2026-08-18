@@ -18,10 +18,24 @@ test("editor workspace binds presets to immutable history and a render-plan prev
   workspace = updateEditorWorkspace(workspace, {
     ratio: "portrait",
     rotation: 90,
+    straighten: 2.5,
+    verticalPerspective: 0,
+    rectificationEnabled: false,
+    rectifyTopLeftX: 0,
+    rectifyTopLeftY: 0,
+    rectifyTopRightX: 100,
+    rectifyTopRightY: 0,
+    rectifyBottomRightX: 100,
+    rectifyBottomRightY: 100,
+    rectifyBottomLeftX: 0,
+    rectifyBottomLeftY: 100,
+    documentScanMode: "original",
     flipHorizontal: true,
     brightness: 15,
     contrast: -8,
     saturation: 20,
+    denoise: 14,
+    clarity: 22,
     format: "jpeg",
     jpegBackground: "#123456",
   });
@@ -35,16 +49,31 @@ test("editor workspace binds presets to immutable history and a render-plan prev
     cropWidth: 60,
     cropHeight: 100,
     rotation: 90,
+    straighten: 2.5,
+    verticalPerspective: 0,
+    rectificationEnabled: false,
+    rectifyTopLeftX: 0,
+    rectifyTopLeftY: 0,
+    rectifyTopRightX: 100,
+    rectifyTopRightY: 0,
+    rectifyBottomRightX: 100,
+    rectifyBottomRightY: 100,
+    rectifyBottomLeftX: 0,
+    rectifyBottomLeftY: 100,
+    documentScanMode: "original",
     flipHorizontal: true,
     flipVertical: false,
     brightness: 15,
     contrast: -8,
     saturation: 20,
+    denoise: 14,
+    clarity: 22,
     sizeMode: "preset",
     outputLongEdge: null,
     outputWidth: null,
     outputHeight: null,
     format: "jpeg",
+    jpegQuality: 0.92,
     jpegBackground: "#123456",
   });
   const presentation = editorPreviewPresentation(workspace);
@@ -53,9 +82,9 @@ test("editor workspace binds presets to immutable history and a render-plan prev
   assert.equal(presentation.previewHeight, "133.33333333333331%");
   assert.equal(presentation.objectPosition, "50% 50%");
   assert.deepEqual(presentation.cropRect, { left: 20, top: 0, width: 60, height: 100 });
-  assert.equal(presentation.transform, "translate(-50%, -50%) scale(-1, 1) rotate(90deg)");
+  assert.match(presentation.transform, /^translate\(-50%, -50%\) scale\(-1\.0[0-9]+, 1\.0[0-9]+\) rotate\(92\.5deg\)$/u);
   assert.equal(presentation.background, "#123456");
-  assert.match(presentation.summary, /4:5.*亮度 \+15.*JPEG/);
+  assert.match(presentation.summary, /4:5.*拉直 \+2\.5°.*亮度 \+15.*降噪 14.*清晰度 22.*JPEG/);
 });
 
 test("a portrait workspace can freeze a square raised composition as its reset baseline", () => {
@@ -297,7 +326,7 @@ test("scene ratios remain visible and editable in workspace presentation", () =>
 test("undo, redo and reset preserve the current source contract", () => {
   let workspace = createEditorWorkspace({ sourceWidth: 800, sourceHeight: 600, sourceOrientation: 1 });
   workspace = updateEditorWorkspace(workspace, { ratio: "square", rotation: 90, format: "png" });
-  workspace = updateEditorWorkspace(workspace, { ratio: "landscape", rotation: 180, format: "png" });
+  workspace = updateEditorWorkspace(workspace, { ratio: "landscape", rotation: 180, straighten: -2, format: "png" });
   workspace = undoEditorWorkspace(workspace);
   assert.equal(editorSettings(workspace).ratio, "square");
   assert.equal(editorSettings(workspace).rotation, 90);
@@ -306,6 +335,7 @@ test("undo, redo and reset preserve the current source contract", () => {
   workspace = resetEditorWorkspace(workspace);
   assert.equal(editorSettings(workspace).ratio, "original");
   assert.equal(editorSettings(workspace).rotation, 0);
+  assert.equal(editorSettings(workspace).straighten, 0);
   assert.equal(workspace.source.sourceWidth, 800);
   assert.equal(workspace.history.past.length, 3);
 });

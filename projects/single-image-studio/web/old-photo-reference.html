@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>老照片生成式修复参考 · Single Image Studio</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="reference-demo-body">
+  <main class="reference-demo-shell">
+    <nav class="reference-demo-nav" aria-label="返回产品">
+      <a href="./">← 返回 Single Image Studio</a>
+      <a href="./quality-hub.html">内部质量入口</a>
+    </nav>
+    <header class="reference-demo-header">
+      <p class="eyebrow">项目原创合成图 · Codex 视觉参考</p>
+      <h1>老照片生成式修复参考</h1>
+      <p>这组图片用于直观看“生成式修复可能是什么效果”，不是产品 API 的实时结果，也不是档案级真值。请重点比较人物面部、自行车、衣物与院落细节是否被重绘。</p>
+      <div class="reference-demo-warning" role="note">
+        <strong>边界说明</strong>
+        <span>当前本地基础整理不会产生右侧效果；只有另行连接并确认生成式图片 Provider 后，才能运行 AI 老照片修复实验。</span>
+      </div>
+    </header>
+    <section class="reference-demo-grid" aria-label="原始演示图与 Codex 修复参考对比">
+      <figure class="reference-demo-card">
+        <figcaption><span>输入</span><strong>项目原创虚构老照片</strong></figcaption>
+        <div class="reference-demo-image-frame">
+          <img src="./demo-assets/old-photo-demo-v1.png" width="1448" height="1086" alt="带褪色、划痕和折痕的虚构三口之家院落老照片" />
+        </div>
+        <p>可用于本地裁剪、旋转、光色调整和格式导出。</p>
+      </figure>
+      <figure class="reference-demo-card reference-demo-card--result">
+        <figcaption><span>参考</span><strong>Codex 内置图片编辑结果</strong></figcaption>
+        <div class="reference-demo-image-frame">
+          <img src="./demo-assets/old-photo-codex-reference-v1.png" width="1448" height="1086" alt="清理了多数划痕和褪色的 Codex 生成式修复参考图" />
+        </div>
+        <p>生成模型重建了像素；看起来更干净不代表人物身份与历史细节完全正确。</p>
+      </figure>
+    </section>
+    <section class="reference-demo-checklist" aria-labelledby="reference-check-title">
+      <div>
+        <p class="eyebrow">查看建议</p>
+        <h2 id="reference-check-title">不要只看“变清楚了”</h2>
+      </div>
+      <ul>
+        <li>检查三个人的脸型、年龄感与表情有没有变化。</li>
+        <li>检查自行车轮辐、衣物边缘和盆栽是否被模型重新发明。</li>
+        <li>把去划痕、降噪、补细节分开评价，不用一个“修复成功”概括。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

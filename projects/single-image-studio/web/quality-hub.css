@@ -1,0 +1,50 @@
+.quality-header { border-bottom: 1px solid var(--line); }
+.quality-nav { margin-left: auto; display: flex; align-items: center; gap: .35rem; }
+.quality-nav a { min-height: 2.7rem; display: inline-flex; align-items: center; padding: .55rem .82rem; border-radius: 999px; color: var(--green); font-size: .75rem; font-weight: 800; text-decoration: none; }
+.quality-nav a:hover, .quality-nav a[aria-current="page"] { background: var(--green-soft); }
+.quality-shell { max-width: 1440px; margin: 0 auto; padding: 3rem clamp(1.2rem,4vw,4.5rem) 5rem; }
+.quality-hero { display: grid; grid-template-columns: minmax(20rem,.9fr) minmax(22rem,1.1fr); gap: clamp(2rem,7vw,8rem); align-items: end; padding: 2rem 0 3.3rem; }
+.quality-hero h1 { max-width: 14ch; margin: .55rem 0 0; font: 500 clamp(2.5rem,5vw,5rem)/.98 Georgia,"Songti SC",serif; letter-spacing: -.05em; }
+.quality-hero-copy { max-width: 42rem; color: var(--muted); line-height: 1.75; }
+.quality-next { margin-top: 1.1rem; padding: 1rem 1.1rem; display: grid; gap: .25rem; border-left: 3px solid var(--lime); background: rgba(255,255,255,.5); color: var(--ink); }
+.quality-next span, .quality-next p { margin: 0; color: var(--muted); font-size: .7rem; }
+.quality-boundaries { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: .75rem; margin-bottom: 1.25rem; }
+.quality-boundaries > div { padding: 1rem; border: 1px solid var(--line); border-radius: .85rem; background: rgba(255,255,255,.48); }
+.quality-boundaries span, .quality-boundaries p { display: block; margin: 0; color: var(--muted); font-size: .67rem; }
+.quality-boundaries strong { display: block; margin: .25rem 0; }
+.quality-boundaries [data-human-denominator] { border-color: #d7bd8a; background: #fff9e9; }
+.quality-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.quality-card { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: clamp(1.2rem,3vw,1.7rem); border: 1px solid var(--line); border-radius: 1.15rem; background: var(--paper-strong); box-shadow: 0 12px 36px rgba(34,48,40,.055); }
+.quality-card-human { border-color: #b9c7ae; background: linear-gradient(145deg,#f8faec,#fbf7eb); }
+.quality-card-top { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.quality-number { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: white; font-size: .67rem; font-weight: 900; }
+.quality-kind { color: var(--muted); font-size: .66rem; font-weight: 800; }
+.quality-card h2 { margin: 1rem 0 .45rem; font: 550 1.5rem/1.2 Georgia,"Songti SC",serif; }
+.quality-card > p { min-height: 3.5em; margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.65; }
+.quality-runtime { width: 100%; margin: 1rem 0; padding: .7rem .8rem; border-radius: .65rem; background: #f1f1ea; color: var(--muted); font-size: .7rem; }
+.quality-runtime[data-tone="pass"] { background: #f0f7e6; color: #315d27; }
+.quality-runtime[data-tone="empty"] { background: #f4f2ec; color: #6b6a60; }
+.quality-card .button { margin-top: auto; text-decoration: none; }
+.quality-card-actions { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+.quality-card-actions a:not(.button) { color: var(--green); font-size: .72rem; font-weight: 800; }
+.page-directory { margin-top: 1.25rem; padding: clamp(1.3rem,3vw,2rem); border: 1px solid var(--line); border-radius: 1.15rem; background: rgba(255,255,255,.48); }
+.page-directory-heading { display: grid; grid-template-columns: minmax(18rem,1fr) minmax(18rem,.8fr); gap: 2rem; align-items: end; padding-bottom: 1.1rem; border-bottom: 1px solid var(--line); }
+.page-directory-heading h2 { margin: .4rem 0 0; font: 550 clamp(1.4rem,2.5vw,2.2rem)/1.15 Georgia,"Songti SC",serif; }
+.page-directory-heading > p { margin: 0; color: var(--muted); font-size: .74rem; line-height: 1.65; }
+#page-directory-groups { display: grid; gap: 1rem; margin-top: 1rem; }
+.page-directory-group h3 { display: flex; align-items: center; gap: .5rem; margin: 0 0 .55rem; font-size: .75rem; }
+.page-directory-group h3 span { min-width: 1.4rem; height: 1.4rem; display: grid; place-items: center; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: .62rem; }
+.page-directory-group > div { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .55rem; }
+.page-directory-entry { min-width: 0; padding: .8rem; border: 1px solid var(--line); border-radius: .75rem; background: var(--paper-strong); }
+.page-directory-entry > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: .8rem; }
+.page-directory-entry > div:first-child span { color: var(--muted); font-size: .6rem; }
+.page-directory-entry a { color: var(--green); font-size: .78rem; font-weight: 850; }
+.page-directory-entry p { margin: .45rem 0 .6rem; color: var(--muted); font-size: .68rem; line-height: 1.55; }
+.page-capabilities { display: flex; flex-wrap: wrap; gap: .3rem; }
+.page-capabilities span { padding: .22rem .42rem; border-radius: 999px; background: #f1f1ea; color: #53655d; font-size: .58rem; }
+.quality-stop { display: grid; grid-template-columns: minmax(16rem,.65fr) minmax(20rem,1fr); gap: 2rem; margin-top: 1.25rem; padding: clamp(1.3rem,3vw,2rem); border-radius: 1.15rem; background: #20362e; color: white; }
+.quality-stop h2 { margin: .45rem 0 0; font: 500 clamp(1.5rem,3vw,2.6rem)/1.1 Georgia,"Songti SC",serif; }
+.quality-stop ul { margin: 0; padding-left: 1.2rem; color: #d7e1da; font-size: .76rem; line-height: 1.8; }
+@media (max-width: 800px) { .quality-hero, .quality-stop, .page-directory-heading { grid-template-columns: 1fr; gap: 1.4rem; } }
+@media (max-width: 620px) { .quality-header { align-items: flex-start; flex-wrap: wrap; } .quality-nav { width: 100%; margin-left: 0; justify-content: space-between; } .quality-shell { padding-top: 1.4rem; } .quality-hero { padding-top: .8rem; } .quality-boundaries, .quality-grid, .page-directory-group > div { grid-template-columns: 1fr; } .quality-card > p { min-height: 0; } .page-directory-entry > div:first-child { align-items: flex-start; flex-direction: column; gap: .25rem; } }
+@media (prefers-reduced-motion: reduce) { .quality-shell * { scroll-behavior: auto !important; transition: none !important; } }

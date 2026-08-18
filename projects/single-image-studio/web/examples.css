@@ -1,0 +1,83 @@
+.examples-site-header { border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent); }
+.examples-nav { margin-left: auto; display: flex; align-items: center; gap: .35rem; }
+.examples-nav a { min-height: 2.7rem; display: inline-flex; align-items: center; padding: .55rem .85rem; border-radius: 999px; color: var(--green); font-size: .78rem; font-weight: 800; text-decoration: none; }
+.examples-nav a:hover, .examples-nav a[aria-current="page"] { background: var(--green-soft); }
+
+.examples-shell { max-width: 1440px; margin: 0 auto; padding: 3rem clamp(1.2rem, 4vw, 4.5rem) 5rem; }
+.examples-hero { display: grid; grid-template-columns: minmax(20rem, .9fr) minmax(22rem, 1.1fr); gap: clamp(2rem, 7vw, 8rem); align-items: end; padding: 2rem 0 3.5rem; }
+.examples-hero h1 { margin: .55rem 0 0; max-width: 13ch; font: 500 clamp(2.55rem, 5vw, 5.1rem)/.98 Georgia, "Songti SC", serif; letter-spacing: -.05em; }
+.examples-hero-copy { max-width: 39rem; color: var(--muted); line-height: 1.75; }
+.examples-boundary { margin-top: 1rem; padding: .9rem 1rem; border-left: 3px solid var(--lime); background: rgba(255,255,255,.45); color: var(--ink); }
+
+.examples-toolbar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(12px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.examples-toolbar span { display: block; font-weight: 850; font-size: .76rem; }
+.examples-toolbar p { margin: .22rem 0 0; color: var(--muted); font-size: .7rem; }
+.examples-filters { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; }
+.examples-filters button { min-height: 2.55rem; padding: .55rem .82rem; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.65); color: var(--green); cursor: pointer; font-size: .75rem; font-weight: 800; }
+.examples-filters button[aria-pressed="true"] { border-color: var(--green); background: var(--green); color: white; }
+
+.examples-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; padding: 1.4rem 0 3rem; }
+.example-card { min-width: 0; display: grid; grid-template-rows: auto auto 1fr; border: 1px solid var(--line); border-radius: 1.2rem; overflow: hidden; background: var(--paper-strong); box-shadow: 0 12px 36px rgba(34,48,40,.06); }
+.example-card[hidden] { display: none; }
+.example-card-heading { padding: 1.1rem 1.2rem 1rem; display: grid; gap: .45rem; }
+.example-card-heading-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.example-card h2 { margin: 0; font: 550 1.35rem/1.2 Georgia, "Songti SC", serif; }
+.example-card-heading p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+.example-origin { flex: 0 0 auto; padding: .3rem .55rem; border: 1px solid #b9c7ae; border-radius: 999px; color: var(--green); background: #f8faec; font-size: .64rem; font-weight: 850; }
+.example-card[data-filter="reference"] .example-origin { border-color: #d7bd8a; background: #fff9e9; color: #725621; }
+
+.example-pair { min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #d8ddd8; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.example-image { min-width: 0; margin: 0; display: grid; grid-template-rows: minmax(15rem, 26vw) auto; background-color: #d8ddd8; background-image: linear-gradient(45deg, #c6ccc6 25%, transparent 25%), linear-gradient(-45deg, #c6ccc6 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #c6ccc6 75%), linear-gradient(-45deg, transparent 75%, #c6ccc6 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0; }
+.example-image + .example-image { border-left: 1px solid #b7bdb7; }
+.example-image img { width: 100%; height: 100%; min-height: 0; display: block; object-fit: contain; object-position: center; }
+.example-image figcaption { min-width: 0; padding: .65rem .75rem; display: grid; gap: .18rem; background: rgba(250,249,244,.96); border-top: 1px solid var(--line); }
+.example-image figcaption span { color: var(--muted); font-size: .62rem; }
+.example-image figcaption strong { overflow-wrap: anywhere; font-size: .76rem; }
+.example-image-state { align-self: center; justify-self: center; padding: 1rem; color: var(--muted); text-align: center; font-size: .75rem; line-height: 1.55; }
+
+.example-details { min-width: 0; padding: 1rem 1.2rem 1.2rem; display: grid; align-content: start; gap: .85rem; }
+.example-processing { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding-bottom: .75rem; border-bottom: 1px solid var(--line); }
+.example-processing strong { font-size: .78rem; }
+.example-processing span { color: var(--muted); font-size: .67rem; text-align: right; }
+.example-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+.example-fact { min-width: 0; padding: .65rem .7rem; border-radius: .65rem; background: #f1f1ea; }
+.example-fact span { display: block; color: var(--muted); font-size: .6rem; }
+.example-fact strong { display: block; margin-top: .18rem; overflow-wrap: anywhere; font-size: .72rem; }
+.example-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.example-lists h3 { margin: 0 0 .4rem; color: var(--green); font-size: .68rem; letter-spacing: .04em; }
+.example-lists ul { margin: 0; padding-left: 1rem; color: var(--muted); font-size: .69rem; line-height: 1.55; }
+.example-card-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem; }
+.example-card-actions a:not(.button) { color: var(--green); font-size: .7rem; }
+.example-card-actions .button { min-height: 2.45rem; padding: .55rem .85rem; font-size: .72rem; text-decoration: none; }
+
+.examples-next { display: grid; grid-template-columns: minmax(18rem, 1fr) minmax(18rem, .75fr) auto; gap: 1.5rem; align-items: center; padding: clamp(1.4rem, 4vw, 2.5rem); border: 1px solid #b9c7ae; border-radius: 1.2rem; background: linear-gradient(135deg, #f8faec, #f7f4e9); }
+.examples-next h2 { margin: .4rem 0 0; font: 500 clamp(1.5rem, 2.5vw, 2.4rem) Georgia, "Songti SC", serif; }
+.examples-next > p { color: var(--muted); line-height: 1.6; font-size: .78rem; }
+.examples-next .button { text-decoration: none; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .examples-hero { grid-template-columns: 1fr; gap: 1.5rem; }
+  .examples-hero h1 { max-width: 15ch; }
+  .examples-gallery { grid-template-columns: 1fr; }
+  .example-image { grid-template-rows: minmax(15rem, 52vw) auto; }
+  .examples-next { grid-template-columns: 1fr; align-items: start; }
+  .examples-next .button { width: fit-content; }
+}
+@media (max-width: 620px) {
+  .examples-site-header { align-items: flex-start; flex-wrap: wrap; }
+  .examples-nav { width: 100%; margin-left: 0; justify-content: space-between; }
+  .examples-shell { padding-top: 1.5rem; }
+  .examples-hero { padding-top: .75rem; }
+  .examples-toolbar { position: static; align-items: flex-start; flex-direction: column; }
+  .examples-filters { justify-content: flex-start; }
+  .example-pair { grid-template-columns: 1fr; }
+  .example-image { grid-template-rows: minmax(13rem, 76vw) auto; }
+  .example-image + .example-image { border-left: 0; border-top: 1px solid #b7bdb7; }
+  .example-facts, .example-lists { grid-template-columns: 1fr; }
+  .example-processing { align-items: flex-start; flex-direction: column; }
+  .example-processing span { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .examples-shell *, .examples-shell *::before, .examples-shell *::after { scroll-behavior: auto !important; transition: none !important; }
+}

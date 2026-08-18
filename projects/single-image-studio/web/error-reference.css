@@ -1,0 +1,16 @@
+.error-reference-shell { max-width: 1320px; margin: 0 auto; padding: 2rem clamp(1.2rem, 4vw, 4.5rem) 5rem; }
+.error-reference-hero { max-width: 52rem; padding: 1.5rem 0 2.5rem; }
+.error-reference-hero h1 { margin: .55rem 0 1rem; font: 500 clamp(2.3rem, 4vw, 4.4rem)/1 Georgia, "Songti SC", serif; letter-spacing: -.04em; }
+.error-reference-hero > p:last-child { color: var(--muted); line-height: 1.7; }
+.error-reference-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.error-reference-card { min-width: 0; padding: 1.2rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--paper-strong); box-shadow: 0 12px 34px rgba(34,48,40,.06); }
+.error-reference-card > header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+.error-reference-card > header span { padding: .3rem .55rem; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: .63rem; font-weight: 850; }
+.error-reference-card h2 { margin: 0; font: 550 1.25rem Georgia, "Songti SC", serif; }
+.error-reference-card > p { color: var(--muted); font-size: .76rem; line-height: 1.55; }
+.error-reference-card .error-facts { grid-template-columns: 1fr; }
+.error-reference-card .error-technical dl { grid-template-columns: 1fr; }
+.error-reference-card .inline-actions { justify-content: flex-start; margin-top: 1rem; }
+.error-reference-card .button { min-height: 2.45rem; padding: .55rem .8rem; font-size: .7rem; }
+@media (max-width: 720px) { .error-reference-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .error-reference-shell * { transition: none !important; } }

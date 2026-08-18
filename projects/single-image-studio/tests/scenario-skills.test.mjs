@@ -8,18 +8,23 @@ import {
   scenarioSkillForTask,
 } from "../web/scenario-skills.js";
 
-test("scenario registry exposes exactly the four honest current use cases", () => {
+test("scenario registry exposes eight honest current use cases", () => {
   assert.deepEqual(
-    SCENARIO_SKILLS.map(({ id, taskId, order }) => ({ id, taskId, order })),
+    SCENARIO_SKILLS.map(({ id, taskId, order }) => ({ id, taskId, order })).sort((left, right) => left.order - right.order),
     [
+      { id: "privacy-friendly-share", taskId: "UT-PRIVACY-SHARE", order: -0.5 },
+      { id: "upload-specification", taskId: "UT-UPLOAD", order: 0 },
+      { id: "document-archive", taskId: "UT-DOC-ARCHIVE", order: 0.5 },
       { id: "product-white-background", taskId: "UT-PRODUCT", order: 1 },
       { id: "application-photo", taskId: "UT-PORTRAIT", order: 2 },
       { id: "social-layout", taskId: "UT-TEMPLATE", order: 3 },
-      { id: "old-photo-restoration", taskId: "CR-RESTORE", order: 4 },
+      { id: "social-grid-split", taskId: "UT-GRID", order: 4 },
+      { id: "old-photo-restoration", taskId: "UT-OLD-PHOTO", order: 5 },
     ],
   );
-  assert.equal(new Set(SCENARIO_SKILLS.map((skill) => skill.taskId)).size, 4);
-  assert.equal(scenarioSkillForTask("CR-RESTORE").id, "old-photo-restoration");
+  assert.equal(new Set(SCENARIO_SKILLS.map((skill) => skill.taskId)).size, 8);
+  assert.equal(scenarioSkillForTask("UT-OLD-PHOTO").id, "old-photo-restoration");
+  assert.equal(scenarioSkillForTask("CR-RESTORE"), null);
 });
 
 test("scenario initial settings are useful defaults and returned as mutable copies", () => {
@@ -37,7 +42,26 @@ test("scenario initial settings are useful defaults and returned as mutable copi
 
   assert.equal(scenarioInitialSettings("UT-PORTRAIT").cropY, 42);
   assert.equal(scenarioInitialSettings("UT-TEMPLATE").outputLongEdge, 1080);
-  assert.equal(scenarioInitialSettings("CR-RESTORE"), null);
+  assert.deepEqual(scenarioInitialSettings("UT-GRID"), {
+    ratio: "square",
+    cropX: 50,
+    cropY: 50,
+    sizeMode: "custom",
+    outputLongEdge: 1080,
+    format: "png",
+  });
+  assert.deepEqual(scenarioInitialSettings("UT-OLD-PHOTO"), {
+    ratio: "original",
+    cropX: 50,
+    cropY: 50,
+    brightness: 4,
+    contrast: 12,
+    saturation: 3,
+    denoise: 18,
+    clarity: 14,
+    sizeMode: "preset",
+    format: "png",
+  });
   assert.equal(scenarioInitialSettings("UT-TUNE"), null);
 });
 

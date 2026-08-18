@@ -1,0 +1,54 @@
+.walkthrough-header { border-bottom: 1px solid var(--line); }
+.walkthrough-nav { margin-left: auto; display: flex; gap: .45rem; }
+.walkthrough-nav a { min-height: 2.7rem; display: inline-flex; align-items: center; padding: .55rem .85rem; border-radius: 999px; color: var(--green); font-size: .76rem; font-weight: 800; text-decoration: none; }
+.walkthrough-nav a:hover { background: var(--green-soft); }
+.walkthrough-shell { max-width: 1440px; margin: 0 auto; padding: 3rem clamp(1.2rem, 4vw, 4.5rem) 5rem; }
+.walkthrough-hero { display: grid; grid-template-columns: minmax(20rem, .9fr) minmax(22rem, 1.1fr); gap: clamp(2rem, 7vw, 8rem); align-items: end; padding: 2rem 0 3.4rem; }
+.walkthrough-hero h1 { margin: .55rem 0 0; max-width: 14ch; font: 500 clamp(2.45rem, 5vw, 4.9rem)/1 Georgia, "Songti SC", serif; letter-spacing: -.045em; }
+.walkthrough-hero-copy { max-width: 42rem; color: var(--muted); line-height: 1.75; }
+.walkthrough-boundary { margin-top: 1.1rem; padding: 1rem 1.1rem; display: grid; gap: .3rem; border-left: 3px solid var(--lime); background: rgba(255,255,255,.5); color: var(--ink); }
+.walkthrough-boundary span { font-size: .75rem; color: var(--muted); }
+.walkthrough-layout { display: grid; grid-template-columns: minmax(16rem, .36fr) minmax(0, 1fr); gap: 1.4rem; align-items: start; }
+.walkthrough-sidebar { position: sticky; top: 1rem; display: grid; gap: 1rem; }
+.walkthrough-sidebar section { padding: 1.15rem; border: 1px solid var(--line); border-radius: 1rem; background: rgba(255,255,255,.58); }
+.walkthrough-sidebar h2 { margin: 0 0 .75rem; font-size: .95rem; }
+.walkthrough-sidebar blockquote { margin: .65rem 0 0; color: var(--ink); font-size: .78rem; line-height: 1.65; }
+.walkthrough-sidebar ol { margin: 0; padding-left: 1.2rem; color: var(--muted); font-size: .76rem; line-height: 1.7; }
+.walkthrough-sidebar .walkthrough-warning { border-color: #d7bd8a; background: #fff9e9; }
+.walkthrough-warning p { margin: .45rem 0 0; color: #725621; font-size: .74rem; line-height: 1.6; }
+.walkthrough-form, .walkthrough-task-list { min-width: 0; display: grid; gap: 1rem; }
+.walkthrough-card { min-width: 0; padding: clamp(1.1rem, 3vw, 1.6rem); border: 1px solid var(--line); border-radius: 1.15rem; background: var(--paper-strong); box-shadow: 0 12px 34px rgba(34,48,40,.055); }
+.walkthrough-card[data-state="active"] { border-color: var(--green); box-shadow: 0 0 0 2px rgba(34,78,62,.1), 0 14px 38px rgba(34,48,40,.08); }
+.walkthrough-card-heading { display: flex; align-items: start; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.walkthrough-card-heading > div { display: flex; align-items: center; gap: .75rem; }
+.walkthrough-card-heading span { width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--green); color: white; font-size: .68rem; font-weight: 900; }
+.walkthrough-card-heading h2 { margin: 0; font: 550 1.35rem/1.2 Georgia, "Songti SC", serif; }
+.walkthrough-card-heading p { margin: 0; color: var(--muted); font-size: .7rem; text-align: right; }
+.walkthrough-fields { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: .8rem; margin-top: 1rem; }
+.walkthrough-field-wide { grid-column: 1 / -1; }
+.walkthrough-form label > span, .walkthrough-task-fields label > span { display: block; margin-bottom: .38rem; color: var(--muted); font-size: .68rem; font-weight: 750; }
+.walkthrough-form input:not([type="checkbox"]), .walkthrough-form select, .walkthrough-form textarea { width: 100%; min-height: 2.75rem; padding: .68rem .75rem; border: 1px solid var(--line); border-radius: .65rem; background: white; color: var(--ink); font: inherit; font-size: .78rem; }
+.walkthrough-form textarea { resize: vertical; min-height: 5rem; line-height: 1.55; }
+.walkthrough-consent { display: grid; gap: .65rem; margin: 1rem 0; padding: .9rem 1rem; border-radius: .75rem; background: #f1f1ea; }
+.walkthrough-consent label { display: flex; align-items: flex-start; gap: .6rem; color: var(--ink); font-size: .76rem; line-height: 1.5; }
+.walkthrough-consent input { margin-top: .18rem; }
+.walkthrough-task-prompt { margin: 1rem 0; padding: 1rem; border-left: 3px solid var(--green); background: #f8faec; font: 500 1rem/1.7 Georgia, "Songti SC", serif; }
+.walkthrough-task-boundary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; color: var(--muted); font-size: .7rem; }
+.walkthrough-task-boundary a { color: var(--green); font-weight: 800; }
+.walkthrough-task-fields { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .75rem; }
+.walkthrough-checkbox { min-height: 2.75rem; display: flex; align-items: center; gap: .55rem; padding: .6rem .7rem; border: 1px solid var(--line); border-radius: .65rem; background: white; font-size: .72rem; }
+.walkthrough-checkbox span { margin: 0 !important; color: var(--ink) !important; }
+.walkthrough-task-note { grid-column: 1 / -1; }
+.walkthrough-task-complete { margin-top: 1rem; }
+.walkthrough-timer { color: var(--green); font-variant-numeric: tabular-nums; font-weight: 900; }
+.walkthrough-finish > label { display: block; margin-top: 1rem; }
+.walkthrough-finish-actions { display: flex; gap: .65rem; margin-top: 1rem; }
+.walkthrough-error { padding: .75rem .85rem; border-radius: .65rem; background: #fff1ec; color: #8a3829; font-size: .75rem; }
+.walkthrough-summary { margin-top: 1rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; padding: 1rem; border: 1px solid #b9c7ae; border-radius: .85rem; background: #f8faec; }
+.walkthrough-summary span, .walkthrough-summary p { display: block; margin: 0; color: var(--muted); font-size: .68rem; }
+.walkthrough-summary strong { display: block; margin: .2rem 0; }
+.walkthrough-summary details { grid-column: 1 / -1; }
+.walkthrough-summary pre { max-height: 22rem; overflow: auto; padding: 1rem; background: #202a24; color: #e9f0e9; border-radius: .7rem; font-size: .68rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 900px) { .walkthrough-hero, .walkthrough-layout { grid-template-columns: 1fr; } .walkthrough-sidebar { position: static; grid-template-columns: repeat(3,minmax(0,1fr)); } .walkthrough-hero { gap: 1.5rem; } }
+@media (max-width: 660px) { .walkthrough-header { align-items: flex-start; flex-wrap: wrap; } .walkthrough-nav { width: 100%; margin-left: 0; } .walkthrough-shell { padding-top: 1.5rem; } .walkthrough-sidebar, .walkthrough-fields, .walkthrough-task-fields { grid-template-columns: 1fr; } .walkthrough-field-wide, .walkthrough-task-note { grid-column: auto; } .walkthrough-card-heading, .walkthrough-task-boundary { align-items: flex-start; flex-direction: column; } .walkthrough-card-heading p { text-align: left; } .walkthrough-summary { grid-template-columns: 1fr; } .walkthrough-summary details { grid-column: auto; } .walkthrough-finish-actions { flex-direction: column; } }
+@media (prefers-reduced-motion: reduce) { .walkthrough-shell * { scroll-behavior: auto !important; transition: none !important; } }

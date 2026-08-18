@@ -1,11 +1,36 @@
+import { DEFAULT_RECTIFICATION_QUAD, normalizeRectificationQuad } from "./quad-rectification.js";
+import { normalizeDocumentScanMode } from "./document-scan.js";
+
 const EDIT_STATE_VERSION = "edit-state.v1";
 const DEFAULT_HISTORY_LIMIT = 100;
 const HARD_MAX_EDGE = 8192;
 const HARD_MAX_PIXELS = 16_000_000;
+const STRAIGHTEN_MIN_DEGREES = -10;
+const STRAIGHTEN_MAX_DEGREES = 10;
+const VERTICAL_PERSPECTIVE_MIN = -20;
+const VERTICAL_PERSPECTIVE_MAX = 20;
 
 function finiteNumber(value, label) {
   if (!Number.isFinite(value)) throw new TypeError(`${label} 必须是有限数值`);
   return value;
+}
+
+function straightenAngle(value) {
+  const angle = finiteNumber(value, "水平校正角度");
+  if (angle < STRAIGHTEN_MIN_DEGREES || angle > STRAIGHTEN_MAX_DEGREES) {
+    throw new RangeError("水平校正角度必须在 -10°–+10° 之间");
+  }
+  const rounded = Math.round(angle * 10) / 10;
+  return Object.is(rounded, -0) ? 0 : rounded;
+}
+
+function verticalPerspective(value) {
+  const amount = finiteNumber(value, "垂直透视");
+  if (amount < VERTICAL_PERSPECTIVE_MIN || amount > VERTICAL_PERSPECTIVE_MAX) {
+    throw new RangeError("垂直透视必须在 -20–+20 之间");
+  }
+  const rounded = Math.round(amount * 10) / 10;
+  return Object.is(rounded, -0) ? 0 : rounded;
 }
 
 function integerInRange(value, minimum, maximum, label) {
@@ -57,6 +82,15 @@ export function createEditState(overrides = {}) {
   const state = {
     version: EDIT_STATE_VERSION,
     rotation: overrides.rotation ?? 0,
+    straighten: straightenAngle(overrides.straighten ?? 0),
+    verticalPerspective: verticalPerspective(overrides.verticalPerspective ?? 0),
+    rectification: {
+      enabled: overrides.rectification?.enabled ?? false,
+      quad: normalizeRectificationQuad(overrides.rectification?.quad ?? DEFAULT_RECTIFICATION_QUAD),
+    },
+    documentScan: {
+      mode: normalizeDocumentScanMode(overrides.documentScan?.mode ?? "original"),
+    },
     flipHorizontal: overrides.flipHorizontal ?? false,
     flipVertical: overrides.flipVertical ?? false,
     cropMode: overrides.cropMode ?? (crop.x === 0 && crop.y === 0 && crop.width === 1 && crop.height === 1 ? "original" : "free"),
@@ -74,6 +108,10 @@ export function createEditState(overrides = {}) {
       contrast: integerInRange(overrides.adjustments?.contrast ?? 0, -100, 100, "对比度"),
       saturation: integerInRange(overrides.adjustments?.saturation ?? 0, -100, 100, "饱和度"),
     },
+    detailEnhancement: {
+      denoise: integerInRange(overrides.detailEnhancement?.denoise ?? 0, 0, 100, "轻度降噪"),
+      clarity: integerInRange(overrides.detailEnhancement?.clarity ?? 0, 0, 100, "清晰度"),
+    },
     output: {
       format: outputFormat(overrides.output?.format ?? "png"),
       jpegQuality: finiteNumber(overrides.output?.jpegQuality ?? 0.92, "JPEG 质量"),
@@ -88,7 +126,7 @@ export function createEditState(overrides = {}) {
     throw new RangeError("不支持的裁剪模式");
   }
   if (typeof state.flipHorizontal !== "boolean" || typeof state.flipVertical !== "boolean"
-    || typeof state.resize.allowUpscale !== "boolean") {
+    || typeof state.resize.allowUpscale !== "boolean" || typeof state.rectification.enabled !== "boolean") {
     throw new TypeError("翻转和放大选项必须是布尔值");
   }
   if (!["preset", "custom"].includes(state.resize.mode)) {
@@ -109,6 +147,14 @@ export function reduceEditState(state, action) {
       const rotation = ((state.rotation + (action.degrees ?? 90)) % 360 + 360) % 360;
       return createEditState({ ...state, rotation });
     }
+    case "set-straighten":
+      return createEditState({ ...state, straighten: action.degrees });
+    case "set-vertical-perspective":
+      return createEditState({ ...state, verticalPerspective: action.amount });
+    case "set-rectification":
+      return createEditState({ ...state, rectification: { ...state.rectification, ...action.rectification } });
+    case "set-document-scan":
+      return createEditState({ ...state, documentScan: { ...state.documentScan, ...action.documentScan } });
     case "toggle-flip-horizontal":
       return createEditState({ ...state, flipHorizontal: !state.flipHorizontal });
     case "toggle-flip-vertical":
@@ -119,6 +165,8 @@ export function reduceEditState(state, action) {
       return createEditState({ ...state, resize: { ...state.resize, ...action.resize } });
     case "set-adjustments":
       return createEditState({ ...state, adjustments: { ...state.adjustments, ...action.adjustments } });
+    case "set-detail-enhancement":
+      return createEditState({ ...state, detailEnhancement: { ...state.detailEnhancement, ...action.detailEnhancement } });
     case "set-output":
       return createEditState({ ...state, output: { ...state.output, ...action.output } });
     case "reset":

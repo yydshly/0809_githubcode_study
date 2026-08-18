@@ -6,7 +6,7 @@ const page = await readFile(new URL("../web/product-acceptance.html", import.met
 const script = await readFile(new URL("../web/product-acceptance.js", import.meta.url), "utf8");
 const evidence = await readFile(new URL("../BROWSER_ACCEPTANCE_EVIDENCE.md", import.meta.url), "utf8");
 
-test("browser acceptance page covers two real local product journeys", () => {
+test("browser acceptance page covers six real local product journeys", () => {
   assert.match(page, /只用项目合成图/);
   assert.match(page, /不调用远程服务/);
   assert.match(script, /width: 1280/);
@@ -15,8 +15,27 @@ test("browser acceptance page covers two real local product journeys", () => {
   assert.match(script, /height: 900/);
   assert.match(script, /taskId: "UT-TUNE"/);
   assert.match(script, /taskId: "UT-TEMPLATE"/);
-  assert.match(script, /"scenarios,tools,creative"/);
-  assert.match(script, /"UT-PRODUCT,UT-PORTRAIT,UT-TEMPLATE,CR-RESTORE"/);
+  assert.match(script, /#social-title-setting/);
+  assert.match(script, /今天的城市散步/);
+  assert.match(script, /标题安全区/);
+  assert.match(script, /taskId: "UT-OLD-PHOTO"/);
+  assert.match(script, /data-old-photo-preset="monochrome"/);
+  assert.match(script, /#use-old-photo-demo-button/);
+  assert.match(script, /width: 1448/);
+  assert.match(script, /height: 1086/);
+  assert.match(script, /groups\[0\] === "scenarios" && groups\[1\] === "tools"/);
+  assert.match(script, /#capability-summary \.capability-summary-card/);
+  assert.match(script, /capabilityNames\[0\] === "本地基础能力"/);
+  assert.match(script, /requiredLocalScenarios = \["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-TEMPLATE", "UT-GRID", "UT-OLD-PHOTO"\]/);
+  assert.match(script, /taskId: "UT-PRIVACY-SHARE"/);
+  assert.match(script, /data-privacy-share-preset="balanced"/);
+  assert.match(script, /#privacy-share-card/);
+  assert.match(script, /taskId: "UT-UPLOAD"[\s\S]*taskId: "UT-DOC-ARCHIVE"/);
+  assert.match(script, /reopenOutput[\s\S]*image\/jpeg/);
+  assert.match(script, /expected\.mime[\s\S]*"JPEG" : "PNG"[\s\S]*重开/);
+  assert.match(script, /terminalSurface[\s\S]*#error-title[\s\S]*#error-copy/);
+  assert.match(script, /当前状态：[\s\S]*#status-title[\s\S]*#status-copy/);
+  assert.match(script, /terminalTimeout = \["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE"\][\s\S]*45_000/);
   assert.match(script, /product-white-background/);
   assert.match(script, /application-photo/);
   assert.match(script, /social-layout/);
@@ -31,7 +50,7 @@ test("browser acceptance page covers two real local product journeys", () => {
   assert.match(script, /objectFit === "contain"/);
   assert.match(script, /scrollWidth <= windowRef\.innerWidth \+ 1/);
   assert.match(script, /\/api\/internal\/product-acceptance\/latest/);
-  assert.match(script, /product-acceptance-report-v1/);
+  assert.match(script, /product-acceptance-report-v2/);
   assert.match(script, /reportRunId/);
 });
 
@@ -46,12 +65,17 @@ test("recorded product browser evidence keeps its scope and limitations explicit
   assert.match(evidence, /195bf2ad-c746-4a97-9f62-1e47dc38b451/);
   assert.match(evidence, /96345db4-e051-4f0a-b05e-742285f502dd/);
   assert.match(evidence, /4a12b957-68e6-4bee-9cc5-48dd2c714ae8/);
+  assert.match(evidence, /583c38ca-a65c-475d-8b19-843061a2ae4c/);
   assert.match(evidence, /UT-PRODUCT → UT-PORTRAIT → UT-TEMPLATE/);
   assert.match(evidence, /Chrome\/151\.0\.0\.0/);
   assert.match(evidence, /Chrome `151\.0\.7922\.138`/);
   assert.match(evidence, /Edge `151\.0\.4129\.78`/);
   assert.match(evidence, /desktop-min[\s\S]*Pass:[\s\S]*1080 × 1080/);
   assert.match(evidence, /desktop-common[\s\S]*Pass:[\s\S]*1440 × 810/);
+  assert.match(evidence, /old-photo-local[\s\S]*1448 × 1086/);
+  assert.match(evidence, /53b27d40-83d2-4c82-942d-7c683d64bb30[\s\S]*5\/5 pass/);
+  assert.match(evidence, /Upload specification[\s\S]*1200 × 900[\s\S]*JPEG/);
+  assert.match(evidence, /Document archive[\s\S]*1448 × 1086[\s\S]*JPEG/);
   assert.match(evidence, /loopback-only/);
   assert.match(evidence, /16 KiB/);
   assert.match(evidence, /Native keyboard focus order[\s\S]*defer/);

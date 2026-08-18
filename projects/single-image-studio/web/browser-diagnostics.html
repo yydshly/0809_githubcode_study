@@ -8,6 +8,8 @@
     <style>
       :root { color-scheme: light; font-family: system-ui, sans-serif; color: #182019; background: #f4f3ed; }
       body { max-width: 52rem; margin: 0 auto; padding: 2rem 1rem 4rem; }
+      nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+      nav a { color: #245c43; font-weight: 750; }
       h1 { font-size: clamp(1.6rem, 5vw, 2.5rem); }
       p { line-height: 1.65; }
       button { min-height: 2.75rem; border: 0; border-radius: .7rem; padding: .7rem 1rem; background: #245c43; color: white; font-weight: 700; cursor: pointer; }
@@ -21,9 +23,10 @@
   </head>
   <body>
     <main>
+      <nav aria-label="内部页面导航"><a href="./quality-hub.html">← 内部质量入口</a><a href="./">工作室</a></nav>
       <p>内部 QA · 不读取用户图片、不访问网络</p>
       <h1>浏览器输出诊断</h1>
-      <p>用项目内存生成的像素检查 Canvas 编码、metadata 清理、重开像素、蒙版修正后的透明 PNG / 纯色 JPEG、16:9 / 9:16 场景模板真实输出，以及失败恢复按钮的主次、文案与焦点。通过只代表当前浏览器会话，不代表所有设备。</p>
+      <p>用项目内存生成的像素检查 Canvas 编码、metadata 清理、重开像素、蒙版修正后的透明 PNG / 纯色 JPEG、16:9 / 9:16 场景模板、四规格商品图与 ZIP、六规格报名照与 ZIP、四规格社交图片与标题像素、九宫格逐张切图与 ZIP、四种老照片本地光色整理与 ZIP，以及失败恢复按钮的主次、文案与焦点。通过只代表当前浏览器会话，不代表所有设备。</p>
       <button id="run-diagnostics" type="button">重新运行诊断</button>
       <output id="diagnostic-status" role="status">尚未运行</output>
       <table>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>几何校正 · 真实渲染演示</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="reference-demo-body">
+  <main class="reference-demo-shell straighten-reference-shell">
+    <nav class="reference-demo-nav"><a href="./?refresh=straighten-v1">← 返回编辑器</a><a href="./quality-hub.html">内部质量入口</a></nav>
+    <header class="reference-demo-header">
+      <p class="kicker">项目原创图片 · 浏览器真实渲染</p>
+      <h1>拉直与垂直透视，直接看真实裁边</h1>
+      <p>这张测试图由 Codex 内置图片生成能力创建，画面刻意顺时针倾斜约 5°，并包含窗框、墙砖和画框等几何参照。下方结果不是预制示意图：页面会调用产品自己的 EditState、Canvas renderer、编码重开与像素验证链即时生成。</p>
+      <div class="reference-demo-warning"><strong>能力边界</strong><span>本轮验证手动小角度拉直和对称的垂直线汇聚校正。不会自动判断地平线、识别建筑边缘、执行四角扫描或修正镜头畸变。</span></div>
+    </header>
+
+    <section class="straighten-reference-grid" aria-label="水平校正前后对照">
+      <article class="straighten-reference-card">
+        <div><span>01</span><h2>倾斜来源图</h2></div>
+        <figure><img src="./demo-assets/straighten-studio-source.png" alt="刻意顺时针倾斜的室内工作室测试图" /></figure>
+        <p>观察窗框、瓷砖线、桌面和画框：它们为拉直和边缘裁切提供可见参照。</p>
+        <dl><div><dt>来源</dt><dd>1536 × 1024 PNG</dd></div><div><dt>处理</dt><dd>无</dd></div></dl>
+      </article>
+
+      <article class="straighten-reference-card" data-demo-card="corrected" aria-busy="true">
+        <div><span>02</span><h2>手动校正 -5°</h2></div>
+        <figure class="straighten-reference-output"><div class="reference-loading">正在使用产品 renderer 生成…</div><img alt="使用产品 renderer 生成的水平校正结果" hidden /></figure>
+        <p>保持原画布比例，自动等比放大覆盖空角，因此四周会有少量真实裁边。</p>
+        <dl data-demo-facts></dl>
+        <a class="button button-primary" data-demo-download hidden>下载这张实际结果</a>
+      </article>
+
+      <article class="straighten-reference-card" data-demo-card="square" aria-busy="true">
+        <div><span>03</span><h2>90° + 1:1 + 校正</h2></div>
+        <figure class="straighten-reference-output"><div class="reference-loading">正在验证组合几何…</div><img alt="90 度旋转、一比一裁剪和水平校正组合结果" hidden /></figure>
+        <p>用于复核此前用户关心的组合：整角旋转、固定比例和小角度校正必须共享同一预览 / 下载几何。</p>
+        <dl data-demo-facts></dl>
+        <a class="button button-primary" data-demo-download hidden>下载组合结果</a>
+      </article>
+
+      <article class="straighten-reference-card" data-demo-card="perspective" aria-busy="true">
+        <div><span>04</span><h2>垂直透视 +12</h2></div>
+        <figure class="straighten-reference-output"><div class="reference-loading">正在逐行生成透视校正…</div><img alt="产品 renderer 生成的垂直透视校正结果" hidden /></figure>
+        <p>正值扩展画面上方，适合修正仰拍造成的上窄下宽；窄侧保持满幅，宽侧会对称裁掉少量内容。</p>
+        <dl data-demo-facts></dl>
+        <a class="button button-primary" data-demo-download hidden>下载透视校正结果</a>
+      </article>
+    </section>
+
+    <section class="reference-demo-checklist">
+      <div><p class="kicker">怎么判断</p><h2>请看四件事</h2></div>
+      <ul>
+        <li>校正后窗框、瓷砖和桌面是否更接近水平。</li>
+        <li>四角是否始终被图片覆盖，没有透明三角或黑边。</li>
+        <li>组合结果是否确实为 1:1，下载尺寸与页面事实一致。</li>
+        <li>透视校正后垂直线汇聚是否减轻，同时左右两边保持对称且没有空边。</li>
+      </ul>
+    </section>
+    <p class="straighten-reference-status" id="straighten-demo-status" role="status" aria-live="polite">准备生成三份实际结果…</p>
+  </main>
+  <script type="module" src="./straighten-reference.js"></script>
+</body>
+</html>
