@@ -48,3 +48,15 @@
 ## 2026-08-18 显示修复
 
 部署后用户发现右侧透明图被舞台裁切。浏览器确认图片盒为 `543.5×760.9`、舞台为 `543.5×520`。修复将结果图绝对定位在舞台中，并固定 `width/height:100%` 与 `object-fit:contain`。修复后桌面两者均为 `543.5×520`，390px 两者均为 `289×340`；原图、透明图和蓝底图均保持完整显示。详细记录见 [STATIC_DISPLAY_REPAIR.md](STATIC_DISPLAY_REPAIR.md)。
+
+## 2026-08-18 外部项目关联展示
+
+验收时间：2026-08-18T14:50:51+08:00。新增三张技术坐标卡并在桌面/390px 浏览器核对：
+
+| 卡片 | 外部事实 | 与主线关系 | 本地状态 |
+| --- | --- | --- | --- |
+| IMG.LY Background Removal JS | IS-Net ONNX / ONNX Runtime Web / Alpha 输出 / AGPL-3.0 | 可替换 Matting 层，不含证件照几何与交付 | 外部描述，未安装/未接 Demo |
+| HivisionIDPhotos | MODNet + MTCNN + OpenCV / Apache-2.0 | 唯一主研究与真实 CPU 运行主线 | 真实运行 |
+| MagicQuill | LLaVA Draw&Guess + diffusion 双分支局部重绘 / CC BY-NC 4.0 | 只作为创意分支参考，不进入严格证件路径 | 外部描述，未安装/未接 Demo |
+
+浏览器观察：三卡均存在，六个外部/本地链接指向正确 URL；“关联不是串联”边界可见；390px 卡片单列、关系箭头纵向且 `NO_HORIZONTAL_OVERFLOW`。截图：`related-tech-desktop.png`、`related-tech-mobile.png`（项目外 evidence workspace）。

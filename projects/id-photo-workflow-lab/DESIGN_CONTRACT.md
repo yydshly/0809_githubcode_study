@@ -2,7 +2,7 @@
 
 ```text
 Entry mode: revision-led / direct implementation
-Request revision: 4
+Request revision: 5
 Target user and context: 想理解并试用 Hivision 证件照流水线的产品/工程研究者
 Desired first impression: 这是清楚、可信、可操作的工作流实验台，不是模型排行榜
 Visual ambition: Functional
@@ -12,8 +12,8 @@ Information constraints: 先能力与边界，再操作；模型参数置于高�
 Operation constraints: 本地真实 Demo 保留；公开 GitHub Pages 必须纯静态、无上传/模型/API，使用已登记静态图片展示
 State constraints: 静态 before/transparent/blue 比较、五种纸张切换、能力 pass/config/waiting
 Environment constraints: 本地 Node.js 22+；GitHub Pages 子路径；桌面与 390px；中文
-Primary journey: 阅读真实运行摘要 → 切换原图/透明/蓝底效果 → 切换五种纸张 → 查看能力边界与源码
-User-defined phases: 1) 了解能力、展示、原理 2) 使用能力构建 Demo 3) 真实复现 README 能力 4) 静态 GitHub Pages 展示并发布远端
+Primary journey: 阅读真实运行摘要 → 理解 Hivision/IMG.LY/MagicQuill 技术坐标 → 切换真实效果 → 切换五种纸张 → 查看边界与源码
+User-defined phases: 1) 了解能力、展示、原理 2) 使用能力构建 Demo 3) 真实复现 README 能力 4) 静态 GitHub Pages 展示并发布远端 5) 修复图片显示 6) 补齐两个外部项目及其与主线的真实关联
 Required artifacts: fixed upstream checkout, model receipt, runtime bridge, local demo, static showcase, asset provenance, Pages workflow, tests, browser evidence, git publish
 Autonomy authorization: 用户明确要求构建 Demo
 User-decision boundary: Face++ 端云模式需要用户自己的 key；智能换正装上游仍为 waiting，不能伪造实现
@@ -44,3 +44,6 @@ Coverage record: 下表
 | 4 | 桌面/390px 静态站 | browser screenshots + no-overflow evidence | pass |
 | 4 | 远端提交与部署 | commit/push/Pages status | pass |
 | 5 | 修复静态透明图完整显示 | deployed desktop effect panel + mobile adjacent check | pass |
+| 6 | IMG.LY 外部事实与主线关系 | external URL/commit/goal/principle/license/local status | pass |
+| 6 | MagicQuill 外部事实与主线关系 | external URL/commit/goal/principle/license/local status | pass |
+| 6 | 三项目技术坐标可见且不误导 | desktop/390px browser screenshots + link/state evidence | pass |

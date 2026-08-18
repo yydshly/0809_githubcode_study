@@ -15,7 +15,7 @@ const requiredFiles = {
   'BROWSER_ACCEPTANCE.md': ['# 浏览器验收'],
   'STATIC_PAGES_ACCEPTANCE.md': ['# GitHub Pages 静态站验收', 'NO_HORIZONTAL_OVERFLOW', 'showcase.js'],
   'STATIC_DISPLAY_REPAIR.md': ['# 静态效果图显示修复', '543.5×760.9', 'Decision: pass'],
-  'public-site/index.html': ['GitHub Pages 静态快照', 'Static effect demo', '五种纸张'],
+  'public-site/index.html': ['GitHub Pages 静态快照', 'Static effect demo', '五种纸张', 'IMG.LY Background Removal JS', 'MagicQuill', '关联不是串联'],
   'public-site/assets/PROVENANCE.md': ['fb37e342480258b723c38d2c1887934a87e532ddc68603ad4d8bc288e6428bb2', 'Hivision commit']
 };
 const forbidden = [/\{\{[A-Z0-9_]+\}\}/u, /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/u];
