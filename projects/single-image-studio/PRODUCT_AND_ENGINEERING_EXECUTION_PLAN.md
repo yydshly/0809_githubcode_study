@@ -1,7 +1,7 @@
 # 产品能力与工程演进执行计划
 
 > 生效日期：2026-08-18
-> 当前阶段：`Stage 0 · internal-alpha checkpoint`
+> 当前阶段：`Stage 1 · source/task controller extraction`
 > 文档角色：本文件统一代码整理、可靠性、用户验证、现有能力质量和后续智能能力扩展的执行顺序。当前事实仍以 [STATUS.md](STATUS.md) 为准；长期能力证据与发布公式不由本文件改写。
 
 ## 1. 当前判断
@@ -205,7 +205,7 @@ Single Image Studio 已经拥有较宽的内部 Alpha 功能面，但还没有�
 - [x] Stage 0：清理 `UT-SOLID-BG` 顶层身份；
 - [x] Stage 0：工作树与 secret / cache / generated audit；
 - [x] Stage 0：完整验证；
-- [ ] Stage 0：创建 internal-alpha checkpoint；
+- [x] Stage 0：创建 internal-alpha checkpoint（`17ac5aa`）；
 - [ ] Stage 1：抽离 `source-task-controller`；
 - [ ] Stage 1：抽离 `settings-controller`；
 - [ ] Stage 2：2–3 人方法演练；
