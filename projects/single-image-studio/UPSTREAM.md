@@ -10,7 +10,7 @@
 | 记录日期 | 2026-08-12 |
 | 前序许可 | 本地原创研究，许可证待定；第三方边界按下方固定研究账本审计 |
 
-本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留。随后 Slice 05 为同一复合候选新增 exact research-only devDependencies 与 lockfile，并以 runtime attestation 精确锁定实际 package / native closure。Slice 06 Phase A–C 新增本地原创 diagnostic protocol 与 results-zero definition；其唯一注册运行随后仅处理既有项目原创 public-synthetic regression bytes，并保留 18 份 candidate derivative quarantine。没有新增依赖、取得或复制第三方代码 / 资产、真实图片、模型或权重，也没有创建 artifact、calibration 或产品 result。
+本文件是来源与复制边界的事实账本；候选是否可进入实验或产品由 [CAPABILITY_REGISTRY.md](./CAPABILITY_REGISTRY.md) 决定。2026-08-14 的能力重审只核对公开官方信息，没有下载、复制或提交任何第三方代码、模型权重、示例图、字体或数据集。2026-08-15 的 Slice 04 例外只为六个明确 npm registry tarball 在仓库内未提交的临时 `.tmp/slice04-artifacts` 计算 SHA-256；文件随后删除，未解包、执行、安装、提交或保留。随后 Slice 05 为同一复合候选新增 exact research-only devDependencies 与 lockfile，并以 runtime attestation 精确锁定实际 package / native closure。Slice 06 Phase A–C 新增本地原创 diagnostic protocol 与 results-zero definition；其唯一注册运行随后仅处理既有项目原创 public-synthetic regression bytes，并保留 18 份 candidate derivative quarantine。没有新增依赖、取得或复制第三方代码 / 资产、真实图片、模型或权重，也没有创建 artifact、calibration 或产品 result。2026-08-18 对 IMG.LY Background Removal JS 与 HivisionIDPhotos 的新增研究同样是 fixed-commit text/source inspection；未克隆、安装、下载模型、运行推理或复制第三方实现 / 预设 / 图片，详细决策见 [开源图片处理候选评审](./OPEN_SOURCE_IMAGE_PIPELINE_REVIEW.md)。
 
 2026-08-16 的 Matting runtime metadata step 只读取十份固定提交中的官方 README、requirements、inference / model source、hubconf 与 LICENSE 文本并记录 URL、byte length 和 SHA-256；未复制这些第三方文本进仓库。它没有对模型 URL 发 HEAD 或 GET，没有下载 model/checkpoint bytes，没有安装 Python/PyTorch/wheel，也没有运行 import、loader、inference 或自然图片。MODNet 只解析到官方 Google Drive folder；RVM 解析到 v1.0.0 release URL 与 direct requirements。两者仍由 [runtime metadata evidence](./research/MATTING_RUNTIME_METADATA_EVIDENCE.md) 的 default-deny policy 阻断。
 
@@ -144,6 +144,15 @@ inventory 只导入 Sharp 读取版本，不读取、解码、编码图片或调
 唯一注册 Slice 07 smoke 后续确实调用了上述已锁定的本地 Sharp runtime，但没有下载、升级或新增 upstream package。18 个 applicable outputs 全部通过 independent oracle；Gate-B 双拒绝来自项目自有 driver 的字段绑定缺陷，而非 upstream 版本或许可变化。精确结果见 [Slice 07 result evidence](./research/SLICE_07_RESULT_EVIDENCE.md)。
 
 冻结的 8 个 source unit wrapper 只引用 Slice 05 已提交的项目原创 public-synthetic bytes / rights / gold facts，使用新 Slice 06 identity 并声明 `regressionLineageRef` / `independenceClaim=false`。运行后 18 份 candidate output 已按授权保留为非产品 quarantine，合计 16,782 bytes；没有第三方图片、真实照片、模型 / checkpoint、artifact、calibration、正式 holdout、defect-holdout 或 escape，也不进入 catalog 或正式证据路径。完整运行事实见 [Slice 06 evidence](./research/SLICE_06_EVIDENCE.md)。
+
+## 只读开源应用候选（2026-08-18）
+
+| 候选 | 固定来源 | 许可 / 权重边界 | 本地复制与决策 |
+| --- | --- | --- | --- |
+| `REG-APP-IMGLY-BG-REMOVAL-JS` | [imgly/background-removal-js `12f56cc4f2a90d624e165a715748d22efc7a1d93`](https://github.com/imgly/background-removal-js/tree/12f56cc4f2a90d624e165a715748d22efc7a1d93)；Web package `1.7.0` | 代码与 Web data package 为 AGPL-3.0；第三方清单把 IS-Net 标为 MIT，但 IMG.LY 转换 / 分发的具体模型 bytes 仍属于需独立固定的 data package 边界 | 0 bytes；未安装 / 下载 / 运行。只用于浏览器本地 Provider 架构研究；直接集成阻塞于许可证选择、资源 hash、性能与质量 spike |
+| `REG-APP-HIVISION-IDPHOTOS` | [Zeyi-Lin/HivisionIDPhotos `5c191e2577f14755a69d9df6db415fab23aca484`](https://github.com/Zeyi-Lin/HivisionIDPhotos/tree/5c191e2577f14755a69d9df6db415fab23aca484) | 仓库 Apache-2.0；外链 MODNet、Hivision MODNet、RMBG-1.4、BiRefNet 与人脸检测权重逐文件另审。RMBG-1.4 当前为限制性非商业/评估模型许可，不能由仓库 Apache 声明覆盖 | 0 bytes；未安装 / 下载 / 运行。只吸收工作流概念并本地重写；Python runtime/API 阻塞于 exact lock、模型 receipts、安全加固与独立部署 |
+
+两项候选均没有升级 [STATUS.md](./STATUS.md) 中任何证据轴或产品支持状态。详细静态代码观察、横向比较与下一步条件见 [OPEN_SOURCE_IMAGE_PIPELINE_REVIEW.md](./OPEN_SOURCE_IMAGE_PIPELINE_REVIEW.md)。
 
 ## 市场官方研究入口
 

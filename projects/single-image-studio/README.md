@@ -428,6 +428,7 @@ npm.cmd run verify
 | [research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md](research/CONTINUOUS_ALPHA_EVALUATION_EVIDENCE.md) | 6-source / 12-asset continuous-alpha results-zero 合同、分母、指标与精确 pins |
 | [research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md](research/MATTING_ACQUISITION_GOVERNANCE_EVIDENCE.md) | 自然人像分区/权利/隐私治理与 MODNet/RVM 获取、runtime 硬停止条件 |
 | [UPSTREAM.md](UPSTREAM.md) | 第三方来源、精确版本、市场入口、许可和本地复制边界的事实账本 |
+| [OPEN_SOURCE_IMAGE_PIPELINE_REVIEW.md](OPEN_SOURCE_IMAGE_PIPELINE_REVIEW.md) | IMG.LY 浏览器抠图与 HivisionIDPhotos 证件照工作流的固定提交、架构、许可、安全和复用决策 |
 | [MARKET_LANDSCAPE.md](MARKET_LANDSCAPE.md) | 市场比较口径、已固定入口、空缺研究簇与产品决策规则 |
 
 [CAPABILITY_REVIEW.md](CAPABILITY_REVIEW.md)、[EFFECT_SHORTLIST.md](EFFECT_SHORTLIST.md) 与 [PORTRAIT_PARAMETERS.md](PORTRAIT_PARAMETERS.md) 分别是历史 Skill 审计、创意实验附录和报名头像场景草案，不覆盖上述当前规范。[DELIVERY_CONTRACT.md](DELIVERY_CONTRACT.md) 与 [BROWSER_VALIDATION.md](BROWSER_VALIDATION.md) 只记录 R0 工程探针。

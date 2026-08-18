@@ -1,0 +1,17 @@
+{
+  "name": "id-photo-workflow-lab",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/start-real.mjs",
+    "start:adapter": "node server.mjs",
+    "start:fixture": "node server.mjs --fixture",
+    "setup:real": "powershell -ExecutionPolicy Bypass -File scripts/setup-hivision.ps1",
+    "test": "node --test tests/*.test.mjs && node scripts/validate-project.mjs",
+    "check": "node scripts/check-syntax.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

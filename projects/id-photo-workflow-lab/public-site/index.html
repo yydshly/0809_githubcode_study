@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Hivision 证件照工作流 · 静态研究展示</title>
+    <meta name="description" content="HivisionIDPhotos 固定版本的 CPU 抠图、构图、美颜、换底与五种打印排版静态研究展示。">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <a class="skip" href="#showcase">跳到效果展示</a>
+    <header>
+      <a class="brand" href="#top"><span>证</span><strong>ID Photo Workflow Lab</strong></a>
+      <nav aria-label="页面导航"><a href="#facts">结论</a><a href="#showcase">效果</a><a href="#layouts">排版</a><a href="#limits">边界</a></nav>
+      <span class="static-badge">GitHub Pages 静态快照</span>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Fixed Hivision · Real CPU evidence</p>
+          <h1>一条真实跑通的<br>证件照处理工作流</h1>
+          <p class="lead">固定 HivisionIDPhotos 提交与 MODNet ONNX，在 CPU 上完成透明人像、标准构图、美颜参数、蓝底合成，以及六寸、五寸、A4、3R、4R 排版。</p>
+          <div class="actions"><a class="primary" href="#showcase">查看真实效果</a><a href="https://github.com/yydshly/0809_githubcode_study/tree/main/projects/id-photo-workflow-lab">查看源码与证据</a></div>
+        </div>
+        <aside class="runtime-card">
+          <p>本次固定运行</p>
+          <dl>
+            <div><dt>上游</dt><dd>Hivision `5c191e2…`</dd></div>
+            <div><dt>模型</dt><dd>MODNet ONNX</dd></div>
+            <div><dt>设备</dt><dd>CPU</dd></div>
+            <div><dt>标准图</dt><dd>295 × 413 RGBA</dd></div>
+            <div><dt>全链 smoke</dt><dd>1,880 ms</dd></div>
+          </dl>
+          <small>测试输入是项目生成的虚构 mannequin，不是真人或用户照片。</small>
+        </aside>
+      </section>
+
+      <section class="static-note"><strong>这是静态效果 Demo</strong><p>GitHub Pages 不运行 Python、ONNX 或上传接口；页面只展示已完成真实本地推理的固定图片与事实。</p></section>
+
+      <section class="section" id="facts">
+        <div class="section-title"><p class="eyebrow">Current status</p><h2>README 能力，现在分别是什么状态</h2></div>
+        <div class="facts-grid">
+          <article><span class="status pass">真实通过</span><h3>CPU 纯离线抠图</h3><p>MODNet + MTCNN 在本机运行，不需要 GPU。</p></article>
+          <article><span class="status pass">真实通过</span><h3>标准与高清构图</h3><p>输出 295×413 标准图与 670×940 高清透明图。</p></article>
+          <article><span class="status pass">五种通过</span><h3>打印纸张</h3><p>六寸、五寸、A4、3R、4R 均已生成。</p></article>
+          <article><span class="status pass">已实现</span><h3>美颜与光色</h3><p>美白、亮度、对比度、饱和度与锐化参数已执行。</p></article>
+          <article><span class="status config">需要配置</span><h3>端云 Face++</h3><p>需要用户自己的 key，并会把图片发送给 Face++；本轮未调用。</p></article>
+          <article><span class="status waiting">Waiting</span><h3>智能换正装</h3><p>上游 README 仍标记 waiting，当前没有可调用实现。</p></article>
+        </div>
+      </section>
+
+      <section class="showcase" id="showcase">
+        <div class="section-title"><p class="eyebrow">Static effect demo</p><h2>同一输入，查看处理阶段</h2><p>切换按钮只替换静态证据图片，不会上传或重新处理。</p></div>
+        <div class="effect-shell">
+          <div class="effect-controls" role="group" aria-label="选择效果">
+            <button type="button" data-effect="source" aria-pressed="true">原始输入</button>
+            <button type="button" data-effect="transparent" aria-pressed="false">透明标准图</button>
+            <button type="button" data-effect="blue" aria-pressed="false">蓝底标准图</button>
+          </div>
+          <div class="effect-grid">
+            <figure><figcaption>固定原图</figcaption><img src="./assets/source-fictional-mannequin-preview.webp" alt="项目生成的虚构 mannequin 原始输入"></figure>
+            <figure class="result-figure"><figcaption><span id="effect-title">原始输入</span><small id="effect-fact">1254×1254 · 项目生成</small></figcaption><div class="image-stage" id="image-stage"><img id="effect-image" src="./assets/source-fictional-mannequin-preview.webp" alt="所选处理阶段"></div></figure>
+          </div>
+          <div class="effect-footer"><p id="effect-description">原始图包含复杂植物、窗光和卷发细节，用于观察人像分离与构图。</p><a id="effect-download" href="./assets/source-fictional-mannequin.png" download>下载完整 PNG</a></div>
+        </div>
+      </section>
+
+      <section class="section layouts" id="layouts">
+        <div class="section-title"><p class="eyebrow">Five paper sizes</p><h2>五种纸张，真实输出尺寸</h2><p>五寸与 3R 共用 1500×1051，六寸与 4R 共用 1795×1205；这是上游当前参数事实。</p></div>
+        <div class="layout-shell">
+          <div class="paper-tabs" role="tablist" aria-label="选择纸张">
+            <button type="button" data-paper="six-inch" aria-selected="true">六寸</button>
+            <button type="button" data-paper="five-inch" aria-selected="false">五寸</button>
+            <button type="button" data-paper="a4" aria-selected="false">A4</button>
+            <button type="button" data-paper="3r" aria-selected="false">3R</button>
+            <button type="button" data-paper="4r" aria-selected="false">4R</button>
+          </div>
+          <figure class="layout-stage"><img id="layout-image" src="./assets/layout-six-inch-preview.webp" alt="六寸打印排版预览"></figure>
+          <div class="layout-facts"><div><small>当前纸张</small><strong id="paper-label">六寸</strong></div><div><small>实际像素</small><strong id="paper-size">1795 × 1205</strong></div><div><small>结果格式</small><strong>RGB PNG</strong></div><a id="layout-download" href="./assets/layout-six-inch.png" download>下载完整排版</a></div>
+        </div>
+      </section>
+
+      <section class="section limits" id="limits">
+        <div class="section-title"><p class="eyebrow">Evidence boundary</p><h2>这个页面证明什么，也不证明什么</h2></div>
+        <div class="limits-grid">
+          <article><h3>已经证明</h3><ul><li>固定 Hivision 与 MODNet 可在 CPU 运行</li><li>标准/高清、换底、美颜参数和五纸张工程链闭合</li><li>输出尺寸、模式和模型身份已记录</li></ul></article>
+          <article><h3>尚未证明</h3><ul><li>不同真人、发型和光线下的总体质量</li><li>任何身份证、护照或签证官方合规</li><li>Face++ 端云和智能换正装能力</li></ul></article>
+        </div>
+      </section>
+    </main>
+
+    <footer><p>ID Photo Workflow Lab · 2026-08-18</p><div><a href="https://github.com/Zeyi-Lin/HivisionIDPhotos">HivisionIDPhotos</a><a href="https://github.com/yydshly/0809_githubcode_study/tree/main/projects/id-photo-workflow-lab/RUNTIME_RECEIPT.md">运行收据</a></div></footer>
+    <script src="./showcase.js" defer></script>
+  </body>
+</html>

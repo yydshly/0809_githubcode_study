@@ -17,6 +17,7 @@ on:
       - "projects/visual-route-studio/compositor/**"
       - "projects/visual-route-studio/target-studio/**"
       - "projects/visual-route-studio/samples/**"
+      - "projects/id-photo-workflow-lab/public-site/**"
   workflow_dispatch:
 
 permissions:
@@ -86,6 +87,25 @@ jobs:
           test -f "$target/target-studio/assets/repair-memory-reconstruction-result.png"
           test -f "$target/samples/rainy-bookstore/source-contact-sheet.png"
           node --check "$target/compositor/app.js"
+
+      - name: Add ID Photo Workflow static research demo
+        shell: bash
+        run: |
+          target="projects/skill-zine-summary/lab/web/github-pages-dist/id-photo-workflow-lab"
+          mkdir -p "$target"
+          cp -R projects/id-photo-workflow-lab/public-site/. "$target"
+
+      - name: Verify ID Photo Workflow static demo
+        shell: bash
+        run: |
+          target="projects/skill-zine-summary/lab/web/github-pages-dist/id-photo-workflow-lab"
+          test -f "$target/index.html"
+          test -f "$target/styles.css"
+          test -f "$target/showcase.js"
+          test -f "$target/assets/source-fictional-mannequin-preview.webp"
+          test -f "$target/assets/result-transparent.png"
+          test -f "$target/assets/layout-a4.png"
+          node --check "$target/showcase.js"
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
