@@ -176,7 +176,7 @@ node projects/visual-route-studio/compositor/server.mjs
 
 ## GitHub Pages 公开逻辑演示
 
-[公开地址](https://yydshly.github.io/0809_githubcode_study/visual-route-studio/compositor/)随仓库 `main` 通过既有 GitHub Pages workflow 发布。它包含内置样例、处理单位、图片方向、产品推荐、中央预览和结果结构。六组内置样例可载入与自身来源匹配的预置演示结果，继续体验原图 / 参考 / 结果比较、产品适配、PNG 与 ZIP 导出。
+[公开地址](https://yydshly.github.io/0809_githubcode_study/visual-route-studio/compositor/)随仓库 `main` 通过既有 GitHub Pages workflow 发布。它包含内置样例、处理单位、图片方向、产品推荐、中央预览和结果结构。六组内置样例会自动载入与自身来源匹配的预置演示结果，无需额外点击即可体验原图 / 参考 / 结果比较、产品适配、PNG 与 ZIP 导出。
 
 GitHub Pages 是纯静态托管，不运行 `compositor/server.mjs`，也不保存 `OPENAI_API_KEY`。预置结果会明确标记为“项目已生成的阶段样例”，不是本次在线重新生成。上传用户图片或为样例选择其他参考时仍需本地安全服务；公开版不会用预置图冒充用户图片的生成结果。
 

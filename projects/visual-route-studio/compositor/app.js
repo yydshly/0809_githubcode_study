@@ -788,7 +788,7 @@ function canLoadPresetDemo() {
 
 function generationButtonLabel(hasResult = Boolean(selectedGeneratedResult())) {
   if (state.apiAvailable) return hasResult ? "再次生成一个结果" : "使用参考生成";
-  if (canLoadPresetDemo()) return hasResult ? "重新载入预置结果" : "载入预置演示结果";
+  if (canLoadPresetDemo()) return hasResult ? "查看预置演示结果" : "载入预置演示结果";
   return state.staticDemoMode && state.sourceKind === "sample" ? "该参考需要 AI 服务" : "AI 服务尚未连接";
 }
 
@@ -876,6 +876,7 @@ function selectReference(referenceId, { closeDialog = false } = {}) {
   renderSampleOptions();
   renderReferences();
   applyProduct();
+  if (canLoadPresetDemo()) void loadPresetDemoResult({ announce: false });
   if (closeDialog && elements.referenceCatalogDialog.open) elements.referenceCatalogDialog.close();
 }
 
@@ -2415,6 +2416,7 @@ function setProcessingMode(modeId) {
   renderModeOptions();
   renderRecommendations();
   applyProduct();
+  if (canLoadPresetDemo()) void loadPresetDemoResult({ announce: false });
   showToast(`已切换为${processingModes[modeId].name}`);
 }
 
@@ -2828,6 +2830,7 @@ async function loadSample(sampleId = "rainy") {
     renderModeOptions();
     updateRecommendations({ selectFirst: true });
     setSourceStatus("success", `${state.sources.length} 张${sample.label}样例 · 浏览器内`);
+    if (canLoadPresetDemo()) await loadPresetDemoResult({ announce: false });
   } catch (error) {
     state.sources = [];
     state.effectImages = {};
@@ -2930,35 +2933,48 @@ function updateCounts() {
   elements.bodyCount.textContent = Array.from(elements.bodyInput.value).length;
 }
 
+async function loadPresetDemoResult({ announce = true } = {}) {
+  if (!canLoadPresetDemo()) return false;
+  const reference = selectedReference();
+  const current = selectedGeneratedResult();
+  if (current?.isPreset && current.referenceId === state.referenceId) {
+    state.previewLayer = "result";
+    applyProduct();
+    return true;
+  }
+  elements.generateButton.disabled = true;
+  elements.exportStatus.textContent = "正在读取项目已登记的预置演示结果…";
+  try {
+    const element = await loadImage(reference.image);
+    const result = {
+      id: `preset-${state.sampleId}-${state.referenceId}`,
+      image: reference.image,
+      element,
+      referenceId: state.referenceId,
+      model: "预置结果 · 静态演示",
+      requestId: null,
+      isPreset: true,
+    };
+    state.generatedResults = [result];
+    state.selectedResultId = result.id;
+    state.generated = true;
+    state.previewLayer = "result";
+    applyProduct();
+    elements.exportStatus.textContent = "预置演示结果已自动载入；可直接比较、查看成品并下载。";
+    if (announce) showToast("预置演示结果已载入");
+    return true;
+  } catch {
+    elements.exportStatus.textContent = "预置演示结果未能载入；请切换其他内置样例重试。";
+    elements.generateButton.disabled = false;
+    if (announce) showToast("预置演示结果载入失败");
+    return false;
+  }
+}
+
 async function generateProduct() {
   if (!state.sources.length || !state.productId) return;
   if (canLoadPresetDemo()) {
-    const reference = selectedReference();
-    elements.generateButton.disabled = true;
-    elements.exportStatus.textContent = "正在读取项目已登记的预置演示结果…";
-    try {
-      const element = await loadImage(reference.image);
-      const result = {
-        id: `preset-${state.sampleId}-${state.referenceId}`,
-        image: reference.image,
-        element,
-        referenceId: state.referenceId,
-        model: "预置结果 · 静态演示",
-        requestId: null,
-        isPreset: true,
-      };
-      state.generatedResults = [result];
-      state.selectedResultId = result.id;
-      state.generated = true;
-      state.previewLayer = "result";
-      applyProduct();
-      elements.exportStatus.textContent = "预置演示结果已载入；可比较原图、参考与结果，并查看产品适配和下载。";
-      showToast("预置演示结果已载入");
-    } catch {
-      elements.exportStatus.textContent = "预置演示结果未能载入；请切换其他内置样例重试。";
-      elements.generateButton.disabled = false;
-      showToast("预置演示结果载入失败");
-    }
+    await loadPresetDemoResult();
     return;
   }
   if (!state.apiAvailable) return;

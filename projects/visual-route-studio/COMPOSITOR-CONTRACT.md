@@ -204,3 +204,16 @@
 | AI 边界明确 | generate/result/product/download | disabled 状态与说明 | pass | 六组内置样例可诚实载入预置结果；上传图和不匹配参考仍明确要求 AI 服务 |
 | 邻接回归 | 1280×720 / initial and changed states | Chromium screenshot、console、DOM | pass | 六组样例 6/6、结果/成品/PNG/ZIP、上传降级通过，console 0 error/warning |
 | 远端发布 | GitHub Pages production | Actions success、HTTP 200、浏览器路径 | pass | commit `0f51e9f`、Actions run `32095716972` 成功；远端结果/成品/PNG/ZIP 重放通过 |
+
+## Revision 19 repair delta · 内置样例自动进入结果态
+
+- GitHub Pages 是阶段性能力演示，内置样例稳定后应自动载入与该样例匹配的已登记结果，不再要求用户额外点击“载入预置演示结果”。
+- 切换六组内置样例后自动更新结果、产品适配和下载；主按钮在已有结果时只负责回到结果视图。
+- 上传用户图片或选择与样例不匹配的其他参考时，仍清除当前结果并明确要求真实 AI 服务。
+
+| Requirement | Surface / state | Evidence needed | Status | Next action |
+| --- | --- | --- | --- | --- |
+| 首屏自动结果 | GitHub Pages / initial sample | Chromium 初始 DOM、截图 | pass | 初始即显示雨夜预置结果；结果、成品、PNG、ZIP 可用 |
+| 切换样例自动更新 | six sample buttons | 6/6 产品、结果、下载状态 | pass | 六组样例无需额外载入点击，结果与产品 6/6 同步 |
+| 安全边界保持 | upload / unmatched reference | disabled 与说明 | pass | 上传稳定后生成、结果和下载关闭；不匹配参考仍要求 AI 服务 |
+| 远端收口 | production | Actions、console、下载 | continue | 部署并重放正式 URL |
