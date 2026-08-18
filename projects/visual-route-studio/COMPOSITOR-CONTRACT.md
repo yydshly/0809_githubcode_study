@@ -217,3 +217,17 @@
 | 切换样例自动更新 | six sample buttons | 6/6 产品、结果、下载状态 | pass | 六组样例无需额外载入点击，结果与产品 6/6 同步 |
 | 安全边界保持 | upload / unmatched reference | disabled 与说明 | pass | 上传稳定后生成、结果和下载关闭；不匹配参考仍要求 AI 服务 |
 | 远端收口 | production | Actions、console、下载 | pass | commit `e9aa168`、Actions run `32096318052` 成功；远端 6/6 自动结果、上传降级与 console 0 错误通过 |
+
+## Revision 20 repair contract · 辅助标记开关
+
+- 在中央工作区增加一个小型“辅助标记”开关，默认关闭；正式演示不再把固定比例的圈、矩形和连线覆盖在主体上。
+- 开启后恢复场景角标、焦点圈、证据框、关系路径、视觉指纹和结构拆解框，用于调试图片方向与构图。
+- 开关只影响辅助标记，不改变原图、预置结果、产品选择、尺寸和文件数量；产品预览与产品 ZIP 遵循开关状态，原始结果 PNG 保持无标记。
+
+| Requirement | Surface / state | Evidence needed | Status | Next action |
+| --- | --- | --- | --- | --- |
+| 小型控制可见 | central heading / ready | DOM、截图、键盘 | pass | 小型按钮在 1280 与 624px 可见；Enter 切换与 aria-pressed 同步 |
+| 默认干净结果 | product preview / guides off | before/after canvas screenshot | pass | 圈、结构框和连线默认隐藏；基础构图与局部图片边框保留 |
+| 调试标记可恢复 | product preview / guides on | canvas pixel / screenshot | pass | 开启后圈、框、路径恢复；再次关闭回到干净态 |
+| 导出一致 | PNG / ZIP / both states | 下载与 Canvas 状态 | pass | 产品 ZIP 两态 SHA-256 不同；原始结果 PNG 保持无标记 |
+| 远端收口 | GitHub Pages production | Actions、Chromium、console | continue | 部署并重放正式 URL |

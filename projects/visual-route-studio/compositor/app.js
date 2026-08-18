@@ -648,6 +648,7 @@ const state = {
   generatedResults: [],
   selectedResultId: null,
   staticDemoMode: window.location.hostname.endsWith("github.io") || new URLSearchParams(window.location.search).get("staticDemo") === "1",
+  showAuxiliaryGuides: false,
 };
 
 const query = new URLSearchParams(window.location.search);
@@ -685,6 +686,7 @@ const elements = {
   sourcePreviewButton: $("#source-preview-button"),
   referencePreviewButton: $("#reference-preview-button"),
   productPreviewButton: $("#product-preview-button"),
+  guideToggleButton: $("#guide-toggle-button"),
   stageImage: $("#stage-image"),
   canvasStage: $(".canvas-stage"),
   canvasStateTitle: $("#canvas-state-title"),
@@ -1508,6 +1510,7 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
   const route = visualRoutes[routeId];
   if (!route) return;
   const strength = effectStrengths[state.effectStrength] ?? effectStrengths.balanced;
+  const showGuides = state.showAuxiliaryGuides;
   ctx.save();
   ctx.globalAlpha = strength.overlayAlpha;
   ctx.lineWidth = Math.max(2, Math.min(width, height) * 0.004) * strength.lineScale;
@@ -1522,16 +1525,18 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
     gradient.addColorStop(1, "rgba(4, 12, 18, .34)");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
-    ctx.strokeStyle = route.accent;
-    const mark = Math.min(width, height) * 0.055;
-    const inset = Math.min(width, height) * 0.045;
-    [[inset, inset, 1, 1], [width - inset, inset, -1, 1], [inset, height - inset, 1, -1], [width - inset, height - inset, -1, -1]].forEach(([x, y, sx, sy]) => {
-      ctx.beginPath();
-      ctx.moveTo(x, y + mark * sy);
-      ctx.lineTo(x, y);
-      ctx.lineTo(x + mark * sx, y);
-      ctx.stroke();
-    });
+    if (showGuides) {
+      ctx.strokeStyle = route.accent;
+      const mark = Math.min(width, height) * 0.055;
+      const inset = Math.min(width, height) * 0.045;
+      [[inset, inset, 1, 1], [width - inset, inset, -1, 1], [inset, height - inset, 1, -1], [width - inset, height - inset, -1, -1]].forEach(([x, y, sx, sy]) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y + mark * sy);
+        ctx.lineTo(x, y);
+        ctx.lineTo(x + mark * sx, y);
+        ctx.stroke();
+      });
+    }
   } else if (routeId === "distill" || routeId === "reconstruct") {
     const focusX = width * 0.5;
     const focusY = height * 0.46;
@@ -1542,17 +1547,19 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
     ctx.fillRect(0, focusY + focusH * 0.5, width, height);
     ctx.fillRect(0, focusY - focusH * 0.5, focusX - focusW * 0.5, focusH);
     ctx.fillRect(focusX + focusW * 0.5, focusY - focusH * 0.5, width, focusH);
-    ctx.strokeStyle = route.accent;
-    ctx.lineWidth *= 1.35;
-    ctx.beginPath();
-    ctx.ellipse(focusX, focusY, focusW * 0.5, focusH * 0.5, 0, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.globalAlpha = 0.8 * strength.overlayAlpha;
-    [0.08, 0.13, 0.18].forEach((radius) => {
+    if (showGuides) {
+      ctx.strokeStyle = route.accent;
+      ctx.lineWidth *= 1.35;
       ctx.beginPath();
-      ctx.arc(width * 0.84, height * 0.15, width * radius, Math.PI * 0.2, Math.PI * 1.55);
+      ctx.ellipse(focusX, focusY, focusW * 0.5, focusH * 0.5, 0, 0, Math.PI * 2);
       ctx.stroke();
-    });
+      ctx.globalAlpha = 0.8 * strength.overlayAlpha;
+      [0.08, 0.13, 0.18].forEach((radius) => {
+        ctx.beginPath();
+        ctx.arc(width * 0.84, height * 0.15, width * radius, Math.PI * 0.2, Math.PI * 1.55);
+        ctx.stroke();
+      });
+    }
     if (routeId === "reconstruct") {
       ctx.globalAlpha = 0.55 * strength.overlayAlpha;
       ctx.fillStyle = route.accent;
@@ -1565,7 +1572,7 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
       ctx.closePath();
       ctx.fill();
     }
-  } else if (routeId === "evidence") {
+  } else if (routeId === "evidence" && showGuides) {
     const boxW = width * 0.3;
     const boxH = height * 0.26;
     const boxX = width * 0.64;
@@ -1603,7 +1610,7 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
     ctx.moveTo(width * 0.08, height * 0.88);
     ctx.bezierCurveTo(width * 0.27, height * 0.8, width * 0.5, height * 0.94, width * 0.82, height * 0.84);
     ctx.stroke();
-    if (routeId === "revival") {
+    if (routeId === "revival" && showGuides) {
       ctx.globalAlpha = 0.5 * strength.overlayAlpha;
       ctx.strokeStyle = route.accent;
       [0.14, 0.48, 0.78].forEach((x, index) => {
@@ -1626,15 +1633,17 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
     ctx.globalAlpha = 0.9 * strength.overlayAlpha;
     ctx.fillRect(width * 0.72, 0, width * 0.08, height * 0.22);
   } else if (routeId === "poetic" || routeId === "merge" || routeId === "sequence") {
-    ctx.strokeStyle = route.accent;
-    ctx.globalAlpha = 0.84 * strength.overlayAlpha;
-    ctx.beginPath();
-    ctx.moveTo(width * 0.08, height * 0.78);
-    ctx.bezierCurveTo(width * 0.28, height * 0.46, width * 0.58, height * 0.7, width * 0.91, height * 0.2);
-    ctx.stroke();
-    [0.18, 0.48, 0.78].forEach((x, index) => {
-      ctx.strokeRect(width * x, height * (0.68 - index * 0.18), width * 0.045, width * 0.045);
-    });
+    if (showGuides) {
+      ctx.strokeStyle = route.accent;
+      ctx.globalAlpha = 0.84 * strength.overlayAlpha;
+      ctx.beginPath();
+      ctx.moveTo(width * 0.08, height * 0.78);
+      ctx.bezierCurveTo(width * 0.28, height * 0.46, width * 0.58, height * 0.7, width * 0.91, height * 0.2);
+      ctx.stroke();
+      [0.18, 0.48, 0.78].forEach((x, index) => {
+        ctx.strokeRect(width * x, height * (0.68 - index * 0.18), width * 0.045, width * 0.045);
+      });
+    }
     if ((routeId === "merge" || routeId === "sequence") && state.sources.length > 1) {
       ctx.globalAlpha = 0.78 * strength.overlayAlpha;
       const tileW = width * 0.2;
@@ -1657,7 +1666,7 @@ function applyVisualRouteOverlay(ctx, width, height, routeId, sourceIndex = 0) {
     ctx.setLineDash([]);
     ctx.fillStyle = route.accent;
     ctx.fillRect(width * 0.84, height * 0.08, width * 0.08, width * 0.08);
-  } else if (routeId === "fingerprint" || routeId === "deconstruct") {
+  } else if ((routeId === "fingerprint" || routeId === "deconstruct") && showGuides) {
     ctx.strokeStyle = route.accent;
     ctx.globalAlpha = 0.68 * strength.overlayAlpha;
     const cx = width * 0.82;
@@ -2370,6 +2379,22 @@ function renderPreviewToggle() {
   elements.referencePreviewButton.setAttribute("aria-pressed", String(state.previewLayer === "reference"));
   elements.sourcePreviewButton.setAttribute("aria-pressed", String(state.previewLayer === "source"));
   elements.productPreviewButton.setAttribute("aria-pressed", String(state.previewLayer === "product"));
+  elements.guideToggleButton.disabled = disabled;
+  elements.guideToggleButton.setAttribute("aria-pressed", String(state.showAuxiliaryGuides));
+  elements.guideToggleButton.setAttribute("aria-label", state.showAuxiliaryGuides ? "隐藏辅助标记" : "显示辅助标记");
+}
+
+function toggleAuxiliaryGuides() {
+  if (!state.sources.length || !state.productId) return;
+  state.showAuxiliaryGuides = !state.showAuxiliaryGuides;
+  renderDesignOptions();
+  renderFileList();
+  renderProductWorkspace();
+  renderPreviewToggle();
+  elements.exportStatus.textContent = state.showAuxiliaryGuides
+    ? "辅助标记已打开；产品预览和产品 ZIP 会包含调试用圈、框和连线。"
+    : "辅助标记已关闭；产品预览和产品 ZIP 保持干净画面。";
+  showToast(state.showAuxiliaryGuides ? "已显示辅助标记" : "已隐藏辅助标记");
 }
 
 function setPreviewLayer(layer) {
@@ -2744,6 +2769,8 @@ function renderEmptyState(message = "选择图片或使用演示素材后，系�
   elements.compareResultButton.disabled = true;
   elements.compareStatus.textContent = "等待生成";
   elements.generationDetailCopy.textContent = "根据产品结构组合图片理解、视觉生成、排版与质量检查能力。";
+  elements.guideToggleButton.disabled = true;
+  elements.guideToggleButton.setAttribute("aria-pressed", "false");
   elements.generateButton.disabled = true;
   elements.downloadButton.disabled = true;
   elements.downloadBundleButton.disabled = true;
@@ -3204,6 +3231,7 @@ elements.resultPreviewButton.addEventListener("click", () => setPreviewLayer("re
 elements.sourcePreviewButton.addEventListener("click", () => setPreviewLayer("source"));
 elements.referencePreviewButton.addEventListener("click", () => setPreviewLayer("reference"));
 elements.productPreviewButton.addEventListener("click", () => setPreviewLayer("product"));
+elements.guideToggleButton.addEventListener("click", toggleAuxiliaryGuides);
 elements.compareSourceButton.addEventListener("click", () => setPreviewLayer("source"));
 elements.compareReferenceButton.addEventListener("click", () => setPreviewLayer("reference"));
 elements.compareResultButton.addEventListener("click", () => setPreviewLayer("result"));

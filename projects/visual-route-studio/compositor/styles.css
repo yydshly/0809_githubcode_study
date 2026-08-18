@@ -804,6 +804,8 @@ summary:focus-visible {
 .canvas-heading-tools {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 12px;
 }
 .preview-toggle {
@@ -828,6 +830,22 @@ summary:focus-visible {
 }
 .preview-toggle button[aria-pressed="true"] { color: var(--ink); background: var(--paper); }
 .preview-toggle button:disabled { opacity: 0.42; cursor: not-allowed; }
+
+.guide-toggle {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: #90a2a8;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  background: #071219;
+  cursor: pointer;
+}
+.guide-toggle:hover { border-color: var(--line-strong); color: var(--paper); }
+.guide-toggle[aria-pressed="true"] { border-color: var(--amber); color: var(--amber); background: rgba(207, 139, 42, 0.1); }
+.guide-toggle:disabled { opacity: 0.42; cursor: not-allowed; }
 
 .format-label {
   display: flex;
