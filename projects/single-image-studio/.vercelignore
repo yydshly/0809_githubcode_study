@@ -6,7 +6,11 @@ dist-public/
 node_modules/
 provider-evaluation/
 research/
-server/
+server/*
+!server/providers/
+server/providers/*
+!server/providers/background-removal/
+!server/providers/background-removal/*.mjs
 tests/
 *.md
 scripts/*

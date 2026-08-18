@@ -190,8 +190,12 @@ test("background removal client uses dedicated status, run, cancel, deletion, an
 
   const status = await client.getBackgroundRemovalStatus();
   assert.equal(status.available, true);
-  const created = await client.createBackgroundRemovalRun({ sourceRevision: 1 });
+  const created = await client.createBackgroundRemovalRun(
+    { sourceRevision: 1 },
+    { accessToken: "private-demo-access" },
+  );
   assert.equal(created.status, "QUEUED");
+  assert.equal(calls[1].options.headers["X-Background-Removal-Access"], "private-demo-access");
   const finished = await client.pollBackgroundRemovalRun("cutout-1", { intervalMs: 0, timeoutMs: 1_000 });
   assert.equal(finished.status, "SUCCEEDED");
   const cancelled = await client.cancelBackgroundRemovalRun("cutout-2");

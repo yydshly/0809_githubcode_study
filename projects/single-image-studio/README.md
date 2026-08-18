@@ -40,9 +40,9 @@ GitHub 保存源码、文档、项目原创演示素材和测试，不等于完�
 
 ## 部署 Vercel 公开体验版
 
-仓库已经提供 `public-local-only` 构建。公开版只包含产品、样例和两张公开参考页；图片在访问者浏览器中处理，不请求 `/api`，不包含内部验收 / 走查页面，也不需要 Provider 密钥。
+仓库已经提供 `public-hybrid` 构建。公开版只包含产品、样例和两张公开参考页；12 项基础任务继续在访问者浏览器中处理，内部验收 / 走查页面不会部署。只有 Vercel Production 同时配置 PhotoRoom key、显式启用开关和远程体验码时，抠图、商品白底与报名照场景才会调用同域 `/api/background-removal/*` Function。
 
-当前 Production 地址：[https://0809-githubcode-study.vercel.app/](https://0809-githubcode-study.vercel.app/)。首次部署绑定 GitHub `main` 提交 `54ec620`；Vercel 状态 `READY`，首页、样例页和两张参考页均返回 200，内部质量 / 验收页返回 404。浏览器验收确认公开模式文案、12 个本地任务、9 张样例卡片与 18 / 18 张样例图片；部署构建与近一小时运行错误均为 0。
+当前 Production 地址：[https://0809-githubcode-study.vercel.app/](https://0809-githubcode-study.vercel.app/)。首次静态部署绑定 GitHub `main` 提交 `54ec620`；Vercel 状态 `READY`，首页、样例页和两张参考页均返回 200，内部质量 / 验收页返回 404。浏览器验收确认公开模式文案、12 个本地任务、9 张样例卡片与 18 / 18 张样例图片；部署构建与近一小时运行错误均为 0。`public-hybrid` Function 上线后应重新记录抠图状态与真实沙盒调用，不沿用这条静态验收结论。
 
 本地验证构建：
 
@@ -59,16 +59,24 @@ npm.cmd run build:public
 3. 将 **Root Directory** 设为 `projects/single-image-studio`；
 4. Framework Preset 保持 **Other**；
 5. `vercel.json` 会提供 Build Command `npm run build:public` 和 Output Directory `dist-public`；
-6. 不配置 PhotoRoom、OpenAI 或 MiniMax 密钥；
+6. 只在需要受控抠图时配置下面三个 **Production** 环境变量；不配置 OpenAI 或 MiniMax 密钥；
 7. 点击 Deploy。
 
-Vercel 连接 GitHub 后，main 更新会生成 Production Deployment，其他分支可生成 Preview Deployment。公开版状态栏应显示“公开体验 · 本地处理可用”，确认图片后应有 12 个本地操作；透明抠图、商品白底、报名照和生成式任务保持未连接。
+```text
+PHOTOROOM_API_KEY=<PhotoRoom sandbox 或正式 key>
+PHOTOROOM_ENABLED=true
+BACKGROUND_REMOVAL_ACCESS_TOKEN=<至少 16 位、只给批准测试者的体验码>
+```
 
-完整远程版不能直接复用这套静态部署：Vercel Function 单次请求 / 响应体限制会与当前 16 MB base64 图片合同冲突，且 `InMemoryRunStore` 不能跨函数实例保存任务。完整上线需要对象存储直传、持久化 run store 和 serverless API 适配。
+三个变量都不得使用 `NEXT_PUBLIC_` 前缀。Function 会在验证体验码、图片类型 / 大小 / hash 与逐次同意后才调用 PhotoRoom；结果必须通过透明 PNG、CRC、Alpha、尺寸和 hash 检查。体验码、原图和结果不写入服务器存储。当前免费额度方案不使用 Redis / Blob，因此页面刷新后不能恢复远程任务，网络未知也不会自动重复提交。
+
+Vercel 连接 GitHub 后，main 更新会生成 Production Deployment，其他分支可生成 Preview Deployment。没有配置上述变量时，公开版仍应显示 12 个本地操作，透明抠图、商品白底和报名照保持未连接；配置成功后会新增 3 个需要远程体验码的受控场景。生成式任务仍保持未连接。
+
+当前 Function 只是免费额度内的同步、无持久化技术验证。若未来需要匿名公开调用、跨刷新恢复、取消确认、多人并发、可靠幂等、用量计费或供应商侧删除回执，必须增加身份验证、平台级限流、对象存储、持久化 run store 和定期清理；不能用内存 Map 冒充跨实例状态。
 
 ## 当前状态
 
-本目录目前包含一套可运行的**内部 Alpha 单图产品**、一个公开的本地处理技术体验壳和只读研究归档。产品已具备 12 项离线本地任务、可选背景移除 Provider、结果修正、多规格交付、样例、错误恢复与浏览器回归；公开地址只开放本地处理，不是正式产品发布，也不证明自然图片质量、生成式修复、图片理解、自动推荐或真人用户价值已经成立。
+本目录目前包含一套可运行的**内部 Alpha 单图产品**、一个公开的本地优先混合技术体验壳和只读研究归档。产品已具备 12 项离线本地任务、可选背景移除 Provider、结果修正、多规格交付、样例、错误恢复与浏览器回归；公开地址的远程能力只有在 Vercel 环境变量齐全时才受体验码保护地启用，不是正式产品发布，也不证明自然图片质量、生成式修复、图片理解、自动推荐或真人用户价值已经成立。
 
 | 维度 | 当前结论 |
 | --- | --- |
@@ -78,7 +86,7 @@ Vercel 连接 GitHub 后，main 更新会生成 Production Deployment，其他�
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
 | 运维 / 治理证据 | `O1 = 0`、`G1 = 0` |
-| 发布状态 | 源码已在 GitHub；Vercel 已提供 `public-local-only` 公开技术体验，完整产品仍为内部 Alpha，没有正式产品发布声明 |
+| 发布状态 | 源码已在 GitHub；Vercel 提供 `public-hybrid` 公开技术体验，完整产品仍为内部 Alpha，没有正式产品发布声明 |
 
 所有状态以 [STATUS.md](STATUS.md) 为唯一事实源。当前代码整理、可靠性、用户验证、现有能力质量和智能能力扩展的统一顺序见[产品能力与工程演进执行计划](PRODUCT_AND_ENGINEERING_EXECUTION_PLAN.md)。历史材料中的“可运行”“pass”若未特别说明，只代表 R0 工程检查，不代表能力或产品门槛通过。
 

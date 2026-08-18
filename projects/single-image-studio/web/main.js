@@ -569,6 +569,7 @@ function clearResult() {
   setOldPhotoOutputBusy(false);
   setSocialGridOutputBusy(false);
   elements.processingRecordCard.hidden = true;
+  elements.deleteProcessingRecord.hidden = false;
   elements.deleteProcessingRecord.disabled = false;
   elements.deleteProcessingRecord.textContent = "清除本地处理记录";
   elements.processingRecordStatus.textContent = "本地记录可用于任务恢复";
@@ -2566,6 +2567,17 @@ function selectTask(taskId) {
   (elements.settingsForm.querySelector('input:not([type="hidden"]), select, button') ?? elements.runButton).focus();
 }
 
+function publicRemoteAccessField() {
+  return backgroundRemovalStatus.accessPolicy === "shared-demo-token"
+    ? `<div class="field remote-access-field"><label for="remote-access-token">远程体验码</label><input id="remote-access-token" type="password" autocomplete="off" spellcheck="false" required /><p class="field-hint">用于保护项目的免费调用额度；只保留在当前页面内存，不写入任务、URL 或下载文件。</p></div>`
+    : "";
+}
+
+function remoteAccessMissing() {
+  if (backgroundRemovalStatus.accessPolicy !== "shared-demo-token") return false;
+  return !elements.settingsForm.querySelector("#remote-access-token")?.value.trim();
+}
+
 function renderSettings(task) {
   const workflowDefinition = workflowDefinitionForTask(task.id);
   assertWorkflowParameterContract(task, workflowDefinition);
@@ -2863,6 +2875,7 @@ function renderSettings(task) {
       </fieldset>
       ${composedBackground ? `<fieldset class="setting-group remote-processing-consent"><legend><span>4</span> 远程抠图确认</legend>
         <div class="remote-processing-summary"><strong>先本地构图，再发送抠图</strong><p>只发送左侧亮框中的${product ? "商品" : "人物"}构图；远程服务返回透明结果后，修边和${product ? "白底合成" : "纯色换底"}继续在本机完成。</p></div>
+        ${publicRemoteAccessField()}
         <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前${product ? "商品" : "头像"}构图发送给远程抠图服务处理</span></label>
         <p class="field-hint">${product ? "抠图后可在本地调整留白和基础柔和阴影；不保证平台审核或尺寸规范。" : "当前是通用报名照与头像工具，不承诺任何证件或机构规格。"}失败不会覆盖原图，也不会自动重复提交。</p>
       </fieldset>` : ""}
@@ -2890,8 +2903,9 @@ function renderSettings(task) {
     elements.settingsFields.innerHTML = `
       <fieldset class="setting-group remote-processing-consent"><legend><span>1</span> 远程处理确认</legend>
         <div class="remote-processing-summary"><strong>服务方：${providerLabel}</strong><p>只发送当前这张图片的 bytes，用于识别主体并返回透明 PNG；不会同时生成背景、阴影或美化版本。${providerUseCopy}</p></div>
+        ${publicRemoteAccessField()}
         <label class="consent-check"><input type="checkbox" name="remoteConsent" required /> <span>我同意将当前图片发送给远程抠图服务处理</span></label>
-        <p class="field-hint">本地服务不把原图写入任务记录，处理结果只保存在当前服务进程；供应商侧处理与删除遵循项目批准的当前账户条款。失败不会覆盖原图，也不会自动重复提交。</p>
+        <p class="field-hint">${backgroundRemovalStatus.runStore === "stateless" ? "公开 Function 不保存任务与图片；页面刷新后不能恢复本次远程任务。" : "本地服务不把原图写入任务记录，处理结果只保存在当前服务进程。"}供应商侧处理与删除遵循项目批准的当前账户条款。失败不会覆盖原图，也不会自动重复提交。</p>
       </fieldset>`;
     elements.runButton.textContent = "移除背景";
     elements.runNote.textContent = providerSandbox
@@ -2926,6 +2940,7 @@ function syncRemoteConsent() {
   if (!isBackgroundRemovalTask()) return;
   const settingsError = elements.settingsForm.querySelector("#editor-settings-error");
   elements.runButton.disabled = elements.settingsForm.elements.remoteConsent?.checked !== true
+    || remoteAccessMissing()
     || Boolean(settingsError && !settingsError.hidden);
 }
 
@@ -3132,7 +3147,7 @@ function setEditorValidity(error = null, { focus = false } = {}) {
     }
   }
   elements.runButton.disabled = Boolean(error)
-    || (isBackgroundRemovalTask() && elements.settingsForm.elements.remoteConsent?.checked !== true);
+    || (isBackgroundRemovalTask() && (elements.settingsForm.elements.remoteConsent?.checked !== true || remoteAccessMissing()));
 }
 
 function syncRectificationOverlay(quad) {
@@ -3594,6 +3609,7 @@ function nudgeCropWithKeyboard(event) {
 }
 
 function getSettings() {
+  if (isBackgroundRemovalTask() && remoteAccessMissing()) throw new Error("请填写远程体验码");
   if (isEditorTask() && editorWorkspace) {
     if (!commitEditorForm()) throw new Error("请先修正编辑设置");
     return normalizeEditorTaskSettings({
@@ -4020,12 +4036,18 @@ function renderResult() {
     const sandbox = currentResult.provider?.environment === "sandbox";
     const providerName = backgroundRemovalProviderName(currentResult.provider);
     elements.processingRecordProvider.textContent = `${providerName}${sandbox ? " · 沙盒" : ""}`;
-    elements.processingRecordCopy.textContent = "当前电脑暂存这次任务编号、图片标识和结果，用于恢复状态。清除后不影响当前页面里的结果和下载。";
+    const stateless = backgroundRemovalStatus.runStore === "stateless";
+    elements.processingRecordCopy.textContent = stateless
+      ? "公开 Function 已把结果直接返回当前页面，不保存图片、体验码或可恢复任务记录。"
+      : "当前电脑暂存这次任务编号、图片标识和结果，用于恢复状态。清除后不影响当前页面里的结果和下载。";
+    elements.deleteProcessingRecord.hidden = stateless;
     elements.deleteProcessingRecord.disabled = currentResult.localRecordDeleted === true;
     elements.deleteProcessingRecord.textContent = currentResult.localRecordDeleted ? "本地记录已清除" : "清除本地处理记录";
-    elements.processingRecordStatus.textContent = currentResult.localRecordDeleted
-      ? "本地记录已清除；刷新后无法恢复这次任务"
-      : "本地记录可用于任务恢复";
+    elements.processingRecordStatus.textContent = stateless
+      ? "无服务器任务记录 · 刷新后无法恢复本次远程处理"
+      : currentResult.localRecordDeleted
+        ? "本地记录已清除；刷新后无法恢复这次任务"
+        : "本地记录可用于任务恢复";
   }
   elements.socialOutputSet.hidden = selectedTask.id !== "UT-TEMPLATE";
   elements.oldPhotoOutputSet.hidden = selectedTask.id !== "UT-OLD-PHOTO";
@@ -5058,26 +5080,32 @@ async function runBackgroundRemoval({
     },
   };
   let created;
+  const stateless = backgroundRemovalStatus.runStore === "stateless";
+  const accessToken = elements.settingsForm.querySelector("#remote-access-token")?.value.trim() ?? "";
   try {
     created = await api.createBackgroundRemovalRun(payload, {
       signal: runController.signal,
-      timeoutMs: 22_000,
+      timeoutMs: stateless ? 35_000 : 22_000,
+      accessToken,
     });
   } catch (error) {
     if (!(error instanceof ApiClientError) || !error.isUnknown) throw error;
+    if (stateless) throw error;
     created = await recoverCreatedBackgroundRemovalRun(runId, error);
   }
   if (created.id !== runId) throw new Error("抠图任务编号不一致，已阻止结果进入页面");
-  const finished = await api.pollBackgroundRemovalRun(runId, {
-    signal: runController.signal,
-    timeoutMs: 90_000,
-    intervalMs: 700,
-    onUpdate: (run) => {
-      elements.statusCopy.textContent = run.status === "RUNNING"
-        ? "正在识别主体和边缘；原图仍保留在当前页面。"
-        : "正在等待远程抠图服务开始。";
-    },
-  });
+  const finished = new Set(["SUCCEEDED", "FAILED", "UNKNOWN", "CANCELLED"]).has(created.status)
+    ? created
+    : await api.pollBackgroundRemovalRun(runId, {
+        signal: runController.signal,
+        timeoutMs: 90_000,
+        intervalMs: 700,
+        onUpdate: (run) => {
+          elements.statusCopy.textContent = run.status === "RUNNING"
+            ? "正在识别主体和边缘；原图仍保留在当前页面。"
+            : "正在等待远程抠图服务开始。";
+        },
+      });
   if (machine.activeRunId !== runId || sourceHashAtStart !== machine.source?.hash) return null;
   if (finished.status === "UNKNOWN") {
     throw new ApiClientError(finished.error?.message || "抠图状态暂时未知", {

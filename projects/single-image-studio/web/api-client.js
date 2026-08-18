@@ -199,6 +199,7 @@ export function createApiClient({
     {
       method = "GET",
       body,
+      headers = {},
       signal,
       timeoutMs = requestTimeoutMs,
       outcomeUnknownOnTransport = false,
@@ -210,9 +211,10 @@ export function createApiClient({
     try {
       const response = await fetchImpl(`${apiBaseUrl}${path}`, {
         method,
-        headers: body === undefined ? { Accept: "application/json" } : {
+        headers: body === undefined ? { Accept: "application/json", ...headers } : {
           Accept: "application/json",
           "Content-Type": "application/json",
+          ...headers,
         },
         body: body === undefined ? undefined : JSON.stringify(body),
         signal: requestAbort.signal,
@@ -285,13 +287,16 @@ export function createApiClient({
     return request("/api/background-removal/status", { signal, timeoutMs });
   }
 
-  async function createBackgroundRemovalRun(payload, { signal, timeoutMs } = {}) {
+  async function createBackgroundRemovalRun(payload, { signal, timeoutMs, accessToken } = {}) {
     if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
       throw new TypeError("background removal payload must be an object");
     }
     const response = await request("/api/background-removal/runs", {
       method: "POST",
       body: payload,
+      headers: typeof accessToken === "string" && accessToken.length > 0
+        ? { "X-Background-Removal-Access": accessToken }
+        : {},
       signal,
       timeoutMs,
       outcomeUnknownOnTransport: true,

@@ -12,7 +12,7 @@ const STYLES = Object.freeze(["styles.css", "examples.css"]);
 function publicHtml(source, pageName) {
   let html = source.replace(/<a href="\.\/quality-hub\.html">内部质量(?:入口)?<\/a>/gu, "");
   if (pageName === "index.html") {
-    html = html.replace("<html lang=\"zh-CN\">", "<html lang=\"zh-CN\" data-deployment-mode=\"public-local-only\">");
+    html = html.replace("<html lang=\"zh-CN\">", "<html lang=\"zh-CN\" data-deployment-mode=\"public-hybrid\">");
   }
   return html;
 }
