@@ -1,7 +1,7 @@
 # 产品能力与工程演进执行计划
 
 > 生效日期：2026-08-18
-> 当前阶段：`Stage 1 · source/task controller extraction`
+> 当前阶段：`Stage 2 · fixed-build human walkthrough`
 > 文档角色：本文件统一代码整理、可靠性、用户验证、现有能力质量和后续智能能力扩展的执行顺序。当前事实仍以 [STATUS.md](STATUS.md) 为准；长期能力证据与发布公式不由本文件改写。
 
 ## 1. 当前判断
@@ -209,7 +209,7 @@ Single Image Studio 已经拥有较宽的内部 Alpha 功能面，但还没有�
 - [x] Stage 1：抽离 `source-task-controller`；
 - [x] Stage 1：抽离 `settings-controller`；
 - [x] Stage 1：抽离 `local-execution-controller`；
-- [ ] Stage 1：评估 `remote-execution-controller`；
+- [x] Stage 1：评估 `remote-execution-controller`，按停止规则保留现有生命周期所有者；
 - [ ] Stage 2：2–3 人方法演练；
 - [ ] Stage 3：代表性图片矩阵；
 - [ ] Stage 4：区域理解合同与独立原型。

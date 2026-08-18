@@ -206,4 +206,11 @@ S2–S5 增量后，checkpoint `17ac5aa` 的 `main.js` 已增长至 5,281 行 / 
 
 首次隔离浏览器回归暴露 `rectificationPostProcess.label` 在非裁正任务中读取 null 的真实缺陷，造成 1 / 6；单元测试此前未覆盖这一主控制器接线。修为 optional label 并新增源码边界断言后，`verify:product` 386 / 386、语法 291 文件；隔离 Playwright Chrome run `8e4d8e20-3a6b-4c7d-9e10-112233445566` 六条旅程 6 / 6、0 pageerror。当前主文件 5,200 行 / 约 294 KB，本地 plan 64 行；行数变化不是结论，浏览器发现并关闭接线缺陷才是本批价值。
 
-下一批先评估远程执行是否存在同样清晰的纯分派边界；若必须同时移动 Provider 生命周期、DOM 和 state machine，则停止抽离并转入 Stage 2 走查，而不为减行数冒险泛化。
+远程执行边界评估结论：停止继续抽离。
+
+- `api-client.js` 已持有 HTTP、轮询、timeout 与 UNKNOWN 客户端协议；
+- background-removal runtime / Provider adapter 已持有供应商调用和输出验证；
+- `state-machine.js` 已持有 run token、取消、失败、未知和结果状态；
+- `main.js` 当前剩余远程代码负责把这些生命周期映射到页面进度、用户确认和恢复动作。
+
+若继续抽成通用 remote controller，必须同时注入 DOM、state dispatch、source token、Provider callback 与生成式 payload，反而会产生两个可变状态所有者，违反本文件停止条件。因此 Stage 1 在 source/task、settings 和 local-execution 三个纯边界后结束。后续只有真实走查或新 Provider 暴露明确重复责任时才重新开启，不以主文件行数作为继续理由。
