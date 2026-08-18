@@ -42,7 +42,7 @@ GitHub 保存源码、文档、项目原创演示素材和测试，不等于完�
 
 仓库已经提供 `public-hybrid` 构建。公开版只包含产品、样例和两张公开参考页；12 项基础任务继续在访问者浏览器中处理，内部验收 / 走查页面不会部署。Vercel Production 配置 PhotoRoom key 与显式启用开关后，抠图、商品白底与报名照场景才会调用同域 `/api/background-removal/*` Function；水印 sandbox key 可直接用于公开技术验证，非 sandbox key 还必须配置远程体验码。
 
-当前 Production 地址：[https://0809-githubcode-study.vercel.app/](https://0809-githubcode-study.vercel.app/)。首次静态部署绑定 GitHub `main` 提交 `54ec620`；Vercel 状态 `READY`，首页、样例页和两张参考页均返回 200，内部质量 / 验收页返回 404。浏览器验收确认公开模式文案、12 个本地任务、9 张样例卡片与 18 / 18 张样例图片；部署构建与近一小时运行错误均为 0。`public-hybrid` Function 上线后应重新记录抠图状态与真实沙盒调用，不沿用这条静态验收结论。
+当前 Production 地址：[https://0809-githubcode-study.vercel.app/](https://0809-githubcode-study.vercel.app/)。首次静态部署绑定 GitHub `main` 提交 `54ec620`；`public-hybrid` Function 实现绑定提交 `a35a4ec` 和 deployment `dpl_2wpy6r1bdbkYmWzzVssKsdrAkT99`。首页、样例页和两张参考页均返回 200，内部质量 / 验收页返回 404。公开页在未配置 Provider 时保留 12 个本地任务；当前 PhotoRoom sandbox 配置使目录增加到 15 个可运行任务。真实 Production 浏览器调用得到 `1440 × 1080` 带水印透明 PNG，修边与下载解锁，Function POST 为 200，运行错误为 0，且没有服务器任务记录。详情见 [浏览器验收证据](BROWSER_ACCEPTANCE_EVIDENCE.md#2026-08-18--vercel-public-hybrid-photoroom-sandbox-closure)。
 
 本地验证构建：
 

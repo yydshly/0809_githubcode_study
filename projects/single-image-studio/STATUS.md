@@ -48,6 +48,8 @@
 
 2026-08-18 公开技术体验上线：GitHub `main@54ec620` 生成独立 `public-local-only` 静态构建并部署到 [Vercel Production](https://0809-githubcode-study.vercel.app/)。部署只含首页、效果样例和两张公开参考页；不含 `.env`、Provider 密钥、Node 服务、内部质量 / 验收 / 走查页或研究目录。Vercel deployment `dpl_7Arfh5EYk9XTW5HKUYyguYa4wCmo` 为 `READY`，绑定精确 commit；首页 / 样例 / 两张参考页为 200，内部质量与验收页为 404，安全响应头存在，构建错误与近一小时 runtime errors 均为 0。浏览器核对 `public-local-only`、状态文案、12 个本地任务、9 张样例卡片和 18 / 18 图片加载。该网址是无服务端能力的公开**技术体验**，不提升 C1 / U1 / R1 / O1 / G1 / V1 或 Release Gate，也不得称为正式产品发布。
 
+2026-08-18 公开沙盒抠图闭环：`main@a35a4ec` 把同一站点升级为 `public-hybrid`，Vercel deployment `dpl_2wpy6r1bdbkYmWzzVssKsdrAkT99` 为 `READY` 并包含 2 个零第三方依赖 Node Functions。PhotoRoom `sandbox_` key 只需 `PHOTOROOM_ENABLED=true`，不要求体验码；非 sandbox key 仍缺少至少 16 位 `BACKGROUND_REMOVAL_ACCESS_TOKEN` 时 fail closed。真实 Production 浏览器以项目原创 1440 × 1080 合成图完成一次远程抠图：15 个任务可运行，逐次同意前运行按钮禁用，Function `POST /api/background-removal/runs` 返回 200，页面进入 `RESULT_READY`，透明 PNG 独立重开为 1440 × 1080，沙盒水印、修边、下载和无服务器任务记录边界均可见，runtime errors 为 0。该次调用把前文调用前快照的 PhotoRoom 沙盒累计数从 5 次增至 6 次。该公开 endpoint 可能被他人消耗免费沙盒额度；用户已明确接受该技术验证风险。它仍不证明自然图片边缘质量、正式匿名调用安全、持久恢复、供应商删除、用户价值或任何证据轴 / Release Gate。
+
 2026-08-17 本地工具增量：新增 `UT-CONVERT`“图片格式转换”。用户可把当前 JPEG / PNG / WebP 明确转换为 PNG 或 JPEG；JPEG 提供 40%–95% 质量与透明区域填色，PNG 保留已有 Alpha 但不会自动抠图。任务保持完整比例和尽可能原尺寸，输出仍受 8192 px 单边 / 1600 万像素安全上限，并经过现有格式、尺寸、像素、metadata 与哈希重开检查。结果页分别说明格式、尺寸、体积、透明策略和有损边界；转换不等于画质修复。
 
 2026-08-17 本地工具增量：新增 `UT-FIT`“完整图片适配”。用户可把整张图片居中放进方形 1:1、竖版 4:5 或横版 16:9 画布，设置 320–2048 px 最长边、0%–25% 留白和白 / 黑 / 自定义 / 透明底；纯色输出 JPEG，透明输出 PNG。该能力不裁切、不拉伸、不放大小图，也不生成画面外内容。

@@ -1,5 +1,18 @@
 # Product browser acceptance evidence
 
+## 2026-08-18 · Vercel public-hybrid PhotoRoom sandbox closure
+
+- Production URL: `https://0809-githubcode-study.vercel.app/`
+- Hybrid implementation commit: `a35a4eccb0f2c2f763aac844ad46f8e467eb0d05`
+- Vercel deployment: `dpl_2wpy6r1bdbkYmWzzVssKsdrAkT99`, `READY`, two Node.js Functions
+- Browser: isolated `agent-browser` Chrome session against the stable Production alias
+
+The public status endpoint returned `available=true`, `environment=sandbox`, `runStore=stateless`, `accessPolicy=open-sandbox`. The browser rendered 15 runnable tasks, entered `UT-CUTOUT` with no access-code field, kept the run button disabled until the per-request remote consent checkbox was selected, and then made one real sandbox request. Vercel recorded one `POST /api/background-removal/runs` with HTTP 200 at `2026-08-18T02:49:15Z`; no automatic retry occurred.
+
+The page reached `RESULT_READY` with the title “沙盒抠图完成（带水印）”. The returned RGBA PNG reopened at `1440 × 1080`; the result QA copy stated that the transparent PNG, byte length and task binding were checked. Mask correction was visible, download was enabled, the delete-record action was absent, and the privacy card stated “无服务器任务记录 · 刷新后无法恢复本次远程处理”. The full-page screenshot showed the expected PhotoRoom sandbox watermark and checkerboard transparency. Vercel runtime error scan returned zero errors.
+
+This closes the public sandbox transport and UI path only. It does not establish natural-image edge quality, anonymous production-provider safety, durable recovery, cancellation confirmation, provider-side deletion, user value, or any C/U/E/R/O/G/V / Release Gate increase. Sandbox quota exhaustion remains possible because the user explicitly chose an open watermarked test endpoint; switching to a non-sandbox key automatically makes the Function unavailable until a private 16+ character `BACKGROUND_REMOVAL_ACCESS_TOKEN` is configured.
+
 ## 2026-08-18 · Gallery lazy-image and metadata-copy repair
 
 - Gallery run: `a06fa042-5c8d-4e9f-bf32-334455667788`, `2/2 pass`
