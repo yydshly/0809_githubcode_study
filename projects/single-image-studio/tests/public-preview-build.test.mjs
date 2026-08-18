@@ -42,6 +42,6 @@ test("Vercel config deploys only the generated public directory with security he
   assert.match(headers["Content-Security-Policy"], /frame-ancestors 'none'/);
   assert.deepEqual(config.functions, {
     "api/background-removal/status.mjs": { maxDuration: 10 },
-    "api/background-removal/runs.mjs": { maxDuration: 30, memory: 1024 },
+    "api/background-removal/runs.mjs": { maxDuration: 30 },
   });
 });
