@@ -57,6 +57,26 @@ h1 { margin-bottom: 22px; font: 500 clamp(48px, 6vw, 78px)/1.06 Georgia, "Noto S
 .status.pass { color: var(--green); background: #e1efe8; }
 .status.config { color: var(--amber); background: #f5ead8; }
 .status.waiting { color: var(--muted); background: #e8ebea; }
+.related { padding-top: 64px; }
+.relation-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 10px; margin-bottom: 16px; padding: 14px; color: var(--muted); background: #e8ece9; border: 1px solid var(--line); border-radius: 13px; font-size: 10px; font-weight: 900; text-align: center; }
+.relation-flow strong { color: var(--blue); font-size: 16px; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.related-card { display: flex; flex-direction: column; min-width: 0; padding: 21px; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; }
+.related-card.primary-card { border-color: #86a9c2; box-shadow: inset 0 4px 0 var(--blue); }
+.related-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.related-head small { color: var(--muted); font-size: 9px; }
+.relation-status { padding: 4px 8px; border-radius: 999px; font-size: 9px; font-weight: 900; }
+.relation-status.observed { color: var(--amber); background: #f5ead8; }
+.relation-status.verified { color: var(--green); background: #e1efe8; }
+.related-card h3 { min-height: 52px; margin: 24px 0 7px; font: 500 23px/1.15 Georgia, "Noto Serif SC", serif; }
+.related-goal { min-height: 76px; margin-bottom: 18px; color: var(--muted); font-size: 12px; }
+.related-card dl { margin: 0 0 20px; }
+.related-card dl div { padding: 10px 0; border-top: 1px solid var(--line); }
+.related-card dt { margin-bottom: 3px; color: var(--blue); font-size: 9px; font-weight: 900; }
+.related-card dd { margin: 0; color: var(--muted); font-size: 10px; }
+.related-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+.related-links a { padding: 7px 10px; color: var(--blue); border: 1px solid #b8c9d3; border-radius: 8px; font-size: 10px; font-weight: 900; text-decoration: none; }
+.relation-boundary { margin: 14px 0 0; padding: 14px 17px; color: #476170; background: var(--blue-soft); border-left: 3px solid var(--blue); font-size: 11px; }
 .showcase { width: 100%; padding-inline: max(20px, calc((100vw - 1240px) / 2)); background: #e6ece9; }
 .effect-shell, .layout-shell { padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 16px 48px rgba(30, 47, 57, .07); }
 .effect-controls, .paper-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
@@ -87,11 +107,12 @@ footer { display: flex; justify-content: space-between; gap: 20px; padding: 26px
 footer p { margin: 0; }
 footer div { display: flex; gap: 18px; }
 button:focus-visible, a:focus-visible { outline: 3px solid #ef9e48; outline-offset: 3px; }
-@media (max-width: 900px) { header { grid-template-columns: 1fr auto; } nav { display: none; } .hero { grid-template-columns: 1fr; } .runtime-card { max-width: 620px; } .facts-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) { header { grid-template-columns: 1fr auto; } nav { display: none; } .hero { grid-template-columns: 1fr; } .runtime-card { max-width: 620px; } .facts-grid { grid-template-columns: 1fr 1fr; } .related-grid { grid-template-columns: 1fr; } .related-card h3, .related-goal { min-height: 0; } }
 @media (max-width: 620px) {
   header { padding-inline: 15px; } .brand strong { font-size: 11px; } .static-badge { max-width: 115px; text-align: center; }
   .hero, .section, .static-note { width: calc(100% - 28px); } .hero { padding-top: 50px; } h1 { font-size: 43px; }
   .static-note { grid-template-columns: 1fr; gap: 4px; } .facts-grid, .effect-grid, .limits-grid { grid-template-columns: 1fr; }
+  .relation-flow { grid-template-columns: 1fr; } .relation-flow strong { transform: rotate(90deg); }
   .showcase { padding-inline: 14px; } .effect-shell, .layout-shell { padding: 14px; }
   .effect-grid img, .image-stage { height: 340px; } .effect-footer { align-items: flex-start; flex-direction: column; }
   .layout-stage { min-height: 300px; } .layout-facts { grid-template-columns: 1fr 1fr; } .layout-facts a { grid-column: 1 / -1; }

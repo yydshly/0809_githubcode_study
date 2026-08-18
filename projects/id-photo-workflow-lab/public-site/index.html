@@ -13,7 +13,7 @@
     <a class="skip" href="#showcase">跳到效果展示</a>
     <header>
       <a class="brand" href="#top"><span>证</span><strong>ID Photo Workflow Lab</strong></a>
-      <nav aria-label="页面导航"><a href="#facts">结论</a><a href="#showcase">效果</a><a href="#layouts">排版</a><a href="#limits">边界</a></nav>
+      <nav aria-label="页面导航"><a href="#facts">结论</a><a href="#related">关联</a><a href="#showcase">效果</a><a href="#layouts">排版</a><a href="#limits">边界</a></nav>
       <span class="static-badge">GitHub Pages 静态快照</span>
     </header>
 
@@ -50,6 +50,54 @@
           <article><span class="status config">需要配置</span><h3>端云 Face++</h3><p>需要用户自己的 key，并会把图片发送给 Face++；本轮未调用。</p></article>
           <article><span class="status waiting">Waiting</span><h3>智能换正装</h3><p>上游 README 仍标记 waiting，当前没有可调用实现。</p></article>
         </div>
+      </section>
+
+      <section class="section related" id="related">
+        <div class="section-title"><p class="eyebrow">External projects → local evidence</p><h2>三个外部项目，解决三个不同层次的问题</h2><p>只有 Hivision 进入了本项目真实运行；IMG.LY 与 MagicQuill 是外部相关技术卡，不冒充已安装或已验证能力。</p></div>
+        <div class="relation-flow" aria-label="三个项目与证件照主线的关系">
+          <span>通用主体 Alpha</span><strong>→</strong><span>证件照几何与交付</span><strong>↗</strong><span>创意生成式编辑</span>
+        </div>
+        <div class="related-grid">
+          <article class="related-card secondary-card">
+            <div class="related-head"><span class="relation-status observed">外部描述</span><small>固定 `12f56cc…`</small></div>
+            <h3>IMG.LY Background Removal JS</h3>
+            <p class="related-goal">目标：在浏览器或 Node.js 中自动分离通用前景，输出透明主体、背景或 mask。</p>
+            <dl>
+              <div><dt>技术原理</dt><dd>IS-Net ONNX → ONNX Runtime Web（WASM/WebGPU）→ mask 回放到原尺寸 → Alpha/合成</dd></div>
+              <div><dt>与主线关系</dt><dd>理论上可替换 Hivision 的 Matting 阶段，但不做人脸几何、证件规格、DPI 或打印排版。</dd></div>
+              <div><dt>当前本地状态</dt><dd>只读描述；未安装、未下载、未接 Demo。</dd></div>
+              <div><dt>许可</dt><dd>代码与 Web data package 为 AGPL-3.0。</dd></div>
+            </dl>
+            <div class="related-links"><a href="https://github.com/imgly/background-removal-js">外部仓库</a><a href="https://github.com/yydshly/0809_githubcode_study/blob/main/projects/id-photo-workflow-lab/RELATED_TECHNOLOGY_NOTES.md#imgly-background-removal-js">本地技术卡</a></div>
+          </article>
+
+          <article class="related-card primary-card">
+            <div class="related-head"><span class="relation-status verified">主研究 · 真实运行</span><small>固定 `5c191e2…`</small></div>
+            <h3>HivisionIDPhotos</h3>
+            <p class="related-goal">目标：把人像抠图、人脸检测、标准构图、换底、美颜和打印排版组织成证件照工作流。</p>
+            <dl>
+              <div><dt>技术原理</dt><dd>MODNet 连续 Alpha + MTCNN 人脸几何 + OpenCV 确定性裁切/换底/排版。</dd></div>
+              <div><dt>与主线关系</dt><dd>本页面唯一主研究对象；本地固定代码、模型 hash、CPU smoke 和五纸张结果均有证据。</dd></div>
+              <div><dt>当前本地状态</dt><dd>真实 CPU Demo 已跑通；静态站展示固定派生结果。</dd></div>
+              <div><dt>许可</dt><dd>仓库 Apache-2.0；具体模型与素材继续逐项记录。</dd></div>
+            </dl>
+            <div class="related-links"><a href="https://github.com/Zeyi-Lin/HivisionIDPhotos">外部仓库</a><a href="https://github.com/yydshly/0809_githubcode_study/tree/main/projects/id-photo-workflow-lab">本地研究与 Demo</a></div>
+          </article>
+
+          <article class="related-card secondary-card">
+            <div class="related-head"><span class="relation-status observed">外部描述</span><small>固定 `8958300…`</small></div>
+            <h3>MagicQuill</h3>
+            <p class="related-goal">目标：让用户用添加、删除和改色画笔控制生成式局部图片编辑。</p>
+            <dl>
+              <div><dt>技术原理</dt><dd>LLaVA Draw&amp;Guess 猜测意图 + edge/color 条件 + diffusion inpainting/control 双分支局部重绘。</dd></div>
+              <div><dt>与主线关系</dt><dd>只适合作为普通职业头像的创意分支参考；不输出 Alpha，也不保证脸、头发或衣服像素不变。</dd></div>
+              <div><dt>当前本地状态</dt><dd>只读描述；未获取约 25GB checkpoints、未安装、未接 Demo。</dd></div>
+              <div><dt>许可</dt><dd>仓库 LICENSE 为 CC BY-NC 4.0；非商业边界。</dd></div>
+            </dl>
+            <div class="related-links"><a href="https://github.com/ant-research/MagicQuill">外部仓库</a><a href="https://github.com/yydshly/0809_githubcode_study/blob/main/projects/id-photo-workflow-lab/RELATED_TECHNOLOGY_NOTES.md#magicquill">本地技术卡</a></div>
+          </article>
+        </div>
+        <p class="relation-boundary"><strong>关联不是串联。</strong> IMG.LY 是可替换的自动抠图层；Hivision 是当前真实证件照主线；MagicQuill 是另一个生成式创意方向，不进入严格证件路径。</p>
       </section>
 
       <section class="showcase" id="showcase">

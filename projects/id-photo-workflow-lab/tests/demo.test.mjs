@@ -99,6 +99,9 @@ test('GitHub Pages showcase is static, subpath-safe, and owns all five paper pre
   assert.doesNotMatch(script, /fetch\s*\(/);
   assert.match(html, /\.\/styles\.css/);
   assert.match(html, /\.\/showcase\.js/);
+  assert.match(html, /https:\/\/github\.com\/imgly\/background-removal-js/);
+  assert.match(html, /https:\/\/github\.com\/ant-research\/MagicQuill/);
+  assert.match(html, /关联不是串联/);
   for (const paper of ['six-inch', 'five-inch', 'a4', '3r', '4r']) {
     await access(resolve(PROJECT_ROOT, `public-site/assets/layout-${paper}.png`));
     await access(resolve(PROJECT_ROOT, `public-site/assets/layout-${paper}-preview.webp`));
