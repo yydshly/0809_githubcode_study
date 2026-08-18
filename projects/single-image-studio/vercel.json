@@ -4,6 +4,9 @@
   "installCommand": "node -e \"console.log('Public build uses Node built-ins only')\"",
   "buildCommand": "npm run build:public",
   "outputDirectory": "dist-public",
+  "build": {
+    "env": { "NPM_CONFIG_OMIT": "dev" }
+  },
   "cleanUrls": true,
   "functions": {
     "api/background-removal/status.mjs": { "maxDuration": 10 },

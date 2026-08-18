@@ -35,6 +35,7 @@ test("Vercel config deploys only the generated public directory with security he
   assert.equal(config.framework, null);
   assert.equal(config.buildCommand, "npm run build:public");
   assert.equal(config.outputDirectory, "dist-public");
+  assert.deepEqual(config.build, { env: { NPM_CONFIG_OMIT: "dev" } });
   assert.match(config.installCommand, /Node built-ins only/);
   const headers = Object.fromEntries(config.headers[0].headers.map((entry) => [entry.key, entry.value]));
   assert.equal(headers["X-Content-Type-Options"], "nosniff");
