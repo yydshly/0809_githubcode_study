@@ -175,3 +175,32 @@
 | 独立结果展示口 | result gallery / selected result | DOM、下载、历史切换 | blocked | 结果库与产品消费逻辑已实现；真实版本加入、切换与下载待有效 API 响应复验 |
 | 无密钥诚实降级 | API unavailable | 状态、恢复说明 | pass | `/api/status` 返回 unavailable；生成、结果、成品和下载全部禁用，无假动画 |
 | 桌面回归与文档 | 1280×720 / files | overflow、语法、HTTP、docs | pass | 三栏桌面截图、8 项参考目录、浏览器零错误、语法与差异检查通过 |
+
+## Revision 18 repair contract · GitHub Pages 交互可用性
+
+| 字段 | 决定 |
+| --- | --- |
+| Entry mode | repair-led |
+| Request revision | 18（修复 GitHub Pages 公开逻辑演示中大量控件不可用的问题） |
+| Target user and context | 在远端 GitHub Pages 直接体验旧版产品逻辑的电脑网页用户 |
+| Desired first impression | 页面即使没有 AI 后端，仍能完整体验样例、参考、处理单位、图片方向和产品目标的选择逻辑 |
+| Visual ambition | Editorial；保留现有深色三栏和纸张结果视觉 |
+| Experience architecture | Hybrid Workspace；本轮不重构布局，只修复可达性和状态反馈 |
+| Visual constraints | 不重新设计页面，不改变样例资产、颜色、字体或主要布局 |
+| Information constraints | 明确区分“逻辑演示可操作”和“真实 AI 生成不可用” |
+| Operation constraints | GitHub Pages 纯静态；不得暴露密钥或伪造生成；非 AI 控件必须可用 |
+| State constraints | 样例、参考、处理单位、方向、产品、弹窗和原图/参考切换应可操作；结果、成品、下载和真实生成可以因无后端禁用 |
+| Environment constraints | GitHub Pages 正式 URL，桌面 Chromium，1280×720 基线 |
+| Primary journey | 打开公开页 → 切换样例 → 切换参考 → 切换处理单位/方向/产品 → 查看中央与右栏同步变化 |
+| Autonomy authorization | 用户报告远端大量点击不可用，授权在既有部署范围内定位并修复 |
+| User-decision boundary | 不为静态 Pages 新增真实 AI 后端；若需要生成服务必须另行选择托管方案 |
+
+### Revision 18 coverage
+
+| Requirement | Surface / state | Evidence needed | Status | Next action |
+| --- | --- | --- | --- | --- |
+| 复现不可点击 | GitHub Pages / initial | Chromium 点击与 console | pass | 46 个普通控件可用；6 个结果链控件因无后端被禁用，构成用户感知根因 |
+| 非 AI 控件可用 | sample/reference/mode/direction/product/dialog | 点击前后 DOM 状态 | pass | 样例、参考、模式、方向、产品和三类目录弹窗均完成状态变化 |
+| AI 边界明确 | generate/result/product/download | disabled 状态与说明 | pass | 六组内置样例可诚实载入预置结果；上传图和不匹配参考仍明确要求 AI 服务 |
+| 邻接回归 | 1280×720 / initial and changed states | Chromium screenshot、console、DOM | pass | 六组样例 6/6、结果/成品/PNG/ZIP、上传降级通过，console 0 error/warning |
+| 远端发布 | GitHub Pages production | Actions success、HTTP 200、浏览器路径 | continue | 推送 main 并复验线上版本 |

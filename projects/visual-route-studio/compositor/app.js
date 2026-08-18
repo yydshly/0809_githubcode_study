@@ -647,6 +647,7 @@ const state = {
   apiMessage: "正在检查 AI 服务",
   generatedResults: [],
   selectedResultId: null,
+  staticDemoMode: window.location.hostname.endsWith("github.io") || new URLSearchParams(window.location.search).get("staticDemo") === "1",
 };
 
 const query = new URLSearchParams(window.location.search);
@@ -776,7 +777,28 @@ function selectedGeneratedResult() {
   return state.generatedResults.find((result) => result.id === state.selectedResultId) ?? null;
 }
 
+function canLoadPresetDemo() {
+  return Boolean(
+    state.staticDemoMode
+    && state.sourceKind === "sample"
+    && state.sampleId
+    && sampleReferenceMap[state.sampleId] === state.referenceId,
+  );
+}
+
+function generationButtonLabel(hasResult = Boolean(selectedGeneratedResult())) {
+  if (state.apiAvailable) return hasResult ? "再次生成一个结果" : "使用参考生成";
+  if (canLoadPresetDemo()) return hasResult ? "重新载入预置结果" : "载入预置演示结果";
+  return state.staticDemoMode && state.sourceKind === "sample" ? "该参考需要 AI 服务" : "AI 服务尚未连接";
+}
+
 async function checkApiStatus() {
+  if (state.staticDemoMode) {
+    state.apiAvailable = false;
+    state.apiMessage = "GitHub Pages 公开版可用内置样例演示完整结果与成品；上传图片和其他参考需要本地 AI 服务";
+    renderGenerationAvailability();
+    return;
+  }
   try {
     const response = await fetch("/api/status", { cache: "no-store" });
     if (!response.ok) throw new Error("AI 服务不可用");
@@ -794,11 +816,9 @@ async function checkApiStatus() {
 
 function renderGenerationAvailability() {
   if (!state.sources.length || !state.productId) return;
-  elements.generateButton.disabled = !state.apiAvailable;
-  elements.generateButton.textContent = state.apiAvailable
-    ? state.generatedResults.length ? "再次生成一个结果" : "使用参考生成"
-    : "AI 服务尚未连接";
-  if (!state.apiAvailable) elements.exportStatus.textContent = `${state.apiMessage}。生成前仍可查看原图和参考效果。`;
+  elements.generateButton.disabled = !state.apiAvailable && !canLoadPresetDemo();
+  elements.generateButton.textContent = generationButtonLabel();
+  if (!state.apiAvailable && !selectedGeneratedResult()) elements.exportStatus.textContent = `${state.apiMessage}。`;
 }
 
 function createReferenceCard(referenceId, { catalog = false } = {}) {
@@ -898,8 +918,9 @@ function renderResultLibrary() {
     button.className = "result-item";
     button.type = "button";
     button.setAttribute("aria-pressed", String(result.id === state.selectedResultId));
-    button.setAttribute("aria-label", `查看生成结果 ${index + 1}`);
-    button.innerHTML = `<img src="${result.image}" alt="生成结果 ${index + 1}" /><span>结果 ${index + 1} · ${referenceCatalog[result.referenceId]?.name ?? "参考生成"}</span>`;
+    const resultKind = result.isPreset ? "预置演示结果" : "AI 生成结果";
+    button.setAttribute("aria-label", `查看${resultKind} ${index + 1}`);
+    button.innerHTML = `<img src="${result.image}" alt="${resultKind} ${index + 1}" /><span>${resultKind} · ${referenceCatalog[result.referenceId]?.name ?? "参考生成"}</span>`;
     button.addEventListener("click", () => {
       state.selectedResultId = result.id;
       state.previewLayer = "result";
@@ -2610,19 +2631,22 @@ function updateCanvasMeta() {
     return;
   }
   if (state.previewLayer === "product") {
+    const result = selectedGeneratedResult();
     elements.canvasHeading.textContent = file[0];
     elements.productEyebrow.textContent = `04 · 产品适配 · ${productNameForMode(state.productId)}`;
     elements.formatType.textContent = "PNG";
     elements.formatSize.textContent = `${file[2]} × ${file[3]}`;
-    elements.canvasDescription.textContent = `这是选中 AI 结果进入“${file[0]}”后的产品成品。右侧可切换全部页面，并导出整套产品 ZIP。`;
+    elements.canvasDescription.textContent = `这是选中${result?.isPreset ? "预置演示结果" : " AI 结果"}进入“${file[0]}”后的产品成品。右侧可切换全部页面，并导出整套产品 ZIP。`;
     return;
   }
   const result = selectedGeneratedResult();
   elements.canvasHeading.textContent = file[0];
-  elements.productEyebrow.textContent = `03 · AI 生成结果 · ${productNameForMode(state.productId)}`;
+  elements.productEyebrow.textContent = `03 · ${result.isPreset ? "预置演示结果" : "AI 生成结果"} · ${productNameForMode(state.productId)}`;
   elements.formatType.textContent = "PNG";
   elements.formatSize.textContent = result.model;
-  elements.canvasDescription.textContent = `这是由你的新图和“${selectedReference().name}”共同驱动的真实 AI 结果。右侧结果库可保留多个版本，选定后再进入产品适配。`;
+  elements.canvasDescription.textContent = result.isPreset
+    ? `这是项目已生成并登记的“${selectedReference().name}”阶段样例，用于演示结果比较、产品适配和导出；它不是本次在线重新生成。`
+    : `这是由你的新图和“${selectedReference().name}”共同驱动的真实 AI 结果。右侧结果库可保留多个版本，选定后再进入产品适配。`;
 }
 
 function applyProduct() {
@@ -2662,13 +2686,14 @@ function applyProduct() {
         : processingModes[state.processingMode].name;
   elements.integrityDetail.textContent = `${state.productSelectionSource === "manual" ? "你已主动选择此产品；" : ""}${recommendationCardReason(state.productId)}`;
   const hasResult = Boolean(selectedGeneratedResult());
-  elements.generateButton.disabled = !state.apiAvailable;
-  elements.generateButton.textContent = state.apiAvailable ? hasResult ? "再次生成一个结果" : "使用参考生成" : "AI 服务尚未连接";
+  const result = selectedGeneratedResult();
+  elements.generateButton.disabled = !state.apiAvailable && !canLoadPresetDemo();
+  elements.generateButton.textContent = generationButtonLabel(hasResult);
   elements.downloadButton.disabled = !hasResult;
   elements.downloadBundleButton.hidden = files.length <= 1;
   elements.downloadBundleButton.disabled = !hasResult || files.length <= 1;
   elements.exportStatus.textContent = hasResult
-    ? `已选中真实 AI 结果；可下载当前结果${files.length > 1 ? "，也可导出产品 ZIP" : ""}。`
+    ? `已选中${result.isPreset ? "预置演示结果" : "真实 AI 结果"}；可下载当前结果${files.length > 1 ? "，也可导出产品 ZIP" : ""}。`
     : state.apiAvailable ? "当前中央显示参考效果；生成完成后才会出现结果下载。" : `${state.apiMessage}。`;
   updateCanvasMeta();
   renderReferences();
@@ -2906,7 +2931,37 @@ function updateCounts() {
 }
 
 async function generateProduct() {
-  if (!state.sources.length || !state.productId || !state.apiAvailable) return;
+  if (!state.sources.length || !state.productId) return;
+  if (canLoadPresetDemo()) {
+    const reference = selectedReference();
+    elements.generateButton.disabled = true;
+    elements.exportStatus.textContent = "正在读取项目已登记的预置演示结果…";
+    try {
+      const element = await loadImage(reference.image);
+      const result = {
+        id: `preset-${state.sampleId}-${state.referenceId}`,
+        image: reference.image,
+        element,
+        referenceId: state.referenceId,
+        model: "预置结果 · 静态演示",
+        requestId: null,
+        isPreset: true,
+      };
+      state.generatedResults = [result];
+      state.selectedResultId = result.id;
+      state.generated = true;
+      state.previewLayer = "result";
+      applyProduct();
+      elements.exportStatus.textContent = "预置演示结果已载入；可比较原图、参考与结果，并查看产品适配和下载。";
+      showToast("预置演示结果已载入");
+    } catch {
+      elements.exportStatus.textContent = "预置演示结果未能载入；请切换其他内置样例重试。";
+      elements.generateButton.disabled = false;
+      showToast("预置演示结果载入失败");
+    }
+    return;
+  }
+  if (!state.apiAvailable) return;
   const reference = selectedReference();
   elements.workspace.dataset.state = "generating";
   elements.canvasStateTitle.textContent = "AI 正在生成新结果";
@@ -3106,7 +3161,8 @@ async function downloadProductBundle() {
     showToast("ZIP 打包失败");
   } finally {
     elements.downloadBundleButton.disabled = !selectedGeneratedResult() || files.length <= 1;
-    elements.generateButton.disabled = !state.apiAvailable;
+    elements.generateButton.disabled = !state.apiAvailable && !canLoadPresetDemo();
+    elements.generateButton.textContent = generationButtonLabel();
   }
 }
 
