@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [main, html, catalog, workflow, download, contract] = await Promise.all([
+const [main, html, catalog, sourceTaskController, workflow, download, contract] = await Promise.all([
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/task-catalog.js", import.meta.url), "utf8"),
+  readFile(new URL("../web/source-task-controller.js", import.meta.url), "utf8"),
   readFile(new URL("../web/workflow-definition.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-download.js", import.meta.url), "utf8"),
   readFile(new URL("../PRIVACY_SHARE.md", import.meta.url), "utf8"),
@@ -21,7 +22,7 @@ test("privacy share is a real local scene with visible limits and no content-ano
   assert.match(main, /不会识别人脸、住址、车牌、二维码、水印或图片里的文字/);
   assert.match(main, /runPrivacyShare/);
   assert.match(main, /privacyShareReport/);
-  assert.match(main, /const wanted = \["UT-PRIVACY-SHARE", "UT-UPLOAD"/);
+  assert.match(sourceTaskController, /PRODUCT_TASK_ORDER[\s\S]*"UT-PRIVACY-SHARE", "UT-UPLOAD"/);
   assert.match(html, /id="privacy-share-card"/);
   assert.match(html, /文件信息、尺寸与体积/);
   assert.match(workflow, /PRIVACY_SHARE_WORKFLOW[\s\S]*private-metadata/);

@@ -1,5 +1,12 @@
 # Product browser acceptance evidence
 
+## 2026-08-18 · Source/task controller extraction regression
+
+- Product run: `17d617b9-c344-4506-a699-aabbccddeeff`, `6/6 pass`
+- Browser: Codex in-app Chromium, `Chrome/151.0.0.0`, `zh-CN`
+
+After product task ordering, runtime classification, runnable selection and source-session reset decisions moved into `source-task-controller.js`, all six local journeys reproduced the checkpoint dimensions and byte lengths. Task discovery, settings entry, result reopen, change-task navigation, stale-download invalidation and focus cleanup passed. This was a no-behavior-change refactor and made no provider call; it adds maintainability evidence, not image-quality or user-value evidence.
+
 ## 2026-08-18 · Internal-alpha checkpoint regression
 
 - Product run: `f5b4f597-a122-43e4-8477-8899aabbccdd`, `6/6 pass`

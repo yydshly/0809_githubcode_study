@@ -166,3 +166,25 @@ feature modules
 当前 S1 判定为 **practical-complete**。`main.js` 仍然较大，但来源状态、像素执行、多结果异步生命周期没有为了减少行数而被冒险泛化；场景专属设置与执行仍应留在各自 feature module。进一步拆分只在 S2 / S3 暴露真实所有权问题时进行，不把代码行数作为目标。
 
 下一阶段进入 S2：建立有来源清单、真实原图 / 结果对照、参数和能力边界的样例效果展示页。
+
+## 11. 2026-08-18 Stage 1 重新开启
+
+S2–S5 增量后，checkpoint `17ac5aa` 的 `main.js` 已增长至 5,281 行 / 约 300 KB，来源取消、任务顺序、runtime 分类和可运行选择再次分散在主控制器中。因此此前的 S1 practical-complete 只保留为当时事实，当前按[统一执行计划](PRODUCT_AND_ENGINEERING_EXECUTION_PLAN.md)重新进入 Stage 1。
+
+第一批无行为变化抽离已完成：
+
+- 新增 `source-task-controller.js`，唯一持有 17 项产品任务顺序；
+- runtime flags 统一派生 local / editor / rectification / background-removal / composed / remote；
+- 任务选择只接受当前 catalog 中的 runnable identity；
+- 来源取消时只保留单调 source revision、superseded run 与 detached run 身份；
+- `main.js` 不再直接维护 `getTaskCatalog` 排序和 runtime execution 判断；
+- historical `UT-SOLID-BG` 不再进入产品 catalog，纯色换底继续作为结果工作台派生动作。
+
+验证：
+
+- controller 定向 4 / 4，相关状态 / catalog / workflow 合计 40 / 40；
+- `verify:product` 377 / 377，287 个 JavaScript 文件语法通过；
+- Chromium run `17d617b9-c344-4506-a699-aabbccddeeff` 六条本地旅程 6 / 6，输出尺寸与 bytes 未变化；
+- `main.js` 变为 5,258 行，新增 controller 61 行。行数不是退出门，职责单一性才是。
+
+下一批只抽离 settings 的参数装配、字段错误定位和配置状态，不同时改变任何设置值、页面文案或 renderer 合同。

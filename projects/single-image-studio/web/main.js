@@ -121,6 +121,7 @@ import { createRuntimeId } from "./runtime-identity.js";
 import { scenarioInitialSettings } from "./scenario-skills.js";
 import { SOCIAL_GRID_TILE_COUNT, socialGridLayout } from "./social-grid-split.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
+import { buildProductTaskCatalog, resetSourceSessionState, selectRunnableTask, taskRuntimeFlags } from "./source-task-controller.js";
 import { inspectTechnicalImageElement, technicalImageAdvice } from "./technical-image-check.js";
 import { partitionTasksForDisplay, taskAvailabilitySummary } from "./task-groups.js";
 import { taskGoalEntries } from "./task-goals.js";
@@ -133,31 +134,29 @@ import {
   currentSourceToken,
   reduceStudioState,
 } from "./state-machine.js";
-import { getTaskCatalog } from "./task-catalog.js";
 import { createStoredZip } from "./zip-bundle.js";
-import { WORKFLOW_EXECUTION, taskRuntimeProfile, workflowDefinitionForTask } from "./workflow-definition.js";
+import { workflowDefinitionForTask } from "./workflow-definition.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
 function isBackgroundRemovalTask(taskId = selectedTask?.id) {
-  return taskRuntimeProfile(taskId)?.execution === WORKFLOW_EXECUTION.BACKGROUND_REMOVAL;
+  return taskRuntimeFlags(taskId).backgroundRemoval;
 }
 
 function isComposedBackgroundTask(taskId = selectedTask?.id) {
-  return taskRuntimeProfile(taskId)?.composedBackground === true;
+  return taskRuntimeFlags(taskId).composedBackground;
 }
 
 function isRectificationTask(taskId = selectedTask?.id) {
-  return taskRuntimeProfile(taskId)?.rectification === true;
+  return taskRuntimeFlags(taskId).rectification;
 }
 
 function isEditorTask(taskId = selectedTask?.id) {
-  return taskRuntimeProfile(taskId)?.usesEditor === true;
+  return taskRuntimeFlags(taskId).editor;
 }
 
 function isLocalEditorTask(taskId = selectedTask?.id) {
-  const profile = taskRuntimeProfile(taskId);
-  return profile?.usesEditor === true && profile.execution === WORKFLOW_EXECUTION.LOCAL;
+  return taskRuntimeFlags(taskId).localEditor;
 }
 
 const elements = {
@@ -2221,12 +2220,7 @@ function cancelCurrentSource() {
   if ([STUDIO_STATES.SOURCE_CONSENT_PENDING, STUDIO_STATES.SOURCE_ERROR].includes(machine.status)) {
     dispatch(STUDIO_EVENTS.CANCEL_SOURCE);
   } else {
-    machine = {
-      ...createInitialState(),
-      sourceRevision: previousRevision,
-      supersededRunIds: previousSuperseded,
-      detachedRunIds: previousDetached,
-    };
+    machine = resetSourceSessionState({ ...machine, sourceRevision: previousRevision, supersededRunIds: previousSuperseded, detachedRunIds: previousDetached });
     elements.main.dataset.pageState = machine.status;
   }
   elements.fileInput.value = "";
@@ -2236,26 +2230,8 @@ function cancelCurrentSource() {
   setJourney("source");
 }
 
-function preparedTask(task) {
-  const copy = TASK_COPY[task.id] ?? {
-    title: task.label,
-    badge: task.statusLabel,
-    kind: task.family,
-    description: task.description,
-    longDescription: task.description,
-    preserve: "来源图的任务事实",
-    change: "任务合同允许的区域",
-    output: "图片结果",
-    referenceTitle: "任务方法",
-    referenceCopy: task.description,
-  };
-  return { ...task, ...copy };
-}
-
 function selectedCatalog() {
-  const catalog = getTaskCatalog({ aiStatus: apiStatus, backgroundRemovalStatus }).map(preparedTask);
-  const wanted = ["UT-PRIVACY-SHARE", "UT-UPLOAD", "UT-DOC-ARCHIVE", "UT-PRODUCT", "UT-PORTRAIT", "UT-TEMPLATE", "UT-GRID", "UT-OLD-PHOTO", "UT-COMPRESS", "UT-CONVERT", "UT-FIT", "UT-RECTIFY", "UT-TUNE", "UT-ENHANCE", "UT-CUTOUT", "CR-RESTORE", "CR1"];
-  return wanted.map((id) => catalog.find((task) => task.id === id)).filter(Boolean);
+  return buildProductTaskCatalog({ aiStatus: apiStatus, backgroundRemovalStatus, taskCopyById: TASK_COPY });
 }
 
 async function acceptSource(file) {
@@ -2568,8 +2544,9 @@ function returnToTaskSelection(message = "") {
 }
 
 function selectTask(taskId) {
-  selectedTask = tasks.find((task) => task.id === taskId);
-  if (!selectedTask?.runnable) return;
+  const nextTask = selectRunnableTask(tasks, taskId);
+  if (!nextTask) return;
+  selectedTask = nextTask;
   stopActiveRequest();
   clearResult();
   dispatch(STUDIO_EVENTS.SELECT_TASK, { taskId });
@@ -4021,7 +3998,7 @@ async function runSelectedTask() {
       {
         context: unknown
           ? ERROR_CONTEXTS.REMOTE_UNKNOWN
-          : [WORKFLOW_EXECUTION.BACKGROUND_REMOVAL, WORKFLOW_EXECUTION.AI].includes(taskRuntimeProfile(selectedTask.id)?.execution)
+          : taskRuntimeFlags(selectedTask.id).remoteExecution
             ? ERROR_CONTEXTS.REMOTE_FAILED
             : ERROR_CONTEXTS.LOCAL_PROCESSING,
         error,

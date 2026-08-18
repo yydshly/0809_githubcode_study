@@ -206,7 +206,7 @@ Single Image Studio 已经拥有较宽的内部 Alpha 功能面，但还没有�
 - [x] Stage 0：工作树与 secret / cache / generated audit；
 - [x] Stage 0：完整验证；
 - [x] Stage 0：创建 internal-alpha checkpoint（`17ac5aa`）；
-- [ ] Stage 1：抽离 `source-task-controller`；
+- [x] Stage 1：抽离 `source-task-controller`；
 - [ ] Stage 1：抽离 `settings-controller`；
 - [ ] Stage 2：2–3 人方法演练；
 - [ ] Stage 3：代表性图片矩阵；
