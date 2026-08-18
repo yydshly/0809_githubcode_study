@@ -1,5 +1,12 @@
 # Product browser acceptance evidence
 
+## 2026-08-18 · Settings controller extraction regression
+
+- Product run: `28e728ca-d455-4617-b7aa-bbccddeeff00`, `6/6 pass`
+- Browser: Codex in-app Chromium, `Chrome/151.0.0.0`, `zh-CN`
+
+After workflow parameter drift checks, task-specific settings normalization and remote-consent gates moved into `settings-controller.js`, all six local journeys reproduced their checkpoint output dimensions and byte lengths. The product still submitted the same crop, size, format, compression, document and privacy settings, reopened every output and preserved task-change, stale-download and focus behavior. No provider call was made. This is a no-behavior-change settings refactor, not additional image capability.
+
 ## 2026-08-18 · Source/task controller extraction regression
 
 - Product run: `17d617b9-c344-4506-a699-aabbccddeeff`, `6/6 pass`

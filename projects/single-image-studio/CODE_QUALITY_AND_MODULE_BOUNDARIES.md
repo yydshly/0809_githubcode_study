@@ -187,4 +187,14 @@ S2–S5 增量后，checkpoint `17ac5aa` 的 `main.js` 已增长至 5,281 行 / 
 - Chromium run `17d617b9-c344-4506-a699-aabbccddeeff` 六条本地旅程 6 / 6，输出尺寸与 bytes 未变化；
 - `main.js` 变为 5,258 行，新增 controller 61 行。行数不是退出门，职责单一性才是。
 
-下一批只抽离 settings 的参数装配、字段错误定位和配置状态，不同时改变任何设置值、页面文案或 renderer 合同。
+第二批 settings 抽离也已完成：
+
+- 新增 `settings-controller.js`，集中 workflow parameter contract、远程确认门和按任务参数归一化；
+- 社交标题、上传规格、隐私分享、完整适配、格式转换、压缩与文档归档保持原冻结参数；
+- `main.js` 只负责提交编辑历史、读取 FormData，并把纯 settings 交给 controller；
+- conversion / compression 的比例、格式和像素范围继续 fail closed；
+- product / portrait / cutout / restoration 使用各自普通语言确认错误，不被统一成模糊提示。
+
+验证：settings 定向 5 / 5；`verify:product` 382 / 382，289 个 JavaScript 文件语法通过；Chromium run `28e728ca-d455-4617-b7aa-bbccddeeff00` 六条本地旅程 6 / 6，输出尺寸和 bytes 与 checkpoint 一致。`main.js` 当前 5,196 行，settings controller 86 行。
+
+下一批只评估本地执行分派边界，优先移动“任务 ID → 执行函数 / 输出检查”的纯选择，不移动 renderer、Canvas、套装 session 或 DOM 状态。

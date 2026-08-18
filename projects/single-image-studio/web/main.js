@@ -119,6 +119,7 @@ import { comparisonSizePresentation, resultFactsPresentation, resultPresentation
 import { comparisonLayerState, fitComparisonStage, orientedMediaDimensions } from "./result-stage.js";
 import { createRuntimeId } from "./runtime-identity.js";
 import { scenarioInitialSettings } from "./scenario-skills.js";
+import { assertTaskConsent, assertWorkflowParameterContract, normalizeEditorTaskSettings } from "./settings-controller.js";
 import { SOCIAL_GRID_TILE_COUNT, socialGridLayout } from "./social-grid-split.js";
 import { prepareSourceFile, sha256Bytes } from "./source-file.js";
 import { buildProductTaskCatalog, resetSourceSessionState, selectRunnableTask, taskRuntimeFlags } from "./source-task-controller.js";
@@ -2565,10 +2566,7 @@ function selectTask(taskId) {
 
 function renderSettings(task) {
   const workflowDefinition = workflowDefinitionForTask(task.id);
-  if (workflowDefinition?.parameterContract !== undefined
-    && workflowDefinition.parameterContract !== task.contractVersion) {
-    throw new Error("工作流定义与任务合同不一致");
-  }
+  assertWorkflowParameterContract(task, workflowDefinition);
   if (task.id === "UT-PRIVACY-SHARE") {
     elements.settingsFields.innerHTML = `
       <input type="hidden" name="ratio" value="original" /><input type="hidden" name="sizeMode" value="custom" /><input type="hidden" name="outputLongEdge" value="1600" /><input type="hidden" name="format" value="jpeg" /><input type="hidden" name="jpegQuality" value="0.9" /><input type="hidden" name="jpegBackground" value="#ffffff" /><input type="hidden" name="compressionTargetKilobytes" value="1024" />
@@ -3596,79 +3594,19 @@ function nudgeCropWithKeyboard(event) {
 function getSettings() {
   if (isEditorTask() && editorWorkspace) {
     if (!commitEditorForm()) throw new Error("请先修正编辑设置");
-    const settings = { ...editorSettings(editorWorkspace) };
-    if (isComposedBackgroundTask(selectedTask.id)) {
-      if (elements.settingsForm.elements.remoteConsent?.checked !== true) {
-        throw new Error(selectedTask.id === "UT-PRODUCT" ? "请先确认远程商品抠图处理" : "请先确认远程头像抠图处理");
-      }
-      settings.remoteConsent = true;
-    }
-    if (selectedTask.id === "UT-TEMPLATE") {
-      const overlay = normalizeSocialOverlaySettings(editorFormSettings());
-      settings.socialTitle = overlay.text;
-      settings.socialTitlePosition = overlay.position;
-      settings.socialTitleAlignment = overlay.alignment;
-      settings.socialTitleTone = overlay.tone;
-    }
-    if (selectedTask.id === "UT-UPLOAD") {
-      const formSettings = editorFormSettings();
-      const normalized = normalizeUploadSpecification(formSettings);
-      Object.assign(settings, uploadSpecificationEditorSettings(settings, formSettings), {
-        uploadSourceRatio: Number(formSettings.uploadSourceRatio),
-        canvasRatio: normalized.ratioId,
-        canvasSourceRatio: Number(formSettings.uploadSourceRatio),
-        canvasLongEdge: normalized.outputLongEdge,
-        canvasMargin: 0,
-        canvasBackground: "custom",
-        canvasCustomBackground: normalized.backgroundColor,
-      });
-    }
-    if (selectedTask.id === "UT-PRIVACY-SHARE") {
-      Object.assign(settings, privacyShareEditorSettings(editorFormSettings()));
-    }
-    if (selectedTask.id === "UT-FIT") {
-      Object.assign(settings, applyCanvasFitToEditorSettings(settings, editorFormSettings()));
-    }
-    if (selectedTask.id === "UT-CONVERT") {
-      if (settings.ratio !== "original" || settings.sizeMode !== "custom" || !["png", "jpeg"].includes(settings.format)) {
-        throw new Error("格式转换必须保持完整比例并输出 PNG 或 JPEG");
-      }
-      const formSettings = editorFormSettings();
-      settings.outputLongEdge = Number(formSettings.outputLongEdge);
-      if (!Number.isSafeInteger(settings.outputLongEdge) || settings.outputLongEdge < 1 || settings.outputLongEdge > 8192) {
-        throw new Error("格式转换最长边必须是 1–8192 像素");
-      }
-      settings.formatConversion = "on";
-    }
-    if (selectedTask.id === "UT-COMPRESS") {
-      if (settings.ratio !== "original" || settings.sizeMode !== "custom" || settings.format !== "jpeg") {
-        throw new Error("图片压缩必须保持完整比例并输出 JPEG");
-      }
-      const formSettings = editorFormSettings();
-      settings.outputLongEdge = Number(formSettings.outputLongEdge);
-      if (!Number.isSafeInteger(settings.outputLongEdge) || settings.outputLongEdge < 320 || settings.outputLongEdge > 8192) {
-        throw new Error("最长边上限必须是 320–8192 像素");
-      }
-      settings.compressionTargetKilobytes = normalizeCompressionTargetKilobytes(formSettings.compressionTargetKilobytes);
-      settings.jpegQuality = 0.9;
-    }
-    if (selectedTask.id === "UT-DOC-ARCHIVE") {
-      const formSettings = editorFormSettings();
-      settings.compressionTargetKilobytes = normalizeCompressionTargetKilobytes(formSettings.archiveTargetKilobytes);
-      settings.outputLongEdge = Number(formSettings.outputLongEdge);
-      settings.sizeMode = "custom";
-      settings.format = "jpeg";
-      settings.jpegQuality = 0.9;
-      settings.jpegBackground = "#ffffff";
-    }
-    return settings;
+    return normalizeEditorTaskSettings({
+      taskId: selectedTask.id,
+      editorSettings: editorSettings(editorWorkspace),
+      formSettings: editorFormSettings(),
+      composedBackground: isComposedBackgroundTask(selectedTask.id),
+      remoteConsent: elements.settingsForm.elements.remoteConsent?.checked === true,
+    });
   }
-  if (selectedTask?.id === "UT-CUTOUT" && elements.settingsForm.elements.remoteConsent?.checked !== true) {
-    throw new Error("请先确认远程抠图处理");
-  }
-  if (selectedTask?.id === "CR-RESTORE" && elements.settingsForm.elements.generativeRestoreConsent?.checked !== true) {
-    throw new Error("请先确认生成式老照片修复的风险");
-  }
+  assertTaskConsent({
+    taskId: selectedTask?.id,
+    remoteConsent: elements.settingsForm.elements.remoteConsent?.checked === true,
+    generativeRestoreConsent: elements.settingsForm.elements.generativeRestoreConsent?.checked === true,
+  });
   return Object.fromEntries(new FormData(elements.settingsForm).entries());
 }
 
