@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>证件照工作流实验室</title>
+    <meta name="description" content="理解并试用 HivisionIDPhotos 的人像抠图、标准构图、换底与打印排版工作流。">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#demo">跳到 Demo</a>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="返回顶部">
+        <span class="brand-mark" aria-hidden="true">证</span>
+        <span>
+          <strong>证件照工作流实验室</strong>
+          <small>Hivision capability demo</small>
+        </span>
+      </a>
+      <nav aria-label="页面导航">
+        <a href="#capabilities">能力</a>
+        <a href="#principle">原理</a>
+        <a href="#demo">Demo</a>
+      </nav>
+      <div class="connection" id="connection" data-state="checking" role="status">
+        <span class="connection-dot" aria-hidden="true"></span>
+        <span id="connection-label">正在检查 Hivision</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">能力研究，不是模型排行榜</p>
+          <h1 id="hero-title">把人像抠图变成一条<br>可理解、可交付的工作流</h1>
+          <p class="hero-lead">Hivision 的价值不只在模型。它把人像分离、人脸几何、标准构图、换底和打印排版组合成一次任务。这个 Demo 展示并复用这条链路。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">开始体验</a>
+            <a class="button secondary" href="#principle">先看处理原理</a>
+          </div>
+        </div>
+        <div class="workflow-map" aria-label="处理流程概览">
+          <div class="workflow-map-head">
+            <span>一次输入</span>
+            <span>四类结果</span>
+          </div>
+          <ol>
+            <li><span>01</span><strong>人像分离</strong><small>模型预测 Alpha</small></li>
+            <li><span>02</span><strong>标准构图</strong><small>人脸几何与裁切</small></li>
+            <li><span>03</span><strong>背景交付</strong><small>透明或指定底色</small></li>
+            <li><span>04</span><strong>打印排版</strong><small>确定性重复布局</small></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="boundary-banner" aria-label="能力边界">
+        <strong>边界说明</strong>
+        <p>这是普通报名头像与标准底色头像实验，不代表身份证、护照或签证等官方证件合规，也不承诺审核通过。</p>
+      </section>
+
+      <section class="section" id="capabilities" aria-labelledby="capabilities-title">
+        <div class="section-heading">
+          <p class="eyebrow">Capability map</p>
+          <h2 id="capabilities-title">Hivision 提供的不是一个按钮</h2>
+          <p>模型只完成第一段。后面的构图、背景和交付同样决定用户最终拿到什么。</p>
+        </div>
+        <div class="capability-grid">
+          <article><span class="cap-index">01</span><h3>透明人像</h3><p>通过 MODNet、Hivision MODNet 或 BiRefNet 等候选输出连续 Alpha。</p><small>模型能力</small></article>
+          <article><span class="cap-index">02</span><h3>标准构图</h3><p>检测人脸、读取角度，再按头部占比、顶距和目标像素进行裁切。</p><small>模型 + 几何</small></article>
+          <article><span class="cap-index">03</span><h3>底色与文件</h3><p>透明结果可合成白、蓝、红或自定义颜色，并写入目标 DPI。</p><small>确定性处理</small></article>
+          <article><span class="cap-index">04</span><h3>打印排版</h3><p>把有底色的单张照片重复放入纸张画布，形成可打印结果。</p><small>确定性处理</small></article>
+        </div>
+        <div class="runtime-proof" aria-labelledby="runtime-proof-title">
+          <div class="runtime-proof-heading">
+            <div><p class="eyebrow">Current implementation</p><h3 id="runtime-proof-title">README 能力的当前真实状态</h3></div>
+            <p id="runtime-summary">正在读取本机 Hivision runtime…</p>
+          </div>
+          <div class="runtime-proof-grid">
+            <article data-capability="offline"><span class="status-pill checking">检查中</span><h4>CPU 纯离线抠图</h4><p>本地 ONNX Matting + 本地人脸检测。</p></article>
+            <article data-capability="sizes"><span class="status-pill checking">检查中</span><h4>不同证件照规格</h4><p>目标像素、头部比例和构图参数。</p></article>
+            <article data-capability="papers"><span class="status-pill checking">检查中</span><h4>五种打印纸张</h4><p>六寸、五寸、A4、3R、4R。</p></article>
+            <article data-capability="beauty"><span class="status-pill checking">检查中</span><h4>美颜与光色</h4><p>美白、亮度、对比度、饱和度和锐化。</p></article>
+            <article data-capability="cloud"><span class="status-pill checking">检查中</span><h4>端云人脸检测</h4><p>Face++ 可选；需要单独配置并发送图片。</p></article>
+            <article data-capability="outfit"><span class="status-pill waiting">Waiting</span><h4>智能换正装</h4><p>上游 README 仍标记 waiting，当前没有实现。</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section principle" id="principle" aria-labelledby="principle-title">
+        <div class="section-heading compact">
+          <p class="eyebrow">How it works</p>
+          <h2 id="principle-title">三层原理，职责不混在一起</h2>
+        </div>
+        <div class="principle-steps">
+          <article>
+            <div class="principle-number">A</div>
+            <div><h3>模型层</h3><p>判断人物在哪里，为每个像素输出前景概率或 Alpha。它不决定证件尺寸。</p></div>
+          </article>
+          <article>
+            <div class="principle-number">B</div>
+            <div><h3>人脸几何层</h3><p>人脸检测、角度对齐、头部比例和顶部距离共同决定构图。</p></div>
+          </article>
+          <article>
+            <div class="principle-number">C</div>
+            <div><h3>交付层</h3><p>Alpha 合成、DPI、文件约束和打印布局由可重复的传统算法完成。</p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="demo-section" id="demo" aria-labelledby="demo-title">
+        <div class="demo-header">
+          <div>
+            <p class="eyebrow">Runnable demo</p>
+            <h2 id="demo-title">从一张照片到透明图、底色图和排版图</h2>
+          </div>
+          <p id="mode-note">正在确认运行模式…</p>
+        </div>
+
+        <div class="demo-shell">
+          <form class="control-panel" id="workflow-form">
+            <div class="panel-heading">
+              <span>输入与配置</span>
+              <small>图片不会由本项目写入磁盘</small>
+            </div>
+
+            <div class="field-group source-field">
+              <label for="source-file">选择一张人像</label>
+              <input id="source-file" name="source" type="file" accept="image/png,image/jpeg,image/webp">
+              <p class="field-help">PNG、JPEG 或 WebP，最大 10 MiB；真实模式会发送至本机 Hivision 服务。</p>
+              <button class="text-button" type="button" id="load-fixture" hidden>加载项目原创测试夹具</button>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="size-preset">输出尺寸</label>
+                <select id="size-preset" name="size">
+                  <option value="413x295">示例竖版 · 295×413</option>
+                  <option value="472x354">示例横向扩展 · 354×472</option>
+                  <option value="600x600">方形头像 · 600×600</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="dpi">DPI</label>
+                <select id="dpi" name="dpi">
+                  <option value="300">300 DPI</option>
+                  <option value="350">350 DPI</option>
+                </select>
+              </div>
+            </div>
+
+            <fieldset class="field-group runtime-fieldset">
+              <legend>推理位置</legend>
+              <div class="runtime-options">
+                <label><input type="radio" name="inference-mode" value="offline" checked><span><strong>纯离线 CPU</strong><small>抠图与 MTCNN 都在本机</small></span></label>
+                <label id="edge-cloud-option"><input type="radio" name="inference-mode" value="edge-cloud"><span><strong>端云 Face++</strong><small id="edge-cloud-note">需要 API key，图片会发送给 Face++</small></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="field-group color-fieldset">
+              <legend>交付背景</legend>
+              <div class="color-options">
+                <label><input type="radio" name="background" value="transparent" checked><span class="swatch checker"></span>透明</label>
+                <label><input type="radio" name="background" value="ffffff"><span class="swatch white"></span>白色</label>
+                <label><input type="radio" name="background" value="4b8bc4"><span class="swatch blue"></span>蓝色</label>
+                <label><input type="radio" name="background" value="d95757"><span class="swatch red"></span>红色</label>
+                <label><input type="radio" name="background" value="custom"><input id="custom-color" type="color" value="#6f91ac" aria-label="自定义背景色"></label>
+              </div>
+            </fieldset>
+
+            <details class="advanced-settings">
+              <summary>处理引擎设置</summary>
+              <div class="advanced-body">
+                <div class="field-group">
+                  <label for="matting-model">人像抠图</label>
+                  <select id="matting-model">
+                    <option value="modnet_photographic_portrait_matting">MODNet 人像</option>
+                    <option value="hivision_modnet">Hivision MODNet</option>
+                    <option value="birefnet-v1-lite">BiRefNet Lite</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="face-model">人脸检测</label>
+                  <select id="face-model">
+                    <option value="mtcnn">MTCNN 本地</option>
+                    <option value="retinaface-resnet50">RetinaFace 本地</option>
+                    <option value="face_plusplus" disabled>Face++ 端云</option>
+                  </select>
+                </div>
+                <label class="check-control"><input id="face-align" type="checkbox"><span>检测到明显倾斜时进行人脸对齐</span></label>
+              </div>
+            </details>
+
+            <details class="advanced-settings beauty-settings">
+              <summary>美颜与光色（可选）</summary>
+              <div class="beauty-body">
+                <label>美白 <output id="whitening-value">0</output><input id="whitening" type="range" min="0" max="15" value="0" step="1"></label>
+                <label>亮度 <output id="brightness-value">0</output><input id="brightness" type="range" min="-5" max="25" value="0" step="1"></label>
+                <label>对比度 <output id="contrast-value">0</output><input id="contrast" type="range" min="-10" max="50" value="0" step="1"></label>
+                <label>饱和度 <output id="saturation-value">0</output><input id="saturation" type="range" min="-10" max="50" value="0" step="1"></label>
+                <label>锐化 <output id="sharpen-value">0</output><input id="sharpen" type="range" min="0" max="5" value="0" step="1"></label>
+              </div>
+              <p class="field-help beauty-warning">严格证件 profile 可能禁止美颜或数字修改；默认全部为 0。</p>
+            </details>
+
+            <button class="button primary run-button" id="run-button" type="submit" disabled>
+              <span id="run-button-label">等待连接与图片</span>
+            </button>
+            <p class="form-message" id="form-message" role="status" aria-live="polite">先连接 Hivision，然后选择图片。</p>
+          </form>
+
+          <div class="result-panel">
+            <div class="stage-strip" aria-label="工作流进度">
+              <span data-stage="source" class="active">原图</span>
+              <span data-stage="matting">透明图</span>
+              <span data-stage="background">底色图</span>
+              <span data-stage="layout">排版图</span>
+            </div>
+
+            <div class="preview-grid">
+              <article class="preview-card source-card">
+                <div class="preview-head"><h3>输入原图</h3><span id="source-meta">尚未选择</span></div>
+                <div class="preview-canvas empty" id="source-canvas">
+                  <img id="source-preview" alt="所选原图预览" hidden>
+                  <p id="source-empty">选择图片后在本机预览</p>
+                </div>
+              </article>
+
+              <article class="preview-card">
+                <div class="preview-head"><h3 id="primary-result-title">透明标准图</h3><span id="result-badge">等待处理</span></div>
+                <div class="preview-canvas checker-canvas empty" id="result-canvas">
+                  <img id="result-preview" alt="Hivision 处理结果" hidden>
+                  <p id="result-empty">运行后显示结果</p>
+                </div>
+                <a class="download-link disabled" id="download-result" download="id-photo-result.png" aria-disabled="true">下载当前结果</a>
+              </article>
+            </div>
+
+            <div class="secondary-results">
+              <article>
+                <div><h3>高清透明图</h3><p>保留更高分辨率，便于后续编辑。</p></div>
+                <a id="download-hd" class="download-link disabled" download="id-photo-hd.png" aria-disabled="true">下载</a>
+              </article>
+              <article>
+                <div><h3>打印排版</h3><p id="layout-help">需要先生成有底色的结果。</p></div>
+                <div class="layout-controls">
+                  <select id="paper-size" aria-label="打印纸张">
+                    <option value="six-inch">六寸 · 1205×1795</option>
+                    <option value="five-inch">五寸 · 1051×1500</option>
+                    <option value="a4">A4 · 2479×3508</option>
+                    <option value="3r">3R · 1051×1500</option>
+                    <option value="4r">4R · 1205×1795</option>
+                  </select>
+                  <label class="crop-line-control"><input id="crop-line" type="checkbox">裁切线</label>
+                  <button id="layout-button" class="text-button" type="button" disabled>生成排版</button>
+                </div>
+              </article>
+            </div>
+
+            <article class="layout-preview" id="layout-preview-card" hidden>
+              <div class="preview-head"><h3>打印排版预览</h3><a id="download-layout" class="download-link" download="id-photo-layout.png">下载排版</a></div>
+              <img id="layout-preview" alt="打印排版结果">
+            </article>
+
+            <div class="evidence-note" id="evidence-note">
+              <strong>结果证据</strong>
+              <p>尚未运行。真实模式只显示 Hivision 返回结果；夹具模式只验证交互，不证明模型质量。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>ID Photo Workflow Lab · 本地研究 Demo · 2026-08-18</p>
+      <p>上游：HivisionIDPhotos · 本项目不包含其模型或用户图片</p>
+    </footer>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+node_modules/
+.venv/
+__pycache__/
+.env
+.env.*
+!.env.example
+*.log
+
+# Hivision remains an external runtime; never vendor these by accident.
+vendor/
+models/
+weights/
+downloads/
+artifacts/
+*.onnx
+*.pth
+*.pt
+*.ckpt
+*.mnn
+
+# User inputs and local results are not repository assets.
+local-inputs/
+local-results/
+private-fixtures/
+browser-evidence/*.png
+!browser-evidence/.gitkeep
