@@ -2,7 +2,7 @@
 
 ```text
 Entry mode: revision-led / direct implementation
-Request revision: 3
+Request revision: 4
 Target user and context: 想理解并试用 Hivision 证件照流水线的产品/工程研究者
 Desired first impression: 这是清楚、可信、可操作的工作流实验台，不是模型排行榜
 Visual ambition: Functional
@@ -42,4 +42,5 @@ Coverage record: 下表
 | 4 | 五种纸张静态切换 | browser interaction + DOM/image evidence | pass |
 | 4 | GitHub Pages 子路径 | workflow copy/verify + local subpath server | pass |
 | 4 | 桌面/390px 静态站 | browser screenshots + no-overflow evidence | pass |
-| 4 | 远端提交与部署 | commit/push/Pages status | continue |
+| 4 | 远端提交与部署 | commit/push/Pages status | pass |
+| 5 | 修复静态透明图完整显示 | deployed desktop effect panel + mobile adjacent check | pass |

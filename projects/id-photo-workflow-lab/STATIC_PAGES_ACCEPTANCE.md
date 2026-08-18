@@ -44,3 +44,7 @@
 ## 资产来源
 
 完整来源、原始 SHA、虚构人物声明、Hivision/模型身份与派生参数见 [public-site/assets/PROVENANCE.md](public-site/assets/PROVENANCE.md)。这些图片是研究证据，不是官方证件正例或质量承诺。
+
+## 2026-08-18 显示修复
+
+部署后用户发现右侧透明图被舞台裁切。浏览器确认图片盒为 `543.5×760.9`、舞台为 `543.5×520`。修复将结果图绝对定位在舞台中，并固定 `width/height:100%` 与 `object-fit:contain`。修复后桌面两者均为 `543.5×520`，390px 两者均为 `289×340`；原图、透明图和蓝底图均保持完整显示。详细记录见 [STATIC_DISPLAY_REPAIR.md](STATIC_DISPLAY_REPAIR.md)。
