@@ -1,5 +1,12 @@
 # Product browser acceptance evidence
 
+## 2026-08-18 · Local execution plan extraction regression
+
+- Product run: `8e4d8e20-3a6b-4c7d-9e10-112233445566`, `6/6 pass`
+- Browser: isolated Playwright with installed Chrome, `zh-CN`
+
+The first isolated run exposed a real wiring defect: non-rectification tasks read `rectificationPostProcess.label` from `null`, leaving five journeys at the task-loading state while document archive passed. Unit tests had not exercised that main-controller path. After changing the label input to an explicit optional value and adding a source-boundary assertion, the isolated run completed all six journeys in about 5.7 seconds with zero page errors. Dimensions remained exact; encoded byte lengths differed slightly from the in-app Chromium checkpoint as expected across browser sessions. One top-level missing-favicon 404 remained outside the product iframe; every journey's own console-error assertion passed. No provider was invoked.
+
 ## 2026-08-18 · Settings controller extraction regression
 
 - Product run: `28e728ca-d455-4617-b7aa-bbccddeeff00`, `6/6 pass`

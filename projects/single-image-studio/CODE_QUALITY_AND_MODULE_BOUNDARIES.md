@@ -197,4 +197,13 @@ S2–S5 增量后，checkpoint `17ac5aa` 的 `main.js` 已增长至 5,281 行 / 
 
 验证：settings 定向 5 / 5；`verify:product` 382 / 382，289 个 JavaScript 文件语法通过；Chromium run `28e728ca-d455-4617-b7aa-bbccddeeff00` 六条本地旅程 6 / 6，输出尺寸和 bytes 与 checkpoint 一致。`main.js` 当前 5,196 行，settings controller 86 行。
 
-下一批只评估本地执行分派边界，优先移动“任务 ID → 执行函数 / 输出检查”的纯选择，不移动 renderer、Canvas、套装 session 或 DOM 状态。
+第三批本地执行 plan 已完成：
+
+- 新增 `local-execution-controller.js`，集中任务 ID 到特殊执行 kind、状态说明、后处理和报告开关；
+- privacy / document archive / upload / compression 保持专用执行 kind；其余仍走同一个 renderer；
+- Canvas、压缩 attempt、套装 session、结果对象和 DOM 更新没有移动；
+- fit / social 后处理以及 compression / conversion / upload / privacy 报告开关不再由主控制器重复维护。
+
+首次隔离浏览器回归暴露 `rectificationPostProcess.label` 在非裁正任务中读取 null 的真实缺陷，造成 1 / 6；单元测试此前未覆盖这一主控制器接线。修为 optional label 并新增源码边界断言后，`verify:product` 386 / 386、语法 291 文件；隔离 Playwright Chrome run `8e4d8e20-3a6b-4c7d-9e10-112233445566` 六条旅程 6 / 6、0 pageerror。当前主文件 5,200 行 / 约 294 KB，本地 plan 64 行；行数变化不是结论，浏览器发现并关闭接线缺陷才是本批价值。
+
+下一批先评估远程执行是否存在同样清晰的纯分派边界；若必须同时移动 Provider 生命周期、DOM 和 state machine，则停止抽离并转入 Stage 2 走查，而不为减行数冒险泛化。

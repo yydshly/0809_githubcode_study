@@ -2,10 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const [html, main, localProcessing, resultDownload, recoveryPresentation, resultPresentation, maskOutputPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
+const [html, main, localProcessing, localExecution, resultDownload, recoveryPresentation, resultPresentation, maskOutputPresentation, styles, server, backgroundRemovalRuntime, envExample, packageJson] = await Promise.all([
   readFile(new URL("../web/index.html", import.meta.url), "utf8"),
   readFile(new URL("../web/main.js", import.meta.url), "utf8"),
   readFile(new URL("../web/local-processing.js", import.meta.url), "utf8"),
+  readFile(new URL("../web/local-execution-controller.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-download.js", import.meta.url), "utf8"),
   readFile(new URL("../web/recovery-presentation.js", import.meta.url), "utf8"),
   readFile(new URL("../web/result-presentation.js", import.meta.url), "utf8"),
@@ -194,7 +195,7 @@ test("old photo restoration exposes a local baseline and keeps generative repair
   assert.match(main, /不会识别划痕、恢复失焦或补画缺失人脸、文字和历史细节/);
   assert.match(main, /data-old-photo-preset/);
   assert.match(main, /基础细节整理/);
-  assert.match(main, /轻度降噪、清晰度与构图/);
+  assert.match(localExecution, /轻度降噪、清晰度与构图/);
   assert.match(main, /生成基础整理副本/);
   assert.match(main, /title: "AI 老照片修复（实验）"/);
   assert.match(main, /这不是无损或档案级复原/);
@@ -315,7 +316,8 @@ test("natural enhancement is an honest local workflow with visible fixed presets
   assert.match(main, /name="denoise"/);
   assert.match(main, /name="clarity"/);
   assert.match(main, /不补画内容/);
-  assert.match(main, /正在本机应用可见光色参数，并执行轻度降噪与清晰度处理/);
+  assert.match(localExecution, /正在本机应用可见光色参数，并执行轻度降噪与清晰度处理/);
+  assert.match(main, /rectificationPostProcessLabel: rectificationPostProcess\?\.label \?\? ""/);
   assert.match(main, /selectedTask\.id === "UT-ENHANCE" \? "自然增强完成"/);
   assert.match(styles, /\.enhancement-preset\[aria-pressed="true"\]/);
 });
@@ -326,7 +328,7 @@ test("scene templates are real local crop and size controls, not platform claims
   assert.match(main, /data-scene-template/);
   assert.match(main, /selectSceneTemplate/);
   assert.match(main, /它不是平台官方发布规范/);
-  assert.match(main, /正在本机应用所选构图比例和尺寸上限/);
+  assert.match(localExecution, /正在本机应用所选构图比例和尺寸上限/);
   assert.match(main, /selectedTask\.id === "UT-TEMPLATE" \? "社交图片完成"/);
   assert.match(styles, /\.scene-template-preset\[aria-pressed="true"\]/);
 });

@@ -30,6 +30,7 @@ import {
 } from "./editor-workspace.js";
 import { readImageOrientation } from "./image-orientation.js";
 import { createDemoImage, decodeImage } from "./local-processing.js";
+import { localExecutionPlan } from "./local-execution-controller.js";
 import { renderPerspectivePreview } from "./perspective-preview.js";
 import { renderRectificationPreview } from "./rectification-preview.js";
 import {
@@ -3674,17 +3675,20 @@ async function runSelectedTask() {
   showOnly("status");
   setJourney("result");
   elements.cancelWait.hidden = false;
-  elements.statusTitle.textContent = isLocalEditorTask(selectedTask.id)
-    ? selectedTask.id === "UT-PRIVACY-SHARE" ? "正在生成隐私友好分享副本" : selectedTask.id === "UT-DOC-ARCHIVE" ? "正在生成文档归档附件" : selectedTask.id === "UT-UPLOAD" ? "正在执行上传规格适配" : selectedTask.id === "UT-COMPRESS" ? "正在生成压缩文件" : selectedTask.id === "UT-FIT" ? "正在生成完整适配画布" : selectedTask.id === "UT-CONVERT" ? "正在转换图片格式" : selectedTask.id === "UT-RECTIFY" ? usesDocumentEnhancement ? "正在生成文档增强结果" : "正在生成四角裁正结果" : selectedTask.id === "UT-ENHANCE" ? "正在生成自然增强结果" : selectedTask.id === "UT-TEMPLATE" ? "正在生成场景模板结果" : selectedTask.id === "UT-GRID" ? "正在生成九宫格方形总图" : selectedTask.id === "UT-OLD-PHOTO" ? "正在生成老照片基础整理副本" : "正在本地处理"
+  const localPlan = isLocalEditorTask(selectedTask.id)
+    ? localExecutionPlan({ taskId: selectedTask.id, settings, usesDocumentEnhancement, rectificationPostProcessLabel: rectificationPostProcess?.label ?? "" })
+    : null;
+  elements.statusTitle.textContent = localPlan
+    ? localPlan.title
     : selectedTask.id === "UT-PRODUCT" ? "正在生成商品白底图" : selectedTask.id === "UT-PORTRAIT" ? "正在生成头像" : selectedTask.id === "UT-CUTOUT" ? "正在移除背景" : "正在生成新的图片";
-  elements.statusCopy.textContent = isLocalEditorTask(selectedTask.id)
-        ? selectedTask.id === "UT-PRIVACY-SHARE" ? "正在保持完整画面、生成 JPEG、限制体积，并核对禁止 metadata；不会扫描画面内容。" : selectedTask.id === "UT-DOC-ARCHIVE" ? "正在依次完成四角裁正、文档效果、JPEG、附件压缩和最终核对。" : selectedTask.id === "UT-UPLOAD" ? "正在按确认的顺序完成构图、尺寸、JPEG、压缩和最终规格核对。" : selectedTask.id === "UT-COMPRESS" ? `正在按原图比例尝试生成不超过 ${formatImageBytes(compressionTargetBytes(settings.compressionTargetKilobytes))} 的 JPEG；优先保留清晰度，必要时逐级降低质量和最长边。` : selectedTask.id === "UT-FIT" ? "正在把整张图片按比例居中放入目标画布；不会裁切或生成画面外内容。" : selectedTask.id === "UT-CONVERT" ? `正在本机生成 ${settings.format === "jpeg" ? "JPEG" : "PNG"}，并核对真实格式、尺寸、像素和 metadata。` : selectedTask.id === "UT-RECTIFY" ? usesDocumentEnhancement ? `正在按四角重采样，并应用“${rectificationPostProcess.label}”。` : "正在按四角重采样目标平面，并保持原始颜色。" : selectedTask.id === "UT-ENHANCE" ? "正在本机应用可见光色参数，并执行轻度降噪与清晰度处理。" : selectedTask.id === "UT-TEMPLATE" ? "正在本机应用所选构图比例和尺寸上限。" : selectedTask.id === "UT-GRID" ? "先在本机生成你确认的方形总图，再拆分为九张独立图片。" : selectedTask.id === "UT-OLD-PHOTO" ? "正在本机应用所选光色、轻度降噪、清晰度与构图；不会补画缺失内容。" : "只做确定性的构图、编码与整体色调处理。"
+  elements.statusCopy.textContent = localPlan
+    ? localPlan.copy
     : selectedTask.id === "UT-PRODUCT" ? "先生成本地商品构图，再发送这份构图进行抠图。" : selectedTask.id === "UT-PORTRAIT" ? "先生成本地头像构图，再发送这份构图进行抠图。" : selectedTask.id === "UT-CUTOUT" ? "正在安全发送当前图片并等待透明结果。" : "正在保留来源事实并应用选定的视觉方法。";
 
   try {
     let result;
     if (isLocalEditorTask(selectedTask.id)) {
-      let processed = selectedTask.id === "UT-PRIVACY-SHARE"
+      let processed = localPlan.kind === "privacy-share"
         ? await runPrivacyShare({
             file: source.file,
             settings,
@@ -3695,7 +3699,7 @@ async function runSelectedTask() {
                 : `当前结果 ${formatImageBytes(resultBytes)}，目标不超过 ${formatImageBytes(targetBytes)}。`;
             },
           })
-        : selectedTask.id === "UT-DOC-ARCHIVE"
+        : localPlan.kind === "document-archive"
         ? await runDocumentArchive({
             file: source.file,
             settings,
@@ -3704,7 +3708,7 @@ async function runSelectedTask() {
               elements.statusCopy.textContent = phase === "encoding" ? `正在压缩归档附件，第 ${attemptNumber} 档。` : `当前 ${formatImageBytes(resultBytes)}，目标不超过 ${formatImageBytes(targetBytes)}。`;
             },
           })
-        : selectedTask.id === "UT-UPLOAD"
+        : localPlan.kind === "upload-specification"
         ? await runUploadSpecification({
             file: source.file,
             settings,
@@ -3715,7 +3719,7 @@ async function runSelectedTask() {
                 : `当前结果 ${formatImageBytes(resultBytes)}，目标不超过 ${formatImageBytes(targetBytes)}。${resultBytes <= targetBytes ? "已经达标，正在完成核对。" : "仍然过大，继续下一档。"}`;
             },
           })
-        : selectedTask.id === "UT-COMPRESS"
+        : localPlan.kind === "compression"
         ? await compressImageToTarget({
             targetKilobytes: settings.compressionTargetKilobytes,
             maxLongEdge: settings.outputLongEdge,
@@ -3732,27 +3736,27 @@ async function runSelectedTask() {
             }),
           })
         : await runLocalEditor({ file: source.file, settings });
-      if (selectedTask.id === "UT-FIT") processed = await composeCanvasFitResult(processed, settings);
-      if (selectedTask.id === "UT-TEMPLATE") processed = await composeSocialOverlayResult(processed, settings);
+      if (localPlan.composeCanvasFit) processed = await composeCanvasFitResult(processed, settings);
+      if (localPlan.composeSocialOverlay) processed = await composeSocialOverlayResult(processed, settings);
       if (runController.signal.aborted || machine.activeRunId !== runId) {
         revokeIfBlob(processed.url);
         return;
       }
-      const compression = ["UT-PRIVACY-SHARE", "UT-COMPRESS", "UT-UPLOAD", "UT-DOC-ARCHIVE"].includes(selectedTask.id)
+      const compression = localPlan.compressionReport
         ? compressionReport({
             sourceBytes: source.file.size,
             resultBytes: processed.byteLength,
             targetBytes: processed.compressionDecision.targetBytes,
           })
         : null;
-      const sourceDimensions = selectedTask.id === "UT-COMPRESS"
+      const sourceDimensions = localPlan.compressionImpactReport
         ? orientedMediaDimensions(
             source.rawWidth ?? source.width,
             source.rawHeight ?? source.height,
             source.sourceOrientation ?? 1,
           )
         : null;
-      const compressionImpact = selectedTask.id === "UT-COMPRESS"
+      const compressionImpact = localPlan.compressionImpactReport
         ? compressionImpactReport({
             sourceWidth: sourceDimensions.width,
             sourceHeight: sourceDimensions.height,
@@ -3763,14 +3767,14 @@ async function runSelectedTask() {
             resultBytes: processed.byteLength,
           })
         : null;
-      const conversionSourceDimensions = selectedTask.id === "UT-CONVERT"
+      const conversionSourceDimensions = localPlan.conversionReport
         ? orientedMediaDimensions(
             source.rawWidth ?? source.width,
             source.rawHeight ?? source.height,
             source.sourceOrientation ?? 1,
           )
         : null;
-      const conversion = selectedTask.id === "UT-CONVERT"
+      const conversion = localPlan.conversionReport
         ? formatConversionReport({
             sourceMime: source.file.type,
             resultMime: processed.mime,
@@ -3784,7 +3788,7 @@ async function runSelectedTask() {
             jpegBackground: settings.jpegBackground,
           })
         : null;
-      const uploadCompliance = selectedTask.id === "UT-UPLOAD"
+      const uploadCompliance = localPlan.uploadComplianceReport
         ? uploadComplianceReport({
             mime: processed.mime,
             width: processed.width,
@@ -3793,7 +3797,7 @@ async function runSelectedTask() {
             specification: settings,
           })
         : null;
-      const privacyShare = selectedTask.id === "UT-PRIVACY-SHARE"
+      const privacyShare = localPlan.privacyShareReport
         ? privacyShareReport({
             mime: processed.mime,
             width: processed.width,

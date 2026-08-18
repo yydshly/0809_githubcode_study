@@ -208,7 +208,8 @@ Single Image Studio 已经拥有较宽的内部 Alpha 功能面，但还没有�
 - [x] Stage 0：创建 internal-alpha checkpoint（`17ac5aa`）；
 - [x] Stage 1：抽离 `source-task-controller`；
 - [x] Stage 1：抽离 `settings-controller`；
-- [ ] Stage 1：抽离 `local-execution-controller`；
+- [x] Stage 1：抽离 `local-execution-controller`；
+- [ ] Stage 1：评估 `remote-execution-controller`；
 - [ ] Stage 2：2–3 人方法演练；
 - [ ] Stage 3：代表性图片矩阵；
 - [ ] Stage 4：区域理解合同与独立原型。
