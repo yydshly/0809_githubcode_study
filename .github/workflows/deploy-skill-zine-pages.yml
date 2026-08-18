@@ -13,6 +13,7 @@ on:
       - "projects/skill-zine-summary/lab/web/package-lock.json"
       - "projects/skill-zine-summary/lab/web/vite.config.ts"
       - "projects/visual-route-studio/README.md"
+      - "projects/visual-route-studio/ARCHIVE.md"
       - "projects/visual-route-studio/compositor/**"
       - "projects/visual-route-studio/target-studio/**"
       - "projects/visual-route-studio/samples/**"
@@ -68,6 +69,7 @@ jobs:
           target="projects/skill-zine-summary/lab/web/github-pages-dist/visual-route-studio"
           mkdir -p "$target"
           cp projects/visual-route-studio/README.md "$target/README.md"
+          cp projects/visual-route-studio/ARCHIVE.md "$target/ARCHIVE.md"
           cp -R projects/visual-route-studio/compositor "$target/compositor"
           cp -R projects/visual-route-studio/target-studio "$target/target-studio"
           cp -R projects/visual-route-studio/samples "$target/samples"
@@ -78,6 +80,7 @@ jobs:
         run: |
           target="projects/skill-zine-summary/lab/web/github-pages-dist/visual-route-studio"
           test -f "$target/compositor/index.html"
+          test -f "$target/ARCHIVE.md"
           test -f "$target/compositor/app.js"
           test -f "$target/compositor/styles.css"
           test -f "$target/target-studio/assets/repair-memory-reconstruction-result.png"
