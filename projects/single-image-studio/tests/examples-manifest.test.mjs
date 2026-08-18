@@ -33,6 +33,9 @@ test("the gallery manifest contains nine unique, frozen and truthfully classifie
   assert.equal(EXAMPLES.filter((entry) => entry.result.origin === EXAMPLE_ORIGINS.CODEX_REFERENCE).length, 1);
   assert.equal(EXAMPLES.every((entry) => Object.isFrozen(entry) && Object.isFrozen(entry.parameters) && Object.isFrozen(entry.limits)), true);
   assert.equal(exampleById("straighten-local")?.taskId, "UT-TUNE");
+  assert.equal(exampleById("old-photo-local")?.processing.runtimeGenerator, "old-photo-monochrome");
+  assert.equal(exampleById("old-photo-local")?.parameters.includes("饱和度 -100"), true);
+  assert.match(exampleById("old-photo-codex-reference")?.summary, /顶部横向划痕/);
   assert.equal(exampleById("missing"), null);
   assert.equal(examplesForFilter("local").length, 8);
   assert.equal(examplesForFilter("reference").length, 1);

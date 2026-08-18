@@ -47,6 +47,30 @@ function outputFacts(document, exampleId) {
   return `${exampleId} ${values[2]} ${values[3]}`;
 }
 
+function imageDifference(document, exampleId) {
+  const card = document.querySelector(`[data-example-id="${exampleId}"]`);
+  const source = card.querySelector('[data-example-image="source"]');
+  const result = card.querySelector('[data-example-image="result"]');
+  const canvas = document.createElement("canvas");
+  canvas.width = 128; canvas.height = 96;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(source, 0, 0, canvas.width, canvas.height);
+  const before = context.getImageData(0, 0, canvas.width, canvas.height).data;
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(result, 0, 0, canvas.width, canvas.height);
+  const after = context.getImageData(0, 0, canvas.width, canvas.height).data;
+  let absolute = 0; let changed = 0;
+  for (let index = 0; index < before.length; index += 4) {
+    const delta = Math.abs(before[index] - after[index]) + Math.abs(before[index + 1] - after[index + 1]) + Math.abs(before[index + 2] - after[index + 2]);
+    absolute += delta;
+    if (delta >= 18) changed += 1;
+  }
+  return Object.freeze({
+    meanAbsoluteChannelDelta: absolute / (canvas.width * canvas.height * 3),
+    changedPixelPercent: changed / (canvas.width * canvas.height) * 100,
+  });
+}
+
 async function runCase(testCase) {
   const frame = document.createElement("iframe");
   frame.className = "qa-frame";
@@ -76,6 +100,13 @@ async function runCase(testCase) {
     assert(images.every((image) => !image.hidden && image.naturalWidth > 0 && image.naturalHeight > 0), "存在未加载或隐藏的样例图片");
     assert(images.every((image) => getComputedStyle(image).objectFit === "contain"), "样例图片未使用 contain 完整显示");
     assert(document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1, "样例页出现横向溢出");
+    const oldPhotoDifference = imageDifference(document, "old-photo-local");
+    assert(oldPhotoDifference.meanAbsoluteChannelDelta >= 8, `老照片本地样例差异过弱：${oldPhotoDifference.meanAbsoluteChannelDelta.toFixed(2)}`);
+    assert(oldPhotoDifference.changedPixelPercent >= 80, `老照片本地样例变化覆盖不足：${oldPhotoDifference.changedPixelPercent.toFixed(1)}%`);
+    for (const exampleId of ["old-photo-local", "old-photo-codex-reference"]) {
+      const link = document.querySelector(`[data-example-id="${exampleId}"] [data-example-result-link="true"]`);
+      assert(link && !link.hidden && link.href, `${exampleId} 缺少可放大的结果入口`);
+    }
 
     const pair = document.querySelector(".example-pair");
     const [source, result] = pair.children;
@@ -91,7 +122,7 @@ async function runCase(testCase) {
     const generated = ["privacy-share-local", "document-rectified", "upload-strict", "compression-500kb"]
       .map((exampleId) => outputFacts(document, exampleId))
       .join(" · ");
-    return `${testCase.width} px · 9 cards · 18 complete images · 6 runtime results · filter and overflow pass · ${generated}`;
+    return `${testCase.width} px · 9 cards · 18 complete images · old-photo delta ${oldPhotoDifference.meanAbsoluteChannelDelta.toFixed(2)} / ${oldPhotoDifference.changedPixelPercent.toFixed(1)}% · filter and overflow pass · ${generated}`;
   } finally {
     frame.remove();
   }

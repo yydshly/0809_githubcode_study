@@ -44,7 +44,13 @@ test("runtime examples use the real local renderer and isolate failures without 
   assert.match(script, /card\.dataset\.runtimeState = "failed"/);
   assert.match(script, /Promise\.all\(runtimeEntries\.map/);
   assert.match(script, /documentElement\.dataset\.examplesReady/);
-  assert.match(script, /acceptanceMode \? "eager" : "lazy"/);
+  assert.match(script, /acceptanceMode \|\| eager \? "eager" : "lazy"/);
+  assert.match(script, /entry\.id\.startsWith\("old-photo"\)/);
+  assert.match(script, /await image\.decode\(\)/);
+  assert.match(script, /data-example-id\^="old-photo"/);
+  assert.match(script, /const reveal = \(\) => \{ image\.hidden = false; state\.hidden = true; \}/);
+  assert.match(script, /data-example-result-link/);
+  assert.match(script, /old-photo-monochrome/);
   assert.doesNotMatch(script, /createApiClient|createBackgroundRemovalRun|OPENAI|PHOTOROOM|\/api\//i);
   assert.match(manifest, /静态参考 · 不是产品运行结果/);
   assert.match(manifest, /产品本地 renderer 即时生成/);
@@ -61,6 +67,9 @@ test("the internal gallery acceptance checks real desktop and narrow iframe layo
   assert.match(acceptanceScript, /visibleCards\(document\)\.length === 1/);
   assert.match(acceptanceScript, /cards\.length === 9/);
   assert.match(acceptanceScript, /images\.length === 18/);
+  assert.match(acceptanceScript, /meanAbsoluteChannelDelta >= 8/);
+  assert.match(acceptanceScript, /changedPixelPercent >= 80/);
+  assert.match(acceptanceScript, /old-photo-codex-reference/);
   assert.match(script, /privacyShareReport/);
   assert.match(acceptanceScript, /document-rectified[\s\S]*upload-strict[\s\S]*compression-500kb/);
   assert.match(server, /\/api\/internal\/examples-acceptance\/latest/);

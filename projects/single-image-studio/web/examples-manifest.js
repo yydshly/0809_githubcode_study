@@ -148,11 +148,11 @@ export const EXAMPLES = Object.freeze([
     parameters: ["完整比例", "拉直 -5°", "PNG"], limits: ["需要用户手动判断角度", "不会自动识别地平线或透视"], entryHref: "./?from=examples",
   }),
   defineExample({
-    id: "old-photo-local", taskId: "UT-OLD-PHOTO", filter: "local", title: "老照片基础整理，不重绘人物", summary: "使用公开的褪色提层次参数改善观看效果，保留人物、文字与历史细节的原始像素关系。",
+    id: "old-photo-local", taskId: "UT-OLD-PHOTO", filter: "local", title: "黑白层次整理，不重绘人物", summary: "使用变化更清楚的黑白层次预设展示本地整理能力；只改变已有像素的光色与细节，不会移除划痕或补画人物。",
     source: oldPhotoSource,
     result: { kind: EXAMPLE_RESULT_KINDS.RUNTIME_LOCAL, path: null, label: "本机即时基础整理", origin: EXAMPLE_ORIGINS.PRODUCT_RUNTIME, width: null, height: null, byteLength: null, sha256: null },
-    processing: { location: "local", runtimeGenerator: "old-photo-faded", provider: null, truthfulLabel: "产品本地 renderer 即时生成" },
-    parameters: ["亮度 +4", "对比度 +12", "饱和度 +3", "降噪 18", "清晰度 14"], limits: ["不会去除严重划痕", "不会修脸、恢复失焦或补全内容"], entryHref: "./?from=examples",
+    processing: { location: "local", runtimeGenerator: "old-photo-monochrome", provider: null, truthfulLabel: "产品本地 renderer 即时生成" },
+    parameters: ["亮度 +3", "对比度 +15", "饱和度 -100", "降噪 16", "清晰度 18"], limits: ["黑白变化明显，但仍不会去除严重划痕", "不会修脸、恢复失焦或补全内容"], entryHref: "./?from=examples",
   }),
   defineExample({
     id: "document-rectified", taskId: "UT-DOC-ARCHIVE", filter: "local", title: "把斜拍文档裁正为清晰附件", summary: "四个纸角由预先登记的项目坐标裁正，再使用清晰彩色效果生成 JPEG。",
@@ -197,11 +197,11 @@ export const EXAMPLES = Object.freeze([
     parameters: ["方形总图", "接缝覆盖", "人工观察"], limits: ["系统不会判断主体是否被切断", "需要用户先观察九条边界"], entryHref: "./?from=examples",
   }),
   defineExample({
-    id: "old-photo-codex-reference", taskId: "CR-RESTORE", filter: "reference", title: "生成式老照片修复方向参考", summary: "用于理解生成式修复可能带来的清理效果，同时提醒人物、文字和历史物件可能被重绘。",
+    id: "old-photo-codex-reference", taskId: "CR-RESTORE", filter: "reference", title: "生成式划痕清理方向参考", summary: "重点比较顶部横向划痕、画面斑点和整体褪色；清理更明显，但人物、文字和历史物件也可能被重绘。",
     source: oldPhotoSource,
     result: { kind: EXAMPLE_RESULT_KINDS.STATIC_ASSET, path: "./demo-assets/old-photo-codex-reference-v1.png", label: "Codex 生成视觉参考", origin: EXAMPLE_ORIGINS.CODEX_REFERENCE, width: 1448, height: 1086, byteLength: 2328052, sha256: "9c7f11a319d19e49cdae4ad39d4a4910487f46fb0bac7d2cd03cc6cbb6960737" },
     processing: { location: "reference", runtimeGenerator: null, provider: "codex-imagegen", truthfulLabel: "静态参考 · 不是产品运行结果" },
-    parameters: ["克制清理划痕与褪色", "尽量保留构图关系", "人工差异检查"], limits: ["产品 Provider 尚未运行", "不证明身份、文字或历史细节保真"], entryHref: "./?from=examples",
+    parameters: ["顶部横向划痕对比", "清理斑点与褪色", "人工检查脸、自行车与砖墙"], limits: ["产品 Provider 尚未运行", "不证明身份、文字或历史细节保真"], entryHref: "./?from=examples",
   }),
 ]);
 

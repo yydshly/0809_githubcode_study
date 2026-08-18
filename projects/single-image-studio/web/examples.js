@@ -37,18 +37,24 @@ function fact(label, value) {
   return node;
 }
 
-function imagePanel({ role, label, path, alt, stateText = null }) {
+function imagePanel({ role, label, path, alt, stateText = null, eager = false }) {
   const figure = element("figure", "example-image");
   const image = document.createElement("img");
   image.alt = alt;
-  image.loading = acceptanceMode ? "eager" : "lazy";
+  image.loading = acceptanceMode || eager ? "eager" : "lazy";
   image.decoding = "async";
   image.dataset.exampleImage = role;
-  if (path) image.src = path;
-  else image.hidden = true;
-  const state = element("p", "example-image-state", stateText);
+  image.hidden = true;
+  const state = element("p", "example-image-state", stateText ?? (path ? "正在加载已登记图片…" : null));
   state.dataset.exampleState = role;
-  state.hidden = !stateText;
+  state.hidden = !(stateText || path);
+  if (path) {
+    const reveal = () => { image.hidden = false; state.hidden = true; };
+    image.addEventListener("load", reveal, { once: true });
+    image.addEventListener("error", () => { state.textContent = "图片加载失败，请刷新后重试"; state.hidden = false; }, { once: true });
+    image.src = path;
+    if (image.complete && image.naturalWidth > 0) reveal();
+  }
   const caption = document.createElement("figcaption");
   caption.append(element("span", null, role === "source" ? "原图" : "结果"), element("strong", null, label));
   figure.append(image, state, caption);
@@ -78,14 +84,16 @@ function renderCard(entry) {
   heading.append(top, element("p", null, entry.summary));
 
   const pair = element("div", "example-pair");
+  const eager = entry.id.startsWith("old-photo");
   pair.append(
-    imagePanel({ role: "source", label: entry.source.label, path: entry.source.path, alt: `${entry.title}的完整原图` }),
+    imagePanel({ role: "source", label: entry.source.label, path: entry.source.path, alt: `${entry.title}的完整原图`, eager }),
     imagePanel({
       role: "result",
       label: entry.result.label,
       path: entry.result.path,
       alt: `${entry.title}的完整结果`,
       stateText: entry.result.kind === EXAMPLE_RESULT_KINDS.RUNTIME_LOCAL ? "正在本机生成真实结果…" : null,
+      eager: eager || entry.result.kind === EXAMPLE_RESULT_KINDS.RUNTIME_LOCAL,
     }),
   );
 
@@ -105,9 +113,13 @@ function renderCard(entry) {
   const actions = element("div", "example-card-actions");
   const sourceLink = element("a", null, "单独查看原图");
   sourceLink.href = entry.source.path;
+  const resultLink = element("a", null, "单独查看结果");
+  resultLink.dataset.exampleResultLink = "true";
+  resultLink.hidden = !entry.result.path;
+  if (entry.result.path) resultLink.href = entry.result.path;
   const studioLink = element("a", "button button-quiet", "在工作室使用这个方向");
   studioLink.href = entry.entryHref;
-  actions.append(sourceLink, studioLink);
+  actions.append(sourceLink, resultLink, studioLink);
   details.append(processing, facts, lists, actions);
   card.append(heading, pair, details);
   gallery.append(card);
@@ -126,8 +138,8 @@ function runtimeSettings(entry) {
   if (entry.processing.runtimeGenerator === "straighten-minus-5") {
     return Object.freeze({ ratio: "original", rotation: 0, straighten: -5, sizeMode: "preset", format: "png" });
   }
-  if (entry.processing.runtimeGenerator === "old-photo-faded") {
-    return applyOldPhotoLocalPreset({ ratio: "original", rotation: 0, sizeMode: "preset", format: "png" }, "faded");
+  if (entry.processing.runtimeGenerator === "old-photo-monochrome") {
+    return applyOldPhotoLocalPreset({ ratio: "original", rotation: 0, sizeMode: "preset", format: "png" }, "monochrome");
   }
   if (entry.processing.runtimeGenerator === "document-clean-color") {
     return Object.freeze({
@@ -221,7 +233,11 @@ async function hydrateRuntimeResult(entry, card) {
     const image = card.querySelector('[data-example-image="result"]');
     image.src = output.url;
     image.hidden = false;
+    await image.decode();
     state.hidden = true;
+    const resultLink = card.querySelector('[data-example-result-link="true"]');
+    resultLink.href = output.url;
+    resultLink.hidden = false;
     const facts = card.querySelector('[data-example-facts="true"]');
     facts.replaceChildren(
       fact("原图尺寸", `${entry.source.width} × ${entry.source.height}`),
@@ -251,6 +267,7 @@ async function initialize() {
   filterButtons.forEach((button) => button.addEventListener("click", () => applyFilter(button.dataset.exampleFilter)));
   const runtimeEntries = EXAMPLES.filter((entry) => entry.result.kind === EXAMPLE_RESULT_KINDS.RUNTIME_LOCAL);
   const results = await Promise.all(runtimeEntries.map((entry) => hydrateRuntimeResult(entry, cards.get(entry.id))));
+  await Promise.all([...document.querySelectorAll('[data-example-id^="old-photo"] img')].map((image) => image.decode()));
   const ready = results.filter(Boolean).length;
   status.textContent = `${EXAMPLES.length} 个样例已登记 · ${ready}/${runtimeEntries.length} 个本地即时结果已生成`;
   status.dataset.state = ready === runtimeEntries.length ? "ready" : "partial";

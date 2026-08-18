@@ -1,5 +1,12 @@
 # Product browser acceptance evidence
 
+## 2026-08-18 · Old-photo example visibility repair
+
+- Gallery run: `9f5e9f31-4b7c-4d8e-ae21-223344556677`, `2/2 pass`
+- Browser: isolated Playwright with installed Chrome, `zh-CN`
+
+The old-photo local example previously used the deliberately mild faded preset, with a measured mean absolute channel delta near `6.36`, and the static generated reference could briefly show an empty checkerboard while its large PNG was still decoding. The local card now uses the existing monochrome preset, not a new algorithm; both old-photo cards load eagerly, show an explicit loading state, wait for runtime decode and expose a standalone result link. At 1180 px and 390 px, all 18 images were complete. The local old-photo result measured `10.67` mean channel delta and `98.4%` changed-pixel coverage. This makes the demonstrated local change observable while retaining the explicit boundary that scratches, faces and missing content are not repaired.
+
 ## 2026-08-18 · Local execution plan extraction regression
 
 - Product run: `8e4d8e20-3a6b-4c7d-9e10-112233445566`, `6/6 pass`
