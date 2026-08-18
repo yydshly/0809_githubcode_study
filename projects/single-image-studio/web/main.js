@@ -31,6 +31,7 @@ import {
 import { readImageOrientation } from "./image-orientation.js";
 import { createDemoImage, decodeImage } from "./local-processing.js";
 import { localExecutionPlan } from "./local-execution-controller.js";
+import { isPublicLocalOnly } from "./deployment-mode.js";
 import { renderPerspectivePreview } from "./perspective-preview.js";
 import { renderRectificationPreview } from "./rectification-preview.js";
 import {
@@ -4261,6 +4262,16 @@ async function recoverUnknownRun() {
 }
 
 async function checkStatus() {
+  if (isPublicLocalOnly()) {
+    apiStatus = { available: false, status: "unavailable", candidates: [], previewMode: "public-local-only" };
+    backgroundRemovalStatus = { available: false, status: "unavailable", previewMode: "public-local-only" };
+    elements.mobilePreviewNotice.hidden = true;
+    elements.serviceStatus.dataset.tone = "online";
+    elements.serviceStatus.dataset.errorContext = "";
+    elements.serviceStatus.title = "图片只在当前浏览器执行本地处理；远程扩展未连接。";
+    elements.serviceStatusCopy.textContent = "公开体验 · 本地处理可用";
+    return;
+  }
   const [creative, cutout] = await Promise.allSettled([
     api.getStatus({ timeoutMs: 5000 }),
     api.getBackgroundRemovalStatus({ timeoutMs: 5000 }),

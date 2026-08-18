@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:public": "node scripts/build-public-preview.mjs",
     "dev": "node --env-file-if-exists=.env --watch server/server.mjs",
     "start": "node --env-file-if-exists=.env server/server.mjs",
     "mobile": "node scripts/mobile-preview.mjs",

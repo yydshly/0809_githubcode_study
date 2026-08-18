@@ -1,0 +1,13 @@
+.env
+.runtime/
+.tmp/
+coverage/
+dist-public/
+node_modules/
+provider-evaluation/
+research/
+server/
+tests/
+*.md
+scripts/*
+!scripts/build-public-preview.mjs

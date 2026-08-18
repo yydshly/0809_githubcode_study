@@ -36,6 +36,32 @@ npm.cmd run verify
 
 GitHub 保存源码、文档、项目原创演示素材和测试，不等于公开线上产品部署。当前应用包含 Node 本地服务、loopback-only 内部报告与服务端 Provider 密钥，不能直接作为纯静态 GitHub Pages 安全运行。若未来需要公网演示，应另建不含密钥的静态体验壳，或部署受控 Node 服务并补齐认证、限流、持久化、隐私与删除机制。
 
+## 部署 Vercel 公开体验版
+
+仓库已经提供 `public-local-only` 构建。公开版只包含产品、样例和两张公开参考页；图片在访问者浏览器中处理，不请求 `/api`，不包含内部验收 / 走查页面，也不需要 Provider 密钥。
+
+本地验证构建：
+
+```powershell
+npm.cmd run build:public
+```
+
+输出目录为已忽略的 `dist-public/`。Vercel 配置见 [vercel.json](vercel.json)，上传排除规则见 [.vercelignore](.vercelignore)。
+
+在 Vercel Dashboard 中：
+
+1. 选择 **Add New → Project**；
+2. 导入 `yydshly/0809_githubcode_study`；
+3. 将 **Root Directory** 设为 `projects/single-image-studio`；
+4. Framework Preset 保持 **Other**；
+5. `vercel.json` 会提供 Build Command `npm run build:public` 和 Output Directory `dist-public`；
+6. 不配置 PhotoRoom、OpenAI 或 MiniMax 密钥；
+7. 点击 Deploy。
+
+Vercel 连接 GitHub 后，main 更新会生成 Production Deployment，其他分支可生成 Preview Deployment。公开版状态栏应显示“公开体验 · 本地处理可用”，确认图片后应有 12 个本地操作；透明抠图、商品白底、报名照和生成式任务保持未连接。
+
+完整远程版不能直接复用这套静态部署：Vercel Function 单次请求 / 响应体限制会与当前 16 MB base64 图片合同冲突，且 `InMemoryRunStore` 不能跨函数实例保存任务。完整上线需要对象存储直传、持久化 run store 和 serverless API 适配。
+
 ## 当前状态
 
 本目录目前包含一套可运行的**内部 Alpha 单图产品**和只读研究归档。产品已具备 12 项离线本地任务、可选背景移除 Provider、结果修正、多规格交付、样例、错误恢复与浏览器回归；它仍不是公开发布版本，也不证明自然图片质量、生成式修复、图片理解、自动推荐或真人用户价值已经成立。
