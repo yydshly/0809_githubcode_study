@@ -2,19 +2,53 @@
 
 > 一个从能力研究转入产品实现的单图工作室。当前先完成真实可用的基础编辑与导出，再用可替换能力增加自动抠图；历史研究继续约束公开声明，但不再代替产品学习。
 
+源码仓库：[yydshly/0809_githubcode_study · projects/single-image-studio](https://github.com/yydshly/0809_githubcode_study/tree/main/projects/single-image-studio)
+
+## 快速开始
+
+要求：Node.js 22+，桌面 Chrome / Edge。默认只监听 `127.0.0.1`，不需要任何 API 密钥即可使用全部 12 项本地任务。
+
+```powershell
+git clone https://github.com/yydshly/0809_githubcode_study.git
+cd 0809_githubcode_study\projects\single-image-studio
+npm.cmd install
+npm.cmd start
+```
+
+打开：
+
+- 产品：`http://127.0.0.1:4177/`
+- 样例与处理结果：`http://127.0.0.1:4177/examples.html`
+- 内部质量入口：`http://127.0.0.1:4177/quality-hub.html`
+
+可选远程能力使用项目根目录下未提交的 `.env`。复制 [.env.example](.env.example) 后只在本机填写 PhotoRoom 或生成式 Provider 凭据；密钥不得写入网页、提交或 GitHub Actions 日志。未配置时，透明抠图、商品白底和报名照保持不可用，本地能力不受影响。
+
+验证：
+
+```powershell
+npm.cmd run verify:product
+npm.cmd run verify
+```
+
+当前产品回归为 `386/386`，JavaScript 语法检查覆盖 291 个文件；完整 `verify` 还会验证只读研究归档。浏览器证据和限制见 [BROWSER_ACCEPTANCE_EVIDENCE.md](BROWSER_ACCEPTANCE_EVIDENCE.md)。
+
+### GitHub 发布边界
+
+GitHub 保存源码、文档、项目原创演示素材和测试，不等于公开线上产品部署。当前应用包含 Node 本地服务、loopback-only 内部报告与服务端 Provider 密钥，不能直接作为纯静态 GitHub Pages 安全运行。若未来需要公网演示，应另建不含密钥的静态体验壳，或部署受控 Node 服务并补齐认证、限流、持久化、隐私与删除机制。
+
 ## 当前状态
 
-本目录目前包含一套可运行的 **R0 工程探针**，用于验证单文件输入、来源绑定、任务状态、服务请求、失败恢复、比较与下载等工程约束。它不是产品首版，也不证明图片理解、推荐、抠图、自然增强、创意效果或任务专属 QA 已经成立。
+本目录目前包含一套可运行的**内部 Alpha 单图产品**和只读研究归档。产品已具备 12 项离线本地任务、可选背景移除 Provider、结果修正、多规格交付、样例、错误恢复与浏览器回归；它仍不是公开发布版本，也不证明自然图片质量、生成式修复、图片理解、自动推荐或真人用户价值已经成立。
 
 | 维度 | 当前结论 |
 | --- | --- |
 | 研究阶段 | Slice 01–11、SourceCard / Matting baseline、continuous-alpha 和候选元数据已封存为历史 lineage。MODNet / RVM 仍是 metadata-only；模型 bytes、候选依赖安装、自然图片和推理 results 全为 0。当前不继续扩 Slice 或本地模型，C1 与产品支持仍为 0 |
-| 工程与研究工具 | R0 探针、桌面研究审阅入口以及无界面的 Slice 02–05 研究设施可运行；Slice 06 的定义、诊断 runner 与 post-run validator 已闭合。结果含 24 个 terminal attempt、两条各 42-event ledger、18 份 quarantine output 和 0 artifact；全部 applicable output 的像素与 bytes 均 3/3 确定，但独立 oracle 以缺少 `sRGB` 且包含 `pHYs` 拒绝。研究结果不构成 codec 能力或产品功能 |
+| 工程与研究工具 | 内部 Alpha 产品、样例、错误参考、质量入口与浏览器验收可运行；Slice 01–11 继续作为只读研究归档。研究结果不构成当前产品能力或发布声明 |
 | 原子能力证据 | `C1 = 0` |
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
 | 运维 / 治理证据 | `O1 = 0`、`G1 = 0` |
-| 发布状态 | 未发布；没有正式任务目录或可公开产品样例 |
+| 发布状态 | 源码准备发布到 GitHub；产品仍为本地内部 Alpha，没有公网服务或公开发布声明 |
 
 所有状态以 [STATUS.md](STATUS.md) 为唯一事实源。当前代码整理、可靠性、用户验证、现有能力质量和智能能力扩展的统一顺序见[产品能力与工程演进执行计划](PRODUCT_AND_ENGINEERING_EXECUTION_PLAN.md)。历史材料中的“可运行”“pass”若未特别说明，只代表 R0 工程检查，不代表能力或产品门槛通过。
 
