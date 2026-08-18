@@ -216,4 +216,4 @@
 | 首屏自动结果 | GitHub Pages / initial sample | Chromium 初始 DOM、截图 | pass | 初始即显示雨夜预置结果；结果、成品、PNG、ZIP 可用 |
 | 切换样例自动更新 | six sample buttons | 6/6 产品、结果、下载状态 | pass | 六组样例无需额外载入点击，结果与产品 6/6 同步 |
 | 安全边界保持 | upload / unmatched reference | disabled 与说明 | pass | 上传稳定后生成、结果和下载关闭；不匹配参考仍要求 AI 服务 |
-| 远端收口 | production | Actions、console、下载 | continue | 部署并重放正式 URL |
+| 远端收口 | production | Actions、console、下载 | pass | commit `e9aa168`、Actions run `32096318052` 成功；远端 6/6 自动结果、上传降级与 console 0 错误通过 |
