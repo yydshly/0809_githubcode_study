@@ -17,8 +17,8 @@
 | 探测版输出 | 8 个参考效果、真实 AI 图片结果、原图 / 参考 / 结果对比、结果库，以及选中结果的产品 PNG / ZIP 适配 |
 | 单一上游 | 不适用；研究输入与许可边界见 [UPSTREAM.md](UPSTREAM.md) |
 | 独立仓库 | 暂无 |
-| 电脑网页 | [Image Product Studio](compositor/)；[前序 Target Studio 探索](target-studio/) |
-| 最后核对 | 2026-08-12 |
+| 电脑网页 | [GitHub Pages 逻辑演示](https://yydshly.github.io/0809_githubcode_study/visual-route-studio/compositor/)；[本地完整模式](compositor/)；[前序 Target Studio 探索](target-studio/) |
+| 最后核对 | 2026-08-18 |
 
 ## 当前产品探测
 
@@ -173,6 +173,12 @@ node projects/visual-route-studio/compositor/server.mjs
 ```
 
 打开 `http://127.0.0.1:4332/compositor/`。密钥只进入本地 Node 进程，不写入代码或浏览器存储；不要在对话、网页输入框或版本库中粘贴密钥。未配置时仍可完整体验参考选择和产品结构，但真实生成保持禁用。当前验证范围仅为电脑网页版；前序目标探索仍保留在 `http://127.0.0.1:4332/target-studio/`。
+
+## GitHub Pages 公开逻辑演示
+
+[公开地址](https://yydshly.github.io/0809_githubcode_study/visual-route-studio/compositor/)随仓库 `main` 通过既有 GitHub Pages workflow 发布。它包含内置样例、处理单位、图片方向、产品推荐、中央预览和结果结构，用于远端查看产品逻辑。
+
+GitHub Pages 是纯静态托管，不运行 `compositor/server.mjs`，也不保存 `OPENAI_API_KEY`。因此公开版不会执行真实 AI 生成；生成按钮会明确保持未连接。需要验证真实生成时仍应使用上面的本地安全服务。
 
 ## 许可
 

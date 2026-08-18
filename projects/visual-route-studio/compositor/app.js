@@ -785,7 +785,9 @@ async function checkApiStatus() {
     state.apiMessage = status.message ?? "AI 服务状态未知";
   } catch {
     state.apiAvailable = false;
-    state.apiMessage = "当前由静态服务器运行；请改用 compositor/server.mjs 启动";
+    state.apiMessage = window.location.hostname.endsWith("github.io")
+      ? "GitHub Pages 公开版只展示产品逻辑；真实 AI 生成需要本地安全服务"
+      : "当前由静态服务器运行；请改用 compositor/server.mjs 启动";
   }
   renderGenerationAvailability();
 }
