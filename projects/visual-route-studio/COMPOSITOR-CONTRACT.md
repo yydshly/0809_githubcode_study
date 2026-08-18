@@ -203,4 +203,4 @@
 | 非 AI 控件可用 | sample/reference/mode/direction/product/dialog | 点击前后 DOM 状态 | pass | 样例、参考、模式、方向、产品和三类目录弹窗均完成状态变化 |
 | AI 边界明确 | generate/result/product/download | disabled 状态与说明 | pass | 六组内置样例可诚实载入预置结果；上传图和不匹配参考仍明确要求 AI 服务 |
 | 邻接回归 | 1280×720 / initial and changed states | Chromium screenshot、console、DOM | pass | 六组样例 6/6、结果/成品/PNG/ZIP、上传降级通过，console 0 error/warning |
-| 远端发布 | GitHub Pages production | Actions success、HTTP 200、浏览器路径 | continue | 推送 main 并复验线上版本 |
+| 远端发布 | GitHub Pages production | Actions success、HTTP 200、浏览器路径 | pass | commit `0f51e9f`、Actions run `32095716972` 成功；远端结果/成品/PNG/ZIP 重放通过 |

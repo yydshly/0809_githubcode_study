@@ -42,6 +42,8 @@
 - 下载事件实际得到 `image-studio-result-1.png` 和 `image-product-story.zip`。
 - 产品视图进入 `data-view="product"`，中央显示产品适配，结果库保留一项明确标识的预置结果。
 - 1280×720 截图确认三栏视觉结构未被修复改动；本轮只改变静态能力状态和说明。
+- 远端修复提交为 `0f51e9f`；GitHub Actions run `32095716972` 完成且结论为 `success`。
+- 正式 GitHub Pages URL 使用 `?revision=18` 重放：初始“载入预置演示结果”可点击；载入后结果、成品、PNG 与 ZIP 全部可用，53 个按钮中无禁用项，console 为 0 error / warning。
 
 ## Revision 17：参考驱动的真实生成闭环
 
