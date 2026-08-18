@@ -230,4 +230,4 @@
 | 默认干净结果 | product preview / guides off | before/after canvas screenshot | pass | 圈、结构框和连线默认隐藏；基础构图与局部图片边框保留 |
 | 调试标记可恢复 | product preview / guides on | canvas pixel / screenshot | pass | 开启后圈、框、路径恢复；再次关闭回到干净态 |
 | 导出一致 | PNG / ZIP / both states | 下载与 Canvas 状态 | pass | 产品 ZIP 两态 SHA-256 不同；原始结果 PNG 保持无标记 |
-| 远端收口 | GitHub Pages production | Actions、Chromium、console | continue | 部署并重放正式 URL |
+| 远端收口 | GitHub Pages production | Actions、Chromium、console | pass | commit `b934a6d`、Actions run `32097345610` 成功；远端双态、键盘与 624px 通过 |

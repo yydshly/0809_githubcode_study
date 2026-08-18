@@ -61,6 +61,7 @@
 - 624×898 窄桌面下按钮仍可见，`body.clientWidth = body.scrollWidth = 624`，没有新增横向溢出。
 - 产品 ZIP 在关闭 / 开启状态下分别为 15,375,451 / 15,030,744 bytes，SHA-256 分别为 `e2e5c94b...cdbae` / `ff709dd0...2fe7`，证明当前开关进入产品导出路径。原始结果 PNG 不叠加辅助标记。
 - 本地 Chromium console 为 0 error / warning。
+- 远端提交 `b934a6d` 由 GitHub Actions run `32097345610` 成功部署。正式 URL `?revision=20` 默认关闭、点击开启、Enter 关闭、624px 无横向溢出均通过，console 为 0 error / warning。
 
 ## Revision 17：参考驱动的真实生成闭环
 
