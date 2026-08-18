@@ -4,6 +4,8 @@
 
 源码仓库：[yydshly/0809_githubcode_study · projects/single-image-studio](https://github.com/yydshly/0809_githubcode_study/tree/main/projects/single-image-studio)
 
+公开技术体验：[https://0809-githubcode-study.vercel.app/](https://0809-githubcode-study.vercel.app/)
+
 ## 快速开始
 
 要求：Node.js 22+，桌面 Chrome / Edge。默认只监听 `127.0.0.1`，不需要任何 API 密钥即可使用全部 12 项本地任务。
@@ -34,11 +36,13 @@ npm.cmd run verify
 
 ### GitHub 发布边界
 
-GitHub 保存源码、文档、项目原创演示素材和测试，不等于公开线上产品部署。当前应用包含 Node 本地服务、loopback-only 内部报告与服务端 Provider 密钥，不能直接作为纯静态 GitHub Pages 安全运行。若未来需要公网演示，应另建不含密钥的静态体验壳，或部署受控 Node 服务并补齐认证、限流、持久化、隐私与删除机制。
+GitHub 保存源码、文档、项目原创演示素材和测试，不等于完整线上产品部署。完整应用包含 Node 本地服务、loopback-only 内部报告与服务端 Provider 密钥，不能直接作为纯静态 GitHub Pages 安全运行。当前 Vercel 地址部署的是单独构建的 `public-local-only` 技术体验壳，不包含这些服务端能力。
 
 ## 部署 Vercel 公开体验版
 
 仓库已经提供 `public-local-only` 构建。公开版只包含产品、样例和两张公开参考页；图片在访问者浏览器中处理，不请求 `/api`，不包含内部验收 / 走查页面，也不需要 Provider 密钥。
+
+当前 Production 地址：[https://0809-githubcode-study.vercel.app/](https://0809-githubcode-study.vercel.app/)。首次部署绑定 GitHub `main` 提交 `54ec620`；Vercel 状态 `READY`，首页、样例页和两张参考页均返回 200，内部质量 / 验收页返回 404。浏览器验收确认公开模式文案、12 个本地任务、9 张样例卡片与 18 / 18 张样例图片；部署构建与近一小时运行错误均为 0。
 
 本地验证构建：
 
@@ -64,7 +68,7 @@ Vercel 连接 GitHub 后，main 更新会生成 Production Deployment，其他�
 
 ## 当前状态
 
-本目录目前包含一套可运行的**内部 Alpha 单图产品**和只读研究归档。产品已具备 12 项离线本地任务、可选背景移除 Provider、结果修正、多规格交付、样例、错误恢复与浏览器回归；它仍不是公开发布版本，也不证明自然图片质量、生成式修复、图片理解、自动推荐或真人用户价值已经成立。
+本目录目前包含一套可运行的**内部 Alpha 单图产品**、一个公开的本地处理技术体验壳和只读研究归档。产品已具备 12 项离线本地任务、可选背景移除 Provider、结果修正、多规格交付、样例、错误恢复与浏览器回归；公开地址只开放本地处理，不是正式产品发布，也不证明自然图片质量、生成式修复、图片理解、自动推荐或真人用户价值已经成立。
 
 | 维度 | 当前结论 |
 | --- | --- |
@@ -74,7 +78,7 @@ Vercel 连接 GitHub 后，main 更新会生成 Production Deployment，其他�
 | 实用 / 创意证据 | `U1 = 0`、`E1 = 0` |
 | 运行 / 用户证据 | `R1-pipeline = 0`、`R1-product-validation = 0`、`R1-product-release = 0`、`V1 = 0` |
 | 运维 / 治理证据 | `O1 = 0`、`G1 = 0` |
-| 发布状态 | 源码准备发布到 GitHub；产品仍为本地内部 Alpha，没有公网服务或公开发布声明 |
+| 发布状态 | 源码已在 GitHub；Vercel 已提供 `public-local-only` 公开技术体验，完整产品仍为内部 Alpha，没有正式产品发布声明 |
 
 所有状态以 [STATUS.md](STATUS.md) 为唯一事实源。当前代码整理、可靠性、用户验证、现有能力质量和智能能力扩展的统一顺序见[产品能力与工程演进执行计划](PRODUCT_AND_ENGINEERING_EXECUTION_PLAN.md)。历史材料中的“可运行”“pass”若未特别说明，只代表 R0 工程检查，不代表能力或产品门槛通过。
 
