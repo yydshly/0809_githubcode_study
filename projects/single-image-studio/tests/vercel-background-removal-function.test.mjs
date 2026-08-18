@@ -54,6 +54,10 @@ const SHA = createHash("sha256").update(PNG).digest("hex");
 const ENV = Object.freeze({
   PHOTOROOM_ENABLED: "true",
   PHOTOROOM_API_KEY: "sandbox_test-key-not-real",
+});
+const PRODUCTION_ENV = Object.freeze({
+  PHOTOROOM_ENABLED: "true",
+  PHOTOROOM_API_KEY: "production-test-key-not-real",
   BACKGROUND_REMOVAL_ACCESS_TOKEN: "test-access-token-123456789",
 });
 
@@ -73,21 +77,25 @@ function payload(overrides = {}) {
   };
 }
 
-test("public status is stateless and requires all three server-only settings", () => {
+test("public status keeps sandbox open while protecting a non-sandbox key", () => {
   assert.deepEqual(publicBackgroundRemovalStatus({}), {
     available: false,
     provider: null,
     reason: "not_configured",
     runStore: "stateless",
     previewMode: "public-hybrid",
-    accessPolicy: "shared-demo-token",
+    accessPolicy: "none",
   });
   const status = publicBackgroundRemovalStatus(ENV);
   assert.equal(status.available, true);
   assert.equal(status.provider.environment, "sandbox");
   assert.equal(status.runStore, "stateless");
+  assert.equal(status.accessPolicy, "open-sandbox");
   assert.equal(JSON.stringify(status).includes(ENV.PHOTOROOM_API_KEY), false);
-  assert.equal(JSON.stringify(status).includes(ENV.BACKGROUND_REMOVAL_ACCESS_TOKEN), false);
+  assert.equal(publicBackgroundRemovalStatus({
+    PHOTOROOM_ENABLED: "true",
+    PHOTOROOM_API_KEY: "production-test-key-not-real",
+  }).reason, "access_token_not_configured");
 });
 
 test("public request validation binds exact source bytes, hash, consent and closed fields", () => {
@@ -114,7 +122,7 @@ test("stateless function rejects an invalid experience code before provider invo
     executePublicBackgroundRemoval({
       payload: payload(),
       accessToken: "wrong-code",
-      env: ENV,
+      env: PRODUCTION_ENV,
       fetchImpl: async () => { calls += 1; },
     }),
     (error) => error.status === 401 && error.code === "background_removal_access_required",
@@ -126,7 +134,7 @@ test("stateless function returns one validated terminal run without retaining se
   let calls = 0;
   const run = await executePublicBackgroundRemoval({
     payload: payload(),
-    accessToken: ENV.BACKGROUND_REMOVAL_ACCESS_TOKEN,
+    accessToken: "",
     env: ENV,
     now: (() => {
       const values = ["2026-08-18T04:01:00.000Z", "2026-08-18T04:01:01.000Z"];
@@ -153,13 +161,13 @@ test("stateless function returns one validated terminal run without retaining se
   assert.equal(run.result.height, 1);
   const serialized = JSON.stringify(run);
   assert.equal(serialized.includes(ENV.PHOTOROOM_API_KEY), false);
-  assert.equal(serialized.includes(ENV.BACKGROUND_REMOVAL_ACCESS_TOKEN), false);
+  assert.equal(serialized.includes(PRODUCTION_ENV.BACKGROUND_REMOVAL_ACCESS_TOKEN), false);
 });
 
 test("provider refusal is definitive while transport uncertainty remains unknown", async () => {
   const refused = await executePublicBackgroundRemoval({
     payload: payload(),
-    accessToken: ENV.BACKGROUND_REMOVAL_ACCESS_TOKEN,
+    accessToken: "",
     env: ENV,
     fetchImpl: async () => new Response("rate limited", { status: 429 }),
   });
@@ -168,7 +176,7 @@ test("provider refusal is definitive while transport uncertainty remains unknown
 
   const unknown = await executePublicBackgroundRemoval({
     payload: payload(),
-    accessToken: ENV.BACKGROUND_REMOVAL_ACCESS_TOKEN,
+    accessToken: "",
     env: ENV,
     fetchImpl: async () => { throw new TypeError("network lost"); },
   });

@@ -117,23 +117,33 @@ export function parsePublicBackgroundRemovalPayload(payload) {
   });
 }
 
-function configured(env) {
-  return env.PHOTOROOM_ENABLED === "true"
-    && typeof env.PHOTOROOM_API_KEY === "string"
-    && env.PHOTOROOM_API_KEY.trim().length > 0
-    && typeof env.BACKGROUND_REMOVAL_ACCESS_TOKEN === "string"
-    && env.BACKGROUND_REMOVAL_ACCESS_TOKEN.length >= 16;
+function publicAccessPolicy(env) {
+  const key = typeof env.PHOTOROOM_API_KEY === "string" ? env.PHOTOROOM_API_KEY.trim() : "";
+  if (!key) return "none";
+  return key.startsWith("sandbox_") ? "open-sandbox" : "shared-demo-token";
+}
+
+function configurationReason(env) {
+  const key = typeof env.PHOTOROOM_API_KEY === "string" ? env.PHOTOROOM_API_KEY.trim() : "";
+  if (env.PHOTOROOM_ENABLED !== "true" || !key) return "not_configured";
+  if (publicAccessPolicy(env) === "shared-demo-token"
+    && (typeof env.BACKGROUND_REMOVAL_ACCESS_TOKEN !== "string" || env.BACKGROUND_REMOVAL_ACCESS_TOKEN.length < 16)) {
+    return "access_token_not_configured";
+  }
+  return null;
 }
 
 export function publicBackgroundRemovalStatus(env = process.env) {
-  if (!configured(env)) {
+  const reason = configurationReason(env);
+  const accessPolicy = publicAccessPolicy(env);
+  if (reason !== null) {
     return Object.freeze({
       available: false,
       provider: null,
-      reason: "not_configured",
+      reason,
       runStore: "stateless",
       previewMode: "public-hybrid",
-      accessPolicy: "shared-demo-token",
+      accessPolicy,
     });
   }
   const sandbox = env.PHOTOROOM_API_KEY.trim().startsWith("sandbox_");
@@ -148,11 +158,12 @@ export function publicBackgroundRemovalStatus(env = process.env) {
     reason: null,
     runStore: "stateless",
     previewMode: "public-hybrid",
-    accessPolicy: "shared-demo-token",
+    accessPolicy,
   });
 }
 
 export function assertPublicBackgroundRemovalAccess(candidate, env = process.env) {
+  if (publicAccessPolicy(env) === "open-sandbox") return;
   const expected = typeof env.BACKGROUND_REMOVAL_ACCESS_TOKEN === "string"
     ? Buffer.from(env.BACKGROUND_REMOVAL_ACCESS_TOKEN, "utf8")
     : Buffer.alloc(0);
